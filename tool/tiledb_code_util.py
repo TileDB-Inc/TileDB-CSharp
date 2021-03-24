@@ -552,7 +552,7 @@ def get_swig_for_file_cfginfo(file_cfginfo):
     ignore_class_keywords=file_cfginfo.get('ignore_class_keywords',[])
     ignore_method_keywords=file_cfginfo.get('ignore_method_keywords',[])
 #  
-    outputdir=file_cfginfo.get('outputdir','./temp')
+    outputdir=file_cfginfo.get('outputdir','./')
     filename=file_cfginfo['filename']
     tempitems=filename.split('/')
     full_filename=tempitems[-1]
