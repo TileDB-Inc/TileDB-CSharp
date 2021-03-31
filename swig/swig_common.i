@@ -1,6 +1,7 @@
 #ifndef SWIG_COMMON_I
 #define SWIG_COMMON_I
 
+%module tiledb 
 
 #ifdef SWIGPYTHON
 //	define something related to python wrapper
@@ -37,14 +38,14 @@
 %include "std_shared_ptr.i"
 %include "exception.i"
 
-namespace std {
+//namespace std {
 
-        %template(IntVector) vector<int>;
-        %template(DoubleVector) vector<double>;
-        %template(StringVector) vector<string>;
-        %template(ConstCharVector) vector<const char*>;
+  //      %template(IntVector) vector<int>;
+  //      %template(DoubleVector) vector<double>;
+  //      %template(StringVector) vector<string>;
+  //      %template(ConstCharVector) vector<const char*>;
 
-}
+//}
 
 ////wrap void * to System.IntPtr in C#
 %typemap(ctype)  void* "void *"

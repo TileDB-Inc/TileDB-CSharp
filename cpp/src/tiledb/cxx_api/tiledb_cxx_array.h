@@ -83,7 +83,7 @@ class Array {
    * @param query_type Query type to open the array for.
    */
   Array(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& array_uri,
       tiledb_query_type_t query_type)
       : Array(ctx, array_uri, query_type, TILEDB_NO_ENCRYPTION, nullptr, 0) {
@@ -113,7 +113,7 @@ class Array {
    * @param key_length Length in bytes of the encryption key.
    */
   Array(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& array_uri,
       tiledb_query_type_t query_type,
       tiledb_encryption_type_t encryption_type,
@@ -121,15 +121,15 @@ class Array {
       uint32_t key_length)
       : ctx_(ctx)
       , schema_(ArraySchema(ctx, (tiledb_array_schema_t*)nullptr)) {
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
+    tiledb_ctx_t* c_ctx = ctx->ptr().get();
     tiledb_array_t* array;
-    ctx.handle_error(tiledb_array_alloc(c_ctx, array_uri.c_str(), &array));
+    ctx->handle_error(tiledb_array_alloc(c_ctx, array_uri.c_str(), &array));
     array_ = std::shared_ptr<tiledb_array_t>(array, deleter_);
-    ctx.handle_error(tiledb_array_open_with_key(
+    ctx->handle_error(tiledb_array_open_with_key(
         c_ctx, array, query_type, encryption_type, encryption_key, key_length));
 
     tiledb_array_schema_t* array_schema;
-    ctx.handle_error(tiledb_array_get_schema(c_ctx, array, &array_schema));
+    ctx->handle_error(tiledb_array_get_schema(c_ctx, array, &array_schema));
     schema_ = ArraySchema(ctx, array_schema);
   }
 
@@ -147,7 +147,7 @@ class Array {
    */
   // clang-format on
   Array(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& array_uri,
       tiledb_query_type_t query_type,
       tiledb_encryption_type_t encryption_type,
@@ -190,7 +190,7 @@ class Array {
    * @param timestamp The timestamp to open the array at.
    */
   Array(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& array_uri,
       tiledb_query_type_t query_type,
       uint64_t timestamp)
@@ -233,7 +233,7 @@ class Array {
    */
   // clang-format on
   Array(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& array_uri,
       tiledb_query_type_t query_type,
       tiledb_encryption_type_t encryption_type,
@@ -242,11 +242,11 @@ class Array {
       uint64_t timestamp)
       : ctx_(ctx)
       , schema_(ArraySchema(ctx, (tiledb_array_schema_t*)nullptr)) {
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
+    tiledb_ctx_t* c_ctx = ctx->ptr().get();
     tiledb_array_t* array;
-    ctx.handle_error(tiledb_array_alloc(c_ctx, array_uri.c_str(), &array));
+    ctx->handle_error(tiledb_array_alloc(c_ctx, array_uri.c_str(), &array));
     array_ = std::shared_ptr<tiledb_array_t>(array, deleter_);
-    ctx.handle_error(tiledb_array_open_at_with_key(
+    ctx->handle_error(tiledb_array_open_at_with_key(
         c_ctx,
         array,
         query_type,
@@ -256,7 +256,7 @@ class Array {
         timestamp));
 
     tiledb_array_schema_t* array_schema;
-    ctx.handle_error(tiledb_array_get_schema(c_ctx, array, &array_schema));
+    ctx->handle_error(tiledb_array_get_schema(c_ctx, array, &array_schema));
     schema_ = ArraySchema(ctx, array_schema);
   }
 
@@ -268,7 +268,7 @@ class Array {
    */
   // clang-format on
   Array(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& array_uri,
       tiledb_query_type_t query_type,
       tiledb_encryption_type_t encryption_type,
@@ -290,17 +290,17 @@ class Array {
    * @param own=true If false, disables underlying cleanup upon destruction.
    * @throws TileDBError if construction fails
    */
-  Array(const tiledb::Context& ctx, tiledb_array_t* carray, bool own = true)
+  Array(const std::shared_ptr<tiledb::Context>& ctx, tiledb_array_t* carray, bool own = true)
       : ctx_(ctx)
       , schema_(ArraySchema(ctx, (tiledb_array_schema_t*)nullptr)) {
     if (carray == nullptr)
       throw TileDBError(
           "[TileDB::C++API] Error: Failed to create Array from null pointer");
 
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
+    tiledb_ctx_t* c_ctx = ctx->ptr().get();
 
     tiledb_array_schema_t* array_schema;
-    ctx.handle_error(tiledb_array_get_schema(c_ctx, carray, &array_schema));
+    ctx->handle_error(tiledb_array_get_schema(c_ctx, carray, &array_schema));
     schema_ = ArraySchema(ctx, array_schema);
 
     array_ = std::shared_ptr<tiledb_array_t>(carray, [own](tiledb_array_t* p) {
@@ -322,28 +322,28 @@ class Array {
 
   /** Checks if the array is open. */
   bool is_open() const {
-    auto& ctx = ctx_.get();
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get(); // 
     int open = 0;
-    ctx.handle_error(
-        tiledb_array_is_open(ctx.ptr().get(), array_.get(), &open));
+    ctx_->handle_error(
+        tiledb_array_is_open(c_ctx, array_.get(), &open));
     return bool(open);
   }
 
   /** Returns the array URI. */
   std::string uri() const {
-    auto& ctx = ctx_.get();
+	tiledb_ctx_t* c_ctx = ctx_->ptr().get(); // 
     const char* uri = nullptr;
-    ctx.handle_error(tiledb_array_get_uri(ctx.ptr().get(), array_.get(), &uri));
+    ctx_->handle_error(tiledb_array_get_uri(c_ctx, array_.get(), &uri));
     return std::string(uri);
   }
 
   /** Get the ArraySchema for the array. **/
   tiledb::ArraySchema schema() const {
-    auto& ctx = ctx_.get();
+	tiledb_ctx_t* c_ctx = ctx_->ptr().get(); // 
     tiledb_array_schema_t* schema;
-    ctx.handle_error(
-        tiledb_array_get_schema(ctx.ptr().get(), array_.get(), &schema));
-    return tiledb::ArraySchema(ctx, schema);
+    ctx_->handle_error(
+        tiledb_array_get_schema(c_ctx, array_.get(), &schema));
+    return tiledb::ArraySchema(ctx_, schema);
   }
 
   /** Returns a shared pointer to the C TileDB array object. */
@@ -405,9 +405,9 @@ class Array {
       tiledb_encryption_type_t encryption_type,
       const void* encryption_key,
       uint32_t key_length) {
-    auto& ctx = ctx_.get();
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
-    ctx.handle_error(tiledb_array_open_with_key(
+ 
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_open_with_key(
         c_ctx,
         array_.get(),
         query_type,
@@ -415,9 +415,9 @@ class Array {
         encryption_key,
         key_length));
     tiledb_array_schema_t* array_schema;
-    ctx.handle_error(
+    ctx_->handle_error(
         tiledb_array_get_schema(c_ctx, array_.get(), &array_schema));
-    schema_ = tiledb::ArraySchema(ctx, array_schema);
+    schema_ = tiledb::ArraySchema(ctx_, array_schema);
   }
 
   // clang-format off
@@ -499,9 +499,9 @@ class Array {
       const void* encryption_key,
       uint32_t key_length,
       uint64_t timestamp) {
-    auto& ctx = ctx_.get();
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
-    ctx.handle_error(tiledb_array_open_at_with_key(
+ 
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_open_at_with_key(
         c_ctx,
         array_.get(),
         query_type,
@@ -510,9 +510,9 @@ class Array {
         key_length,
         timestamp));
     tiledb_array_schema_t* array_schema;
-    ctx.handle_error(
+    ctx_->handle_error(
         tiledb_array_get_schema(c_ctx, array_.get(), &array_schema));
-    schema_ = tiledb::ArraySchema(ctx, array_schema);
+    schema_ = tiledb::ArraySchema(ctx_, array_schema);
   }
 
   // clang-format off
@@ -556,13 +556,13 @@ class Array {
    * occurred.
    */
   void reopen() {
-    auto& ctx = ctx_.get();
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
-    ctx.handle_error(tiledb_array_reopen(c_ctx, array_.get()));
+ 
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_reopen(c_ctx, array_.get()));
     tiledb_array_schema_t* array_schema;
-    ctx.handle_error(
+    ctx_->handle_error(
         tiledb_array_get_schema(c_ctx, array_.get(), &array_schema));
-    schema_ = tiledb::ArraySchema(ctx, array_schema);
+    schema_ = tiledb::ArraySchema(ctx_, array_schema);
   }
 
   /**
@@ -580,21 +580,21 @@ class Array {
    * occurred.
    */
   void reopen_at(uint64_t timestamp) {
-    auto& ctx = ctx_.get();
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
-    ctx.handle_error(tiledb_array_reopen_at(c_ctx, array_.get(), timestamp));
+ 
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_reopen_at(c_ctx, array_.get(), timestamp));
     tiledb_array_schema_t* array_schema;
-    ctx.handle_error(
+    ctx_->handle_error(
         tiledb_array_get_schema(c_ctx, array_.get(), &array_schema));
-    schema_ = tiledb::ArraySchema(ctx, array_schema);
+    schema_ = tiledb::ArraySchema(ctx_, array_schema);
   } 
 
   /** Returns the timestamp at which the array was opened. */
   uint64_t timestamp() const {
-    auto& ctx = ctx_.get();
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get(); // 
     uint64_t timestamp;
-    ctx.handle_error(
-        tiledb_array_get_timestamp(ctx.ptr().get(), array_.get(), &timestamp));
+    ctx_->handle_error(
+        tiledb_array_get_timestamp(c_ctx, array_.get(), &timestamp));
     return timestamp;
   }
 
@@ -608,8 +608,8 @@ class Array {
    * @endcode
    */
   void close() {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_array_close(ctx.ptr().get(), array_.get()));
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get(); // 
+    ctx_->handle_error(tiledb_array_close(c_ctx, array_.get()));
   }
 
   /**
@@ -629,7 +629,7 @@ class Array {
    * @param config Configuration parameters for the consolidation.
    */
   static void consolidate(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& uri,
       tiledb::Config* const config = nullptr) {
     consolidate(ctx, uri, TILEDB_NO_ENCRYPTION, nullptr, 0, config);
@@ -663,14 +663,15 @@ class Array {
    * @param config Configuration parameters for the consolidation.
    */
   static void consolidate(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& uri,
       tiledb_encryption_type_t encryption_type,
       const void* encryption_key,
       uint32_t key_length,
       tiledb::Config* const config = nullptr) {
-    ctx.handle_error(tiledb_array_consolidate_with_key(
-        ctx.ptr().get(),
+	tiledb_ctx_t* c_ctx = ctx->ptr().get();
+    ctx->handle_error(tiledb_array_consolidate_with_key(
+        c_ctx,
         uri.c_str(),
         encryption_type,
         encryption_key,
@@ -693,11 +694,12 @@ class Array {
    * @param config Configuration parameters for the vacuuming.
    */
   static void vacuum(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& uri,
       tiledb::Config* const config = nullptr) {
-    ctx.handle_error(tiledb_array_vacuum(
-        ctx.ptr().get(), uri.c_str(), config ? config->ptr().get() : nullptr));
+	tiledb_ctx_t* c_ctx = ctx->ptr().get();
+    ctx->handle_error(tiledb_array_vacuum(
+        c_ctx, uri.c_str(), config ? config->ptr().get() : nullptr));
   }
 
   // clang-format off
@@ -719,7 +721,7 @@ class Array {
    */
   // clang-format on
   static void consolidate(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& uri,
       tiledb_encryption_type_t encryption_type,
       const std::string& encryption_key,
@@ -744,7 +746,7 @@ class Array {
    * @param uri URI where array will be created.
    * @param schema The array schema.
    */
-  static void create(const std::string& uri, const tiledb::ArraySchema& schema) {
+  static void create(const std::string& uri, const std::shared_ptr<tiledb::ArraySchema>& schema) {
     create(uri, schema, TILEDB_NO_ENCRYPTION, nullptr, 0);
   }
 
@@ -761,11 +763,12 @@ class Array {
    * @param uri The array URI.
    * @return The loaded ArraySchema object.
    */
-  static tiledb::ArraySchema load_schema(const tiledb::Context& ctx, const std::string& uri) {
+  static std::shared_ptr<tiledb::ArraySchema> load_schema(const std::shared_ptr<tiledb::Context>& ctx, const std::string& uri) {
     tiledb_array_schema_t* schema;
-    ctx.handle_error(
-        tiledb_array_schema_load(ctx.ptr().get(), uri.c_str(), &schema));
-    return tiledb::ArraySchema(ctx, schema);
+	tiledb_ctx_t* c_ctx = ctx->ptr().get();
+    ctx->handle_error(
+        tiledb_array_schema_load(c_ctx, uri.c_str(), &schema));
+    return std::shared_ptr<tiledb::ArraySchema>(new tiledb::ArraySchema(ctx, schema));
   }
 
   /**
@@ -784,21 +787,22 @@ class Array {
    * @param key_length Length in bytes of the encryption key.
    * @return The loaded ArraySchema object.
    */
-  static tiledb::ArraySchema load_schema(
-      const tiledb::Context& ctx,
+  static std::shared_ptr<tiledb::ArraySchema> load_schema(
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& uri,
       tiledb_encryption_type_t encryption_type,
       const void* encryption_key,
       uint32_t key_length) {
     tiledb_array_schema_t* schema;
-    ctx.handle_error(tiledb_array_schema_load_with_key(
-        ctx.ptr().get(),
+	tiledb_ctx_t* c_ctx = ctx->ptr().get();
+    ctx->handle_error(tiledb_array_schema_load_with_key(
+        c_ctx,
         uri.c_str(),
         encryption_type,
         encryption_key,
         key_length,
         &schema));
-    return tiledb::ArraySchema(ctx, schema);
+    return std::shared_ptr<tiledb::ArraySchema>(new tiledb::ArraySchema(ctx, schema));
   }
 
   /**
@@ -820,17 +824,17 @@ class Array {
    */
   static void create(
       const std::string& uri,
-      const tiledb::ArraySchema& schema,
+      const std::shared_ptr<tiledb::ArraySchema>& schema,
       tiledb_encryption_type_t encryption_type,
       const void* encryption_key,
       uint32_t key_length) {
-    auto& ctx = schema.context();
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
-    ctx.handle_error(tiledb_array_schema_check(c_ctx, schema.ptr().get()));
-    ctx.handle_error(tiledb_array_create_with_key(
+    auto& ctx = schema->context();
+    tiledb_ctx_t* c_ctx = schema->context()->ptr().get();
+    ctx->handle_error(tiledb_array_schema_check(c_ctx, schema->ptr().get()));
+    ctx->handle_error(tiledb_array_create_with_key(
         c_ctx,
         uri.c_str(),
-        schema.ptr().get(),
+        schema->ptr().get(),
         encryption_type,
         encryption_key,
         key_length));
@@ -850,7 +854,7 @@ class Array {
   // clang-format on
   static void create(
       const std::string& uri,
-      const tiledb::ArraySchema& schema,
+      const std::shared_ptr<tiledb::ArraySchema>& schema,
       tiledb_encryption_type_t encryption_type,
       const std::string& encryption_key) {
     return create(
@@ -876,10 +880,10 @@ class Array {
    * @param encryption_type Set to the encryption type of the array.
    */
   static tiledb_encryption_type_t encryption_type(
-      const tiledb::Context& ctx, const std::string& array_uri) {
+      const std::shared_ptr<tiledb::Context>& ctx, const std::string& array_uri) {
     tiledb_encryption_type_t encryption_type;
-    ctx.handle_error(tiledb_array_encryption_type(
-        ctx.ptr().get(), array_uri.c_str(), &encryption_type));
+    ctx->handle_error(tiledb_array_encryption_type(
+        ctx->ptr().get(), array_uri.c_str(), &encryption_type));
     return encryption_type;
   }
 
@@ -912,9 +916,9 @@ class Array {
     std::vector<T> buf(dims.size() * 2);
     int empty;
 
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_array_get_non_empty_domain(
-        ctx.ptr().get(), array_.get(), buf.data(), &empty));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_get_non_empty_domain(
+        ctx_->ptr().get(), array_.get(), buf.data(), &empty));
 
     if (empty)
       return ret;
@@ -954,9 +958,9 @@ class Array {
     std::vector<T> buf(2);
     int empty;
 
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_array_get_non_empty_domain_from_index(
-        ctx.ptr().get(), array_.get(), idx, buf.data(), &empty));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_get_non_empty_domain_from_index(
+        ctx_->ptr().get(), array_.get(), idx, buf.data(), &empty));
 
     if (empty)
       return ret;
@@ -983,9 +987,9 @@ class Array {
     std::vector<T> buf(2);
     int empty;
 
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_array_get_non_empty_domain_from_name(
-        ctx.ptr().get(), array_.get(), name.c_str(), buf.data(), &empty));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+        ctx_->ptr().get(), array_.get(), name.c_str(), buf.data(), &empty));
 
     if (empty)
       return ret;
@@ -1019,9 +1023,9 @@ class Array {
     // Get range sizes
     uint64_t start_size, end_size;
     int empty;
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_array_get_non_empty_domain_var_size_from_index(
-        ctx.ptr().get(), array_.get(), idx, &start_size, &end_size, &empty));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_get_non_empty_domain_var_size_from_index(
+        ctx_->ptr().get(), array_.get(), idx, &start_size, &end_size, &empty));
 
     if (empty)
       return ret;
@@ -1029,8 +1033,8 @@ class Array {
     // Get ranges
     ret.first.resize(start_size);
     ret.second.resize(end_size);
-    ctx.handle_error(tiledb_array_get_non_empty_domain_var_from_index(
-        ctx.ptr().get(),
+    ctx_->handle_error(tiledb_array_get_non_empty_domain_var_from_index(
+        ctx_->ptr().get(),
         array_.get(),
         idx,
         &(ret.first[0]),
@@ -1066,9 +1070,9 @@ class Array {
     // Get range sizes
     uint64_t start_size, end_size;
     int empty;
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_array_get_non_empty_domain_var_size_from_name(
-        ctx.ptr().get(),
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_get_non_empty_domain_var_size_from_name(
+        ctx_->ptr().get(),
         array_.get(),
         name.c_str(),
         &start_size,
@@ -1081,8 +1085,8 @@ class Array {
     // Get ranges
     ret.first.resize(start_size);
     ret.second.resize(end_size);
-    ctx.handle_error(tiledb_array_get_non_empty_domain_var_from_name(
-        ctx.ptr().get(),
+    ctx_->handle_error(tiledb_array_get_non_empty_domain_var_from_name(
+        ctx_->ptr().get(),
         array_.get(),
         name.c_str(),
         &(ret.first[0]),
@@ -1126,11 +1130,11 @@ class Array {
    *     number of elements for that attribute in the given subarray.
    */
   template <typename T>
-  TILEDB_DEPRECATED
+ // TILEDB_DEPRECATED
       std::unordered_map<std::string, std::pair<uint64_t, uint64_t>>
       max_buffer_elements(const std::vector<T>& subarray) {
     auto ctx = ctx_.get();
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     impl::type_check<T>(schema_.domain().type(), 1);
 
     // Handle attributes
@@ -1145,7 +1149,7 @@ class Array {
 
       if (var) {
         uint64_t size_off, size_val;
-        ctx.handle_error(tiledb_array_max_buffer_size_var(
+        ctx_->handle_error(tiledb_array_max_buffer_size_var(
             c_ctx,
             array_.get(),
             name.c_str(),
@@ -1155,7 +1159,7 @@ class Array {
         ret[a.first] = std::pair<uint64_t, uint64_t>(
             size_off / TILEDB_OFFSET_SIZE, size_val / type_size);
       } else {
-        ctx.handle_error(tiledb_array_max_buffer_size(
+        ctx_->handle_error(tiledb_array_max_buffer_size(
             c_ctx, array_.get(), name.c_str(), subarray.data(), &attr_size));
         ret[a.first] = std::pair<uint64_t, uint64_t>(0, attr_size / type_size);
       }
@@ -1163,7 +1167,7 @@ class Array {
 
     // Handle coordinates
     type_size = tiledb_datatype_size(schema_.domain().type());
-    ctx.handle_error(tiledb_array_max_buffer_size(
+    ctx_->handle_error(tiledb_array_max_buffer_size(
         c_ctx, array_.get(), TILEDB_COORDS, subarray.data(), &attr_size));
     ret[TILEDB_COORDS] =
         std::pair<uint64_t, uint64_t>(0, attr_size / type_size);
@@ -1173,10 +1177,10 @@ class Array {
 
   /** Returns the query type the array was opened with. */
   tiledb_query_type_t query_type() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_query_type_t query_type;
-    ctx.handle_error(tiledb_array_get_query_type(
-        ctx.ptr().get(), array_.get(), &query_type));
+    ctx_->handle_error(tiledb_array_get_query_type(
+        ctx_->ptr().get(), array_.get(), &query_type));
     return query_type;
   }
 
@@ -1198,7 +1202,7 @@ class Array {
    * @param config Configuration parameters for the consolidation.
    */
   static void consolidate_metadata(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& uri,
       tiledb::Config* const config = nullptr) {
     Config local_cfg;
@@ -1239,7 +1243,7 @@ class Array {
    * @param config Configuration parameters for the consolidation.
    */
   static void consolidate_metadata(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& uri,
       tiledb_encryption_type_t encryption_type,
       const void* encryption_key,
@@ -1276,7 +1280,7 @@ class Array {
    */
   // clang-format on
   static void consolidate_metadata(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& uri,
       tiledb_encryption_type_t encryption_type,
       const std::string& encryption_key,
@@ -1316,9 +1320,9 @@ class Array {
       tiledb_datatype_t value_type,
       uint32_t value_num,
       const void* value) {
-    auto& ctx = ctx_.get();
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
-    ctx.handle_error(tiledb_array_put_metadata(
+    
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get(); //tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_put_metadata(
         c_ctx, array_.get(), key.c_str(), value_type, value_num, value));
   }
 
@@ -1334,9 +1338,8 @@ class Array {
    *     (i.e., the function will not error out).
    */
   void delete_metadata(const std::string& key) {
-    auto& ctx = ctx_.get();
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
-    ctx.handle_error(
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(
         tiledb_array_delete_metadata(c_ctx, array_.get(), key.c_str()));
   }
 
@@ -1360,9 +1363,9 @@ class Array {
       tiledb_datatype_t* value_type,
       uint32_t* value_num,
       const void** value) {
-    auto& ctx = ctx_.get();
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
-    ctx.handle_error(tiledb_array_get_metadata(
+    
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();// 
+    ctx_->handle_error(tiledb_array_get_metadata(
         c_ctx, array_.get(), key.c_str(), value_type, value_num, value));
   }
 
@@ -1378,10 +1381,10 @@ class Array {
    * @note If the key does not exist, then `value_type` will not be modified.
    */
   bool has_metadata(const std::string& key, tiledb_datatype_t* value_type) {
-    auto& ctx = ctx_.get();
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
+ //   tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     int32_t has_key;
-    ctx.handle_error(tiledb_array_has_metadata_key(
+    ctx_->handle_error(tiledb_array_has_metadata_key(
         c_ctx, array_.get(), key.c_str(), value_type, &has_key));
     return has_key == 1;
   }
@@ -1392,9 +1395,9 @@ class Array {
    */
   uint64_t metadata_num() const {
     uint64_t num;
-    auto& ctx = ctx_.get();
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
-    ctx.handle_error(tiledb_array_get_metadata_num(c_ctx, array_.get(), &num));
+ 
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();//   
+    ctx_->handle_error(tiledb_array_get_metadata_num(c_ctx, array_.get(), &num));
     return num;
   }
 
@@ -1420,9 +1423,9 @@ class Array {
       const void** value) {
     const char* key_c;
     uint32_t key_len;
-    auto& ctx = ctx_.get();
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
-    ctx.handle_error(tiledb_array_get_metadata_from_index(
+ 
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_get_metadata_from_index(
         c_ctx,
         array_.get(),
         index,
@@ -1441,7 +1444,7 @@ class Array {
   /* ********************************* */
 
   /** The TileDB context. */
-  std::reference_wrapper<const Context> ctx_;
+  std::shared_ptr<Context> ctx_; //  
 
   /** Deleter wrapper. */
   impl::Deleter deleter_;

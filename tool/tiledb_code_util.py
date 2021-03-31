@@ -531,7 +531,7 @@ def get_tiledb_dir_cfginfo_map():
 #    
     cppapi_dir_cfginfo=copy.deepcopy(default_dir_cfginfo)
     cppapi_dir_cfginfo["dir"]="../cpp/src/tiledb/cxx_api"
-    cppapi_dir_cfginfo["ignore_file_keywords"]=['typedef','deleter','schema_base.h','arrow_io',"tiledb.h","tiledb_cxx.h","tiledb_export","tiledb_serialization","tiledb_struct_def","tiledb_version"]
+    cppapi_dir_cfginfo["ignore_file_keywords"]=['typedef','deleter','schema_base.h','arrow_io',"tiledb.h","tiledb_cxx.h","tiledb_cxx_type.h","tiledb_export","tiledb_serialization","tiledb_struct_def","tiledb_version"]
     cppapi_dir_cfginfo['ignore_class_keywords']=['VectorData','MapData','PrimitiveColumnData','VectorColumnData','GenericColumnData']
 #    
     result={"cxxapi":cppapi_dir_cfginfo}
@@ -683,8 +683,8 @@ def get_swig_for_tiledb(outputfile='swig_tiledb.i'):
         swigfile.write('#ifndef SWIG_TILEDB_I\n')
         swigfile.write('#define SWIG_TILEDB_I\n')
         swigfile.write('\n//////include other i files\n')
-        swigfile.write('%%include swig_common.i\n')
-        swigfile.write('//%%include protobuf.i\n')
+        swigfile.write('%include swig_common.i\n')
+        swigfile.write('//%include protobuf.i\n')
         swigfile.write('\n//////\n')
         swigfile.write('\n//////shared_ptr\n')
         swigfile.write(shared_ptr_str)

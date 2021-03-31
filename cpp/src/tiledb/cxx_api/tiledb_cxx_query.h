@@ -127,13 +127,14 @@ class Query {
    * @param array Open Array object
    * @param type The TileDB query type
    */
-  Query(const tiledb::Context& ctx, const tiledb::Array& array, tiledb_query_type_t type)
+  Query(const std::shared_ptr<tiledb::Context>& ctx, const std::shared_ptr<tiledb::Array>& array, tiledb_query_type_t type)
       : ctx_(ctx)
       , array_(array)
-      , schema_(array.schema()) {
+      , schema_(array->schema()) {
+	tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_query_t* q;
-    ctx.handle_error(
-        tiledb_query_alloc(ctx.ptr().get(), array.ptr().get(), type, &q));
+    ctx_->handle_error(
+        tiledb_query_alloc(c_ctx, array->ptr().get(), type, &q));
     query_ = std::shared_ptr<tiledb_query_t>(q, deleter_);
   }
 
@@ -162,14 +163,15 @@ class Query {
    * @param ctx TileDB context
    * @param array Open Array object
    */
-  Query(const tiledb::Context& ctx, const tiledb::Array& array)
+  Query(const std::shared_ptr<tiledb::Context>& ctx, const std::shared_ptr<tiledb::Array>& array)
       : ctx_(ctx)
       , array_(array)
-      , schema_(array.schema()) {
+      , schema_(array->schema()) {
+	tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_query_t* q;
-    auto type = array.query_type();
-    ctx.handle_error(
-        tiledb_query_alloc(ctx.ptr().get(), array.ptr().get(), type, &q));
+    auto type = array->query_type();
+    ctx_->handle_error(
+        tiledb_query_alloc(c_ctx, array->ptr().get(), type, &q));
     query_ = std::shared_ptr<tiledb_query_t>(q, deleter_);
   }
 
@@ -187,7 +189,7 @@ class Query {
     return query_;
   }
 
-  std::reference_wrapper<const tiledb::Context>& context() {
+  std::shared_ptr<tiledb::Context>& context() {
 	  return ctx_;
   }
 
@@ -200,10 +202,10 @@ class Query {
 
   /** Returns the query type (read or write). */
   tiledb_query_type_t query_type() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_query_type_t query_type;
-    ctx.handle_error(
-        tiledb_query_get_type(ctx.ptr().get(), query_.get(), &query_type));
+    ctx_->handle_error(
+        tiledb_query_get_type(c_ctx, query_.get(), &query_type));
     return query_type;
   }
 
@@ -229,32 +231,32 @@ class Query {
    * @return Reference to this Query
    */
   Query& set_layout(tiledb_layout_t layout) {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(
-        tiledb_query_set_layout(ctx.ptr().get(), query_.get(), layout));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(
+        tiledb_query_set_layout(c_ctx, query_.get(), layout));
     return *this;
   }
 
   /** Returns the layout of the query. */
   tiledb_layout_t query_layout() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_layout_t query_layout;
-    ctx.handle_error(
-        tiledb_query_get_layout(ctx.ptr().get(), query_.get(), &query_layout));
+    ctx_->handle_error(
+        tiledb_query_get_layout(c_ctx, query_.get(), &query_layout));
     return query_layout;
   }
 
   /** Returns the array of the query. */
-  const tiledb::Array& array() {
+  const std::shared_ptr<tiledb::Array>& array() {
     return array_;
   }
 
   /** Returns the query status. */
   Status query_status() const {
     tiledb_query_status_t status;
-    auto& ctx = ctx_.get();
-    ctx.handle_error(
-        tiledb_query_get_status(ctx.ptr().get(), query_.get(), &status));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(
+        tiledb_query_get_status(c_ctx, query_.get(), &status));
     return to_status(status);
   }
 
@@ -264,9 +266,9 @@ class Query {
    */
   bool has_results() const {
     int ret;
-    auto& ctx = ctx_.get();
-    ctx.handle_error(
-        tiledb_query_has_results(ctx.ptr().get(), query_.get(), &ret));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(
+        tiledb_query_has_results(c_ctx, query_.get(), &ret));
     return (bool)ret;
   }
 
@@ -290,8 +292,8 @@ class Query {
    * @return Query status
    */
   Status submit() {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_query_submit(ctx.ptr().get(), query_.get()));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_query_submit(c_ctx, query_.get()));
     return query_status();
   }
 
@@ -313,9 +315,9 @@ class Query {
   template <typename Fn>
   void submit_async(const Fn& callback) {
     std::function<void(void*)> wrapper = [&](void*) { callback(); };
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb::impl::tiledb_query_submit_async_func(
-        ctx.ptr().get(), query_.get(), &wrapper, nullptr));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb::impl::tiledb_query_submit_async_func(
+        c_ctx, query_.get(), &wrapper, nullptr));
   }
 
   /**
@@ -341,8 +343,8 @@ class Query {
    * any other query type.
    */
   void finalize() {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_query_finalize(ctx.ptr().get(), query_.get()));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_query_finalize(c_ctx, query_.get()));
   }
 
   /**
@@ -441,9 +443,9 @@ class Query {
   template <class T>
   tiledb::Query& add_range(uint32_t dim_idx, T start, T end, T stride = 0) {
     impl::type_check<T>(schema_.domain().dimension(dim_idx).type());
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_query_add_range(
-        ctx.ptr().get(),
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_query_add_range(
+        c_ctx,
         query_.get(),
         dim_idx,
         &start,
@@ -476,9 +478,9 @@ class Query {
   tiledb::Query& add_range(
       uint32_t dim_idx, const std::string& start, const std::string& end) {
     impl::type_check<char>(schema_.domain().dimension(dim_idx).type());
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_query_add_range_var(
-        ctx.ptr().get(),
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_query_add_range_var(
+        c_ctx,
         query_.get(),
         dim_idx,
         start.c_str(),
@@ -502,10 +504,10 @@ class Query {
    * @return The number of ranges.
    */
   uint64_t range_num(unsigned dim_idx) const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     uint64_t range_num;
-    ctx.handle_error(tiledb_query_get_range_num(
-        ctx.ptr().get(), query_.get(), dim_idx, &range_num));
+    ctx_->handle_error(tiledb_query_get_range_num(
+        c_ctx, query_.get(), dim_idx, &range_num));
     return range_num;
   }
 
@@ -530,10 +532,10 @@ class Query {
   template <class T>
   std::array<T, 3> range(unsigned dim_idx, uint64_t range_idx) {
     impl::type_check<T>(schema_.domain().dimension(dim_idx).type());
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     const void *start, *end, *stride;
-    ctx.handle_error(tiledb_query_get_range(
-        ctx.ptr().get(),
+    ctx_->handle_error(tiledb_query_get_range(
+        c_ctx,
         query_.get(),
         dim_idx,
         range_idx,
@@ -564,10 +566,10 @@ class Query {
    */
   std::array<std::string, 2> range(unsigned dim_idx, uint64_t range_idx) {
     impl::type_check<char>(schema_.domain().dimension(dim_idx).type());
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     uint64_t start_size, end_size;
-    ctx.handle_error(tiledb_query_get_range_var_size(
-        ctx.ptr().get(),
+    ctx_->handle_error(tiledb_query_get_range_var_size(
+        c_ctx,
         query_.get(),
         dim_idx,
         range_idx,
@@ -578,8 +580,8 @@ class Query {
     start.resize(start_size);
     std::string end;
     end.resize(end_size);
-    ctx.handle_error(tiledb_query_get_range_var(
-        ctx.ptr().get(), query_.get(), dim_idx, range_idx, &start[0], &end[0]));
+    ctx_->handle_error(tiledb_query_get_range_var(
+        c_ctx, query_.get(), dim_idx, range_idx, &start[0], &end[0]));
     std::array<std::string, 2> ret = {{std::move(start), std::move(end)}};
     return ret;
   }
@@ -597,10 +599,10 @@ class Query {
    * @return The estimated size in bytes.
    */
   uint64_t est_result_size(const std::string& attr_name) const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     uint64_t size = 0;
-    ctx.handle_error(tiledb_query_get_est_result_size(
-        ctx.ptr().get(), query_.get(), attr_name.c_str(), &size));
+    ctx_->handle_error(tiledb_query_get_est_result_size(
+        c_ctx, query_.get(), attr_name.c_str(), &size));
     return size;
   }
 
@@ -621,10 +623,10 @@ class Query {
    */
   std::pair<uint64_t, uint64_t> est_result_size_var(
       const std::string& attr_name) const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     uint64_t size_off = 0, size_val = 0;
-    ctx.handle_error(tiledb_query_get_est_result_size_var(
-        ctx.ptr().get(),
+    ctx_->handle_error(tiledb_query_get_est_result_size_var(
+        c_ctx,
         query_.get(),
         attr_name.c_str(),
         &size_off,
@@ -636,10 +638,10 @@ class Query {
    * Returns the number of written fragments. Applicable only to WRITE queries.
    */
   uint32_t fragment_num() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     uint32_t num;
-    ctx.handle_error(
-        tiledb_query_get_fragment_num(ctx.ptr().get(), query_.get(), &num));
+    ctx_->handle_error(
+        tiledb_query_get_fragment_num(c_ctx, query_.get(), &num));
     return num;
   }
 
@@ -648,10 +650,10 @@ class Query {
    * only to WRITE queries.
    */
   std::string fragment_uri(uint32_t idx) const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     const char* uri;
-    ctx.handle_error(tiledb_query_get_fragment_uri(
-        ctx.ptr().get(), query_.get(), idx, &uri));
+    ctx_->handle_error(tiledb_query_get_fragment_uri(
+        c_ctx, query_.get(), idx, &uri));
     return uri;
   }
 
@@ -660,10 +662,10 @@ class Query {
    * Applicable only to WRITE queries.
    */
   std::pair<uint64_t, uint64_t> fragment_timestamp_range(uint32_t idx) const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     uint64_t t1, t2;
-    ctx.handle_error(tiledb_query_get_fragment_timestamp_range(
-        ctx.ptr().get(), query_.get(), idx, &t1, &t2));
+    ctx_->handle_error(tiledb_query_get_fragment_timestamp_range(
+        c_ctx, query_.get(), idx, &t1, &t2));
     return std::make_pair(t1, t2);
   }
 
@@ -691,14 +693,14 @@ class Query {
   template <typename T = uint64_t>
   tiledb::Query& set_subarray(const T* pairs, uint64_t size) {
     impl::type_check<T>(schema_.domain().type());
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     if (size != schema_.domain().ndim() * 2) {
       throw SchemaMismatch(
           "Subarray should have num_dims * 2 values: (low, high) for each "
           "dimension.");
     }
-    ctx.handle_error(
-        tiledb_query_set_subarray(ctx.ptr().get(), query_.get(), pairs));
+    ctx_->handle_error(
+        tiledb_query_set_subarray(c_ctx, query_.get(), pairs));
     subarray_cell_num_ = pairs[1] - pairs[0] + 1;
     for (unsigned i = 2; i < size - 1; i += 2) {
       subarray_cell_num_ *= (pairs[i + 1] - pairs[i] + 1);
@@ -795,7 +797,7 @@ class Query {
    * @param size The number of elements in the coordinate array buffer
    * **/
   template <typename T>
-  TILEDB_DEPRECATED tiledb::Query& set_coordinates(T* buf, uint64_t size) {
+  tiledb::Query& set_coordinates(T* buf, uint64_t size) {
     impl::type_check<T>(schema_.domain().type());
     return set_buffer("__coords", buf, size);
   }
@@ -821,7 +823,7 @@ class Query {
    * @param buf Coordinate vector
    * **/
   template <typename Vec>
-  TILEDB_DEPRECATED tiledb::Query& set_coordinates(Vec& buf) {
+ tiledb::Query& set_coordinates(Vec& buf) {
     return set_coordinates(buf.data(), buf.size());
   }
 
@@ -897,12 +899,12 @@ class Query {
 	  size_t nelements = buf.size();
 	  uint64_t element_size = sizeof(int);
 //	  std::cout << "nelements:" << nelements << ",element_size:" << element_size << std::endl;
-	  auto ctx = ctx_.get();
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get();  //auto ctx = ctx_.get();
 	  size_t size = nelements * element_size;
 	  buff_sizes_[attr] = std::pair<uint64_t, uint64_t>(0, size);
 	  element_sizes_[attr] = element_size;
-	  ctx.handle_error(tiledb_query_set_buffer(
-		  ctx.ptr().get(),
+	  ctx_->handle_error(tiledb_query_set_buffer(
+		  c_ctx,
 		  query_.get(),
 		  attr.c_str(),
 		  buf.data(), //buff,
@@ -914,12 +916,12 @@ class Query {
 //	  return set_buffer(name, buf.data(), buf.size(), sizeof(int64_t));
 	  size_t nelements = buf.size();
 	  uint64_t element_size = sizeof(int64_t);
-	  auto ctx = ctx_.get();
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get();  //auto ctx = ctx_.get();
 	  size_t size = nelements * element_size;
 	  buff_sizes_[attr] = std::pair<uint64_t, uint64_t>(0, size);
 	  element_sizes_[attr] = element_size;
-	  ctx.handle_error(tiledb_query_set_buffer(
-		  ctx.ptr().get(),
+	  ctx_->handle_error(tiledb_query_set_buffer(
+		  c_ctx,
 		  query_.get(),
 		  attr.c_str(),
 		  buf.data(), //buff,
@@ -932,12 +934,12 @@ class Query {
 	  size_t nelements = buf.size();
 	  uint64_t element_size = sizeof(uint32_t);
 	  //	  std::cout << "nelements:" << nelements << ",element_size:" << element_size << std::endl;
-	  auto ctx = ctx_.get();
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get();  //auto ctx = ctx_.get();
 	  size_t size = nelements * element_size;
 	  buff_sizes_[attr] = std::pair<uint64_t, uint64_t>(0, size);
 	  element_sizes_[attr] = element_size;
-	  ctx.handle_error(tiledb_query_set_buffer(
-		  ctx.ptr().get(),
+	  ctx_->handle_error(tiledb_query_set_buffer(
+		  c_ctx,
 		  query_.get(),
 		  attr.c_str(),
 		  buf.data(), //buff,
@@ -950,12 +952,12 @@ class Query {
 //	  return set_buffer(name, buf.data(), buf.size(), sizeof(uint64_t));
 	  size_t nelements = buf.size();
 	  uint64_t element_size = sizeof(uint64_t);
-	  auto ctx = ctx_.get();
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get();  //auto ctx = ctx_.get();
 	  size_t size = nelements * element_size;
 	  buff_sizes_[attr] = std::pair<uint64_t, uint64_t>(0, size);
 	  element_sizes_[attr] = element_size;
-	  ctx.handle_error(tiledb_query_set_buffer(
-		  ctx.ptr().get(),
+	  ctx_->handle_error(tiledb_query_set_buffer(
+		  c_ctx,
 		  query_.get(),
 		  attr.c_str(),
 		  buf.data(), //buff,
@@ -966,12 +968,12 @@ class Query {
 //	  return set_buffer(name, buf.data(), buf.size(), sizeof(double));
 	  size_t nelements = buf.size();
 	  uint64_t element_size = sizeof(double);
-	  auto ctx = ctx_.get();
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get(); //auto ctx = ctx_.get();
 	  size_t size = nelements * element_size;
 	  buff_sizes_[attr] = std::pair<uint64_t, uint64_t>(0, size);
 	  element_sizes_[attr] = element_size;
-	  ctx.handle_error(tiledb_query_set_buffer(
-		  ctx.ptr().get(),
+	  ctx_->handle_error(tiledb_query_set_buffer(
+		  c_ctx,
 		  query_.get(),
 		  attr.c_str(),
 		  buf.data(), //buff,
@@ -1241,8 +1243,8 @@ class Query {
 //	  auto offset_size = offset_nelements * sizeof(uint64_t);
 //	  element_sizes_[name] = element_size;
 //	  buff_sizes_[name] = std::pair<uint64_t, uint64_t>(offset_size, data_size);
-//	  ctx.handle_error(tiledb_query_set_buffer_var(
-//		  ctx.ptr().get(),
+//	  ctx_->handle_error(tiledb_query_set_buffer_var(
+//		  c_ctx,
 //		  query_.get(),
 //		  name.c_str(),
 //		  offsets.data(),
@@ -1267,7 +1269,7 @@ class Query {
       void** data,
       uint64_t* data_nelements,
       uint64_t* element_size) {
-    auto ctx = ctx_.get();
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get();  //auto ctx = ctx_.get();
     uint64_t* data_nbytes = nullptr;
     auto elem_size_iter = element_sizes_.find(name);
     if (elem_size_iter == element_sizes_.end()) {
@@ -1276,8 +1278,8 @@ class Query {
           "'!");
     }
 
-    ctx.handle_error(tiledb_query_get_buffer(
-        ctx.ptr().get(), query_.get(), name.c_str(), data, &data_nbytes));
+    ctx_->handle_error(tiledb_query_get_buffer(
+        c_ctx, query_.get(), name.c_str(), data, &data_nbytes));
 
     assert(*data_nbytes % elem_size_iter->second == 0);
 
@@ -1304,7 +1306,7 @@ class Query {
       void** data,
       uint64_t* data_nelements,
       uint64_t* element_size) {
-    auto ctx = ctx_.get();
+	tiledb_ctx_t* c_ctx = ctx_->ptr().get();// auto ctx = ctx_.get();
     uint64_t* offsets_nbytes = nullptr;
     uint64_t* data_nbytes = nullptr;
     auto elem_size_iter = element_sizes_.find(name);
@@ -1314,8 +1316,8 @@ class Query {
           "'!");
     }
 
-    ctx.handle_error(tiledb_query_get_buffer_var(
-        ctx.ptr().get(),
+    ctx_->handle_error(tiledb_query_get_buffer_var(
+        c_ctx,
         query_.get(),
         name.c_str(),
         offsets,
@@ -1388,10 +1390,10 @@ class Query {
   std::unordered_map<std::string, uint64_t> element_sizes_;
 
   /** The TileDB context. */
-  std::reference_wrapper<const Context> ctx_;
+  std::shared_ptr<Context> ctx_;
 
   /** The TileDB array. */
-  std::reference_wrapper<const Array> array_;
+  std::shared_ptr<Array> array_;
 
   /** Deleter wrapper. */
   impl::Deleter deleter_;
@@ -1422,12 +1424,12 @@ class Query {
       void* buff,
       uint64_t nelements,
       size_t element_size) {
-    auto ctx = ctx_.get();
+	tiledb_ctx_t* c_ctx = ctx_->ptr().get();  //auto ctx = ctx_.get();
     size_t size = nelements * element_size;
     buff_sizes_[attr] = std::pair<uint64_t, uint64_t>(0, size);
     element_sizes_[attr] = element_size;
-    ctx.handle_error(tiledb_query_set_buffer(
-        ctx.ptr().get(),
+    ctx_->handle_error(tiledb_query_set_buffer(
+        c_ctx,
         query_.get(),
         attr.c_str(),
         buff,
@@ -1455,13 +1457,13 @@ class Query {
       void* data,
       uint64_t data_nelements,
       size_t element_size) {
-    auto ctx = ctx_.get();
+	tiledb_ctx_t* c_ctx = ctx_->ptr().get(); //auto ctx = ctx_.get();
     auto data_size = data_nelements * element_size;
     auto offset_size = offset_nelements * sizeof(uint64_t);
     element_sizes_[attr] = element_size;
     buff_sizes_[attr] = std::pair<uint64_t, uint64_t>(offset_size, data_size);
-    ctx.handle_error(tiledb_query_set_buffer_var(
-        ctx.ptr().get(),
+    ctx_->handle_error(tiledb_query_set_buffer_var(
+        c_ctx,
         query_.get(),
         attr.c_str(),
         offsets,

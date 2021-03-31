@@ -51,8 +51,8 @@ class Compressor;
  */
 class Schema {
  public:
-  const tiledb::Context& context() const {
-    return ctx_.get();
+  const std::shared_ptr<tiledb::Context>& context() {
+    return ctx_;
   }
 
   /** Add multiple attributes. **/
@@ -69,7 +69,9 @@ class Schema {
   /*     CONSTRUCTORS & DESTRUCTORS    */
   /* ********************************* */
 
-  explicit Schema(const tiledb::Context& ctx)
+  Schema() {}
+  
+  explicit Schema(const std::shared_ptr<tiledb::Context>& ctx)
       : ctx_(ctx) {
   }
   Schema(const tiledb::Schema&) = default;
@@ -104,7 +106,7 @@ class Schema {
   virtual tiledb::Attribute attribute(unsigned int i) const = 0;
 
   /** The TileDB context. */
-  std::reference_wrapper<const Context> ctx_;
+  std::shared_ptr<Context> ctx_;
 
   /** Deleter wrapper. */
   impl::Deleter deleter_;

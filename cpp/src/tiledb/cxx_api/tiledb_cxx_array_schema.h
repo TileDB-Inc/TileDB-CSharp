@@ -65,7 +65,7 @@ namespace tiledb {
  *
  * @code{.cpp}
  * tiledb::Context ctx;
- * tiledb::ArraySchema schema(ctx.ptr().get(), TILEDB_SPARSE); // Or
+ * tiledb::ArraySchema schema(c_ctx, TILEDB_SPARSE); // Or
  * TILEDB_DENSE
  *
  * // Create a Domain
@@ -100,16 +100,17 @@ class ArraySchema : public Schema {
    * **Example:**
    * @code{.cpp}
    * tiledb::Context ctx;
-   * tiledb::ArraySchema schema(ctx.ptr().get(), TILEDB_SPARSE);
+   * tiledb::ArraySchema schema(c_ctx, TILEDB_SPARSE);
    * @endcode
    *
    * @param ctx TileDB context
    * @param type Array type, sparse or dense.
    */
-  explicit ArraySchema(const tiledb::Context& ctx, tiledb_array_type_t type)
+  explicit ArraySchema(const std::shared_ptr<tiledb::Context>& ctx, tiledb_array_type_t type)
       : Schema(ctx) {
     tiledb_array_schema_t* schema;
-    ctx.handle_error(tiledb_array_schema_alloc(ctx.ptr().get(), type, &schema));
+	tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_schema_alloc(c_ctx, type, &schema));
     schema_ = std::shared_ptr<tiledb_array_schema_t>(schema, deleter_);
   }
 
@@ -125,7 +126,7 @@ class ArraySchema : public Schema {
    * @param ctx TileDB context
    * @param uri URI of array
    */
-  ArraySchema(const tiledb::Context& ctx, const std::string& uri)
+  ArraySchema(const std::shared_ptr<tiledb::Context>& ctx, const std::string& uri)
       : ArraySchema(ctx, uri, TILEDB_NO_ENCRYPTION, nullptr, 0) {
   }
 
@@ -148,15 +149,15 @@ class ArraySchema : public Schema {
    * @param key_length Length in bytes of the encryption key.
    */
   ArraySchema(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& uri,
       tiledb_encryption_type_t encryption_type,
       const void* encryption_key,
       uint32_t key_length)
       : Schema(ctx) {
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_array_schema_t* schema;
-    ctx.handle_error(tiledb_array_schema_load_with_key(
+    ctx_->handle_error(tiledb_array_schema_load_with_key(
         c_ctx,
         uri.c_str(),
         encryption_type,
@@ -175,7 +176,7 @@ class ArraySchema : public Schema {
    * @param encryption_key The encryption key to use.
    */
   ArraySchema(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& uri,
       tiledb_encryption_type_t encryption_type,
       const std::string& encryption_key)
@@ -194,12 +195,12 @@ class ArraySchema : public Schema {
    * @param ctx TileDB context
    * @param schema C API array schema object
    */
-  ArraySchema(const tiledb::Context& ctx, tiledb_array_schema_t* schema)
+  ArraySchema(const std::shared_ptr<tiledb::Context>& ctx, tiledb_array_schema_t* schema)
       : Schema(ctx) {
     schema_ = std::shared_ptr<tiledb_array_schema_t>(schema, deleter_);
   }
 
-  ArraySchema() = delete;
+  ArraySchema() {} // = default;
   ArraySchema(const tiledb::ArraySchema&) = default;
   ArraySchema(tiledb::ArraySchema&&) = default;
   virtual ~ArraySchema() = default;
@@ -217,26 +218,26 @@ class ArraySchema : public Schema {
    * which will lead to selection of `stdout`.
    */
   void dump(FILE* out = nullptr) const override {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(
-        tiledb_array_schema_dump(ctx.ptr().get(), schema_.get(), out));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(
+        tiledb_array_schema_dump(ctx_->ptr().get(), schema_.get(), out));
   }
 
   /** Returns the array type. */
   tiledb_array_type_t array_type() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_array_type_t type;
-    ctx.handle_error(tiledb_array_schema_get_array_type(
-        ctx.ptr().get(), schema_.get(), &type));
+    ctx_->handle_error(tiledb_array_schema_get_array_type(
+        ctx_->ptr().get(), schema_.get(), &type));
     return type;
   }
 
   /** Returns the tile capacity. */
   uint64_t capacity() const {
-    auto& ctx = ctx_.get();
+    //tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     uint64_t capacity;
-    ctx.handle_error(tiledb_array_schema_get_capacity(
-        ctx.ptr().get(), schema_.get(), &capacity));
+    ctx_->handle_error(tiledb_array_schema_get_capacity(
+        ctx_->ptr().get(), schema_.get(), &capacity));
     return capacity;
   }
 
@@ -250,18 +251,18 @@ class ArraySchema : public Schema {
    * @return Reference to this `ArraySchema` instance.
    */
   tiledb::ArraySchema& set_capacity(uint64_t capacity) {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_array_schema_set_capacity(
-        ctx.ptr().get(), schema_.get(), capacity));
+   // tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_schema_set_capacity(
+        ctx_->ptr().get(), schema_.get(), capacity));
     return *this;
   }
 
   /** Returns `true` if the array allows coordinate duplicates. */
   bool allows_dups() const {
-    auto& ctx = ctx_.get();
+  //  tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     int allows_dups;
-    ctx.handle_error(tiledb_array_schema_get_allows_dups(
-        ctx.ptr().get(), schema_.get(), &allows_dups));
+    ctx_->handle_error(tiledb_array_schema_get_allows_dups(
+        ctx_->ptr().get(), schema_.get(), &allows_dups));
     return (bool)allows_dups;
   }
 
@@ -270,19 +271,19 @@ class ArraySchema : public Schema {
    * an exception in case it sets `true` to a dense array.
    */
   tiledb::ArraySchema& set_allows_dups(bool allows_dups) {
-    auto& ctx = ctx_.get();
+  //  tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     int allows_dups_i = allows_dups ? 1 : 0;
-    ctx.handle_error(tiledb_array_schema_set_allows_dups(
-        ctx.ptr().get(), schema_.get(), allows_dups_i));
+    ctx_->handle_error(tiledb_array_schema_set_allows_dups(
+        ctx_->ptr().get(), schema_.get(), allows_dups_i));
     return *this;
   }
 
   /** Returns the tile order. */
   tiledb_layout_t tile_order() const {
-    auto& ctx = ctx_.get();
+  //  tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_layout_t layout;
-    ctx.handle_error(tiledb_array_schema_get_tile_order(
-        ctx.ptr().get(), schema_.get(), &layout));
+    ctx_->handle_error(tiledb_array_schema_get_tile_order(
+        ctx_->ptr().get(), schema_.get(), &layout));
     return layout;
   }
 
@@ -293,9 +294,9 @@ class ArraySchema : public Schema {
    * @return Reference to this `ArraySchema` instance.
    */
   tiledb::ArraySchema& set_tile_order(tiledb_layout_t layout) {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_array_schema_set_tile_order(
-        ctx.ptr().get(), schema_.get(), layout));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_schema_set_tile_order(
+        ctx_->ptr().get(), schema_.get(), layout));
     return *this;
   }
 
@@ -313,10 +314,10 @@ class ArraySchema : public Schema {
 
   /** Returns the cell order. */
   tiledb_layout_t cell_order() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_layout_t layout;
-    ctx.handle_error(tiledb_array_schema_get_cell_order(
-        ctx.ptr().get(), schema_.get(), &layout));
+    ctx_->handle_error(tiledb_array_schema_get_cell_order(
+        ctx_->ptr().get(), schema_.get(), &layout));
     return layout;
   }
 
@@ -327,9 +328,9 @@ class ArraySchema : public Schema {
    * @return Reference to this `ArraySchema` instance.
    */
   tiledb::ArraySchema& set_cell_order(tiledb_layout_t layout) {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_array_schema_set_cell_order(
-        ctx.ptr().get(), schema_.get(), layout));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_schema_set_cell_order(
+        ctx_->ptr().get(), schema_.get(), layout));
     return *this;
   }
 
@@ -340,11 +341,11 @@ class ArraySchema : public Schema {
    * @return Copy of the coordinates FilterList.
    */
   tiledb::FilterList coords_filter_list() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_filter_list_t* filter_list;
-    ctx.handle_error(tiledb_array_schema_get_coords_filter_list(
-        ctx.ptr().get(), schema_.get(), &filter_list));
-    return FilterList(ctx, filter_list);
+    ctx_->handle_error(tiledb_array_schema_get_coords_filter_list(
+        ctx_->ptr().get(), schema_.get(), &filter_list));
+    return FilterList(ctx_, filter_list);
   }
 
   /**
@@ -355,7 +356,7 @@ class ArraySchema : public Schema {
    * **Example:**
    * @code{.cpp}
    * tiledb::Context ctx;
-   * tiledb::ArraySchema schema(ctx.ptr().get(), TILEDB_SPARSE);
+   * tiledb::ArraySchema schema(ctx_->ptr().get(), TILEDB_SPARSE);
    * tiledb::FilterList filter_list(ctx);
    * filter_list.add_filter({ctx, TILEDB_FILTER_BYTESHUFFLE})
    *     .add_filter({ctx, TILEDB_FILTER_BZIP2});
@@ -366,9 +367,9 @@ class ArraySchema : public Schema {
    * @return Reference to this `ArraySchema` instance.
    */
   tiledb::ArraySchema& set_coords_filter_list(const tiledb::FilterList& filter_list) {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_array_schema_set_coords_filter_list(
-        ctx.ptr().get(), schema_.get(), filter_list.ptr().get()));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_schema_set_coords_filter_list(
+        ctx_->ptr().get(), schema_.get(), filter_list.ptr().get()));
     return *this;
   }
 
@@ -379,11 +380,11 @@ class ArraySchema : public Schema {
    * @return Copy of the offsets FilterList.
    */
   tiledb::FilterList offsets_filter_list() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_filter_list_t* filter_list;
-    ctx.handle_error(tiledb_array_schema_get_offsets_filter_list(
-        ctx.ptr().get(), schema_.get(), &filter_list));
-    return FilterList(ctx, filter_list);
+    ctx_->handle_error(tiledb_array_schema_get_offsets_filter_list(
+        ctx_->ptr().get(), schema_.get(), &filter_list));
+    return FilterList(ctx_, filter_list);
   }
 
   /**
@@ -394,7 +395,7 @@ class ArraySchema : public Schema {
    * **Example:**
    * @code{.cpp}
    * tiledb::Context ctx;
-   * tiledb::ArraySchema schema(ctx.ptr().get(), TILEDB_SPARSE);
+   * tiledb::ArraySchema schema(ctx_->ptr().get(), TILEDB_SPARSE);
    * tiledb::FilterList filter_list(ctx);
    * filter_list.add_filter({ctx, TILEDB_FILTER_POSITIVE_DELTA})
    *     .add_filter({ctx, TILEDB_FILTER_LZ4});
@@ -405,9 +406,9 @@ class ArraySchema : public Schema {
    * @return Reference to this `ArraySchema` instance.
    */
   tiledb::ArraySchema& set_offsets_filter_list(const tiledb::FilterList& filter_list) {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_array_schema_set_offsets_filter_list(
-        ctx.ptr().get(), schema_.get(), filter_list.ptr().get()));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_schema_set_offsets_filter_list(
+        ctx_->ptr().get(), schema_.get(), filter_list.ptr().get()));
     return *this;
   }
 
@@ -418,11 +419,11 @@ class ArraySchema : public Schema {
    * @return Copy of the array Domain
    */
   tiledb::Domain domain() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_domain_t* domain;
-    ctx.handle_error(tiledb_array_schema_get_domain(
-        ctx.ptr().get(), schema_.get(), &domain));
-    return Domain(ctx, domain);
+    ctx_->handle_error(tiledb_array_schema_get_domain(
+        ctx_->ptr().get(), schema_.get(), &domain));
+    return Domain(ctx_, domain);
   }
 
   /**
@@ -431,7 +432,7 @@ class ArraySchema : public Schema {
    * **Example:**
    * @code{.cpp}
    * tiledb::Context ctx;
-   * tiledb::ArraySchema schema(ctx.ptr().get(), TILEDB_SPARSE);
+   * tiledb::ArraySchema schema(ctx_->ptr().get(), TILEDB_SPARSE);
    * // Create a Domain
    * tiledb::Domain domain(...);
    * schema.set_domain(domain);
@@ -441,9 +442,9 @@ class ArraySchema : public Schema {
    * @return Reference to this `ArraySchema` instance.
    */
   tiledb::ArraySchema& set_domain(const tiledb::Domain& domain) {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_array_schema_set_domain(
-        ctx.ptr().get(), schema_.get(), domain.ptr().get()));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_schema_set_domain(
+        ctx_->ptr().get(), schema_.get(), domain.ptr().get()));
     return *this;
   }
 
@@ -453,8 +454,8 @@ class ArraySchema : public Schema {
    * **Example:**
    * @code{.cpp}
    * tiledb::Context ctx;
-   * tiledb::ArraySchema schema(ctx.ptr().get(), TILEDB_SPARSE);
-   * schema.add_attribute(Attribute::create<int32_t>(ctx.ptr().get(),
+   * tiledb::ArraySchema schema(ctx_->ptr().get(), TILEDB_SPARSE);
+   * schema.add_attribute(Attribute::create<int32_t>(ctx_->ptr().get(),
    * "attr_name"));
    * @endcode
    *
@@ -462,9 +463,9 @@ class ArraySchema : public Schema {
    * @return Reference to this `ArraySchema` instance.
    */
   tiledb::ArraySchema& add_attribute(const tiledb::Attribute& attr) override {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_array_schema_add_attribute(
-        ctx.ptr().get(), schema_.get(), attr.ptr().get()));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_schema_add_attribute(
+        ctx_->ptr().get(), schema_.get(), attr.ptr().get()));
     return *this;
   }
 
@@ -479,7 +480,7 @@ class ArraySchema : public Schema {
    * **Example:**
    * @code{.cpp}
    * tiledb::Context ctx;
-   * tiledb::ArraySchema schema(ctx.ptr().get(), TILEDB_SPARSE);
+   * tiledb::ArraySchema schema(ctx_->ptr().get(), TILEDB_SPARSE);
    * // Add domain, attributes, etc...
    *
    * try {
@@ -493,8 +494,8 @@ class ArraySchema : public Schema {
    * @throws TileDBError if the schema is incorrect or invalid.
    */
   void check() const override {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_array_schema_check(ctx.ptr().get(), schema_.get()));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_schema_check(ctx_->ptr().get(), schema_.get()));
   }
 
   /**
@@ -503,15 +504,15 @@ class ArraySchema : public Schema {
    * @return Map of attribute name to copy of Attribute instance.
    */
   std::unordered_map<std::string, tiledb::Attribute> attributes() const override {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_attribute_t* attrptr;
     unsigned int nattr;
     std::unordered_map<std::string, Attribute> attrs;
-    ctx.handle_error(tiledb_array_schema_get_attribute_num(
-        ctx.ptr().get(), schema_.get(), &nattr));
+    ctx_->handle_error(tiledb_array_schema_get_attribute_num(
+        ctx_->ptr().get(), schema_.get(), &nattr));
     for (unsigned int i = 0; i < nattr; ++i) {
-      ctx.handle_error(tiledb_array_schema_get_attribute_from_index(
-          ctx.ptr().get(), schema_.get(), i, &attrptr));
+      ctx_->handle_error(tiledb_array_schema_get_attribute_from_index(
+          ctx_->ptr().get(), schema_.get(), i, &attrptr));
       auto attr = Attribute(ctx_, attrptr);
       attrs.emplace(
           std::pair<std::string, Attribute>(attr.name(), std::move(attr)));
@@ -526,19 +527,19 @@ class ArraySchema : public Schema {
    * @return Attribute
    */
   tiledb::Attribute attribute(const std::string& name) const override {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_attribute_t* attr;
-    ctx.handle_error(tiledb_array_schema_get_attribute_from_name(
-        ctx.ptr().get(), schema_.get(), name.c_str(), &attr));
-    return Attribute(ctx, attr);
+    ctx_->handle_error(tiledb_array_schema_get_attribute_from_name(
+        c_ctx, schema_.get(), name.c_str(), &attr));
+    return Attribute(ctx_, attr);
   }
 
   /** Returns the number of attributes in the schema. **/
   unsigned attribute_num() const override {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     unsigned num;
-    ctx.handle_error(tiledb_array_schema_get_attribute_num(
-        ctx.ptr().get(), schema_.get(), &num));
+    ctx_->handle_error(tiledb_array_schema_get_attribute_num(
+        c_ctx, schema_.get(), &num));
     return num;
   }
 
@@ -551,11 +552,11 @@ class ArraySchema : public Schema {
    * @return Attribute
    */
   tiledb::Attribute attribute(unsigned int i) const override {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_attribute_t* attr;
-    ctx.handle_error(tiledb_array_schema_get_attribute_from_index(
-        ctx.ptr().get(), schema_.get(), i, &attr));
-    return Attribute(ctx, attr);
+    ctx_->handle_error(tiledb_array_schema_get_attribute_from_index(
+        c_ctx, schema_.get(), i, &attr));
+    return Attribute(ctx_, attr);
   }
 
 
@@ -567,10 +568,10 @@ class ArraySchema : public Schema {
    * @return True if the schema has an attribute of the given name.
    */
   bool has_attribute(const std::string& name) const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     int32_t has_attr;
-    ctx.handle_error(tiledb_array_schema_has_attribute(
-        ctx.ptr().get(), schema_.get(), name.c_str(), &has_attr));
+    ctx_->handle_error(tiledb_array_schema_has_attribute(
+        c_ctx, schema_.get(), name.c_str(), &has_attr));
     return has_attr == 1;
   }
 
@@ -631,17 +632,17 @@ public:
 	* @return vector of attribute names.
 	*/
 	std::vector<std::string> attribute_names() const {
-		auto& ctx = ctx_.get();
+		tiledb_ctx_t* c_ctx = ctx_->ptr().get();
 		tiledb_attribute_t* attrptr;
 		unsigned int nattr;
  
-		ctx.handle_error(tiledb_array_schema_get_attribute_num(
-			ctx.ptr().get(), schema_.get(), &nattr));
+		ctx_->handle_error(tiledb_array_schema_get_attribute_num(
+			c_ctx, schema_.get(), &nattr));
 		std::vector<std::string> result;
 		result.reserve(nattr);
 		for (unsigned int i = 0; i < nattr; ++i) {
-			ctx.handle_error(tiledb_array_schema_get_attribute_from_index(
-				ctx.ptr().get(), schema_.get(), i, &attrptr));
+			ctx_->handle_error(tiledb_array_schema_get_attribute_from_index(
+				c_ctx, schema_.get(), i, &attrptr));
 			auto attr = Attribute(ctx_, attrptr);
 			result.push_back(attr.name());
 			 
@@ -656,13 +657,13 @@ public:
 	*/
 	std::vector<std::string> dimension_names() const {
 		std::vector<std::string> result;
-		auto& ctx = ctx_.get();
+		tiledb_ctx_t* c_ctx = ctx_->ptr().get();
 
 		tiledb_domain_t* domain;
-		ctx.handle_error(tiledb_array_schema_get_domain(
-			ctx.ptr().get(), schema_.get(), &domain));
+		ctx_->handle_error(tiledb_array_schema_get_domain(
+			c_ctx, schema_.get(), &domain));
 	 
-		Domain cpp_domain(ctx, domain);
+		Domain cpp_domain(ctx_, domain);
 
 		const std::vector<Dimension> dims = cpp_domain.dimensions();
 
@@ -681,45 +682,43 @@ public:
 	* @return True if the domain has a dimension of the given name.
 	*/
 	bool has_dimension(const std::string& name) const {
-		auto& ctx = ctx_.get();
+		tiledb_ctx_t* c_ctx = ctx_->ptr().get();
 		int32_t has_dim;
 		tiledb_domain_t* domain;
-		ctx.handle_error(tiledb_array_schema_get_domain(
-			ctx.ptr().get(), schema_.get(), &domain));
+		ctx_->handle_error(tiledb_array_schema_get_domain(
+			c_ctx, schema_.get(), &domain));
 
-		ctx.handle_error(tiledb_domain_has_dimension(
-			ctx.ptr().get(), domain, name.c_str(), &has_dim));
+		ctx_->handle_error(tiledb_domain_has_dimension(
+			c_ctx, domain, name.c_str(), &has_dim));
 		return has_dim == 1;
 	}
 
 	/** Returns the dimensions with the given index. */
 	tiledb::Dimension dimension(unsigned idx) const {
-		auto& ctx = ctx_.get();
-		tiledb_ctx_t* c_ctx = ctx.ptr().get();
-
+		tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+		 
 		tiledb_domain_t* domain;
-		ctx.handle_error(tiledb_array_schema_get_domain(
-			ctx.ptr().get(), schema_.get(), &domain));
+		ctx_->handle_error(tiledb_array_schema_get_domain(
+			c_ctx, schema_.get(), &domain));
 
 		tiledb_dimension_t* dimptr;
-		ctx.handle_error(tiledb_domain_get_dimension_from_index(
+		ctx_->handle_error(tiledb_domain_get_dimension_from_index(
 			c_ctx, domain, idx, &dimptr));
-		return Dimension(ctx, dimptr);
+		return Dimension(ctx_, dimptr);
 	}
 
 	/** Returns the dimensions with the given name. */
 	tiledb::Dimension dimension(const std::string& name) const {
-		auto& ctx = ctx_.get();
-		tiledb_ctx_t* c_ctx = ctx.ptr().get();
-
+		tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+	 
 		tiledb_domain_t* domain;
-		ctx.handle_error(tiledb_array_schema_get_domain(
-			ctx.ptr().get(), schema_.get(), &domain));
+		ctx_->handle_error(tiledb_array_schema_get_domain(
+			c_ctx, schema_.get(), &domain));
 
 		tiledb_dimension_t* dimptr;
-		ctx.handle_error(tiledb_domain_get_dimension_from_name(
+		ctx_->handle_error(tiledb_domain_get_dimension_from_name(
 			c_ctx, domain, name.c_str(), &dimptr));
-		return Dimension(ctx, dimptr);
+		return Dimension(ctx_, dimptr);
 	}
 
 	/**
@@ -740,20 +739,19 @@ public:
 		int lower,
 		int upper,
 		int extent) {
-		auto& ctx = ctx_.get();
-		tiledb_ctx_t* c_ctx = ctx.ptr().get();
-
+		tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+	 
 		tiledb_domain_t* domain;
-		ctx.handle_error(tiledb_array_schema_get_domain(
-			ctx.ptr().get(), schema_.get(), &domain));
+		ctx_->handle_error(tiledb_array_schema_get_domain(
+			c_ctx, schema_.get(), &domain));
 
 		std::array<int, 2> bound;
 		bound[0] = lower;
 		bound[1] = upper;
-		tiledb::Dimension d = tiledb::Dimension::create<int>(ctx, name, bound, extent);
+		tiledb::Dimension d = tiledb::Dimension::create<int>(ctx_, name, bound, extent);
 			
-		ctx.handle_error(tiledb_domain_add_dimension(
-			ctx.ptr().get(), domain, d.ptr().get()));
+		ctx_->handle_error(tiledb_domain_add_dimension(
+			c_ctx, domain, d.ptr().get()));
 		return;
 	}
 
@@ -766,10 +764,10 @@ public:
 	*/
 	void add_attribute(const std::string& name, tiledb_datatype_t type)
 	{
-		auto& ctx = ctx_.get();
-		tiledb::Attribute attr(ctx, name, type);
-		ctx.handle_error(tiledb_array_schema_add_attribute(
-			ctx.ptr().get(), schema_.get(), attr.ptr().get()));
+		tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+		tiledb::Attribute attr(ctx_, name, type);
+		ctx_->handle_error(tiledb_array_schema_add_attribute(
+			c_ctx, schema_.get(), attr.ptr().get()));
 
 	}
 
@@ -777,16 +775,16 @@ public:
 
 	/** Returns in json string format. */
 	std::string to_json_str() {
-		auto& ctx = ctx_.get();
+		tiledb_ctx_t* c_ctx = ctx_->ptr().get();
 
 		std::stringstream ss;
 		ss << "{";
 
 		tiledb_domain_t* domain;
-		ctx.handle_error(tiledb_array_schema_get_domain(
-			ctx.ptr().get(), schema_.get(), &domain));
+		ctx_->handle_error(tiledb_array_schema_get_domain(
+			c_ctx, schema_.get(), &domain));
 		ss << "\"dimensions\":[";
-		Domain cpp_domain(ctx, domain);
+		Domain cpp_domain(ctx_, domain);
 
 		const std::vector<Dimension> dims = cpp_domain.dimensions();
 
@@ -812,12 +810,12 @@ public:
 		tiledb_attribute_t* attrptr;
 		unsigned int nattr;
  
-		ctx.handle_error(tiledb_array_schema_get_attribute_num(
-			ctx.ptr().get(), schema_.get(), &nattr));
+		ctx_->handle_error(tiledb_array_schema_get_attribute_num(
+			c_ctx, schema_.get(), &nattr));
  
 		for (unsigned int i = 0; i < nattr; ++i) {
-			ctx.handle_error(tiledb_array_schema_get_attribute_from_index(
-				ctx.ptr().get(), schema_.get(), i, &attrptr));
+			ctx_->handle_error(tiledb_array_schema_get_attribute_from_index(
+				c_ctx, schema_.get(), i, &attrptr));
 			auto attr = Attribute(ctx_, attrptr);
 			if (i > 0)
 			{
@@ -833,13 +831,13 @@ public:
 		
 
 		tiledb_layout_t tile_order_layout;
-		ctx.handle_error(tiledb_array_schema_get_tile_order(
-			ctx.ptr().get(), schema_.get(), &tile_order_layout));
+		ctx_->handle_error(tiledb_array_schema_get_tile_order(
+			c_ctx, schema_.get(), &tile_order_layout));
 		ss << ",\"tile_order\":" << tile_order_layout;
 
 		tiledb_layout_t cell_order_layout;
-		ctx.handle_error(tiledb_array_schema_get_cell_order(
-			ctx.ptr().get(), schema_.get(), &cell_order_layout));
+		ctx_->handle_error(tiledb_array_schema_get_cell_order(
+			c_ctx, schema_.get(), &cell_order_layout));
 		ss << ",\"cell_order\":" << cell_order_layout;
 
 		ss << "}";

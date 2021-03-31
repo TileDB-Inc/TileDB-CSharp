@@ -142,9 +142,10 @@ class Object {
    * @param uri The path to the object.
    * @return An object that contains the type along with the URI.
    */
-  static tiledb::Object object(const tiledb::Context& ctx, const std::string& uri) {
+  static tiledb::Object object(const std::shared_ptr<tiledb::Context>& ctx, const std::string& uri) {
     tiledb_object_t type;
-    ctx.handle_error(tiledb_object_type(ctx.ptr().get(), uri.c_str(), &type));
+	tiledb_ctx_t* c_ctx = ctx->ptr().get();
+    ctx->handle_error(tiledb_object_type(c_ctx, uri.c_str(), &type));
     Object ret(type, uri);
     return ret;
   }
@@ -155,8 +156,9 @@ class Object {
    * @param ctx The TileDB context
    * @param uri The path to the object to be removed.
    */
-  static void remove(const tiledb::Context& ctx, const std::string& uri) {
-    ctx.handle_error(tiledb_object_remove(ctx.ptr().get(), uri.c_str()));
+  static void remove(const std::shared_ptr<tiledb::Context>& ctx, const std::string& uri) {
+	  tiledb_ctx_t* c_ctx = ctx->ptr().get();
+    ctx->handle_error(tiledb_object_remove(c_ctx, uri.c_str()));
   }
 
   /**
@@ -166,11 +168,12 @@ class Object {
    * @param new_uri The path to the new object.
    */
   static void move(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& old_uri,
       const std::string& new_uri) {
-    ctx.handle_error(
-        tiledb_object_move(ctx.ptr().get(), old_uri.c_str(), new_uri.c_str()));
+	tiledb_ctx_t* c_ctx = ctx->ptr().get();
+    ctx->handle_error(
+        tiledb_object_move(c_ctx, old_uri.c_str(), new_uri.c_str()));
   }
 
  private:

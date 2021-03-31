@@ -68,7 +68,7 @@ class Dimension {
   /*     CONSTRUCTORS & DESTRUCTORS    */
   /* ********************************* */
 
-  Dimension(const tiledb::Context& ctx, tiledb_dimension_t* dim)
+  Dimension(const std::shared_ptr<tiledb::Context>& ctx, tiledb_dimension_t* dim)
       : ctx_(ctx) {
     dim_ = std::shared_ptr<tiledb_dimension_t>(dim, deleter_);
   }
@@ -87,18 +87,18 @@ class Dimension {
    * dimensions returns TILEDB_VAR_NUM.
    */
   unsigned cell_val_num() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     unsigned num;
-    ctx.handle_error(
-        tiledb_dimension_get_cell_val_num(ctx.ptr().get(), dim_.get(), &num));
+    ctx_->handle_error(
+        tiledb_dimension_get_cell_val_num(c_ctx, dim_.get(), &num));
     return num;
   }
 
   /** Sets the number of values per coordinate. */
   tiledb::Dimension& set_cell_val_num(unsigned num) {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(
-        tiledb_dimension_set_cell_val_num(ctx.ptr().get(), dim_.get(), num));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(
+        tiledb_dimension_set_cell_val_num(c_ctx, dim_.get(), num));
     return *this;
   }
 
@@ -107,11 +107,11 @@ class Dimension {
    * To change the filter list, use `set_filter_list()`.
    */
   tiledb::FilterList filter_list() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_filter_list_t* filter_list;
-    ctx.handle_error(tiledb_dimension_get_filter_list(
-        ctx.ptr().get(), dim_.get(), &filter_list));
-    return FilterList(ctx, filter_list);
+    ctx_->handle_error(tiledb_dimension_get_filter_list(
+        c_ctx, dim_.get(), &filter_list));
+    return FilterList(ctx_, filter_list);
   }
 
   /**
@@ -120,27 +120,27 @@ class Dimension {
    * compression).
    */
   tiledb::Dimension& set_filter_list(const tiledb::FilterList& filter_list) {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_dimension_set_filter_list(
-        ctx.ptr().get(), dim_.get(), filter_list.ptr().get()));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_dimension_set_filter_list(
+        c_ctx, dim_.get(), filter_list.ptr().get()));
     return *this;
   }
 
   /** Returns the name of the dimension. */
   const std::string name() const {
     const char* name;
-    auto& ctx = ctx_.get();
-    ctx.handle_error(
-        tiledb_dimension_get_name(ctx.ptr().get(), dim_.get(), &name));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(
+        tiledb_dimension_get_name(c_ctx, dim_.get(), &name));
     return name;
   }
 
   /** Returns the dimension datatype. */
   tiledb_datatype_t type() const {
     tiledb_datatype_t type;
-    auto& ctx = ctx_.get();
-    ctx.handle_error(
-        tiledb_dimension_get_type(ctx.ptr().get(), dim_.get(), &type));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(
+        tiledb_dimension_get_type(c_ctx, dim_.get(), &type));
     return type;
   }
 
@@ -385,7 +385,7 @@ class Dimension {
    */
   template <typename T>
   static tiledb::Dimension create(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& name,
       const std::array<T, 2>& domain,
       T extent) {
@@ -408,7 +408,7 @@ class Dimension {
    * @return A new `Dimension` object.
    */
   static tiledb::Dimension create(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& name,
       tiledb_datatype_t datatype,
       const void* domain,
@@ -452,7 +452,7 @@ class Dimension {
 	  }
   }
 
-  static tiledb::Dimension create_dimension(const tiledb::Context& ctx, const std::string& name, int intdatatype,
+  static tiledb::Dimension create_dimension(const std::shared_ptr<tiledb::Context>& ctx, const std::string& name, int intdatatype,
 	  const std::string& lower_bound_str, const std::string& upper_bound_str, const std::string& extent_str)
   {
 	  if (intdatatype == (int)TILEDB_INT8)
@@ -558,7 +558,7 @@ class Dimension {
  
   }
 
-  static tiledb::Dimension create_int32_dimension(const tiledb::Context& ctx, const std::string& name, int bound_lower, int bound_upper, int extent)
+  static tiledb::Dimension create_int32_dimension(const std::shared_ptr<tiledb::Context>& ctx, const std::string& name, int bound_lower, int bound_upper, int extent)
   {
 	  std::array<int, 2> bound;
 	  bound[0] = bound_lower;
@@ -566,7 +566,7 @@ class Dimension {
 	  return Dimension::create<int>(ctx, name, bound, extent);
   }
 
-  static tiledb::Dimension create_int64_dimension(const tiledb::Context& ctx, const std::string& name, int64_t bound_lower, int64_t bound_upper, int64_t extent)
+  static tiledb::Dimension create_int64_dimension(const std::shared_ptr<tiledb::Context>& ctx, const std::string& name, int64_t bound_lower, int64_t bound_upper, int64_t extent)
   {
 	  std::array<int64_t, 2> bound;
 	  bound[0] = bound_lower;
@@ -574,7 +574,7 @@ class Dimension {
 	  return Dimension::create<int64_t>(ctx, name, bound, extent);
   }
 
-  static tiledb::Dimension create_uint64_dimension(const tiledb::Context& ctx, const std::string& name, uint64_t bound_lower, uint64_t bound_upper, uint64_t extent)
+  static tiledb::Dimension create_uint64_dimension(const std::shared_ptr<tiledb::Context>& ctx, const std::string& name, uint64_t bound_lower, uint64_t bound_upper, uint64_t extent)
   {
 	  std::array<uint64_t, 2> bound;
 	  bound[0] = bound_lower;
@@ -582,7 +582,7 @@ class Dimension {
 	  return Dimension::create<uint64_t>(ctx, name, bound, extent);
   }
 
-  static tiledb::Dimension create_double_dimension(const tiledb::Context& ctx, const std::string& name, double bound_lower, double bound_upper, double extent)
+  static tiledb::Dimension create_double_dimension(const std::shared_ptr<tiledb::Context>& ctx, const std::string& name, double bound_lower, double bound_upper, double extent)
   {
 	  std::array<double, 2> bound;
 	  bound[0] = bound_lower;
@@ -590,7 +590,7 @@ class Dimension {
 	  return Dimension::create<double>(ctx, name, bound, extent);
   }
 
-  static tiledb::Dimension create_string_dimension(const tiledb::Context& ctx, const std::string& name)
+  static tiledb::Dimension create_string_dimension(const std::shared_ptr<tiledb::Context>& ctx, const std::string& name)
   {
 
 	  return Dimension::create(ctx, name, tiledb_datatype_t::TILEDB_STRING_ASCII, nullptr, nullptr);
@@ -604,7 +604,7 @@ class Dimension {
   /* ********************************* */
 
   /** The TileDB context. */
-  std::reference_wrapper<const Context> ctx_;
+  std::shared_ptr<Context> ctx_;
 
   /** A deleter wrapper. */
   impl::Deleter deleter_;
@@ -618,19 +618,19 @@ class Dimension {
 
   /** Returns the binary representation of the dimension domain. */
   const void* _domain() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     const void* domain;
-    ctx.handle_error(
-        tiledb_dimension_get_domain(ctx.ptr().get(), dim_.get(), &domain));
+    ctx_->handle_error(
+        tiledb_dimension_get_domain(c_ctx, dim_.get(), &domain));
     return domain;
   }
 
   /** Returns the binary representation of the dimension extent. */
   const void* _tile_extent() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     const void* tile_extent;
-    ctx.handle_error(tiledb_dimension_get_tile_extent(
-        ctx.ptr().get(), dim_.get(), &tile_extent));
+    ctx_->handle_error(tiledb_dimension_get_tile_extent(
+        c_ctx, dim_.get(), &tile_extent));
     return tile_extent;
   }
 
@@ -643,14 +643,15 @@ class Dimension {
    * extent.
    */
   static tiledb::Dimension create_impl(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& name,
       tiledb_datatype_t type,
       const void* domain,
       const void* tile_extent) {
     tiledb_dimension_t* d;
-    ctx.handle_error(tiledb_dimension_alloc(
-        ctx.ptr().get(), name.c_str(), type, domain, tile_extent, &d));
+	tiledb_ctx_t* c_ctx = ctx->ptr().get();
+    ctx->handle_error(tiledb_dimension_alloc(
+        c_ctx, name.c_str(), type, domain, tile_extent, &d));
     return Dimension(ctx, d);
   }
 };

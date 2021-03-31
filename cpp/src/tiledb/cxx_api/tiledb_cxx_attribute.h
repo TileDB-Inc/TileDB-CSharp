@@ -95,7 +95,7 @@ class Attribute {
   /*     CONSTRUCTORS & DESTRUCTORS    */
   /* ********************************* */
 
-  Attribute(const tiledb::Context& ctx, tiledb_attribute_t* attr)
+  Attribute(const std::shared_ptr<tiledb::Context>& ctx, tiledb_attribute_t* attr)
       : ctx_(ctx) {
     attr_ = std::shared_ptr<tiledb_attribute_t>(attr, deleter_);
   }
@@ -108,14 +108,14 @@ class Attribute {
    * @param name Name of attribute
    * @param type Enumerated type of attribute
    */
-  Attribute(const tiledb::Context& ctx, const std::string& name, tiledb_datatype_t type)
+  Attribute(const std::shared_ptr<tiledb::Context>& ctx, const std::string& name, tiledb_datatype_t type)
       : ctx_(ctx) {
     init_from_type(name, type);
   }
 
   /** Construct an attribute with an enumerated type and given filter list. */
   Attribute(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& name,
       tiledb_datatype_t type,
       const tiledb::FilterList& filter_list)
@@ -135,19 +135,19 @@ class Attribute {
 
   /** Returns the name of the attribute. */
   std::string name() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     const char* name;
-    ctx.handle_error(
-        tiledb_attribute_get_name(ctx.ptr().get(), attr_.get(), &name));
+    ctx_->handle_error(
+        tiledb_attribute_get_name(c_ctx, attr_.get(), &name));
     return name;
   }
 
   /** Returns the attribute datatype. */
   tiledb_datatype_t type() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_datatype_t type;
-    ctx.handle_error(
-        tiledb_attribute_get_type(ctx.ptr().get(), attr_.get(), &type));
+    ctx_->handle_error(
+        tiledb_attribute_get_type(c_ctx, attr_.get(), &type));
     return type;
   }
 
@@ -169,10 +169,10 @@ class Attribute {
    * @endcode
    */
   uint64_t cell_size() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     uint64_t cell_size;
-    ctx.handle_error(tiledb_attribute_get_cell_size(
-        ctx.ptr().get(), attr_.get(), &cell_size));
+    ctx_->handle_error(tiledb_attribute_get_cell_size(
+        c_ctx, attr_.get(), &cell_size));
     return cell_size;
   }
 
@@ -195,10 +195,10 @@ class Attribute {
    * @endcode
    */
   unsigned cell_val_num() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     unsigned num;
-    ctx.handle_error(
-        tiledb_attribute_get_cell_val_num(ctx.ptr().get(), attr_.get(), &num));
+    ctx_->handle_error(
+        tiledb_attribute_get_cell_val_num(c_ctx, attr_.get(), &num));
     return num;
   }
 
@@ -219,9 +219,9 @@ class Attribute {
    * @return Reference to this Attribute
    */
   tiledb::Attribute& set_cell_val_num(unsigned num) {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(
-        tiledb_attribute_set_cell_val_num(ctx.ptr().get(), attr_.get(), num));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(
+        tiledb_attribute_set_cell_val_num(c_ctx, attr_.get(), num));
     return *this;
   }
 
@@ -237,11 +237,11 @@ class Attribute {
    * @return Copy of the attribute FilterList.
    */
   tiledb::FilterList filter_list() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_filter_list_t* filter_list;
-    ctx.handle_error(tiledb_attribute_get_filter_list(
-        ctx.ptr().get(), attr_.get(), &filter_list));
-    return FilterList(ctx, filter_list);
+    ctx_->handle_error(tiledb_attribute_get_filter_list(
+        c_ctx, attr_.get(), &filter_list));
+    return FilterList(ctx_, filter_list);
   }
 
   /**
@@ -253,9 +253,9 @@ class Attribute {
    * @return Reference to this Attribute
    */
   tiledb::Attribute& set_filter_list(const tiledb::FilterList& filter_list) {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_attribute_set_filter_list(
-        ctx.ptr().get(), attr_.get(), filter_list.ptr().get()));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_attribute_set_filter_list(
+        c_ctx, attr_.get(), filter_list.ptr().get()));
     return *this;
   }
 
@@ -272,8 +272,9 @@ class Attribute {
    * which will lead to selection of `stdout`.
    */
   void dump(FILE* out = nullptr) const {
-    ctx_.get().handle_error(
-        tiledb_attribute_dump(ctx_.get().ptr().get(), attr_.get(), out));
+	tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(
+        tiledb_attribute_dump(c_ctx, attr_.get(), out));
   }
 
   /* ********************************* */
@@ -301,7 +302,7 @@ class Attribute {
    * @return A new Attribute object.
    */
   template <typename T>
-  static tiledb::Attribute create(const tiledb::Context& ctx, const std::string& name) {
+  static tiledb::Attribute create(const std::shared_ptr<tiledb::Context>& ctx, const std::string& name) {
     using DataT = typename impl::TypeHandler<T>;
     Attribute a(ctx, name, DataT::tiledb_type);
     a.set_cell_val_num(DataT::tiledb_num);
@@ -331,7 +332,7 @@ class Attribute {
    */
   template <typename T>
   static tiledb::Attribute create(
-      const tiledb::Context& ctx,
+      const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& name,
       const tiledb::FilterList& filter_list) {
     auto a = create<T>(ctx, name);
@@ -382,7 +383,7 @@ class Attribute {
 	  }
   }
 
-  static tiledb::Attribute create_attribute(const tiledb::Context& ctx,
+  static tiledb::Attribute create_attribute(const std::shared_ptr<tiledb::Context>& ctx,
 	  const std::string& name, tiledb_datatype_t datatype)
   {
 	  if (datatype == TILEDB_INT8)
@@ -468,7 +469,7 @@ class Attribute {
   /* ********************************* */
 
   /** The TileDB context. */
-  std::reference_wrapper<const Context> ctx_;
+  std::shared_ptr<Context> ctx_;
 
   /** An auxiliary deleter. */
   impl::Deleter deleter_;
@@ -482,9 +483,9 @@ class Attribute {
 
   void init_from_type(const std::string& name, tiledb_datatype_t type) {
     tiledb_attribute_t* attr;
-    auto& ctx = ctx_.get();
-    ctx.handle_error(
-        tiledb_attribute_alloc(ctx.ptr().get(), name.c_str(), type, &attr));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(
+        tiledb_attribute_alloc(c_ctx, name.c_str(), type, &attr));
     attr_ = std::shared_ptr<tiledb_attribute_t>(attr, deleter_);
   }
 };

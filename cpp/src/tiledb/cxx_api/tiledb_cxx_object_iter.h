@@ -71,13 +71,13 @@ class ObjectIter {
 
   /** Carries data to be passed to `obj_getter`. */
   struct ObjGetterData {
-    ObjGetterData(std::vector<Object>& objs, bool array, bool group)
+    ObjGetterData(std::shared_ptr<std::vector<Object>> & objs, bool array, bool group)
         : objs_(objs)
         , array_(array)
         , group_(group) {
     }
 
-    std::reference_wrapper<std::vector<Object>> objs_;
+    std::shared_ptr<std::vector<Object>> objs_;
     bool array_;
     bool group_;
   };
@@ -105,7 +105,7 @@ class ObjectIter {
    * @param ctx The TileDB context.
    * @param root The root directory where the iteration will begin.
    */
-  explicit ObjectIter(tiledb::Context& ctx, const std::string& root = ".")
+  explicit ObjectIter(std::shared_ptr<tiledb::Context>& ctx, const std::string& root = ".")
       : ctx_(ctx)
       , root_(root) {
     recursive_ = false;
@@ -154,7 +154,7 @@ class ObjectIter {
     iterator()
         : cur_obj_(0) {
     }
-    explicit iterator(std::vector<Object> objs)
+    explicit iterator(std::shared_ptr<std::vector<Object> > objs)
         : cur_obj_(0)
         , objs_(std::move(objs)) {
     }
@@ -165,8 +165,8 @@ class ObjectIter {
     iterator& operator=(iterator&&) = default;
 
     bool operator==(const iterator& o) const {
-      return (cur_obj_ >= objs_.size() && o.cur_obj_ >= o.objs_.size()) ||
-             (cur_obj_ == o.cur_obj_ && objs_.size() == o.objs_.size());
+      return (cur_obj_ >= objs_->size() && o.cur_obj_ >= o.objs_->size()) ||
+             (cur_obj_ == o.cur_obj_ && objs_->size() == o.objs_->size());
     }
 
     bool operator!=(const iterator& o) const {
@@ -174,21 +174,21 @@ class ObjectIter {
     }
 
     const Object& operator*() const {
-      return objs_[cur_obj_];
+      return (*objs_)[cur_obj_];
     }
 
     const Object& operator->() const {
-      return objs_[cur_obj_];
+      return (*objs_)[cur_obj_];
     }
 
     iterator& operator++() {
-      if (cur_obj_ < objs_.size())
+      if (cur_obj_ < objs_->size())
         ++cur_obj_;
       return *this;
     }
 
     iterator end() {
-      cur_obj_ = objs_.size();
+      cur_obj_ = objs_->size();
       return *this;
     }
 
@@ -197,20 +197,20 @@ class ObjectIter {
     size_t cur_obj_;
 
     /** A reference to the objects retrieved by the `ObjectIter` object. */
-    std::vector<Object> objs_;
+    std::shared_ptr<std::vector<Object> > objs_;
   };
 
   /** Returns an object iterator at the beginning of its iteration. */
   iterator begin() {
-    std::vector<Object> objs;
-    auto& ctx = ctx_.get();
+    std::shared_ptr<std::vector<Object> > objs = std::shared_ptr<std::vector<Object> >(new std::vector<Object>());
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     ObjGetterData data(objs, array_, group_);
     if (recursive_) {
-      ctx.handle_error(tiledb_object_walk(
-          ctx.ptr().get(), root_.c_str(), walk_order_, obj_getter, &data));
+      ctx_->handle_error(tiledb_object_walk(
+          c_ctx, root_.c_str(), walk_order_, obj_getter, &data));
     } else {
-      ctx.handle_error(
-          tiledb_object_ls(ctx.ptr().get(), root_.c_str(), obj_getter, &data));
+      ctx_->handle_error(
+          tiledb_object_ls(c_ctx, root_.c_str(), obj_getter, &data));
     }
 
     return iterator(objs);
@@ -238,8 +238,9 @@ class ObjectIter {
     if ((type == TILEDB_ARRAY && data_struct->array_) ||
         (type == TILEDB_GROUP && data_struct->group_)) {
       Object obj(type, path);
-      auto& objs = data_struct->objs_.get();
-      objs.emplace_back(obj);
+      //auto& objs = data_struct->objs_.get();
+	  data_struct->objs_->emplace_back(obj);  //objs.emplace_back(obj);
+	  
     }
     return 1;
   }
@@ -253,7 +254,7 @@ class ObjectIter {
   bool array_;
 
   /** The TileDB context. */
-  std::reference_wrapper<Context> ctx_;
+  std::shared_ptr<Context> ctx_;
 
   /** If `true`, groups will be considered in the walk. */
   bool group_;

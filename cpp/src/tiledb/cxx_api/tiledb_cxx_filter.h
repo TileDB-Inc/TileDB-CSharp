@@ -72,11 +72,12 @@ class Filter {
    * @param ctx TileDB context
    * @param filter_type Enumerated type of filter
    */
-  Filter(const tiledb::Context& ctx, tiledb_filter_type_t filter_type)
+  Filter(const std::shared_ptr<tiledb::Context>& ctx, tiledb_filter_type_t filter_type)
       : ctx_(ctx) {
     tiledb_filter_t* filter;
-    ctx.handle_error(
-        tiledb_filter_alloc(ctx.ptr().get(), filter_type, &filter));
+	tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(
+        tiledb_filter_alloc(c_ctx, filter_type, &filter));
     filter_ = std::shared_ptr<tiledb_filter_t>(filter, deleter_);
   }
 
@@ -86,12 +87,12 @@ class Filter {
    * @param ctx TileDB context
    * @param filter C API filter object
    */
-  Filter(const tiledb::Context& ctx, tiledb_filter_t* filter)
+  Filter(const std::shared_ptr<tiledb::Context>& ctx, tiledb_filter_t* filter)
       : ctx_(ctx) {
     filter_ = std::shared_ptr<tiledb_filter_t>(filter, deleter_);
   }
 
-  Filter() = delete;
+  Filter() = default;
   Filter(const tiledb::Filter&) = default;
   Filter(tiledb::Filter&&) = default;
   Filter& operator=(const tiledb::Filter&) = default;
@@ -131,10 +132,10 @@ class Filter {
       typename T,
       typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
   tiledb::Filter& set_option(tiledb_filter_option_t option, T value) {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     option_value_typecheck<T>(option);
-    ctx.handle_error(tiledb_filter_set_option(
-        ctx.ptr().get(), filter_.get(), option, &value));
+    ctx_->handle_error(tiledb_filter_set_option(
+        c_ctx, filter_.get(), option, &value));
     return *this;
   }
   // @endcond
@@ -162,9 +163,9 @@ class Filter {
    * @note set_option<T>(option, T value) is preferred as it is safer.
    */
   tiledb::Filter& set_option(tiledb_filter_option_t option, const void* value) {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_filter_set_option(
-        ctx.ptr().get(), filter_.get(), option, value));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_filter_set_option(
+        c_ctx, filter_.get(), option, value));
     return *this;
   }
 
@@ -196,10 +197,10 @@ class Filter {
       typename T,
       typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
   void get_option(tiledb_filter_option_t option, T* value) {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     option_value_typecheck<T>(option);
-    ctx.handle_error(tiledb_filter_get_option(
-        ctx.ptr().get(), filter_.get(), option, value));
+    ctx_->handle_error(tiledb_filter_get_option(
+        c_ctx, filter_.get(), option, value));
   }
   // @endcond
 
@@ -228,17 +229,17 @@ class Filter {
    * @note get_option<T>(option, T* value) is preferred as it is safer.
    */
   void get_option(tiledb_filter_option_t option, void* value) {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_filter_get_option(
-        ctx.ptr().get(), filter_.get(), option, value));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_filter_get_option(
+        c_ctx, filter_.get(), option, value));
   }
 
   /** Gets the filter type of this filter. */
   tiledb_filter_type_t filter_type() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_filter_type_t type;
-    ctx.handle_error(
-        tiledb_filter_get_type(ctx.ptr().get(), filter_.get(), &type));
+    ctx_->handle_error(
+        tiledb_filter_get_type(c_ctx, filter_.get(), &type));
     return type;
   }
 
@@ -285,7 +286,7 @@ class Filter {
   /* ********************************* */
 
   /** The TileDB context. */
-  std::reference_wrapper<const Context> ctx_;
+  std::shared_ptr<Context> ctx_;
 
   /** An auxiliary deleter. */
   impl::Deleter deleter_;

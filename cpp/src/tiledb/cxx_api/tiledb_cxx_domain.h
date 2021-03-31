@@ -90,14 +90,15 @@ class Domain {
   /*     CONSTRUCTORS & DESTRUCTORS    */
   /* ********************************* */
 
-  explicit Domain(const tiledb::Context& ctx)
+  explicit Domain(const std::shared_ptr<tiledb::Context>& ctx)
       : ctx_(ctx) {
     tiledb_domain_t* domain;
-    ctx.handle_error(tiledb_domain_alloc(ctx.ptr().get(), &domain));
+	tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_domain_alloc(c_ctx, &domain));
     domain_ = std::shared_ptr<tiledb_domain_t>(domain, deleter_);
   }
 
-  Domain(const tiledb::Context& ctx, tiledb_domain_t* domain)
+  Domain(const std::shared_ptr<tiledb::Context>& ctx, tiledb_domain_t* domain)
       : ctx_(ctx) {
     domain_ = std::shared_ptr<tiledb_domain_t>(domain, deleter_);
   }
@@ -156,62 +157,62 @@ class Domain {
    * which will lead to selection of `stdout`.
    */
   void dump(FILE* out = nullptr) const {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_domain_dump(ctx.ptr().get(), domain_.get(), out));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_domain_dump(c_ctx, domain_.get(), out));
   }
 
   /** Returns the domain type. */
   tiledb_datatype_t type() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_datatype_t type;
-    ctx.handle_error(
-        tiledb_domain_get_type(ctx.ptr().get(), domain_.get(), &type));
+    ctx_->handle_error(
+        tiledb_domain_get_type(c_ctx, domain_.get(), &type));
     return type;
   }
 
   /** Returns the number of dimensions. */
   unsigned ndim() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     unsigned n;
-    ctx.handle_error(
-        tiledb_domain_get_ndim(ctx.ptr().get(), domain_.get(), &n));
+    ctx_->handle_error(
+        tiledb_domain_get_ndim(c_ctx, domain_.get(), &n));
     return n;
   }
 
   /** Returns the current set of dimensions in the domain. */
   std::vector<tiledb::Dimension> dimensions() const {
-    auto& ctx = ctx_.get();
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+ 
     unsigned int ndim;
     tiledb_dimension_t* dimptr;
     std::vector<Dimension> dims;
-    ctx.handle_error(tiledb_domain_get_ndim(c_ctx, domain_.get(), &ndim));
+    ctx_->handle_error(tiledb_domain_get_ndim(c_ctx, domain_.get(), &ndim));
     for (unsigned int i = 0; i < ndim; ++i) {
-      ctx.handle_error(tiledb_domain_get_dimension_from_index(
+      ctx_->handle_error(tiledb_domain_get_dimension_from_index(
           c_ctx, domain_.get(), i, &dimptr));
-      dims.emplace_back(Dimension(ctx, dimptr));
+      dims.emplace_back(Dimension(ctx_, dimptr));
     }
     return dims;
   }
 
   /** Returns the dimensions with the given index. */
   tiledb::Dimension dimension(unsigned idx) const {
-    auto& ctx = ctx_.get();
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+ 
     tiledb_dimension_t* dimptr;
-    ctx.handle_error(tiledb_domain_get_dimension_from_index(
+    ctx_->handle_error(tiledb_domain_get_dimension_from_index(
         c_ctx, domain_.get(), idx, &dimptr));
-    return Dimension(ctx, dimptr);
+    return Dimension(ctx_, dimptr);
   }
 
   /** Returns the dimensions with the given name. */
   tiledb::Dimension dimension(const std::string& name) const {
-    auto& ctx = ctx_.get();
-    tiledb_ctx_t* c_ctx = ctx.ptr().get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+ 
     tiledb_dimension_t* dimptr;
-    ctx.handle_error(tiledb_domain_get_dimension_from_name(
+    ctx_->handle_error(tiledb_domain_get_dimension_from_name(
         c_ctx, domain_.get(), name.c_str(), &dimptr));
-    return Dimension(ctx, dimptr);
+    return Dimension(ctx_, dimptr);
   }
 
   /**
@@ -229,51 +230,51 @@ class Domain {
    * @return Reference to this Domain
    */
   tiledb::Domain& add_dimension(const tiledb::Dimension& d) {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_domain_add_dimension(
-        ctx.ptr().get(), domain_.get(), d.ptr().get()));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_domain_add_dimension(
+        c_ctx, domain_.get(), d.ptr().get()));
     return *this;
   }
 
 
   void add_int32_dimension(const std::string& name, int bound_lower, int bound_upper, int extent)
   {
-	  auto& ctx = ctx_.get();
-	  tiledb::Dimension d = Dimension::create_int32_dimension(ctx, name, bound_lower, bound_upper, extent);
-	  ctx.handle_error(tiledb_domain_add_dimension(
-		  ctx.ptr().get(), domain_.get(), d.ptr().get()));
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+	  tiledb::Dimension d = Dimension::create_int32_dimension(ctx_, name, bound_lower, bound_upper, extent);
+	  ctx_->handle_error(tiledb_domain_add_dimension(
+		  c_ctx, domain_.get(), d.ptr().get()));
   }
 
   void add_int64_dimension(const std::string& name, int64_t bound_lower, int64_t bound_upper, int64_t extent)
   {
-	  auto& ctx = ctx_.get();
-	  tiledb::Dimension d = Dimension::create_int64_dimension(ctx, name, bound_lower, bound_upper, extent);
-	  ctx.handle_error(tiledb_domain_add_dimension(
-		  ctx.ptr().get(), domain_.get(), d.ptr().get()));
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+	  tiledb::Dimension d = Dimension::create_int64_dimension(ctx_, name, bound_lower, bound_upper, extent);
+	  ctx_->handle_error(tiledb_domain_add_dimension(
+		  c_ctx, domain_.get(), d.ptr().get()));
   }
 
   void add_uint64_dimension(const std::string& name, uint64_t bound_lower, uint64_t bound_upper, uint64_t extent)
   {
-	  auto& ctx = ctx_.get();
-	  tiledb::Dimension d = Dimension::create_uint64_dimension(ctx, name, bound_lower, bound_upper, extent);
-	  ctx.handle_error(tiledb_domain_add_dimension(
-		  ctx.ptr().get(), domain_.get(), d.ptr().get()));
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+	  tiledb::Dimension d = Dimension::create_uint64_dimension(ctx_, name, bound_lower, bound_upper, extent);
+	  ctx_->handle_error(tiledb_domain_add_dimension(
+		  c_ctx, domain_.get(), d.ptr().get()));
   }
 
   void add_double_dimension(const std::string& name, double bound_lower, double bound_upper, double extent)
   {
-	  auto& ctx = ctx_.get();
-	  tiledb::Dimension d = Dimension::create_double_dimension(ctx, name, bound_lower, bound_upper, extent);
-	  ctx.handle_error(tiledb_domain_add_dimension(
-		  ctx.ptr().get(), domain_.get(), d.ptr().get()));
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+	  tiledb::Dimension d = Dimension::create_double_dimension(ctx_, name, bound_lower, bound_upper, extent);
+	  ctx_->handle_error(tiledb_domain_add_dimension(
+		  c_ctx, domain_.get(), d.ptr().get()));
   }
 
   void add_string_dimension(const std::string& name)
   {
-	  auto& ctx = ctx_.get();
-	  tiledb::Dimension d = Dimension::create_string_dimension(ctx, name);
-	  ctx.handle_error(tiledb_domain_add_dimension(
-		  ctx.ptr().get(), domain_.get(), d.ptr().get()));
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+	  tiledb::Dimension d = Dimension::create_string_dimension(ctx_, name);
+	  ctx_->handle_error(tiledb_domain_add_dimension(
+		  c_ctx, domain_.get(), d.ptr().get()));
   }
 
   /**
@@ -308,10 +309,10 @@ class Domain {
    * @return True if the domain has a dimension of the given name.
    */
   bool has_dimension(const std::string& name) const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     int32_t has_dim;
-    ctx.handle_error(tiledb_domain_has_dimension(
-        ctx.ptr().get(), domain_.get(), name.c_str(), &has_dim));
+    ctx_->handle_error(tiledb_domain_has_dimension(
+        c_ctx, domain_.get(), name.c_str(), &has_dim));
     return has_dim == 1;
   }
 
@@ -343,7 +344,7 @@ class Domain {
   /* ********************************* */
 
   /** The TileDB context. */
-  std::reference_wrapper<const Context> ctx_;
+  std::shared_ptr<Context> ctx_;
 
   /** Deleter wrapper. */
   impl::Deleter deleter_;

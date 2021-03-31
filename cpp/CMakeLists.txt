@@ -4,8 +4,10 @@
 #
 # setup
 cmake_minimum_required(VERSION 3.17)
- 
-project(PyTileDB)
+
+set(TILEDB_VERSION "2.0.7" CACHE STRING "TileDB version")
+
+project(TileDB-CSharp)
 
 # C++11
 set(CMAKE_CXX_STANDARD 11)
@@ -26,6 +28,8 @@ if (OVERRIDE_INSTALL_PREFIX)
   set(CMAKE_INSTALL_PREFIX "${DEFAULT_PREFIX}" CACHE PATH "Default install prefix" FORCE)
   message(STATUS "Using default install prefix ${CMAKE_INSTALL_PREFIX}. To control CMAKE_INSTALL_PREFIX, set OVERRIDE_INSTALL_PREFIX=OFF")
 endif()
+
+
 
 # compiler flags
 string(TOUPPER "${CMAKE_BUILD_TYPE}" BUILD_TYPE)

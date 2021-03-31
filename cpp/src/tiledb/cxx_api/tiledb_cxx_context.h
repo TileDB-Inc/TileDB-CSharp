@@ -139,10 +139,10 @@ class Context {
       return;
 
     // Get error
-    const auto& ctx = ctx_.get();
+	tiledb_ctx_t* c_ctx = ctx_.get();  //const auto& ctx = ctx_.get();
     tiledb_error_t* err = nullptr;
     const char* msg = nullptr;
-    rc = tiledb_ctx_get_last_error(ctx, &err);
+    rc = tiledb_ctx_get_last_error(c_ctx, &err);
     if (rc != TILEDB_OK) {
       tiledb_error_free(&err);
       error_handler_("[TileDB::C++API] Error: Non-retrievable error occurred");

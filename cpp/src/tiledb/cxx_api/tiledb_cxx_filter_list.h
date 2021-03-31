@@ -72,10 +72,11 @@ class FilterList {
    *
    * @param ctx TileDB context
    */
-  FilterList(const tiledb::Context& ctx)
+  FilterList(const std::shared_ptr<tiledb::Context>& ctx)
       : ctx_(ctx) {
+	tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_filter_list_t* filter_list;
-    ctx.handle_error(tiledb_filter_list_alloc(ctx.ptr().get(), &filter_list));
+    ctx_->handle_error(tiledb_filter_list_alloc(c_ctx, &filter_list));
     filter_list_ = std::shared_ptr<tiledb_filter_list_t>(filter_list, deleter_);
   }
 
@@ -85,12 +86,12 @@ class FilterList {
    * @param ctx TileDB context
    * @param filter C API filter list object
    */
-  FilterList(const tiledb::Context& ctx, tiledb_filter_list_t* filter_list)
+  FilterList(const std::shared_ptr<tiledb::Context>& ctx, tiledb_filter_list_t* filter_list)
       : ctx_(ctx) {
     filter_list_ = std::shared_ptr<tiledb_filter_list_t>(filter_list, deleter_);
   }
 
-  FilterList() = delete;
+  FilterList() = default;
   FilterList(const tiledb::FilterList&) = default;
   FilterList(tiledb::FilterList&&) = default;
   FilterList& operator=(const tiledb::FilterList&) = default;
@@ -121,9 +122,9 @@ class FilterList {
    * @return Reference to this FilterList
    */
   tiledb::FilterList& add_filter(const tiledb::Filter& filter) {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_filter_list_add_filter(
-        ctx.ptr().get(), filter_list_.get(), filter.ptr().get()));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_filter_list_add_filter(
+        c_ctx, filter_list_.get(), filter.ptr().get()));
     return *this;
   }
 
@@ -146,11 +147,11 @@ class FilterList {
    * @throws TileDBError if the index is out of range
    */
   tiledb::Filter filter(uint32_t filter_index) const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_filter_t* filter;
-    ctx.handle_error(tiledb_filter_list_get_filter_from_index(
-        ctx.ptr().get(), filter_list_.get(), filter_index, &filter));
-    return Filter(ctx, filter);
+    ctx_->handle_error(tiledb_filter_list_get_filter_from_index(
+        c_ctx, filter_list_.get(), filter_index, &filter));
+    return Filter(ctx_, filter);
   }
 
   /**
@@ -159,10 +160,10 @@ class FilterList {
    * @return Maximum tile chunk size
    */
   uint32_t max_chunk_size() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     uint32_t max_chunk_size;
-    ctx.handle_error(tiledb_filter_list_get_max_chunk_size(
-        ctx.ptr().get(), filter_list_.get(), &max_chunk_size));
+    ctx_->handle_error(tiledb_filter_list_get_max_chunk_size(
+        c_ctx, filter_list_.get(), &max_chunk_size));
     return max_chunk_size;
   }
 
@@ -181,10 +182,10 @@ class FilterList {
    * @return
    */
   uint32_t nfilters() const {
-    auto& ctx = ctx_.get();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     uint32_t nfilters;
-    ctx.handle_error(tiledb_filter_list_get_nfilters(
-        ctx.ptr().get(), filter_list_.get(), &nfilters));
+    ctx_->handle_error(tiledb_filter_list_get_nfilters(
+        c_ctx, filter_list_.get(), &nfilters));
     return nfilters;
   }
 
@@ -195,9 +196,9 @@ class FilterList {
    * @return Reference to this FilterList
    */
   tiledb::FilterList& set_max_chunk_size(uint32_t max_chunk_size) {
-    auto& ctx = ctx_.get();
-    ctx.handle_error(tiledb_filter_list_set_max_chunk_size(
-        ctx.ptr().get(), filter_list_.get(), max_chunk_size));
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_filter_list_set_max_chunk_size(
+        c_ctx, filter_list_.get(), max_chunk_size));
     return *this;
   }
 
@@ -207,7 +208,7 @@ class FilterList {
   /* ********************************* */
 
   /** The TileDB context. */
-  std::reference_wrapper<const Context> ctx_;
+  std::shared_ptr<Context> ctx_;
 
   /** An auxiliary deleter. */
   impl::Deleter deleter_;
