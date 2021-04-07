@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileDB_CSharp", "TileDB_CSh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestTileDB_CSharp", "UnitTestTileDB_CSharp\UnitTestTileDB_CSharp.csproj", "{45BB385E-994A-4844-87E9-83E5F674FD95}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenchmarkTileDB_CSharp", "BenchmarkTileDB_CSharp\BenchmarkTileDB_CSharp.csproj", "{BE3751C1-5C81-4948-B881-FF48DE67E545}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1F0ADDCD-9CD6-4098-9DCF-387272E92423} = {1F0ADDCD-9CD6-4098-9DCF-387272E92423}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +36,14 @@ Global
 		{45BB385E-994A-4844-87E9-83E5F674FD95}.Release|Any CPU.Build.0 = Release|Any CPU
 		{45BB385E-994A-4844-87E9-83E5F674FD95}.Release|x64.ActiveCfg = Release|x64
 		{45BB385E-994A-4844-87E9-83E5F674FD95}.Release|x64.Build.0 = Release|x64
+		{BE3751C1-5C81-4948-B881-FF48DE67E545}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE3751C1-5C81-4948-B881-FF48DE67E545}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE3751C1-5C81-4948-B881-FF48DE67E545}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BE3751C1-5C81-4948-B881-FF48DE67E545}.Debug|x64.Build.0 = Debug|Any CPU
+		{BE3751C1-5C81-4948-B881-FF48DE67E545}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE3751C1-5C81-4948-B881-FF48DE67E545}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE3751C1-5C81-4948-B881-FF48DE67E545}.Release|x64.ActiveCfg = Release|x64
+		{BE3751C1-5C81-4948-B881-FF48DE67E545}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
