@@ -14,7 +14,7 @@
 #ifdef SWIGCSHARP
 //	define something related to csharp wrapper
 //		 
-//	 
+ 
 %include "arrays_csharp.i"
 
 //	%pragma(csharp)
