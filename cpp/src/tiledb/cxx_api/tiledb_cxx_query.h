@@ -773,6 +773,24 @@ class Query {
     return set_subarray(buf);
   }
 
+  void set_int32_subarray(const std::vector<int>& v) {
+    set_subarray(v);
+  }
+
+  void set_uint32_subarray(const std::vector<uint32_t>& v) {
+    set_subarray(v);
+  }
+
+  void set_int64_subarray(const std::vector<int64_t>& v) {
+    set_subarray(v);
+  }
+  void set_uint64_subarray(const std::vector<uint64_t>& v) {
+    set_subarray(v);
+  }
+
+
+
+
   /**
    * Set the coordinate buffer.
    *

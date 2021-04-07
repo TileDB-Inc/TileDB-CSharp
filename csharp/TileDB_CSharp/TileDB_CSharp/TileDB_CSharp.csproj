@@ -88,6 +88,78 @@
     <Compile Include="..\..\win64\FilterList.cs">
       <Link>FilterList.cs</Link>
     </Compile>
+    <Compile Include="..\..\win64\MapInt32Char.cs">
+      <Link>MapInt32Char.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapInt32Double.cs">
+      <Link>MapInt32Double.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapInt32Int32.cs">
+      <Link>MapInt32Int32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapInt32Int64.cs">
+      <Link>MapInt32Int64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapInt32String.cs">
+      <Link>MapInt32String.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapInt32UChar.cs">
+      <Link>MapInt32UChar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapInt32UInt32.cs">
+      <Link>MapInt32UInt32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapInt32UInt64.cs">
+      <Link>MapInt32UInt64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapInt64Char.cs">
+      <Link>MapInt64Char.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapInt64Double.cs">
+      <Link>MapInt64Double.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapInt64Int32.cs">
+      <Link>MapInt64Int32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapInt64Int64.cs">
+      <Link>MapInt64Int64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapInt64String.cs">
+      <Link>MapInt64String.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapInt64UChar.cs">
+      <Link>MapInt64UChar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapInt64UInt32.cs">
+      <Link>MapInt64UInt32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapInt64UInt64.cs">
+      <Link>MapInt64UInt64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapStringChar.cs">
+      <Link>MapStringChar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapStringDouble.cs">
+      <Link>MapStringDouble.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapStringInt32.cs">
+      <Link>MapStringInt32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapStringInt64.cs">
+      <Link>MapStringInt64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapStringString.cs">
+      <Link>MapStringString.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapStringUChar.cs">
+      <Link>MapStringUChar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapStringUInt32.cs">
+      <Link>MapStringUInt32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\MapStringUInt64.cs">
+      <Link>MapStringUInt64.cs</Link>
+    </Compile>
     <Compile Include="..\..\win64\Object.cs">
       <Link>Object.cs</Link>
     </Compile>
@@ -120,9 +192,6 @@
     </Compile>
     <Compile Include="..\..\win64\SWIGTYPE_p_std__pairT_unsigned_long_long_unsigned_long_long_t.cs">
       <Link>SWIGTYPE_p_std__pairT_unsigned_long_long_unsigned_long_long_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\win64\SWIGTYPE_p_std__reference_wrapperT_tiledb__Context_const_t.cs">
-      <Link>SWIGTYPE_p_std__reference_wrapperT_tiledb__Context_const_t.cs</Link>
     </Compile>
     <Compile Include="..\..\win64\SWIGTYPE_p_std__shared_ptrT_tiledb_array_schema_t_t.cs">
       <Link>SWIGTYPE_p_std__shared_ptrT_tiledb_array_schema_t_t.cs</Link>
@@ -169,26 +238,8 @@
     <Compile Include="..\..\win64\SWIGTYPE_p_std__unordered_mapT_std__string_tiledb__Attribute_t.cs">
       <Link>SWIGTYPE_p_std__unordered_mapT_std__string_tiledb__Attribute_t.cs</Link>
     </Compile>
-    <Compile Include="..\..\win64\SWIGTYPE_p_std__vectorT_double_t.cs">
-      <Link>SWIGTYPE_p_std__vectorT_double_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\win64\SWIGTYPE_p_std__vectorT_int_t.cs">
-      <Link>SWIGTYPE_p_std__vectorT_int_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\win64\SWIGTYPE_p_std__vectorT_long_long_t.cs">
-      <Link>SWIGTYPE_p_std__vectorT_long_long_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\win64\SWIGTYPE_p_std__vectorT_std__string_t.cs">
-      <Link>SWIGTYPE_p_std__vectorT_std__string_t.cs</Link>
-    </Compile>
     <Compile Include="..\..\win64\SWIGTYPE_p_std__vectorT_tiledb__Dimension_t.cs">
       <Link>SWIGTYPE_p_std__vectorT_tiledb__Dimension_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\win64\SWIGTYPE_p_std__vectorT_unsigned_int_t.cs">
-      <Link>SWIGTYPE_p_std__vectorT_unsigned_int_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\win64\SWIGTYPE_p_std__vectorT_unsigned_long_long_t.cs">
-      <Link>SWIGTYPE_p_std__vectorT_unsigned_long_long_t.cs</Link>
     </Compile>
     <Compile Include="..\..\win64\SWIGTYPE_p_tiledb_array_t.cs">
       <Link>SWIGTYPE_p_tiledb_array_t.cs</Link>
@@ -258,6 +309,33 @@
     </Compile>
     <Compile Include="..\..\win64\TypeError.cs">
       <Link>TypeError.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\VectorChar.cs">
+      <Link>VectorChar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\VectorConstChar.cs">
+      <Link>VectorConstChar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\VectorDouble.cs">
+      <Link>VectorDouble.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\VectorInt32.cs">
+      <Link>VectorInt32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\VectorInt64.cs">
+      <Link>VectorInt64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\VectorString.cs">
+      <Link>VectorString.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\VectorUChar.cs">
+      <Link>VectorUChar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\VectorUInt32.cs">
+      <Link>VectorUInt32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\VectorUInt64.cs">
+      <Link>VectorUInt64.cs</Link>
     </Compile>
     <Compile Include="..\..\win64\VFS.cs">
       <Link>VFS.cs</Link>

@@ -232,14 +232,14 @@ public class ArraySchema : global::System.IDisposable {
     return ret;
   }
 
-  public SWIGTYPE_p_std__vectorT_std__string_t attribute_names() {
-    SWIGTYPE_p_std__vectorT_std__string_t ret = new SWIGTYPE_p_std__vectorT_std__string_t(tiledbPINVOKE.ArraySchema_attribute_names(swigCPtr), true);
+  public VectorString attribute_names() {
+    VectorString ret = new VectorString(tiledbPINVOKE.ArraySchema_attribute_names(swigCPtr), true);
     if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public SWIGTYPE_p_std__vectorT_std__string_t dimension_names() {
-    SWIGTYPE_p_std__vectorT_std__string_t ret = new SWIGTYPE_p_std__vectorT_std__string_t(tiledbPINVOKE.ArraySchema_dimension_names(swigCPtr), true);
+  public VectorString dimension_names() {
+    VectorString ret = new VectorString(tiledbPINVOKE.ArraySchema_dimension_names(swigCPtr), true);
     if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

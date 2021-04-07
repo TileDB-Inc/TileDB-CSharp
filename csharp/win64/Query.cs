@@ -176,33 +176,53 @@ public class Query : global::System.IDisposable {
     return ret;
   }
 
-  public void set_int32_vector_buffer(string attr, SWIGTYPE_p_std__vectorT_int_t buf) {
-    tiledbPINVOKE.Query_set_int32_vector_buffer(swigCPtr, attr, SWIGTYPE_p_std__vectorT_int_t.getCPtr(buf));
+  public void set_int32_subarray(VectorInt32 v) {
+    tiledbPINVOKE.Query_set_int32_subarray(swigCPtr, VectorInt32.getCPtr(v));
     if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void set_int64_vector_buffer(string attr, SWIGTYPE_p_std__vectorT_long_long_t buf) {
-    tiledbPINVOKE.Query_set_int64_vector_buffer(swigCPtr, attr, SWIGTYPE_p_std__vectorT_long_long_t.getCPtr(buf));
+  public void set_uint32_subarray(VectorUInt32 v) {
+    tiledbPINVOKE.Query_set_uint32_subarray(swigCPtr, VectorUInt32.getCPtr(v));
     if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void set_uint32_vector_buffer(string attr, SWIGTYPE_p_std__vectorT_unsigned_int_t buf) {
-    tiledbPINVOKE.Query_set_uint32_vector_buffer(swigCPtr, attr, SWIGTYPE_p_std__vectorT_unsigned_int_t.getCPtr(buf));
+  public void set_int64_subarray(VectorInt64 v) {
+    tiledbPINVOKE.Query_set_int64_subarray(swigCPtr, VectorInt64.getCPtr(v));
     if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void set_uint64_vector_buffer(string attr, SWIGTYPE_p_std__vectorT_unsigned_long_long_t buf) {
-    tiledbPINVOKE.Query_set_uint64_vector_buffer(swigCPtr, attr, SWIGTYPE_p_std__vectorT_unsigned_long_long_t.getCPtr(buf));
+  public void set_uint64_subarray(VectorUInt64 v) {
+    tiledbPINVOKE.Query_set_uint64_subarray(swigCPtr, VectorUInt64.getCPtr(v));
     if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void set_double_vector_buffer(string attr, SWIGTYPE_p_std__vectorT_double_t buf) {
-    tiledbPINVOKE.Query_set_double_vector_buffer(swigCPtr, attr, SWIGTYPE_p_std__vectorT_double_t.getCPtr(buf));
+  public void set_int32_vector_buffer(string attr, VectorInt32 buf) {
+    tiledbPINVOKE.Query_set_int32_vector_buffer(swigCPtr, attr, VectorInt32.getCPtr(buf));
     if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Query set_buffer(string name, SWIGTYPE_p_std__vectorT_unsigned_long_long_t offsets, SWIGTYPE_p_std__string data) {
-    Query ret = new Query(tiledbPINVOKE.Query_set_buffer(swigCPtr, name, SWIGTYPE_p_std__vectorT_unsigned_long_long_t.getCPtr(offsets), SWIGTYPE_p_std__string.getCPtr(data)), true);
+  public void set_int64_vector_buffer(string attr, VectorInt64 buf) {
+    tiledbPINVOKE.Query_set_int64_vector_buffer(swigCPtr, attr, VectorInt64.getCPtr(buf));
+    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void set_uint32_vector_buffer(string attr, VectorUInt32 buf) {
+    tiledbPINVOKE.Query_set_uint32_vector_buffer(swigCPtr, attr, VectorUInt32.getCPtr(buf));
+    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void set_uint64_vector_buffer(string attr, VectorUInt64 buf) {
+    tiledbPINVOKE.Query_set_uint64_vector_buffer(swigCPtr, attr, VectorUInt64.getCPtr(buf));
+    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void set_double_vector_buffer(string attr, VectorDouble buf) {
+    tiledbPINVOKE.Query_set_double_vector_buffer(swigCPtr, attr, VectorDouble.getCPtr(buf));
+    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public Query set_buffer(string name, VectorUInt64 offsets, SWIGTYPE_p_std__string data) {
+    Query ret = new Query(tiledbPINVOKE.Query_set_buffer(swigCPtr, name, VectorUInt64.getCPtr(offsets), SWIGTYPE_p_std__string.getCPtr(data)), true);
     if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

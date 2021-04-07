@@ -193,6 +193,1716 @@ class tiledbPINVOKE {
   }
 
 
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_Clear")]
+  public static extern void VectorInt32_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_Add")]
+  public static extern void VectorInt32_Add(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_size")]
+  public static extern uint VectorInt32_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_capacity")]
+  public static extern uint VectorInt32_capacity(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_reserve")]
+  public static extern void VectorInt32_reserve(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorInt32__SWIG_0")]
+  public static extern global::System.IntPtr new_VectorInt32__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorInt32__SWIG_1")]
+  public static extern global::System.IntPtr new_VectorInt32__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorInt32__SWIG_2")]
+  public static extern global::System.IntPtr new_VectorInt32__SWIG_2(int jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_getitemcopy")]
+  public static extern int VectorInt32_getitemcopy(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_getitem")]
+  public static extern int VectorInt32_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_setitem")]
+  public static extern void VectorInt32_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_AddRange")]
+  public static extern void VectorInt32_AddRange(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_GetRange")]
+  public static extern global::System.IntPtr VectorInt32_GetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_Insert")]
+  public static extern void VectorInt32_Insert(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_InsertRange")]
+  public static extern void VectorInt32_InsertRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_RemoveAt")]
+  public static extern void VectorInt32_RemoveAt(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_RemoveRange")]
+  public static extern void VectorInt32_RemoveRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_Repeat")]
+  public static extern global::System.IntPtr VectorInt32_Repeat(int jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_Reverse__SWIG_0")]
+  public static extern void VectorInt32_Reverse__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_Reverse__SWIG_1")]
+  public static extern void VectorInt32_Reverse__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_SetRange")]
+  public static extern void VectorInt32_SetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_Contains")]
+  public static extern bool VectorInt32_Contains(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_IndexOf")]
+  public static extern int VectorInt32_IndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_LastIndexOf")]
+  public static extern int VectorInt32_LastIndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt32_Remove")]
+  public static extern bool VectorInt32_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_VectorInt32")]
+  public static extern void delete_VectorInt32(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_Clear")]
+  public static extern void VectorUInt32_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_Add")]
+  public static extern void VectorUInt32_Add(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_size")]
+  public static extern uint VectorUInt32_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_capacity")]
+  public static extern uint VectorUInt32_capacity(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_reserve")]
+  public static extern void VectorUInt32_reserve(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorUInt32__SWIG_0")]
+  public static extern global::System.IntPtr new_VectorUInt32__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorUInt32__SWIG_1")]
+  public static extern global::System.IntPtr new_VectorUInt32__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorUInt32__SWIG_2")]
+  public static extern global::System.IntPtr new_VectorUInt32__SWIG_2(int jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_getitemcopy")]
+  public static extern uint VectorUInt32_getitemcopy(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_getitem")]
+  public static extern uint VectorUInt32_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_setitem")]
+  public static extern void VectorUInt32_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, uint jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_AddRange")]
+  public static extern void VectorUInt32_AddRange(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_GetRange")]
+  public static extern global::System.IntPtr VectorUInt32_GetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_Insert")]
+  public static extern void VectorUInt32_Insert(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, uint jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_InsertRange")]
+  public static extern void VectorUInt32_InsertRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_RemoveAt")]
+  public static extern void VectorUInt32_RemoveAt(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_RemoveRange")]
+  public static extern void VectorUInt32_RemoveRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_Repeat")]
+  public static extern global::System.IntPtr VectorUInt32_Repeat(uint jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_Reverse__SWIG_0")]
+  public static extern void VectorUInt32_Reverse__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_Reverse__SWIG_1")]
+  public static extern void VectorUInt32_Reverse__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_SetRange")]
+  public static extern void VectorUInt32_SetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_Contains")]
+  public static extern bool VectorUInt32_Contains(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_IndexOf")]
+  public static extern int VectorUInt32_IndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_LastIndexOf")]
+  public static extern int VectorUInt32_LastIndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt32_Remove")]
+  public static extern bool VectorUInt32_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_VectorUInt32")]
+  public static extern void delete_VectorUInt32(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_Clear")]
+  public static extern void VectorInt64_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_Add")]
+  public static extern void VectorInt64_Add(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_size")]
+  public static extern uint VectorInt64_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_capacity")]
+  public static extern uint VectorInt64_capacity(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_reserve")]
+  public static extern void VectorInt64_reserve(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorInt64__SWIG_0")]
+  public static extern global::System.IntPtr new_VectorInt64__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorInt64__SWIG_1")]
+  public static extern global::System.IntPtr new_VectorInt64__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorInt64__SWIG_2")]
+  public static extern global::System.IntPtr new_VectorInt64__SWIG_2(int jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_getitemcopy")]
+  public static extern long VectorInt64_getitemcopy(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_getitem")]
+  public static extern long VectorInt64_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_setitem")]
+  public static extern void VectorInt64_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, long jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_AddRange")]
+  public static extern void VectorInt64_AddRange(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_GetRange")]
+  public static extern global::System.IntPtr VectorInt64_GetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_Insert")]
+  public static extern void VectorInt64_Insert(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, long jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_InsertRange")]
+  public static extern void VectorInt64_InsertRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_RemoveAt")]
+  public static extern void VectorInt64_RemoveAt(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_RemoveRange")]
+  public static extern void VectorInt64_RemoveRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_Repeat")]
+  public static extern global::System.IntPtr VectorInt64_Repeat(long jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_Reverse__SWIG_0")]
+  public static extern void VectorInt64_Reverse__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_Reverse__SWIG_1")]
+  public static extern void VectorInt64_Reverse__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_SetRange")]
+  public static extern void VectorInt64_SetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_Contains")]
+  public static extern bool VectorInt64_Contains(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_IndexOf")]
+  public static extern int VectorInt64_IndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_LastIndexOf")]
+  public static extern int VectorInt64_LastIndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorInt64_Remove")]
+  public static extern bool VectorInt64_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_VectorInt64")]
+  public static extern void delete_VectorInt64(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_Clear")]
+  public static extern void VectorUInt64_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_Add")]
+  public static extern void VectorUInt64_Add(global::System.Runtime.InteropServices.HandleRef jarg1, ulong jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_size")]
+  public static extern uint VectorUInt64_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_capacity")]
+  public static extern uint VectorUInt64_capacity(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_reserve")]
+  public static extern void VectorUInt64_reserve(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorUInt64__SWIG_0")]
+  public static extern global::System.IntPtr new_VectorUInt64__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorUInt64__SWIG_1")]
+  public static extern global::System.IntPtr new_VectorUInt64__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorUInt64__SWIG_2")]
+  public static extern global::System.IntPtr new_VectorUInt64__SWIG_2(int jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_getitemcopy")]
+  public static extern ulong VectorUInt64_getitemcopy(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_getitem")]
+  public static extern ulong VectorUInt64_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_setitem")]
+  public static extern void VectorUInt64_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, ulong jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_AddRange")]
+  public static extern void VectorUInt64_AddRange(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_GetRange")]
+  public static extern global::System.IntPtr VectorUInt64_GetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_Insert")]
+  public static extern void VectorUInt64_Insert(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, ulong jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_InsertRange")]
+  public static extern void VectorUInt64_InsertRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_RemoveAt")]
+  public static extern void VectorUInt64_RemoveAt(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_RemoveRange")]
+  public static extern void VectorUInt64_RemoveRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_Repeat")]
+  public static extern global::System.IntPtr VectorUInt64_Repeat(ulong jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_Reverse__SWIG_0")]
+  public static extern void VectorUInt64_Reverse__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_Reverse__SWIG_1")]
+  public static extern void VectorUInt64_Reverse__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_SetRange")]
+  public static extern void VectorUInt64_SetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_Contains")]
+  public static extern bool VectorUInt64_Contains(global::System.Runtime.InteropServices.HandleRef jarg1, ulong jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_IndexOf")]
+  public static extern int VectorUInt64_IndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, ulong jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_LastIndexOf")]
+  public static extern int VectorUInt64_LastIndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, ulong jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUInt64_Remove")]
+  public static extern bool VectorUInt64_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, ulong jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_VectorUInt64")]
+  public static extern void delete_VectorUInt64(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_Clear")]
+  public static extern void VectorChar_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_Add")]
+  public static extern void VectorChar_Add(global::System.Runtime.InteropServices.HandleRef jarg1, char jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_size")]
+  public static extern uint VectorChar_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_capacity")]
+  public static extern uint VectorChar_capacity(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_reserve")]
+  public static extern void VectorChar_reserve(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorChar__SWIG_0")]
+  public static extern global::System.IntPtr new_VectorChar__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorChar__SWIG_1")]
+  public static extern global::System.IntPtr new_VectorChar__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorChar__SWIG_2")]
+  public static extern global::System.IntPtr new_VectorChar__SWIG_2(int jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_getitemcopy")]
+  public static extern char VectorChar_getitemcopy(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_getitem")]
+  public static extern char VectorChar_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_setitem")]
+  public static extern void VectorChar_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, char jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_AddRange")]
+  public static extern void VectorChar_AddRange(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_GetRange")]
+  public static extern global::System.IntPtr VectorChar_GetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_Insert")]
+  public static extern void VectorChar_Insert(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, char jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_InsertRange")]
+  public static extern void VectorChar_InsertRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_RemoveAt")]
+  public static extern void VectorChar_RemoveAt(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_RemoveRange")]
+  public static extern void VectorChar_RemoveRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_Repeat")]
+  public static extern global::System.IntPtr VectorChar_Repeat(char jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_Reverse__SWIG_0")]
+  public static extern void VectorChar_Reverse__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_Reverse__SWIG_1")]
+  public static extern void VectorChar_Reverse__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_SetRange")]
+  public static extern void VectorChar_SetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_Contains")]
+  public static extern bool VectorChar_Contains(global::System.Runtime.InteropServices.HandleRef jarg1, char jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_IndexOf")]
+  public static extern int VectorChar_IndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, char jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_LastIndexOf")]
+  public static extern int VectorChar_LastIndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, char jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorChar_Remove")]
+  public static extern bool VectorChar_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, char jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_VectorChar")]
+  public static extern void delete_VectorChar(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_Clear")]
+  public static extern void VectorUChar_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_Add")]
+  public static extern void VectorUChar_Add(global::System.Runtime.InteropServices.HandleRef jarg1, byte jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_size")]
+  public static extern uint VectorUChar_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_capacity")]
+  public static extern uint VectorUChar_capacity(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_reserve")]
+  public static extern void VectorUChar_reserve(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorUChar__SWIG_0")]
+  public static extern global::System.IntPtr new_VectorUChar__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorUChar__SWIG_1")]
+  public static extern global::System.IntPtr new_VectorUChar__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorUChar__SWIG_2")]
+  public static extern global::System.IntPtr new_VectorUChar__SWIG_2(int jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_getitemcopy")]
+  public static extern byte VectorUChar_getitemcopy(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_getitem")]
+  public static extern byte VectorUChar_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_setitem")]
+  public static extern void VectorUChar_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, byte jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_AddRange")]
+  public static extern void VectorUChar_AddRange(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_GetRange")]
+  public static extern global::System.IntPtr VectorUChar_GetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_Insert")]
+  public static extern void VectorUChar_Insert(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, byte jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_InsertRange")]
+  public static extern void VectorUChar_InsertRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_RemoveAt")]
+  public static extern void VectorUChar_RemoveAt(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_RemoveRange")]
+  public static extern void VectorUChar_RemoveRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_Repeat")]
+  public static extern global::System.IntPtr VectorUChar_Repeat(byte jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_Reverse__SWIG_0")]
+  public static extern void VectorUChar_Reverse__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_Reverse__SWIG_1")]
+  public static extern void VectorUChar_Reverse__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_SetRange")]
+  public static extern void VectorUChar_SetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_Contains")]
+  public static extern bool VectorUChar_Contains(global::System.Runtime.InteropServices.HandleRef jarg1, byte jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_IndexOf")]
+  public static extern int VectorUChar_IndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, byte jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_LastIndexOf")]
+  public static extern int VectorUChar_LastIndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, byte jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorUChar_Remove")]
+  public static extern bool VectorUChar_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, byte jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_VectorUChar")]
+  public static extern void delete_VectorUChar(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_Clear")]
+  public static extern void VectorDouble_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_Add")]
+  public static extern void VectorDouble_Add(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_size")]
+  public static extern uint VectorDouble_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_capacity")]
+  public static extern uint VectorDouble_capacity(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_reserve")]
+  public static extern void VectorDouble_reserve(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorDouble__SWIG_0")]
+  public static extern global::System.IntPtr new_VectorDouble__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorDouble__SWIG_1")]
+  public static extern global::System.IntPtr new_VectorDouble__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorDouble__SWIG_2")]
+  public static extern global::System.IntPtr new_VectorDouble__SWIG_2(int jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_getitemcopy")]
+  public static extern double VectorDouble_getitemcopy(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_getitem")]
+  public static extern double VectorDouble_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_setitem")]
+  public static extern void VectorDouble_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, double jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_AddRange")]
+  public static extern void VectorDouble_AddRange(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_GetRange")]
+  public static extern global::System.IntPtr VectorDouble_GetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_Insert")]
+  public static extern void VectorDouble_Insert(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, double jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_InsertRange")]
+  public static extern void VectorDouble_InsertRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_RemoveAt")]
+  public static extern void VectorDouble_RemoveAt(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_RemoveRange")]
+  public static extern void VectorDouble_RemoveRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_Repeat")]
+  public static extern global::System.IntPtr VectorDouble_Repeat(double jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_Reverse__SWIG_0")]
+  public static extern void VectorDouble_Reverse__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_Reverse__SWIG_1")]
+  public static extern void VectorDouble_Reverse__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_SetRange")]
+  public static extern void VectorDouble_SetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_Contains")]
+  public static extern bool VectorDouble_Contains(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_IndexOf")]
+  public static extern int VectorDouble_IndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_LastIndexOf")]
+  public static extern int VectorDouble_LastIndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorDouble_Remove")]
+  public static extern bool VectorDouble_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_VectorDouble")]
+  public static extern void delete_VectorDouble(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_Clear")]
+  public static extern void VectorString_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_Add")]
+  public static extern void VectorString_Add(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_size")]
+  public static extern uint VectorString_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_capacity")]
+  public static extern uint VectorString_capacity(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_reserve")]
+  public static extern void VectorString_reserve(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorString__SWIG_0")]
+  public static extern global::System.IntPtr new_VectorString__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorString__SWIG_1")]
+  public static extern global::System.IntPtr new_VectorString__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorString__SWIG_2")]
+  public static extern global::System.IntPtr new_VectorString__SWIG_2(int jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_getitemcopy")]
+  public static extern string VectorString_getitemcopy(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_getitem")]
+  public static extern string VectorString_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_setitem")]
+  public static extern void VectorString_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_AddRange")]
+  public static extern void VectorString_AddRange(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_GetRange")]
+  public static extern global::System.IntPtr VectorString_GetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_Insert")]
+  public static extern void VectorString_Insert(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_InsertRange")]
+  public static extern void VectorString_InsertRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_RemoveAt")]
+  public static extern void VectorString_RemoveAt(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_RemoveRange")]
+  public static extern void VectorString_RemoveRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_Repeat")]
+  public static extern global::System.IntPtr VectorString_Repeat(string jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_Reverse__SWIG_0")]
+  public static extern void VectorString_Reverse__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_Reverse__SWIG_1")]
+  public static extern void VectorString_Reverse__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_SetRange")]
+  public static extern void VectorString_SetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_Contains")]
+  public static extern bool VectorString_Contains(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_IndexOf")]
+  public static extern int VectorString_IndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_LastIndexOf")]
+  public static extern int VectorString_LastIndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorString_Remove")]
+  public static extern bool VectorString_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_VectorString")]
+  public static extern void delete_VectorString(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_Clear")]
+  public static extern void VectorConstChar_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_Add")]
+  public static extern void VectorConstChar_Add(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_size")]
+  public static extern uint VectorConstChar_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_capacity")]
+  public static extern uint VectorConstChar_capacity(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_reserve")]
+  public static extern void VectorConstChar_reserve(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorConstChar__SWIG_0")]
+  public static extern global::System.IntPtr new_VectorConstChar__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorConstChar__SWIG_1")]
+  public static extern global::System.IntPtr new_VectorConstChar__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_VectorConstChar__SWIG_2")]
+  public static extern global::System.IntPtr new_VectorConstChar__SWIG_2(int jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_getitemcopy")]
+  public static extern string VectorConstChar_getitemcopy(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_getitem")]
+  public static extern string VectorConstChar_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_setitem")]
+  public static extern void VectorConstChar_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_AddRange")]
+  public static extern void VectorConstChar_AddRange(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_GetRange")]
+  public static extern global::System.IntPtr VectorConstChar_GetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_Insert")]
+  public static extern void VectorConstChar_Insert(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_InsertRange")]
+  public static extern void VectorConstChar_InsertRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_RemoveAt")]
+  public static extern void VectorConstChar_RemoveAt(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_RemoveRange")]
+  public static extern void VectorConstChar_RemoveRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_Repeat")]
+  public static extern global::System.IntPtr VectorConstChar_Repeat(string jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_Reverse__SWIG_0")]
+  public static extern void VectorConstChar_Reverse__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_Reverse__SWIG_1")]
+  public static extern void VectorConstChar_Reverse__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_SetRange")]
+  public static extern void VectorConstChar_SetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_Contains")]
+  public static extern bool VectorConstChar_Contains(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_IndexOf")]
+  public static extern int VectorConstChar_IndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_LastIndexOf")]
+  public static extern int VectorConstChar_LastIndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_VectorConstChar_Remove")]
+  public static extern bool VectorConstChar_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_VectorConstChar")]
+  public static extern void delete_VectorConstChar(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapStringString__SWIG_0")]
+  public static extern global::System.IntPtr new_MapStringString__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapStringString__SWIG_1")]
+  public static extern global::System.IntPtr new_MapStringString__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringString_size")]
+  public static extern uint MapStringString_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringString_empty")]
+  public static extern bool MapStringString_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringString_Clear")]
+  public static extern void MapStringString_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringString_getitem")]
+  public static extern string MapStringString_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringString_setitem")]
+  public static extern void MapStringString_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringString_ContainsKey")]
+  public static extern bool MapStringString_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringString_Add")]
+  public static extern void MapStringString_Add(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringString_Remove")]
+  public static extern bool MapStringString_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringString_create_iterator_begin")]
+  public static extern global::System.IntPtr MapStringString_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringString_get_next_key")]
+  public static extern string MapStringString_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringString_destroy_iterator")]
+  public static extern void MapStringString_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapStringString")]
+  public static extern void delete_MapStringString(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapStringInt32__SWIG_0")]
+  public static extern global::System.IntPtr new_MapStringInt32__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapStringInt32__SWIG_1")]
+  public static extern global::System.IntPtr new_MapStringInt32__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt32_size")]
+  public static extern uint MapStringInt32_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt32_empty")]
+  public static extern bool MapStringInt32_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt32_Clear")]
+  public static extern void MapStringInt32_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt32_getitem")]
+  public static extern int MapStringInt32_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt32_setitem")]
+  public static extern void MapStringInt32_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt32_ContainsKey")]
+  public static extern bool MapStringInt32_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt32_Add")]
+  public static extern void MapStringInt32_Add(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt32_Remove")]
+  public static extern bool MapStringInt32_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt32_create_iterator_begin")]
+  public static extern global::System.IntPtr MapStringInt32_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt32_get_next_key")]
+  public static extern string MapStringInt32_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt32_destroy_iterator")]
+  public static extern void MapStringInt32_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapStringInt32")]
+  public static extern void delete_MapStringInt32(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapStringUInt32__SWIG_0")]
+  public static extern global::System.IntPtr new_MapStringUInt32__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapStringUInt32__SWIG_1")]
+  public static extern global::System.IntPtr new_MapStringUInt32__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt32_size")]
+  public static extern uint MapStringUInt32_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt32_empty")]
+  public static extern bool MapStringUInt32_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt32_Clear")]
+  public static extern void MapStringUInt32_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt32_getitem")]
+  public static extern uint MapStringUInt32_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt32_setitem")]
+  public static extern void MapStringUInt32_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, uint jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt32_ContainsKey")]
+  public static extern bool MapStringUInt32_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt32_Add")]
+  public static extern void MapStringUInt32_Add(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, uint jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt32_Remove")]
+  public static extern bool MapStringUInt32_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt32_create_iterator_begin")]
+  public static extern global::System.IntPtr MapStringUInt32_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt32_get_next_key")]
+  public static extern string MapStringUInt32_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt32_destroy_iterator")]
+  public static extern void MapStringUInt32_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapStringUInt32")]
+  public static extern void delete_MapStringUInt32(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapStringInt64__SWIG_0")]
+  public static extern global::System.IntPtr new_MapStringInt64__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapStringInt64__SWIG_1")]
+  public static extern global::System.IntPtr new_MapStringInt64__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt64_size")]
+  public static extern uint MapStringInt64_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt64_empty")]
+  public static extern bool MapStringInt64_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt64_Clear")]
+  public static extern void MapStringInt64_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt64_getitem")]
+  public static extern long MapStringInt64_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt64_setitem")]
+  public static extern void MapStringInt64_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, long jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt64_ContainsKey")]
+  public static extern bool MapStringInt64_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt64_Add")]
+  public static extern void MapStringInt64_Add(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, long jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt64_Remove")]
+  public static extern bool MapStringInt64_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt64_create_iterator_begin")]
+  public static extern global::System.IntPtr MapStringInt64_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt64_get_next_key")]
+  public static extern string MapStringInt64_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringInt64_destroy_iterator")]
+  public static extern void MapStringInt64_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapStringInt64")]
+  public static extern void delete_MapStringInt64(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapStringUInt64__SWIG_0")]
+  public static extern global::System.IntPtr new_MapStringUInt64__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapStringUInt64__SWIG_1")]
+  public static extern global::System.IntPtr new_MapStringUInt64__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt64_size")]
+  public static extern uint MapStringUInt64_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt64_empty")]
+  public static extern bool MapStringUInt64_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt64_Clear")]
+  public static extern void MapStringUInt64_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt64_getitem")]
+  public static extern ulong MapStringUInt64_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt64_setitem")]
+  public static extern void MapStringUInt64_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, ulong jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt64_ContainsKey")]
+  public static extern bool MapStringUInt64_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt64_Add")]
+  public static extern void MapStringUInt64_Add(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, ulong jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt64_Remove")]
+  public static extern bool MapStringUInt64_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt64_create_iterator_begin")]
+  public static extern global::System.IntPtr MapStringUInt64_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt64_get_next_key")]
+  public static extern string MapStringUInt64_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUInt64_destroy_iterator")]
+  public static extern void MapStringUInt64_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapStringUInt64")]
+  public static extern void delete_MapStringUInt64(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapStringDouble__SWIG_0")]
+  public static extern global::System.IntPtr new_MapStringDouble__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapStringDouble__SWIG_1")]
+  public static extern global::System.IntPtr new_MapStringDouble__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringDouble_size")]
+  public static extern uint MapStringDouble_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringDouble_empty")]
+  public static extern bool MapStringDouble_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringDouble_Clear")]
+  public static extern void MapStringDouble_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringDouble_getitem")]
+  public static extern double MapStringDouble_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringDouble_setitem")]
+  public static extern void MapStringDouble_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, double jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringDouble_ContainsKey")]
+  public static extern bool MapStringDouble_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringDouble_Add")]
+  public static extern void MapStringDouble_Add(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, double jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringDouble_Remove")]
+  public static extern bool MapStringDouble_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringDouble_create_iterator_begin")]
+  public static extern global::System.IntPtr MapStringDouble_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringDouble_get_next_key")]
+  public static extern string MapStringDouble_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringDouble_destroy_iterator")]
+  public static extern void MapStringDouble_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapStringDouble")]
+  public static extern void delete_MapStringDouble(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapStringChar__SWIG_0")]
+  public static extern global::System.IntPtr new_MapStringChar__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapStringChar__SWIG_1")]
+  public static extern global::System.IntPtr new_MapStringChar__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringChar_size")]
+  public static extern uint MapStringChar_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringChar_empty")]
+  public static extern bool MapStringChar_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringChar_Clear")]
+  public static extern void MapStringChar_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringChar_getitem")]
+  public static extern char MapStringChar_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringChar_setitem")]
+  public static extern void MapStringChar_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, char jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringChar_ContainsKey")]
+  public static extern bool MapStringChar_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringChar_Add")]
+  public static extern void MapStringChar_Add(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, char jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringChar_Remove")]
+  public static extern bool MapStringChar_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringChar_create_iterator_begin")]
+  public static extern global::System.IntPtr MapStringChar_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringChar_get_next_key")]
+  public static extern string MapStringChar_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringChar_destroy_iterator")]
+  public static extern void MapStringChar_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapStringChar")]
+  public static extern void delete_MapStringChar(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapStringUChar__SWIG_0")]
+  public static extern global::System.IntPtr new_MapStringUChar__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapStringUChar__SWIG_1")]
+  public static extern global::System.IntPtr new_MapStringUChar__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUChar_size")]
+  public static extern uint MapStringUChar_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUChar_empty")]
+  public static extern bool MapStringUChar_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUChar_Clear")]
+  public static extern void MapStringUChar_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUChar_getitem")]
+  public static extern byte MapStringUChar_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUChar_setitem")]
+  public static extern void MapStringUChar_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, byte jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUChar_ContainsKey")]
+  public static extern bool MapStringUChar_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUChar_Add")]
+  public static extern void MapStringUChar_Add(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, byte jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUChar_Remove")]
+  public static extern bool MapStringUChar_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUChar_create_iterator_begin")]
+  public static extern global::System.IntPtr MapStringUChar_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUChar_get_next_key")]
+  public static extern string MapStringUChar_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapStringUChar_destroy_iterator")]
+  public static extern void MapStringUChar_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapStringUChar")]
+  public static extern void delete_MapStringUChar(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt32String__SWIG_0")]
+  public static extern global::System.IntPtr new_MapInt32String__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt32String__SWIG_1")]
+  public static extern global::System.IntPtr new_MapInt32String__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32String_size")]
+  public static extern uint MapInt32String_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32String_empty")]
+  public static extern bool MapInt32String_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32String_Clear")]
+  public static extern void MapInt32String_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32String_getitem")]
+  public static extern string MapInt32String_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32String_setitem")]
+  public static extern void MapInt32String_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32String_ContainsKey")]
+  public static extern bool MapInt32String_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32String_Add")]
+  public static extern void MapInt32String_Add(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32String_Remove")]
+  public static extern bool MapInt32String_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32String_create_iterator_begin")]
+  public static extern global::System.IntPtr MapInt32String_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32String_get_next_key")]
+  public static extern int MapInt32String_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32String_destroy_iterator")]
+  public static extern void MapInt32String_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapInt32String")]
+  public static extern void delete_MapInt32String(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt32Int32__SWIG_0")]
+  public static extern global::System.IntPtr new_MapInt32Int32__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt32Int32__SWIG_1")]
+  public static extern global::System.IntPtr new_MapInt32Int32__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int32_size")]
+  public static extern uint MapInt32Int32_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int32_empty")]
+  public static extern bool MapInt32Int32_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int32_Clear")]
+  public static extern void MapInt32Int32_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int32_getitem")]
+  public static extern int MapInt32Int32_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int32_setitem")]
+  public static extern void MapInt32Int32_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int32_ContainsKey")]
+  public static extern bool MapInt32Int32_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int32_Add")]
+  public static extern void MapInt32Int32_Add(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int32_Remove")]
+  public static extern bool MapInt32Int32_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int32_create_iterator_begin")]
+  public static extern global::System.IntPtr MapInt32Int32_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int32_get_next_key")]
+  public static extern int MapInt32Int32_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int32_destroy_iterator")]
+  public static extern void MapInt32Int32_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapInt32Int32")]
+  public static extern void delete_MapInt32Int32(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt32UInt32__SWIG_0")]
+  public static extern global::System.IntPtr new_MapInt32UInt32__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt32UInt32__SWIG_1")]
+  public static extern global::System.IntPtr new_MapInt32UInt32__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt32_size")]
+  public static extern uint MapInt32UInt32_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt32_empty")]
+  public static extern bool MapInt32UInt32_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt32_Clear")]
+  public static extern void MapInt32UInt32_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt32_getitem")]
+  public static extern uint MapInt32UInt32_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt32_setitem")]
+  public static extern void MapInt32UInt32_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, uint jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt32_ContainsKey")]
+  public static extern bool MapInt32UInt32_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt32_Add")]
+  public static extern void MapInt32UInt32_Add(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, uint jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt32_Remove")]
+  public static extern bool MapInt32UInt32_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt32_create_iterator_begin")]
+  public static extern global::System.IntPtr MapInt32UInt32_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt32_get_next_key")]
+  public static extern int MapInt32UInt32_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt32_destroy_iterator")]
+  public static extern void MapInt32UInt32_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapInt32UInt32")]
+  public static extern void delete_MapInt32UInt32(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt32Int64__SWIG_0")]
+  public static extern global::System.IntPtr new_MapInt32Int64__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt32Int64__SWIG_1")]
+  public static extern global::System.IntPtr new_MapInt32Int64__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int64_size")]
+  public static extern uint MapInt32Int64_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int64_empty")]
+  public static extern bool MapInt32Int64_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int64_Clear")]
+  public static extern void MapInt32Int64_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int64_getitem")]
+  public static extern long MapInt32Int64_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int64_setitem")]
+  public static extern void MapInt32Int64_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, long jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int64_ContainsKey")]
+  public static extern bool MapInt32Int64_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int64_Add")]
+  public static extern void MapInt32Int64_Add(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, long jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int64_Remove")]
+  public static extern bool MapInt32Int64_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int64_create_iterator_begin")]
+  public static extern global::System.IntPtr MapInt32Int64_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int64_get_next_key")]
+  public static extern int MapInt32Int64_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Int64_destroy_iterator")]
+  public static extern void MapInt32Int64_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapInt32Int64")]
+  public static extern void delete_MapInt32Int64(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt32UInt64__SWIG_0")]
+  public static extern global::System.IntPtr new_MapInt32UInt64__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt32UInt64__SWIG_1")]
+  public static extern global::System.IntPtr new_MapInt32UInt64__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt64_size")]
+  public static extern uint MapInt32UInt64_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt64_empty")]
+  public static extern bool MapInt32UInt64_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt64_Clear")]
+  public static extern void MapInt32UInt64_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt64_getitem")]
+  public static extern ulong MapInt32UInt64_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt64_setitem")]
+  public static extern void MapInt32UInt64_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, ulong jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt64_ContainsKey")]
+  public static extern bool MapInt32UInt64_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt64_Add")]
+  public static extern void MapInt32UInt64_Add(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, ulong jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt64_Remove")]
+  public static extern bool MapInt32UInt64_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt64_create_iterator_begin")]
+  public static extern global::System.IntPtr MapInt32UInt64_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt64_get_next_key")]
+  public static extern int MapInt32UInt64_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UInt64_destroy_iterator")]
+  public static extern void MapInt32UInt64_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapInt32UInt64")]
+  public static extern void delete_MapInt32UInt64(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt32Double__SWIG_0")]
+  public static extern global::System.IntPtr new_MapInt32Double__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt32Double__SWIG_1")]
+  public static extern global::System.IntPtr new_MapInt32Double__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Double_size")]
+  public static extern uint MapInt32Double_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Double_empty")]
+  public static extern bool MapInt32Double_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Double_Clear")]
+  public static extern void MapInt32Double_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Double_getitem")]
+  public static extern double MapInt32Double_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Double_setitem")]
+  public static extern void MapInt32Double_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, double jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Double_ContainsKey")]
+  public static extern bool MapInt32Double_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Double_Add")]
+  public static extern void MapInt32Double_Add(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, double jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Double_Remove")]
+  public static extern bool MapInt32Double_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Double_create_iterator_begin")]
+  public static extern global::System.IntPtr MapInt32Double_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Double_get_next_key")]
+  public static extern int MapInt32Double_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Double_destroy_iterator")]
+  public static extern void MapInt32Double_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapInt32Double")]
+  public static extern void delete_MapInt32Double(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt32Char__SWIG_0")]
+  public static extern global::System.IntPtr new_MapInt32Char__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt32Char__SWIG_1")]
+  public static extern global::System.IntPtr new_MapInt32Char__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Char_size")]
+  public static extern uint MapInt32Char_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Char_empty")]
+  public static extern bool MapInt32Char_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Char_Clear")]
+  public static extern void MapInt32Char_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Char_getitem")]
+  public static extern char MapInt32Char_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Char_setitem")]
+  public static extern void MapInt32Char_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, char jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Char_ContainsKey")]
+  public static extern bool MapInt32Char_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Char_Add")]
+  public static extern void MapInt32Char_Add(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, char jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Char_Remove")]
+  public static extern bool MapInt32Char_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Char_create_iterator_begin")]
+  public static extern global::System.IntPtr MapInt32Char_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Char_get_next_key")]
+  public static extern int MapInt32Char_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32Char_destroy_iterator")]
+  public static extern void MapInt32Char_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapInt32Char")]
+  public static extern void delete_MapInt32Char(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt32UChar__SWIG_0")]
+  public static extern global::System.IntPtr new_MapInt32UChar__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt32UChar__SWIG_1")]
+  public static extern global::System.IntPtr new_MapInt32UChar__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UChar_size")]
+  public static extern uint MapInt32UChar_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UChar_empty")]
+  public static extern bool MapInt32UChar_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UChar_Clear")]
+  public static extern void MapInt32UChar_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UChar_getitem")]
+  public static extern byte MapInt32UChar_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UChar_setitem")]
+  public static extern void MapInt32UChar_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, byte jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UChar_ContainsKey")]
+  public static extern bool MapInt32UChar_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UChar_Add")]
+  public static extern void MapInt32UChar_Add(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, byte jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UChar_Remove")]
+  public static extern bool MapInt32UChar_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UChar_create_iterator_begin")]
+  public static extern global::System.IntPtr MapInt32UChar_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UChar_get_next_key")]
+  public static extern int MapInt32UChar_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt32UChar_destroy_iterator")]
+  public static extern void MapInt32UChar_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapInt32UChar")]
+  public static extern void delete_MapInt32UChar(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt64String__SWIG_0")]
+  public static extern global::System.IntPtr new_MapInt64String__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt64String__SWIG_1")]
+  public static extern global::System.IntPtr new_MapInt64String__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64String_size")]
+  public static extern uint MapInt64String_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64String_empty")]
+  public static extern bool MapInt64String_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64String_Clear")]
+  public static extern void MapInt64String_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64String_getitem")]
+  public static extern string MapInt64String_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64String_setitem")]
+  public static extern void MapInt64String_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64String_ContainsKey")]
+  public static extern bool MapInt64String_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64String_Add")]
+  public static extern void MapInt64String_Add(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64String_Remove")]
+  public static extern bool MapInt64String_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64String_create_iterator_begin")]
+  public static extern global::System.IntPtr MapInt64String_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64String_get_next_key")]
+  public static extern long MapInt64String_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64String_destroy_iterator")]
+  public static extern void MapInt64String_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapInt64String")]
+  public static extern void delete_MapInt64String(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt64Int32__SWIG_0")]
+  public static extern global::System.IntPtr new_MapInt64Int32__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt64Int32__SWIG_1")]
+  public static extern global::System.IntPtr new_MapInt64Int32__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int32_size")]
+  public static extern uint MapInt64Int32_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int32_empty")]
+  public static extern bool MapInt64Int32_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int32_Clear")]
+  public static extern void MapInt64Int32_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int32_getitem")]
+  public static extern int MapInt64Int32_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int32_setitem")]
+  public static extern void MapInt64Int32_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int32_ContainsKey")]
+  public static extern bool MapInt64Int32_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int32_Add")]
+  public static extern void MapInt64Int32_Add(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int32_Remove")]
+  public static extern bool MapInt64Int32_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int32_create_iterator_begin")]
+  public static extern global::System.IntPtr MapInt64Int32_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int32_get_next_key")]
+  public static extern long MapInt64Int32_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int32_destroy_iterator")]
+  public static extern void MapInt64Int32_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapInt64Int32")]
+  public static extern void delete_MapInt64Int32(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt64UInt32__SWIG_0")]
+  public static extern global::System.IntPtr new_MapInt64UInt32__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt64UInt32__SWIG_1")]
+  public static extern global::System.IntPtr new_MapInt64UInt32__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt32_size")]
+  public static extern uint MapInt64UInt32_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt32_empty")]
+  public static extern bool MapInt64UInt32_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt32_Clear")]
+  public static extern void MapInt64UInt32_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt32_getitem")]
+  public static extern uint MapInt64UInt32_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt32_setitem")]
+  public static extern void MapInt64UInt32_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2, uint jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt32_ContainsKey")]
+  public static extern bool MapInt64UInt32_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt32_Add")]
+  public static extern void MapInt64UInt32_Add(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2, uint jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt32_Remove")]
+  public static extern bool MapInt64UInt32_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt32_create_iterator_begin")]
+  public static extern global::System.IntPtr MapInt64UInt32_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt32_get_next_key")]
+  public static extern long MapInt64UInt32_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt32_destroy_iterator")]
+  public static extern void MapInt64UInt32_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapInt64UInt32")]
+  public static extern void delete_MapInt64UInt32(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt64Int64__SWIG_0")]
+  public static extern global::System.IntPtr new_MapInt64Int64__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt64Int64__SWIG_1")]
+  public static extern global::System.IntPtr new_MapInt64Int64__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int64_size")]
+  public static extern uint MapInt64Int64_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int64_empty")]
+  public static extern bool MapInt64Int64_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int64_Clear")]
+  public static extern void MapInt64Int64_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int64_getitem")]
+  public static extern long MapInt64Int64_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int64_setitem")]
+  public static extern void MapInt64Int64_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2, long jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int64_ContainsKey")]
+  public static extern bool MapInt64Int64_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int64_Add")]
+  public static extern void MapInt64Int64_Add(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2, long jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int64_Remove")]
+  public static extern bool MapInt64Int64_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int64_create_iterator_begin")]
+  public static extern global::System.IntPtr MapInt64Int64_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int64_get_next_key")]
+  public static extern long MapInt64Int64_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Int64_destroy_iterator")]
+  public static extern void MapInt64Int64_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapInt64Int64")]
+  public static extern void delete_MapInt64Int64(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt64UInt64__SWIG_0")]
+  public static extern global::System.IntPtr new_MapInt64UInt64__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt64UInt64__SWIG_1")]
+  public static extern global::System.IntPtr new_MapInt64UInt64__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt64_size")]
+  public static extern uint MapInt64UInt64_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt64_empty")]
+  public static extern bool MapInt64UInt64_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt64_Clear")]
+  public static extern void MapInt64UInt64_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt64_getitem")]
+  public static extern ulong MapInt64UInt64_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt64_setitem")]
+  public static extern void MapInt64UInt64_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2, ulong jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt64_ContainsKey")]
+  public static extern bool MapInt64UInt64_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt64_Add")]
+  public static extern void MapInt64UInt64_Add(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2, ulong jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt64_Remove")]
+  public static extern bool MapInt64UInt64_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt64_create_iterator_begin")]
+  public static extern global::System.IntPtr MapInt64UInt64_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt64_get_next_key")]
+  public static extern long MapInt64UInt64_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UInt64_destroy_iterator")]
+  public static extern void MapInt64UInt64_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapInt64UInt64")]
+  public static extern void delete_MapInt64UInt64(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt64Double__SWIG_0")]
+  public static extern global::System.IntPtr new_MapInt64Double__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt64Double__SWIG_1")]
+  public static extern global::System.IntPtr new_MapInt64Double__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Double_size")]
+  public static extern uint MapInt64Double_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Double_empty")]
+  public static extern bool MapInt64Double_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Double_Clear")]
+  public static extern void MapInt64Double_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Double_getitem")]
+  public static extern double MapInt64Double_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Double_setitem")]
+  public static extern void MapInt64Double_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2, double jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Double_ContainsKey")]
+  public static extern bool MapInt64Double_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Double_Add")]
+  public static extern void MapInt64Double_Add(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2, double jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Double_Remove")]
+  public static extern bool MapInt64Double_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Double_create_iterator_begin")]
+  public static extern global::System.IntPtr MapInt64Double_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Double_get_next_key")]
+  public static extern long MapInt64Double_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Double_destroy_iterator")]
+  public static extern void MapInt64Double_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapInt64Double")]
+  public static extern void delete_MapInt64Double(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt64Char__SWIG_0")]
+  public static extern global::System.IntPtr new_MapInt64Char__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt64Char__SWIG_1")]
+  public static extern global::System.IntPtr new_MapInt64Char__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Char_size")]
+  public static extern uint MapInt64Char_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Char_empty")]
+  public static extern bool MapInt64Char_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Char_Clear")]
+  public static extern void MapInt64Char_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Char_getitem")]
+  public static extern char MapInt64Char_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Char_setitem")]
+  public static extern void MapInt64Char_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2, char jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Char_ContainsKey")]
+  public static extern bool MapInt64Char_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Char_Add")]
+  public static extern void MapInt64Char_Add(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2, char jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Char_Remove")]
+  public static extern bool MapInt64Char_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Char_create_iterator_begin")]
+  public static extern global::System.IntPtr MapInt64Char_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Char_get_next_key")]
+  public static extern long MapInt64Char_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64Char_destroy_iterator")]
+  public static extern void MapInt64Char_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapInt64Char")]
+  public static extern void delete_MapInt64Char(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt64UChar__SWIG_0")]
+  public static extern global::System.IntPtr new_MapInt64UChar__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_MapInt64UChar__SWIG_1")]
+  public static extern global::System.IntPtr new_MapInt64UChar__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UChar_size")]
+  public static extern uint MapInt64UChar_size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UChar_empty")]
+  public static extern bool MapInt64UChar_empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UChar_Clear")]
+  public static extern void MapInt64UChar_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UChar_getitem")]
+  public static extern byte MapInt64UChar_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UChar_setitem")]
+  public static extern void MapInt64UChar_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2, byte jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UChar_ContainsKey")]
+  public static extern bool MapInt64UChar_ContainsKey(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UChar_Add")]
+  public static extern void MapInt64UChar_Add(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2, byte jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UChar_Remove")]
+  public static extern bool MapInt64UChar_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UChar_create_iterator_begin")]
+  public static extern global::System.IntPtr MapInt64UChar_create_iterator_begin(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UChar_get_next_key")]
+  public static extern long MapInt64UChar_get_next_key(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_MapInt64UChar_destroy_iterator")]
+  public static extern void MapInt64UChar_destroy_iterator(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.IntPtr jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_delete_MapInt64UChar")]
+  public static extern void delete_MapInt64UChar(global::System.Runtime.InteropServices.HandleRef jarg1);
+
   [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_new_Array__SWIG_0")]
   public static extern global::System.IntPtr new_Array__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, int jarg3);
 
@@ -888,6 +2598,18 @@ class tiledbPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_Query_fragment_timestamp_range")]
   public static extern global::System.IntPtr Query_fragment_timestamp_range(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_Query_set_int32_subarray")]
+  public static extern void Query_set_int32_subarray(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_Query_set_uint32_subarray")]
+  public static extern void Query_set_uint32_subarray(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_Query_set_int64_subarray")]
+  public static extern void Query_set_int64_subarray(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_Query_set_uint64_subarray")]
+  public static extern void Query_set_uint64_subarray(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
   [global::System.Runtime.InteropServices.DllImport("tiledb", EntryPoint="CSharp_tiledb_Query_set_int32_vector_buffer")]
   public static extern void Query_set_int32_vector_buffer(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);

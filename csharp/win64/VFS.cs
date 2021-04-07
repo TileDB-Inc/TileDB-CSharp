@@ -116,8 +116,8 @@ public class VFS : global::System.IDisposable {
     return ret;
   }
 
-  public SWIGTYPE_p_std__vectorT_std__string_t ls(string uri) {
-    SWIGTYPE_p_std__vectorT_std__string_t ret = new SWIGTYPE_p_std__vectorT_std__string_t(tiledbPINVOKE.VFS_ls(swigCPtr, uri), true);
+  public VectorString ls(string uri) {
+    VectorString ret = new VectorString(tiledbPINVOKE.VFS_ls(swigCPtr, uri), true);
     if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
