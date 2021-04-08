@@ -37,203 +37,203 @@ public class Query : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnBase) {
           swigCMemOwnBase = false;
-          tiledbPINVOKE.delete_Query(swigCPtr);
+          tiledbcsPINVOKE.delete_Query(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public Query(Context ctx, Array array, tiledb_query_type_t type) : this(tiledbPINVOKE.new_Query__SWIG_0(Context.getCPtr(ctx), Array.getCPtr(array), (int)type), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Query(Context ctx, Array array, tiledb_query_type_t type) : this(tiledbcsPINVOKE.new_Query__SWIG_0(Context.getCPtr(ctx), Array.getCPtr(array), (int)type), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Query(Context ctx, Array array) : this(tiledbPINVOKE.new_Query__SWIG_1(Context.getCPtr(ctx), Array.getCPtr(array)), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Query(Context ctx, Array array) : this(tiledbcsPINVOKE.new_Query__SWIG_1(Context.getCPtr(ctx), Array.getCPtr(array)), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Query(Query arg0) : this(tiledbPINVOKE.new_Query__SWIG_2(Query.getCPtr(arg0)), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Query(Query arg0) : this(tiledbcsPINVOKE.new_Query__SWIG_2(Query.getCPtr(arg0)), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public SWIGTYPE_p_std__shared_ptrT_tiledb_query_t_t ptr() {
-    SWIGTYPE_p_std__shared_ptrT_tiledb_query_t_t ret = new SWIGTYPE_p_std__shared_ptrT_tiledb_query_t_t(tiledbPINVOKE.Query_ptr(swigCPtr), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_std__shared_ptrT_tiledb_query_t_t ret = new SWIGTYPE_p_std__shared_ptrT_tiledb_query_t_t(tiledbcsPINVOKE.Query_ptr(swigCPtr), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Context context() {
-    global::System.IntPtr cPtr = tiledbPINVOKE.Query_context(swigCPtr);
+    global::System.IntPtr cPtr = tiledbcsPINVOKE.Query_context(swigCPtr);
     Context ret = (cPtr == global::System.IntPtr.Zero) ? null : new Context(cPtr, true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public tiledb_query_type_t query_type() {
-    tiledb_query_type_t ret = (tiledb_query_type_t)tiledbPINVOKE.Query_query_type(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledb_query_type_t ret = (tiledb_query_type_t)tiledbcsPINVOKE.Query_query_type(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Query set_layout(tiledb_layout_t layout) {
-    Query ret = new Query(tiledbPINVOKE.Query_set_layout(swigCPtr, (int)layout), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Query ret = new Query(tiledbcsPINVOKE.Query_set_layout(swigCPtr, (int)layout), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public tiledb_layout_t query_layout() {
-    tiledb_layout_t ret = (tiledb_layout_t)tiledbPINVOKE.Query_query_layout(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledb_layout_t ret = (tiledb_layout_t)tiledbcsPINVOKE.Query_query_layout(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Array array() {
-    global::System.IntPtr cPtr = tiledbPINVOKE.Query_array(swigCPtr);
+    global::System.IntPtr cPtr = tiledbcsPINVOKE.Query_array(swigCPtr);
     Array ret = (cPtr == global::System.IntPtr.Zero) ? null : new Array(cPtr, true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Query.Status query_status() {
-    Query.Status ret = (Query.Status)tiledbPINVOKE.Query_query_status(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Query.Status ret = (Query.Status)tiledbcsPINVOKE.Query_query_status(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public bool has_results() {
-    bool ret = tiledbPINVOKE.Query_has_results(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    bool ret = tiledbcsPINVOKE.Query_has_results(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Query.Status submit() {
-    Query.Status ret = (Query.Status)tiledbPINVOKE.Query_submit(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Query.Status ret = (Query.Status)tiledbcsPINVOKE.Query_submit(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void submit_async() {
-    tiledbPINVOKE.Query_submit_async(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Query_submit_async(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void finalize() {
-    tiledbPINVOKE.Query_finalize(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Query_finalize(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public SWIGTYPE_p_std__unordered_mapT_std__string_std__pairT_unsigned_long_long_unsigned_long_long_t_t result_buffer_elements() {
-    SWIGTYPE_p_std__unordered_mapT_std__string_std__pairT_unsigned_long_long_unsigned_long_long_t_t ret = new SWIGTYPE_p_std__unordered_mapT_std__string_std__pairT_unsigned_long_long_unsigned_long_long_t_t(tiledbPINVOKE.Query_result_buffer_elements(swigCPtr), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_std__unordered_mapT_std__string_std__pairT_unsigned_long_long_unsigned_long_long_t_t ret = new SWIGTYPE_p_std__unordered_mapT_std__string_std__pairT_unsigned_long_long_unsigned_long_long_t_t(tiledbcsPINVOKE.Query_result_buffer_elements(swigCPtr), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Query add_range(uint dim_idx, string start, string end) {
-    Query ret = new Query(tiledbPINVOKE.Query_add_range(swigCPtr, dim_idx, start, end), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Query ret = new Query(tiledbcsPINVOKE.Query_add_range(swigCPtr, dim_idx, start, end), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public ulong range_num(uint dim_idx) {
-    ulong ret = tiledbPINVOKE.Query_range_num(swigCPtr, dim_idx);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    ulong ret = tiledbcsPINVOKE.Query_range_num(swigCPtr, dim_idx);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public SWIGTYPE_p_std__arrayT_std__string_2_t range(uint dim_idx, ulong range_idx) {
-    SWIGTYPE_p_std__arrayT_std__string_2_t ret = new SWIGTYPE_p_std__arrayT_std__string_2_t(tiledbPINVOKE.Query_range(swigCPtr, dim_idx, range_idx), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_std__arrayT_std__string_2_t ret = new SWIGTYPE_p_std__arrayT_std__string_2_t(tiledbcsPINVOKE.Query_range(swigCPtr, dim_idx, range_idx), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public ulong est_result_size(string attr_name) {
-    ulong ret = tiledbPINVOKE.Query_est_result_size(swigCPtr, attr_name);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    ulong ret = tiledbcsPINVOKE.Query_est_result_size(swigCPtr, attr_name);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public SWIGTYPE_p_std__pairT_unsigned_long_long_unsigned_long_long_t est_result_size_var(string attr_name) {
-    SWIGTYPE_p_std__pairT_unsigned_long_long_unsigned_long_long_t ret = new SWIGTYPE_p_std__pairT_unsigned_long_long_unsigned_long_long_t(tiledbPINVOKE.Query_est_result_size_var(swigCPtr, attr_name), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_std__pairT_unsigned_long_long_unsigned_long_long_t ret = new SWIGTYPE_p_std__pairT_unsigned_long_long_unsigned_long_long_t(tiledbcsPINVOKE.Query_est_result_size_var(swigCPtr, attr_name), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public uint fragment_num() {
-    uint ret = tiledbPINVOKE.Query_fragment_num(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    uint ret = tiledbcsPINVOKE.Query_fragment_num(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public string fragment_uri(uint idx) {
-    string ret = tiledbPINVOKE.Query_fragment_uri(swigCPtr, idx);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    string ret = tiledbcsPINVOKE.Query_fragment_uri(swigCPtr, idx);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public SWIGTYPE_p_std__pairT_unsigned_long_long_unsigned_long_long_t fragment_timestamp_range(uint idx) {
-    SWIGTYPE_p_std__pairT_unsigned_long_long_unsigned_long_long_t ret = new SWIGTYPE_p_std__pairT_unsigned_long_long_unsigned_long_long_t(tiledbPINVOKE.Query_fragment_timestamp_range(swigCPtr, idx), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_std__pairT_unsigned_long_long_unsigned_long_long_t ret = new SWIGTYPE_p_std__pairT_unsigned_long_long_unsigned_long_long_t(tiledbcsPINVOKE.Query_fragment_timestamp_range(swigCPtr, idx), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void set_int32_subarray(VectorInt32 v) {
-    tiledbPINVOKE.Query_set_int32_subarray(swigCPtr, VectorInt32.getCPtr(v));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Query_set_int32_subarray(swigCPtr, VectorInt32.getCPtr(v));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void set_uint32_subarray(VectorUInt32 v) {
-    tiledbPINVOKE.Query_set_uint32_subarray(swigCPtr, VectorUInt32.getCPtr(v));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Query_set_uint32_subarray(swigCPtr, VectorUInt32.getCPtr(v));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void set_int64_subarray(VectorInt64 v) {
-    tiledbPINVOKE.Query_set_int64_subarray(swigCPtr, VectorInt64.getCPtr(v));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Query_set_int64_subarray(swigCPtr, VectorInt64.getCPtr(v));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void set_uint64_subarray(VectorUInt64 v) {
-    tiledbPINVOKE.Query_set_uint64_subarray(swigCPtr, VectorUInt64.getCPtr(v));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Query_set_uint64_subarray(swigCPtr, VectorUInt64.getCPtr(v));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void set_int32_vector_buffer(string attr, VectorInt32 buf) {
-    tiledbPINVOKE.Query_set_int32_vector_buffer(swigCPtr, attr, VectorInt32.getCPtr(buf));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Query_set_int32_vector_buffer(swigCPtr, attr, VectorInt32.getCPtr(buf));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void set_int64_vector_buffer(string attr, VectorInt64 buf) {
-    tiledbPINVOKE.Query_set_int64_vector_buffer(swigCPtr, attr, VectorInt64.getCPtr(buf));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Query_set_int64_vector_buffer(swigCPtr, attr, VectorInt64.getCPtr(buf));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void set_uint32_vector_buffer(string attr, VectorUInt32 buf) {
-    tiledbPINVOKE.Query_set_uint32_vector_buffer(swigCPtr, attr, VectorUInt32.getCPtr(buf));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Query_set_uint32_vector_buffer(swigCPtr, attr, VectorUInt32.getCPtr(buf));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void set_uint64_vector_buffer(string attr, VectorUInt64 buf) {
-    tiledbPINVOKE.Query_set_uint64_vector_buffer(swigCPtr, attr, VectorUInt64.getCPtr(buf));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Query_set_uint64_vector_buffer(swigCPtr, attr, VectorUInt64.getCPtr(buf));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void set_double_vector_buffer(string attr, VectorDouble buf) {
-    tiledbPINVOKE.Query_set_double_vector_buffer(swigCPtr, attr, VectorDouble.getCPtr(buf));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Query_set_double_vector_buffer(swigCPtr, attr, VectorDouble.getCPtr(buf));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public Query set_buffer(string name, VectorUInt64 offsets, SWIGTYPE_p_std__string data) {
-    Query ret = new Query(tiledbPINVOKE.Query_set_buffer(swigCPtr, name, VectorUInt64.getCPtr(offsets), SWIGTYPE_p_std__string.getCPtr(data)), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Query ret = new Query(tiledbcsPINVOKE.Query_set_buffer(swigCPtr, name, VectorUInt64.getCPtr(offsets), SWIGTYPE_p_std__string.getCPtr(data)), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public static Query.Status to_status(tiledb_query_status_t status) {
-    Query.Status ret = (Query.Status)tiledbPINVOKE.Query_to_status((int)status);
+    Query.Status ret = (Query.Status)tiledbcsPINVOKE.Query_to_status((int)status);
     return ret;
   }
 
   public static string to_str(tiledb_query_type_t type) {
-    string ret = tiledbPINVOKE.Query_to_str((int)type);
+    string ret = tiledbcsPINVOKE.Query_to_str((int)type);
     return ret;
   }
 

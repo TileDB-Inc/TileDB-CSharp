@@ -52,20 +52,20 @@ set(TILEDB_CSHARP_SOURCES
 ######
 #tiledb csharp wrapper
 ######
-add_library(tiledb-cs 
+add_library(tiledbcs 
   SHARED 
   ${TILEDB_CXX_API_SOURCES}
   ${TILEDB_CSHARP_SOURCES}
 
 )
 
-target_include_directories(tiledb-cs
+target_include_directories(tiledbcs
   PUBLIC 
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api 
 
 )
 
-target_link_libraries(tiledb-cs
+target_link_libraries(tiledbcs
   TileDB::tiledb_shared 
 )
 
@@ -84,12 +84,12 @@ add_compile_options(
   "-D_POSIX_THREADS"      
 )
 
-set_target_properties(tiledb-cs
+set_target_properties(tiledbcs
   PROPERTIES
     PREFIX ""
     SUFFIX ".so"
 )
-target_link_libraries(tiledb-cs
+target_link_libraries(tiledbcs
   PUBLIC
     pthread
     -l:libarrow.so.200
@@ -111,7 +111,7 @@ set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS}
     "/wd\"4275\"" 
     "/wd\"4800\""     
   )
-  set_target_properties(tiledb-cs
+  set_target_properties(tiledbcs
     PROPERTIES
       PREFIX ""
       SUFFIX ".dll"
@@ -139,7 +139,7 @@ install(
 
 install(
   TARGETS 
-    tiledb-cs 
+    tiledbcs 
   ARCHIVE 
     DESTINATION ${CMAKE_INSTALL_BINDIR}
   RUNTIME

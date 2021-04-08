@@ -14,7 +14,7 @@ public class TypeError : TileDBError {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   private bool swigCMemOwnDerived;
 
-  internal TypeError(global::System.IntPtr cPtr, bool cMemoryOwn) : base(tiledbPINVOKE.TypeError_SWIGSmartPtrUpcast(cPtr), true) {
+  internal TypeError(global::System.IntPtr cPtr, bool cMemoryOwn) : base(tiledbcsPINVOKE.TypeError_SWIGSmartPtrUpcast(cPtr), true) {
     swigCMemOwnDerived = cMemoryOwn;
     swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
   }
@@ -28,7 +28,7 @@ public class TypeError : TileDBError {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnDerived) {
           swigCMemOwnDerived = false;
-          tiledbPINVOKE.delete_TypeError(swigCPtr);
+          tiledbcsPINVOKE.delete_TypeError(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }

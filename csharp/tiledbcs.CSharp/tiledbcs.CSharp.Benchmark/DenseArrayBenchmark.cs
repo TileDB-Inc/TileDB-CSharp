@@ -4,24 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using BenchmarkDotNet.Order;
-
-namespace BenchmarkTileDB_CSharp
+namespace tiledbcs.CSharp.Benchmark
 {
     [BenchmarkDotNet.Attributes.MemoryDiagnoser]
-    class BenchmarkSparseArray
+    public class DenseArrayBenchmark
     {
         private String array_uri_ = "bench_array";
 
         [BenchmarkDotNet.Attributes.Benchmark]
-        public void CreateSimpleSparseArray()
+        public void CreateSimpleDenseArray()
         {
             tiledb.Context ctx = new tiledb.Context();
             tiledb.Domain dom = new tiledb.Domain(ctx);
             dom.add_int32_dimension("rows", 1, 4, 4);
             dom.add_int32_dimension("cols", 1, 4, 4);
 
-            tiledb.ArraySchema schema = new tiledb.ArraySchema(ctx, tiledb.tiledb_array_type_t.TILEDB_SPARSE);
+            tiledb.ArraySchema schema = new tiledb.ArraySchema(ctx, tiledb.tiledb_array_type_t.TILEDB_DENSE);
             schema.set_domain(dom);
             tiledb.Attribute attr1 = tiledb.Attribute.create_attribute(ctx, "a", tiledb.tiledb_datatype_t.TILEDB_INT32);
             schema.add_attribute(attr1);
@@ -38,22 +36,12 @@ namespace BenchmarkTileDB_CSharp
         }
 
         [BenchmarkDotNet.Attributes.Benchmark]
-        public void WriteSimpleSparseArray()
+        public void WriteSimpleDenseArray()
         {
             tiledb.Context ctx = new tiledb.Context();
 
-            tiledb.VectorInt32 coords_rows = new tiledb.VectorInt32();
-            coords_rows.Add(1);
-            coords_rows.Add(2);
-            coords_rows.Add(2);
-
-            tiledb.VectorInt32 coords_cols = new tiledb.VectorInt32();
-            coords_cols.Add(1);
-            coords_cols.Add(4);
-            coords_cols.Add(3);
-
             tiledb.VectorInt32 data = new tiledb.VectorInt32();
-            for (int i = 1; i <= 3; ++i)
+            for (int i = 1; i <= 16; ++i)
             {
                 data.Add(i);
             }
@@ -62,33 +50,25 @@ namespace BenchmarkTileDB_CSharp
             //open array for write
             tiledb.Array array = new tiledb.Array(ctx, array_uri_, tiledb.tiledb_query_type_t.TILEDB_WRITE);
             tiledb.Query query = new tiledb.Query(ctx, array, tiledb.tiledb_query_type_t.TILEDB_WRITE);
-            query.set_layout(tiledb.tiledb_layout_t.TILEDB_UNORDERED);
+            query.set_layout(tiledb.tiledb_layout_t.TILEDB_ROW_MAJOR);
             query.set_int32_vector_buffer("a", data);
-            query.set_int32_vector_buffer("rows", coords_rows);
-            query.set_int32_vector_buffer("cols", coords_cols);
 
             tiledb.Query.Status status = query.submit();
             array.close();
-
-            
         }
 
         [BenchmarkDotNet.Attributes.Benchmark]
-        public void ReadSimpleSparseArray()
+        public void ReadSimpleDenseArray()
         {
             tiledb.Context ctx = new tiledb.Context();
 
-
-            tiledb.VectorInt32 coords_rows = new tiledb.VectorInt32(3);
-            tiledb.VectorInt32 coords_cols = new tiledb.VectorInt32(3);
-
-            tiledb.VectorInt32 data = new tiledb.VectorInt32(3); //hold 3 elements
-
             tiledb.VectorInt32 subarray = new tiledb.VectorInt32();
             subarray.Add(1);
+            subarray.Add(2); //rows 1,2
             subarray.Add(2);
-            subarray.Add(2);
-            subarray.Add(4);
+            subarray.Add(4); //cols 2,3,4
+
+            tiledb.VectorInt32 data = new tiledb.VectorInt32(6); //hold 6 elements
 
             //open array for read
             tiledb.Array array = new tiledb.Array(ctx, array_uri_, tiledb.tiledb_query_type_t.TILEDB_READ);
@@ -98,12 +78,13 @@ namespace BenchmarkTileDB_CSharp
             query.set_layout(tiledb.tiledb_layout_t.TILEDB_ROW_MAJOR);
             query.set_int32_subarray(subarray);
             query.set_int32_vector_buffer("a", data);
-            query.set_int32_vector_buffer("rows", coords_rows);
-            query.set_int32_vector_buffer("cols", coords_cols);
 
             tiledb.Query.Status status = query.submit();
             array.close();
 
         }
+
+
+
     }
 }

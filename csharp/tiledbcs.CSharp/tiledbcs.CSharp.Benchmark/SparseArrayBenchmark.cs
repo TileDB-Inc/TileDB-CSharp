@@ -1,66 +1,20 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace UnitTestTileDB_CSharp
+namespace tiledbcs.CSharp.Benchmark
 {
-    /// <summary>
-    /// Summary description for UnitTestSparseArray
-    /// </summary>
-    [TestClass]
-    public class UnitTestSparseArray
+    [BenchmarkDotNet.Attributes.MemoryDiagnoser]
+    public class SparseArrayBenchmark
     {
-        public UnitTestSparseArray()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
 
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
 
         private String array_uri_ = "bench_array";
 
-        private void CreateArray()
+        [BenchmarkDotNet.Attributes.Benchmark]
+        public void CreateSimpleSparseArray()
         {
             tiledb.Context ctx = new tiledb.Context();
             tiledb.Domain dom = new tiledb.Domain(ctx);
@@ -81,10 +35,10 @@ namespace UnitTestTileDB_CSharp
 
             //create array
             tiledb.Array.create(array_uri_, schema);
+        }
 
-        }//private void CreateArray()
-
-        private tiledb.Query.Status WriteArray()
+        [BenchmarkDotNet.Attributes.Benchmark]
+        public void WriteSimpleSparseArray()
         {
             tiledb.Context ctx = new tiledb.Context();
 
@@ -116,11 +70,11 @@ namespace UnitTestTileDB_CSharp
             tiledb.Query.Status status = query.submit();
             array.close();
 
-            return status;
 
-        }//private void WriteArray()
+        }
 
-        private tiledb.Query.Status ReadArray()
+        [BenchmarkDotNet.Attributes.Benchmark]
+        public void ReadSimpleSparseArray()
         {
             tiledb.Context ctx = new tiledb.Context();
 
@@ -150,24 +104,9 @@ namespace UnitTestTileDB_CSharp
             tiledb.Query.Status status = query.submit();
             array.close();
 
-            return status;
-        }//private tiledb.Query.Status ReadArray()
-
-
-        [TestMethod]
-        public void TestMethod1()
-        {
-            CreateArray();
-            tiledb.Query.Status status_write = WriteArray();
-            if (status_write == tiledb.Query.Status.FAILED)
-            {
-                Assert.Fail();
-            }
-            tiledb.Query.Status status_read = ReadArray();
-            if (status_read == tiledb.Query.Status.FAILED)
-            {
-                Assert.Fail();
-            }
         }
+
+
+
     }
 }

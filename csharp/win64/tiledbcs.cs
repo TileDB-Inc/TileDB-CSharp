@@ -10,38 +10,38 @@
 
 namespace tiledb {
 
-public class tiledb {
+public class tiledbcs {
   public static int tiledb_query_submit_async_func(SWIGTYPE_p_tiledb_ctx_t ctx, SWIGTYPE_p_tiledb_query_t query, System.IntPtr callback_func, System.IntPtr callback_data) {
-    int ret = tiledbPINVOKE.tiledb_query_submit_async_func__SWIG_0(SWIGTYPE_p_tiledb_ctx_t.getCPtr(ctx), SWIGTYPE_p_tiledb_query_t.getCPtr(query), callback_func, callback_data);
+    int ret = tiledbcsPINVOKE.tiledb_query_submit_async_func__SWIG_0(SWIGTYPE_p_tiledb_ctx_t.getCPtr(ctx), SWIGTYPE_p_tiledb_query_t.getCPtr(query), callback_func, callback_data);
     return ret;
   }
 
   public static int tiledb_query_submit_async_func(SWIGTYPE_p_tiledb_ctx_t ctx, SWIGTYPE_p_tiledb_query_t query, System.IntPtr callback_func) {
-    int ret = tiledbPINVOKE.tiledb_query_submit_async_func__SWIG_1(SWIGTYPE_p_tiledb_ctx_t.getCPtr(ctx), SWIGTYPE_p_tiledb_query_t.getCPtr(query), callback_func);
+    int ret = tiledbcsPINVOKE.tiledb_query_submit_async_func__SWIG_1(SWIGTYPE_p_tiledb_ctx_t.getCPtr(ctx), SWIGTYPE_p_tiledb_query_t.getCPtr(query), callback_func);
     return ret;
   }
 
   public static uint type_size(tiledb_datatype_t type) {
-    uint ret = tiledbPINVOKE.type_size((int)type);
+    uint ret = tiledbcsPINVOKE.type_size((int)type);
     return ret;
   }
 
   public static string to_str(tiledb_datatype_t type) {
-    string ret = tiledbPINVOKE.to_str((int)type);
+    string ret = tiledbcsPINVOKE.to_str((int)type);
     return ret;
   }
 
   public static void create_group(Context ctx, string group) {
-    tiledbPINVOKE.create_group(Context.getCPtr(ctx), group);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.create_group(Context.getCPtr(ctx), group);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void check_config_error(SWIGTYPE_p_tiledb_error_t err) {
-    tiledbPINVOKE.check_config_error(SWIGTYPE_p_tiledb_error_t.getCPtr(err));
+    tiledbcsPINVOKE.check_config_error(SWIGTYPE_p_tiledb_error_t.getCPtr(err));
   }
 
   public static SWIGTYPE_p_std__tupleT_int_int_int_t version() {
-    SWIGTYPE_p_std__tupleT_int_int_int_t ret = new SWIGTYPE_p_std__tupleT_int_int_int_t(tiledbPINVOKE.version(), true);
+    SWIGTYPE_p_std__tupleT_int_int_int_t ret = new SWIGTYPE_p_std__tupleT_int_int_int_t(tiledbcsPINVOKE.version(), true);
     return ret;
   }
 

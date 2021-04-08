@@ -37,65 +37,65 @@ public class Context : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnBase) {
           swigCMemOwnBase = false;
-          tiledbPINVOKE.delete_Context(swigCPtr);
+          tiledbcsPINVOKE.delete_Context(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public Context() : this(tiledbPINVOKE.new_Context__SWIG_0(), true) {
+  public Context() : this(tiledbcsPINVOKE.new_Context__SWIG_0(), true) {
   }
 
-  public Context(Config config) : this(tiledbPINVOKE.new_Context__SWIG_1(Config.getCPtr(config)), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Context(Config config) : this(tiledbcsPINVOKE.new_Context__SWIG_1(Config.getCPtr(config)), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Context(SWIGTYPE_p_tiledb_ctx_t ctx) : this(tiledbPINVOKE.new_Context__SWIG_2(SWIGTYPE_p_tiledb_ctx_t.getCPtr(ctx)), true) {
+  public Context(SWIGTYPE_p_tiledb_ctx_t ctx) : this(tiledbcsPINVOKE.new_Context__SWIG_2(SWIGTYPE_p_tiledb_ctx_t.getCPtr(ctx)), true) {
   }
 
   public void handle_error(int rc) {
-    tiledbPINVOKE.Context_handle_error(swigCPtr, rc);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Context_handle_error(swigCPtr, rc);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public SWIGTYPE_p_std__shared_ptrT_tiledb_ctx_t_t ptr() {
-    SWIGTYPE_p_std__shared_ptrT_tiledb_ctx_t_t ret = new SWIGTYPE_p_std__shared_ptrT_tiledb_ctx_t_t(tiledbPINVOKE.Context_ptr(swigCPtr), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_std__shared_ptrT_tiledb_ctx_t_t ret = new SWIGTYPE_p_std__shared_ptrT_tiledb_ctx_t_t(tiledbcsPINVOKE.Context_ptr(swigCPtr), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Context set_error_handler(SWIGTYPE_p_std__functionT_void_fstd__string_const_RF_t fn) {
-    Context ret = new Context(tiledbPINVOKE.Context_set_error_handler(swigCPtr, SWIGTYPE_p_std__functionT_void_fstd__string_const_RF_t.getCPtr(fn)), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Context ret = new Context(tiledbcsPINVOKE.Context_set_error_handler(swigCPtr, SWIGTYPE_p_std__functionT_void_fstd__string_const_RF_t.getCPtr(fn)), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Config config() {
-    Config ret = new Config(tiledbPINVOKE.Context_config(swigCPtr), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Config ret = new Config(tiledbcsPINVOKE.Context_config(swigCPtr), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public bool is_supported_fs(tiledb_filesystem_t fs) {
-    bool ret = tiledbPINVOKE.Context_is_supported_fs(swigCPtr, (int)fs);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    bool ret = tiledbcsPINVOKE.Context_is_supported_fs(swigCPtr, (int)fs);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void cancel_tasks() {
-    tiledbPINVOKE.Context_cancel_tasks(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Context_cancel_tasks(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void set_tag(string key, string value) {
-    tiledbPINVOKE.Context_set_tag(swigCPtr, key, value);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Context_set_tag(swigCPtr, key, value);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void default_error_handler(string msg) {
-    tiledbPINVOKE.Context_default_error_handler(msg);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Context_default_error_handler(msg);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
 }

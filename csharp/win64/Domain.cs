@@ -37,107 +37,107 @@ public class Domain : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnBase) {
           swigCMemOwnBase = false;
-          tiledbPINVOKE.delete_Domain(swigCPtr);
+          tiledbcsPINVOKE.delete_Domain(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public Domain(Context ctx) : this(tiledbPINVOKE.new_Domain__SWIG_0(Context.getCPtr(ctx)), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Domain(Context ctx) : this(tiledbcsPINVOKE.new_Domain__SWIG_0(Context.getCPtr(ctx)), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Domain(Domain arg0) : this(tiledbPINVOKE.new_Domain__SWIG_1(Domain.getCPtr(arg0)), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Domain(Domain arg0) : this(tiledbcsPINVOKE.new_Domain__SWIG_1(Domain.getCPtr(arg0)), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public ulong cell_num() {
-    ulong ret = tiledbPINVOKE.Domain_cell_num(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    ulong ret = tiledbcsPINVOKE.Domain_cell_num(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void dump(SWIGTYPE_p_FILE out_) {
-    tiledbPINVOKE.Domain_dump__SWIG_0(swigCPtr, SWIGTYPE_p_FILE.getCPtr(out_));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Domain_dump__SWIG_0(swigCPtr, SWIGTYPE_p_FILE.getCPtr(out_));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void dump() {
-    tiledbPINVOKE.Domain_dump__SWIG_1(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Domain_dump__SWIG_1(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public tiledb_datatype_t type() {
-    tiledb_datatype_t ret = (tiledb_datatype_t)tiledbPINVOKE.Domain_type(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledb_datatype_t ret = (tiledb_datatype_t)tiledbcsPINVOKE.Domain_type(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public uint ndim() {
-    uint ret = tiledbPINVOKE.Domain_ndim(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    uint ret = tiledbcsPINVOKE.Domain_ndim(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public SWIGTYPE_p_std__vectorT_tiledb__Dimension_t dimensions() {
-    SWIGTYPE_p_std__vectorT_tiledb__Dimension_t ret = new SWIGTYPE_p_std__vectorT_tiledb__Dimension_t(tiledbPINVOKE.Domain_dimensions(swigCPtr), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_std__vectorT_tiledb__Dimension_t ret = new SWIGTYPE_p_std__vectorT_tiledb__Dimension_t(tiledbcsPINVOKE.Domain_dimensions(swigCPtr), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Dimension dimension(uint idx) {
-    Dimension ret = new Dimension(tiledbPINVOKE.Domain_dimension__SWIG_0(swigCPtr, idx), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Dimension ret = new Dimension(tiledbcsPINVOKE.Domain_dimension__SWIG_0(swigCPtr, idx), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Dimension dimension(string name) {
-    Dimension ret = new Dimension(tiledbPINVOKE.Domain_dimension__SWIG_1(swigCPtr, name), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Dimension ret = new Dimension(tiledbcsPINVOKE.Domain_dimension__SWIG_1(swigCPtr, name), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Domain add_dimension(Dimension d) {
-    Domain ret = new Domain(tiledbPINVOKE.Domain_add_dimension(swigCPtr, Dimension.getCPtr(d)), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Domain ret = new Domain(tiledbcsPINVOKE.Domain_add_dimension(swigCPtr, Dimension.getCPtr(d)), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void add_int32_dimension(string name, int bound_lower, int bound_upper, int extent) {
-    tiledbPINVOKE.Domain_add_int32_dimension(swigCPtr, name, bound_lower, bound_upper, extent);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Domain_add_int32_dimension(swigCPtr, name, bound_lower, bound_upper, extent);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void add_int64_dimension(string name, long bound_lower, long bound_upper, long extent) {
-    tiledbPINVOKE.Domain_add_int64_dimension(swigCPtr, name, bound_lower, bound_upper, extent);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Domain_add_int64_dimension(swigCPtr, name, bound_lower, bound_upper, extent);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void add_uint64_dimension(string name, ulong bound_lower, ulong bound_upper, ulong extent) {
-    tiledbPINVOKE.Domain_add_uint64_dimension(swigCPtr, name, bound_lower, bound_upper, extent);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Domain_add_uint64_dimension(swigCPtr, name, bound_lower, bound_upper, extent);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void add_double_dimension(string name, double bound_lower, double bound_upper, double extent) {
-    tiledbPINVOKE.Domain_add_double_dimension(swigCPtr, name, bound_lower, bound_upper, extent);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Domain_add_double_dimension(swigCPtr, name, bound_lower, bound_upper, extent);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void add_string_dimension(string name) {
-    tiledbPINVOKE.Domain_add_string_dimension(swigCPtr, name);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Domain_add_string_dimension(swigCPtr, name);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public bool has_dimension(string name) {
-    bool ret = tiledbPINVOKE.Domain_has_dimension(swigCPtr, name);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    bool ret = tiledbcsPINVOKE.Domain_has_dimension(swigCPtr, name);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public SWIGTYPE_p_std__shared_ptrT_tiledb_domain_t_t ptr() {
-    SWIGTYPE_p_std__shared_ptrT_tiledb_domain_t_t ret = new SWIGTYPE_p_std__shared_ptrT_tiledb_domain_t_t(tiledbPINVOKE.Domain_ptr(swigCPtr), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_std__shared_ptrT_tiledb_domain_t_t ret = new SWIGTYPE_p_std__shared_ptrT_tiledb_domain_t_t(tiledbcsPINVOKE.Domain_ptr(swigCPtr), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

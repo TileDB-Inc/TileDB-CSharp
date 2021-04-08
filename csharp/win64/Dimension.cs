@@ -37,109 +37,109 @@ public class Dimension : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnBase) {
           swigCMemOwnBase = false;
-          tiledbPINVOKE.delete_Dimension(swigCPtr);
+          tiledbcsPINVOKE.delete_Dimension(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public Dimension(Dimension arg0) : this(tiledbPINVOKE.new_Dimension__SWIG_0(Dimension.getCPtr(arg0)), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Dimension(Dimension arg0) : this(tiledbcsPINVOKE.new_Dimension__SWIG_0(Dimension.getCPtr(arg0)), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public uint cell_val_num() {
-    uint ret = tiledbPINVOKE.Dimension_cell_val_num(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    uint ret = tiledbcsPINVOKE.Dimension_cell_val_num(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Dimension set_cell_val_num(uint num) {
-    Dimension ret = new Dimension(tiledbPINVOKE.Dimension_set_cell_val_num(swigCPtr, num), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Dimension ret = new Dimension(tiledbcsPINVOKE.Dimension_set_cell_val_num(swigCPtr, num), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public FilterList filter_list() {
-    FilterList ret = new FilterList(tiledbPINVOKE.Dimension_filter_list(swigCPtr), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    FilterList ret = new FilterList(tiledbcsPINVOKE.Dimension_filter_list(swigCPtr), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Dimension set_filter_list(FilterList filter_list) {
-    Dimension ret = new Dimension(tiledbPINVOKE.Dimension_set_filter_list(swigCPtr, FilterList.getCPtr(filter_list)), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Dimension ret = new Dimension(tiledbcsPINVOKE.Dimension_set_filter_list(swigCPtr, FilterList.getCPtr(filter_list)), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public string name() {
-    string ret = tiledbPINVOKE.Dimension_name(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    string ret = tiledbcsPINVOKE.Dimension_name(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public tiledb_datatype_t type() {
-    tiledb_datatype_t ret = (tiledb_datatype_t)tiledbPINVOKE.Dimension_type(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledb_datatype_t ret = (tiledb_datatype_t)tiledbcsPINVOKE.Dimension_type(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public string domain_to_str() {
-    string ret = tiledbPINVOKE.Dimension_domain_to_str(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    string ret = tiledbcsPINVOKE.Dimension_domain_to_str(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public string tile_extent_to_str() {
-    string ret = tiledbPINVOKE.Dimension_tile_extent_to_str(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    string ret = tiledbcsPINVOKE.Dimension_tile_extent_to_str(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public SWIGTYPE_p_std__shared_ptrT_tiledb_dimension_t_t ptr() {
-    SWIGTYPE_p_std__shared_ptrT_tiledb_dimension_t_t ret = new SWIGTYPE_p_std__shared_ptrT_tiledb_dimension_t_t(tiledbPINVOKE.Dimension_ptr(swigCPtr), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_std__shared_ptrT_tiledb_dimension_t_t ret = new SWIGTYPE_p_std__shared_ptrT_tiledb_dimension_t_t(tiledbcsPINVOKE.Dimension_ptr(swigCPtr), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public static bool is_valid_intdatatype(int intdatatype) {
-    bool ret = tiledbPINVOKE.Dimension_is_valid_intdatatype(intdatatype);
+    bool ret = tiledbcsPINVOKE.Dimension_is_valid_intdatatype(intdatatype);
     return ret;
   }
 
   public static Dimension create_dimension(Context ctx, string name, int intdatatype, string lower_bound_str, string upper_bound_str, string extent_str) {
-    Dimension ret = new Dimension(tiledbPINVOKE.Dimension_create_dimension(Context.getCPtr(ctx), name, intdatatype, lower_bound_str, upper_bound_str, extent_str), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Dimension ret = new Dimension(tiledbcsPINVOKE.Dimension_create_dimension(Context.getCPtr(ctx), name, intdatatype, lower_bound_str, upper_bound_str, extent_str), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public static Dimension create_int32_dimension(Context ctx, string name, int bound_lower, int bound_upper, int extent) {
-    Dimension ret = new Dimension(tiledbPINVOKE.Dimension_create_int32_dimension(Context.getCPtr(ctx), name, bound_lower, bound_upper, extent), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Dimension ret = new Dimension(tiledbcsPINVOKE.Dimension_create_int32_dimension(Context.getCPtr(ctx), name, bound_lower, bound_upper, extent), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public static Dimension create_int64_dimension(Context ctx, string name, long bound_lower, long bound_upper, long extent) {
-    Dimension ret = new Dimension(tiledbPINVOKE.Dimension_create_int64_dimension(Context.getCPtr(ctx), name, bound_lower, bound_upper, extent), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Dimension ret = new Dimension(tiledbcsPINVOKE.Dimension_create_int64_dimension(Context.getCPtr(ctx), name, bound_lower, bound_upper, extent), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public static Dimension create_uint64_dimension(Context ctx, string name, ulong bound_lower, ulong bound_upper, ulong extent) {
-    Dimension ret = new Dimension(tiledbPINVOKE.Dimension_create_uint64_dimension(Context.getCPtr(ctx), name, bound_lower, bound_upper, extent), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Dimension ret = new Dimension(tiledbcsPINVOKE.Dimension_create_uint64_dimension(Context.getCPtr(ctx), name, bound_lower, bound_upper, extent), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public static Dimension create_double_dimension(Context ctx, string name, double bound_lower, double bound_upper, double extent) {
-    Dimension ret = new Dimension(tiledbPINVOKE.Dimension_create_double_dimension(Context.getCPtr(ctx), name, bound_lower, bound_upper, extent), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Dimension ret = new Dimension(tiledbcsPINVOKE.Dimension_create_double_dimension(Context.getCPtr(ctx), name, bound_lower, bound_upper, extent), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public static Dimension create_string_dimension(Context ctx, string name) {
-    Dimension ret = new Dimension(tiledbPINVOKE.Dimension_create_string_dimension(Context.getCPtr(ctx), name), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Dimension ret = new Dimension(tiledbcsPINVOKE.Dimension_create_string_dimension(Context.getCPtr(ctx), name), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

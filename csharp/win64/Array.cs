@@ -37,217 +37,217 @@ public class Array : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnBase) {
           swigCMemOwnBase = false;
-          tiledbPINVOKE.delete_Array(swigCPtr);
+          tiledbcsPINVOKE.delete_Array(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public Array(Context ctx, string array_uri, tiledb_query_type_t query_type) : this(tiledbPINVOKE.new_Array__SWIG_0(Context.getCPtr(ctx), array_uri, (int)query_type), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Array(Context ctx, string array_uri, tiledb_query_type_t query_type) : this(tiledbcsPINVOKE.new_Array__SWIG_0(Context.getCPtr(ctx), array_uri, (int)query_type), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Array(Context ctx, string array_uri, tiledb_query_type_t query_type, tiledb_encryption_type_t encryption_type, string encryption_key) : this(tiledbPINVOKE.new_Array__SWIG_1(Context.getCPtr(ctx), array_uri, (int)query_type, (int)encryption_type, encryption_key), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Array(Context ctx, string array_uri, tiledb_query_type_t query_type, tiledb_encryption_type_t encryption_type, string encryption_key) : this(tiledbcsPINVOKE.new_Array__SWIG_1(Context.getCPtr(ctx), array_uri, (int)query_type, (int)encryption_type, encryption_key), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Array(Context ctx, string array_uri, tiledb_query_type_t query_type, ulong timestamp) : this(tiledbPINVOKE.new_Array__SWIG_2(Context.getCPtr(ctx), array_uri, (int)query_type, timestamp), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Array(Context ctx, string array_uri, tiledb_query_type_t query_type, ulong timestamp) : this(tiledbcsPINVOKE.new_Array__SWIG_2(Context.getCPtr(ctx), array_uri, (int)query_type, timestamp), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Array(Context ctx, string array_uri, tiledb_query_type_t query_type, tiledb_encryption_type_t encryption_type, string encryption_key, ulong timestamp) : this(tiledbPINVOKE.new_Array__SWIG_3(Context.getCPtr(ctx), array_uri, (int)query_type, (int)encryption_type, encryption_key, timestamp), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Array(Context ctx, string array_uri, tiledb_query_type_t query_type, tiledb_encryption_type_t encryption_type, string encryption_key, ulong timestamp) : this(tiledbcsPINVOKE.new_Array__SWIG_3(Context.getCPtr(ctx), array_uri, (int)query_type, (int)encryption_type, encryption_key, timestamp), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Array(Context ctx, SWIGTYPE_p_tiledb_array_t carray) : this(tiledbPINVOKE.new_Array__SWIG_4(Context.getCPtr(ctx), SWIGTYPE_p_tiledb_array_t.getCPtr(carray)), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Array(Context ctx, SWIGTYPE_p_tiledb_array_t carray) : this(tiledbcsPINVOKE.new_Array__SWIG_4(Context.getCPtr(ctx), SWIGTYPE_p_tiledb_array_t.getCPtr(carray)), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Array(Array arg0) : this(tiledbPINVOKE.new_Array__SWIG_5(Array.getCPtr(arg0)), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Array(Array arg0) : this(tiledbcsPINVOKE.new_Array__SWIG_5(Array.getCPtr(arg0)), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public bool is_open() {
-    bool ret = tiledbPINVOKE.Array_is_open(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    bool ret = tiledbcsPINVOKE.Array_is_open(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public string uri() {
-    string ret = tiledbPINVOKE.Array_uri(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    string ret = tiledbcsPINVOKE.Array_uri(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public ArraySchema schema() {
-    ArraySchema ret = new ArraySchema(tiledbPINVOKE.Array_schema(swigCPtr), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    ArraySchema ret = new ArraySchema(tiledbcsPINVOKE.Array_schema(swigCPtr), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public SWIGTYPE_p_std__shared_ptrT_tiledb_array_t_t ptr() {
-    SWIGTYPE_p_std__shared_ptrT_tiledb_array_t_t ret = new SWIGTYPE_p_std__shared_ptrT_tiledb_array_t_t(tiledbPINVOKE.Array_ptr(swigCPtr), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_std__shared_ptrT_tiledb_array_t_t ret = new SWIGTYPE_p_std__shared_ptrT_tiledb_array_t_t(tiledbcsPINVOKE.Array_ptr(swigCPtr), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void open(tiledb_query_type_t query_type) {
-    tiledbPINVOKE.Array_open__SWIG_0(swigCPtr, (int)query_type);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_open__SWIG_0(swigCPtr, (int)query_type);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void open(tiledb_query_type_t query_type, tiledb_encryption_type_t encryption_type, string encryption_key) {
-    tiledbPINVOKE.Array_open__SWIG_1(swigCPtr, (int)query_type, (int)encryption_type, encryption_key);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_open__SWIG_1(swigCPtr, (int)query_type, (int)encryption_type, encryption_key);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void open(tiledb_query_type_t query_type, ulong timestamp) {
-    tiledbPINVOKE.Array_open__SWIG_2(swigCPtr, (int)query_type, timestamp);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_open__SWIG_2(swigCPtr, (int)query_type, timestamp);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void open(tiledb_query_type_t query_type, tiledb_encryption_type_t encryption_type, string encryption_key, ulong timestamp) {
-    tiledbPINVOKE.Array_open__SWIG_3(swigCPtr, (int)query_type, (int)encryption_type, encryption_key, timestamp);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_open__SWIG_3(swigCPtr, (int)query_type, (int)encryption_type, encryption_key, timestamp);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void reopen() {
-    tiledbPINVOKE.Array_reopen(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_reopen(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void reopen_at(ulong timestamp) {
-    tiledbPINVOKE.Array_reopen_at(swigCPtr, timestamp);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_reopen_at(swigCPtr, timestamp);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public ulong timestamp() {
-    ulong ret = tiledbPINVOKE.Array_timestamp(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    ulong ret = tiledbcsPINVOKE.Array_timestamp(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void close() {
-    tiledbPINVOKE.Array_close(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_close(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void consolidate(Context ctx, string uri, Config config) {
-    tiledbPINVOKE.Array_consolidate__SWIG_0(Context.getCPtr(ctx), uri, Config.getCPtr(config));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_consolidate__SWIG_0(Context.getCPtr(ctx), uri, Config.getCPtr(config));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void consolidate(Context ctx, string uri) {
-    tiledbPINVOKE.Array_consolidate__SWIG_1(Context.getCPtr(ctx), uri);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_consolidate__SWIG_1(Context.getCPtr(ctx), uri);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void consolidate(Context ctx, string uri, tiledb_encryption_type_t encryption_type, System.IntPtr encryption_key, uint key_length) {
-    tiledbPINVOKE.Array_consolidate__SWIG_2(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key, key_length);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_consolidate__SWIG_2(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key, key_length);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void vacuum(Context ctx, string uri, Config config) {
-    tiledbPINVOKE.Array_vacuum__SWIG_0(Context.getCPtr(ctx), uri, Config.getCPtr(config));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_vacuum__SWIG_0(Context.getCPtr(ctx), uri, Config.getCPtr(config));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void vacuum(Context ctx, string uri) {
-    tiledbPINVOKE.Array_vacuum__SWIG_1(Context.getCPtr(ctx), uri);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_vacuum__SWIG_1(Context.getCPtr(ctx), uri);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void consolidate(Context ctx, string uri, tiledb_encryption_type_t encryption_type, string encryption_key, Config config) {
-    tiledbPINVOKE.Array_consolidate__SWIG_3(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key, Config.getCPtr(config));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_consolidate__SWIG_3(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key, Config.getCPtr(config));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void consolidate(Context ctx, string uri, tiledb_encryption_type_t encryption_type, string encryption_key) {
-    tiledbPINVOKE.Array_consolidate__SWIG_4(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_consolidate__SWIG_4(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void create(string uri, ArraySchema schema) {
-    tiledbPINVOKE.Array_create__SWIG_0(uri, ArraySchema.getCPtr(schema));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_create__SWIG_0(uri, ArraySchema.getCPtr(schema));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static ArraySchema load_schema(Context ctx, string uri) {
-    global::System.IntPtr cPtr = tiledbPINVOKE.Array_load_schema(Context.getCPtr(ctx), uri);
+    global::System.IntPtr cPtr = tiledbcsPINVOKE.Array_load_schema(Context.getCPtr(ctx), uri);
     ArraySchema ret = (cPtr == global::System.IntPtr.Zero) ? null : new ArraySchema(cPtr, true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public static void create(string uri, ArraySchema schema, tiledb_encryption_type_t encryption_type, string encryption_key) {
-    tiledbPINVOKE.Array_create__SWIG_1(uri, ArraySchema.getCPtr(schema), (int)encryption_type, encryption_key);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_create__SWIG_1(uri, ArraySchema.getCPtr(schema), (int)encryption_type, encryption_key);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static tiledb_encryption_type_t encryption_type(Context ctx, string array_uri) {
-    tiledb_encryption_type_t ret = (tiledb_encryption_type_t)tiledbPINVOKE.Array_encryption_type(Context.getCPtr(ctx), array_uri);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledb_encryption_type_t ret = (tiledb_encryption_type_t)tiledbcsPINVOKE.Array_encryption_type(Context.getCPtr(ctx), array_uri);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public SWIGTYPE_p_std__pairT_std__string_std__string_t non_empty_domain_var(uint idx) {
-    SWIGTYPE_p_std__pairT_std__string_std__string_t ret = new SWIGTYPE_p_std__pairT_std__string_std__string_t(tiledbPINVOKE.Array_non_empty_domain_var__SWIG_0(swigCPtr, idx), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_std__pairT_std__string_std__string_t ret = new SWIGTYPE_p_std__pairT_std__string_std__string_t(tiledbcsPINVOKE.Array_non_empty_domain_var__SWIG_0(swigCPtr, idx), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public SWIGTYPE_p_std__pairT_std__string_std__string_t non_empty_domain_var(string name) {
-    SWIGTYPE_p_std__pairT_std__string_std__string_t ret = new SWIGTYPE_p_std__pairT_std__string_std__string_t(tiledbPINVOKE.Array_non_empty_domain_var__SWIG_1(swigCPtr, name), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_std__pairT_std__string_std__string_t ret = new SWIGTYPE_p_std__pairT_std__string_std__string_t(tiledbcsPINVOKE.Array_non_empty_domain_var__SWIG_1(swigCPtr, name), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public tiledb_query_type_t query_type() {
-    tiledb_query_type_t ret = (tiledb_query_type_t)tiledbPINVOKE.Array_query_type(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledb_query_type_t ret = (tiledb_query_type_t)tiledbcsPINVOKE.Array_query_type(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public static void consolidate_metadata(Context ctx, string uri, Config config) {
-    tiledbPINVOKE.Array_consolidate_metadata__SWIG_0(Context.getCPtr(ctx), uri, Config.getCPtr(config));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_consolidate_metadata__SWIG_0(Context.getCPtr(ctx), uri, Config.getCPtr(config));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void consolidate_metadata(Context ctx, string uri) {
-    tiledbPINVOKE.Array_consolidate_metadata__SWIG_1(Context.getCPtr(ctx), uri);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_consolidate_metadata__SWIG_1(Context.getCPtr(ctx), uri);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void consolidate_metadata(Context ctx, string uri, tiledb_encryption_type_t encryption_type, System.IntPtr encryption_key, uint key_length) {
-    tiledbPINVOKE.Array_consolidate_metadata__SWIG_2(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key, key_length);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_consolidate_metadata__SWIG_2(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key, key_length);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void consolidate_metadata(Context ctx, string uri, tiledb_encryption_type_t encryption_type, string encryption_key, Config config) {
-    tiledbPINVOKE.Array_consolidate_metadata__SWIG_3(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key, Config.getCPtr(config));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_consolidate_metadata__SWIG_3(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key, Config.getCPtr(config));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void consolidate_metadata(Context ctx, string uri, tiledb_encryption_type_t encryption_type, string encryption_key) {
-    tiledbPINVOKE.Array_consolidate_metadata__SWIG_4(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_consolidate_metadata__SWIG_4(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void delete_metadata(string key) {
-    tiledbPINVOKE.Array_delete_metadata(swigCPtr, key);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Array_delete_metadata(swigCPtr, key);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public bool has_metadata(string key, SWIGTYPE_p_tiledb_datatype_t value_type) {
-    bool ret = tiledbPINVOKE.Array_has_metadata(swigCPtr, key, SWIGTYPE_p_tiledb_datatype_t.getCPtr(value_type));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    bool ret = tiledbcsPINVOKE.Array_has_metadata(swigCPtr, key, SWIGTYPE_p_tiledb_datatype_t.getCPtr(value_type));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public ulong metadata_num() {
-    ulong ret = tiledbPINVOKE.Array_metadata_num(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    ulong ret = tiledbcsPINVOKE.Array_metadata_num(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

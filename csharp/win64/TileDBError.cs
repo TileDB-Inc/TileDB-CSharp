@@ -37,15 +37,15 @@ public class TileDBError : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnBase) {
           swigCMemOwnBase = false;
-          tiledbPINVOKE.delete_TileDBError(swigCPtr);
+          tiledbcsPINVOKE.delete_TileDBError(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public TileDBError(string msg) : this(tiledbPINVOKE.new_TileDBError(msg), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public TileDBError(string msg) : this(tiledbcsPINVOKE.new_TileDBError(msg), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
 }

@@ -37,66 +37,66 @@ public class Object : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnBase) {
           swigCMemOwnBase = false;
-          tiledbPINVOKE.delete_Object(swigCPtr);
+          tiledbcsPINVOKE.delete_Object(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public Object(Object.Type type, string uri) : this(tiledbPINVOKE.new_Object__SWIG_0((int)type, uri), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Object(Object.Type type, string uri) : this(tiledbcsPINVOKE.new_Object__SWIG_0((int)type, uri), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Object(Object.Type type) : this(tiledbPINVOKE.new_Object__SWIG_1((int)type), true) {
+  public Object(Object.Type type) : this(tiledbcsPINVOKE.new_Object__SWIG_1((int)type), true) {
   }
 
-  public Object(tiledb_object_t type, string uri) : this(tiledbPINVOKE.new_Object__SWIG_2((int)type, uri), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Object(tiledb_object_t type, string uri) : this(tiledbcsPINVOKE.new_Object__SWIG_2((int)type, uri), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Object(tiledb_object_t type) : this(tiledbPINVOKE.new_Object__SWIG_3((int)type), true) {
+  public Object(tiledb_object_t type) : this(tiledbcsPINVOKE.new_Object__SWIG_3((int)type), true) {
   }
 
-  public Object() : this(tiledbPINVOKE.new_Object__SWIG_4(), true) {
+  public Object() : this(tiledbcsPINVOKE.new_Object__SWIG_4(), true) {
   }
 
-  public Object(Object arg0) : this(tiledbPINVOKE.new_Object__SWIG_5(Object.getCPtr(arg0)), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Object(Object arg0) : this(tiledbcsPINVOKE.new_Object__SWIG_5(Object.getCPtr(arg0)), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public string to_str() {
-    string ret = tiledbPINVOKE.Object_to_str(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    string ret = tiledbcsPINVOKE.Object_to_str(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Object.Type type() {
-    Object.Type ret = (Object.Type)tiledbPINVOKE.Object_type(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Object.Type ret = (Object.Type)tiledbcsPINVOKE.Object_type(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public string uri() {
-    string ret = tiledbPINVOKE.Object_uri(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    string ret = tiledbcsPINVOKE.Object_uri(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public static Object object_(Context ctx, string uri) {
-    Object ret = new Object(tiledbPINVOKE.Object_object_(Context.getCPtr(ctx), uri), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Object ret = new Object(tiledbcsPINVOKE.Object_object_(Context.getCPtr(ctx), uri), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public static void remove(Context ctx, string uri) {
-    tiledbPINVOKE.Object_remove(Context.getCPtr(ctx), uri);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Object_remove(Context.getCPtr(ctx), uri);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void move(Context ctx, string old_uri, string new_uri) {
-    tiledbPINVOKE.Object_move(Context.getCPtr(ctx), old_uri, new_uri);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Object_move(Context.getCPtr(ctx), old_uri, new_uri);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public enum Type {

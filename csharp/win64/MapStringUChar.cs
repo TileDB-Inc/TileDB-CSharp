@@ -39,7 +39,7 @@ public class MapStringUChar : global::System.IDisposable
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwn) {
           swigCMemOwn = false;
-          tiledbPINVOKE.delete_MapStringUChar(swigCPtr);
+          tiledbcsPINVOKE.delete_MapStringUChar(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
@@ -226,67 +226,67 @@ public class MapStringUChar : global::System.IDisposable
   }
 
 
-  public MapStringUChar() : this(tiledbPINVOKE.new_MapStringUChar__SWIG_0(), true) {
+  public MapStringUChar() : this(tiledbcsPINVOKE.new_MapStringUChar__SWIG_0(), true) {
   }
 
-  public MapStringUChar(MapStringUChar other) : this(tiledbPINVOKE.new_MapStringUChar__SWIG_1(MapStringUChar.getCPtr(other)), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public MapStringUChar(MapStringUChar other) : this(tiledbcsPINVOKE.new_MapStringUChar__SWIG_1(MapStringUChar.getCPtr(other)), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   private uint size() {
-    uint ret = tiledbPINVOKE.MapStringUChar_size(swigCPtr);
+    uint ret = tiledbcsPINVOKE.MapStringUChar_size(swigCPtr);
     return ret;
   }
 
   public bool empty() {
-    bool ret = tiledbPINVOKE.MapStringUChar_empty(swigCPtr);
+    bool ret = tiledbcsPINVOKE.MapStringUChar_empty(swigCPtr);
     return ret;
   }
 
   public void Clear() {
-    tiledbPINVOKE.MapStringUChar_Clear(swigCPtr);
+    tiledbcsPINVOKE.MapStringUChar_Clear(swigCPtr);
   }
 
   private byte getitem(string key) {
-    byte ret = tiledbPINVOKE.MapStringUChar_getitem(swigCPtr, key);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    byte ret = tiledbcsPINVOKE.MapStringUChar_getitem(swigCPtr, key);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   private void setitem(string key, byte x) {
-    tiledbPINVOKE.MapStringUChar_setitem(swigCPtr, key, x);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.MapStringUChar_setitem(swigCPtr, key, x);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public bool ContainsKey(string key) {
-    bool ret = tiledbPINVOKE.MapStringUChar_ContainsKey(swigCPtr, key);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    bool ret = tiledbcsPINVOKE.MapStringUChar_ContainsKey(swigCPtr, key);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void Add(string key, byte value) {
-    tiledbPINVOKE.MapStringUChar_Add(swigCPtr, key, value);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.MapStringUChar_Add(swigCPtr, key, value);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public bool Remove(string key) {
-    bool ret = tiledbPINVOKE.MapStringUChar_Remove(swigCPtr, key);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    bool ret = tiledbcsPINVOKE.MapStringUChar_Remove(swigCPtr, key);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   private global::System.IntPtr create_iterator_begin() {
-    global::System.IntPtr ret = tiledbPINVOKE.MapStringUChar_create_iterator_begin(swigCPtr);
+    global::System.IntPtr ret = tiledbcsPINVOKE.MapStringUChar_create_iterator_begin(swigCPtr);
     return ret;
   }
 
   private string get_next_key(global::System.IntPtr swigiterator) {
-    string ret = tiledbPINVOKE.MapStringUChar_get_next_key(swigCPtr, swigiterator);
+    string ret = tiledbcsPINVOKE.MapStringUChar_get_next_key(swigCPtr, swigiterator);
     return ret;
   }
 
   private void destroy_iterator(global::System.IntPtr swigiterator) {
-    tiledbPINVOKE.MapStringUChar_destroy_iterator(swigCPtr, swigiterator);
+    tiledbcsPINVOKE.MapStringUChar_destroy_iterator(swigCPtr, swigiterator);
   }
 
 }

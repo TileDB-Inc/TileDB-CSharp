@@ -37,50 +37,50 @@ public class ObjectIter : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnBase) {
           swigCMemOwnBase = false;
-          tiledbPINVOKE.delete_ObjectIter(swigCPtr);
+          tiledbcsPINVOKE.delete_ObjectIter(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public ObjectIter(Context ctx, string root) : this(tiledbPINVOKE.new_ObjectIter__SWIG_0(Context.getCPtr(ctx), root), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public ObjectIter(Context ctx, string root) : this(tiledbcsPINVOKE.new_ObjectIter__SWIG_0(Context.getCPtr(ctx), root), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public ObjectIter(Context ctx) : this(tiledbPINVOKE.new_ObjectIter__SWIG_1(Context.getCPtr(ctx)), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public ObjectIter(Context ctx) : this(tiledbcsPINVOKE.new_ObjectIter__SWIG_1(Context.getCPtr(ctx)), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void set_iter_policy(bool group, bool array) {
-    tiledbPINVOKE.ObjectIter_set_iter_policy(swigCPtr, group, array);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.ObjectIter_set_iter_policy(swigCPtr, group, array);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void set_recursive(tiledb_walk_order_t walk_order) {
-    tiledbPINVOKE.ObjectIter_set_recursive__SWIG_0(swigCPtr, (int)walk_order);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.ObjectIter_set_recursive__SWIG_0(swigCPtr, (int)walk_order);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void set_recursive() {
-    tiledbPINVOKE.ObjectIter_set_recursive__SWIG_1(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.ObjectIter_set_recursive__SWIG_1(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void set_non_recursive() {
-    tiledbPINVOKE.ObjectIter_set_non_recursive(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.ObjectIter_set_non_recursive(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public SWIGTYPE_p_tiledb__ObjectIter__iterator begin() {
-    SWIGTYPE_p_tiledb__ObjectIter__iterator ret = new SWIGTYPE_p_tiledb__ObjectIter__iterator(tiledbPINVOKE.ObjectIter_begin(swigCPtr), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_tiledb__ObjectIter__iterator ret = new SWIGTYPE_p_tiledb__ObjectIter__iterator(tiledbcsPINVOKE.ObjectIter_begin(swigCPtr), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public SWIGTYPE_p_tiledb__ObjectIter__iterator end() {
-    SWIGTYPE_p_tiledb__ObjectIter__iterator ret = new SWIGTYPE_p_tiledb__ObjectIter__iterator(tiledbPINVOKE.ObjectIter_end(swigCPtr), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_tiledb__ObjectIter__iterator ret = new SWIGTYPE_p_tiledb__ObjectIter__iterator(tiledbcsPINVOKE.ObjectIter_end(swigCPtr), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

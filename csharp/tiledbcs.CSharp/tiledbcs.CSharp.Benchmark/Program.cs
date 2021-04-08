@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BenchmarkTileDB_CSharp
+namespace tiledbcs.CSharp.Benchmark
 {
     class Program
     {
         static void Main(string[] args)
         {
+            
             //run benchmarks for dense array
-            BenchmarkDotNet.Running.BenchmarkRunner.Run<BenchmarkDenseArray>();
+            BenchmarkDotNet.Running.BenchmarkRunner.Run<DenseArrayBenchmark>();
 
             //run benchmarks for sparse array
-            BenchmarkDotNet.Running.BenchmarkRunner.Run<BenchmarkSparseArray>();
+            BenchmarkDotNet.Running.BenchmarkRunner.Run<SparseArrayBenchmark>();
         }
     }
 }

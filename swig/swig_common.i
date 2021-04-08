@@ -1,12 +1,13 @@
 #ifndef SWIG_COMMON_I
 #define SWIG_COMMON_I
 
-%module tiledb 
+//%module tiledbswig 
 
 #ifdef SWIGPYTHON
 //	define something related to python wrapper
 //		 
 //
+%module tiledbpy
 %include "cpointer.i"	 
  
 #endif
@@ -14,6 +15,7 @@
 #ifdef SWIGCSHARP
 //	define something related to csharp wrapper
 //		 
+%module tiledbcs
  
 %include "arrays_csharp.i"
 

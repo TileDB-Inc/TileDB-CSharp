@@ -37,46 +37,46 @@ public class Config : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnBase) {
           swigCMemOwnBase = false;
-          tiledbPINVOKE.delete_Config(swigCPtr);
+          tiledbcsPINVOKE.delete_Config(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public Config() : this(tiledbPINVOKE.new_Config__SWIG_0(), true) {
+  public Config() : this(tiledbcsPINVOKE.new_Config__SWIG_0(), true) {
   }
 
-  public Config(string filename) : this(tiledbPINVOKE.new_Config__SWIG_1(filename), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Config(string filename) : this(tiledbcsPINVOKE.new_Config__SWIG_1(filename), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void save_to_file(string filename) {
-    tiledbPINVOKE.Config_save_to_file(swigCPtr, filename);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Config_save_to_file(swigCPtr, filename);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public SWIGTYPE_p_std__shared_ptrT_tiledb_config_t_t ptr() {
-    SWIGTYPE_p_std__shared_ptrT_tiledb_config_t_t ret = new SWIGTYPE_p_std__shared_ptrT_tiledb_config_t_t(tiledbPINVOKE.Config_ptr(swigCPtr), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_std__shared_ptrT_tiledb_config_t_t ret = new SWIGTYPE_p_std__shared_ptrT_tiledb_config_t_t(tiledbcsPINVOKE.Config_ptr(swigCPtr), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Config set(string param, string value) {
-    Config ret = new Config(tiledbPINVOKE.Config_set(swigCPtr, param, value), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Config ret = new Config(tiledbcsPINVOKE.Config_set(swigCPtr, param, value), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public string get(string param) {
-    string ret = tiledbPINVOKE.Config_get(swigCPtr, param);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    string ret = tiledbcsPINVOKE.Config_get(swigCPtr, param);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Config unset(string param) {
-    Config ret = new Config(tiledbPINVOKE.Config_unset(swigCPtr, param), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Config ret = new Config(tiledbcsPINVOKE.Config_unset(swigCPtr, param), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

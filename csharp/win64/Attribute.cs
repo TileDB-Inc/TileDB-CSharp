@@ -37,97 +37,97 @@ public class Attribute : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnBase) {
           swigCMemOwnBase = false;
-          tiledbPINVOKE.delete_Attribute(swigCPtr);
+          tiledbcsPINVOKE.delete_Attribute(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public Attribute(Context ctx, string name, tiledb_datatype_t type) : this(tiledbPINVOKE.new_Attribute__SWIG_0(Context.getCPtr(ctx), name, (int)type), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Attribute(Context ctx, string name, tiledb_datatype_t type) : this(tiledbcsPINVOKE.new_Attribute__SWIG_0(Context.getCPtr(ctx), name, (int)type), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Attribute(Context ctx, string name, tiledb_datatype_t type, FilterList filter_list) : this(tiledbPINVOKE.new_Attribute__SWIG_1(Context.getCPtr(ctx), name, (int)type, FilterList.getCPtr(filter_list)), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Attribute(Context ctx, string name, tiledb_datatype_t type, FilterList filter_list) : this(tiledbcsPINVOKE.new_Attribute__SWIG_1(Context.getCPtr(ctx), name, (int)type, FilterList.getCPtr(filter_list)), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Attribute(Attribute arg0) : this(tiledbPINVOKE.new_Attribute__SWIG_2(Attribute.getCPtr(arg0)), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Attribute(Attribute arg0) : this(tiledbcsPINVOKE.new_Attribute__SWIG_2(Attribute.getCPtr(arg0)), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public string name() {
-    string ret = tiledbPINVOKE.Attribute_name(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    string ret = tiledbcsPINVOKE.Attribute_name(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public tiledb_datatype_t type() {
-    tiledb_datatype_t ret = (tiledb_datatype_t)tiledbPINVOKE.Attribute_type(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledb_datatype_t ret = (tiledb_datatype_t)tiledbcsPINVOKE.Attribute_type(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public ulong cell_size() {
-    ulong ret = tiledbPINVOKE.Attribute_cell_size(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    ulong ret = tiledbcsPINVOKE.Attribute_cell_size(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public uint cell_val_num() {
-    uint ret = tiledbPINVOKE.Attribute_cell_val_num(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    uint ret = tiledbcsPINVOKE.Attribute_cell_val_num(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Attribute set_cell_val_num(uint num) {
-    Attribute ret = new Attribute(tiledbPINVOKE.Attribute_set_cell_val_num(swigCPtr, num), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Attribute ret = new Attribute(tiledbcsPINVOKE.Attribute_set_cell_val_num(swigCPtr, num), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public bool variable_sized() {
-    bool ret = tiledbPINVOKE.Attribute_variable_sized(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    bool ret = tiledbcsPINVOKE.Attribute_variable_sized(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public FilterList filter_list() {
-    FilterList ret = new FilterList(tiledbPINVOKE.Attribute_filter_list(swigCPtr), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    FilterList ret = new FilterList(tiledbcsPINVOKE.Attribute_filter_list(swigCPtr), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Attribute set_filter_list(FilterList filter_list) {
-    Attribute ret = new Attribute(tiledbPINVOKE.Attribute_set_filter_list(swigCPtr, FilterList.getCPtr(filter_list)), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Attribute ret = new Attribute(tiledbcsPINVOKE.Attribute_set_filter_list(swigCPtr, FilterList.getCPtr(filter_list)), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public SWIGTYPE_p_std__shared_ptrT_tiledb_attribute_t_t ptr() {
-    SWIGTYPE_p_std__shared_ptrT_tiledb_attribute_t_t ret = new SWIGTYPE_p_std__shared_ptrT_tiledb_attribute_t_t(tiledbPINVOKE.Attribute_ptr(swigCPtr), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_std__shared_ptrT_tiledb_attribute_t_t ret = new SWIGTYPE_p_std__shared_ptrT_tiledb_attribute_t_t(tiledbcsPINVOKE.Attribute_ptr(swigCPtr), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void dump(SWIGTYPE_p_FILE out_) {
-    tiledbPINVOKE.Attribute_dump__SWIG_0(swigCPtr, SWIGTYPE_p_FILE.getCPtr(out_));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Attribute_dump__SWIG_0(swigCPtr, SWIGTYPE_p_FILE.getCPtr(out_));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void dump() {
-    tiledbPINVOKE.Attribute_dump__SWIG_1(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.Attribute_dump__SWIG_1(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static bool is_valid_intdatatype(int intdatatype) {
-    bool ret = tiledbPINVOKE.Attribute_is_valid_intdatatype(intdatatype);
+    bool ret = tiledbcsPINVOKE.Attribute_is_valid_intdatatype(intdatatype);
     return ret;
   }
 
   public static Attribute create_attribute(Context ctx, string name, tiledb_datatype_t datatype) {
-    Attribute ret = new Attribute(tiledbPINVOKE.Attribute_create_attribute(Context.getCPtr(ctx), name, (int)datatype), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    Attribute ret = new Attribute(tiledbcsPINVOKE.Attribute_create_attribute(Context.getCPtr(ctx), name, (int)datatype), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

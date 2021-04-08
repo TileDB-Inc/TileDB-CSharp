@@ -3,15 +3,15 @@ using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTestTileDB_CSharp
+namespace tiledbcs.CSharp.Test
 {
     /// <summary>
-    /// Summary description for UnitTestDenseArray
+    /// Summary description for DenseArrayTest
     /// </summary>
     [TestClass]
-    public class UnitTestDenseArray
+    public class DenseArrayTest
     {
-        public UnitTestDenseArray()
+        public DenseArrayTest()
         {
             //
             // TODO: Add constructor logic here
@@ -58,9 +58,10 @@ namespace UnitTestTileDB_CSharp
         //
         #endregion
 
-        private String array_uri_ = "bench_array";
+        private String array_uri_ = "test_dense_array";
 
-        private void CreateArray()
+        #region Simple Dense Array
+        private void CreateSimpleDenseArray()
         {
             tiledb.Context ctx = new tiledb.Context();
             tiledb.Domain dom = new tiledb.Domain(ctx);
@@ -84,7 +85,7 @@ namespace UnitTestTileDB_CSharp
 
         }//private void CreateArray()
 
-        private tiledb.Query.Status WriteArray()
+        private tiledb.Query.Status WriteSimpleDenseArray()
         {
             tiledb.Context ctx = new tiledb.Context();
 
@@ -92,8 +93,8 @@ namespace UnitTestTileDB_CSharp
             for (int i = 1; i <= 16; ++i)
             {
                 data.Add(i);
-            } 
-            
+            }
+
 
             //open array for write
             tiledb.Array array = new tiledb.Array(ctx, array_uri_, tiledb.tiledb_query_type_t.TILEDB_WRITE);
@@ -108,7 +109,7 @@ namespace UnitTestTileDB_CSharp
 
         }//private void WriteArray()
 
-        private tiledb.Query.Status ReadArray()
+        private tiledb.Query.Status ReadSimpleDenseArray()
         {
             tiledb.Context ctx = new tiledb.Context();
 
@@ -134,25 +135,22 @@ namespace UnitTestTileDB_CSharp
 
             return status;
         }//private tiledb.Query.Status ReadArray()
-
-
+        #endregion
 
         [TestMethod]
-        public void TestMethod1()
+        public void TestSimpleDenseArray()
         {
-            CreateArray();
-            tiledb.Query.Status status_write = WriteArray();
+            CreateSimpleDenseArray();
+            tiledb.Query.Status status_write = WriteSimpleDenseArray();
             if (status_write == tiledb.Query.Status.FAILED)
             {
                 Assert.Fail();
             }
-            tiledb.Query.Status status_read = ReadArray();
+            tiledb.Query.Status status_read = ReadSimpleDenseArray();
             if (status_read == tiledb.Query.Status.FAILED)
             {
                 Assert.Fail();
             }
-
-
         }
     }
 }

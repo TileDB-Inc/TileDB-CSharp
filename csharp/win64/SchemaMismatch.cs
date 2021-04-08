@@ -14,7 +14,7 @@ public class SchemaMismatch : TileDBError {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   private bool swigCMemOwnDerived;
 
-  internal SchemaMismatch(global::System.IntPtr cPtr, bool cMemoryOwn) : base(tiledbPINVOKE.SchemaMismatch_SWIGSmartPtrUpcast(cPtr), true) {
+  internal SchemaMismatch(global::System.IntPtr cPtr, bool cMemoryOwn) : base(tiledbcsPINVOKE.SchemaMismatch_SWIGSmartPtrUpcast(cPtr), true) {
     swigCMemOwnDerived = cMemoryOwn;
     swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
   }
@@ -28,7 +28,7 @@ public class SchemaMismatch : TileDBError {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnDerived) {
           swigCMemOwnDerived = false;
-          tiledbPINVOKE.delete_SchemaMismatch(swigCPtr);
+          tiledbcsPINVOKE.delete_SchemaMismatch(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
@@ -36,8 +36,8 @@ public class SchemaMismatch : TileDBError {
     }
   }
 
-  public SchemaMismatch(string msg) : this(tiledbPINVOKE.new_SchemaMismatch(msg), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public SchemaMismatch(string msg) : this(tiledbcsPINVOKE.new_SchemaMismatch(msg), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
 }

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1F0ADDCD-9CD6-4098-9DCF-387272E92423}</ProjectGuid>
+    <ProjectGuid>{E3607C78-6D6A-4774-B034-7BE01F4AFABD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TileDB_CSharp</RootNamespace>
-    <AssemblyName>TileDB_CSharp</AssemblyName>
+    <RootNamespace>tiledbcs.CSharp</RootNamespace>
+    <AssemblyName>tiledbcs.CSharp</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -259,14 +259,14 @@
     <Compile Include="..\..\win64\SWIGTYPE_p_tiledb__ObjectIter__iterator.cs">
       <Link>SWIGTYPE_p_tiledb__ObjectIter__iterator.cs</Link>
     </Compile>
-    <Compile Include="..\..\win64\tiledb.cs">
-      <Link>tiledb.cs</Link>
+    <Compile Include="..\..\win64\tiledbcs.cs">
+      <Link>tiledbcs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\win64\tiledbcsPINVOKE.cs">
+      <Link>tiledbcsPINVOKE.cs</Link>
     </Compile>
     <Compile Include="..\..\win64\TileDBError.cs">
       <Link>TileDBError.cs</Link>
-    </Compile>
-    <Compile Include="..\..\win64\tiledbPINVOKE.cs">
-      <Link>tiledbPINVOKE.cs</Link>
     </Compile>
     <Compile Include="..\..\win64\tiledb_array_type_t.cs">
       <Link>tiledb_array_type_t.cs</Link>
@@ -343,13 +343,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="tbb.dll" />
-    <Content Include="tiledb-cs.dll" />
-    <Content Include="tiledb.dll" />
-    <Content Include="zlib.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="tiledb-cs.lib" />
+    <Content Include="..\..\..\dist\bin\tbb.dll">
+      <Link>tbb.dll</Link>
+    </Content>
+    <Content Include="..\..\..\dist\bin\tiledb.dll">
+      <Link>tiledb.dll</Link>
+    </Content>
+    <Content Include="..\..\..\dist\bin\tiledbcs.dll">
+      <Link>tiledbcs.dll</Link>
+    </Content>
+    <Content Include="..\..\..\dist\bin\zlib.dll">
+      <Link>zlib.dll</Link>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

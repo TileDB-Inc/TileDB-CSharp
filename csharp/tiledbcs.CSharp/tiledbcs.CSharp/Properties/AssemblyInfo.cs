@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("UnitTestTileDB_CSharp")]
+[assembly: AssemblyTitle("tiledbcs.CSharp")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("UnitTestTileDB_CSharp")]
+[assembly: AssemblyProduct("tiledbcs.CSharp")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("45bb385e-994a-4844-87e9-83e5f674fd95")]
+[assembly: Guid("e3607c78-6d6a-4774-b034-7be01f4afabd")]
 
 // Version information for an assembly consists of the following four values:
 //

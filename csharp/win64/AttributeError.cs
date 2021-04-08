@@ -14,7 +14,7 @@ public class AttributeError : TileDBError {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   private bool swigCMemOwnDerived;
 
-  internal AttributeError(global::System.IntPtr cPtr, bool cMemoryOwn) : base(tiledbPINVOKE.AttributeError_SWIGSmartPtrUpcast(cPtr), true) {
+  internal AttributeError(global::System.IntPtr cPtr, bool cMemoryOwn) : base(tiledbcsPINVOKE.AttributeError_SWIGSmartPtrUpcast(cPtr), true) {
     swigCMemOwnDerived = cMemoryOwn;
     swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
   }
@@ -28,7 +28,7 @@ public class AttributeError : TileDBError {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnDerived) {
           swigCMemOwnDerived = false;
-          tiledbPINVOKE.delete_AttributeError(swigCPtr);
+          tiledbcsPINVOKE.delete_AttributeError(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
@@ -36,8 +36,8 @@ public class AttributeError : TileDBError {
     }
   }
 
-  public AttributeError(string msg) : this(tiledbPINVOKE.new_AttributeError(msg), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public AttributeError(string msg) : this(tiledbcsPINVOKE.new_AttributeError(msg), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
 }

@@ -37,38 +37,38 @@ public class Filter : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnBase) {
           swigCMemOwnBase = false;
-          tiledbPINVOKE.delete_Filter(swigCPtr);
+          tiledbcsPINVOKE.delete_Filter(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public Filter(Context ctx, tiledb_filter_type_t filter_type) : this(tiledbPINVOKE.new_Filter__SWIG_0(Context.getCPtr(ctx), (int)filter_type), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Filter(Context ctx, tiledb_filter_type_t filter_type) : this(tiledbcsPINVOKE.new_Filter__SWIG_0(Context.getCPtr(ctx), (int)filter_type), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Filter() : this(tiledbPINVOKE.new_Filter__SWIG_1(), true) {
+  public Filter() : this(tiledbcsPINVOKE.new_Filter__SWIG_1(), true) {
   }
 
-  public Filter(Filter arg0) : this(tiledbPINVOKE.new_Filter__SWIG_2(Filter.getCPtr(arg0)), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public Filter(Filter arg0) : this(tiledbcsPINVOKE.new_Filter__SWIG_2(Filter.getCPtr(arg0)), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public SWIGTYPE_p_std__shared_ptrT_tiledb_filter_t_t ptr() {
-    SWIGTYPE_p_std__shared_ptrT_tiledb_filter_t_t ret = new SWIGTYPE_p_std__shared_ptrT_tiledb_filter_t_t(tiledbPINVOKE.Filter_ptr(swigCPtr), true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_std__shared_ptrT_tiledb_filter_t_t ret = new SWIGTYPE_p_std__shared_ptrT_tiledb_filter_t_t(tiledbcsPINVOKE.Filter_ptr(swigCPtr), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public tiledb_filter_type_t filter_type() {
-    tiledb_filter_type_t ret = (tiledb_filter_type_t)tiledbPINVOKE.Filter_filter_type(swigCPtr);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledb_filter_type_t ret = (tiledb_filter_type_t)tiledbcsPINVOKE.Filter_filter_type(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public static string to_str(tiledb_filter_type_t type) {
-    string ret = tiledbPINVOKE.Filter_to_str((int)type);
+    string ret = tiledbcsPINVOKE.Filter_to_str((int)type);
     return ret;
   }
 

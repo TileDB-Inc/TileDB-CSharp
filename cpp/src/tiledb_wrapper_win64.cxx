@@ -243,7 +243,7 @@ static void SWIGUNUSED SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpExcepti
 #ifdef __cplusplus
 extern "C" 
 #endif
-SWIGEXPORT void SWIGSTDCALL SWIGRegisterExceptionCallbacks_tiledb(
+SWIGEXPORT void SWIGSTDCALL SWIGRegisterExceptionCallbacks_tiledbcs(
                                                 SWIG_CSharpExceptionCallback_t applicationCallback,
                                                 SWIG_CSharpExceptionCallback_t arithmeticCallback,
                                                 SWIG_CSharpExceptionCallback_t divideByZeroCallback, 
@@ -271,7 +271,7 @@ SWIGEXPORT void SWIGSTDCALL SWIGRegisterExceptionCallbacks_tiledb(
 #ifdef __cplusplus
 extern "C" 
 #endif
-SWIGEXPORT void SWIGSTDCALL SWIGRegisterExceptionArgumentCallbacks_tiledb(
+SWIGEXPORT void SWIGSTDCALL SWIGRegisterExceptionArgumentCallbacks_tiledbcs(
                                                 SWIG_CSharpExceptionArgumentCallback_t argumentCallback,
                                                 SWIG_CSharpExceptionArgumentCallback_t argumentNullCallback,
                                                 SWIG_CSharpExceptionArgumentCallback_t argumentOutOfRangeCallback) {
@@ -289,7 +289,7 @@ static SWIG_CSharpStringHelperCallback SWIG_csharp_string_callback = NULL;
 #ifdef __cplusplus
 extern "C" 
 #endif
-SWIGEXPORT void SWIGSTDCALL SWIGRegisterStringCallback_tiledb(SWIG_CSharpStringHelperCallback callback) {
+SWIGEXPORT void SWIGSTDCALL SWIGRegisterStringCallback_tiledbcs(SWIG_CSharpStringHelperCallback callback) {
   SWIG_csharp_string_callback = callback;
 }
 

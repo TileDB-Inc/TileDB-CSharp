@@ -37,7 +37,7 @@ public class Stats : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnBase) {
           swigCMemOwnBase = false;
-          tiledbPINVOKE.delete_Stats(swigCPtr);
+          tiledbcsPINVOKE.delete_Stats(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
@@ -45,34 +45,34 @@ public class Stats : global::System.IDisposable {
   }
 
   public static void enable() {
-    tiledbPINVOKE.Stats_enable();
+    tiledbcsPINVOKE.Stats_enable();
   }
 
   public static void disable() {
-    tiledbPINVOKE.Stats_disable();
+    tiledbcsPINVOKE.Stats_disable();
   }
 
   public static void reset() {
-    tiledbPINVOKE.Stats_reset();
+    tiledbcsPINVOKE.Stats_reset();
   }
 
   public static void dump() {
-    tiledbPINVOKE.Stats_dump__SWIG_0();
+    tiledbcsPINVOKE.Stats_dump__SWIG_0();
   }
 
   public static void dump(SWIGTYPE_p_std__string out_) {
-    tiledbPINVOKE.Stats_dump__SWIG_1(SWIGTYPE_p_std__string.getCPtr(out_));
+    tiledbcsPINVOKE.Stats_dump__SWIG_1(SWIGTYPE_p_std__string.getCPtr(out_));
   }
 
   public static void raw_dump() {
-    tiledbPINVOKE.Stats_raw_dump__SWIG_0();
+    tiledbcsPINVOKE.Stats_raw_dump__SWIG_0();
   }
 
   public static void raw_dump(SWIGTYPE_p_std__string out_) {
-    tiledbPINVOKE.Stats_raw_dump__SWIG_1(SWIGTYPE_p_std__string.getCPtr(out_));
+    tiledbcsPINVOKE.Stats_raw_dump__SWIG_1(SWIGTYPE_p_std__string.getCPtr(out_));
   }
 
-  public Stats() : this(tiledbPINVOKE.new_Stats(), true) {
+  public Stats() : this(tiledbcsPINVOKE.new_Stats(), true) {
   }
 
 }

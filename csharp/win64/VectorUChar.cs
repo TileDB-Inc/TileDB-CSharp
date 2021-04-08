@@ -38,7 +38,7 @@ public class VectorUChar : global::System.IDisposable, global::System.Collection
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwn) {
           swigCMemOwn = false;
-          tiledbPINVOKE.delete_VectorUChar(swigCPtr);
+          tiledbcsPINVOKE.delete_VectorUChar(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
@@ -218,125 +218,125 @@ public class VectorUChar : global::System.IDisposable, global::System.Collection
   }
 
   public void Clear() {
-    tiledbPINVOKE.VectorUChar_Clear(swigCPtr);
+    tiledbcsPINVOKE.VectorUChar_Clear(swigCPtr);
   }
 
   public void Add(byte x) {
-    tiledbPINVOKE.VectorUChar_Add(swigCPtr, x);
+    tiledbcsPINVOKE.VectorUChar_Add(swigCPtr, x);
   }
 
   private uint size() {
-    uint ret = tiledbPINVOKE.VectorUChar_size(swigCPtr);
+    uint ret = tiledbcsPINVOKE.VectorUChar_size(swigCPtr);
     return ret;
   }
 
   private uint capacity() {
-    uint ret = tiledbPINVOKE.VectorUChar_capacity(swigCPtr);
+    uint ret = tiledbcsPINVOKE.VectorUChar_capacity(swigCPtr);
     return ret;
   }
 
   private void reserve(uint n) {
-    tiledbPINVOKE.VectorUChar_reserve(swigCPtr, n);
+    tiledbcsPINVOKE.VectorUChar_reserve(swigCPtr, n);
   }
 
-  public VectorUChar() : this(tiledbPINVOKE.new_VectorUChar__SWIG_0(), true) {
+  public VectorUChar() : this(tiledbcsPINVOKE.new_VectorUChar__SWIG_0(), true) {
   }
 
-  public VectorUChar(VectorUChar other) : this(tiledbPINVOKE.new_VectorUChar__SWIG_1(VectorUChar.getCPtr(other)), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public VectorUChar(VectorUChar other) : this(tiledbcsPINVOKE.new_VectorUChar__SWIG_1(VectorUChar.getCPtr(other)), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public VectorUChar(int capacity) : this(tiledbPINVOKE.new_VectorUChar__SWIG_2(capacity), true) {
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+  public VectorUChar(int capacity) : this(tiledbcsPINVOKE.new_VectorUChar__SWIG_2(capacity), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   private byte getitemcopy(int index) {
-    byte ret = tiledbPINVOKE.VectorUChar_getitemcopy(swigCPtr, index);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    byte ret = tiledbcsPINVOKE.VectorUChar_getitemcopy(swigCPtr, index);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   private byte getitem(int index) {
-    byte ret = tiledbPINVOKE.VectorUChar_getitem(swigCPtr, index);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    byte ret = tiledbcsPINVOKE.VectorUChar_getitem(swigCPtr, index);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   private void setitem(int index, byte val) {
-    tiledbPINVOKE.VectorUChar_setitem(swigCPtr, index, val);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.VectorUChar_setitem(swigCPtr, index, val);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void AddRange(VectorUChar values) {
-    tiledbPINVOKE.VectorUChar_AddRange(swigCPtr, VectorUChar.getCPtr(values));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.VectorUChar_AddRange(swigCPtr, VectorUChar.getCPtr(values));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public VectorUChar GetRange(int index, int count) {
-    global::System.IntPtr cPtr = tiledbPINVOKE.VectorUChar_GetRange(swigCPtr, index, count);
+    global::System.IntPtr cPtr = tiledbcsPINVOKE.VectorUChar_GetRange(swigCPtr, index, count);
     VectorUChar ret = (cPtr == global::System.IntPtr.Zero) ? null : new VectorUChar(cPtr, true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void Insert(int index, byte x) {
-    tiledbPINVOKE.VectorUChar_Insert(swigCPtr, index, x);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.VectorUChar_Insert(swigCPtr, index, x);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void InsertRange(int index, VectorUChar values) {
-    tiledbPINVOKE.VectorUChar_InsertRange(swigCPtr, index, VectorUChar.getCPtr(values));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.VectorUChar_InsertRange(swigCPtr, index, VectorUChar.getCPtr(values));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void RemoveAt(int index) {
-    tiledbPINVOKE.VectorUChar_RemoveAt(swigCPtr, index);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.VectorUChar_RemoveAt(swigCPtr, index);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void RemoveRange(int index, int count) {
-    tiledbPINVOKE.VectorUChar_RemoveRange(swigCPtr, index, count);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.VectorUChar_RemoveRange(swigCPtr, index, count);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static VectorUChar Repeat(byte value, int count) {
-    global::System.IntPtr cPtr = tiledbPINVOKE.VectorUChar_Repeat(value, count);
+    global::System.IntPtr cPtr = tiledbcsPINVOKE.VectorUChar_Repeat(value, count);
     VectorUChar ret = (cPtr == global::System.IntPtr.Zero) ? null : new VectorUChar(cPtr, true);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void Reverse() {
-    tiledbPINVOKE.VectorUChar_Reverse__SWIG_0(swigCPtr);
+    tiledbcsPINVOKE.VectorUChar_Reverse__SWIG_0(swigCPtr);
   }
 
   public void Reverse(int index, int count) {
-    tiledbPINVOKE.VectorUChar_Reverse__SWIG_1(swigCPtr, index, count);
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.VectorUChar_Reverse__SWIG_1(swigCPtr, index, count);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void SetRange(int index, VectorUChar values) {
-    tiledbPINVOKE.VectorUChar_SetRange(swigCPtr, index, VectorUChar.getCPtr(values));
-    if (tiledbPINVOKE.SWIGPendingException.Pending) throw tiledbPINVOKE.SWIGPendingException.Retrieve();
+    tiledbcsPINVOKE.VectorUChar_SetRange(swigCPtr, index, VectorUChar.getCPtr(values));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public bool Contains(byte value) {
-    bool ret = tiledbPINVOKE.VectorUChar_Contains(swigCPtr, value);
+    bool ret = tiledbcsPINVOKE.VectorUChar_Contains(swigCPtr, value);
     return ret;
   }
 
   public int IndexOf(byte value) {
-    int ret = tiledbPINVOKE.VectorUChar_IndexOf(swigCPtr, value);
+    int ret = tiledbcsPINVOKE.VectorUChar_IndexOf(swigCPtr, value);
     return ret;
   }
 
   public int LastIndexOf(byte value) {
-    int ret = tiledbPINVOKE.VectorUChar_LastIndexOf(swigCPtr, value);
+    int ret = tiledbcsPINVOKE.VectorUChar_LastIndexOf(swigCPtr, value);
     return ret;
   }
 
   public bool Remove(byte value) {
-    bool ret = tiledbPINVOKE.VectorUChar_Remove(swigCPtr, value);
+    bool ret = tiledbcsPINVOKE.VectorUChar_Remove(swigCPtr, value);
     return ret;
   }
 
