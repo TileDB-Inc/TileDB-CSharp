@@ -21,7 +21,12 @@ namespace tiledbcs.CSharp.Benchmark
 
             tiledb.ArraySchema schema = new tiledb.ArraySchema(ctx, tiledb.tiledb_array_type_t.TILEDB_DENSE);
             schema.set_domain(dom);
+
+            tiledb.FilterList filterlist = new tiledb.FilterList();
+            filterlist.add_filter(new tiledb.Filter(ctx, tiledb.tiledb_filter_type_t.TILEDB_FILTER_GZIP));
+
             tiledb.Attribute attr1 = tiledb.Attribute.create_attribute(ctx, "a", tiledb.tiledb_datatype_t.TILEDB_INT32);
+            attr1.set_filter_list(filterlist);
             schema.add_attribute(attr1);
 
             //delete array if it already exists
