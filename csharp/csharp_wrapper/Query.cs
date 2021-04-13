@@ -196,6 +196,31 @@ public class Query : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public void set_int32_coordinates(VectorInt32 buf) {
+    tiledbcsPINVOKE.Query_set_int32_coordinates(swigCPtr, VectorInt32.getCPtr(buf));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void set_uint32_coordinates(VectorUInt32 buf) {
+    tiledbcsPINVOKE.Query_set_uint32_coordinates(swigCPtr, VectorUInt32.getCPtr(buf));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void set_int64_coordinates(VectorInt64 buf) {
+    tiledbcsPINVOKE.Query_set_int64_coordinates(swigCPtr, VectorInt64.getCPtr(buf));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void set_uint64_coordinates(VectorUInt64 buf) {
+    tiledbcsPINVOKE.Query_set_uint64_coordinates(swigCPtr, VectorUInt64.getCPtr(buf));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void set_double_coordinates(VectorDouble buf) {
+    tiledbcsPINVOKE.Query_set_double_coordinates(swigCPtr, VectorDouble.getCPtr(buf));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
   public void set_int32_vector_buffer(string attr, VectorInt32 buf) {
     tiledbcsPINVOKE.Query_set_int32_vector_buffer(swigCPtr, attr, VectorInt32.getCPtr(buf));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();

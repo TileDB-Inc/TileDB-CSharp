@@ -11,8 +11,8 @@ include(../cmake/TileDB.cmake)
 set(TILEDB_CXX_API_SOURCES
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_array.h 
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_array_schema.h 
-  #${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_array_util.h 
-  #${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_array_util.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_array_util.h 
+  ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_array_util.cc
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_attribute.h 
   #${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_column.h 
   #${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_column.cc 

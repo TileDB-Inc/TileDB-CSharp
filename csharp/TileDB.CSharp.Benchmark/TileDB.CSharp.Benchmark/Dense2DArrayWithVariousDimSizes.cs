@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TileDB.CSharp.Benchmark
 {
+    [BenchmarkDotNet.Attributes.SimpleJob(BenchmarkDotNet.Engines.RunStrategy.ColdStart, targetCount: 1)]
     public class Dense2DArrayWithVariousDimSizes
     {
         private String array_uri_ = "bench_dense_array";
@@ -45,7 +46,7 @@ namespace TileDB.CSharp.Benchmark
       //      filterlist.add_filter(new TileDB.Filter(ctx, TileDB.tiledb_filter_type_t.TILEDB_FILTER_GZIP));
 
             TileDB.Attribute attr1 = TileDB.Attribute.create_attribute(ctx, "a", TileDB.tiledb_datatype_t.TILEDB_INT32);
-            attr1.set_filter_list(filterlist);
+    //        attr1.set_filter_list(filterlist);
             schema.add_attribute(attr1);
 
             //delete array if it already exists

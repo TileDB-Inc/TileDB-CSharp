@@ -2374,6 +2374,8 @@ SWIGINTERN void std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__destroy_iterator(std:
 
 #include "tiledb_cxx_array_schema.h"
 
+#include "tiledb_cxx_array_util.h"
+
 #include "tiledb_cxx_attribute.h"
 
 #include "tiledb_cxx_config.h"
@@ -12437,6 +12439,50 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArraySchema_to_json_str(void * jarg1
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_ArrayUtil__SWIG_0() {
+  void * jresult ;
+  tiledb::ArrayUtil *result = 0 ;
+  
+  result = (tiledb::ArrayUtil *)new tiledb::ArrayUtil();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_ArrayUtil__SWIG_1(void * jarg1) {
+  void * jresult ;
+  tiledb::ArrayUtil *arg1 = 0 ;
+  tiledb::ArrayUtil *result = 0 ;
+  
+  arg1 = (tiledb::ArrayUtil *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "tiledb::ArrayUtil const & type is null", 0);
+    return 0;
+  } 
+  result = (tiledb::ArrayUtil *)new tiledb::ArrayUtil((tiledb::ArrayUtil const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_delete_ArrayUtil(void * jarg1) {
+  tiledb::ArrayUtil *arg1 = (tiledb::ArrayUtil *) 0 ;
+  
+  arg1 = (tiledb::ArrayUtil *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArrayUtil_get_tiledb_version() {
+  char * jresult ;
+  std::string result;
+  
+  result = tiledb::ArrayUtil::get_tiledb_version();
+  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
+  return jresult;
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Attribute__SWIG_0(void * jarg1, char * jarg2, int jarg3) {
   void * jresult ;
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
@@ -14991,6 +15037,91 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Query_set_uint64_subarray(void * jarg1
     return ;
   } 
   (arg1)->set_uint64_subarray((std::vector< uint64_t > const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Query_set_int32_coordinates(void * jarg1, void * jarg2) {
+  tiledb::Query *arg1 = (tiledb::Query *) 0 ;
+  std::vector< int > *arg2 = 0 ;
+  std::shared_ptr< tiledb::Query > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  tiledb::Query > *)jarg1;
+  arg1 = (tiledb::Query *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (std::vector< int > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< int > & type is null", 0);
+    return ;
+  } 
+  (arg1)->set_int32_coordinates(*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Query_set_uint32_coordinates(void * jarg1, void * jarg2) {
+  tiledb::Query *arg1 = (tiledb::Query *) 0 ;
+  std::vector< uint32_t > *arg2 = 0 ;
+  std::shared_ptr< tiledb::Query > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  tiledb::Query > *)jarg1;
+  arg1 = (tiledb::Query *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (std::vector< uint32_t > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< uint32_t > & type is null", 0);
+    return ;
+  } 
+  (arg1)->set_uint32_coordinates(*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Query_set_int64_coordinates(void * jarg1, void * jarg2) {
+  tiledb::Query *arg1 = (tiledb::Query *) 0 ;
+  std::vector< int64_t > *arg2 = 0 ;
+  std::shared_ptr< tiledb::Query > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  tiledb::Query > *)jarg1;
+  arg1 = (tiledb::Query *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (std::vector< int64_t > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< int64_t > & type is null", 0);
+    return ;
+  } 
+  (arg1)->set_int64_coordinates(*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Query_set_uint64_coordinates(void * jarg1, void * jarg2) {
+  tiledb::Query *arg1 = (tiledb::Query *) 0 ;
+  std::vector< uint64_t > *arg2 = 0 ;
+  std::shared_ptr< tiledb::Query > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  tiledb::Query > *)jarg1;
+  arg1 = (tiledb::Query *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (std::vector< uint64_t > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< uint64_t > & type is null", 0);
+    return ;
+  } 
+  (arg1)->set_uint64_coordinates(*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Query_set_double_coordinates(void * jarg1, void * jarg2) {
+  tiledb::Query *arg1 = (tiledb::Query *) 0 ;
+  std::vector< double > *arg2 = 0 ;
+  std::shared_ptr< tiledb::Query > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  tiledb::Query > *)jarg1;
+  arg1 = (tiledb::Query *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (std::vector< double > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< double > & type is null", 0);
+    return ;
+  } 
+  (arg1)->set_double_coordinates(*arg2);
 }
 
 

@@ -64,6 +64,9 @@
     <Compile Include="..\..\csharp_wrapper\ArraySchema.cs">
       <Link>ArraySchema.cs</Link>
     </Compile>
+    <Compile Include="..\..\csharp_wrapper\ArrayUtil.cs">
+      <Link>ArrayUtil.cs</Link>
+    </Compile>
     <Compile Include="..\..\csharp_wrapper\Attribute.cs">
       <Link>Attribute.cs</Link>
     </Compile>

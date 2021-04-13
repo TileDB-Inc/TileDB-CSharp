@@ -845,6 +845,29 @@ class Query {
     return set_coordinates(buf.data(), buf.size());
   }
 
+void set_int32_coordinates(std::vector<int>& buf) {
+    set_coordinates(buf);
+}
+
+void set_uint32_coordinates(std::vector<uint32_t>& buf) {
+    set_coordinates(buf);
+}
+
+void set_int64_coordinates(std::vector<int64_t>& buf) {
+    set_coordinates(buf);
+}
+
+void set_uint64_coordinates(std::vector<uint64_t>& buf) {
+    set_coordinates(buf);
+}
+
+void set_double_coordinates(std::vector<double>& buf) {
+    set_coordinates(buf);
+}
+
+
+
+
   /**
    * Sets a buffer for a fixed-sized attribute/dimension.
    *

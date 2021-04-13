@@ -13,6 +13,7 @@
 
 %shared_ptr(tiledb::ArraySchema)
 
+
 %shared_ptr(tiledb::Attribute)
 
 %shared_ptr(tiledb::Config)
@@ -55,6 +56,8 @@
 #include "tiledb_cxx_array.h"
 
 #include "tiledb_cxx_array_schema.h"
+
+#include "tiledb_cxx_array_util.h"
 
 #include "tiledb_cxx_attribute.h"
 
@@ -124,6 +127,9 @@
 %ignore tiledb::ArraySchema::dump(FILE *);
 %ignore tiledb::ArraySchema::ptr();
 %ignore tiledb::ArraySchema::attributes();
+
+//ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_array_util.h
+%ignore tiledb::ArrayUtil::operator=(const tiledb::ArrayUtil &);
 
 //ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_attribute.h
 %ignore tiledb::Attribute::Attribute(const std::shared_ptr<tiledb::Context> &,tiledb_attribute_t *);
@@ -229,6 +235,8 @@
 %include "tiledb_cxx_array.h"
 
 %include "tiledb_cxx_array_schema.h"
+
+%include "tiledb_cxx_array_util.h"
 
 %include "tiledb_cxx_attribute.h"
 
