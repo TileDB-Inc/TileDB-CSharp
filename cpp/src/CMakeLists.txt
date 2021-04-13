@@ -46,7 +46,7 @@ set(TILEDB_CXX_API_SOURCES
 # csharp wrapper sources
 #######
 set(TILEDB_CSHARP_SOURCES
-  ${CMAKE_CURRENT_SOURCE_DIR}/tiledb_wrapper_win64.cxx 
+  ${CMAKE_CURRENT_SOURCE_DIR}/tiledb_csharp_cpp_wrapper.cxx 
 )
 
 ######
@@ -92,8 +92,8 @@ set_target_properties(tiledbcs
 target_link_libraries(tiledbcs
   PUBLIC
     pthread
-    -l:libarrow.so.200
-    -l:libarrow_python.so.200
+#    -l:libarrow.so.200
+#    -l:libarrow_python.so.200
 )
 endif()
 
