@@ -65,15 +65,19 @@ target_include_directories(tiledbcs
 
 )
 
-target_link_libraries(tiledbcs
-  TileDB::tiledb_shared 
-)
+
 
 
 if(UNIX)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
 
+add_definitions(
+  "-DTILEDB_STATIC_DEFINE" 
+ 
+)
 add_compile_options(
   "HAVE_PYCONFIG"
+  "-fpermissive"
   "-D_GLIBCXX_USE_NANOSLEEP"
   "-D_THREAD_SAFE"
   "-D_XOPEN_SOURCE_EXTENEDED"
@@ -81,7 +85,8 @@ add_compile_options(
   "-D_PROTOTYPES"
   "-D_DRTP_V4"
   "-DLINUX"
-  "-D_POSIX_THREADS"      
+  "-D_POSIX_THREADS" 
+      
 )
 
 set_target_properties(tiledbcs
@@ -92,6 +97,7 @@ set_target_properties(tiledbcs
 target_link_libraries(tiledbcs
   PUBLIC
     pthread
+    TileDB::tiledb_shared
 #    -l:libarrow.so.200
 #    -l:libarrow_python.so.200
 )
@@ -115,6 +121,10 @@ set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS}
     PROPERTIES
       PREFIX ""
       SUFFIX ".dll"
+  )
+
+  target_link_libraries(tiledbcs
+  TileDB::tiledb_shared 
   )
 #  target_link_libraries(pytiledb
 #    PUBLIC

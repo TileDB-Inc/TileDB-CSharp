@@ -3,7 +3,7 @@
 #
 #
 # setup
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.16)
 
 set(TILEDB_VERSION "2.0.7" CACHE STRING "TileDB version")
 
@@ -21,9 +21,10 @@ if (NOT CMAKE_BUILD_TYPE)
 endif()
 
 # installation prefix
+message(STATUS "CMAKE_SYSTEM_NAME:${CMAKE_SYSTEM_NAME}")
 option(OVERRIDE_INSTALL_PREFIX "override default installation directory to ../dist" ON)
 if (OVERRIDE_INSTALL_PREFIX)
-  set(PREFIX_REL_PATH "${CMAKE_SOURCE_DIR}/../dist")
+  set(PREFIX_REL_PATH "${CMAKE_SOURCE_DIR}/../dist/${CMAKE_SYSTEM_NAME}")
   get_filename_component(DEFAULT_PREFIX "${PREFIX_REL_PATH}" ABSOLUTE)
   set(CMAKE_INSTALL_PREFIX "${DEFAULT_PREFIX}" CACHE PATH "Default install prefix" FORCE)
   message(STATUS "Using default install prefix ${CMAKE_INSTALL_PREFIX}. To control CMAKE_INSTALL_PREFIX, set OVERRIDE_INSTALL_PREFIX=OFF")
