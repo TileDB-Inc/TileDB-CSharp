@@ -6,14 +6,13 @@ namespace TileDB.CSharp.Benchmark
     {
         static void Main(string[] args)
         {
-            
-           System.Console.WriteLine("TileDB version:{0}", TileDB.ArrayUtil.get_tiledb_version());
+            System.Console.WriteLine("TileDB version:{0}", TileDB.ArrayUtil.get_tiledb_version());
 
-           Dense2DArrayWithVariousDimSizes test_dense_dimsize = new Dense2DArrayWithVariousDimSizes();
-           test_dense_dimsize.CreateDense2DArrayWithDimSize(100);
-           test_dense_dimsize.WriteDense2DArrayWithDimSize(100);
-           test_dense_dimsize.ReadDense2DArrayWithDimSize(100);
-           // BenchmarkDotNet.Running.BenchmarkRunner.Run<Dense2DArrayWithVariousDimSizes>();
+            Dense2DArrayWithVariousDimSizes test_dense_dimsize = new Dense2DArrayWithVariousDimSizes();
+            test_dense_dimsize.CreateDense2DArrayWithDimSize(100);
+            test_dense_dimsize.WriteDense2DArrayWithDimSize(100);
+            test_dense_dimsize.ReadDense2DArrayWithDimSize(100);
+            // BenchmarkDotNet.Running.BenchmarkRunner.Run<Dense2DArrayWithVariousDimSizes>();
 
             Dense2DArrayWithVariousTileSizes test_dense_tilesize = new Dense2DArrayWithVariousTileSizes();
             test_dense_tilesize.CreateDense2DArrayWithTileSize(10);
@@ -32,7 +31,6 @@ namespace TileDB.CSharp.Benchmark
             test_sparse_capacity.WriteSparse2DArrayWithCapacity(300);
             test_sparse_capacity.ReadSparse2DArrayWithCapacity(300);
             //BenchmarkDotNet.Running.BenchmarkRunner.Run<Sparse2DArrayWithVariousCapacities>();
-
 
         }
     }

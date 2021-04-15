@@ -1,355 +1,116 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{50AD75D7-0D17-4035-B6B5-158FD42B730F}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TileDB.CSharp</RootNamespace>
-    <AssemblyName>TileDB.CSharp</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>net5.0</TargetFramework>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$(OS)' == 'Windows_NT'">
+    <OutputPath>../../../dist/Windows/lib</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">
+    <OutputPath>../../../dist/Linux/lib</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>..\..\..\dist\Windows\bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">
+    <OutputPath>../../../dist/Darwin/lib</OutputPath>
+  </PropertyGroup>  
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <Compile Include="..\..\csharp_wrapper\Array.cs" Link="Array.cs" />
+    <Compile Include="..\..\csharp_wrapper\ArraySchema.cs" Link="ArraySchema.cs" />
+    <Compile Include="..\..\csharp_wrapper\ArrayUtil.cs" Link="ArrayUtil.cs" />
+    <Compile Include="..\..\csharp_wrapper\Attribute.cs" Link="Attribute.cs" />
+    <Compile Include="..\..\csharp_wrapper\AttributeError.cs" Link="AttributeError.cs" />
+    <Compile Include="..\..\csharp_wrapper\Config.cs" Link="Config.cs" />
+    <Compile Include="..\..\csharp_wrapper\Context.cs" Link="Context.cs" />
+    <Compile Include="..\..\csharp_wrapper\Dimension.cs" Link="Dimension.cs" />
+    <Compile Include="..\..\csharp_wrapper\Domain.cs" Link="Domain.cs" />
+    <Compile Include="..\..\csharp_wrapper\Filter.cs" Link="Filter.cs" />
+    <Compile Include="..\..\csharp_wrapper\FilterList.cs" Link="FilterList.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapInt32Char.cs" Link="MapInt32Char.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapInt32Double.cs" Link="MapInt32Double.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapInt32Int32.cs" Link="MapInt32Int32.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapInt32Int64.cs" Link="MapInt32Int64.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapInt32String.cs" Link="MapInt32String.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapInt32UChar.cs" Link="MapInt32UChar.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapInt32UInt32.cs" Link="MapInt32UInt32.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapInt32UInt64.cs" Link="MapInt32UInt64.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapInt64Char.cs" Link="MapInt64Char.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapInt64Double.cs" Link="MapInt64Double.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapInt64Int32.cs" Link="MapInt64Int32.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapInt64Int64.cs" Link="MapInt64Int64.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapInt64String.cs" Link="MapInt64String.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapInt64UChar.cs" Link="MapInt64UChar.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapInt64UInt32.cs" Link="MapInt64UInt32.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapInt64UInt64.cs" Link="MapInt64UInt64.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapStringChar.cs" Link="MapStringChar.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapStringDouble.cs" Link="MapStringDouble.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapStringInt32.cs" Link="MapStringInt32.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapStringInt64.cs" Link="MapStringInt64.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapStringPairInt64Int64.cs" Link="MapStringPairInt64Int64.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapStringPairUInt64UInt64.cs" Link="MapStringPairUInt64UInt64.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapStringString.cs" Link="MapStringString.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapStringUChar.cs" Link="MapStringUChar.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapStringUInt32.cs" Link="MapStringUInt32.cs" />
+    <Compile Include="..\..\csharp_wrapper\MapStringUInt64.cs" Link="MapStringUInt64.cs" />
+    <Compile Include="..\..\csharp_wrapper\Object.cs" Link="Object.cs" />
+    <Compile Include="..\..\csharp_wrapper\ObjectIter.cs" Link="ObjectIter.cs" />
+    <Compile Include="..\..\csharp_wrapper\PairDoubleDouble.cs" Link="PairDoubleDouble.cs" />
+    <Compile Include="..\..\csharp_wrapper\PairInt32Int32.cs" Link="PairInt32Int32.cs" />
+    <Compile Include="..\..\csharp_wrapper\PairInt64Int64.cs" Link="PairInt64Int64.cs" />
+    <Compile Include="..\..\csharp_wrapper\PairStringString.cs" Link="PairStringString.cs" />
+    <Compile Include="..\..\csharp_wrapper\PairUInt32UInt32.cs" Link="PairUInt32UInt32.cs" />
+    <Compile Include="..\..\csharp_wrapper\PairUInt64UInt64.cs" Link="PairUInt64UInt64.cs" />
+    <Compile Include="..\..\csharp_wrapper\Query.cs" Link="Query.cs" />
+    <Compile Include="..\..\csharp_wrapper\SchemaMismatch.cs" Link="SchemaMismatch.cs" />
+    <Compile Include="..\..\csharp_wrapper\Stats.cs" Link="Stats.cs" />
+    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_FILE.cs" Link="SWIGTYPE_p_FILE.cs" />
+    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__arrayT_std__string_2_t.cs" Link="SWIGTYPE_p_std__arrayT_std__string_2_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__arrayT_tiledb_layout_t_2_t.cs" Link="SWIGTYPE_p_std__arrayT_tiledb_layout_t_2_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__functionT_void_fstd__string_const_RF_t.cs" Link="SWIGTYPE_p_std__functionT_void_fstd__string_const_RF_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__mapT_std__string_tiledb__Attribute_std__lessT_std__string_t_t.cs" Link="SWIGTYPE_p_std__mapT_std__string_tiledb__Attribute_std__lessT_std__string_t_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__string.cs" Link="SWIGTYPE_p_std__string.cs" />
+    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__tupleT_int_int_int_t.cs" Link="SWIGTYPE_p_std__tupleT_int_int_int_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__vectorT_tiledb__Dimension_t.cs" Link="SWIGTYPE_p_std__vectorT_tiledb__Dimension_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_tiledb_array_t.cs" Link="SWIGTYPE_p_tiledb_array_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_tiledb_ctx_t.cs" Link="SWIGTYPE_p_tiledb_ctx_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_tiledb_datatype_t.cs" Link="SWIGTYPE_p_tiledb_datatype_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_tiledb_error_t.cs" Link="SWIGTYPE_p_tiledb_error_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_tiledb_query_t.cs" Link="SWIGTYPE_p_tiledb_query_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_tiledb__ObjectIter__iterator.cs" Link="SWIGTYPE_p_tiledb__ObjectIter__iterator.cs" />
+    <Compile Include="..\..\csharp_wrapper\tiledbcs.cs" Link="tiledbcs.cs" />
+    <Compile Include="..\..\csharp_wrapper\tiledbcsPINVOKE.cs" Link="tiledbcsPINVOKE.cs" />
+    <Compile Include="..\..\csharp_wrapper\TileDBError.cs" Link="TileDBError.cs" />
+    <Compile Include="..\..\csharp_wrapper\tiledb_array_type_t.cs" Link="tiledb_array_type_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\tiledb_datatype_t.cs" Link="tiledb_datatype_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\tiledb_encryption_type_t.cs" Link="tiledb_encryption_type_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\tiledb_filesystem_t.cs" Link="tiledb_filesystem_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\tiledb_filter_option_t.cs" Link="tiledb_filter_option_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\tiledb_filter_type_t.cs" Link="tiledb_filter_type_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\tiledb_layout_t.cs" Link="tiledb_layout_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\tiledb_object_t.cs" Link="tiledb_object_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\tiledb_query_status_t.cs" Link="tiledb_query_status_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\tiledb_query_type_t.cs" Link="tiledb_query_type_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\tiledb_serialization_type_t.cs" Link="tiledb_serialization_type_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\tiledb_vfs_mode_t.cs" Link="tiledb_vfs_mode_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\tiledb_walk_order_t.cs" Link="tiledb_walk_order_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\TypeError.cs" Link="TypeError.cs" />
+    <Compile Include="..\..\csharp_wrapper\VectorChar.cs" Link="VectorChar.cs" />
+    <Compile Include="..\..\csharp_wrapper\VectorConstChar.cs" Link="VectorConstChar.cs" />
+    <Compile Include="..\..\csharp_wrapper\VectorDouble.cs" Link="VectorDouble.cs" />
+    <Compile Include="..\..\csharp_wrapper\VectorInt32.cs" Link="VectorInt32.cs" />
+    <Compile Include="..\..\csharp_wrapper\VectorInt64.cs" Link="VectorInt64.cs" />
+    <Compile Include="..\..\csharp_wrapper\VectorString.cs" Link="VectorString.cs" />
+    <Compile Include="..\..\csharp_wrapper\VectorUChar.cs" Link="VectorUChar.cs" />
+    <Compile Include="..\..\csharp_wrapper\VectorUInt32.cs" Link="VectorUInt32.cs" />
+    <Compile Include="..\..\csharp_wrapper\VectorUInt64.cs" Link="VectorUInt64.cs" />
+    <Compile Include="..\..\csharp_wrapper\VFS.cs" Link="VFS.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\csharp_wrapper\Array.cs">
-      <Link>Array.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\ArraySchema.cs">
-      <Link>ArraySchema.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\ArrayUtil.cs">
-      <Link>ArrayUtil.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\Attribute.cs">
-      <Link>Attribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\AttributeError.cs">
-      <Link>AttributeError.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\Config.cs">
-      <Link>Config.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\Context.cs">
-      <Link>Context.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\Dimension.cs">
-      <Link>Dimension.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\Domain.cs">
-      <Link>Domain.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\Filter.cs">
-      <Link>Filter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\FilterList.cs">
-      <Link>FilterList.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapInt32Char.cs">
-      <Link>MapInt32Char.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapInt32Double.cs">
-      <Link>MapInt32Double.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapInt32Int32.cs">
-      <Link>MapInt32Int32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapInt32Int64.cs">
-      <Link>MapInt32Int64.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapInt32String.cs">
-      <Link>MapInt32String.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapInt32UChar.cs">
-      <Link>MapInt32UChar.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapInt32UInt32.cs">
-      <Link>MapInt32UInt32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapInt32UInt64.cs">
-      <Link>MapInt32UInt64.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapInt64Char.cs">
-      <Link>MapInt64Char.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapInt64Double.cs">
-      <Link>MapInt64Double.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapInt64Int32.cs">
-      <Link>MapInt64Int32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapInt64Int64.cs">
-      <Link>MapInt64Int64.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapInt64String.cs">
-      <Link>MapInt64String.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapInt64UChar.cs">
-      <Link>MapInt64UChar.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapInt64UInt32.cs">
-      <Link>MapInt64UInt32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapInt64UInt64.cs">
-      <Link>MapInt64UInt64.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapStringChar.cs">
-      <Link>MapStringChar.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapStringDouble.cs">
-      <Link>MapStringDouble.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapStringInt32.cs">
-      <Link>MapStringInt32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapStringInt64.cs">
-      <Link>MapStringInt64.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapStringString.cs">
-      <Link>MapStringString.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapStringUChar.cs">
-      <Link>MapStringUChar.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapStringUInt32.cs">
-      <Link>MapStringUInt32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\MapStringUInt64.cs">
-      <Link>MapStringUInt64.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\Object.cs">
-      <Link>Object.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\ObjectIter.cs">
-      <Link>ObjectIter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\Query.cs">
-      <Link>Query.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SchemaMismatch.cs">
-      <Link>SchemaMismatch.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\Stats.cs">
-      <Link>Stats.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_FILE.cs">
-      <Link>SWIGTYPE_p_FILE.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__arrayT_std__string_2_t.cs">
-      <Link>SWIGTYPE_p_std__arrayT_std__string_2_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__arrayT_tiledb_layout_t_2_t.cs">
-      <Link>SWIGTYPE_p_std__arrayT_tiledb_layout_t_2_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__functionT_void_fstd__string_const_RF_t.cs">
-      <Link>SWIGTYPE_p_std__functionT_void_fstd__string_const_RF_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__pairT_std__string_std__string_t.cs">
-      <Link>SWIGTYPE_p_std__pairT_std__string_std__string_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__pairT_unsigned_long_long_unsigned_long_long_t.cs">
-      <Link>SWIGTYPE_p_std__pairT_unsigned_long_long_unsigned_long_long_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__shared_ptrT_tiledb_array_schema_t_t.cs">
-      <Link>SWIGTYPE_p_std__shared_ptrT_tiledb_array_schema_t_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__shared_ptrT_tiledb_array_t_t.cs">
-      <Link>SWIGTYPE_p_std__shared_ptrT_tiledb_array_t_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__shared_ptrT_tiledb_attribute_t_t.cs">
-      <Link>SWIGTYPE_p_std__shared_ptrT_tiledb_attribute_t_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__shared_ptrT_tiledb_config_t_t.cs">
-      <Link>SWIGTYPE_p_std__shared_ptrT_tiledb_config_t_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__shared_ptrT_tiledb_ctx_t_t.cs">
-      <Link>SWIGTYPE_p_std__shared_ptrT_tiledb_ctx_t_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__shared_ptrT_tiledb_dimension_t_t.cs">
-      <Link>SWIGTYPE_p_std__shared_ptrT_tiledb_dimension_t_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__shared_ptrT_tiledb_domain_t_t.cs">
-      <Link>SWIGTYPE_p_std__shared_ptrT_tiledb_domain_t_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__shared_ptrT_tiledb_filter_list_t_t.cs">
-      <Link>SWIGTYPE_p_std__shared_ptrT_tiledb_filter_list_t_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__shared_ptrT_tiledb_filter_t_t.cs">
-      <Link>SWIGTYPE_p_std__shared_ptrT_tiledb_filter_t_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__shared_ptrT_tiledb_query_t_t.cs">
-      <Link>SWIGTYPE_p_std__shared_ptrT_tiledb_query_t_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__shared_ptrT_tiledb_vfs_t_t.cs">
-      <Link>SWIGTYPE_p_std__shared_ptrT_tiledb_vfs_t_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__string.cs">
-      <Link>SWIGTYPE_p_std__string.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__tupleT_int_int_int_t.cs">
-      <Link>SWIGTYPE_p_std__tupleT_int_int_int_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__unordered_mapT_std__string_std__pairT_unsigned_long_long_unsigned_long_long_t_t.cs">
-      <Link>SWIGTYPE_p_std__unordered_mapT_std__string_std__pairT_unsigned_long_long_unsigned_long_long_t_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__unordered_mapT_std__string_tiledb__Attribute_t.cs">
-      <Link>SWIGTYPE_p_std__unordered_mapT_std__string_tiledb__Attribute_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__vectorT_tiledb__Dimension_t.cs">
-      <Link>SWIGTYPE_p_std__vectorT_tiledb__Dimension_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_tiledb_array_t.cs">
-      <Link>SWIGTYPE_p_tiledb_array_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_tiledb_ctx_t.cs">
-      <Link>SWIGTYPE_p_tiledb_ctx_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_tiledb_datatype_t.cs">
-      <Link>SWIGTYPE_p_tiledb_datatype_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_tiledb_error_t.cs">
-      <Link>SWIGTYPE_p_tiledb_error_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_tiledb_query_t.cs">
-      <Link>SWIGTYPE_p_tiledb_query_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_tiledb__ObjectIter__iterator.cs">
-      <Link>SWIGTYPE_p_tiledb__ObjectIter__iterator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\tiledbcs.cs">
-      <Link>tiledbcs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\tiledbcsPINVOKE.cs">
-      <Link>tiledbcsPINVOKE.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\TileDBError.cs">
-      <Link>TileDBError.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\tiledb_array_type_t.cs">
-      <Link>tiledb_array_type_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\tiledb_datatype_t.cs">
-      <Link>tiledb_datatype_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\tiledb_encryption_type_t.cs">
-      <Link>tiledb_encryption_type_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\tiledb_filesystem_t.cs">
-      <Link>tiledb_filesystem_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\tiledb_filter_option_t.cs">
-      <Link>tiledb_filter_option_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\tiledb_filter_type_t.cs">
-      <Link>tiledb_filter_type_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\tiledb_layout_t.cs">
-      <Link>tiledb_layout_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\tiledb_object_t.cs">
-      <Link>tiledb_object_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\tiledb_query_status_t.cs">
-      <Link>tiledb_query_status_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\tiledb_query_type_t.cs">
-      <Link>tiledb_query_type_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\tiledb_serialization_type_t.cs">
-      <Link>tiledb_serialization_type_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\tiledb_vfs_mode_t.cs">
-      <Link>tiledb_vfs_mode_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\tiledb_walk_order_t.cs">
-      <Link>tiledb_walk_order_t.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\TypeError.cs">
-      <Link>TypeError.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\VectorChar.cs">
-      <Link>VectorChar.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\VectorConstChar.cs">
-      <Link>VectorConstChar.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\VectorDouble.cs">
-      <Link>VectorDouble.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\VectorInt32.cs">
-      <Link>VectorInt32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\VectorInt64.cs">
-      <Link>VectorInt64.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\VectorString.cs">
-      <Link>VectorString.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\VectorUChar.cs">
-      <Link>VectorUChar.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\VectorUInt32.cs">
-      <Link>VectorUInt32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\VectorUInt64.cs">
-      <Link>VectorUInt64.cs</Link>
-    </Compile>
-    <Compile Include="..\..\csharp_wrapper\VFS.cs">
-      <Link>VFS.cs</Link>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
+
   <ItemGroup>
     <Content Include="..\..\..\dist\Windows\lib\tbb.dll" Condition=" '$(OS)' == 'Windows_NT' ">
       <Link>tbb.dll</Link>
     </Content>
-    <Content Include="..\..\..\dist\Windows\lib\tiledb.dll">
+    <Content Include="..\..\..\dist\Windows\lib\tiledb.dll" Condition=" '$(OS)' == 'Windows_NT' ">
       <Link>tiledb.dll</Link>
     </Content>
     <Content Include="..\..\..\dist\Linux\lib\libtiledb.so" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
@@ -358,7 +119,7 @@
     <Content Include="..\..\..\dist\Darwin\lib\libtiledb.dylib" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
       <Link>tiledb.dylib</Link>
     </Content>
-    <Content Include="..\..\..\dist\Windows\lib\tiledbcs.dll">
+    <Content Include="..\..\..\dist\Windows\lib\tiledbcs.dll" Condition=" '$(OS)' == 'Windows_NT' ">
       <Link>tiledbcs.dll</Link>
     </Content>
     <Content Include="..\..\..\dist\Linux\lib\tiledbcs.so" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
@@ -367,22 +128,16 @@
     <Content Include="..\..\..\dist\Darwin\lib\tiledbcs.dylib" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
       <Link>tiledbcs.dylib</Link>
     </Content>
-    <Content Include="..\..\..\dist\Windows\lib\zlib.dll">
+    <Content Include="..\..\..\dist\Windows\lib\zlib.dll" Condition=" '$(OS)' == 'Windows_NT' ">
       <Link>zlib.dll</Link>
     </Content>
     <Content Include="..\..\..\dist\Linux\lib\libz.so" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
-      <Link>zlib.so</Link>
+      <Link>libz.so</Link>
     </Content>
     <Content Include="..\..\..\dist\Darwin\lib\libz.dylib" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
-      <Link>zlib.dylib</Link>
+      <Link>libz.dylib</Link>
     </Content>
+
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>
