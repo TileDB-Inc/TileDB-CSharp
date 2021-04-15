@@ -36,8 +36,11 @@
 %include "std_vector.i"
 %include "std_map.i"
 %include "std_list.i"
+%include "std_pair.i"
 %include "std_set.i"
 %include "std_shared_ptr.i"
+//%include "std_unordered_map.i"
+
 %include "exception.i"
 
 namespace std {
@@ -79,6 +82,16 @@ namespace std {
   %template(MapInt64Char) map<int64_t,char>;
   %template(MapInt64UChar) map<int64_t,unsigned char>;    
 
+  %template(PairStringString) pair<string,string>;
+  %template(PairInt64Int64) pair<int64_t,int64_t>;
+  %template(PairUInt64UInt64) pair<uint64_t,uint64_t>;
+  %template(PairInt32Int32) pair<int32_t, int32_t>;
+  %template(PairUInt32UInt32) pair<uint32_t, uint32_t>;
+  %template(PairDoubleDouble) pair<double, double>;
+
+   
+  %template(MapStringPairUInt64UInt64) map<string, pair<uint64_t,uint64_t> >;
+  %template(MapStringPairInt64Int64) map<string, pair<int64_t,int64_t> >;
 
 
 }
@@ -104,6 +117,7 @@ namespace std {
 //
  
  //%ignore something
+ %ignore *::ptr;
 
   
 

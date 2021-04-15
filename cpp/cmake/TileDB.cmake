@@ -9,15 +9,36 @@ FetchContent_Declare(
     GIT_TAG "v1.2.11"
 )
 FetchContent_GetProperties(zlib)
+ 
 if(NOT zlib_POPULATED)
     FetchContent_Populate(zlib)
     message(STATUS "zlib_SOURCE_DIR:${zlib_SOURCE_DIR}")
     message(STATUS "zlib_BINARY_DIR:${zlib_BINARY_DIR}")
+    include_directories(
+      ${zlib_SOURCE_DIR} 
+      ${zlib_BINARY_DIR}      
+    )
+ ##   set(INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/lib")
     add_subdirectory(
       ${zlib_SOURCE_DIR} 
       ${zlib_BINARY_DIR}
       )
 endif()
+if(MSVC)
+
+file(
+  GLOB ZLIB_DLLFILES 
+  ${zlib_BINARY_DIR}/Release/*.dll
+)
+install(
+  FILES 
+    ${ZLIB_DLLFILES}
+  DESTINATION 
+  ${CMAKE_INSTALL_LIBDIR}
+)
+
+endif()
+ 
 
 #################################
 # snappy
@@ -229,13 +250,13 @@ endforeach()
 
 message(STATUS "TILEDB install  ${TILEDB_BIN_FILES} to bin directory:${CMAKE_INSTALL_BINDIR}")
 install(FILES ${TILEDB_BIN_FILES}
-  DESTINATION ${CMAKE_INSTALL_BINDIR}
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
 if(TILEDB_BIN_DIRS)
 message(STATUS "TILEDB install  ${TILEDB_BIN_DIRS} to bin directory:${CMAKE_INSTALL_BINDIR}")
   install( DIRECTORY ${TILEDB_BIN_DIRS}
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}
   )
 endif()
  

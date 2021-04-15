@@ -39,6 +39,7 @@
 #include "tiledb.h"
 #include "tiledb_cxx_type.h"
 
+#include <map>
 #include <unordered_map>
 #include <vector>
 
@@ -1131,14 +1132,14 @@ class Array {
    */
   template <typename T>
  // TILEDB_DEPRECATED
-      std::unordered_map<std::string, std::pair<uint64_t, uint64_t>>
+      std::map<std::string, std::pair<uint64_t, uint64_t>> //std::unordered_map<std::string, std::pair<uint64_t, uint64_t>>
       max_buffer_elements(const std::vector<T>& subarray) {
     auto ctx = ctx_.get();
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     impl::type_check<T>(schema_.domain().type(), 1);
 
     // Handle attributes
-    std::unordered_map<std::string, std::pair<uint64_t, uint64_t>> ret;
+    std::map<std::string, std::pair<uint64_t, uint64_t>> ret; //std::unordered_map<std::string, std::pair<uint64_t, uint64_t>> ret;
     auto schema_attrs = schema_.attributes();
     uint64_t attr_size, type_size;
 

@@ -346,42 +346,36 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\dist\Windows\bin\tbb.dll" Condition=" '$(OS)' == 'Windows_NT' ">
+    <Content Include="..\..\..\dist\Windows\lib\tbb.dll" Condition=" '$(OS)' == 'Windows_NT' ">
       <Link>tbb.dll</Link>
     </Content>
-    <Content Include="..\..\..\dist\Linux\bin\tbb.so" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
-      <Link>tbb.so</Link>
-    </Content>  
-    <Content Include="..\..\..\dist\Darwin\bin\tbb.dylib" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
-      <Link>tbb.dylib</Link>
-    </Content>      
-    <Content Include="..\..\..\dist\Windows\bin\tiledb.dll">
+    <Content Include="..\..\..\dist\Windows\lib\tiledb.dll">
       <Link>tiledb.dll</Link>
     </Content>
-    <Content Include="..\..\..\dist\Linux\bin\tiledb.so" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
+    <Content Include="..\..\..\dist\Linux\lib\libtiledb.so" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
       <Link>tiledb.so</Link>
-    </Content>  
-    <Content Include="..\..\..\dist\Darwin\bin\tiledb.dylib" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
+    </Content>
+    <Content Include="..\..\..\dist\Darwin\lib\libtiledb.dylib" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
       <Link>tiledb.dylib</Link>
     </Content>
-    <Content Include="..\..\..\dist\Windows\bin\tiledbcs.dll">
+    <Content Include="..\..\..\dist\Windows\lib\tiledbcs.dll">
       <Link>tiledbcs.dll</Link>
     </Content>
-    <Content Include="..\..\..\dist\Linux\bin\tiledbcs.so" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
+    <Content Include="..\..\..\dist\Linux\lib\tiledbcs.so" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
       <Link>tiledbcs.so</Link>
-    </Content>  
-    <Content Include="..\..\..\dist\Darwin\bin\tiledbcs.dylib" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
+    </Content>
+    <Content Include="..\..\..\dist\Darwin\lib\tiledbcs.dylib" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
       <Link>tiledbcs.dylib</Link>
-    </Content>    
-    <Content Include="..\..\..\dist\Windows\bin\zlib.dll">
+    </Content>
+    <Content Include="..\..\..\dist\Windows\lib\zlib.dll">
       <Link>zlib.dll</Link>
     </Content>
-    <Content Include="..\..\..\dist\Linux\bin\zlib.so" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
+    <Content Include="..\..\..\dist\Linux\lib\libz.so" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
       <Link>zlib.so</Link>
-    </Content>  
-    <Content Include="..\..\..\dist\Darwin\bin\zlib.dylib" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
+    </Content>
+    <Content Include="..\..\..\dist\Darwin\lib\libz.dylib" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
       <Link>zlib.dylib</Link>
-    </Content>    
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

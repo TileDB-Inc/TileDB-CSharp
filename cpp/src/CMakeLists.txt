@@ -45,9 +45,16 @@ set(TILEDB_CXX_API_SOURCES
 #######
 # csharp wrapper sources
 #######
-set(TILEDB_CSHARP_SOURCES
-  ${CMAKE_CURRENT_SOURCE_DIR}/tiledb_csharp_cpp_wrapper.cxx 
-)
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+  set(TILEDB_CSHARP_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/tiledb_csharp_cpp_wrapper_linux64.cxx 
+  )
+else()
+  set(TILEDB_CSHARP_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/tiledb_csharp_cpp_wrapper.cxx 
+  )
+endif()
+message(STATUS "TILEDB_CSHARP_SOURCES:${TILEDB_CSHARP_SOURCES}")
 
 ######
 #tiledb csharp wrapper
@@ -139,6 +146,12 @@ file(
   ${tiledb_prebuilt_SOURCE_DIR}/lib/*.so*
   ${tiledb_prebuilt_SOURCE_DIR}/lib/*.dll*
   ${tiledb_prebuilt_SOURCE_DIR}/lib/*.lib*
+  ${tiledb_prebuilt_SOURCE_DIR}/lib/*.dylib*
+  ${tiledb_prebuilt_SOURCE_DIR}/bin/*.so*
+  ${tiledb_prebuilt_SOURCE_DIR}/bin/*.dll*
+  ${tiledb_prebuilt_SOURCE_DIR}/bin/*.lib*
+  ${tiledb_prebuilt_SOURCE_DIR}/bin/*.dylib*  
+
 )
 install(
   FILES 
@@ -153,7 +166,7 @@ install(
   ARCHIVE 
     DESTINATION ${CMAKE_INSTALL_BINDIR}
   RUNTIME
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY 
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
   PUBLIC_HEADER

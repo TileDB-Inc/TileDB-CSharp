@@ -5,7 +5,7 @@
 # setup
 cmake_minimum_required(VERSION 3.16)
 
-set(TILEDB_VERSION "2.0.7" CACHE STRING "TileDB version")
+set(TILEDB_VERSION "2.2.7" CACHE STRING "TileDB version")
 
 project(TileDB-CSharp)
 
@@ -28,6 +28,8 @@ if (OVERRIDE_INSTALL_PREFIX)
   get_filename_component(DEFAULT_PREFIX "${PREFIX_REL_PATH}" ABSOLUTE)
   set(CMAKE_INSTALL_PREFIX "${DEFAULT_PREFIX}" CACHE PATH "Default install prefix" FORCE)
   message(STATUS "Using default install prefix ${CMAKE_INSTALL_PREFIX}. To control CMAKE_INSTALL_PREFIX, set OVERRIDE_INSTALL_PREFIX=OFF")
+  set(CMAKE_INSTALL_BINDIR "${CMAKE_INSTALL_PREFIX}/lib")
+  message(STATUS "CMAKE_INSTALL_BINDIR: ${CMAKE_INSTALL_BINDIR}")
 endif()
 
 

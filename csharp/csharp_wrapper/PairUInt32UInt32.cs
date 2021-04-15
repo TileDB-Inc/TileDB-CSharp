@@ -10,20 +10,20 @@
 
 namespace TileDB {
 
-public class ArrayUtil : global::System.IDisposable {
+public class PairUInt32UInt32 : global::System.IDisposable {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   protected bool swigCMemOwn;
 
-  internal ArrayUtil(global::System.IntPtr cPtr, bool cMemoryOwn) {
+  internal PairUInt32UInt32(global::System.IntPtr cPtr, bool cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
   }
 
-  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(ArrayUtil obj) {
+  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(PairUInt32UInt32 obj) {
     return (obj == null) ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : obj.swigCPtr;
   }
 
-  ~ArrayUtil() {
+  ~PairUInt32UInt32() {
     Dispose(false);
   }
 
@@ -37,23 +37,41 @@ public class ArrayUtil : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwn) {
           swigCMemOwn = false;
-          tiledbcsPINVOKE.delete_ArrayUtil(swigCPtr);
+          tiledbcsPINVOKE.delete_PairUInt32UInt32(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public ArrayUtil() : this(tiledbcsPINVOKE.new_ArrayUtil__SWIG_0(), true) {
+  public PairUInt32UInt32() : this(tiledbcsPINVOKE.new_PairUInt32UInt32__SWIG_0(), true) {
   }
 
-  public ArrayUtil(ArrayUtil from) : this(tiledbcsPINVOKE.new_ArrayUtil__SWIG_1(ArrayUtil.getCPtr(from)), true) {
+  public PairUInt32UInt32(uint first, uint second) : this(tiledbcsPINVOKE.new_PairUInt32UInt32__SWIG_1(first, second), true) {
+  }
+
+  public PairUInt32UInt32(PairUInt32UInt32 other) : this(tiledbcsPINVOKE.new_PairUInt32UInt32__SWIG_2(PairUInt32UInt32.getCPtr(other)), true) {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static string get_tiledb_version() {
-    string ret = tiledbcsPINVOKE.ArrayUtil_get_tiledb_version();
-    return ret;
+  public uint first {
+    set {
+      tiledbcsPINVOKE.PairUInt32UInt32_first_set(swigCPtr, value);
+    } 
+    get {
+      uint ret = tiledbcsPINVOKE.PairUInt32UInt32_first_get(swigCPtr);
+      return ret;
+    } 
+  }
+
+  public uint second {
+    set {
+      tiledbcsPINVOKE.PairUInt32UInt32_second_set(swigCPtr, value);
+    } 
+    get {
+      uint ret = tiledbcsPINVOKE.PairUInt32UInt32_second_get(swigCPtr);
+      return ret;
+    } 
   }
 
 }

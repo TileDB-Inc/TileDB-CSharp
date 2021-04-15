@@ -86,7 +86,7 @@ class VFSFilebuf : public std::streambuf {
    *
    * @param vfs Tiledb VFS
    */
-  explicit VFSFilebuf::VFSFilebuf(const std::shared_ptr<VFS>& vfs); // explicit VFSFilebuf(const VFS& vfs);
+  explicit VFSFilebuf(const std::shared_ptr<VFS>& vfs); // explicit VFSFilebuf(const VFS& vfs);
   VFSFilebuf(const VFSFilebuf&) = default;
   VFSFilebuf(VFSFilebuf&&) = default;
   VFSFilebuf& operator=(const VFSFilebuf&) = default;

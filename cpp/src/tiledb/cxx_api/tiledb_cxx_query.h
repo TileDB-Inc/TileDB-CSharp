@@ -391,11 +391,11 @@ class Query {
    * auto num_a2_elements = result_el["a2"].second;
    * @endcode
    */
-  std::unordered_map<std::string, std::pair<uint64_t, uint64_t>>
+  std::map<std::string, std::pair<uint64_t, uint64_t>> //std::unordered_map<std::string, std::pair<uint64_t, uint64_t>>
   result_buffer_elements() const {
-    std::unordered_map<std::string, std::pair<uint64_t, uint64_t>> elements;
+    std::map<std::string, std::pair<uint64_t, uint64_t>> elements; //std::unordered_map<std::string, std::pair<uint64_t, uint64_t>> elements;
     if (buff_sizes_.empty())
-      return std::unordered_map<
+      return std::map< //return std::unordered_map<
           std::string,
           std::pair<uint64_t, uint64_t>>();  // Query hasn't been submitted
     for (const auto& b_it : buff_sizes_) {

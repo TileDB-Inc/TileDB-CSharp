@@ -36,7 +36,7 @@
 #define TILEDB_CPP_API_SCHEMA_BASE_H
 
 #include "tiledb_cxx_deleter.h"
-
+#include <map> 
 #include <unordered_map>
 
 namespace tiledb {
@@ -94,7 +94,7 @@ class Schema {
   virtual void check() const = 0;
 
   /** Gets all attributes in the array. */
-  virtual std::unordered_map<std::string, tiledb::Attribute> attributes() const = 0;
+  virtual std::map<std::string, tiledb::Attribute> attributes() const = 0; //virtual std::unordered_map<std::string, tiledb::Attribute> attributes() const = 0;
 
   /** Number of attributes **/
   virtual unsigned attribute_num() const = 0;

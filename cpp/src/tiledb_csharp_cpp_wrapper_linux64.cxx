@@ -319,6 +319,15 @@ SWIGEXPORT void SWIGSTDCALL SWIGRegisterStringCallback_tiledbcs(SWIG_CSharpStrin
 #include <stdint.h>		// Use the C99 official header
 
 
+#define SWIGWORDSIZE64
+#ifndef LONG_MAX
+#include <limits.h>
+#endif
+#if (__WORDSIZE == 32) || (LONG_MAX == INT_MAX)
+# error "SWIG wrapped code invalid in 32 bit architecture, regenerate code using -DSWIGWORDSIZE32"
+#endif
+
+
 #include <typeinfo>
 #include <stdexcept>
 
@@ -621,52 +630,52 @@ SWIGINTERN bool std_vector_Sl_unsigned_SS_int_Sg__Remove(std::vector< unsigned i
         return false;
       }
 SWIGINTERN std::vector< int64_t > *new_std_vector_Sl_int64_t_Sg___SWIG_2(int capacity){
-        std::vector< long long >* pv = 0;
+        std::vector< long >* pv = 0;
         if (capacity >= 0) {
-          pv = new std::vector< long long >();
+          pv = new std::vector< long >();
           pv->reserve(capacity);
        } else {
           throw std::out_of_range("capacity");
        }
        return pv;
       }
-SWIGINTERN long long std_vector_Sl_int64_t_Sg__getitemcopy(std::vector< int64_t > *self,int index){
+SWIGINTERN long std_vector_Sl_int64_t_Sg__getitemcopy(std::vector< int64_t > *self,int index){
         if (index>=0 && index<(int)self->size())
           return (*self)[index];
         else
           throw std::out_of_range("index");
       }
-SWIGINTERN std::vector< long long >::value_type const &std_vector_Sl_int64_t_Sg__getitem(std::vector< int64_t > *self,int index){
+SWIGINTERN std::vector< long >::value_type const &std_vector_Sl_int64_t_Sg__getitem(std::vector< int64_t > *self,int index){
         if (index>=0 && index<(int)self->size())
           return (*self)[index];
         else
           throw std::out_of_range("index");
       }
-SWIGINTERN void std_vector_Sl_int64_t_Sg__setitem(std::vector< int64_t > *self,int index,long long const &val){
+SWIGINTERN void std_vector_Sl_int64_t_Sg__setitem(std::vector< int64_t > *self,int index,long const &val){
         if (index>=0 && index<(int)self->size())
           (*self)[index] = val;
         else
           throw std::out_of_range("index");
       }
-SWIGINTERN void std_vector_Sl_int64_t_Sg__AddRange(std::vector< int64_t > *self,std::vector< long long > const &values){
+SWIGINTERN void std_vector_Sl_int64_t_Sg__AddRange(std::vector< int64_t > *self,std::vector< long > const &values){
         self->insert(self->end(), values.begin(), values.end());
       }
-SWIGINTERN std::vector< long long > *std_vector_Sl_int64_t_Sg__GetRange(std::vector< int64_t > *self,int index,int count){
+SWIGINTERN std::vector< long > *std_vector_Sl_int64_t_Sg__GetRange(std::vector< int64_t > *self,int index,int count){
         if (index < 0)
           throw std::out_of_range("index");
         if (count < 0)
           throw std::out_of_range("count");
         if (index >= (int)self->size()+1 || index+count > (int)self->size())
           throw std::invalid_argument("invalid range");
-        return new std::vector< long long >(self->begin()+index, self->begin()+index+count);
+        return new std::vector< long >(self->begin()+index, self->begin()+index+count);
       }
-SWIGINTERN void std_vector_Sl_int64_t_Sg__Insert(std::vector< int64_t > *self,int index,long long const &x){
+SWIGINTERN void std_vector_Sl_int64_t_Sg__Insert(std::vector< int64_t > *self,int index,long const &x){
         if (index>=0 && index<(int)self->size()+1)
           self->insert(self->begin()+index, x);
         else
           throw std::out_of_range("index");
       }
-SWIGINTERN void std_vector_Sl_int64_t_Sg__InsertRange(std::vector< int64_t > *self,int index,std::vector< long long > const &values){
+SWIGINTERN void std_vector_Sl_int64_t_Sg__InsertRange(std::vector< int64_t > *self,int index,std::vector< long > const &values){
         if (index>=0 && index<(int)self->size()+1)
           self->insert(self->begin()+index, values.begin(), values.end());
         else
@@ -687,10 +696,10 @@ SWIGINTERN void std_vector_Sl_int64_t_Sg__RemoveRange(std::vector< int64_t > *se
           throw std::invalid_argument("invalid range");
         self->erase(self->begin()+index, self->begin()+index+count);
       }
-SWIGINTERN std::vector< long long > *std_vector_Sl_int64_t_Sg__Repeat(long long const &value,int count){
+SWIGINTERN std::vector< long > *std_vector_Sl_int64_t_Sg__Repeat(long const &value,int count){
         if (count < 0)
           throw std::out_of_range("count");
-        return new std::vector< long long >(count, value);
+        return new std::vector< long >(count, value);
       }
 SWIGINTERN void std_vector_Sl_int64_t_Sg__Reverse__SWIG_0(std::vector< int64_t > *self){
         std::reverse(self->begin(), self->end());
@@ -704,32 +713,32 @@ SWIGINTERN void std_vector_Sl_int64_t_Sg__Reverse__SWIG_1(std::vector< int64_t >
           throw std::invalid_argument("invalid range");
         std::reverse(self->begin()+index, self->begin()+index+count);
       }
-SWIGINTERN void std_vector_Sl_int64_t_Sg__SetRange(std::vector< int64_t > *self,int index,std::vector< long long > const &values){
+SWIGINTERN void std_vector_Sl_int64_t_Sg__SetRange(std::vector< int64_t > *self,int index,std::vector< long > const &values){
         if (index < 0)
           throw std::out_of_range("index");
         if (index+values.size() > self->size())
           throw std::out_of_range("index");
         std::copy(values.begin(), values.end(), self->begin()+index);
       }
-SWIGINTERN bool std_vector_Sl_int64_t_Sg__Contains(std::vector< int64_t > *self,long long const &value){
+SWIGINTERN bool std_vector_Sl_int64_t_Sg__Contains(std::vector< int64_t > *self,long const &value){
         return std::find(self->begin(), self->end(), value) != self->end();
       }
-SWIGINTERN int std_vector_Sl_int64_t_Sg__IndexOf(std::vector< int64_t > *self,long long const &value){
+SWIGINTERN int std_vector_Sl_int64_t_Sg__IndexOf(std::vector< int64_t > *self,long const &value){
         int index = -1;
-        std::vector< long long >::iterator it = std::find(self->begin(), self->end(), value);
+        std::vector< long >::iterator it = std::find(self->begin(), self->end(), value);
         if (it != self->end())
           index = (int)(it - self->begin());
         return index;
       }
-SWIGINTERN int std_vector_Sl_int64_t_Sg__LastIndexOf(std::vector< int64_t > *self,long long const &value){
+SWIGINTERN int std_vector_Sl_int64_t_Sg__LastIndexOf(std::vector< int64_t > *self,long const &value){
         int index = -1;
-        std::vector< long long >::reverse_iterator rit = std::find(self->rbegin(), self->rend(), value);
+        std::vector< long >::reverse_iterator rit = std::find(self->rbegin(), self->rend(), value);
         if (rit != self->rend())
           index = (int)(self->rend() - 1 - rit);
         return index;
       }
-SWIGINTERN bool std_vector_Sl_int64_t_Sg__Remove(std::vector< int64_t > *self,long long const &value){
-        std::vector< long long >::iterator it = std::find(self->begin(), self->end(), value);
+SWIGINTERN bool std_vector_Sl_int64_t_Sg__Remove(std::vector< int64_t > *self,long const &value){
+        std::vector< long >::iterator it = std::find(self->begin(), self->end(), value);
         if (it != self->end()) {
           self->erase(it);
           return true;
@@ -737,52 +746,52 @@ SWIGINTERN bool std_vector_Sl_int64_t_Sg__Remove(std::vector< int64_t > *self,lo
         return false;
       }
 SWIGINTERN std::vector< uint64_t > *new_std_vector_Sl_uint64_t_Sg___SWIG_2(int capacity){
-        std::vector< unsigned long long >* pv = 0;
+        std::vector< unsigned long >* pv = 0;
         if (capacity >= 0) {
-          pv = new std::vector< unsigned long long >();
+          pv = new std::vector< unsigned long >();
           pv->reserve(capacity);
        } else {
           throw std::out_of_range("capacity");
        }
        return pv;
       }
-SWIGINTERN unsigned long long std_vector_Sl_uint64_t_Sg__getitemcopy(std::vector< uint64_t > *self,int index){
+SWIGINTERN unsigned long std_vector_Sl_uint64_t_Sg__getitemcopy(std::vector< uint64_t > *self,int index){
         if (index>=0 && index<(int)self->size())
           return (*self)[index];
         else
           throw std::out_of_range("index");
       }
-SWIGINTERN std::vector< unsigned long long >::value_type const &std_vector_Sl_uint64_t_Sg__getitem(std::vector< uint64_t > *self,int index){
+SWIGINTERN std::vector< unsigned long >::value_type const &std_vector_Sl_uint64_t_Sg__getitem(std::vector< uint64_t > *self,int index){
         if (index>=0 && index<(int)self->size())
           return (*self)[index];
         else
           throw std::out_of_range("index");
       }
-SWIGINTERN void std_vector_Sl_uint64_t_Sg__setitem(std::vector< uint64_t > *self,int index,unsigned long long const &val){
+SWIGINTERN void std_vector_Sl_uint64_t_Sg__setitem(std::vector< uint64_t > *self,int index,unsigned long const &val){
         if (index>=0 && index<(int)self->size())
           (*self)[index] = val;
         else
           throw std::out_of_range("index");
       }
-SWIGINTERN void std_vector_Sl_uint64_t_Sg__AddRange(std::vector< uint64_t > *self,std::vector< unsigned long long > const &values){
+SWIGINTERN void std_vector_Sl_uint64_t_Sg__AddRange(std::vector< uint64_t > *self,std::vector< unsigned long > const &values){
         self->insert(self->end(), values.begin(), values.end());
       }
-SWIGINTERN std::vector< unsigned long long > *std_vector_Sl_uint64_t_Sg__GetRange(std::vector< uint64_t > *self,int index,int count){
+SWIGINTERN std::vector< unsigned long > *std_vector_Sl_uint64_t_Sg__GetRange(std::vector< uint64_t > *self,int index,int count){
         if (index < 0)
           throw std::out_of_range("index");
         if (count < 0)
           throw std::out_of_range("count");
         if (index >= (int)self->size()+1 || index+count > (int)self->size())
           throw std::invalid_argument("invalid range");
-        return new std::vector< unsigned long long >(self->begin()+index, self->begin()+index+count);
+        return new std::vector< unsigned long >(self->begin()+index, self->begin()+index+count);
       }
-SWIGINTERN void std_vector_Sl_uint64_t_Sg__Insert(std::vector< uint64_t > *self,int index,unsigned long long const &x){
+SWIGINTERN void std_vector_Sl_uint64_t_Sg__Insert(std::vector< uint64_t > *self,int index,unsigned long const &x){
         if (index>=0 && index<(int)self->size()+1)
           self->insert(self->begin()+index, x);
         else
           throw std::out_of_range("index");
       }
-SWIGINTERN void std_vector_Sl_uint64_t_Sg__InsertRange(std::vector< uint64_t > *self,int index,std::vector< unsigned long long > const &values){
+SWIGINTERN void std_vector_Sl_uint64_t_Sg__InsertRange(std::vector< uint64_t > *self,int index,std::vector< unsigned long > const &values){
         if (index>=0 && index<(int)self->size()+1)
           self->insert(self->begin()+index, values.begin(), values.end());
         else
@@ -803,10 +812,10 @@ SWIGINTERN void std_vector_Sl_uint64_t_Sg__RemoveRange(std::vector< uint64_t > *
           throw std::invalid_argument("invalid range");
         self->erase(self->begin()+index, self->begin()+index+count);
       }
-SWIGINTERN std::vector< unsigned long long > *std_vector_Sl_uint64_t_Sg__Repeat(unsigned long long const &value,int count){
+SWIGINTERN std::vector< unsigned long > *std_vector_Sl_uint64_t_Sg__Repeat(unsigned long const &value,int count){
         if (count < 0)
           throw std::out_of_range("count");
-        return new std::vector< unsigned long long >(count, value);
+        return new std::vector< unsigned long >(count, value);
       }
 SWIGINTERN void std_vector_Sl_uint64_t_Sg__Reverse__SWIG_0(std::vector< uint64_t > *self){
         std::reverse(self->begin(), self->end());
@@ -820,32 +829,32 @@ SWIGINTERN void std_vector_Sl_uint64_t_Sg__Reverse__SWIG_1(std::vector< uint64_t
           throw std::invalid_argument("invalid range");
         std::reverse(self->begin()+index, self->begin()+index+count);
       }
-SWIGINTERN void std_vector_Sl_uint64_t_Sg__SetRange(std::vector< uint64_t > *self,int index,std::vector< unsigned long long > const &values){
+SWIGINTERN void std_vector_Sl_uint64_t_Sg__SetRange(std::vector< uint64_t > *self,int index,std::vector< unsigned long > const &values){
         if (index < 0)
           throw std::out_of_range("index");
         if (index+values.size() > self->size())
           throw std::out_of_range("index");
         std::copy(values.begin(), values.end(), self->begin()+index);
       }
-SWIGINTERN bool std_vector_Sl_uint64_t_Sg__Contains(std::vector< uint64_t > *self,unsigned long long const &value){
+SWIGINTERN bool std_vector_Sl_uint64_t_Sg__Contains(std::vector< uint64_t > *self,unsigned long const &value){
         return std::find(self->begin(), self->end(), value) != self->end();
       }
-SWIGINTERN int std_vector_Sl_uint64_t_Sg__IndexOf(std::vector< uint64_t > *self,unsigned long long const &value){
+SWIGINTERN int std_vector_Sl_uint64_t_Sg__IndexOf(std::vector< uint64_t > *self,unsigned long const &value){
         int index = -1;
-        std::vector< unsigned long long >::iterator it = std::find(self->begin(), self->end(), value);
+        std::vector< unsigned long >::iterator it = std::find(self->begin(), self->end(), value);
         if (it != self->end())
           index = (int)(it - self->begin());
         return index;
       }
-SWIGINTERN int std_vector_Sl_uint64_t_Sg__LastIndexOf(std::vector< uint64_t > *self,unsigned long long const &value){
+SWIGINTERN int std_vector_Sl_uint64_t_Sg__LastIndexOf(std::vector< uint64_t > *self,unsigned long const &value){
         int index = -1;
-        std::vector< unsigned long long >::reverse_iterator rit = std::find(self->rbegin(), self->rend(), value);
+        std::vector< unsigned long >::reverse_iterator rit = std::find(self->rbegin(), self->rend(), value);
         if (rit != self->rend())
           index = (int)(self->rend() - 1 - rit);
         return index;
       }
-SWIGINTERN bool std_vector_Sl_uint64_t_Sg__Remove(std::vector< uint64_t > *self,unsigned long long const &value){
-        std::vector< unsigned long long >::iterator it = std::find(self->begin(), self->end(), value);
+SWIGINTERN bool std_vector_Sl_uint64_t_Sg__Remove(std::vector< uint64_t > *self,unsigned long const &value){
+        std::vector< unsigned long >::iterator it = std::find(self->begin(), self->end(), value);
         if (it != self->end()) {
           self->erase(it);
           return true;
@@ -1549,82 +1558,82 @@ SWIGINTERN std::map< std::string,unsigned int >::key_type const &std_map_Sl_std_
 SWIGINTERN void std_map_Sl_std_string_Sc_uint32_t_Sg__destroy_iterator(std::map< std::string,uint32_t > *self,std::map< std::string,unsigned int,std::less< std::string > >::iterator *swigiterator){
         delete swigiterator;
       }
-SWIGINTERN std::map< std::string,long long >::mapped_type const &std_map_Sl_std_string_Sc_int64_t_Sg__getitem(std::map< std::string,int64_t > *self,std::map< std::string,long long >::key_type const &key){
-        std::map< std::string, long long, std::less< std::string > >::iterator iter = self->find(key);
+SWIGINTERN std::map< std::string,long >::mapped_type const &std_map_Sl_std_string_Sc_int64_t_Sg__getitem(std::map< std::string,int64_t > *self,std::map< std::string,long >::key_type const &key){
+        std::map< std::string, long, std::less< std::string > >::iterator iter = self->find(key);
         if (iter != self->end())
           return iter->second;
         else
           throw std::out_of_range("key not found");
       }
-SWIGINTERN void std_map_Sl_std_string_Sc_int64_t_Sg__setitem(std::map< std::string,int64_t > *self,std::map< std::string,long long >::key_type const &key,std::map< std::string,long long >::mapped_type const &x){
+SWIGINTERN void std_map_Sl_std_string_Sc_int64_t_Sg__setitem(std::map< std::string,int64_t > *self,std::map< std::string,long >::key_type const &key,std::map< std::string,long >::mapped_type const &x){
         (*self)[key] = x;
       }
-SWIGINTERN bool std_map_Sl_std_string_Sc_int64_t_Sg__ContainsKey(std::map< std::string,int64_t > *self,std::map< std::string,long long >::key_type const &key){
-        std::map< std::string, long long, std::less< std::string > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_std_string_Sc_int64_t_Sg__ContainsKey(std::map< std::string,int64_t > *self,std::map< std::string,long >::key_type const &key){
+        std::map< std::string, long, std::less< std::string > >::iterator iter = self->find(key);
         return iter != self->end();
       }
-SWIGINTERN void std_map_Sl_std_string_Sc_int64_t_Sg__Add(std::map< std::string,int64_t > *self,std::map< std::string,long long >::key_type const &key,std::map< std::string,long long >::mapped_type const &value){
-        std::map< std::string, long long, std::less< std::string > >::iterator iter = self->find(key);
+SWIGINTERN void std_map_Sl_std_string_Sc_int64_t_Sg__Add(std::map< std::string,int64_t > *self,std::map< std::string,long >::key_type const &key,std::map< std::string,long >::mapped_type const &value){
+        std::map< std::string, long, std::less< std::string > >::iterator iter = self->find(key);
         if (iter != self->end())
           throw std::out_of_range("key already exists");
-        self->insert(std::pair< std::string, long long >(key, value));
+        self->insert(std::pair< std::string, long >(key, value));
       }
-SWIGINTERN bool std_map_Sl_std_string_Sc_int64_t_Sg__Remove(std::map< std::string,int64_t > *self,std::map< std::string,long long >::key_type const &key){
-        std::map< std::string, long long, std::less< std::string > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_std_string_Sc_int64_t_Sg__Remove(std::map< std::string,int64_t > *self,std::map< std::string,long >::key_type const &key){
+        std::map< std::string, long, std::less< std::string > >::iterator iter = self->find(key);
         if (iter != self->end()) {
           self->erase(iter);
           return true;
         }
         return false;
       }
-SWIGINTERN std::map< std::string,long long,std::less< std::string > >::iterator *std_map_Sl_std_string_Sc_int64_t_Sg__create_iterator_begin(std::map< std::string,int64_t > *self){
-        return new std::map< std::string, long long, std::less< std::string > >::iterator(self->begin());
+SWIGINTERN std::map< std::string,long,std::less< std::string > >::iterator *std_map_Sl_std_string_Sc_int64_t_Sg__create_iterator_begin(std::map< std::string,int64_t > *self){
+        return new std::map< std::string, long, std::less< std::string > >::iterator(self->begin());
       }
-SWIGINTERN std::map< std::string,long long >::key_type const &std_map_Sl_std_string_Sc_int64_t_Sg__get_next_key(std::map< std::string,int64_t > *self,std::map< std::string,long long,std::less< std::string > >::iterator *swigiterator){
-        std::map< std::string, long long, std::less< std::string > >::iterator iter = *swigiterator;
+SWIGINTERN std::map< std::string,long >::key_type const &std_map_Sl_std_string_Sc_int64_t_Sg__get_next_key(std::map< std::string,int64_t > *self,std::map< std::string,long,std::less< std::string > >::iterator *swigiterator){
+        std::map< std::string, long, std::less< std::string > >::iterator iter = *swigiterator;
         (*swigiterator)++;
         return (*iter).first;
       }
-SWIGINTERN void std_map_Sl_std_string_Sc_int64_t_Sg__destroy_iterator(std::map< std::string,int64_t > *self,std::map< std::string,long long,std::less< std::string > >::iterator *swigiterator){
+SWIGINTERN void std_map_Sl_std_string_Sc_int64_t_Sg__destroy_iterator(std::map< std::string,int64_t > *self,std::map< std::string,long,std::less< std::string > >::iterator *swigiterator){
         delete swigiterator;
       }
-SWIGINTERN std::map< std::string,unsigned long long >::mapped_type const &std_map_Sl_std_string_Sc_uint64_t_Sg__getitem(std::map< std::string,uint64_t > *self,std::map< std::string,unsigned long long >::key_type const &key){
-        std::map< std::string, unsigned long long, std::less< std::string > >::iterator iter = self->find(key);
+SWIGINTERN std::map< std::string,unsigned long >::mapped_type const &std_map_Sl_std_string_Sc_uint64_t_Sg__getitem(std::map< std::string,uint64_t > *self,std::map< std::string,unsigned long >::key_type const &key){
+        std::map< std::string, unsigned long, std::less< std::string > >::iterator iter = self->find(key);
         if (iter != self->end())
           return iter->second;
         else
           throw std::out_of_range("key not found");
       }
-SWIGINTERN void std_map_Sl_std_string_Sc_uint64_t_Sg__setitem(std::map< std::string,uint64_t > *self,std::map< std::string,unsigned long long >::key_type const &key,std::map< std::string,unsigned long long >::mapped_type const &x){
+SWIGINTERN void std_map_Sl_std_string_Sc_uint64_t_Sg__setitem(std::map< std::string,uint64_t > *self,std::map< std::string,unsigned long >::key_type const &key,std::map< std::string,unsigned long >::mapped_type const &x){
         (*self)[key] = x;
       }
-SWIGINTERN bool std_map_Sl_std_string_Sc_uint64_t_Sg__ContainsKey(std::map< std::string,uint64_t > *self,std::map< std::string,unsigned long long >::key_type const &key){
-        std::map< std::string, unsigned long long, std::less< std::string > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_std_string_Sc_uint64_t_Sg__ContainsKey(std::map< std::string,uint64_t > *self,std::map< std::string,unsigned long >::key_type const &key){
+        std::map< std::string, unsigned long, std::less< std::string > >::iterator iter = self->find(key);
         return iter != self->end();
       }
-SWIGINTERN void std_map_Sl_std_string_Sc_uint64_t_Sg__Add(std::map< std::string,uint64_t > *self,std::map< std::string,unsigned long long >::key_type const &key,std::map< std::string,unsigned long long >::mapped_type const &value){
-        std::map< std::string, unsigned long long, std::less< std::string > >::iterator iter = self->find(key);
+SWIGINTERN void std_map_Sl_std_string_Sc_uint64_t_Sg__Add(std::map< std::string,uint64_t > *self,std::map< std::string,unsigned long >::key_type const &key,std::map< std::string,unsigned long >::mapped_type const &value){
+        std::map< std::string, unsigned long, std::less< std::string > >::iterator iter = self->find(key);
         if (iter != self->end())
           throw std::out_of_range("key already exists");
-        self->insert(std::pair< std::string, unsigned long long >(key, value));
+        self->insert(std::pair< std::string, unsigned long >(key, value));
       }
-SWIGINTERN bool std_map_Sl_std_string_Sc_uint64_t_Sg__Remove(std::map< std::string,uint64_t > *self,std::map< std::string,unsigned long long >::key_type const &key){
-        std::map< std::string, unsigned long long, std::less< std::string > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_std_string_Sc_uint64_t_Sg__Remove(std::map< std::string,uint64_t > *self,std::map< std::string,unsigned long >::key_type const &key){
+        std::map< std::string, unsigned long, std::less< std::string > >::iterator iter = self->find(key);
         if (iter != self->end()) {
           self->erase(iter);
           return true;
         }
         return false;
       }
-SWIGINTERN std::map< std::string,unsigned long long,std::less< std::string > >::iterator *std_map_Sl_std_string_Sc_uint64_t_Sg__create_iterator_begin(std::map< std::string,uint64_t > *self){
-        return new std::map< std::string, unsigned long long, std::less< std::string > >::iterator(self->begin());
+SWIGINTERN std::map< std::string,unsigned long,std::less< std::string > >::iterator *std_map_Sl_std_string_Sc_uint64_t_Sg__create_iterator_begin(std::map< std::string,uint64_t > *self){
+        return new std::map< std::string, unsigned long, std::less< std::string > >::iterator(self->begin());
       }
-SWIGINTERN std::map< std::string,unsigned long long >::key_type const &std_map_Sl_std_string_Sc_uint64_t_Sg__get_next_key(std::map< std::string,uint64_t > *self,std::map< std::string,unsigned long long,std::less< std::string > >::iterator *swigiterator){
-        std::map< std::string, unsigned long long, std::less< std::string > >::iterator iter = *swigiterator;
+SWIGINTERN std::map< std::string,unsigned long >::key_type const &std_map_Sl_std_string_Sc_uint64_t_Sg__get_next_key(std::map< std::string,uint64_t > *self,std::map< std::string,unsigned long,std::less< std::string > >::iterator *swigiterator){
+        std::map< std::string, unsigned long, std::less< std::string > >::iterator iter = *swigiterator;
         (*swigiterator)++;
         return (*iter).first;
       }
-SWIGINTERN void std_map_Sl_std_string_Sc_uint64_t_Sg__destroy_iterator(std::map< std::string,uint64_t > *self,std::map< std::string,unsigned long long,std::less< std::string > >::iterator *swigiterator){
+SWIGINTERN void std_map_Sl_std_string_Sc_uint64_t_Sg__destroy_iterator(std::map< std::string,uint64_t > *self,std::map< std::string,unsigned long,std::less< std::string > >::iterator *swigiterator){
         delete swigiterator;
       }
 SWIGINTERN std::map< std::string,double >::mapped_type const &std_map_Sl_std_string_Sc_double_Sg__getitem(std::map< std::string,double > *self,std::map< std::string,double >::key_type const &key){
@@ -1861,82 +1870,82 @@ SWIGINTERN std::map< int,unsigned int >::key_type const &std_map_Sl_int_Sc_uint3
 SWIGINTERN void std_map_Sl_int_Sc_uint32_t_Sg__destroy_iterator(std::map< int,uint32_t > *self,std::map< int,unsigned int,std::less< int > >::iterator *swigiterator){
         delete swigiterator;
       }
-SWIGINTERN std::map< int,long long >::mapped_type const &std_map_Sl_int_Sc_int64_t_Sg__getitem(std::map< int,int64_t > *self,std::map< int,long long >::key_type const &key){
-        std::map< int, long long, std::less< int > >::iterator iter = self->find(key);
+SWIGINTERN std::map< int,long >::mapped_type const &std_map_Sl_int_Sc_int64_t_Sg__getitem(std::map< int,int64_t > *self,std::map< int,long >::key_type const &key){
+        std::map< int, long, std::less< int > >::iterator iter = self->find(key);
         if (iter != self->end())
           return iter->second;
         else
           throw std::out_of_range("key not found");
       }
-SWIGINTERN void std_map_Sl_int_Sc_int64_t_Sg__setitem(std::map< int,int64_t > *self,std::map< int,long long >::key_type const &key,std::map< int,long long >::mapped_type const &x){
+SWIGINTERN void std_map_Sl_int_Sc_int64_t_Sg__setitem(std::map< int,int64_t > *self,std::map< int,long >::key_type const &key,std::map< int,long >::mapped_type const &x){
         (*self)[key] = x;
       }
-SWIGINTERN bool std_map_Sl_int_Sc_int64_t_Sg__ContainsKey(std::map< int,int64_t > *self,std::map< int,long long >::key_type const &key){
-        std::map< int, long long, std::less< int > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int_Sc_int64_t_Sg__ContainsKey(std::map< int,int64_t > *self,std::map< int,long >::key_type const &key){
+        std::map< int, long, std::less< int > >::iterator iter = self->find(key);
         return iter != self->end();
       }
-SWIGINTERN void std_map_Sl_int_Sc_int64_t_Sg__Add(std::map< int,int64_t > *self,std::map< int,long long >::key_type const &key,std::map< int,long long >::mapped_type const &value){
-        std::map< int, long long, std::less< int > >::iterator iter = self->find(key);
+SWIGINTERN void std_map_Sl_int_Sc_int64_t_Sg__Add(std::map< int,int64_t > *self,std::map< int,long >::key_type const &key,std::map< int,long >::mapped_type const &value){
+        std::map< int, long, std::less< int > >::iterator iter = self->find(key);
         if (iter != self->end())
           throw std::out_of_range("key already exists");
-        self->insert(std::pair< int, long long >(key, value));
+        self->insert(std::pair< int, long >(key, value));
       }
-SWIGINTERN bool std_map_Sl_int_Sc_int64_t_Sg__Remove(std::map< int,int64_t > *self,std::map< int,long long >::key_type const &key){
-        std::map< int, long long, std::less< int > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int_Sc_int64_t_Sg__Remove(std::map< int,int64_t > *self,std::map< int,long >::key_type const &key){
+        std::map< int, long, std::less< int > >::iterator iter = self->find(key);
         if (iter != self->end()) {
           self->erase(iter);
           return true;
         }
         return false;
       }
-SWIGINTERN std::map< int,long long,std::less< int > >::iterator *std_map_Sl_int_Sc_int64_t_Sg__create_iterator_begin(std::map< int,int64_t > *self){
-        return new std::map< int, long long, std::less< int > >::iterator(self->begin());
+SWIGINTERN std::map< int,long,std::less< int > >::iterator *std_map_Sl_int_Sc_int64_t_Sg__create_iterator_begin(std::map< int,int64_t > *self){
+        return new std::map< int, long, std::less< int > >::iterator(self->begin());
       }
-SWIGINTERN std::map< int,long long >::key_type const &std_map_Sl_int_Sc_int64_t_Sg__get_next_key(std::map< int,int64_t > *self,std::map< int,long long,std::less< int > >::iterator *swigiterator){
-        std::map< int, long long, std::less< int > >::iterator iter = *swigiterator;
+SWIGINTERN std::map< int,long >::key_type const &std_map_Sl_int_Sc_int64_t_Sg__get_next_key(std::map< int,int64_t > *self,std::map< int,long,std::less< int > >::iterator *swigiterator){
+        std::map< int, long, std::less< int > >::iterator iter = *swigiterator;
         (*swigiterator)++;
         return (*iter).first;
       }
-SWIGINTERN void std_map_Sl_int_Sc_int64_t_Sg__destroy_iterator(std::map< int,int64_t > *self,std::map< int,long long,std::less< int > >::iterator *swigiterator){
+SWIGINTERN void std_map_Sl_int_Sc_int64_t_Sg__destroy_iterator(std::map< int,int64_t > *self,std::map< int,long,std::less< int > >::iterator *swigiterator){
         delete swigiterator;
       }
-SWIGINTERN std::map< int,unsigned long long >::mapped_type const &std_map_Sl_int_Sc_uint64_t_Sg__getitem(std::map< int,uint64_t > *self,std::map< int,unsigned long long >::key_type const &key){
-        std::map< int, unsigned long long, std::less< int > >::iterator iter = self->find(key);
+SWIGINTERN std::map< int,unsigned long >::mapped_type const &std_map_Sl_int_Sc_uint64_t_Sg__getitem(std::map< int,uint64_t > *self,std::map< int,unsigned long >::key_type const &key){
+        std::map< int, unsigned long, std::less< int > >::iterator iter = self->find(key);
         if (iter != self->end())
           return iter->second;
         else
           throw std::out_of_range("key not found");
       }
-SWIGINTERN void std_map_Sl_int_Sc_uint64_t_Sg__setitem(std::map< int,uint64_t > *self,std::map< int,unsigned long long >::key_type const &key,std::map< int,unsigned long long >::mapped_type const &x){
+SWIGINTERN void std_map_Sl_int_Sc_uint64_t_Sg__setitem(std::map< int,uint64_t > *self,std::map< int,unsigned long >::key_type const &key,std::map< int,unsigned long >::mapped_type const &x){
         (*self)[key] = x;
       }
-SWIGINTERN bool std_map_Sl_int_Sc_uint64_t_Sg__ContainsKey(std::map< int,uint64_t > *self,std::map< int,unsigned long long >::key_type const &key){
-        std::map< int, unsigned long long, std::less< int > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int_Sc_uint64_t_Sg__ContainsKey(std::map< int,uint64_t > *self,std::map< int,unsigned long >::key_type const &key){
+        std::map< int, unsigned long, std::less< int > >::iterator iter = self->find(key);
         return iter != self->end();
       }
-SWIGINTERN void std_map_Sl_int_Sc_uint64_t_Sg__Add(std::map< int,uint64_t > *self,std::map< int,unsigned long long >::key_type const &key,std::map< int,unsigned long long >::mapped_type const &value){
-        std::map< int, unsigned long long, std::less< int > >::iterator iter = self->find(key);
+SWIGINTERN void std_map_Sl_int_Sc_uint64_t_Sg__Add(std::map< int,uint64_t > *self,std::map< int,unsigned long >::key_type const &key,std::map< int,unsigned long >::mapped_type const &value){
+        std::map< int, unsigned long, std::less< int > >::iterator iter = self->find(key);
         if (iter != self->end())
           throw std::out_of_range("key already exists");
-        self->insert(std::pair< int, unsigned long long >(key, value));
+        self->insert(std::pair< int, unsigned long >(key, value));
       }
-SWIGINTERN bool std_map_Sl_int_Sc_uint64_t_Sg__Remove(std::map< int,uint64_t > *self,std::map< int,unsigned long long >::key_type const &key){
-        std::map< int, unsigned long long, std::less< int > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int_Sc_uint64_t_Sg__Remove(std::map< int,uint64_t > *self,std::map< int,unsigned long >::key_type const &key){
+        std::map< int, unsigned long, std::less< int > >::iterator iter = self->find(key);
         if (iter != self->end()) {
           self->erase(iter);
           return true;
         }
         return false;
       }
-SWIGINTERN std::map< int,unsigned long long,std::less< int > >::iterator *std_map_Sl_int_Sc_uint64_t_Sg__create_iterator_begin(std::map< int,uint64_t > *self){
-        return new std::map< int, unsigned long long, std::less< int > >::iterator(self->begin());
+SWIGINTERN std::map< int,unsigned long,std::less< int > >::iterator *std_map_Sl_int_Sc_uint64_t_Sg__create_iterator_begin(std::map< int,uint64_t > *self){
+        return new std::map< int, unsigned long, std::less< int > >::iterator(self->begin());
       }
-SWIGINTERN std::map< int,unsigned long long >::key_type const &std_map_Sl_int_Sc_uint64_t_Sg__get_next_key(std::map< int,uint64_t > *self,std::map< int,unsigned long long,std::less< int > >::iterator *swigiterator){
-        std::map< int, unsigned long long, std::less< int > >::iterator iter = *swigiterator;
+SWIGINTERN std::map< int,unsigned long >::key_type const &std_map_Sl_int_Sc_uint64_t_Sg__get_next_key(std::map< int,uint64_t > *self,std::map< int,unsigned long,std::less< int > >::iterator *swigiterator){
+        std::map< int, unsigned long, std::less< int > >::iterator iter = *swigiterator;
         (*swigiterator)++;
         return (*iter).first;
       }
-SWIGINTERN void std_map_Sl_int_Sc_uint64_t_Sg__destroy_iterator(std::map< int,uint64_t > *self,std::map< int,unsigned long long,std::less< int > >::iterator *swigiterator){
+SWIGINTERN void std_map_Sl_int_Sc_uint64_t_Sg__destroy_iterator(std::map< int,uint64_t > *self,std::map< int,unsigned long,std::less< int > >::iterator *swigiterator){
         delete swigiterator;
       }
 SWIGINTERN std::map< int,double >::mapped_type const &std_map_Sl_int_Sc_double_Sg__getitem(std::map< int,double > *self,std::map< int,double >::key_type const &key){
@@ -2056,339 +2065,339 @@ SWIGINTERN std::map< int,unsigned char >::key_type const &std_map_Sl_int_Sc_unsi
 SWIGINTERN void std_map_Sl_int_Sc_unsigned_SS_char_Sg__destroy_iterator(std::map< int,unsigned char > *self,std::map< int,unsigned char,std::less< int > >::iterator *swigiterator){
         delete swigiterator;
       }
-SWIGINTERN std::map< long long,std::string >::mapped_type const &std_map_Sl_int64_t_Sc_std_string_Sg__getitem(std::map< int64_t,std::string > *self,std::map< long long,std::string >::key_type const &key){
-        std::map< long long, std::string, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN std::map< long,std::string >::mapped_type const &std_map_Sl_int64_t_Sc_std_string_Sg__getitem(std::map< int64_t,std::string > *self,std::map< long,std::string >::key_type const &key){
+        std::map< long, std::string, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end())
           return iter->second;
         else
           throw std::out_of_range("key not found");
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_std_string_Sg__setitem(std::map< int64_t,std::string > *self,std::map< long long,std::string >::key_type const &key,std::map< long long,std::string >::mapped_type const &x){
+SWIGINTERN void std_map_Sl_int64_t_Sc_std_string_Sg__setitem(std::map< int64_t,std::string > *self,std::map< long,std::string >::key_type const &key,std::map< long,std::string >::mapped_type const &x){
         (*self)[key] = x;
       }
-SWIGINTERN bool std_map_Sl_int64_t_Sc_std_string_Sg__ContainsKey(std::map< int64_t,std::string > *self,std::map< long long,std::string >::key_type const &key){
-        std::map< long long, std::string, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int64_t_Sc_std_string_Sg__ContainsKey(std::map< int64_t,std::string > *self,std::map< long,std::string >::key_type const &key){
+        std::map< long, std::string, std::less< long > >::iterator iter = self->find(key);
         return iter != self->end();
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_std_string_Sg__Add(std::map< int64_t,std::string > *self,std::map< long long,std::string >::key_type const &key,std::map< long long,std::string >::mapped_type const &value){
-        std::map< long long, std::string, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN void std_map_Sl_int64_t_Sc_std_string_Sg__Add(std::map< int64_t,std::string > *self,std::map< long,std::string >::key_type const &key,std::map< long,std::string >::mapped_type const &value){
+        std::map< long, std::string, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end())
           throw std::out_of_range("key already exists");
-        self->insert(std::pair< long long, std::string >(key, value));
+        self->insert(std::pair< long, std::string >(key, value));
       }
-SWIGINTERN bool std_map_Sl_int64_t_Sc_std_string_Sg__Remove(std::map< int64_t,std::string > *self,std::map< long long,std::string >::key_type const &key){
-        std::map< long long, std::string, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int64_t_Sc_std_string_Sg__Remove(std::map< int64_t,std::string > *self,std::map< long,std::string >::key_type const &key){
+        std::map< long, std::string, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end()) {
           self->erase(iter);
           return true;
         }
         return false;
       }
-SWIGINTERN std::map< long long,std::string,std::less< long long > >::iterator *std_map_Sl_int64_t_Sc_std_string_Sg__create_iterator_begin(std::map< int64_t,std::string > *self){
-        return new std::map< long long, std::string, std::less< long long > >::iterator(self->begin());
+SWIGINTERN std::map< long,std::string,std::less< long > >::iterator *std_map_Sl_int64_t_Sc_std_string_Sg__create_iterator_begin(std::map< int64_t,std::string > *self){
+        return new std::map< long, std::string, std::less< long > >::iterator(self->begin());
       }
-SWIGINTERN std::map< long long,std::string >::key_type const &std_map_Sl_int64_t_Sc_std_string_Sg__get_next_key(std::map< int64_t,std::string > *self,std::map< long long,std::string,std::less< long long > >::iterator *swigiterator){
-        std::map< long long, std::string, std::less< long long > >::iterator iter = *swigiterator;
+SWIGINTERN std::map< long,std::string >::key_type const &std_map_Sl_int64_t_Sc_std_string_Sg__get_next_key(std::map< int64_t,std::string > *self,std::map< long,std::string,std::less< long > >::iterator *swigiterator){
+        std::map< long, std::string, std::less< long > >::iterator iter = *swigiterator;
         (*swigiterator)++;
         return (*iter).first;
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_std_string_Sg__destroy_iterator(std::map< int64_t,std::string > *self,std::map< long long,std::string,std::less< long long > >::iterator *swigiterator){
+SWIGINTERN void std_map_Sl_int64_t_Sc_std_string_Sg__destroy_iterator(std::map< int64_t,std::string > *self,std::map< long,std::string,std::less< long > >::iterator *swigiterator){
         delete swigiterator;
       }
-SWIGINTERN std::map< long long,int >::mapped_type const &std_map_Sl_int64_t_Sc_int_Sg__getitem(std::map< int64_t,int > *self,std::map< long long,int >::key_type const &key){
-        std::map< long long, int, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN std::map< long,int >::mapped_type const &std_map_Sl_int64_t_Sc_int_Sg__getitem(std::map< int64_t,int > *self,std::map< long,int >::key_type const &key){
+        std::map< long, int, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end())
           return iter->second;
         else
           throw std::out_of_range("key not found");
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_int_Sg__setitem(std::map< int64_t,int > *self,std::map< long long,int >::key_type const &key,std::map< long long,int >::mapped_type const &x){
+SWIGINTERN void std_map_Sl_int64_t_Sc_int_Sg__setitem(std::map< int64_t,int > *self,std::map< long,int >::key_type const &key,std::map< long,int >::mapped_type const &x){
         (*self)[key] = x;
       }
-SWIGINTERN bool std_map_Sl_int64_t_Sc_int_Sg__ContainsKey(std::map< int64_t,int > *self,std::map< long long,int >::key_type const &key){
-        std::map< long long, int, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int64_t_Sc_int_Sg__ContainsKey(std::map< int64_t,int > *self,std::map< long,int >::key_type const &key){
+        std::map< long, int, std::less< long > >::iterator iter = self->find(key);
         return iter != self->end();
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_int_Sg__Add(std::map< int64_t,int > *self,std::map< long long,int >::key_type const &key,std::map< long long,int >::mapped_type const &value){
-        std::map< long long, int, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN void std_map_Sl_int64_t_Sc_int_Sg__Add(std::map< int64_t,int > *self,std::map< long,int >::key_type const &key,std::map< long,int >::mapped_type const &value){
+        std::map< long, int, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end())
           throw std::out_of_range("key already exists");
-        self->insert(std::pair< long long, int >(key, value));
+        self->insert(std::pair< long, int >(key, value));
       }
-SWIGINTERN bool std_map_Sl_int64_t_Sc_int_Sg__Remove(std::map< int64_t,int > *self,std::map< long long,int >::key_type const &key){
-        std::map< long long, int, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int64_t_Sc_int_Sg__Remove(std::map< int64_t,int > *self,std::map< long,int >::key_type const &key){
+        std::map< long, int, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end()) {
           self->erase(iter);
           return true;
         }
         return false;
       }
-SWIGINTERN std::map< long long,int,std::less< long long > >::iterator *std_map_Sl_int64_t_Sc_int_Sg__create_iterator_begin(std::map< int64_t,int > *self){
-        return new std::map< long long, int, std::less< long long > >::iterator(self->begin());
+SWIGINTERN std::map< long,int,std::less< long > >::iterator *std_map_Sl_int64_t_Sc_int_Sg__create_iterator_begin(std::map< int64_t,int > *self){
+        return new std::map< long, int, std::less< long > >::iterator(self->begin());
       }
-SWIGINTERN std::map< long long,int >::key_type const &std_map_Sl_int64_t_Sc_int_Sg__get_next_key(std::map< int64_t,int > *self,std::map< long long,int,std::less< long long > >::iterator *swigiterator){
-        std::map< long long, int, std::less< long long > >::iterator iter = *swigiterator;
+SWIGINTERN std::map< long,int >::key_type const &std_map_Sl_int64_t_Sc_int_Sg__get_next_key(std::map< int64_t,int > *self,std::map< long,int,std::less< long > >::iterator *swigiterator){
+        std::map< long, int, std::less< long > >::iterator iter = *swigiterator;
         (*swigiterator)++;
         return (*iter).first;
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_int_Sg__destroy_iterator(std::map< int64_t,int > *self,std::map< long long,int,std::less< long long > >::iterator *swigiterator){
+SWIGINTERN void std_map_Sl_int64_t_Sc_int_Sg__destroy_iterator(std::map< int64_t,int > *self,std::map< long,int,std::less< long > >::iterator *swigiterator){
         delete swigiterator;
       }
-SWIGINTERN std::map< long long,unsigned int >::mapped_type const &std_map_Sl_int64_t_Sc_uint32_t_Sg__getitem(std::map< int64_t,uint32_t > *self,std::map< long long,unsigned int >::key_type const &key){
-        std::map< long long, unsigned int, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN std::map< long,unsigned int >::mapped_type const &std_map_Sl_int64_t_Sc_uint32_t_Sg__getitem(std::map< int64_t,uint32_t > *self,std::map< long,unsigned int >::key_type const &key){
+        std::map< long, unsigned int, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end())
           return iter->second;
         else
           throw std::out_of_range("key not found");
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_uint32_t_Sg__setitem(std::map< int64_t,uint32_t > *self,std::map< long long,unsigned int >::key_type const &key,std::map< long long,unsigned int >::mapped_type const &x){
+SWIGINTERN void std_map_Sl_int64_t_Sc_uint32_t_Sg__setitem(std::map< int64_t,uint32_t > *self,std::map< long,unsigned int >::key_type const &key,std::map< long,unsigned int >::mapped_type const &x){
         (*self)[key] = x;
       }
-SWIGINTERN bool std_map_Sl_int64_t_Sc_uint32_t_Sg__ContainsKey(std::map< int64_t,uint32_t > *self,std::map< long long,unsigned int >::key_type const &key){
-        std::map< long long, unsigned int, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int64_t_Sc_uint32_t_Sg__ContainsKey(std::map< int64_t,uint32_t > *self,std::map< long,unsigned int >::key_type const &key){
+        std::map< long, unsigned int, std::less< long > >::iterator iter = self->find(key);
         return iter != self->end();
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_uint32_t_Sg__Add(std::map< int64_t,uint32_t > *self,std::map< long long,unsigned int >::key_type const &key,std::map< long long,unsigned int >::mapped_type const &value){
-        std::map< long long, unsigned int, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN void std_map_Sl_int64_t_Sc_uint32_t_Sg__Add(std::map< int64_t,uint32_t > *self,std::map< long,unsigned int >::key_type const &key,std::map< long,unsigned int >::mapped_type const &value){
+        std::map< long, unsigned int, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end())
           throw std::out_of_range("key already exists");
-        self->insert(std::pair< long long, unsigned int >(key, value));
+        self->insert(std::pair< long, unsigned int >(key, value));
       }
-SWIGINTERN bool std_map_Sl_int64_t_Sc_uint32_t_Sg__Remove(std::map< int64_t,uint32_t > *self,std::map< long long,unsigned int >::key_type const &key){
-        std::map< long long, unsigned int, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int64_t_Sc_uint32_t_Sg__Remove(std::map< int64_t,uint32_t > *self,std::map< long,unsigned int >::key_type const &key){
+        std::map< long, unsigned int, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end()) {
           self->erase(iter);
           return true;
         }
         return false;
       }
-SWIGINTERN std::map< long long,unsigned int,std::less< long long > >::iterator *std_map_Sl_int64_t_Sc_uint32_t_Sg__create_iterator_begin(std::map< int64_t,uint32_t > *self){
-        return new std::map< long long, unsigned int, std::less< long long > >::iterator(self->begin());
+SWIGINTERN std::map< long,unsigned int,std::less< long > >::iterator *std_map_Sl_int64_t_Sc_uint32_t_Sg__create_iterator_begin(std::map< int64_t,uint32_t > *self){
+        return new std::map< long, unsigned int, std::less< long > >::iterator(self->begin());
       }
-SWIGINTERN std::map< long long,unsigned int >::key_type const &std_map_Sl_int64_t_Sc_uint32_t_Sg__get_next_key(std::map< int64_t,uint32_t > *self,std::map< long long,unsigned int,std::less< long long > >::iterator *swigiterator){
-        std::map< long long, unsigned int, std::less< long long > >::iterator iter = *swigiterator;
+SWIGINTERN std::map< long,unsigned int >::key_type const &std_map_Sl_int64_t_Sc_uint32_t_Sg__get_next_key(std::map< int64_t,uint32_t > *self,std::map< long,unsigned int,std::less< long > >::iterator *swigiterator){
+        std::map< long, unsigned int, std::less< long > >::iterator iter = *swigiterator;
         (*swigiterator)++;
         return (*iter).first;
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_uint32_t_Sg__destroy_iterator(std::map< int64_t,uint32_t > *self,std::map< long long,unsigned int,std::less< long long > >::iterator *swigiterator){
+SWIGINTERN void std_map_Sl_int64_t_Sc_uint32_t_Sg__destroy_iterator(std::map< int64_t,uint32_t > *self,std::map< long,unsigned int,std::less< long > >::iterator *swigiterator){
         delete swigiterator;
       }
-SWIGINTERN std::map< long long,long long >::mapped_type const &std_map_Sl_int64_t_Sc_int64_t_Sg__getitem(std::map< int64_t,int64_t > *self,std::map< long long,long long >::key_type const &key){
-        std::map< long long, long long, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN std::map< long,long >::mapped_type const &std_map_Sl_int64_t_Sc_int64_t_Sg__getitem(std::map< int64_t,int64_t > *self,std::map< long,long >::key_type const &key){
+        std::map< long, long, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end())
           return iter->second;
         else
           throw std::out_of_range("key not found");
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_int64_t_Sg__setitem(std::map< int64_t,int64_t > *self,std::map< long long,long long >::key_type const &key,std::map< long long,long long >::mapped_type const &x){
+SWIGINTERN void std_map_Sl_int64_t_Sc_int64_t_Sg__setitem(std::map< int64_t,int64_t > *self,std::map< long,long >::key_type const &key,std::map< long,long >::mapped_type const &x){
         (*self)[key] = x;
       }
-SWIGINTERN bool std_map_Sl_int64_t_Sc_int64_t_Sg__ContainsKey(std::map< int64_t,int64_t > *self,std::map< long long,long long >::key_type const &key){
-        std::map< long long, long long, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int64_t_Sc_int64_t_Sg__ContainsKey(std::map< int64_t,int64_t > *self,std::map< long,long >::key_type const &key){
+        std::map< long, long, std::less< long > >::iterator iter = self->find(key);
         return iter != self->end();
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_int64_t_Sg__Add(std::map< int64_t,int64_t > *self,std::map< long long,long long >::key_type const &key,std::map< long long,long long >::mapped_type const &value){
-        std::map< long long, long long, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN void std_map_Sl_int64_t_Sc_int64_t_Sg__Add(std::map< int64_t,int64_t > *self,std::map< long,long >::key_type const &key,std::map< long,long >::mapped_type const &value){
+        std::map< long, long, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end())
           throw std::out_of_range("key already exists");
-        self->insert(std::pair< long long, long long >(key, value));
+        self->insert(std::pair< long, long >(key, value));
       }
-SWIGINTERN bool std_map_Sl_int64_t_Sc_int64_t_Sg__Remove(std::map< int64_t,int64_t > *self,std::map< long long,long long >::key_type const &key){
-        std::map< long long, long long, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int64_t_Sc_int64_t_Sg__Remove(std::map< int64_t,int64_t > *self,std::map< long,long >::key_type const &key){
+        std::map< long, long, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end()) {
           self->erase(iter);
           return true;
         }
         return false;
       }
-SWIGINTERN std::map< long long,long long,std::less< long long > >::iterator *std_map_Sl_int64_t_Sc_int64_t_Sg__create_iterator_begin(std::map< int64_t,int64_t > *self){
-        return new std::map< long long, long long, std::less< long long > >::iterator(self->begin());
+SWIGINTERN std::map< long,long,std::less< long > >::iterator *std_map_Sl_int64_t_Sc_int64_t_Sg__create_iterator_begin(std::map< int64_t,int64_t > *self){
+        return new std::map< long, long, std::less< long > >::iterator(self->begin());
       }
-SWIGINTERN std::map< long long,long long >::key_type const &std_map_Sl_int64_t_Sc_int64_t_Sg__get_next_key(std::map< int64_t,int64_t > *self,std::map< long long,long long,std::less< long long > >::iterator *swigiterator){
-        std::map< long long, long long, std::less< long long > >::iterator iter = *swigiterator;
+SWIGINTERN std::map< long,long >::key_type const &std_map_Sl_int64_t_Sc_int64_t_Sg__get_next_key(std::map< int64_t,int64_t > *self,std::map< long,long,std::less< long > >::iterator *swigiterator){
+        std::map< long, long, std::less< long > >::iterator iter = *swigiterator;
         (*swigiterator)++;
         return (*iter).first;
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_int64_t_Sg__destroy_iterator(std::map< int64_t,int64_t > *self,std::map< long long,long long,std::less< long long > >::iterator *swigiterator){
+SWIGINTERN void std_map_Sl_int64_t_Sc_int64_t_Sg__destroy_iterator(std::map< int64_t,int64_t > *self,std::map< long,long,std::less< long > >::iterator *swigiterator){
         delete swigiterator;
       }
-SWIGINTERN std::map< long long,unsigned long long >::mapped_type const &std_map_Sl_int64_t_Sc_uint64_t_Sg__getitem(std::map< int64_t,uint64_t > *self,std::map< long long,unsigned long long >::key_type const &key){
-        std::map< long long, unsigned long long, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN std::map< long,unsigned long >::mapped_type const &std_map_Sl_int64_t_Sc_uint64_t_Sg__getitem(std::map< int64_t,uint64_t > *self,std::map< long,unsigned long >::key_type const &key){
+        std::map< long, unsigned long, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end())
           return iter->second;
         else
           throw std::out_of_range("key not found");
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_uint64_t_Sg__setitem(std::map< int64_t,uint64_t > *self,std::map< long long,unsigned long long >::key_type const &key,std::map< long long,unsigned long long >::mapped_type const &x){
+SWIGINTERN void std_map_Sl_int64_t_Sc_uint64_t_Sg__setitem(std::map< int64_t,uint64_t > *self,std::map< long,unsigned long >::key_type const &key,std::map< long,unsigned long >::mapped_type const &x){
         (*self)[key] = x;
       }
-SWIGINTERN bool std_map_Sl_int64_t_Sc_uint64_t_Sg__ContainsKey(std::map< int64_t,uint64_t > *self,std::map< long long,unsigned long long >::key_type const &key){
-        std::map< long long, unsigned long long, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int64_t_Sc_uint64_t_Sg__ContainsKey(std::map< int64_t,uint64_t > *self,std::map< long,unsigned long >::key_type const &key){
+        std::map< long, unsigned long, std::less< long > >::iterator iter = self->find(key);
         return iter != self->end();
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_uint64_t_Sg__Add(std::map< int64_t,uint64_t > *self,std::map< long long,unsigned long long >::key_type const &key,std::map< long long,unsigned long long >::mapped_type const &value){
-        std::map< long long, unsigned long long, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN void std_map_Sl_int64_t_Sc_uint64_t_Sg__Add(std::map< int64_t,uint64_t > *self,std::map< long,unsigned long >::key_type const &key,std::map< long,unsigned long >::mapped_type const &value){
+        std::map< long, unsigned long, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end())
           throw std::out_of_range("key already exists");
-        self->insert(std::pair< long long, unsigned long long >(key, value));
+        self->insert(std::pair< long, unsigned long >(key, value));
       }
-SWIGINTERN bool std_map_Sl_int64_t_Sc_uint64_t_Sg__Remove(std::map< int64_t,uint64_t > *self,std::map< long long,unsigned long long >::key_type const &key){
-        std::map< long long, unsigned long long, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int64_t_Sc_uint64_t_Sg__Remove(std::map< int64_t,uint64_t > *self,std::map< long,unsigned long >::key_type const &key){
+        std::map< long, unsigned long, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end()) {
           self->erase(iter);
           return true;
         }
         return false;
       }
-SWIGINTERN std::map< long long,unsigned long long,std::less< long long > >::iterator *std_map_Sl_int64_t_Sc_uint64_t_Sg__create_iterator_begin(std::map< int64_t,uint64_t > *self){
-        return new std::map< long long, unsigned long long, std::less< long long > >::iterator(self->begin());
+SWIGINTERN std::map< long,unsigned long,std::less< long > >::iterator *std_map_Sl_int64_t_Sc_uint64_t_Sg__create_iterator_begin(std::map< int64_t,uint64_t > *self){
+        return new std::map< long, unsigned long, std::less< long > >::iterator(self->begin());
       }
-SWIGINTERN std::map< long long,unsigned long long >::key_type const &std_map_Sl_int64_t_Sc_uint64_t_Sg__get_next_key(std::map< int64_t,uint64_t > *self,std::map< long long,unsigned long long,std::less< long long > >::iterator *swigiterator){
-        std::map< long long, unsigned long long, std::less< long long > >::iterator iter = *swigiterator;
+SWIGINTERN std::map< long,unsigned long >::key_type const &std_map_Sl_int64_t_Sc_uint64_t_Sg__get_next_key(std::map< int64_t,uint64_t > *self,std::map< long,unsigned long,std::less< long > >::iterator *swigiterator){
+        std::map< long, unsigned long, std::less< long > >::iterator iter = *swigiterator;
         (*swigiterator)++;
         return (*iter).first;
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_uint64_t_Sg__destroy_iterator(std::map< int64_t,uint64_t > *self,std::map< long long,unsigned long long,std::less< long long > >::iterator *swigiterator){
+SWIGINTERN void std_map_Sl_int64_t_Sc_uint64_t_Sg__destroy_iterator(std::map< int64_t,uint64_t > *self,std::map< long,unsigned long,std::less< long > >::iterator *swigiterator){
         delete swigiterator;
       }
-SWIGINTERN std::map< long long,double >::mapped_type const &std_map_Sl_int64_t_Sc_double_Sg__getitem(std::map< int64_t,double > *self,std::map< long long,double >::key_type const &key){
-        std::map< long long, double, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN std::map< long,double >::mapped_type const &std_map_Sl_int64_t_Sc_double_Sg__getitem(std::map< int64_t,double > *self,std::map< long,double >::key_type const &key){
+        std::map< long, double, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end())
           return iter->second;
         else
           throw std::out_of_range("key not found");
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_double_Sg__setitem(std::map< int64_t,double > *self,std::map< long long,double >::key_type const &key,std::map< long long,double >::mapped_type const &x){
+SWIGINTERN void std_map_Sl_int64_t_Sc_double_Sg__setitem(std::map< int64_t,double > *self,std::map< long,double >::key_type const &key,std::map< long,double >::mapped_type const &x){
         (*self)[key] = x;
       }
-SWIGINTERN bool std_map_Sl_int64_t_Sc_double_Sg__ContainsKey(std::map< int64_t,double > *self,std::map< long long,double >::key_type const &key){
-        std::map< long long, double, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int64_t_Sc_double_Sg__ContainsKey(std::map< int64_t,double > *self,std::map< long,double >::key_type const &key){
+        std::map< long, double, std::less< long > >::iterator iter = self->find(key);
         return iter != self->end();
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_double_Sg__Add(std::map< int64_t,double > *self,std::map< long long,double >::key_type const &key,std::map< long long,double >::mapped_type const &value){
-        std::map< long long, double, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN void std_map_Sl_int64_t_Sc_double_Sg__Add(std::map< int64_t,double > *self,std::map< long,double >::key_type const &key,std::map< long,double >::mapped_type const &value){
+        std::map< long, double, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end())
           throw std::out_of_range("key already exists");
-        self->insert(std::pair< long long, double >(key, value));
+        self->insert(std::pair< long, double >(key, value));
       }
-SWIGINTERN bool std_map_Sl_int64_t_Sc_double_Sg__Remove(std::map< int64_t,double > *self,std::map< long long,double >::key_type const &key){
-        std::map< long long, double, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int64_t_Sc_double_Sg__Remove(std::map< int64_t,double > *self,std::map< long,double >::key_type const &key){
+        std::map< long, double, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end()) {
           self->erase(iter);
           return true;
         }
         return false;
       }
-SWIGINTERN std::map< long long,double,std::less< long long > >::iterator *std_map_Sl_int64_t_Sc_double_Sg__create_iterator_begin(std::map< int64_t,double > *self){
-        return new std::map< long long, double, std::less< long long > >::iterator(self->begin());
+SWIGINTERN std::map< long,double,std::less< long > >::iterator *std_map_Sl_int64_t_Sc_double_Sg__create_iterator_begin(std::map< int64_t,double > *self){
+        return new std::map< long, double, std::less< long > >::iterator(self->begin());
       }
-SWIGINTERN std::map< long long,double >::key_type const &std_map_Sl_int64_t_Sc_double_Sg__get_next_key(std::map< int64_t,double > *self,std::map< long long,double,std::less< long long > >::iterator *swigiterator){
-        std::map< long long, double, std::less< long long > >::iterator iter = *swigiterator;
+SWIGINTERN std::map< long,double >::key_type const &std_map_Sl_int64_t_Sc_double_Sg__get_next_key(std::map< int64_t,double > *self,std::map< long,double,std::less< long > >::iterator *swigiterator){
+        std::map< long, double, std::less< long > >::iterator iter = *swigiterator;
         (*swigiterator)++;
         return (*iter).first;
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_double_Sg__destroy_iterator(std::map< int64_t,double > *self,std::map< long long,double,std::less< long long > >::iterator *swigiterator){
+SWIGINTERN void std_map_Sl_int64_t_Sc_double_Sg__destroy_iterator(std::map< int64_t,double > *self,std::map< long,double,std::less< long > >::iterator *swigiterator){
         delete swigiterator;
       }
-SWIGINTERN std::map< long long,char >::mapped_type const &std_map_Sl_int64_t_Sc_char_Sg__getitem(std::map< int64_t,char > *self,std::map< long long,char >::key_type const &key){
-        std::map< long long, char, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN std::map< long,char >::mapped_type const &std_map_Sl_int64_t_Sc_char_Sg__getitem(std::map< int64_t,char > *self,std::map< long,char >::key_type const &key){
+        std::map< long, char, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end())
           return iter->second;
         else
           throw std::out_of_range("key not found");
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_char_Sg__setitem(std::map< int64_t,char > *self,std::map< long long,char >::key_type const &key,std::map< long long,char >::mapped_type const &x){
+SWIGINTERN void std_map_Sl_int64_t_Sc_char_Sg__setitem(std::map< int64_t,char > *self,std::map< long,char >::key_type const &key,std::map< long,char >::mapped_type const &x){
         (*self)[key] = x;
       }
-SWIGINTERN bool std_map_Sl_int64_t_Sc_char_Sg__ContainsKey(std::map< int64_t,char > *self,std::map< long long,char >::key_type const &key){
-        std::map< long long, char, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int64_t_Sc_char_Sg__ContainsKey(std::map< int64_t,char > *self,std::map< long,char >::key_type const &key){
+        std::map< long, char, std::less< long > >::iterator iter = self->find(key);
         return iter != self->end();
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_char_Sg__Add(std::map< int64_t,char > *self,std::map< long long,char >::key_type const &key,std::map< long long,char >::mapped_type const &value){
-        std::map< long long, char, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN void std_map_Sl_int64_t_Sc_char_Sg__Add(std::map< int64_t,char > *self,std::map< long,char >::key_type const &key,std::map< long,char >::mapped_type const &value){
+        std::map< long, char, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end())
           throw std::out_of_range("key already exists");
-        self->insert(std::pair< long long, char >(key, value));
+        self->insert(std::pair< long, char >(key, value));
       }
-SWIGINTERN bool std_map_Sl_int64_t_Sc_char_Sg__Remove(std::map< int64_t,char > *self,std::map< long long,char >::key_type const &key){
-        std::map< long long, char, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int64_t_Sc_char_Sg__Remove(std::map< int64_t,char > *self,std::map< long,char >::key_type const &key){
+        std::map< long, char, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end()) {
           self->erase(iter);
           return true;
         }
         return false;
       }
-SWIGINTERN std::map< long long,char,std::less< long long > >::iterator *std_map_Sl_int64_t_Sc_char_Sg__create_iterator_begin(std::map< int64_t,char > *self){
-        return new std::map< long long, char, std::less< long long > >::iterator(self->begin());
+SWIGINTERN std::map< long,char,std::less< long > >::iterator *std_map_Sl_int64_t_Sc_char_Sg__create_iterator_begin(std::map< int64_t,char > *self){
+        return new std::map< long, char, std::less< long > >::iterator(self->begin());
       }
-SWIGINTERN std::map< long long,char >::key_type const &std_map_Sl_int64_t_Sc_char_Sg__get_next_key(std::map< int64_t,char > *self,std::map< long long,char,std::less< long long > >::iterator *swigiterator){
-        std::map< long long, char, std::less< long long > >::iterator iter = *swigiterator;
+SWIGINTERN std::map< long,char >::key_type const &std_map_Sl_int64_t_Sc_char_Sg__get_next_key(std::map< int64_t,char > *self,std::map< long,char,std::less< long > >::iterator *swigiterator){
+        std::map< long, char, std::less< long > >::iterator iter = *swigiterator;
         (*swigiterator)++;
         return (*iter).first;
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_char_Sg__destroy_iterator(std::map< int64_t,char > *self,std::map< long long,char,std::less< long long > >::iterator *swigiterator){
+SWIGINTERN void std_map_Sl_int64_t_Sc_char_Sg__destroy_iterator(std::map< int64_t,char > *self,std::map< long,char,std::less< long > >::iterator *swigiterator){
         delete swigiterator;
       }
-SWIGINTERN std::map< long long,unsigned char >::mapped_type const &std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__getitem(std::map< int64_t,unsigned char > *self,std::map< long long,unsigned char >::key_type const &key){
-        std::map< long long, unsigned char, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN std::map< long,unsigned char >::mapped_type const &std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__getitem(std::map< int64_t,unsigned char > *self,std::map< long,unsigned char >::key_type const &key){
+        std::map< long, unsigned char, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end())
           return iter->second;
         else
           throw std::out_of_range("key not found");
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__setitem(std::map< int64_t,unsigned char > *self,std::map< long long,unsigned char >::key_type const &key,std::map< long long,unsigned char >::mapped_type const &x){
+SWIGINTERN void std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__setitem(std::map< int64_t,unsigned char > *self,std::map< long,unsigned char >::key_type const &key,std::map< long,unsigned char >::mapped_type const &x){
         (*self)[key] = x;
       }
-SWIGINTERN bool std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__ContainsKey(std::map< int64_t,unsigned char > *self,std::map< long long,unsigned char >::key_type const &key){
-        std::map< long long, unsigned char, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__ContainsKey(std::map< int64_t,unsigned char > *self,std::map< long,unsigned char >::key_type const &key){
+        std::map< long, unsigned char, std::less< long > >::iterator iter = self->find(key);
         return iter != self->end();
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__Add(std::map< int64_t,unsigned char > *self,std::map< long long,unsigned char >::key_type const &key,std::map< long long,unsigned char >::mapped_type const &value){
-        std::map< long long, unsigned char, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN void std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__Add(std::map< int64_t,unsigned char > *self,std::map< long,unsigned char >::key_type const &key,std::map< long,unsigned char >::mapped_type const &value){
+        std::map< long, unsigned char, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end())
           throw std::out_of_range("key already exists");
-        self->insert(std::pair< long long, unsigned char >(key, value));
+        self->insert(std::pair< long, unsigned char >(key, value));
       }
-SWIGINTERN bool std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__Remove(std::map< int64_t,unsigned char > *self,std::map< long long,unsigned char >::key_type const &key){
-        std::map< long long, unsigned char, std::less< long long > >::iterator iter = self->find(key);
+SWIGINTERN bool std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__Remove(std::map< int64_t,unsigned char > *self,std::map< long,unsigned char >::key_type const &key){
+        std::map< long, unsigned char, std::less< long > >::iterator iter = self->find(key);
         if (iter != self->end()) {
           self->erase(iter);
           return true;
         }
         return false;
       }
-SWIGINTERN std::map< long long,unsigned char,std::less< long long > >::iterator *std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__create_iterator_begin(std::map< int64_t,unsigned char > *self){
-        return new std::map< long long, unsigned char, std::less< long long > >::iterator(self->begin());
+SWIGINTERN std::map< long,unsigned char,std::less< long > >::iterator *std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__create_iterator_begin(std::map< int64_t,unsigned char > *self){
+        return new std::map< long, unsigned char, std::less< long > >::iterator(self->begin());
       }
-SWIGINTERN std::map< long long,unsigned char >::key_type const &std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__get_next_key(std::map< int64_t,unsigned char > *self,std::map< long long,unsigned char,std::less< long long > >::iterator *swigiterator){
-        std::map< long long, unsigned char, std::less< long long > >::iterator iter = *swigiterator;
+SWIGINTERN std::map< long,unsigned char >::key_type const &std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__get_next_key(std::map< int64_t,unsigned char > *self,std::map< long,unsigned char,std::less< long > >::iterator *swigiterator){
+        std::map< long, unsigned char, std::less< long > >::iterator iter = *swigiterator;
         (*swigiterator)++;
         return (*iter).first;
       }
-SWIGINTERN void std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__destroy_iterator(std::map< int64_t,unsigned char > *self,std::map< long long,unsigned char,std::less< long long > >::iterator *swigiterator){
+SWIGINTERN void std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__destroy_iterator(std::map< int64_t,unsigned char > *self,std::map< long,unsigned char,std::less< long > >::iterator *swigiterator){
         delete swigiterator;
       }
-SWIGINTERN std::map< std::string,std::pair< unsigned long long,unsigned long long > >::mapped_type const &std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__getitem(std::map< std::string,std::pair< uint64_t,uint64_t > > *self,std::map< std::string,std::pair< unsigned long long,unsigned long long > >::key_type const &key){
+SWIGINTERN std::map< std::string,std::pair< unsigned long,unsigned long > >::mapped_type const &std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__getitem(std::map< std::string,std::pair< uint64_t,uint64_t > > *self,std::map< std::string,std::pair< unsigned long,unsigned long > >::key_type const &key){
         std::map< std::string, std::pair< uint64_t,uint64_t >, std::less< std::string > >::iterator iter = self->find(key);
         if (iter != self->end())
           return iter->second;
         else
           throw std::out_of_range("key not found");
       }
-SWIGINTERN void std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__setitem(std::map< std::string,std::pair< uint64_t,uint64_t > > *self,std::map< std::string,std::pair< unsigned long long,unsigned long long > >::key_type const &key,std::map< std::string,std::pair< unsigned long long,unsigned long long > >::mapped_type const &x){
+SWIGINTERN void std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__setitem(std::map< std::string,std::pair< uint64_t,uint64_t > > *self,std::map< std::string,std::pair< unsigned long,unsigned long > >::key_type const &key,std::map< std::string,std::pair< unsigned long,unsigned long > >::mapped_type const &x){
         (*self)[key] = x;
       }
-SWIGINTERN bool std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__ContainsKey(std::map< std::string,std::pair< uint64_t,uint64_t > > *self,std::map< std::string,std::pair< unsigned long long,unsigned long long > >::key_type const &key){
+SWIGINTERN bool std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__ContainsKey(std::map< std::string,std::pair< uint64_t,uint64_t > > *self,std::map< std::string,std::pair< unsigned long,unsigned long > >::key_type const &key){
         std::map< std::string, std::pair< uint64_t,uint64_t >, std::less< std::string > >::iterator iter = self->find(key);
         return iter != self->end();
       }
-SWIGINTERN void std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__Add(std::map< std::string,std::pair< uint64_t,uint64_t > > *self,std::map< std::string,std::pair< unsigned long long,unsigned long long > >::key_type const &key,std::map< std::string,std::pair< unsigned long long,unsigned long long > >::mapped_type const &value){
+SWIGINTERN void std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__Add(std::map< std::string,std::pair< uint64_t,uint64_t > > *self,std::map< std::string,std::pair< unsigned long,unsigned long > >::key_type const &key,std::map< std::string,std::pair< unsigned long,unsigned long > >::mapped_type const &value){
         std::map< std::string, std::pair< uint64_t,uint64_t >, std::less< std::string > >::iterator iter = self->find(key);
         if (iter != self->end())
           throw std::out_of_range("key already exists");
         self->insert(std::pair< std::string, std::pair< uint64_t,uint64_t > >(key, value));
       }
-SWIGINTERN bool std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__Remove(std::map< std::string,std::pair< uint64_t,uint64_t > > *self,std::map< std::string,std::pair< unsigned long long,unsigned long long > >::key_type const &key){
+SWIGINTERN bool std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__Remove(std::map< std::string,std::pair< uint64_t,uint64_t > > *self,std::map< std::string,std::pair< unsigned long,unsigned long > >::key_type const &key){
         std::map< std::string, std::pair< uint64_t,uint64_t >, std::less< std::string > >::iterator iter = self->find(key);
         if (iter != self->end()) {
           self->erase(iter);
@@ -2399,7 +2408,7 @@ SWIGINTERN bool std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg
 SWIGINTERN std::map< std::string,std::pair< uint64_t,uint64_t >,std::less< std::string > >::iterator *std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__create_iterator_begin(std::map< std::string,std::pair< uint64_t,uint64_t > > *self){
         return new std::map< std::string, std::pair< uint64_t,uint64_t >, std::less< std::string > >::iterator(self->begin());
       }
-SWIGINTERN std::map< std::string,std::pair< unsigned long long,unsigned long long > >::key_type const &std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__get_next_key(std::map< std::string,std::pair< uint64_t,uint64_t > > *self,std::map< std::string,std::pair< uint64_t,uint64_t >,std::less< std::string > >::iterator *swigiterator){
+SWIGINTERN std::map< std::string,std::pair< unsigned long,unsigned long > >::key_type const &std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__get_next_key(std::map< std::string,std::pair< uint64_t,uint64_t > > *self,std::map< std::string,std::pair< uint64_t,uint64_t >,std::less< std::string > >::iterator *swigiterator){
         std::map< std::string, std::pair< uint64_t,uint64_t >, std::less< std::string > >::iterator iter = *swigiterator;
         (*swigiterator)++;
         return (*iter).first;
@@ -2407,27 +2416,27 @@ SWIGINTERN std::map< std::string,std::pair< unsigned long long,unsigned long lon
 SWIGINTERN void std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__destroy_iterator(std::map< std::string,std::pair< uint64_t,uint64_t > > *self,std::map< std::string,std::pair< uint64_t,uint64_t >,std::less< std::string > >::iterator *swigiterator){
         delete swigiterator;
       }
-SWIGINTERN std::map< std::string,std::pair< long long,long long > >::mapped_type const &std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__getitem(std::map< std::string,std::pair< int64_t,int64_t > > *self,std::map< std::string,std::pair< long long,long long > >::key_type const &key){
+SWIGINTERN std::map< std::string,std::pair< long,long > >::mapped_type const &std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__getitem(std::map< std::string,std::pair< int64_t,int64_t > > *self,std::map< std::string,std::pair< long,long > >::key_type const &key){
         std::map< std::string, std::pair< int64_t,int64_t >, std::less< std::string > >::iterator iter = self->find(key);
         if (iter != self->end())
           return iter->second;
         else
           throw std::out_of_range("key not found");
       }
-SWIGINTERN void std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__setitem(std::map< std::string,std::pair< int64_t,int64_t > > *self,std::map< std::string,std::pair< long long,long long > >::key_type const &key,std::map< std::string,std::pair< long long,long long > >::mapped_type const &x){
+SWIGINTERN void std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__setitem(std::map< std::string,std::pair< int64_t,int64_t > > *self,std::map< std::string,std::pair< long,long > >::key_type const &key,std::map< std::string,std::pair< long,long > >::mapped_type const &x){
         (*self)[key] = x;
       }
-SWIGINTERN bool std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__ContainsKey(std::map< std::string,std::pair< int64_t,int64_t > > *self,std::map< std::string,std::pair< long long,long long > >::key_type const &key){
+SWIGINTERN bool std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__ContainsKey(std::map< std::string,std::pair< int64_t,int64_t > > *self,std::map< std::string,std::pair< long,long > >::key_type const &key){
         std::map< std::string, std::pair< int64_t,int64_t >, std::less< std::string > >::iterator iter = self->find(key);
         return iter != self->end();
       }
-SWIGINTERN void std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__Add(std::map< std::string,std::pair< int64_t,int64_t > > *self,std::map< std::string,std::pair< long long,long long > >::key_type const &key,std::map< std::string,std::pair< long long,long long > >::mapped_type const &value){
+SWIGINTERN void std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__Add(std::map< std::string,std::pair< int64_t,int64_t > > *self,std::map< std::string,std::pair< long,long > >::key_type const &key,std::map< std::string,std::pair< long,long > >::mapped_type const &value){
         std::map< std::string, std::pair< int64_t,int64_t >, std::less< std::string > >::iterator iter = self->find(key);
         if (iter != self->end())
           throw std::out_of_range("key already exists");
         self->insert(std::pair< std::string, std::pair< int64_t,int64_t > >(key, value));
       }
-SWIGINTERN bool std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__Remove(std::map< std::string,std::pair< int64_t,int64_t > > *self,std::map< std::string,std::pair< long long,long long > >::key_type const &key){
+SWIGINTERN bool std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__Remove(std::map< std::string,std::pair< int64_t,int64_t > > *self,std::map< std::string,std::pair< long,long > >::key_type const &key){
         std::map< std::string, std::pair< int64_t,int64_t >, std::less< std::string > >::iterator iter = self->find(key);
         if (iter != self->end()) {
           self->erase(iter);
@@ -2438,7 +2447,7 @@ SWIGINTERN bool std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__
 SWIGINTERN std::map< std::string,std::pair< int64_t,int64_t >,std::less< std::string > >::iterator *std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__create_iterator_begin(std::map< std::string,std::pair< int64_t,int64_t > > *self){
         return new std::map< std::string, std::pair< int64_t,int64_t >, std::less< std::string > >::iterator(self->begin());
       }
-SWIGINTERN std::map< std::string,std::pair< long long,long long > >::key_type const &std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__get_next_key(std::map< std::string,std::pair< int64_t,int64_t > > *self,std::map< std::string,std::pair< int64_t,int64_t >,std::less< std::string > >::iterator *swigiterator){
+SWIGINTERN std::map< std::string,std::pair< long,long > >::key_type const &std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__get_next_key(std::map< std::string,std::pair< int64_t,int64_t > > *self,std::map< std::string,std::pair< int64_t,int64_t >,std::less< std::string > >::iterator *swigiterator){
         std::map< std::string, std::pair< int64_t,int64_t >, std::less< std::string > >::iterator iter = *swigiterator;
         (*swigiterator)++;
         return (*iter).first;
@@ -3331,22 +3340,22 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorInt64_Clear(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorInt64_Add(void * jarg1, long long jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorInt64_Add(void * jarg1, long jarg2) {
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
-  long long *arg2 = 0 ;
-  long long temp2 ;
+  long *arg2 = 0 ;
+  long temp2 ;
   
   arg1 = (std::vector< int64_t > *)jarg1; 
-  temp2 = (long long)jarg2; 
+  temp2 = (long)jarg2; 
   arg2 = &temp2; 
-  (arg1)->push_back((long long const &)*arg2);
+  (arg1)->push_back((long const &)*arg2);
 }
 
 
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_VectorInt64_size(void * jarg1) {
   unsigned long jresult ;
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
-  std::vector< long long >::size_type result;
+  std::vector< long >::size_type result;
   
   arg1 = (std::vector< int64_t > *)jarg1; 
   result = ((std::vector< int64_t > const *)arg1)->size();
@@ -3358,7 +3367,7 @@ SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_VectorInt64_size(void * jarg1
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_VectorInt64_capacity(void * jarg1) {
   unsigned long jresult ;
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
-  std::vector< long long >::size_type result;
+  std::vector< long >::size_type result;
   
   arg1 = (std::vector< int64_t > *)jarg1; 
   result = ((std::vector< int64_t > const *)arg1)->capacity();
@@ -3369,10 +3378,10 @@ SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_VectorInt64_capacity(void * j
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorInt64_reserve(void * jarg1, unsigned long jarg2) {
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
-  std::vector< long long >::size_type arg2 ;
+  std::vector< long >::size_type arg2 ;
   
   arg1 = (std::vector< int64_t > *)jarg1; 
-  arg2 = (std::vector< long long >::size_type)jarg2; 
+  arg2 = (std::vector< long >::size_type)jarg2; 
   (arg1)->reserve(arg2);
 }
 
@@ -3420,16 +3429,16 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_VectorInt64__SWIG_2(int jarg1) {
 }
 
 
-SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_VectorInt64_getitemcopy(void * jarg1, int jarg2) {
-  long long jresult ;
+SWIGEXPORT long SWIGSTDCALL CSharp_TileDB_VectorInt64_getitemcopy(void * jarg1, int jarg2) {
+  long jresult ;
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   int arg2 ;
-  long long result;
+  long result;
   
   arg1 = (std::vector< int64_t > *)jarg1; 
   arg2 = (int)jarg2; 
   try {
-    result = (long long)std_vector_Sl_int64_t_Sg__getitemcopy(arg1,arg2);
+    result = (long)std_vector_Sl_int64_t_Sg__getitemcopy(arg1,arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
@@ -3439,16 +3448,16 @@ SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_VectorInt64_getitemcopy(void * ja
 }
 
 
-SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_VectorInt64_getitem(void * jarg1, int jarg2) {
-  long long jresult ;
+SWIGEXPORT long SWIGSTDCALL CSharp_TileDB_VectorInt64_getitem(void * jarg1, int jarg2) {
+  long jresult ;
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   int arg2 ;
-  std::vector< long long >::value_type *result = 0 ;
+  std::vector< long >::value_type *result = 0 ;
   
   arg1 = (std::vector< int64_t > *)jarg1; 
   arg2 = (int)jarg2; 
   try {
-    result = (std::vector< long long >::value_type *) &std_vector_Sl_int64_t_Sg__getitem(arg1,arg2);
+    result = (std::vector< long >::value_type *) &std_vector_Sl_int64_t_Sg__getitem(arg1,arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
@@ -3458,18 +3467,18 @@ SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_VectorInt64_getitem(void * jarg1,
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorInt64_setitem(void * jarg1, int jarg2, long long jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorInt64_setitem(void * jarg1, int jarg2, long jarg3) {
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   int arg2 ;
-  long long *arg3 = 0 ;
-  long long temp3 ;
+  long *arg3 = 0 ;
+  long temp3 ;
   
   arg1 = (std::vector< int64_t > *)jarg1; 
   arg2 = (int)jarg2; 
-  temp3 = (long long)jarg3; 
+  temp3 = (long)jarg3; 
   arg3 = &temp3; 
   try {
-    std_vector_Sl_int64_t_Sg__setitem(arg1,arg2,(long long const &)*arg3);
+    std_vector_Sl_int64_t_Sg__setitem(arg1,arg2,(long const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -3479,15 +3488,15 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorInt64_setitem(void * jarg1, int 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorInt64_AddRange(void * jarg1, void * jarg2) {
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
-  std::vector< long long > *arg2 = 0 ;
+  std::vector< long > *arg2 = 0 ;
   
   arg1 = (std::vector< int64_t > *)jarg1; 
-  arg2 = (std::vector< long long > *)jarg2;
+  arg2 = (std::vector< long > *)jarg2;
   if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< long long > const & type is null", 0);
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< long > const & type is null", 0);
     return ;
   } 
-  std_vector_Sl_int64_t_Sg__AddRange(arg1,(std::vector< long long > const &)*arg2);
+  std_vector_Sl_int64_t_Sg__AddRange(arg1,(std::vector< long > const &)*arg2);
 }
 
 
@@ -3496,13 +3505,13 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_VectorInt64_GetRange(void * jarg1, i
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   int arg2 ;
   int arg3 ;
-  std::vector< long long > *result = 0 ;
+  std::vector< long > *result = 0 ;
   
   arg1 = (std::vector< int64_t > *)jarg1; 
   arg2 = (int)jarg2; 
   arg3 = (int)jarg3; 
   try {
-    result = (std::vector< long long > *)std_vector_Sl_int64_t_Sg__GetRange(arg1,arg2,arg3);
+    result = (std::vector< long > *)std_vector_Sl_int64_t_Sg__GetRange(arg1,arg2,arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
@@ -3515,18 +3524,18 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_VectorInt64_GetRange(void * jarg1, i
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorInt64_Insert(void * jarg1, int jarg2, long long jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorInt64_Insert(void * jarg1, int jarg2, long jarg3) {
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   int arg2 ;
-  long long *arg3 = 0 ;
-  long long temp3 ;
+  long *arg3 = 0 ;
+  long temp3 ;
   
   arg1 = (std::vector< int64_t > *)jarg1; 
   arg2 = (int)jarg2; 
-  temp3 = (long long)jarg3; 
+  temp3 = (long)jarg3; 
   arg3 = &temp3; 
   try {
-    std_vector_Sl_int64_t_Sg__Insert(arg1,arg2,(long long const &)*arg3);
+    std_vector_Sl_int64_t_Sg__Insert(arg1,arg2,(long const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -3537,17 +3546,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorInt64_Insert(void * jarg1, int j
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorInt64_InsertRange(void * jarg1, int jarg2, void * jarg3) {
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   int arg2 ;
-  std::vector< long long > *arg3 = 0 ;
+  std::vector< long > *arg3 = 0 ;
   
   arg1 = (std::vector< int64_t > *)jarg1; 
   arg2 = (int)jarg2; 
-  arg3 = (std::vector< long long > *)jarg3;
+  arg3 = (std::vector< long > *)jarg3;
   if (!arg3) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< long long > const & type is null", 0);
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< long > const & type is null", 0);
     return ;
   } 
   try {
-    std_vector_Sl_int64_t_Sg__InsertRange(arg1,arg2,(std::vector< long long > const &)*arg3);
+    std_vector_Sl_int64_t_Sg__InsertRange(arg1,arg2,(std::vector< long > const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -3590,18 +3599,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorInt64_RemoveRange(void * jarg1, 
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_VectorInt64_Repeat(long long jarg1, int jarg2) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_VectorInt64_Repeat(long jarg1, int jarg2) {
   void * jresult ;
-  long long *arg1 = 0 ;
+  long *arg1 = 0 ;
   int arg2 ;
-  long long temp1 ;
-  std::vector< long long > *result = 0 ;
+  long temp1 ;
+  std::vector< long > *result = 0 ;
   
-  temp1 = (long long)jarg1; 
+  temp1 = (long)jarg1; 
   arg1 = &temp1; 
   arg2 = (int)jarg2; 
   try {
-    result = (std::vector< long long > *)std_vector_Sl_int64_t_Sg__Repeat((long long const &)*arg1,arg2);
+    result = (std::vector< long > *)std_vector_Sl_int64_t_Sg__Repeat((long const &)*arg1,arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
@@ -3642,17 +3651,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorInt64_Reverse__SWIG_1(void * jar
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorInt64_SetRange(void * jarg1, int jarg2, void * jarg3) {
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
   int arg2 ;
-  std::vector< long long > *arg3 = 0 ;
+  std::vector< long > *arg3 = 0 ;
   
   arg1 = (std::vector< int64_t > *)jarg1; 
   arg2 = (int)jarg2; 
-  arg3 = (std::vector< long long > *)jarg3;
+  arg3 = (std::vector< long > *)jarg3;
   if (!arg3) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< long long > const & type is null", 0);
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< long > const & type is null", 0);
     return ;
   } 
   try {
-    std_vector_Sl_int64_t_Sg__SetRange(arg1,arg2,(std::vector< long long > const &)*arg3);
+    std_vector_Sl_int64_t_Sg__SetRange(arg1,arg2,(std::vector< long > const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -3660,65 +3669,65 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorInt64_SetRange(void * jarg1, int
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_VectorInt64_Contains(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_VectorInt64_Contains(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
-  long long *arg2 = 0 ;
-  long long temp2 ;
+  long *arg2 = 0 ;
+  long temp2 ;
   bool result;
   
   arg1 = (std::vector< int64_t > *)jarg1; 
-  temp2 = (long long)jarg2; 
+  temp2 = (long)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_vector_Sl_int64_t_Sg__Contains(arg1,(long long const &)*arg2);
+  result = (bool)std_vector_Sl_int64_t_Sg__Contains(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_VectorInt64_IndexOf(void * jarg1, long long jarg2) {
+SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_VectorInt64_IndexOf(void * jarg1, long jarg2) {
   int jresult ;
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
-  long long *arg2 = 0 ;
-  long long temp2 ;
+  long *arg2 = 0 ;
+  long temp2 ;
   int result;
   
   arg1 = (std::vector< int64_t > *)jarg1; 
-  temp2 = (long long)jarg2; 
+  temp2 = (long)jarg2; 
   arg2 = &temp2; 
-  result = (int)std_vector_Sl_int64_t_Sg__IndexOf(arg1,(long long const &)*arg2);
+  result = (int)std_vector_Sl_int64_t_Sg__IndexOf(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_VectorInt64_LastIndexOf(void * jarg1, long long jarg2) {
+SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_VectorInt64_LastIndexOf(void * jarg1, long jarg2) {
   int jresult ;
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
-  long long *arg2 = 0 ;
-  long long temp2 ;
+  long *arg2 = 0 ;
+  long temp2 ;
   int result;
   
   arg1 = (std::vector< int64_t > *)jarg1; 
-  temp2 = (long long)jarg2; 
+  temp2 = (long)jarg2; 
   arg2 = &temp2; 
-  result = (int)std_vector_Sl_int64_t_Sg__LastIndexOf(arg1,(long long const &)*arg2);
+  result = (int)std_vector_Sl_int64_t_Sg__LastIndexOf(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_VectorInt64_Remove(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_VectorInt64_Remove(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::vector< int64_t > *arg1 = (std::vector< int64_t > *) 0 ;
-  long long *arg2 = 0 ;
-  long long temp2 ;
+  long *arg2 = 0 ;
+  long temp2 ;
   bool result;
   
   arg1 = (std::vector< int64_t > *)jarg1; 
-  temp2 = (long long)jarg2; 
+  temp2 = (long)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_vector_Sl_int64_t_Sg__Remove(arg1,(long long const &)*arg2);
+  result = (bool)std_vector_Sl_int64_t_Sg__Remove(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
@@ -3740,22 +3749,22 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorUInt64_Clear(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorUInt64_Add(void * jarg1, unsigned long long jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorUInt64_Add(void * jarg1, unsigned long jarg2) {
   std::vector< uint64_t > *arg1 = (std::vector< uint64_t > *) 0 ;
-  unsigned long long *arg2 = 0 ;
-  unsigned long long temp2 ;
+  unsigned long *arg2 = 0 ;
+  unsigned long temp2 ;
   
   arg1 = (std::vector< uint64_t > *)jarg1; 
-  temp2 = (unsigned long long)jarg2; 
+  temp2 = (unsigned long)jarg2; 
   arg2 = &temp2; 
-  (arg1)->push_back((unsigned long long const &)*arg2);
+  (arg1)->push_back((unsigned long const &)*arg2);
 }
 
 
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_VectorUInt64_size(void * jarg1) {
   unsigned long jresult ;
   std::vector< uint64_t > *arg1 = (std::vector< uint64_t > *) 0 ;
-  std::vector< unsigned long long >::size_type result;
+  std::vector< unsigned long >::size_type result;
   
   arg1 = (std::vector< uint64_t > *)jarg1; 
   result = ((std::vector< uint64_t > const *)arg1)->size();
@@ -3767,7 +3776,7 @@ SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_VectorUInt64_size(void * jarg
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_VectorUInt64_capacity(void * jarg1) {
   unsigned long jresult ;
   std::vector< uint64_t > *arg1 = (std::vector< uint64_t > *) 0 ;
-  std::vector< unsigned long long >::size_type result;
+  std::vector< unsigned long >::size_type result;
   
   arg1 = (std::vector< uint64_t > *)jarg1; 
   result = ((std::vector< uint64_t > const *)arg1)->capacity();
@@ -3778,10 +3787,10 @@ SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_VectorUInt64_capacity(void * 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorUInt64_reserve(void * jarg1, unsigned long jarg2) {
   std::vector< uint64_t > *arg1 = (std::vector< uint64_t > *) 0 ;
-  std::vector< unsigned long long >::size_type arg2 ;
+  std::vector< unsigned long >::size_type arg2 ;
   
   arg1 = (std::vector< uint64_t > *)jarg1; 
-  arg2 = (std::vector< unsigned long long >::size_type)jarg2; 
+  arg2 = (std::vector< unsigned long >::size_type)jarg2; 
   (arg1)->reserve(arg2);
 }
 
@@ -3829,56 +3838,56 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_VectorUInt64__SWIG_2(int jarg1) 
 }
 
 
-SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_VectorUInt64_getitemcopy(void * jarg1, int jarg2) {
-  unsigned long long jresult ;
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_VectorUInt64_getitemcopy(void * jarg1, int jarg2) {
+  unsigned long jresult ;
   std::vector< uint64_t > *arg1 = (std::vector< uint64_t > *) 0 ;
   int arg2 ;
-  unsigned long long result;
+  unsigned long result;
   
   arg1 = (std::vector< uint64_t > *)jarg1; 
   arg2 = (int)jarg2; 
   try {
-    result = (unsigned long long)std_vector_Sl_uint64_t_Sg__getitemcopy(arg1,arg2);
+    result = (unsigned long)std_vector_Sl_uint64_t_Sg__getitemcopy(arg1,arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
   }
-  jresult = result; 
+  jresult = (unsigned long)result; 
   return jresult;
 }
 
 
-SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_VectorUInt64_getitem(void * jarg1, int jarg2) {
-  unsigned long long jresult ;
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_VectorUInt64_getitem(void * jarg1, int jarg2) {
+  unsigned long jresult ;
   std::vector< uint64_t > *arg1 = (std::vector< uint64_t > *) 0 ;
   int arg2 ;
-  std::vector< unsigned long long >::value_type *result = 0 ;
+  std::vector< unsigned long >::value_type *result = 0 ;
   
   arg1 = (std::vector< uint64_t > *)jarg1; 
   arg2 = (int)jarg2; 
   try {
-    result = (std::vector< unsigned long long >::value_type *) &std_vector_Sl_uint64_t_Sg__getitem(arg1,arg2);
+    result = (std::vector< unsigned long >::value_type *) &std_vector_Sl_uint64_t_Sg__getitem(arg1,arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
   }
-  jresult = *result; 
+  jresult = (unsigned long)*result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorUInt64_setitem(void * jarg1, int jarg2, unsigned long long jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorUInt64_setitem(void * jarg1, int jarg2, unsigned long jarg3) {
   std::vector< uint64_t > *arg1 = (std::vector< uint64_t > *) 0 ;
   int arg2 ;
-  unsigned long long *arg3 = 0 ;
-  unsigned long long temp3 ;
+  unsigned long *arg3 = 0 ;
+  unsigned long temp3 ;
   
   arg1 = (std::vector< uint64_t > *)jarg1; 
   arg2 = (int)jarg2; 
-  temp3 = (unsigned long long)jarg3; 
+  temp3 = (unsigned long)jarg3; 
   arg3 = &temp3; 
   try {
-    std_vector_Sl_uint64_t_Sg__setitem(arg1,arg2,(unsigned long long const &)*arg3);
+    std_vector_Sl_uint64_t_Sg__setitem(arg1,arg2,(unsigned long const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -3888,15 +3897,15 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorUInt64_setitem(void * jarg1, int
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorUInt64_AddRange(void * jarg1, void * jarg2) {
   std::vector< uint64_t > *arg1 = (std::vector< uint64_t > *) 0 ;
-  std::vector< unsigned long long > *arg2 = 0 ;
+  std::vector< unsigned long > *arg2 = 0 ;
   
   arg1 = (std::vector< uint64_t > *)jarg1; 
-  arg2 = (std::vector< unsigned long long > *)jarg2;
+  arg2 = (std::vector< unsigned long > *)jarg2;
   if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< unsigned long long > const & type is null", 0);
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< unsigned long > const & type is null", 0);
     return ;
   } 
-  std_vector_Sl_uint64_t_Sg__AddRange(arg1,(std::vector< unsigned long long > const &)*arg2);
+  std_vector_Sl_uint64_t_Sg__AddRange(arg1,(std::vector< unsigned long > const &)*arg2);
 }
 
 
@@ -3905,13 +3914,13 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_VectorUInt64_GetRange(void * jarg1, 
   std::vector< uint64_t > *arg1 = (std::vector< uint64_t > *) 0 ;
   int arg2 ;
   int arg3 ;
-  std::vector< unsigned long long > *result = 0 ;
+  std::vector< unsigned long > *result = 0 ;
   
   arg1 = (std::vector< uint64_t > *)jarg1; 
   arg2 = (int)jarg2; 
   arg3 = (int)jarg3; 
   try {
-    result = (std::vector< unsigned long long > *)std_vector_Sl_uint64_t_Sg__GetRange(arg1,arg2,arg3);
+    result = (std::vector< unsigned long > *)std_vector_Sl_uint64_t_Sg__GetRange(arg1,arg2,arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
@@ -3924,18 +3933,18 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_VectorUInt64_GetRange(void * jarg1, 
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorUInt64_Insert(void * jarg1, int jarg2, unsigned long long jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorUInt64_Insert(void * jarg1, int jarg2, unsigned long jarg3) {
   std::vector< uint64_t > *arg1 = (std::vector< uint64_t > *) 0 ;
   int arg2 ;
-  unsigned long long *arg3 = 0 ;
-  unsigned long long temp3 ;
+  unsigned long *arg3 = 0 ;
+  unsigned long temp3 ;
   
   arg1 = (std::vector< uint64_t > *)jarg1; 
   arg2 = (int)jarg2; 
-  temp3 = (unsigned long long)jarg3; 
+  temp3 = (unsigned long)jarg3; 
   arg3 = &temp3; 
   try {
-    std_vector_Sl_uint64_t_Sg__Insert(arg1,arg2,(unsigned long long const &)*arg3);
+    std_vector_Sl_uint64_t_Sg__Insert(arg1,arg2,(unsigned long const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -3946,17 +3955,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorUInt64_Insert(void * jarg1, int 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorUInt64_InsertRange(void * jarg1, int jarg2, void * jarg3) {
   std::vector< uint64_t > *arg1 = (std::vector< uint64_t > *) 0 ;
   int arg2 ;
-  std::vector< unsigned long long > *arg3 = 0 ;
+  std::vector< unsigned long > *arg3 = 0 ;
   
   arg1 = (std::vector< uint64_t > *)jarg1; 
   arg2 = (int)jarg2; 
-  arg3 = (std::vector< unsigned long long > *)jarg3;
+  arg3 = (std::vector< unsigned long > *)jarg3;
   if (!arg3) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< unsigned long long > const & type is null", 0);
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< unsigned long > const & type is null", 0);
     return ;
   } 
   try {
-    std_vector_Sl_uint64_t_Sg__InsertRange(arg1,arg2,(std::vector< unsigned long long > const &)*arg3);
+    std_vector_Sl_uint64_t_Sg__InsertRange(arg1,arg2,(std::vector< unsigned long > const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -3999,18 +4008,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorUInt64_RemoveRange(void * jarg1,
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_VectorUInt64_Repeat(unsigned long long jarg1, int jarg2) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_VectorUInt64_Repeat(unsigned long jarg1, int jarg2) {
   void * jresult ;
-  unsigned long long *arg1 = 0 ;
+  unsigned long *arg1 = 0 ;
   int arg2 ;
-  unsigned long long temp1 ;
-  std::vector< unsigned long long > *result = 0 ;
+  unsigned long temp1 ;
+  std::vector< unsigned long > *result = 0 ;
   
-  temp1 = (unsigned long long)jarg1; 
+  temp1 = (unsigned long)jarg1; 
   arg1 = &temp1; 
   arg2 = (int)jarg2; 
   try {
-    result = (std::vector< unsigned long long > *)std_vector_Sl_uint64_t_Sg__Repeat((unsigned long long const &)*arg1,arg2);
+    result = (std::vector< unsigned long > *)std_vector_Sl_uint64_t_Sg__Repeat((unsigned long const &)*arg1,arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
@@ -4051,17 +4060,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorUInt64_Reverse__SWIG_1(void * ja
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorUInt64_SetRange(void * jarg1, int jarg2, void * jarg3) {
   std::vector< uint64_t > *arg1 = (std::vector< uint64_t > *) 0 ;
   int arg2 ;
-  std::vector< unsigned long long > *arg3 = 0 ;
+  std::vector< unsigned long > *arg3 = 0 ;
   
   arg1 = (std::vector< uint64_t > *)jarg1; 
   arg2 = (int)jarg2; 
-  arg3 = (std::vector< unsigned long long > *)jarg3;
+  arg3 = (std::vector< unsigned long > *)jarg3;
   if (!arg3) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< unsigned long long > const & type is null", 0);
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< unsigned long > const & type is null", 0);
     return ;
   } 
   try {
-    std_vector_Sl_uint64_t_Sg__SetRange(arg1,arg2,(std::vector< unsigned long long > const &)*arg3);
+    std_vector_Sl_uint64_t_Sg__SetRange(arg1,arg2,(std::vector< unsigned long > const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -4069,65 +4078,65 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VectorUInt64_SetRange(void * jarg1, in
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_VectorUInt64_Contains(void * jarg1, unsigned long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_VectorUInt64_Contains(void * jarg1, unsigned long jarg2) {
   unsigned int jresult ;
   std::vector< uint64_t > *arg1 = (std::vector< uint64_t > *) 0 ;
-  unsigned long long *arg2 = 0 ;
-  unsigned long long temp2 ;
+  unsigned long *arg2 = 0 ;
+  unsigned long temp2 ;
   bool result;
   
   arg1 = (std::vector< uint64_t > *)jarg1; 
-  temp2 = (unsigned long long)jarg2; 
+  temp2 = (unsigned long)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_vector_Sl_uint64_t_Sg__Contains(arg1,(unsigned long long const &)*arg2);
+  result = (bool)std_vector_Sl_uint64_t_Sg__Contains(arg1,(unsigned long const &)*arg2);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_VectorUInt64_IndexOf(void * jarg1, unsigned long long jarg2) {
+SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_VectorUInt64_IndexOf(void * jarg1, unsigned long jarg2) {
   int jresult ;
   std::vector< uint64_t > *arg1 = (std::vector< uint64_t > *) 0 ;
-  unsigned long long *arg2 = 0 ;
-  unsigned long long temp2 ;
+  unsigned long *arg2 = 0 ;
+  unsigned long temp2 ;
   int result;
   
   arg1 = (std::vector< uint64_t > *)jarg1; 
-  temp2 = (unsigned long long)jarg2; 
+  temp2 = (unsigned long)jarg2; 
   arg2 = &temp2; 
-  result = (int)std_vector_Sl_uint64_t_Sg__IndexOf(arg1,(unsigned long long const &)*arg2);
+  result = (int)std_vector_Sl_uint64_t_Sg__IndexOf(arg1,(unsigned long const &)*arg2);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_VectorUInt64_LastIndexOf(void * jarg1, unsigned long long jarg2) {
+SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_VectorUInt64_LastIndexOf(void * jarg1, unsigned long jarg2) {
   int jresult ;
   std::vector< uint64_t > *arg1 = (std::vector< uint64_t > *) 0 ;
-  unsigned long long *arg2 = 0 ;
-  unsigned long long temp2 ;
+  unsigned long *arg2 = 0 ;
+  unsigned long temp2 ;
   int result;
   
   arg1 = (std::vector< uint64_t > *)jarg1; 
-  temp2 = (unsigned long long)jarg2; 
+  temp2 = (unsigned long)jarg2; 
   arg2 = &temp2; 
-  result = (int)std_vector_Sl_uint64_t_Sg__LastIndexOf(arg1,(unsigned long long const &)*arg2);
+  result = (int)std_vector_Sl_uint64_t_Sg__LastIndexOf(arg1,(unsigned long const &)*arg2);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_VectorUInt64_Remove(void * jarg1, unsigned long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_VectorUInt64_Remove(void * jarg1, unsigned long jarg2) {
   unsigned int jresult ;
   std::vector< uint64_t > *arg1 = (std::vector< uint64_t > *) 0 ;
-  unsigned long long *arg2 = 0 ;
-  unsigned long long temp2 ;
+  unsigned long *arg2 = 0 ;
+  unsigned long temp2 ;
   bool result;
   
   arg1 = (std::vector< uint64_t > *)jarg1; 
-  temp2 = (unsigned long long)jarg2; 
+  temp2 = (unsigned long)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_vector_Sl_uint64_t_Sg__Remove(arg1,(unsigned long long const &)*arg2);
+  result = (bool)std_vector_Sl_uint64_t_Sg__Remove(arg1,(unsigned long const &)*arg2);
   jresult = result; 
   return jresult;
 }
@@ -6882,7 +6891,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_MapStringInt64__SWIG_1(void * ja
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_MapStringInt64_size(void * jarg1) {
   unsigned long jresult ;
   std::map< std::string,int64_t > *arg1 = (std::map< std::string,int64_t > *) 0 ;
-  std::map< std::string,long long >::size_type result;
+  std::map< std::string,long >::size_type result;
   
   arg1 = (std::map< std::string,int64_t > *)jarg1; 
   result = ((std::map< std::string,int64_t > const *)arg1)->size();
@@ -6911,21 +6920,21 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringInt64_Clear(void * jarg1) {
 }
 
 
-SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapStringInt64_getitem(void * jarg1, char * jarg2) {
-  long long jresult ;
+SWIGEXPORT long SWIGSTDCALL CSharp_TileDB_MapStringInt64_getitem(void * jarg1, char * jarg2) {
+  long jresult ;
   std::map< std::string,int64_t > *arg1 = (std::map< std::string,int64_t > *) 0 ;
-  std::map< std::string,long long >::key_type *arg2 = 0 ;
-  std::map< std::string,long long >::mapped_type *result = 0 ;
+  std::map< std::string,long >::key_type *arg2 = 0 ;
+  std::map< std::string,long >::mapped_type *result = 0 ;
   
   arg1 = (std::map< std::string,int64_t > *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  std::map< std::string,long long >::key_type arg2_str(jarg2);
+  std::map< std::string,long >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
   try {
-    result = (std::map< std::string,long long >::mapped_type *) &std_map_Sl_std_string_Sc_int64_t_Sg__getitem(arg1,(std::string const &)*arg2);
+    result = (std::map< std::string,long >::mapped_type *) &std_map_Sl_std_string_Sc_int64_t_Sg__getitem(arg1,(std::string const &)*arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
@@ -6935,29 +6944,29 @@ SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapStringInt64_getitem(void * jar
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringInt64_setitem(void * jarg1, char * jarg2, long long jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringInt64_setitem(void * jarg1, char * jarg2, long jarg3) {
   std::map< std::string,int64_t > *arg1 = (std::map< std::string,int64_t > *) 0 ;
-  std::map< std::string,long long >::key_type *arg2 = 0 ;
-  std::map< std::string,long long >::mapped_type *arg3 = 0 ;
-  std::map< std::string,long long >::mapped_type temp3 ;
+  std::map< std::string,long >::key_type *arg2 = 0 ;
+  std::map< std::string,long >::mapped_type *arg3 = 0 ;
+  std::map< std::string,long >::mapped_type temp3 ;
   
   arg1 = (std::map< std::string,int64_t > *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  std::map< std::string,long long >::key_type arg2_str(jarg2);
+  std::map< std::string,long >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
-  temp3 = (std::map< std::string,long long >::mapped_type)jarg3; 
+  temp3 = (std::map< std::string,long >::mapped_type)jarg3; 
   arg3 = &temp3; 
-  std_map_Sl_std_string_Sc_int64_t_Sg__setitem(arg1,(std::string const &)*arg2,(long long const &)*arg3);
+  std_map_Sl_std_string_Sc_int64_t_Sg__setitem(arg1,(std::string const &)*arg2,(long const &)*arg3);
 }
 
 
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringInt64_ContainsKey(void * jarg1, char * jarg2) {
   unsigned int jresult ;
   std::map< std::string,int64_t > *arg1 = (std::map< std::string,int64_t > *) 0 ;
-  std::map< std::string,long long >::key_type *arg2 = 0 ;
+  std::map< std::string,long >::key_type *arg2 = 0 ;
   bool result;
   
   arg1 = (std::map< std::string,int64_t > *)jarg1; 
@@ -6965,7 +6974,7 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringInt64_ContainsKey(voi
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  std::map< std::string,long long >::key_type arg2_str(jarg2);
+  std::map< std::string,long >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
   result = (bool)std_map_Sl_std_string_Sc_int64_t_Sg__ContainsKey(arg1,(std::string const &)*arg2);
   jresult = result; 
@@ -6973,23 +6982,23 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringInt64_ContainsKey(voi
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringInt64_Add(void * jarg1, char * jarg2, long long jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringInt64_Add(void * jarg1, char * jarg2, long jarg3) {
   std::map< std::string,int64_t > *arg1 = (std::map< std::string,int64_t > *) 0 ;
-  std::map< std::string,long long >::key_type *arg2 = 0 ;
-  std::map< std::string,long long >::mapped_type *arg3 = 0 ;
-  std::map< std::string,long long >::mapped_type temp3 ;
+  std::map< std::string,long >::key_type *arg2 = 0 ;
+  std::map< std::string,long >::mapped_type *arg3 = 0 ;
+  std::map< std::string,long >::mapped_type temp3 ;
   
   arg1 = (std::map< std::string,int64_t > *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  std::map< std::string,long long >::key_type arg2_str(jarg2);
+  std::map< std::string,long >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
-  temp3 = (std::map< std::string,long long >::mapped_type)jarg3; 
+  temp3 = (std::map< std::string,long >::mapped_type)jarg3; 
   arg3 = &temp3; 
   try {
-    std_map_Sl_std_string_Sc_int64_t_Sg__Add(arg1,(std::string const &)*arg2,(long long const &)*arg3);
+    std_map_Sl_std_string_Sc_int64_t_Sg__Add(arg1,(std::string const &)*arg2,(long const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -7000,7 +7009,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringInt64_Add(void * jarg1, char 
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringInt64_Remove(void * jarg1, char * jarg2) {
   unsigned int jresult ;
   std::map< std::string,int64_t > *arg1 = (std::map< std::string,int64_t > *) 0 ;
-  std::map< std::string,long long >::key_type *arg2 = 0 ;
+  std::map< std::string,long >::key_type *arg2 = 0 ;
   bool result;
   
   arg1 = (std::map< std::string,int64_t > *)jarg1; 
@@ -7008,7 +7017,7 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringInt64_Remove(void * j
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  std::map< std::string,long long >::key_type arg2_str(jarg2);
+  std::map< std::string,long >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
   result = (bool)std_map_Sl_std_string_Sc_int64_t_Sg__Remove(arg1,(std::string const &)*arg2);
   jresult = result; 
@@ -7019,10 +7028,10 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringInt64_Remove(void * j
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapStringInt64_create_iterator_begin(void * jarg1) {
   void * jresult ;
   std::map< std::string,int64_t > *arg1 = (std::map< std::string,int64_t > *) 0 ;
-  std::map< std::string,long long,std::less< std::string > >::iterator *result = 0 ;
+  std::map< std::string,long,std::less< std::string > >::iterator *result = 0 ;
   
   arg1 = (std::map< std::string,int64_t > *)jarg1; 
-  result = (std::map< std::string,long long,std::less< std::string > >::iterator *)std_map_Sl_std_string_Sc_int64_t_Sg__create_iterator_begin(arg1);
+  result = (std::map< std::string,long,std::less< std::string > >::iterator *)std_map_Sl_std_string_Sc_int64_t_Sg__create_iterator_begin(arg1);
   jresult = (void *)result; 
   return jresult;
 }
@@ -7031,12 +7040,12 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapStringInt64_create_iterator_begin
 SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_MapStringInt64_get_next_key(void * jarg1, void * jarg2) {
   char * jresult ;
   std::map< std::string,int64_t > *arg1 = (std::map< std::string,int64_t > *) 0 ;
-  std::map< std::string,long long,std::less< std::string > >::iterator *arg2 = (std::map< std::string,long long,std::less< std::string > >::iterator *) 0 ;
-  std::map< std::string,long long >::key_type *result = 0 ;
+  std::map< std::string,long,std::less< std::string > >::iterator *arg2 = (std::map< std::string,long,std::less< std::string > >::iterator *) 0 ;
+  std::map< std::string,long >::key_type *result = 0 ;
   
   arg1 = (std::map< std::string,int64_t > *)jarg1; 
-  arg2 = (std::map< std::string,long long,std::less< std::string > >::iterator *)jarg2; 
-  result = (std::map< std::string,long long >::key_type *) &std_map_Sl_std_string_Sc_int64_t_Sg__get_next_key(arg1,arg2);
+  arg2 = (std::map< std::string,long,std::less< std::string > >::iterator *)jarg2; 
+  result = (std::map< std::string,long >::key_type *) &std_map_Sl_std_string_Sc_int64_t_Sg__get_next_key(arg1,arg2);
   jresult = SWIG_csharp_string_callback(result->c_str()); 
   return jresult;
 }
@@ -7044,10 +7053,10 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_MapStringInt64_get_next_key(void * j
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringInt64_destroy_iterator(void * jarg1, void * jarg2) {
   std::map< std::string,int64_t > *arg1 = (std::map< std::string,int64_t > *) 0 ;
-  std::map< std::string,long long,std::less< std::string > >::iterator *arg2 = (std::map< std::string,long long,std::less< std::string > >::iterator *) 0 ;
+  std::map< std::string,long,std::less< std::string > >::iterator *arg2 = (std::map< std::string,long,std::less< std::string > >::iterator *) 0 ;
   
   arg1 = (std::map< std::string,int64_t > *)jarg1; 
-  arg2 = (std::map< std::string,long long,std::less< std::string > >::iterator *)jarg2; 
+  arg2 = (std::map< std::string,long,std::less< std::string > >::iterator *)jarg2; 
   std_map_Sl_std_string_Sc_int64_t_Sg__destroy_iterator(arg1,arg2);
 }
 
@@ -7089,7 +7098,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_MapStringUInt64__SWIG_1(void * j
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_MapStringUInt64_size(void * jarg1) {
   unsigned long jresult ;
   std::map< std::string,uint64_t > *arg1 = (std::map< std::string,uint64_t > *) 0 ;
-  std::map< std::string,unsigned long long >::size_type result;
+  std::map< std::string,unsigned long >::size_type result;
   
   arg1 = (std::map< std::string,uint64_t > *)jarg1; 
   result = ((std::map< std::string,uint64_t > const *)arg1)->size();
@@ -7118,53 +7127,53 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringUInt64_Clear(void * jarg1) {
 }
 
 
-SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_MapStringUInt64_getitem(void * jarg1, char * jarg2) {
-  unsigned long long jresult ;
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_MapStringUInt64_getitem(void * jarg1, char * jarg2) {
+  unsigned long jresult ;
   std::map< std::string,uint64_t > *arg1 = (std::map< std::string,uint64_t > *) 0 ;
-  std::map< std::string,unsigned long long >::key_type *arg2 = 0 ;
-  std::map< std::string,unsigned long long >::mapped_type *result = 0 ;
+  std::map< std::string,unsigned long >::key_type *arg2 = 0 ;
+  std::map< std::string,unsigned long >::mapped_type *result = 0 ;
   
   arg1 = (std::map< std::string,uint64_t > *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  std::map< std::string,unsigned long long >::key_type arg2_str(jarg2);
+  std::map< std::string,unsigned long >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
   try {
-    result = (std::map< std::string,unsigned long long >::mapped_type *) &std_map_Sl_std_string_Sc_uint64_t_Sg__getitem(arg1,(std::string const &)*arg2);
+    result = (std::map< std::string,unsigned long >::mapped_type *) &std_map_Sl_std_string_Sc_uint64_t_Sg__getitem(arg1,(std::string const &)*arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
   }
-  jresult = *result; 
+  jresult = (unsigned long)*result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringUInt64_setitem(void * jarg1, char * jarg2, unsigned long long jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringUInt64_setitem(void * jarg1, char * jarg2, unsigned long jarg3) {
   std::map< std::string,uint64_t > *arg1 = (std::map< std::string,uint64_t > *) 0 ;
-  std::map< std::string,unsigned long long >::key_type *arg2 = 0 ;
-  std::map< std::string,unsigned long long >::mapped_type *arg3 = 0 ;
-  std::map< std::string,unsigned long long >::mapped_type temp3 ;
+  std::map< std::string,unsigned long >::key_type *arg2 = 0 ;
+  std::map< std::string,unsigned long >::mapped_type *arg3 = 0 ;
+  std::map< std::string,unsigned long >::mapped_type temp3 ;
   
   arg1 = (std::map< std::string,uint64_t > *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  std::map< std::string,unsigned long long >::key_type arg2_str(jarg2);
+  std::map< std::string,unsigned long >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
-  temp3 = (std::map< std::string,unsigned long long >::mapped_type)jarg3; 
+  temp3 = (std::map< std::string,unsigned long >::mapped_type)jarg3; 
   arg3 = &temp3; 
-  std_map_Sl_std_string_Sc_uint64_t_Sg__setitem(arg1,(std::string const &)*arg2,(unsigned long long const &)*arg3);
+  std_map_Sl_std_string_Sc_uint64_t_Sg__setitem(arg1,(std::string const &)*arg2,(unsigned long const &)*arg3);
 }
 
 
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringUInt64_ContainsKey(void * jarg1, char * jarg2) {
   unsigned int jresult ;
   std::map< std::string,uint64_t > *arg1 = (std::map< std::string,uint64_t > *) 0 ;
-  std::map< std::string,unsigned long long >::key_type *arg2 = 0 ;
+  std::map< std::string,unsigned long >::key_type *arg2 = 0 ;
   bool result;
   
   arg1 = (std::map< std::string,uint64_t > *)jarg1; 
@@ -7172,7 +7181,7 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringUInt64_ContainsKey(vo
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  std::map< std::string,unsigned long long >::key_type arg2_str(jarg2);
+  std::map< std::string,unsigned long >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
   result = (bool)std_map_Sl_std_string_Sc_uint64_t_Sg__ContainsKey(arg1,(std::string const &)*arg2);
   jresult = result; 
@@ -7180,23 +7189,23 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringUInt64_ContainsKey(vo
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringUInt64_Add(void * jarg1, char * jarg2, unsigned long long jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringUInt64_Add(void * jarg1, char * jarg2, unsigned long jarg3) {
   std::map< std::string,uint64_t > *arg1 = (std::map< std::string,uint64_t > *) 0 ;
-  std::map< std::string,unsigned long long >::key_type *arg2 = 0 ;
-  std::map< std::string,unsigned long long >::mapped_type *arg3 = 0 ;
-  std::map< std::string,unsigned long long >::mapped_type temp3 ;
+  std::map< std::string,unsigned long >::key_type *arg2 = 0 ;
+  std::map< std::string,unsigned long >::mapped_type *arg3 = 0 ;
+  std::map< std::string,unsigned long >::mapped_type temp3 ;
   
   arg1 = (std::map< std::string,uint64_t > *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  std::map< std::string,unsigned long long >::key_type arg2_str(jarg2);
+  std::map< std::string,unsigned long >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
-  temp3 = (std::map< std::string,unsigned long long >::mapped_type)jarg3; 
+  temp3 = (std::map< std::string,unsigned long >::mapped_type)jarg3; 
   arg3 = &temp3; 
   try {
-    std_map_Sl_std_string_Sc_uint64_t_Sg__Add(arg1,(std::string const &)*arg2,(unsigned long long const &)*arg3);
+    std_map_Sl_std_string_Sc_uint64_t_Sg__Add(arg1,(std::string const &)*arg2,(unsigned long const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -7207,7 +7216,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringUInt64_Add(void * jarg1, char
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringUInt64_Remove(void * jarg1, char * jarg2) {
   unsigned int jresult ;
   std::map< std::string,uint64_t > *arg1 = (std::map< std::string,uint64_t > *) 0 ;
-  std::map< std::string,unsigned long long >::key_type *arg2 = 0 ;
+  std::map< std::string,unsigned long >::key_type *arg2 = 0 ;
   bool result;
   
   arg1 = (std::map< std::string,uint64_t > *)jarg1; 
@@ -7215,7 +7224,7 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringUInt64_Remove(void * 
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  std::map< std::string,unsigned long long >::key_type arg2_str(jarg2);
+  std::map< std::string,unsigned long >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
   result = (bool)std_map_Sl_std_string_Sc_uint64_t_Sg__Remove(arg1,(std::string const &)*arg2);
   jresult = result; 
@@ -7226,10 +7235,10 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringUInt64_Remove(void * 
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapStringUInt64_create_iterator_begin(void * jarg1) {
   void * jresult ;
   std::map< std::string,uint64_t > *arg1 = (std::map< std::string,uint64_t > *) 0 ;
-  std::map< std::string,unsigned long long,std::less< std::string > >::iterator *result = 0 ;
+  std::map< std::string,unsigned long,std::less< std::string > >::iterator *result = 0 ;
   
   arg1 = (std::map< std::string,uint64_t > *)jarg1; 
-  result = (std::map< std::string,unsigned long long,std::less< std::string > >::iterator *)std_map_Sl_std_string_Sc_uint64_t_Sg__create_iterator_begin(arg1);
+  result = (std::map< std::string,unsigned long,std::less< std::string > >::iterator *)std_map_Sl_std_string_Sc_uint64_t_Sg__create_iterator_begin(arg1);
   jresult = (void *)result; 
   return jresult;
 }
@@ -7238,12 +7247,12 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapStringUInt64_create_iterator_begi
 SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_MapStringUInt64_get_next_key(void * jarg1, void * jarg2) {
   char * jresult ;
   std::map< std::string,uint64_t > *arg1 = (std::map< std::string,uint64_t > *) 0 ;
-  std::map< std::string,unsigned long long,std::less< std::string > >::iterator *arg2 = (std::map< std::string,unsigned long long,std::less< std::string > >::iterator *) 0 ;
-  std::map< std::string,unsigned long long >::key_type *result = 0 ;
+  std::map< std::string,unsigned long,std::less< std::string > >::iterator *arg2 = (std::map< std::string,unsigned long,std::less< std::string > >::iterator *) 0 ;
+  std::map< std::string,unsigned long >::key_type *result = 0 ;
   
   arg1 = (std::map< std::string,uint64_t > *)jarg1; 
-  arg2 = (std::map< std::string,unsigned long long,std::less< std::string > >::iterator *)jarg2; 
-  result = (std::map< std::string,unsigned long long >::key_type *) &std_map_Sl_std_string_Sc_uint64_t_Sg__get_next_key(arg1,arg2);
+  arg2 = (std::map< std::string,unsigned long,std::less< std::string > >::iterator *)jarg2; 
+  result = (std::map< std::string,unsigned long >::key_type *) &std_map_Sl_std_string_Sc_uint64_t_Sg__get_next_key(arg1,arg2);
   jresult = SWIG_csharp_string_callback(result->c_str()); 
   return jresult;
 }
@@ -7251,10 +7260,10 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_MapStringUInt64_get_next_key(void * 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringUInt64_destroy_iterator(void * jarg1, void * jarg2) {
   std::map< std::string,uint64_t > *arg1 = (std::map< std::string,uint64_t > *) 0 ;
-  std::map< std::string,unsigned long long,std::less< std::string > >::iterator *arg2 = (std::map< std::string,unsigned long long,std::less< std::string > >::iterator *) 0 ;
+  std::map< std::string,unsigned long,std::less< std::string > >::iterator *arg2 = (std::map< std::string,unsigned long,std::less< std::string > >::iterator *) 0 ;
   
   arg1 = (std::map< std::string,uint64_t > *)jarg1; 
-  arg2 = (std::map< std::string,unsigned long long,std::less< std::string > >::iterator *)jarg2; 
+  arg2 = (std::map< std::string,unsigned long,std::less< std::string > >::iterator *)jarg2; 
   std_map_Sl_std_string_Sc_uint64_t_Sg__destroy_iterator(arg1,arg2);
 }
 
@@ -8499,7 +8508,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_MapInt32Int64__SWIG_1(void * jar
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_MapInt32Int64_size(void * jarg1) {
   unsigned long jresult ;
   std::map< int,int64_t > *arg1 = (std::map< int,int64_t > *) 0 ;
-  std::map< int,long long >::size_type result;
+  std::map< int,long >::size_type result;
   
   arg1 = (std::map< int,int64_t > *)jarg1; 
   result = ((std::map< int,int64_t > const *)arg1)->size();
@@ -8528,18 +8537,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt32Int64_Clear(void * jarg1) {
 }
 
 
-SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt32Int64_getitem(void * jarg1, int jarg2) {
-  long long jresult ;
+SWIGEXPORT long SWIGSTDCALL CSharp_TileDB_MapInt32Int64_getitem(void * jarg1, int jarg2) {
+  long jresult ;
   std::map< int,int64_t > *arg1 = (std::map< int,int64_t > *) 0 ;
-  std::map< int,long long >::key_type *arg2 = 0 ;
-  std::map< int,long long >::key_type temp2 ;
-  std::map< int,long long >::mapped_type *result = 0 ;
+  std::map< int,long >::key_type *arg2 = 0 ;
+  std::map< int,long >::key_type temp2 ;
+  std::map< int,long >::mapped_type *result = 0 ;
   
   arg1 = (std::map< int,int64_t > *)jarg1; 
-  temp2 = (std::map< int,long long >::key_type)jarg2; 
+  temp2 = (std::map< int,long >::key_type)jarg2; 
   arg2 = &temp2; 
   try {
-    result = (std::map< int,long long >::mapped_type *) &std_map_Sl_int_Sc_int64_t_Sg__getitem(arg1,(int const &)*arg2);
+    result = (std::map< int,long >::mapped_type *) &std_map_Sl_int_Sc_int64_t_Sg__getitem(arg1,(int const &)*arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
@@ -8549,31 +8558,31 @@ SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt32Int64_getitem(void * jarg
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt32Int64_setitem(void * jarg1, int jarg2, long long jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt32Int64_setitem(void * jarg1, int jarg2, long jarg3) {
   std::map< int,int64_t > *arg1 = (std::map< int,int64_t > *) 0 ;
-  std::map< int,long long >::key_type *arg2 = 0 ;
-  std::map< int,long long >::mapped_type *arg3 = 0 ;
-  std::map< int,long long >::key_type temp2 ;
-  std::map< int,long long >::mapped_type temp3 ;
+  std::map< int,long >::key_type *arg2 = 0 ;
+  std::map< int,long >::mapped_type *arg3 = 0 ;
+  std::map< int,long >::key_type temp2 ;
+  std::map< int,long >::mapped_type temp3 ;
   
   arg1 = (std::map< int,int64_t > *)jarg1; 
-  temp2 = (std::map< int,long long >::key_type)jarg2; 
+  temp2 = (std::map< int,long >::key_type)jarg2; 
   arg2 = &temp2; 
-  temp3 = (std::map< int,long long >::mapped_type)jarg3; 
+  temp3 = (std::map< int,long >::mapped_type)jarg3; 
   arg3 = &temp3; 
-  std_map_Sl_int_Sc_int64_t_Sg__setitem(arg1,(int const &)*arg2,(long long const &)*arg3);
+  std_map_Sl_int_Sc_int64_t_Sg__setitem(arg1,(int const &)*arg2,(long const &)*arg3);
 }
 
 
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt32Int64_ContainsKey(void * jarg1, int jarg2) {
   unsigned int jresult ;
   std::map< int,int64_t > *arg1 = (std::map< int,int64_t > *) 0 ;
-  std::map< int,long long >::key_type *arg2 = 0 ;
-  std::map< int,long long >::key_type temp2 ;
+  std::map< int,long >::key_type *arg2 = 0 ;
+  std::map< int,long >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int,int64_t > *)jarg1; 
-  temp2 = (std::map< int,long long >::key_type)jarg2; 
+  temp2 = (std::map< int,long >::key_type)jarg2; 
   arg2 = &temp2; 
   result = (bool)std_map_Sl_int_Sc_int64_t_Sg__ContainsKey(arg1,(int const &)*arg2);
   jresult = result; 
@@ -8581,20 +8590,20 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt32Int64_ContainsKey(void
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt32Int64_Add(void * jarg1, int jarg2, long long jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt32Int64_Add(void * jarg1, int jarg2, long jarg3) {
   std::map< int,int64_t > *arg1 = (std::map< int,int64_t > *) 0 ;
-  std::map< int,long long >::key_type *arg2 = 0 ;
-  std::map< int,long long >::mapped_type *arg3 = 0 ;
-  std::map< int,long long >::key_type temp2 ;
-  std::map< int,long long >::mapped_type temp3 ;
+  std::map< int,long >::key_type *arg2 = 0 ;
+  std::map< int,long >::mapped_type *arg3 = 0 ;
+  std::map< int,long >::key_type temp2 ;
+  std::map< int,long >::mapped_type temp3 ;
   
   arg1 = (std::map< int,int64_t > *)jarg1; 
-  temp2 = (std::map< int,long long >::key_type)jarg2; 
+  temp2 = (std::map< int,long >::key_type)jarg2; 
   arg2 = &temp2; 
-  temp3 = (std::map< int,long long >::mapped_type)jarg3; 
+  temp3 = (std::map< int,long >::mapped_type)jarg3; 
   arg3 = &temp3; 
   try {
-    std_map_Sl_int_Sc_int64_t_Sg__Add(arg1,(int const &)*arg2,(long long const &)*arg3);
+    std_map_Sl_int_Sc_int64_t_Sg__Add(arg1,(int const &)*arg2,(long const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -8605,12 +8614,12 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt32Int64_Add(void * jarg1, int ja
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt32Int64_Remove(void * jarg1, int jarg2) {
   unsigned int jresult ;
   std::map< int,int64_t > *arg1 = (std::map< int,int64_t > *) 0 ;
-  std::map< int,long long >::key_type *arg2 = 0 ;
-  std::map< int,long long >::key_type temp2 ;
+  std::map< int,long >::key_type *arg2 = 0 ;
+  std::map< int,long >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int,int64_t > *)jarg1; 
-  temp2 = (std::map< int,long long >::key_type)jarg2; 
+  temp2 = (std::map< int,long >::key_type)jarg2; 
   arg2 = &temp2; 
   result = (bool)std_map_Sl_int_Sc_int64_t_Sg__Remove(arg1,(int const &)*arg2);
   jresult = result; 
@@ -8621,10 +8630,10 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt32Int64_Remove(void * ja
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapInt32Int64_create_iterator_begin(void * jarg1) {
   void * jresult ;
   std::map< int,int64_t > *arg1 = (std::map< int,int64_t > *) 0 ;
-  std::map< int,long long,std::less< int > >::iterator *result = 0 ;
+  std::map< int,long,std::less< int > >::iterator *result = 0 ;
   
   arg1 = (std::map< int,int64_t > *)jarg1; 
-  result = (std::map< int,long long,std::less< int > >::iterator *)std_map_Sl_int_Sc_int64_t_Sg__create_iterator_begin(arg1);
+  result = (std::map< int,long,std::less< int > >::iterator *)std_map_Sl_int_Sc_int64_t_Sg__create_iterator_begin(arg1);
   jresult = (void *)result; 
   return jresult;
 }
@@ -8633,12 +8642,12 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapInt32Int64_create_iterator_begin(
 SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_MapInt32Int64_get_next_key(void * jarg1, void * jarg2) {
   int jresult ;
   std::map< int,int64_t > *arg1 = (std::map< int,int64_t > *) 0 ;
-  std::map< int,long long,std::less< int > >::iterator *arg2 = (std::map< int,long long,std::less< int > >::iterator *) 0 ;
-  std::map< int,long long >::key_type *result = 0 ;
+  std::map< int,long,std::less< int > >::iterator *arg2 = (std::map< int,long,std::less< int > >::iterator *) 0 ;
+  std::map< int,long >::key_type *result = 0 ;
   
   arg1 = (std::map< int,int64_t > *)jarg1; 
-  arg2 = (std::map< int,long long,std::less< int > >::iterator *)jarg2; 
-  result = (std::map< int,long long >::key_type *) &std_map_Sl_int_Sc_int64_t_Sg__get_next_key(arg1,arg2);
+  arg2 = (std::map< int,long,std::less< int > >::iterator *)jarg2; 
+  result = (std::map< int,long >::key_type *) &std_map_Sl_int_Sc_int64_t_Sg__get_next_key(arg1,arg2);
   jresult = *result; 
   return jresult;
 }
@@ -8646,10 +8655,10 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_MapInt32Int64_get_next_key(void * jarg1
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt32Int64_destroy_iterator(void * jarg1, void * jarg2) {
   std::map< int,int64_t > *arg1 = (std::map< int,int64_t > *) 0 ;
-  std::map< int,long long,std::less< int > >::iterator *arg2 = (std::map< int,long long,std::less< int > >::iterator *) 0 ;
+  std::map< int,long,std::less< int > >::iterator *arg2 = (std::map< int,long,std::less< int > >::iterator *) 0 ;
   
   arg1 = (std::map< int,int64_t > *)jarg1; 
-  arg2 = (std::map< int,long long,std::less< int > >::iterator *)jarg2; 
+  arg2 = (std::map< int,long,std::less< int > >::iterator *)jarg2; 
   std_map_Sl_int_Sc_int64_t_Sg__destroy_iterator(arg1,arg2);
 }
 
@@ -8691,7 +8700,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_MapInt32UInt64__SWIG_1(void * ja
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_MapInt32UInt64_size(void * jarg1) {
   unsigned long jresult ;
   std::map< int,uint64_t > *arg1 = (std::map< int,uint64_t > *) 0 ;
-  std::map< int,unsigned long long >::size_type result;
+  std::map< int,unsigned long >::size_type result;
   
   arg1 = (std::map< int,uint64_t > *)jarg1; 
   result = ((std::map< int,uint64_t > const *)arg1)->size();
@@ -8720,52 +8729,52 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt32UInt64_Clear(void * jarg1) {
 }
 
 
-SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_MapInt32UInt64_getitem(void * jarg1, int jarg2) {
-  unsigned long long jresult ;
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_MapInt32UInt64_getitem(void * jarg1, int jarg2) {
+  unsigned long jresult ;
   std::map< int,uint64_t > *arg1 = (std::map< int,uint64_t > *) 0 ;
-  std::map< int,unsigned long long >::key_type *arg2 = 0 ;
-  std::map< int,unsigned long long >::key_type temp2 ;
-  std::map< int,unsigned long long >::mapped_type *result = 0 ;
+  std::map< int,unsigned long >::key_type *arg2 = 0 ;
+  std::map< int,unsigned long >::key_type temp2 ;
+  std::map< int,unsigned long >::mapped_type *result = 0 ;
   
   arg1 = (std::map< int,uint64_t > *)jarg1; 
-  temp2 = (std::map< int,unsigned long long >::key_type)jarg2; 
+  temp2 = (std::map< int,unsigned long >::key_type)jarg2; 
   arg2 = &temp2; 
   try {
-    result = (std::map< int,unsigned long long >::mapped_type *) &std_map_Sl_int_Sc_uint64_t_Sg__getitem(arg1,(int const &)*arg2);
+    result = (std::map< int,unsigned long >::mapped_type *) &std_map_Sl_int_Sc_uint64_t_Sg__getitem(arg1,(int const &)*arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
   }
-  jresult = *result; 
+  jresult = (unsigned long)*result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt32UInt64_setitem(void * jarg1, int jarg2, unsigned long long jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt32UInt64_setitem(void * jarg1, int jarg2, unsigned long jarg3) {
   std::map< int,uint64_t > *arg1 = (std::map< int,uint64_t > *) 0 ;
-  std::map< int,unsigned long long >::key_type *arg2 = 0 ;
-  std::map< int,unsigned long long >::mapped_type *arg3 = 0 ;
-  std::map< int,unsigned long long >::key_type temp2 ;
-  std::map< int,unsigned long long >::mapped_type temp3 ;
+  std::map< int,unsigned long >::key_type *arg2 = 0 ;
+  std::map< int,unsigned long >::mapped_type *arg3 = 0 ;
+  std::map< int,unsigned long >::key_type temp2 ;
+  std::map< int,unsigned long >::mapped_type temp3 ;
   
   arg1 = (std::map< int,uint64_t > *)jarg1; 
-  temp2 = (std::map< int,unsigned long long >::key_type)jarg2; 
+  temp2 = (std::map< int,unsigned long >::key_type)jarg2; 
   arg2 = &temp2; 
-  temp3 = (std::map< int,unsigned long long >::mapped_type)jarg3; 
+  temp3 = (std::map< int,unsigned long >::mapped_type)jarg3; 
   arg3 = &temp3; 
-  std_map_Sl_int_Sc_uint64_t_Sg__setitem(arg1,(int const &)*arg2,(unsigned long long const &)*arg3);
+  std_map_Sl_int_Sc_uint64_t_Sg__setitem(arg1,(int const &)*arg2,(unsigned long const &)*arg3);
 }
 
 
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt32UInt64_ContainsKey(void * jarg1, int jarg2) {
   unsigned int jresult ;
   std::map< int,uint64_t > *arg1 = (std::map< int,uint64_t > *) 0 ;
-  std::map< int,unsigned long long >::key_type *arg2 = 0 ;
-  std::map< int,unsigned long long >::key_type temp2 ;
+  std::map< int,unsigned long >::key_type *arg2 = 0 ;
+  std::map< int,unsigned long >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int,uint64_t > *)jarg1; 
-  temp2 = (std::map< int,unsigned long long >::key_type)jarg2; 
+  temp2 = (std::map< int,unsigned long >::key_type)jarg2; 
   arg2 = &temp2; 
   result = (bool)std_map_Sl_int_Sc_uint64_t_Sg__ContainsKey(arg1,(int const &)*arg2);
   jresult = result; 
@@ -8773,20 +8782,20 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt32UInt64_ContainsKey(voi
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt32UInt64_Add(void * jarg1, int jarg2, unsigned long long jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt32UInt64_Add(void * jarg1, int jarg2, unsigned long jarg3) {
   std::map< int,uint64_t > *arg1 = (std::map< int,uint64_t > *) 0 ;
-  std::map< int,unsigned long long >::key_type *arg2 = 0 ;
-  std::map< int,unsigned long long >::mapped_type *arg3 = 0 ;
-  std::map< int,unsigned long long >::key_type temp2 ;
-  std::map< int,unsigned long long >::mapped_type temp3 ;
+  std::map< int,unsigned long >::key_type *arg2 = 0 ;
+  std::map< int,unsigned long >::mapped_type *arg3 = 0 ;
+  std::map< int,unsigned long >::key_type temp2 ;
+  std::map< int,unsigned long >::mapped_type temp3 ;
   
   arg1 = (std::map< int,uint64_t > *)jarg1; 
-  temp2 = (std::map< int,unsigned long long >::key_type)jarg2; 
+  temp2 = (std::map< int,unsigned long >::key_type)jarg2; 
   arg2 = &temp2; 
-  temp3 = (std::map< int,unsigned long long >::mapped_type)jarg3; 
+  temp3 = (std::map< int,unsigned long >::mapped_type)jarg3; 
   arg3 = &temp3; 
   try {
-    std_map_Sl_int_Sc_uint64_t_Sg__Add(arg1,(int const &)*arg2,(unsigned long long const &)*arg3);
+    std_map_Sl_int_Sc_uint64_t_Sg__Add(arg1,(int const &)*arg2,(unsigned long const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -8797,12 +8806,12 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt32UInt64_Add(void * jarg1, int j
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt32UInt64_Remove(void * jarg1, int jarg2) {
   unsigned int jresult ;
   std::map< int,uint64_t > *arg1 = (std::map< int,uint64_t > *) 0 ;
-  std::map< int,unsigned long long >::key_type *arg2 = 0 ;
-  std::map< int,unsigned long long >::key_type temp2 ;
+  std::map< int,unsigned long >::key_type *arg2 = 0 ;
+  std::map< int,unsigned long >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int,uint64_t > *)jarg1; 
-  temp2 = (std::map< int,unsigned long long >::key_type)jarg2; 
+  temp2 = (std::map< int,unsigned long >::key_type)jarg2; 
   arg2 = &temp2; 
   result = (bool)std_map_Sl_int_Sc_uint64_t_Sg__Remove(arg1,(int const &)*arg2);
   jresult = result; 
@@ -8813,10 +8822,10 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt32UInt64_Remove(void * j
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapInt32UInt64_create_iterator_begin(void * jarg1) {
   void * jresult ;
   std::map< int,uint64_t > *arg1 = (std::map< int,uint64_t > *) 0 ;
-  std::map< int,unsigned long long,std::less< int > >::iterator *result = 0 ;
+  std::map< int,unsigned long,std::less< int > >::iterator *result = 0 ;
   
   arg1 = (std::map< int,uint64_t > *)jarg1; 
-  result = (std::map< int,unsigned long long,std::less< int > >::iterator *)std_map_Sl_int_Sc_uint64_t_Sg__create_iterator_begin(arg1);
+  result = (std::map< int,unsigned long,std::less< int > >::iterator *)std_map_Sl_int_Sc_uint64_t_Sg__create_iterator_begin(arg1);
   jresult = (void *)result; 
   return jresult;
 }
@@ -8825,12 +8834,12 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapInt32UInt64_create_iterator_begin
 SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_MapInt32UInt64_get_next_key(void * jarg1, void * jarg2) {
   int jresult ;
   std::map< int,uint64_t > *arg1 = (std::map< int,uint64_t > *) 0 ;
-  std::map< int,unsigned long long,std::less< int > >::iterator *arg2 = (std::map< int,unsigned long long,std::less< int > >::iterator *) 0 ;
-  std::map< int,unsigned long long >::key_type *result = 0 ;
+  std::map< int,unsigned long,std::less< int > >::iterator *arg2 = (std::map< int,unsigned long,std::less< int > >::iterator *) 0 ;
+  std::map< int,unsigned long >::key_type *result = 0 ;
   
   arg1 = (std::map< int,uint64_t > *)jarg1; 
-  arg2 = (std::map< int,unsigned long long,std::less< int > >::iterator *)jarg2; 
-  result = (std::map< int,unsigned long long >::key_type *) &std_map_Sl_int_Sc_uint64_t_Sg__get_next_key(arg1,arg2);
+  arg2 = (std::map< int,unsigned long,std::less< int > >::iterator *)jarg2; 
+  result = (std::map< int,unsigned long >::key_type *) &std_map_Sl_int_Sc_uint64_t_Sg__get_next_key(arg1,arg2);
   jresult = *result; 
   return jresult;
 }
@@ -8838,10 +8847,10 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_MapInt32UInt64_get_next_key(void * jarg
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt32UInt64_destroy_iterator(void * jarg1, void * jarg2) {
   std::map< int,uint64_t > *arg1 = (std::map< int,uint64_t > *) 0 ;
-  std::map< int,unsigned long long,std::less< int > >::iterator *arg2 = (std::map< int,unsigned long long,std::less< int > >::iterator *) 0 ;
+  std::map< int,unsigned long,std::less< int > >::iterator *arg2 = (std::map< int,unsigned long,std::less< int > >::iterator *) 0 ;
   
   arg1 = (std::map< int,uint64_t > *)jarg1; 
-  arg2 = (std::map< int,unsigned long long,std::less< int > >::iterator *)jarg2; 
+  arg2 = (std::map< int,unsigned long,std::less< int > >::iterator *)jarg2; 
   std_map_Sl_int_Sc_uint64_t_Sg__destroy_iterator(arg1,arg2);
 }
 
@@ -9459,7 +9468,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_MapInt64String__SWIG_1(void * ja
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_MapInt64String_size(void * jarg1) {
   unsigned long jresult ;
   std::map< int64_t,std::string > *arg1 = (std::map< int64_t,std::string > *) 0 ;
-  std::map< long long,std::string >::size_type result;
+  std::map< long,std::string >::size_type result;
   
   arg1 = (std::map< int64_t,std::string > *)jarg1; 
   result = ((std::map< int64_t,std::string > const *)arg1)->size();
@@ -9488,18 +9497,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64String_Clear(void * jarg1) {
 }
 
 
-SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_MapInt64String_getitem(void * jarg1, long long jarg2) {
+SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_MapInt64String_getitem(void * jarg1, long jarg2) {
   char * jresult ;
   std::map< int64_t,std::string > *arg1 = (std::map< int64_t,std::string > *) 0 ;
-  std::map< long long,std::string >::key_type *arg2 = 0 ;
-  std::map< long long,std::string >::key_type temp2 ;
-  std::map< long long,std::string >::mapped_type *result = 0 ;
+  std::map< long,std::string >::key_type *arg2 = 0 ;
+  std::map< long,std::string >::key_type temp2 ;
+  std::map< long,std::string >::mapped_type *result = 0 ;
   
   arg1 = (std::map< int64_t,std::string > *)jarg1; 
-  temp2 = (std::map< long long,std::string >::key_type)jarg2; 
+  temp2 = (std::map< long,std::string >::key_type)jarg2; 
   arg2 = &temp2; 
   try {
-    result = (std::map< long long,std::string >::mapped_type *) &std_map_Sl_int64_t_Sc_std_string_Sg__getitem(arg1,(long long const &)*arg2);
+    result = (std::map< long,std::string >::mapped_type *) &std_map_Sl_int64_t_Sc_std_string_Sg__getitem(arg1,(long const &)*arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
@@ -9509,58 +9518,58 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_MapInt64String_getitem(void * jarg1,
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64String_setitem(void * jarg1, long long jarg2, char * jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64String_setitem(void * jarg1, long jarg2, char * jarg3) {
   std::map< int64_t,std::string > *arg1 = (std::map< int64_t,std::string > *) 0 ;
-  std::map< long long,std::string >::key_type *arg2 = 0 ;
-  std::map< long long,std::string >::mapped_type *arg3 = 0 ;
-  std::map< long long,std::string >::key_type temp2 ;
+  std::map< long,std::string >::key_type *arg2 = 0 ;
+  std::map< long,std::string >::mapped_type *arg3 = 0 ;
+  std::map< long,std::string >::key_type temp2 ;
   
   arg1 = (std::map< int64_t,std::string > *)jarg1; 
-  temp2 = (std::map< long long,std::string >::key_type)jarg2; 
+  temp2 = (std::map< long,std::string >::key_type)jarg2; 
   arg2 = &temp2; 
   if (!jarg3) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  std::map< long long,std::string >::mapped_type arg3_str(jarg3);
+  std::map< long,std::string >::mapped_type arg3_str(jarg3);
   arg3 = &arg3_str; 
-  std_map_Sl_int64_t_Sc_std_string_Sg__setitem(arg1,(long long const &)*arg2,(std::string const &)*arg3);
+  std_map_Sl_int64_t_Sc_std_string_Sg__setitem(arg1,(long const &)*arg2,(std::string const &)*arg3);
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64String_ContainsKey(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64String_ContainsKey(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::map< int64_t,std::string > *arg1 = (std::map< int64_t,std::string > *) 0 ;
-  std::map< long long,std::string >::key_type *arg2 = 0 ;
-  std::map< long long,std::string >::key_type temp2 ;
+  std::map< long,std::string >::key_type *arg2 = 0 ;
+  std::map< long,std::string >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int64_t,std::string > *)jarg1; 
-  temp2 = (std::map< long long,std::string >::key_type)jarg2; 
+  temp2 = (std::map< long,std::string >::key_type)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_map_Sl_int64_t_Sc_std_string_Sg__ContainsKey(arg1,(long long const &)*arg2);
+  result = (bool)std_map_Sl_int64_t_Sc_std_string_Sg__ContainsKey(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64String_Add(void * jarg1, long long jarg2, char * jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64String_Add(void * jarg1, long jarg2, char * jarg3) {
   std::map< int64_t,std::string > *arg1 = (std::map< int64_t,std::string > *) 0 ;
-  std::map< long long,std::string >::key_type *arg2 = 0 ;
-  std::map< long long,std::string >::mapped_type *arg3 = 0 ;
-  std::map< long long,std::string >::key_type temp2 ;
+  std::map< long,std::string >::key_type *arg2 = 0 ;
+  std::map< long,std::string >::mapped_type *arg3 = 0 ;
+  std::map< long,std::string >::key_type temp2 ;
   
   arg1 = (std::map< int64_t,std::string > *)jarg1; 
-  temp2 = (std::map< long long,std::string >::key_type)jarg2; 
+  temp2 = (std::map< long,std::string >::key_type)jarg2; 
   arg2 = &temp2; 
   if (!jarg3) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  std::map< long long,std::string >::mapped_type arg3_str(jarg3);
+  std::map< long,std::string >::mapped_type arg3_str(jarg3);
   arg3 = &arg3_str; 
   try {
-    std_map_Sl_int64_t_Sc_std_string_Sg__Add(arg1,(long long const &)*arg2,(std::string const &)*arg3);
+    std_map_Sl_int64_t_Sc_std_string_Sg__Add(arg1,(long const &)*arg2,(std::string const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -9568,17 +9577,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64String_Add(void * jarg1, long 
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64String_Remove(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64String_Remove(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::map< int64_t,std::string > *arg1 = (std::map< int64_t,std::string > *) 0 ;
-  std::map< long long,std::string >::key_type *arg2 = 0 ;
-  std::map< long long,std::string >::key_type temp2 ;
+  std::map< long,std::string >::key_type *arg2 = 0 ;
+  std::map< long,std::string >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int64_t,std::string > *)jarg1; 
-  temp2 = (std::map< long long,std::string >::key_type)jarg2; 
+  temp2 = (std::map< long,std::string >::key_type)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_map_Sl_int64_t_Sc_std_string_Sg__Remove(arg1,(long long const &)*arg2);
+  result = (bool)std_map_Sl_int64_t_Sc_std_string_Sg__Remove(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
@@ -9587,24 +9596,24 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64String_Remove(void * j
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapInt64String_create_iterator_begin(void * jarg1) {
   void * jresult ;
   std::map< int64_t,std::string > *arg1 = (std::map< int64_t,std::string > *) 0 ;
-  std::map< long long,std::string,std::less< long long > >::iterator *result = 0 ;
+  std::map< long,std::string,std::less< long > >::iterator *result = 0 ;
   
   arg1 = (std::map< int64_t,std::string > *)jarg1; 
-  result = (std::map< long long,std::string,std::less< long long > >::iterator *)std_map_Sl_int64_t_Sc_std_string_Sg__create_iterator_begin(arg1);
+  result = (std::map< long,std::string,std::less< long > >::iterator *)std_map_Sl_int64_t_Sc_std_string_Sg__create_iterator_begin(arg1);
   jresult = (void *)result; 
   return jresult;
 }
 
 
-SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt64String_get_next_key(void * jarg1, void * jarg2) {
-  long long jresult ;
+SWIGEXPORT long SWIGSTDCALL CSharp_TileDB_MapInt64String_get_next_key(void * jarg1, void * jarg2) {
+  long jresult ;
   std::map< int64_t,std::string > *arg1 = (std::map< int64_t,std::string > *) 0 ;
-  std::map< long long,std::string,std::less< long long > >::iterator *arg2 = (std::map< long long,std::string,std::less< long long > >::iterator *) 0 ;
-  std::map< long long,std::string >::key_type *result = 0 ;
+  std::map< long,std::string,std::less< long > >::iterator *arg2 = (std::map< long,std::string,std::less< long > >::iterator *) 0 ;
+  std::map< long,std::string >::key_type *result = 0 ;
   
   arg1 = (std::map< int64_t,std::string > *)jarg1; 
-  arg2 = (std::map< long long,std::string,std::less< long long > >::iterator *)jarg2; 
-  result = (std::map< long long,std::string >::key_type *) &std_map_Sl_int64_t_Sc_std_string_Sg__get_next_key(arg1,arg2);
+  arg2 = (std::map< long,std::string,std::less< long > >::iterator *)jarg2; 
+  result = (std::map< long,std::string >::key_type *) &std_map_Sl_int64_t_Sc_std_string_Sg__get_next_key(arg1,arg2);
   jresult = *result; 
   return jresult;
 }
@@ -9612,10 +9621,10 @@ SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt64String_get_next_key(void 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64String_destroy_iterator(void * jarg1, void * jarg2) {
   std::map< int64_t,std::string > *arg1 = (std::map< int64_t,std::string > *) 0 ;
-  std::map< long long,std::string,std::less< long long > >::iterator *arg2 = (std::map< long long,std::string,std::less< long long > >::iterator *) 0 ;
+  std::map< long,std::string,std::less< long > >::iterator *arg2 = (std::map< long,std::string,std::less< long > >::iterator *) 0 ;
   
   arg1 = (std::map< int64_t,std::string > *)jarg1; 
-  arg2 = (std::map< long long,std::string,std::less< long long > >::iterator *)jarg2; 
+  arg2 = (std::map< long,std::string,std::less< long > >::iterator *)jarg2; 
   std_map_Sl_int64_t_Sc_std_string_Sg__destroy_iterator(arg1,arg2);
 }
 
@@ -9657,7 +9666,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_MapInt64Int32__SWIG_1(void * jar
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_MapInt64Int32_size(void * jarg1) {
   unsigned long jresult ;
   std::map< int64_t,int > *arg1 = (std::map< int64_t,int > *) 0 ;
-  std::map< long long,int >::size_type result;
+  std::map< long,int >::size_type result;
   
   arg1 = (std::map< int64_t,int > *)jarg1; 
   result = ((std::map< int64_t,int > const *)arg1)->size();
@@ -9686,18 +9695,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Int32_Clear(void * jarg1) {
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_MapInt64Int32_getitem(void * jarg1, long long jarg2) {
+SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_MapInt64Int32_getitem(void * jarg1, long jarg2) {
   int jresult ;
   std::map< int64_t,int > *arg1 = (std::map< int64_t,int > *) 0 ;
-  std::map< long long,int >::key_type *arg2 = 0 ;
-  std::map< long long,int >::key_type temp2 ;
-  std::map< long long,int >::mapped_type *result = 0 ;
+  std::map< long,int >::key_type *arg2 = 0 ;
+  std::map< long,int >::key_type temp2 ;
+  std::map< long,int >::mapped_type *result = 0 ;
   
   arg1 = (std::map< int64_t,int > *)jarg1; 
-  temp2 = (std::map< long long,int >::key_type)jarg2; 
+  temp2 = (std::map< long,int >::key_type)jarg2; 
   arg2 = &temp2; 
   try {
-    result = (std::map< long long,int >::mapped_type *) &std_map_Sl_int64_t_Sc_int_Sg__getitem(arg1,(long long const &)*arg2);
+    result = (std::map< long,int >::mapped_type *) &std_map_Sl_int64_t_Sc_int_Sg__getitem(arg1,(long const &)*arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
@@ -9707,52 +9716,52 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_MapInt64Int32_getitem(void * jarg1, lon
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Int32_setitem(void * jarg1, long long jarg2, int jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Int32_setitem(void * jarg1, long jarg2, int jarg3) {
   std::map< int64_t,int > *arg1 = (std::map< int64_t,int > *) 0 ;
-  std::map< long long,int >::key_type *arg2 = 0 ;
-  std::map< long long,int >::mapped_type *arg3 = 0 ;
-  std::map< long long,int >::key_type temp2 ;
-  std::map< long long,int >::mapped_type temp3 ;
+  std::map< long,int >::key_type *arg2 = 0 ;
+  std::map< long,int >::mapped_type *arg3 = 0 ;
+  std::map< long,int >::key_type temp2 ;
+  std::map< long,int >::mapped_type temp3 ;
   
   arg1 = (std::map< int64_t,int > *)jarg1; 
-  temp2 = (std::map< long long,int >::key_type)jarg2; 
+  temp2 = (std::map< long,int >::key_type)jarg2; 
   arg2 = &temp2; 
-  temp3 = (std::map< long long,int >::mapped_type)jarg3; 
+  temp3 = (std::map< long,int >::mapped_type)jarg3; 
   arg3 = &temp3; 
-  std_map_Sl_int64_t_Sc_int_Sg__setitem(arg1,(long long const &)*arg2,(int const &)*arg3);
+  std_map_Sl_int64_t_Sc_int_Sg__setitem(arg1,(long const &)*arg2,(int const &)*arg3);
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Int32_ContainsKey(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Int32_ContainsKey(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::map< int64_t,int > *arg1 = (std::map< int64_t,int > *) 0 ;
-  std::map< long long,int >::key_type *arg2 = 0 ;
-  std::map< long long,int >::key_type temp2 ;
+  std::map< long,int >::key_type *arg2 = 0 ;
+  std::map< long,int >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int64_t,int > *)jarg1; 
-  temp2 = (std::map< long long,int >::key_type)jarg2; 
+  temp2 = (std::map< long,int >::key_type)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_map_Sl_int64_t_Sc_int_Sg__ContainsKey(arg1,(long long const &)*arg2);
+  result = (bool)std_map_Sl_int64_t_Sc_int_Sg__ContainsKey(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Int32_Add(void * jarg1, long long jarg2, int jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Int32_Add(void * jarg1, long jarg2, int jarg3) {
   std::map< int64_t,int > *arg1 = (std::map< int64_t,int > *) 0 ;
-  std::map< long long,int >::key_type *arg2 = 0 ;
-  std::map< long long,int >::mapped_type *arg3 = 0 ;
-  std::map< long long,int >::key_type temp2 ;
-  std::map< long long,int >::mapped_type temp3 ;
+  std::map< long,int >::key_type *arg2 = 0 ;
+  std::map< long,int >::mapped_type *arg3 = 0 ;
+  std::map< long,int >::key_type temp2 ;
+  std::map< long,int >::mapped_type temp3 ;
   
   arg1 = (std::map< int64_t,int > *)jarg1; 
-  temp2 = (std::map< long long,int >::key_type)jarg2; 
+  temp2 = (std::map< long,int >::key_type)jarg2; 
   arg2 = &temp2; 
-  temp3 = (std::map< long long,int >::mapped_type)jarg3; 
+  temp3 = (std::map< long,int >::mapped_type)jarg3; 
   arg3 = &temp3; 
   try {
-    std_map_Sl_int64_t_Sc_int_Sg__Add(arg1,(long long const &)*arg2,(int const &)*arg3);
+    std_map_Sl_int64_t_Sc_int_Sg__Add(arg1,(long const &)*arg2,(int const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -9760,17 +9769,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Int32_Add(void * jarg1, long l
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Int32_Remove(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Int32_Remove(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::map< int64_t,int > *arg1 = (std::map< int64_t,int > *) 0 ;
-  std::map< long long,int >::key_type *arg2 = 0 ;
-  std::map< long long,int >::key_type temp2 ;
+  std::map< long,int >::key_type *arg2 = 0 ;
+  std::map< long,int >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int64_t,int > *)jarg1; 
-  temp2 = (std::map< long long,int >::key_type)jarg2; 
+  temp2 = (std::map< long,int >::key_type)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_map_Sl_int64_t_Sc_int_Sg__Remove(arg1,(long long const &)*arg2);
+  result = (bool)std_map_Sl_int64_t_Sc_int_Sg__Remove(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
@@ -9779,24 +9788,24 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Int32_Remove(void * ja
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapInt64Int32_create_iterator_begin(void * jarg1) {
   void * jresult ;
   std::map< int64_t,int > *arg1 = (std::map< int64_t,int > *) 0 ;
-  std::map< long long,int,std::less< long long > >::iterator *result = 0 ;
+  std::map< long,int,std::less< long > >::iterator *result = 0 ;
   
   arg1 = (std::map< int64_t,int > *)jarg1; 
-  result = (std::map< long long,int,std::less< long long > >::iterator *)std_map_Sl_int64_t_Sc_int_Sg__create_iterator_begin(arg1);
+  result = (std::map< long,int,std::less< long > >::iterator *)std_map_Sl_int64_t_Sc_int_Sg__create_iterator_begin(arg1);
   jresult = (void *)result; 
   return jresult;
 }
 
 
-SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt64Int32_get_next_key(void * jarg1, void * jarg2) {
-  long long jresult ;
+SWIGEXPORT long SWIGSTDCALL CSharp_TileDB_MapInt64Int32_get_next_key(void * jarg1, void * jarg2) {
+  long jresult ;
   std::map< int64_t,int > *arg1 = (std::map< int64_t,int > *) 0 ;
-  std::map< long long,int,std::less< long long > >::iterator *arg2 = (std::map< long long,int,std::less< long long > >::iterator *) 0 ;
-  std::map< long long,int >::key_type *result = 0 ;
+  std::map< long,int,std::less< long > >::iterator *arg2 = (std::map< long,int,std::less< long > >::iterator *) 0 ;
+  std::map< long,int >::key_type *result = 0 ;
   
   arg1 = (std::map< int64_t,int > *)jarg1; 
-  arg2 = (std::map< long long,int,std::less< long long > >::iterator *)jarg2; 
-  result = (std::map< long long,int >::key_type *) &std_map_Sl_int64_t_Sc_int_Sg__get_next_key(arg1,arg2);
+  arg2 = (std::map< long,int,std::less< long > >::iterator *)jarg2; 
+  result = (std::map< long,int >::key_type *) &std_map_Sl_int64_t_Sc_int_Sg__get_next_key(arg1,arg2);
   jresult = *result; 
   return jresult;
 }
@@ -9804,10 +9813,10 @@ SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt64Int32_get_next_key(void *
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Int32_destroy_iterator(void * jarg1, void * jarg2) {
   std::map< int64_t,int > *arg1 = (std::map< int64_t,int > *) 0 ;
-  std::map< long long,int,std::less< long long > >::iterator *arg2 = (std::map< long long,int,std::less< long long > >::iterator *) 0 ;
+  std::map< long,int,std::less< long > >::iterator *arg2 = (std::map< long,int,std::less< long > >::iterator *) 0 ;
   
   arg1 = (std::map< int64_t,int > *)jarg1; 
-  arg2 = (std::map< long long,int,std::less< long long > >::iterator *)jarg2; 
+  arg2 = (std::map< long,int,std::less< long > >::iterator *)jarg2; 
   std_map_Sl_int64_t_Sc_int_Sg__destroy_iterator(arg1,arg2);
 }
 
@@ -9849,7 +9858,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_MapInt64UInt32__SWIG_1(void * ja
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_size(void * jarg1) {
   unsigned long jresult ;
   std::map< int64_t,uint32_t > *arg1 = (std::map< int64_t,uint32_t > *) 0 ;
-  std::map< long long,unsigned int >::size_type result;
+  std::map< long,unsigned int >::size_type result;
   
   arg1 = (std::map< int64_t,uint32_t > *)jarg1; 
   result = ((std::map< int64_t,uint32_t > const *)arg1)->size();
@@ -9878,18 +9887,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_Clear(void * jarg1) {
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_getitem(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_getitem(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::map< int64_t,uint32_t > *arg1 = (std::map< int64_t,uint32_t > *) 0 ;
-  std::map< long long,unsigned int >::key_type *arg2 = 0 ;
-  std::map< long long,unsigned int >::key_type temp2 ;
-  std::map< long long,unsigned int >::mapped_type *result = 0 ;
+  std::map< long,unsigned int >::key_type *arg2 = 0 ;
+  std::map< long,unsigned int >::key_type temp2 ;
+  std::map< long,unsigned int >::mapped_type *result = 0 ;
   
   arg1 = (std::map< int64_t,uint32_t > *)jarg1; 
-  temp2 = (std::map< long long,unsigned int >::key_type)jarg2; 
+  temp2 = (std::map< long,unsigned int >::key_type)jarg2; 
   arg2 = &temp2; 
   try {
-    result = (std::map< long long,unsigned int >::mapped_type *) &std_map_Sl_int64_t_Sc_uint32_t_Sg__getitem(arg1,(long long const &)*arg2);
+    result = (std::map< long,unsigned int >::mapped_type *) &std_map_Sl_int64_t_Sc_uint32_t_Sg__getitem(arg1,(long const &)*arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
@@ -9899,52 +9908,52 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_getitem(void * 
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_setitem(void * jarg1, long long jarg2, unsigned int jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_setitem(void * jarg1, long jarg2, unsigned int jarg3) {
   std::map< int64_t,uint32_t > *arg1 = (std::map< int64_t,uint32_t > *) 0 ;
-  std::map< long long,unsigned int >::key_type *arg2 = 0 ;
-  std::map< long long,unsigned int >::mapped_type *arg3 = 0 ;
-  std::map< long long,unsigned int >::key_type temp2 ;
-  std::map< long long,unsigned int >::mapped_type temp3 ;
+  std::map< long,unsigned int >::key_type *arg2 = 0 ;
+  std::map< long,unsigned int >::mapped_type *arg3 = 0 ;
+  std::map< long,unsigned int >::key_type temp2 ;
+  std::map< long,unsigned int >::mapped_type temp3 ;
   
   arg1 = (std::map< int64_t,uint32_t > *)jarg1; 
-  temp2 = (std::map< long long,unsigned int >::key_type)jarg2; 
+  temp2 = (std::map< long,unsigned int >::key_type)jarg2; 
   arg2 = &temp2; 
-  temp3 = (std::map< long long,unsigned int >::mapped_type)jarg3; 
+  temp3 = (std::map< long,unsigned int >::mapped_type)jarg3; 
   arg3 = &temp3; 
-  std_map_Sl_int64_t_Sc_uint32_t_Sg__setitem(arg1,(long long const &)*arg2,(unsigned int const &)*arg3);
+  std_map_Sl_int64_t_Sc_uint32_t_Sg__setitem(arg1,(long const &)*arg2,(unsigned int const &)*arg3);
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_ContainsKey(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_ContainsKey(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::map< int64_t,uint32_t > *arg1 = (std::map< int64_t,uint32_t > *) 0 ;
-  std::map< long long,unsigned int >::key_type *arg2 = 0 ;
-  std::map< long long,unsigned int >::key_type temp2 ;
+  std::map< long,unsigned int >::key_type *arg2 = 0 ;
+  std::map< long,unsigned int >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int64_t,uint32_t > *)jarg1; 
-  temp2 = (std::map< long long,unsigned int >::key_type)jarg2; 
+  temp2 = (std::map< long,unsigned int >::key_type)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_map_Sl_int64_t_Sc_uint32_t_Sg__ContainsKey(arg1,(long long const &)*arg2);
+  result = (bool)std_map_Sl_int64_t_Sc_uint32_t_Sg__ContainsKey(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_Add(void * jarg1, long long jarg2, unsigned int jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_Add(void * jarg1, long jarg2, unsigned int jarg3) {
   std::map< int64_t,uint32_t > *arg1 = (std::map< int64_t,uint32_t > *) 0 ;
-  std::map< long long,unsigned int >::key_type *arg2 = 0 ;
-  std::map< long long,unsigned int >::mapped_type *arg3 = 0 ;
-  std::map< long long,unsigned int >::key_type temp2 ;
-  std::map< long long,unsigned int >::mapped_type temp3 ;
+  std::map< long,unsigned int >::key_type *arg2 = 0 ;
+  std::map< long,unsigned int >::mapped_type *arg3 = 0 ;
+  std::map< long,unsigned int >::key_type temp2 ;
+  std::map< long,unsigned int >::mapped_type temp3 ;
   
   arg1 = (std::map< int64_t,uint32_t > *)jarg1; 
-  temp2 = (std::map< long long,unsigned int >::key_type)jarg2; 
+  temp2 = (std::map< long,unsigned int >::key_type)jarg2; 
   arg2 = &temp2; 
-  temp3 = (std::map< long long,unsigned int >::mapped_type)jarg3; 
+  temp3 = (std::map< long,unsigned int >::mapped_type)jarg3; 
   arg3 = &temp3; 
   try {
-    std_map_Sl_int64_t_Sc_uint32_t_Sg__Add(arg1,(long long const &)*arg2,(unsigned int const &)*arg3);
+    std_map_Sl_int64_t_Sc_uint32_t_Sg__Add(arg1,(long const &)*arg2,(unsigned int const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -9952,17 +9961,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_Add(void * jarg1, long 
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_Remove(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_Remove(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::map< int64_t,uint32_t > *arg1 = (std::map< int64_t,uint32_t > *) 0 ;
-  std::map< long long,unsigned int >::key_type *arg2 = 0 ;
-  std::map< long long,unsigned int >::key_type temp2 ;
+  std::map< long,unsigned int >::key_type *arg2 = 0 ;
+  std::map< long,unsigned int >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int64_t,uint32_t > *)jarg1; 
-  temp2 = (std::map< long long,unsigned int >::key_type)jarg2; 
+  temp2 = (std::map< long,unsigned int >::key_type)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_map_Sl_int64_t_Sc_uint32_t_Sg__Remove(arg1,(long long const &)*arg2);
+  result = (bool)std_map_Sl_int64_t_Sc_uint32_t_Sg__Remove(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
@@ -9971,24 +9980,24 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_Remove(void * j
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_create_iterator_begin(void * jarg1) {
   void * jresult ;
   std::map< int64_t,uint32_t > *arg1 = (std::map< int64_t,uint32_t > *) 0 ;
-  std::map< long long,unsigned int,std::less< long long > >::iterator *result = 0 ;
+  std::map< long,unsigned int,std::less< long > >::iterator *result = 0 ;
   
   arg1 = (std::map< int64_t,uint32_t > *)jarg1; 
-  result = (std::map< long long,unsigned int,std::less< long long > >::iterator *)std_map_Sl_int64_t_Sc_uint32_t_Sg__create_iterator_begin(arg1);
+  result = (std::map< long,unsigned int,std::less< long > >::iterator *)std_map_Sl_int64_t_Sc_uint32_t_Sg__create_iterator_begin(arg1);
   jresult = (void *)result; 
   return jresult;
 }
 
 
-SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_get_next_key(void * jarg1, void * jarg2) {
-  long long jresult ;
+SWIGEXPORT long SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_get_next_key(void * jarg1, void * jarg2) {
+  long jresult ;
   std::map< int64_t,uint32_t > *arg1 = (std::map< int64_t,uint32_t > *) 0 ;
-  std::map< long long,unsigned int,std::less< long long > >::iterator *arg2 = (std::map< long long,unsigned int,std::less< long long > >::iterator *) 0 ;
-  std::map< long long,unsigned int >::key_type *result = 0 ;
+  std::map< long,unsigned int,std::less< long > >::iterator *arg2 = (std::map< long,unsigned int,std::less< long > >::iterator *) 0 ;
+  std::map< long,unsigned int >::key_type *result = 0 ;
   
   arg1 = (std::map< int64_t,uint32_t > *)jarg1; 
-  arg2 = (std::map< long long,unsigned int,std::less< long long > >::iterator *)jarg2; 
-  result = (std::map< long long,unsigned int >::key_type *) &std_map_Sl_int64_t_Sc_uint32_t_Sg__get_next_key(arg1,arg2);
+  arg2 = (std::map< long,unsigned int,std::less< long > >::iterator *)jarg2; 
+  result = (std::map< long,unsigned int >::key_type *) &std_map_Sl_int64_t_Sc_uint32_t_Sg__get_next_key(arg1,arg2);
   jresult = *result; 
   return jresult;
 }
@@ -9996,10 +10005,10 @@ SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_get_next_key(void 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UInt32_destroy_iterator(void * jarg1, void * jarg2) {
   std::map< int64_t,uint32_t > *arg1 = (std::map< int64_t,uint32_t > *) 0 ;
-  std::map< long long,unsigned int,std::less< long long > >::iterator *arg2 = (std::map< long long,unsigned int,std::less< long long > >::iterator *) 0 ;
+  std::map< long,unsigned int,std::less< long > >::iterator *arg2 = (std::map< long,unsigned int,std::less< long > >::iterator *) 0 ;
   
   arg1 = (std::map< int64_t,uint32_t > *)jarg1; 
-  arg2 = (std::map< long long,unsigned int,std::less< long long > >::iterator *)jarg2; 
+  arg2 = (std::map< long,unsigned int,std::less< long > >::iterator *)jarg2; 
   std_map_Sl_int64_t_Sc_uint32_t_Sg__destroy_iterator(arg1,arg2);
 }
 
@@ -10041,7 +10050,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_MapInt64Int64__SWIG_1(void * jar
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_MapInt64Int64_size(void * jarg1) {
   unsigned long jresult ;
   std::map< int64_t,int64_t > *arg1 = (std::map< int64_t,int64_t > *) 0 ;
-  std::map< long long,long long >::size_type result;
+  std::map< long,long >::size_type result;
   
   arg1 = (std::map< int64_t,int64_t > *)jarg1; 
   result = ((std::map< int64_t,int64_t > const *)arg1)->size();
@@ -10070,18 +10079,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Int64_Clear(void * jarg1) {
 }
 
 
-SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt64Int64_getitem(void * jarg1, long long jarg2) {
-  long long jresult ;
+SWIGEXPORT long SWIGSTDCALL CSharp_TileDB_MapInt64Int64_getitem(void * jarg1, long jarg2) {
+  long jresult ;
   std::map< int64_t,int64_t > *arg1 = (std::map< int64_t,int64_t > *) 0 ;
-  std::map< long long,long long >::key_type *arg2 = 0 ;
-  std::map< long long,long long >::key_type temp2 ;
-  std::map< long long,long long >::mapped_type *result = 0 ;
+  std::map< long,long >::key_type *arg2 = 0 ;
+  std::map< long,long >::key_type temp2 ;
+  std::map< long,long >::mapped_type *result = 0 ;
   
   arg1 = (std::map< int64_t,int64_t > *)jarg1; 
-  temp2 = (std::map< long long,long long >::key_type)jarg2; 
+  temp2 = (std::map< long,long >::key_type)jarg2; 
   arg2 = &temp2; 
   try {
-    result = (std::map< long long,long long >::mapped_type *) &std_map_Sl_int64_t_Sc_int64_t_Sg__getitem(arg1,(long long const &)*arg2);
+    result = (std::map< long,long >::mapped_type *) &std_map_Sl_int64_t_Sc_int64_t_Sg__getitem(arg1,(long const &)*arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
@@ -10091,52 +10100,52 @@ SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt64Int64_getitem(void * jarg
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Int64_setitem(void * jarg1, long long jarg2, long long jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Int64_setitem(void * jarg1, long jarg2, long jarg3) {
   std::map< int64_t,int64_t > *arg1 = (std::map< int64_t,int64_t > *) 0 ;
-  std::map< long long,long long >::key_type *arg2 = 0 ;
-  std::map< long long,long long >::mapped_type *arg3 = 0 ;
-  std::map< long long,long long >::key_type temp2 ;
-  std::map< long long,long long >::mapped_type temp3 ;
+  std::map< long,long >::key_type *arg2 = 0 ;
+  std::map< long,long >::mapped_type *arg3 = 0 ;
+  std::map< long,long >::key_type temp2 ;
+  std::map< long,long >::mapped_type temp3 ;
   
   arg1 = (std::map< int64_t,int64_t > *)jarg1; 
-  temp2 = (std::map< long long,long long >::key_type)jarg2; 
+  temp2 = (std::map< long,long >::key_type)jarg2; 
   arg2 = &temp2; 
-  temp3 = (std::map< long long,long long >::mapped_type)jarg3; 
+  temp3 = (std::map< long,long >::mapped_type)jarg3; 
   arg3 = &temp3; 
-  std_map_Sl_int64_t_Sc_int64_t_Sg__setitem(arg1,(long long const &)*arg2,(long long const &)*arg3);
+  std_map_Sl_int64_t_Sc_int64_t_Sg__setitem(arg1,(long const &)*arg2,(long const &)*arg3);
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Int64_ContainsKey(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Int64_ContainsKey(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::map< int64_t,int64_t > *arg1 = (std::map< int64_t,int64_t > *) 0 ;
-  std::map< long long,long long >::key_type *arg2 = 0 ;
-  std::map< long long,long long >::key_type temp2 ;
+  std::map< long,long >::key_type *arg2 = 0 ;
+  std::map< long,long >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int64_t,int64_t > *)jarg1; 
-  temp2 = (std::map< long long,long long >::key_type)jarg2; 
+  temp2 = (std::map< long,long >::key_type)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_map_Sl_int64_t_Sc_int64_t_Sg__ContainsKey(arg1,(long long const &)*arg2);
+  result = (bool)std_map_Sl_int64_t_Sc_int64_t_Sg__ContainsKey(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Int64_Add(void * jarg1, long long jarg2, long long jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Int64_Add(void * jarg1, long jarg2, long jarg3) {
   std::map< int64_t,int64_t > *arg1 = (std::map< int64_t,int64_t > *) 0 ;
-  std::map< long long,long long >::key_type *arg2 = 0 ;
-  std::map< long long,long long >::mapped_type *arg3 = 0 ;
-  std::map< long long,long long >::key_type temp2 ;
-  std::map< long long,long long >::mapped_type temp3 ;
+  std::map< long,long >::key_type *arg2 = 0 ;
+  std::map< long,long >::mapped_type *arg3 = 0 ;
+  std::map< long,long >::key_type temp2 ;
+  std::map< long,long >::mapped_type temp3 ;
   
   arg1 = (std::map< int64_t,int64_t > *)jarg1; 
-  temp2 = (std::map< long long,long long >::key_type)jarg2; 
+  temp2 = (std::map< long,long >::key_type)jarg2; 
   arg2 = &temp2; 
-  temp3 = (std::map< long long,long long >::mapped_type)jarg3; 
+  temp3 = (std::map< long,long >::mapped_type)jarg3; 
   arg3 = &temp3; 
   try {
-    std_map_Sl_int64_t_Sc_int64_t_Sg__Add(arg1,(long long const &)*arg2,(long long const &)*arg3);
+    std_map_Sl_int64_t_Sc_int64_t_Sg__Add(arg1,(long const &)*arg2,(long const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -10144,17 +10153,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Int64_Add(void * jarg1, long l
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Int64_Remove(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Int64_Remove(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::map< int64_t,int64_t > *arg1 = (std::map< int64_t,int64_t > *) 0 ;
-  std::map< long long,long long >::key_type *arg2 = 0 ;
-  std::map< long long,long long >::key_type temp2 ;
+  std::map< long,long >::key_type *arg2 = 0 ;
+  std::map< long,long >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int64_t,int64_t > *)jarg1; 
-  temp2 = (std::map< long long,long long >::key_type)jarg2; 
+  temp2 = (std::map< long,long >::key_type)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_map_Sl_int64_t_Sc_int64_t_Sg__Remove(arg1,(long long const &)*arg2);
+  result = (bool)std_map_Sl_int64_t_Sc_int64_t_Sg__Remove(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
@@ -10163,24 +10172,24 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Int64_Remove(void * ja
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapInt64Int64_create_iterator_begin(void * jarg1) {
   void * jresult ;
   std::map< int64_t,int64_t > *arg1 = (std::map< int64_t,int64_t > *) 0 ;
-  std::map< long long,long long,std::less< long long > >::iterator *result = 0 ;
+  std::map< long,long,std::less< long > >::iterator *result = 0 ;
   
   arg1 = (std::map< int64_t,int64_t > *)jarg1; 
-  result = (std::map< long long,long long,std::less< long long > >::iterator *)std_map_Sl_int64_t_Sc_int64_t_Sg__create_iterator_begin(arg1);
+  result = (std::map< long,long,std::less< long > >::iterator *)std_map_Sl_int64_t_Sc_int64_t_Sg__create_iterator_begin(arg1);
   jresult = (void *)result; 
   return jresult;
 }
 
 
-SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt64Int64_get_next_key(void * jarg1, void * jarg2) {
-  long long jresult ;
+SWIGEXPORT long SWIGSTDCALL CSharp_TileDB_MapInt64Int64_get_next_key(void * jarg1, void * jarg2) {
+  long jresult ;
   std::map< int64_t,int64_t > *arg1 = (std::map< int64_t,int64_t > *) 0 ;
-  std::map< long long,long long,std::less< long long > >::iterator *arg2 = (std::map< long long,long long,std::less< long long > >::iterator *) 0 ;
-  std::map< long long,long long >::key_type *result = 0 ;
+  std::map< long,long,std::less< long > >::iterator *arg2 = (std::map< long,long,std::less< long > >::iterator *) 0 ;
+  std::map< long,long >::key_type *result = 0 ;
   
   arg1 = (std::map< int64_t,int64_t > *)jarg1; 
-  arg2 = (std::map< long long,long long,std::less< long long > >::iterator *)jarg2; 
-  result = (std::map< long long,long long >::key_type *) &std_map_Sl_int64_t_Sc_int64_t_Sg__get_next_key(arg1,arg2);
+  arg2 = (std::map< long,long,std::less< long > >::iterator *)jarg2; 
+  result = (std::map< long,long >::key_type *) &std_map_Sl_int64_t_Sc_int64_t_Sg__get_next_key(arg1,arg2);
   jresult = *result; 
   return jresult;
 }
@@ -10188,10 +10197,10 @@ SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt64Int64_get_next_key(void *
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Int64_destroy_iterator(void * jarg1, void * jarg2) {
   std::map< int64_t,int64_t > *arg1 = (std::map< int64_t,int64_t > *) 0 ;
-  std::map< long long,long long,std::less< long long > >::iterator *arg2 = (std::map< long long,long long,std::less< long long > >::iterator *) 0 ;
+  std::map< long,long,std::less< long > >::iterator *arg2 = (std::map< long,long,std::less< long > >::iterator *) 0 ;
   
   arg1 = (std::map< int64_t,int64_t > *)jarg1; 
-  arg2 = (std::map< long long,long long,std::less< long long > >::iterator *)jarg2; 
+  arg2 = (std::map< long,long,std::less< long > >::iterator *)jarg2; 
   std_map_Sl_int64_t_Sc_int64_t_Sg__destroy_iterator(arg1,arg2);
 }
 
@@ -10233,7 +10242,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_MapInt64UInt64__SWIG_1(void * ja
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_size(void * jarg1) {
   unsigned long jresult ;
   std::map< int64_t,uint64_t > *arg1 = (std::map< int64_t,uint64_t > *) 0 ;
-  std::map< long long,unsigned long long >::size_type result;
+  std::map< long,unsigned long >::size_type result;
   
   arg1 = (std::map< int64_t,uint64_t > *)jarg1; 
   result = ((std::map< int64_t,uint64_t > const *)arg1)->size();
@@ -10262,73 +10271,73 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_Clear(void * jarg1) {
 }
 
 
-SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_getitem(void * jarg1, long long jarg2) {
-  unsigned long long jresult ;
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_getitem(void * jarg1, long jarg2) {
+  unsigned long jresult ;
   std::map< int64_t,uint64_t > *arg1 = (std::map< int64_t,uint64_t > *) 0 ;
-  std::map< long long,unsigned long long >::key_type *arg2 = 0 ;
-  std::map< long long,unsigned long long >::key_type temp2 ;
-  std::map< long long,unsigned long long >::mapped_type *result = 0 ;
+  std::map< long,unsigned long >::key_type *arg2 = 0 ;
+  std::map< long,unsigned long >::key_type temp2 ;
+  std::map< long,unsigned long >::mapped_type *result = 0 ;
   
   arg1 = (std::map< int64_t,uint64_t > *)jarg1; 
-  temp2 = (std::map< long long,unsigned long long >::key_type)jarg2; 
+  temp2 = (std::map< long,unsigned long >::key_type)jarg2; 
   arg2 = &temp2; 
   try {
-    result = (std::map< long long,unsigned long long >::mapped_type *) &std_map_Sl_int64_t_Sc_uint64_t_Sg__getitem(arg1,(long long const &)*arg2);
+    result = (std::map< long,unsigned long >::mapped_type *) &std_map_Sl_int64_t_Sc_uint64_t_Sg__getitem(arg1,(long const &)*arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
   }
-  jresult = *result; 
+  jresult = (unsigned long)*result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_setitem(void * jarg1, long long jarg2, unsigned long long jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_setitem(void * jarg1, long jarg2, unsigned long jarg3) {
   std::map< int64_t,uint64_t > *arg1 = (std::map< int64_t,uint64_t > *) 0 ;
-  std::map< long long,unsigned long long >::key_type *arg2 = 0 ;
-  std::map< long long,unsigned long long >::mapped_type *arg3 = 0 ;
-  std::map< long long,unsigned long long >::key_type temp2 ;
-  std::map< long long,unsigned long long >::mapped_type temp3 ;
+  std::map< long,unsigned long >::key_type *arg2 = 0 ;
+  std::map< long,unsigned long >::mapped_type *arg3 = 0 ;
+  std::map< long,unsigned long >::key_type temp2 ;
+  std::map< long,unsigned long >::mapped_type temp3 ;
   
   arg1 = (std::map< int64_t,uint64_t > *)jarg1; 
-  temp2 = (std::map< long long,unsigned long long >::key_type)jarg2; 
+  temp2 = (std::map< long,unsigned long >::key_type)jarg2; 
   arg2 = &temp2; 
-  temp3 = (std::map< long long,unsigned long long >::mapped_type)jarg3; 
+  temp3 = (std::map< long,unsigned long >::mapped_type)jarg3; 
   arg3 = &temp3; 
-  std_map_Sl_int64_t_Sc_uint64_t_Sg__setitem(arg1,(long long const &)*arg2,(unsigned long long const &)*arg3);
+  std_map_Sl_int64_t_Sc_uint64_t_Sg__setitem(arg1,(long const &)*arg2,(unsigned long const &)*arg3);
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_ContainsKey(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_ContainsKey(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::map< int64_t,uint64_t > *arg1 = (std::map< int64_t,uint64_t > *) 0 ;
-  std::map< long long,unsigned long long >::key_type *arg2 = 0 ;
-  std::map< long long,unsigned long long >::key_type temp2 ;
+  std::map< long,unsigned long >::key_type *arg2 = 0 ;
+  std::map< long,unsigned long >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int64_t,uint64_t > *)jarg1; 
-  temp2 = (std::map< long long,unsigned long long >::key_type)jarg2; 
+  temp2 = (std::map< long,unsigned long >::key_type)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_map_Sl_int64_t_Sc_uint64_t_Sg__ContainsKey(arg1,(long long const &)*arg2);
+  result = (bool)std_map_Sl_int64_t_Sc_uint64_t_Sg__ContainsKey(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_Add(void * jarg1, long long jarg2, unsigned long long jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_Add(void * jarg1, long jarg2, unsigned long jarg3) {
   std::map< int64_t,uint64_t > *arg1 = (std::map< int64_t,uint64_t > *) 0 ;
-  std::map< long long,unsigned long long >::key_type *arg2 = 0 ;
-  std::map< long long,unsigned long long >::mapped_type *arg3 = 0 ;
-  std::map< long long,unsigned long long >::key_type temp2 ;
-  std::map< long long,unsigned long long >::mapped_type temp3 ;
+  std::map< long,unsigned long >::key_type *arg2 = 0 ;
+  std::map< long,unsigned long >::mapped_type *arg3 = 0 ;
+  std::map< long,unsigned long >::key_type temp2 ;
+  std::map< long,unsigned long >::mapped_type temp3 ;
   
   arg1 = (std::map< int64_t,uint64_t > *)jarg1; 
-  temp2 = (std::map< long long,unsigned long long >::key_type)jarg2; 
+  temp2 = (std::map< long,unsigned long >::key_type)jarg2; 
   arg2 = &temp2; 
-  temp3 = (std::map< long long,unsigned long long >::mapped_type)jarg3; 
+  temp3 = (std::map< long,unsigned long >::mapped_type)jarg3; 
   arg3 = &temp3; 
   try {
-    std_map_Sl_int64_t_Sc_uint64_t_Sg__Add(arg1,(long long const &)*arg2,(unsigned long long const &)*arg3);
+    std_map_Sl_int64_t_Sc_uint64_t_Sg__Add(arg1,(long const &)*arg2,(unsigned long const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -10336,17 +10345,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_Add(void * jarg1, long 
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_Remove(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_Remove(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::map< int64_t,uint64_t > *arg1 = (std::map< int64_t,uint64_t > *) 0 ;
-  std::map< long long,unsigned long long >::key_type *arg2 = 0 ;
-  std::map< long long,unsigned long long >::key_type temp2 ;
+  std::map< long,unsigned long >::key_type *arg2 = 0 ;
+  std::map< long,unsigned long >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int64_t,uint64_t > *)jarg1; 
-  temp2 = (std::map< long long,unsigned long long >::key_type)jarg2; 
+  temp2 = (std::map< long,unsigned long >::key_type)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_map_Sl_int64_t_Sc_uint64_t_Sg__Remove(arg1,(long long const &)*arg2);
+  result = (bool)std_map_Sl_int64_t_Sc_uint64_t_Sg__Remove(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
@@ -10355,24 +10364,24 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_Remove(void * j
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_create_iterator_begin(void * jarg1) {
   void * jresult ;
   std::map< int64_t,uint64_t > *arg1 = (std::map< int64_t,uint64_t > *) 0 ;
-  std::map< long long,unsigned long long,std::less< long long > >::iterator *result = 0 ;
+  std::map< long,unsigned long,std::less< long > >::iterator *result = 0 ;
   
   arg1 = (std::map< int64_t,uint64_t > *)jarg1; 
-  result = (std::map< long long,unsigned long long,std::less< long long > >::iterator *)std_map_Sl_int64_t_Sc_uint64_t_Sg__create_iterator_begin(arg1);
+  result = (std::map< long,unsigned long,std::less< long > >::iterator *)std_map_Sl_int64_t_Sc_uint64_t_Sg__create_iterator_begin(arg1);
   jresult = (void *)result; 
   return jresult;
 }
 
 
-SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_get_next_key(void * jarg1, void * jarg2) {
-  long long jresult ;
+SWIGEXPORT long SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_get_next_key(void * jarg1, void * jarg2) {
+  long jresult ;
   std::map< int64_t,uint64_t > *arg1 = (std::map< int64_t,uint64_t > *) 0 ;
-  std::map< long long,unsigned long long,std::less< long long > >::iterator *arg2 = (std::map< long long,unsigned long long,std::less< long long > >::iterator *) 0 ;
-  std::map< long long,unsigned long long >::key_type *result = 0 ;
+  std::map< long,unsigned long,std::less< long > >::iterator *arg2 = (std::map< long,unsigned long,std::less< long > >::iterator *) 0 ;
+  std::map< long,unsigned long >::key_type *result = 0 ;
   
   arg1 = (std::map< int64_t,uint64_t > *)jarg1; 
-  arg2 = (std::map< long long,unsigned long long,std::less< long long > >::iterator *)jarg2; 
-  result = (std::map< long long,unsigned long long >::key_type *) &std_map_Sl_int64_t_Sc_uint64_t_Sg__get_next_key(arg1,arg2);
+  arg2 = (std::map< long,unsigned long,std::less< long > >::iterator *)jarg2; 
+  result = (std::map< long,unsigned long >::key_type *) &std_map_Sl_int64_t_Sc_uint64_t_Sg__get_next_key(arg1,arg2);
   jresult = *result; 
   return jresult;
 }
@@ -10380,10 +10389,10 @@ SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_get_next_key(void 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UInt64_destroy_iterator(void * jarg1, void * jarg2) {
   std::map< int64_t,uint64_t > *arg1 = (std::map< int64_t,uint64_t > *) 0 ;
-  std::map< long long,unsigned long long,std::less< long long > >::iterator *arg2 = (std::map< long long,unsigned long long,std::less< long long > >::iterator *) 0 ;
+  std::map< long,unsigned long,std::less< long > >::iterator *arg2 = (std::map< long,unsigned long,std::less< long > >::iterator *) 0 ;
   
   arg1 = (std::map< int64_t,uint64_t > *)jarg1; 
-  arg2 = (std::map< long long,unsigned long long,std::less< long long > >::iterator *)jarg2; 
+  arg2 = (std::map< long,unsigned long,std::less< long > >::iterator *)jarg2; 
   std_map_Sl_int64_t_Sc_uint64_t_Sg__destroy_iterator(arg1,arg2);
 }
 
@@ -10425,7 +10434,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_MapInt64Double__SWIG_1(void * ja
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_MapInt64Double_size(void * jarg1) {
   unsigned long jresult ;
   std::map< int64_t,double > *arg1 = (std::map< int64_t,double > *) 0 ;
-  std::map< long long,double >::size_type result;
+  std::map< long,double >::size_type result;
   
   arg1 = (std::map< int64_t,double > *)jarg1; 
   result = ((std::map< int64_t,double > const *)arg1)->size();
@@ -10454,18 +10463,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Double_Clear(void * jarg1) {
 }
 
 
-SWIGEXPORT double SWIGSTDCALL CSharp_TileDB_MapInt64Double_getitem(void * jarg1, long long jarg2) {
+SWIGEXPORT double SWIGSTDCALL CSharp_TileDB_MapInt64Double_getitem(void * jarg1, long jarg2) {
   double jresult ;
   std::map< int64_t,double > *arg1 = (std::map< int64_t,double > *) 0 ;
-  std::map< long long,double >::key_type *arg2 = 0 ;
-  std::map< long long,double >::key_type temp2 ;
-  std::map< long long,double >::mapped_type *result = 0 ;
+  std::map< long,double >::key_type *arg2 = 0 ;
+  std::map< long,double >::key_type temp2 ;
+  std::map< long,double >::mapped_type *result = 0 ;
   
   arg1 = (std::map< int64_t,double > *)jarg1; 
-  temp2 = (std::map< long long,double >::key_type)jarg2; 
+  temp2 = (std::map< long,double >::key_type)jarg2; 
   arg2 = &temp2; 
   try {
-    result = (std::map< long long,double >::mapped_type *) &std_map_Sl_int64_t_Sc_double_Sg__getitem(arg1,(long long const &)*arg2);
+    result = (std::map< long,double >::mapped_type *) &std_map_Sl_int64_t_Sc_double_Sg__getitem(arg1,(long const &)*arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
@@ -10475,52 +10484,52 @@ SWIGEXPORT double SWIGSTDCALL CSharp_TileDB_MapInt64Double_getitem(void * jarg1,
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Double_setitem(void * jarg1, long long jarg2, double jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Double_setitem(void * jarg1, long jarg2, double jarg3) {
   std::map< int64_t,double > *arg1 = (std::map< int64_t,double > *) 0 ;
-  std::map< long long,double >::key_type *arg2 = 0 ;
-  std::map< long long,double >::mapped_type *arg3 = 0 ;
-  std::map< long long,double >::key_type temp2 ;
-  std::map< long long,double >::mapped_type temp3 ;
+  std::map< long,double >::key_type *arg2 = 0 ;
+  std::map< long,double >::mapped_type *arg3 = 0 ;
+  std::map< long,double >::key_type temp2 ;
+  std::map< long,double >::mapped_type temp3 ;
   
   arg1 = (std::map< int64_t,double > *)jarg1; 
-  temp2 = (std::map< long long,double >::key_type)jarg2; 
+  temp2 = (std::map< long,double >::key_type)jarg2; 
   arg2 = &temp2; 
-  temp3 = (std::map< long long,double >::mapped_type)jarg3; 
+  temp3 = (std::map< long,double >::mapped_type)jarg3; 
   arg3 = &temp3; 
-  std_map_Sl_int64_t_Sc_double_Sg__setitem(arg1,(long long const &)*arg2,(double const &)*arg3);
+  std_map_Sl_int64_t_Sc_double_Sg__setitem(arg1,(long const &)*arg2,(double const &)*arg3);
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Double_ContainsKey(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Double_ContainsKey(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::map< int64_t,double > *arg1 = (std::map< int64_t,double > *) 0 ;
-  std::map< long long,double >::key_type *arg2 = 0 ;
-  std::map< long long,double >::key_type temp2 ;
+  std::map< long,double >::key_type *arg2 = 0 ;
+  std::map< long,double >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int64_t,double > *)jarg1; 
-  temp2 = (std::map< long long,double >::key_type)jarg2; 
+  temp2 = (std::map< long,double >::key_type)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_map_Sl_int64_t_Sc_double_Sg__ContainsKey(arg1,(long long const &)*arg2);
+  result = (bool)std_map_Sl_int64_t_Sc_double_Sg__ContainsKey(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Double_Add(void * jarg1, long long jarg2, double jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Double_Add(void * jarg1, long jarg2, double jarg3) {
   std::map< int64_t,double > *arg1 = (std::map< int64_t,double > *) 0 ;
-  std::map< long long,double >::key_type *arg2 = 0 ;
-  std::map< long long,double >::mapped_type *arg3 = 0 ;
-  std::map< long long,double >::key_type temp2 ;
-  std::map< long long,double >::mapped_type temp3 ;
+  std::map< long,double >::key_type *arg2 = 0 ;
+  std::map< long,double >::mapped_type *arg3 = 0 ;
+  std::map< long,double >::key_type temp2 ;
+  std::map< long,double >::mapped_type temp3 ;
   
   arg1 = (std::map< int64_t,double > *)jarg1; 
-  temp2 = (std::map< long long,double >::key_type)jarg2; 
+  temp2 = (std::map< long,double >::key_type)jarg2; 
   arg2 = &temp2; 
-  temp3 = (std::map< long long,double >::mapped_type)jarg3; 
+  temp3 = (std::map< long,double >::mapped_type)jarg3; 
   arg3 = &temp3; 
   try {
-    std_map_Sl_int64_t_Sc_double_Sg__Add(arg1,(long long const &)*arg2,(double const &)*arg3);
+    std_map_Sl_int64_t_Sc_double_Sg__Add(arg1,(long const &)*arg2,(double const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -10528,17 +10537,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Double_Add(void * jarg1, long 
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Double_Remove(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Double_Remove(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::map< int64_t,double > *arg1 = (std::map< int64_t,double > *) 0 ;
-  std::map< long long,double >::key_type *arg2 = 0 ;
-  std::map< long long,double >::key_type temp2 ;
+  std::map< long,double >::key_type *arg2 = 0 ;
+  std::map< long,double >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int64_t,double > *)jarg1; 
-  temp2 = (std::map< long long,double >::key_type)jarg2; 
+  temp2 = (std::map< long,double >::key_type)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_map_Sl_int64_t_Sc_double_Sg__Remove(arg1,(long long const &)*arg2);
+  result = (bool)std_map_Sl_int64_t_Sc_double_Sg__Remove(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
@@ -10547,24 +10556,24 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Double_Remove(void * j
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapInt64Double_create_iterator_begin(void * jarg1) {
   void * jresult ;
   std::map< int64_t,double > *arg1 = (std::map< int64_t,double > *) 0 ;
-  std::map< long long,double,std::less< long long > >::iterator *result = 0 ;
+  std::map< long,double,std::less< long > >::iterator *result = 0 ;
   
   arg1 = (std::map< int64_t,double > *)jarg1; 
-  result = (std::map< long long,double,std::less< long long > >::iterator *)std_map_Sl_int64_t_Sc_double_Sg__create_iterator_begin(arg1);
+  result = (std::map< long,double,std::less< long > >::iterator *)std_map_Sl_int64_t_Sc_double_Sg__create_iterator_begin(arg1);
   jresult = (void *)result; 
   return jresult;
 }
 
 
-SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt64Double_get_next_key(void * jarg1, void * jarg2) {
-  long long jresult ;
+SWIGEXPORT long SWIGSTDCALL CSharp_TileDB_MapInt64Double_get_next_key(void * jarg1, void * jarg2) {
+  long jresult ;
   std::map< int64_t,double > *arg1 = (std::map< int64_t,double > *) 0 ;
-  std::map< long long,double,std::less< long long > >::iterator *arg2 = (std::map< long long,double,std::less< long long > >::iterator *) 0 ;
-  std::map< long long,double >::key_type *result = 0 ;
+  std::map< long,double,std::less< long > >::iterator *arg2 = (std::map< long,double,std::less< long > >::iterator *) 0 ;
+  std::map< long,double >::key_type *result = 0 ;
   
   arg1 = (std::map< int64_t,double > *)jarg1; 
-  arg2 = (std::map< long long,double,std::less< long long > >::iterator *)jarg2; 
-  result = (std::map< long long,double >::key_type *) &std_map_Sl_int64_t_Sc_double_Sg__get_next_key(arg1,arg2);
+  arg2 = (std::map< long,double,std::less< long > >::iterator *)jarg2; 
+  result = (std::map< long,double >::key_type *) &std_map_Sl_int64_t_Sc_double_Sg__get_next_key(arg1,arg2);
   jresult = *result; 
   return jresult;
 }
@@ -10572,10 +10581,10 @@ SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt64Double_get_next_key(void 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Double_destroy_iterator(void * jarg1, void * jarg2) {
   std::map< int64_t,double > *arg1 = (std::map< int64_t,double > *) 0 ;
-  std::map< long long,double,std::less< long long > >::iterator *arg2 = (std::map< long long,double,std::less< long long > >::iterator *) 0 ;
+  std::map< long,double,std::less< long > >::iterator *arg2 = (std::map< long,double,std::less< long > >::iterator *) 0 ;
   
   arg1 = (std::map< int64_t,double > *)jarg1; 
-  arg2 = (std::map< long long,double,std::less< long long > >::iterator *)jarg2; 
+  arg2 = (std::map< long,double,std::less< long > >::iterator *)jarg2; 
   std_map_Sl_int64_t_Sc_double_Sg__destroy_iterator(arg1,arg2);
 }
 
@@ -10617,7 +10626,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_MapInt64Char__SWIG_1(void * jarg
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_MapInt64Char_size(void * jarg1) {
   unsigned long jresult ;
   std::map< int64_t,char > *arg1 = (std::map< int64_t,char > *) 0 ;
-  std::map< long long,char >::size_type result;
+  std::map< long,char >::size_type result;
   
   arg1 = (std::map< int64_t,char > *)jarg1; 
   result = ((std::map< int64_t,char > const *)arg1)->size();
@@ -10646,18 +10655,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Char_Clear(void * jarg1) {
 }
 
 
-SWIGEXPORT char SWIGSTDCALL CSharp_TileDB_MapInt64Char_getitem(void * jarg1, long long jarg2) {
+SWIGEXPORT char SWIGSTDCALL CSharp_TileDB_MapInt64Char_getitem(void * jarg1, long jarg2) {
   char jresult ;
   std::map< int64_t,char > *arg1 = (std::map< int64_t,char > *) 0 ;
-  std::map< long long,char >::key_type *arg2 = 0 ;
-  std::map< long long,char >::key_type temp2 ;
-  std::map< long long,char >::mapped_type *result = 0 ;
+  std::map< long,char >::key_type *arg2 = 0 ;
+  std::map< long,char >::key_type temp2 ;
+  std::map< long,char >::mapped_type *result = 0 ;
   
   arg1 = (std::map< int64_t,char > *)jarg1; 
-  temp2 = (std::map< long long,char >::key_type)jarg2; 
+  temp2 = (std::map< long,char >::key_type)jarg2; 
   arg2 = &temp2; 
   try {
-    result = (std::map< long long,char >::mapped_type *) &std_map_Sl_int64_t_Sc_char_Sg__getitem(arg1,(long long const &)*arg2);
+    result = (std::map< long,char >::mapped_type *) &std_map_Sl_int64_t_Sc_char_Sg__getitem(arg1,(long const &)*arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
@@ -10667,52 +10676,52 @@ SWIGEXPORT char SWIGSTDCALL CSharp_TileDB_MapInt64Char_getitem(void * jarg1, lon
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Char_setitem(void * jarg1, long long jarg2, char jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Char_setitem(void * jarg1, long jarg2, char jarg3) {
   std::map< int64_t,char > *arg1 = (std::map< int64_t,char > *) 0 ;
-  std::map< long long,char >::key_type *arg2 = 0 ;
-  std::map< long long,char >::mapped_type *arg3 = 0 ;
-  std::map< long long,char >::key_type temp2 ;
-  std::map< long long,char >::mapped_type temp3 ;
+  std::map< long,char >::key_type *arg2 = 0 ;
+  std::map< long,char >::mapped_type *arg3 = 0 ;
+  std::map< long,char >::key_type temp2 ;
+  std::map< long,char >::mapped_type temp3 ;
   
   arg1 = (std::map< int64_t,char > *)jarg1; 
-  temp2 = (std::map< long long,char >::key_type)jarg2; 
+  temp2 = (std::map< long,char >::key_type)jarg2; 
   arg2 = &temp2; 
-  temp3 = (std::map< long long,char >::mapped_type)jarg3; 
+  temp3 = (std::map< long,char >::mapped_type)jarg3; 
   arg3 = &temp3; 
-  std_map_Sl_int64_t_Sc_char_Sg__setitem(arg1,(long long const &)*arg2,(char const &)*arg3);
+  std_map_Sl_int64_t_Sc_char_Sg__setitem(arg1,(long const &)*arg2,(char const &)*arg3);
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Char_ContainsKey(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Char_ContainsKey(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::map< int64_t,char > *arg1 = (std::map< int64_t,char > *) 0 ;
-  std::map< long long,char >::key_type *arg2 = 0 ;
-  std::map< long long,char >::key_type temp2 ;
+  std::map< long,char >::key_type *arg2 = 0 ;
+  std::map< long,char >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int64_t,char > *)jarg1; 
-  temp2 = (std::map< long long,char >::key_type)jarg2; 
+  temp2 = (std::map< long,char >::key_type)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_map_Sl_int64_t_Sc_char_Sg__ContainsKey(arg1,(long long const &)*arg2);
+  result = (bool)std_map_Sl_int64_t_Sc_char_Sg__ContainsKey(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Char_Add(void * jarg1, long long jarg2, char jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Char_Add(void * jarg1, long jarg2, char jarg3) {
   std::map< int64_t,char > *arg1 = (std::map< int64_t,char > *) 0 ;
-  std::map< long long,char >::key_type *arg2 = 0 ;
-  std::map< long long,char >::mapped_type *arg3 = 0 ;
-  std::map< long long,char >::key_type temp2 ;
-  std::map< long long,char >::mapped_type temp3 ;
+  std::map< long,char >::key_type *arg2 = 0 ;
+  std::map< long,char >::mapped_type *arg3 = 0 ;
+  std::map< long,char >::key_type temp2 ;
+  std::map< long,char >::mapped_type temp3 ;
   
   arg1 = (std::map< int64_t,char > *)jarg1; 
-  temp2 = (std::map< long long,char >::key_type)jarg2; 
+  temp2 = (std::map< long,char >::key_type)jarg2; 
   arg2 = &temp2; 
-  temp3 = (std::map< long long,char >::mapped_type)jarg3; 
+  temp3 = (std::map< long,char >::mapped_type)jarg3; 
   arg3 = &temp3; 
   try {
-    std_map_Sl_int64_t_Sc_char_Sg__Add(arg1,(long long const &)*arg2,(char const &)*arg3);
+    std_map_Sl_int64_t_Sc_char_Sg__Add(arg1,(long const &)*arg2,(char const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -10720,17 +10729,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Char_Add(void * jarg1, long lo
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Char_Remove(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Char_Remove(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::map< int64_t,char > *arg1 = (std::map< int64_t,char > *) 0 ;
-  std::map< long long,char >::key_type *arg2 = 0 ;
-  std::map< long long,char >::key_type temp2 ;
+  std::map< long,char >::key_type *arg2 = 0 ;
+  std::map< long,char >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int64_t,char > *)jarg1; 
-  temp2 = (std::map< long long,char >::key_type)jarg2; 
+  temp2 = (std::map< long,char >::key_type)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_map_Sl_int64_t_Sc_char_Sg__Remove(arg1,(long long const &)*arg2);
+  result = (bool)std_map_Sl_int64_t_Sc_char_Sg__Remove(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
@@ -10739,24 +10748,24 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64Char_Remove(void * jar
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapInt64Char_create_iterator_begin(void * jarg1) {
   void * jresult ;
   std::map< int64_t,char > *arg1 = (std::map< int64_t,char > *) 0 ;
-  std::map< long long,char,std::less< long long > >::iterator *result = 0 ;
+  std::map< long,char,std::less< long > >::iterator *result = 0 ;
   
   arg1 = (std::map< int64_t,char > *)jarg1; 
-  result = (std::map< long long,char,std::less< long long > >::iterator *)std_map_Sl_int64_t_Sc_char_Sg__create_iterator_begin(arg1);
+  result = (std::map< long,char,std::less< long > >::iterator *)std_map_Sl_int64_t_Sc_char_Sg__create_iterator_begin(arg1);
   jresult = (void *)result; 
   return jresult;
 }
 
 
-SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt64Char_get_next_key(void * jarg1, void * jarg2) {
-  long long jresult ;
+SWIGEXPORT long SWIGSTDCALL CSharp_TileDB_MapInt64Char_get_next_key(void * jarg1, void * jarg2) {
+  long jresult ;
   std::map< int64_t,char > *arg1 = (std::map< int64_t,char > *) 0 ;
-  std::map< long long,char,std::less< long long > >::iterator *arg2 = (std::map< long long,char,std::less< long long > >::iterator *) 0 ;
-  std::map< long long,char >::key_type *result = 0 ;
+  std::map< long,char,std::less< long > >::iterator *arg2 = (std::map< long,char,std::less< long > >::iterator *) 0 ;
+  std::map< long,char >::key_type *result = 0 ;
   
   arg1 = (std::map< int64_t,char > *)jarg1; 
-  arg2 = (std::map< long long,char,std::less< long long > >::iterator *)jarg2; 
-  result = (std::map< long long,char >::key_type *) &std_map_Sl_int64_t_Sc_char_Sg__get_next_key(arg1,arg2);
+  arg2 = (std::map< long,char,std::less< long > >::iterator *)jarg2; 
+  result = (std::map< long,char >::key_type *) &std_map_Sl_int64_t_Sc_char_Sg__get_next_key(arg1,arg2);
   jresult = *result; 
   return jresult;
 }
@@ -10764,10 +10773,10 @@ SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt64Char_get_next_key(void * 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64Char_destroy_iterator(void * jarg1, void * jarg2) {
   std::map< int64_t,char > *arg1 = (std::map< int64_t,char > *) 0 ;
-  std::map< long long,char,std::less< long long > >::iterator *arg2 = (std::map< long long,char,std::less< long long > >::iterator *) 0 ;
+  std::map< long,char,std::less< long > >::iterator *arg2 = (std::map< long,char,std::less< long > >::iterator *) 0 ;
   
   arg1 = (std::map< int64_t,char > *)jarg1; 
-  arg2 = (std::map< long long,char,std::less< long long > >::iterator *)jarg2; 
+  arg2 = (std::map< long,char,std::less< long > >::iterator *)jarg2; 
   std_map_Sl_int64_t_Sc_char_Sg__destroy_iterator(arg1,arg2);
 }
 
@@ -10809,7 +10818,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_MapInt64UChar__SWIG_1(void * jar
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_MapInt64UChar_size(void * jarg1) {
   unsigned long jresult ;
   std::map< int64_t,unsigned char > *arg1 = (std::map< int64_t,unsigned char > *) 0 ;
-  std::map< long long,unsigned char >::size_type result;
+  std::map< long,unsigned char >::size_type result;
   
   arg1 = (std::map< int64_t,unsigned char > *)jarg1; 
   result = ((std::map< int64_t,unsigned char > const *)arg1)->size();
@@ -10838,18 +10847,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UChar_Clear(void * jarg1) {
 }
 
 
-SWIGEXPORT unsigned char SWIGSTDCALL CSharp_TileDB_MapInt64UChar_getitem(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned char SWIGSTDCALL CSharp_TileDB_MapInt64UChar_getitem(void * jarg1, long jarg2) {
   unsigned char jresult ;
   std::map< int64_t,unsigned char > *arg1 = (std::map< int64_t,unsigned char > *) 0 ;
-  std::map< long long,unsigned char >::key_type *arg2 = 0 ;
-  std::map< long long,unsigned char >::key_type temp2 ;
-  std::map< long long,unsigned char >::mapped_type *result = 0 ;
+  std::map< long,unsigned char >::key_type *arg2 = 0 ;
+  std::map< long,unsigned char >::key_type temp2 ;
+  std::map< long,unsigned char >::mapped_type *result = 0 ;
   
   arg1 = (std::map< int64_t,unsigned char > *)jarg1; 
-  temp2 = (std::map< long long,unsigned char >::key_type)jarg2; 
+  temp2 = (std::map< long,unsigned char >::key_type)jarg2; 
   arg2 = &temp2; 
   try {
-    result = (std::map< long long,unsigned char >::mapped_type *) &std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__getitem(arg1,(long long const &)*arg2);
+    result = (std::map< long,unsigned char >::mapped_type *) &std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__getitem(arg1,(long const &)*arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
@@ -10859,52 +10868,52 @@ SWIGEXPORT unsigned char SWIGSTDCALL CSharp_TileDB_MapInt64UChar_getitem(void * 
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UChar_setitem(void * jarg1, long long jarg2, unsigned char jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UChar_setitem(void * jarg1, long jarg2, unsigned char jarg3) {
   std::map< int64_t,unsigned char > *arg1 = (std::map< int64_t,unsigned char > *) 0 ;
-  std::map< long long,unsigned char >::key_type *arg2 = 0 ;
-  std::map< long long,unsigned char >::mapped_type *arg3 = 0 ;
-  std::map< long long,unsigned char >::key_type temp2 ;
-  std::map< long long,unsigned char >::mapped_type temp3 ;
+  std::map< long,unsigned char >::key_type *arg2 = 0 ;
+  std::map< long,unsigned char >::mapped_type *arg3 = 0 ;
+  std::map< long,unsigned char >::key_type temp2 ;
+  std::map< long,unsigned char >::mapped_type temp3 ;
   
   arg1 = (std::map< int64_t,unsigned char > *)jarg1; 
-  temp2 = (std::map< long long,unsigned char >::key_type)jarg2; 
+  temp2 = (std::map< long,unsigned char >::key_type)jarg2; 
   arg2 = &temp2; 
-  temp3 = (std::map< long long,unsigned char >::mapped_type)jarg3; 
+  temp3 = (std::map< long,unsigned char >::mapped_type)jarg3; 
   arg3 = &temp3; 
-  std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__setitem(arg1,(long long const &)*arg2,(unsigned char const &)*arg3);
+  std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__setitem(arg1,(long const &)*arg2,(unsigned char const &)*arg3);
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64UChar_ContainsKey(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64UChar_ContainsKey(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::map< int64_t,unsigned char > *arg1 = (std::map< int64_t,unsigned char > *) 0 ;
-  std::map< long long,unsigned char >::key_type *arg2 = 0 ;
-  std::map< long long,unsigned char >::key_type temp2 ;
+  std::map< long,unsigned char >::key_type *arg2 = 0 ;
+  std::map< long,unsigned char >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int64_t,unsigned char > *)jarg1; 
-  temp2 = (std::map< long long,unsigned char >::key_type)jarg2; 
+  temp2 = (std::map< long,unsigned char >::key_type)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__ContainsKey(arg1,(long long const &)*arg2);
+  result = (bool)std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__ContainsKey(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UChar_Add(void * jarg1, long long jarg2, unsigned char jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UChar_Add(void * jarg1, long jarg2, unsigned char jarg3) {
   std::map< int64_t,unsigned char > *arg1 = (std::map< int64_t,unsigned char > *) 0 ;
-  std::map< long long,unsigned char >::key_type *arg2 = 0 ;
-  std::map< long long,unsigned char >::mapped_type *arg3 = 0 ;
-  std::map< long long,unsigned char >::key_type temp2 ;
-  std::map< long long,unsigned char >::mapped_type temp3 ;
+  std::map< long,unsigned char >::key_type *arg2 = 0 ;
+  std::map< long,unsigned char >::mapped_type *arg3 = 0 ;
+  std::map< long,unsigned char >::key_type temp2 ;
+  std::map< long,unsigned char >::mapped_type temp3 ;
   
   arg1 = (std::map< int64_t,unsigned char > *)jarg1; 
-  temp2 = (std::map< long long,unsigned char >::key_type)jarg2; 
+  temp2 = (std::map< long,unsigned char >::key_type)jarg2; 
   arg2 = &temp2; 
-  temp3 = (std::map< long long,unsigned char >::mapped_type)jarg3; 
+  temp3 = (std::map< long,unsigned char >::mapped_type)jarg3; 
   arg3 = &temp3; 
   try {
-    std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__Add(arg1,(long long const &)*arg2,(unsigned char const &)*arg3);
+    std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__Add(arg1,(long const &)*arg2,(unsigned char const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -10912,17 +10921,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UChar_Add(void * jarg1, long l
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64UChar_Remove(void * jarg1, long long jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64UChar_Remove(void * jarg1, long jarg2) {
   unsigned int jresult ;
   std::map< int64_t,unsigned char > *arg1 = (std::map< int64_t,unsigned char > *) 0 ;
-  std::map< long long,unsigned char >::key_type *arg2 = 0 ;
-  std::map< long long,unsigned char >::key_type temp2 ;
+  std::map< long,unsigned char >::key_type *arg2 = 0 ;
+  std::map< long,unsigned char >::key_type temp2 ;
   bool result;
   
   arg1 = (std::map< int64_t,unsigned char > *)jarg1; 
-  temp2 = (std::map< long long,unsigned char >::key_type)jarg2; 
+  temp2 = (std::map< long,unsigned char >::key_type)jarg2; 
   arg2 = &temp2; 
-  result = (bool)std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__Remove(arg1,(long long const &)*arg2);
+  result = (bool)std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__Remove(arg1,(long const &)*arg2);
   jresult = result; 
   return jresult;
 }
@@ -10931,24 +10940,24 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapInt64UChar_Remove(void * ja
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapInt64UChar_create_iterator_begin(void * jarg1) {
   void * jresult ;
   std::map< int64_t,unsigned char > *arg1 = (std::map< int64_t,unsigned char > *) 0 ;
-  std::map< long long,unsigned char,std::less< long long > >::iterator *result = 0 ;
+  std::map< long,unsigned char,std::less< long > >::iterator *result = 0 ;
   
   arg1 = (std::map< int64_t,unsigned char > *)jarg1; 
-  result = (std::map< long long,unsigned char,std::less< long long > >::iterator *)std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__create_iterator_begin(arg1);
+  result = (std::map< long,unsigned char,std::less< long > >::iterator *)std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__create_iterator_begin(arg1);
   jresult = (void *)result; 
   return jresult;
 }
 
 
-SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt64UChar_get_next_key(void * jarg1, void * jarg2) {
-  long long jresult ;
+SWIGEXPORT long SWIGSTDCALL CSharp_TileDB_MapInt64UChar_get_next_key(void * jarg1, void * jarg2) {
+  long jresult ;
   std::map< int64_t,unsigned char > *arg1 = (std::map< int64_t,unsigned char > *) 0 ;
-  std::map< long long,unsigned char,std::less< long long > >::iterator *arg2 = (std::map< long long,unsigned char,std::less< long long > >::iterator *) 0 ;
-  std::map< long long,unsigned char >::key_type *result = 0 ;
+  std::map< long,unsigned char,std::less< long > >::iterator *arg2 = (std::map< long,unsigned char,std::less< long > >::iterator *) 0 ;
+  std::map< long,unsigned char >::key_type *result = 0 ;
   
   arg1 = (std::map< int64_t,unsigned char > *)jarg1; 
-  arg2 = (std::map< long long,unsigned char,std::less< long long > >::iterator *)jarg2; 
-  result = (std::map< long long,unsigned char >::key_type *) &std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__get_next_key(arg1,arg2);
+  arg2 = (std::map< long,unsigned char,std::less< long > >::iterator *)jarg2; 
+  result = (std::map< long,unsigned char >::key_type *) &std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__get_next_key(arg1,arg2);
   jresult = *result; 
   return jresult;
 }
@@ -10956,10 +10965,10 @@ SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_MapInt64UChar_get_next_key(void *
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapInt64UChar_destroy_iterator(void * jarg1, void * jarg2) {
   std::map< int64_t,unsigned char > *arg1 = (std::map< int64_t,unsigned char > *) 0 ;
-  std::map< long long,unsigned char,std::less< long long > >::iterator *arg2 = (std::map< long long,unsigned char,std::less< long long > >::iterator *) 0 ;
+  std::map< long,unsigned char,std::less< long > >::iterator *arg2 = (std::map< long,unsigned char,std::less< long > >::iterator *) 0 ;
   
   arg1 = (std::map< int64_t,unsigned char > *)jarg1; 
-  arg2 = (std::map< long long,unsigned char,std::less< long long > >::iterator *)jarg2; 
+  arg2 = (std::map< long,unsigned char,std::less< long > >::iterator *)jarg2; 
   std_map_Sl_int64_t_Sc_unsigned_SS_char_Sg__destroy_iterator(arg1,arg2);
 }
 
@@ -11092,14 +11101,14 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_PairInt64Int64__SWIG_0() {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_PairInt64Int64__SWIG_1(long long jarg1, long long jarg2) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_PairInt64Int64__SWIG_1(long jarg1, long jarg2) {
   void * jresult ;
-  long long arg1 ;
-  long long arg2 ;
+  long arg1 ;
+  long arg2 ;
   std::pair< int64_t,int64_t > *result = 0 ;
   
-  arg1 = (long long)jarg1; 
-  arg2 = (long long)jarg2; 
+  arg1 = (long)jarg1; 
+  arg2 = (long)jarg2; 
   result = (std::pair< int64_t,int64_t > *)new std::pair< int64_t,int64_t >(arg1,arg2);
   jresult = (void *)result; 
   return jresult;
@@ -11122,45 +11131,45 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_PairInt64Int64__SWIG_2(void * ja
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_PairInt64Int64_first_set(void * jarg1, long long jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_PairInt64Int64_first_set(void * jarg1, long jarg2) {
   std::pair< int64_t,int64_t > *arg1 = (std::pair< int64_t,int64_t > *) 0 ;
-  long long arg2 ;
+  long arg2 ;
   
   arg1 = (std::pair< int64_t,int64_t > *)jarg1; 
-  arg2 = (long long)jarg2; 
+  arg2 = (long)jarg2; 
   if (arg1) (arg1)->first = arg2;
 }
 
 
-SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_PairInt64Int64_first_get(void * jarg1) {
-  long long jresult ;
+SWIGEXPORT long SWIGSTDCALL CSharp_TileDB_PairInt64Int64_first_get(void * jarg1) {
+  long jresult ;
   std::pair< int64_t,int64_t > *arg1 = (std::pair< int64_t,int64_t > *) 0 ;
-  long long result;
+  long result;
   
   arg1 = (std::pair< int64_t,int64_t > *)jarg1; 
-  result = (long long) ((arg1)->first);
+  result = (long) ((arg1)->first);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_PairInt64Int64_second_set(void * jarg1, long long jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_PairInt64Int64_second_set(void * jarg1, long jarg2) {
   std::pair< int64_t,int64_t > *arg1 = (std::pair< int64_t,int64_t > *) 0 ;
-  long long arg2 ;
+  long arg2 ;
   
   arg1 = (std::pair< int64_t,int64_t > *)jarg1; 
-  arg2 = (long long)jarg2; 
+  arg2 = (long)jarg2; 
   if (arg1) (arg1)->second = arg2;
 }
 
 
-SWIGEXPORT long long SWIGSTDCALL CSharp_TileDB_PairInt64Int64_second_get(void * jarg1) {
-  long long jresult ;
+SWIGEXPORT long SWIGSTDCALL CSharp_TileDB_PairInt64Int64_second_get(void * jarg1) {
+  long jresult ;
   std::pair< int64_t,int64_t > *arg1 = (std::pair< int64_t,int64_t > *) 0 ;
-  long long result;
+  long result;
   
   arg1 = (std::pair< int64_t,int64_t > *)jarg1; 
-  result = (long long) ((arg1)->second);
+  result = (long) ((arg1)->second);
   jresult = result; 
   return jresult;
 }
@@ -11184,14 +11193,14 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_PairUInt64UInt64__SWIG_0() {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_PairUInt64UInt64__SWIG_1(unsigned long long jarg1, unsigned long long jarg2) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_PairUInt64UInt64__SWIG_1(unsigned long jarg1, unsigned long jarg2) {
   void * jresult ;
-  unsigned long long arg1 ;
-  unsigned long long arg2 ;
+  unsigned long arg1 ;
+  unsigned long arg2 ;
   std::pair< uint64_t,uint64_t > *result = 0 ;
   
-  arg1 = (unsigned long long)jarg1; 
-  arg2 = (unsigned long long)jarg2; 
+  arg1 = (unsigned long)jarg1; 
+  arg2 = (unsigned long)jarg2; 
   result = (std::pair< uint64_t,uint64_t > *)new std::pair< uint64_t,uint64_t >(arg1,arg2);
   jresult = (void *)result; 
   return jresult;
@@ -11214,46 +11223,46 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_PairUInt64UInt64__SWIG_2(void * 
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_PairUInt64UInt64_first_set(void * jarg1, unsigned long long jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_PairUInt64UInt64_first_set(void * jarg1, unsigned long jarg2) {
   std::pair< uint64_t,uint64_t > *arg1 = (std::pair< uint64_t,uint64_t > *) 0 ;
-  unsigned long long arg2 ;
+  unsigned long arg2 ;
   
   arg1 = (std::pair< uint64_t,uint64_t > *)jarg1; 
-  arg2 = (unsigned long long)jarg2; 
+  arg2 = (unsigned long)jarg2; 
   if (arg1) (arg1)->first = arg2;
 }
 
 
-SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_PairUInt64UInt64_first_get(void * jarg1) {
-  unsigned long long jresult ;
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_PairUInt64UInt64_first_get(void * jarg1) {
+  unsigned long jresult ;
   std::pair< uint64_t,uint64_t > *arg1 = (std::pair< uint64_t,uint64_t > *) 0 ;
-  unsigned long long result;
+  unsigned long result;
   
   arg1 = (std::pair< uint64_t,uint64_t > *)jarg1; 
-  result = (unsigned long long) ((arg1)->first);
-  jresult = result; 
+  result = (unsigned long) ((arg1)->first);
+  jresult = (unsigned long)result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_PairUInt64UInt64_second_set(void * jarg1, unsigned long long jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_PairUInt64UInt64_second_set(void * jarg1, unsigned long jarg2) {
   std::pair< uint64_t,uint64_t > *arg1 = (std::pair< uint64_t,uint64_t > *) 0 ;
-  unsigned long long arg2 ;
+  unsigned long arg2 ;
   
   arg1 = (std::pair< uint64_t,uint64_t > *)jarg1; 
-  arg2 = (unsigned long long)jarg2; 
+  arg2 = (unsigned long)jarg2; 
   if (arg1) (arg1)->second = arg2;
 }
 
 
-SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_PairUInt64UInt64_second_get(void * jarg1) {
-  unsigned long long jresult ;
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_PairUInt64UInt64_second_get(void * jarg1) {
+  unsigned long jresult ;
   std::pair< uint64_t,uint64_t > *arg1 = (std::pair< uint64_t,uint64_t > *) 0 ;
-  unsigned long long result;
+  unsigned long result;
   
   arg1 = (std::pair< uint64_t,uint64_t > *)jarg1; 
-  result = (unsigned long long) ((arg1)->second);
-  jresult = result; 
+  result = (unsigned long) ((arg1)->second);
+  jresult = (unsigned long)result; 
   return jresult;
 }
 
@@ -11571,7 +11580,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_MapStringPairUInt64UInt64__SWIG_
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_MapStringPairUInt64UInt64_size(void * jarg1) {
   unsigned long jresult ;
   std::map< std::string,std::pair< uint64_t,uint64_t > > *arg1 = (std::map< std::string,std::pair< uint64_t,uint64_t > > *) 0 ;
-  std::map< std::string,std::pair< unsigned long long,unsigned long long > >::size_type result;
+  std::map< std::string,std::pair< unsigned long,unsigned long > >::size_type result;
   
   arg1 = (std::map< std::string,std::pair< uint64_t,uint64_t > > *)jarg1; 
   result = ((std::map< std::string,std::pair< uint64_t,uint64_t > > const *)arg1)->size();
@@ -11603,18 +11612,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringPairUInt64UInt64_Clear(void *
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapStringPairUInt64UInt64_getitem(void * jarg1, char * jarg2) {
   void * jresult ;
   std::map< std::string,std::pair< uint64_t,uint64_t > > *arg1 = (std::map< std::string,std::pair< uint64_t,uint64_t > > *) 0 ;
-  std::map< std::string,std::pair< unsigned long long,unsigned long long > >::key_type *arg2 = 0 ;
-  std::map< std::string,std::pair< unsigned long long,unsigned long long > >::mapped_type *result = 0 ;
+  std::map< std::string,std::pair< unsigned long,unsigned long > >::key_type *arg2 = 0 ;
+  std::map< std::string,std::pair< unsigned long,unsigned long > >::mapped_type *result = 0 ;
   
   arg1 = (std::map< std::string,std::pair< uint64_t,uint64_t > > *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  std::map< std::string,std::pair< unsigned long long,unsigned long long > >::key_type arg2_str(jarg2);
+  std::map< std::string,std::pair< unsigned long,unsigned long > >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
   try {
-    result = (std::map< std::string,std::pair< unsigned long long,unsigned long long > >::mapped_type *) &std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__getitem(arg1,(std::string const &)*arg2);
+    result = (std::map< std::string,std::pair< unsigned long,unsigned long > >::mapped_type *) &std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__getitem(arg1,(std::string const &)*arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
@@ -11626,29 +11635,29 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapStringPairUInt64UInt64_getitem(vo
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringPairUInt64UInt64_setitem(void * jarg1, char * jarg2, void * jarg3) {
   std::map< std::string,std::pair< uint64_t,uint64_t > > *arg1 = (std::map< std::string,std::pair< uint64_t,uint64_t > > *) 0 ;
-  std::map< std::string,std::pair< unsigned long long,unsigned long long > >::key_type *arg2 = 0 ;
-  std::map< std::string,std::pair< unsigned long long,unsigned long long > >::mapped_type *arg3 = 0 ;
+  std::map< std::string,std::pair< unsigned long,unsigned long > >::key_type *arg2 = 0 ;
+  std::map< std::string,std::pair< unsigned long,unsigned long > >::mapped_type *arg3 = 0 ;
   
   arg1 = (std::map< std::string,std::pair< uint64_t,uint64_t > > *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  std::map< std::string,std::pair< unsigned long long,unsigned long long > >::key_type arg2_str(jarg2);
+  std::map< std::string,std::pair< unsigned long,unsigned long > >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (std::map< std::string,std::pair< unsigned long long,unsigned long long > >::mapped_type *)jarg3;
+  arg3 = (std::map< std::string,std::pair< unsigned long,unsigned long > >::mapped_type *)jarg3;
   if (!arg3) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::map< std::string,std::pair< unsigned long long,unsigned long long > >::mapped_type const & type is null", 0);
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::map< std::string,std::pair< unsigned long,unsigned long > >::mapped_type const & type is null", 0);
     return ;
   } 
-  std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__setitem(arg1,(std::string const &)*arg2,(std::pair< unsigned long long,unsigned long long > const &)*arg3);
+  std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__setitem(arg1,(std::string const &)*arg2,(std::pair< unsigned long,unsigned long > const &)*arg3);
 }
 
 
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringPairUInt64UInt64_ContainsKey(void * jarg1, char * jarg2) {
   unsigned int jresult ;
   std::map< std::string,std::pair< uint64_t,uint64_t > > *arg1 = (std::map< std::string,std::pair< uint64_t,uint64_t > > *) 0 ;
-  std::map< std::string,std::pair< unsigned long long,unsigned long long > >::key_type *arg2 = 0 ;
+  std::map< std::string,std::pair< unsigned long,unsigned long > >::key_type *arg2 = 0 ;
   bool result;
   
   arg1 = (std::map< std::string,std::pair< uint64_t,uint64_t > > *)jarg1; 
@@ -11656,7 +11665,7 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringPairUInt64UInt64_Cont
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  std::map< std::string,std::pair< unsigned long long,unsigned long long > >::key_type arg2_str(jarg2);
+  std::map< std::string,std::pair< unsigned long,unsigned long > >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
   result = (bool)std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__ContainsKey(arg1,(std::string const &)*arg2);
   jresult = result; 
@@ -11666,23 +11675,23 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringPairUInt64UInt64_Cont
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringPairUInt64UInt64_Add(void * jarg1, char * jarg2, void * jarg3) {
   std::map< std::string,std::pair< uint64_t,uint64_t > > *arg1 = (std::map< std::string,std::pair< uint64_t,uint64_t > > *) 0 ;
-  std::map< std::string,std::pair< unsigned long long,unsigned long long > >::key_type *arg2 = 0 ;
-  std::map< std::string,std::pair< unsigned long long,unsigned long long > >::mapped_type *arg3 = 0 ;
+  std::map< std::string,std::pair< unsigned long,unsigned long > >::key_type *arg2 = 0 ;
+  std::map< std::string,std::pair< unsigned long,unsigned long > >::mapped_type *arg3 = 0 ;
   
   arg1 = (std::map< std::string,std::pair< uint64_t,uint64_t > > *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  std::map< std::string,std::pair< unsigned long long,unsigned long long > >::key_type arg2_str(jarg2);
+  std::map< std::string,std::pair< unsigned long,unsigned long > >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (std::map< std::string,std::pair< unsigned long long,unsigned long long > >::mapped_type *)jarg3;
+  arg3 = (std::map< std::string,std::pair< unsigned long,unsigned long > >::mapped_type *)jarg3;
   if (!arg3) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::map< std::string,std::pair< unsigned long long,unsigned long long > >::mapped_type const & type is null", 0);
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::map< std::string,std::pair< unsigned long,unsigned long > >::mapped_type const & type is null", 0);
     return ;
   } 
   try {
-    std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__Add(arg1,(std::string const &)*arg2,(std::pair< unsigned long long,unsigned long long > const &)*arg3);
+    std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__Add(arg1,(std::string const &)*arg2,(std::pair< unsigned long,unsigned long > const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -11693,7 +11702,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringPairUInt64UInt64_Add(void * j
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringPairUInt64UInt64_Remove(void * jarg1, char * jarg2) {
   unsigned int jresult ;
   std::map< std::string,std::pair< uint64_t,uint64_t > > *arg1 = (std::map< std::string,std::pair< uint64_t,uint64_t > > *) 0 ;
-  std::map< std::string,std::pair< unsigned long long,unsigned long long > >::key_type *arg2 = 0 ;
+  std::map< std::string,std::pair< unsigned long,unsigned long > >::key_type *arg2 = 0 ;
   bool result;
   
   arg1 = (std::map< std::string,std::pair< uint64_t,uint64_t > > *)jarg1; 
@@ -11701,7 +11710,7 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringPairUInt64UInt64_Remo
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  std::map< std::string,std::pair< unsigned long long,unsigned long long > >::key_type arg2_str(jarg2);
+  std::map< std::string,std::pair< unsigned long,unsigned long > >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
   result = (bool)std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__Remove(arg1,(std::string const &)*arg2);
   jresult = result; 
@@ -11725,11 +11734,11 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_MapStringPairUInt64UInt64_get_next_k
   char * jresult ;
   std::map< std::string,std::pair< uint64_t,uint64_t > > *arg1 = (std::map< std::string,std::pair< uint64_t,uint64_t > > *) 0 ;
   std::map< std::string,std::pair< uint64_t,uint64_t >,std::less< std::string > >::iterator *arg2 = (std::map< std::string,std::pair< uint64_t,uint64_t >,std::less< std::string > >::iterator *) 0 ;
-  std::map< std::string,std::pair< unsigned long long,unsigned long long > >::key_type *result = 0 ;
+  std::map< std::string,std::pair< unsigned long,unsigned long > >::key_type *result = 0 ;
   
   arg1 = (std::map< std::string,std::pair< uint64_t,uint64_t > > *)jarg1; 
   arg2 = (std::map< std::string,std::pair< uint64_t,uint64_t >,std::less< std::string > >::iterator *)jarg2; 
-  result = (std::map< std::string,std::pair< unsigned long long,unsigned long long > >::key_type *) &std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__get_next_key(arg1,arg2);
+  result = (std::map< std::string,std::pair< unsigned long,unsigned long > >::key_type *) &std_map_Sl_std_string_Sc_std_pair_Sl_uint64_t_Sc_uint64_t_Sg__Sg__get_next_key(arg1,arg2);
   jresult = SWIG_csharp_string_callback(result->c_str()); 
   return jresult;
 }
@@ -11782,7 +11791,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_MapStringPairInt64Int64__SWIG_1(
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_MapStringPairInt64Int64_size(void * jarg1) {
   unsigned long jresult ;
   std::map< std::string,std::pair< int64_t,int64_t > > *arg1 = (std::map< std::string,std::pair< int64_t,int64_t > > *) 0 ;
-  std::map< std::string,std::pair< long long,long long > >::size_type result;
+  std::map< std::string,std::pair< long,long > >::size_type result;
   
   arg1 = (std::map< std::string,std::pair< int64_t,int64_t > > *)jarg1; 
   result = ((std::map< std::string,std::pair< int64_t,int64_t > > const *)arg1)->size();
@@ -11814,18 +11823,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringPairInt64Int64_Clear(void * j
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapStringPairInt64Int64_getitem(void * jarg1, char * jarg2) {
   void * jresult ;
   std::map< std::string,std::pair< int64_t,int64_t > > *arg1 = (std::map< std::string,std::pair< int64_t,int64_t > > *) 0 ;
-  std::map< std::string,std::pair< long long,long long > >::key_type *arg2 = 0 ;
-  std::map< std::string,std::pair< long long,long long > >::mapped_type *result = 0 ;
+  std::map< std::string,std::pair< long,long > >::key_type *arg2 = 0 ;
+  std::map< std::string,std::pair< long,long > >::mapped_type *result = 0 ;
   
   arg1 = (std::map< std::string,std::pair< int64_t,int64_t > > *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  std::map< std::string,std::pair< long long,long long > >::key_type arg2_str(jarg2);
+  std::map< std::string,std::pair< long,long > >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
   try {
-    result = (std::map< std::string,std::pair< long long,long long > >::mapped_type *) &std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__getitem(arg1,(std::string const &)*arg2);
+    result = (std::map< std::string,std::pair< long,long > >::mapped_type *) &std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__getitem(arg1,(std::string const &)*arg2);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return 0;
@@ -11837,29 +11846,29 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_MapStringPairInt64Int64_getitem(void
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringPairInt64Int64_setitem(void * jarg1, char * jarg2, void * jarg3) {
   std::map< std::string,std::pair< int64_t,int64_t > > *arg1 = (std::map< std::string,std::pair< int64_t,int64_t > > *) 0 ;
-  std::map< std::string,std::pair< long long,long long > >::key_type *arg2 = 0 ;
-  std::map< std::string,std::pair< long long,long long > >::mapped_type *arg3 = 0 ;
+  std::map< std::string,std::pair< long,long > >::key_type *arg2 = 0 ;
+  std::map< std::string,std::pair< long,long > >::mapped_type *arg3 = 0 ;
   
   arg1 = (std::map< std::string,std::pair< int64_t,int64_t > > *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  std::map< std::string,std::pair< long long,long long > >::key_type arg2_str(jarg2);
+  std::map< std::string,std::pair< long,long > >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (std::map< std::string,std::pair< long long,long long > >::mapped_type *)jarg3;
+  arg3 = (std::map< std::string,std::pair< long,long > >::mapped_type *)jarg3;
   if (!arg3) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::map< std::string,std::pair< long long,long long > >::mapped_type const & type is null", 0);
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::map< std::string,std::pair< long,long > >::mapped_type const & type is null", 0);
     return ;
   } 
-  std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__setitem(arg1,(std::string const &)*arg2,(std::pair< long long,long long > const &)*arg3);
+  std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__setitem(arg1,(std::string const &)*arg2,(std::pair< long,long > const &)*arg3);
 }
 
 
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringPairInt64Int64_ContainsKey(void * jarg1, char * jarg2) {
   unsigned int jresult ;
   std::map< std::string,std::pair< int64_t,int64_t > > *arg1 = (std::map< std::string,std::pair< int64_t,int64_t > > *) 0 ;
-  std::map< std::string,std::pair< long long,long long > >::key_type *arg2 = 0 ;
+  std::map< std::string,std::pair< long,long > >::key_type *arg2 = 0 ;
   bool result;
   
   arg1 = (std::map< std::string,std::pair< int64_t,int64_t > > *)jarg1; 
@@ -11867,7 +11876,7 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringPairInt64Int64_Contai
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  std::map< std::string,std::pair< long long,long long > >::key_type arg2_str(jarg2);
+  std::map< std::string,std::pair< long,long > >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
   result = (bool)std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__ContainsKey(arg1,(std::string const &)*arg2);
   jresult = result; 
@@ -11877,23 +11886,23 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringPairInt64Int64_Contai
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringPairInt64Int64_Add(void * jarg1, char * jarg2, void * jarg3) {
   std::map< std::string,std::pair< int64_t,int64_t > > *arg1 = (std::map< std::string,std::pair< int64_t,int64_t > > *) 0 ;
-  std::map< std::string,std::pair< long long,long long > >::key_type *arg2 = 0 ;
-  std::map< std::string,std::pair< long long,long long > >::mapped_type *arg3 = 0 ;
+  std::map< std::string,std::pair< long,long > >::key_type *arg2 = 0 ;
+  std::map< std::string,std::pair< long,long > >::mapped_type *arg3 = 0 ;
   
   arg1 = (std::map< std::string,std::pair< int64_t,int64_t > > *)jarg1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  std::map< std::string,std::pair< long long,long long > >::key_type arg2_str(jarg2);
+  std::map< std::string,std::pair< long,long > >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (std::map< std::string,std::pair< long long,long long > >::mapped_type *)jarg3;
+  arg3 = (std::map< std::string,std::pair< long,long > >::mapped_type *)jarg3;
   if (!arg3) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::map< std::string,std::pair< long long,long long > >::mapped_type const & type is null", 0);
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::map< std::string,std::pair< long,long > >::mapped_type const & type is null", 0);
     return ;
   } 
   try {
-    std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__Add(arg1,(std::string const &)*arg2,(std::pair< long long,long long > const &)*arg3);
+    std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__Add(arg1,(std::string const &)*arg2,(std::pair< long,long > const &)*arg3);
   } catch(std::out_of_range &_e) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, 0, (&_e)->what());
     return ;
@@ -11904,7 +11913,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_MapStringPairInt64Int64_Add(void * jar
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringPairInt64Int64_Remove(void * jarg1, char * jarg2) {
   unsigned int jresult ;
   std::map< std::string,std::pair< int64_t,int64_t > > *arg1 = (std::map< std::string,std::pair< int64_t,int64_t > > *) 0 ;
-  std::map< std::string,std::pair< long long,long long > >::key_type *arg2 = 0 ;
+  std::map< std::string,std::pair< long,long > >::key_type *arg2 = 0 ;
   bool result;
   
   arg1 = (std::map< std::string,std::pair< int64_t,int64_t > > *)jarg1; 
@@ -11912,7 +11921,7 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_MapStringPairInt64Int64_Remove
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  std::map< std::string,std::pair< long long,long long > >::key_type arg2_str(jarg2);
+  std::map< std::string,std::pair< long,long > >::key_type arg2_str(jarg2);
   arg2 = &arg2_str; 
   result = (bool)std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__Remove(arg1,(std::string const &)*arg2);
   jresult = result; 
@@ -11936,11 +11945,11 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_MapStringPairInt64Int64_get_next_key
   char * jresult ;
   std::map< std::string,std::pair< int64_t,int64_t > > *arg1 = (std::map< std::string,std::pair< int64_t,int64_t > > *) 0 ;
   std::map< std::string,std::pair< int64_t,int64_t >,std::less< std::string > >::iterator *arg2 = (std::map< std::string,std::pair< int64_t,int64_t >,std::less< std::string > >::iterator *) 0 ;
-  std::map< std::string,std::pair< long long,long long > >::key_type *result = 0 ;
+  std::map< std::string,std::pair< long,long > >::key_type *result = 0 ;
   
   arg1 = (std::map< std::string,std::pair< int64_t,int64_t > > *)jarg1; 
   arg2 = (std::map< std::string,std::pair< int64_t,int64_t >,std::less< std::string > >::iterator *)jarg2; 
-  result = (std::map< std::string,std::pair< long long,long long > >::key_type *) &std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__get_next_key(arg1,arg2);
+  result = (std::map< std::string,std::pair< long,long > >::key_type *) &std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__get_next_key(arg1,arg2);
   jresult = SWIG_csharp_string_callback(result->c_str()); 
   return jresult;
 }
@@ -12021,7 +12030,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Array__SWIG_1(void * jarg1, char
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Array__SWIG_2(void * jarg1, char * jarg2, int jarg3, unsigned long long jarg4) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Array__SWIG_2(void * jarg1, char * jarg2, int jarg3, unsigned long jarg4) {
   void * jresult ;
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
@@ -12047,7 +12056,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Array__SWIG_2(void * jarg1, char
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Array__SWIG_3(void * jarg1, char * jarg2, int jarg3, int jarg4, char * jarg5, unsigned long long jarg6) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Array__SWIG_3(void * jarg1, char * jarg2, int jarg3, int jarg4, char * jarg5, unsigned long jarg6) {
   void * jresult ;
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
@@ -12209,7 +12218,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_open__SWIG_1(void * jarg1, int j
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_open__SWIG_2(void * jarg1, int jarg2, unsigned long long jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_open__SWIG_2(void * jarg1, int jarg2, unsigned long jarg3) {
   tiledb::Array *arg1 = (tiledb::Array *) 0 ;
   tiledb_query_type_t arg2 ;
   uint64_t arg3 ;
@@ -12224,7 +12233,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_open__SWIG_2(void * jarg1, int j
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_open__SWIG_3(void * jarg1, int jarg2, int jarg3, char * jarg4, unsigned long long jarg5) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_open__SWIG_3(void * jarg1, int jarg2, int jarg3, char * jarg4, unsigned long jarg5) {
   tiledb::Array *arg1 = (tiledb::Array *) 0 ;
   tiledb_query_type_t arg2 ;
   tiledb_encryption_type_t arg3 ;
@@ -12259,7 +12268,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_reopen(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_reopen_at(void * jarg1, unsigned long long jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_reopen_at(void * jarg1, unsigned long jarg2) {
   tiledb::Array *arg1 = (tiledb::Array *) 0 ;
   uint64_t arg2 ;
   std::shared_ptr< tiledb::Array > *smartarg1 = 0 ;
@@ -12272,8 +12281,8 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_reopen_at(void * jarg1, unsigned
 }
 
 
-SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_Array_timestamp(void * jarg1) {
-  unsigned long long jresult ;
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_Array_timestamp(void * jarg1) {
+  unsigned long jresult ;
   tiledb::Array *arg1 = (tiledb::Array *) 0 ;
   std::shared_ptr< tiledb::Array const > *smartarg1 = 0 ;
   uint64_t result;
@@ -12282,7 +12291,7 @@ SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_Array_timestamp(void * j
   smartarg1 = (std::shared_ptr< const tiledb::Array > *)jarg1;
   arg1 = (tiledb::Array *)(smartarg1 ? smartarg1->get() : 0); 
   result = (uint64_t)((tiledb::Array const *)arg1)->timestamp();
-  jresult = result; 
+  jresult = (unsigned long)result; 
   return jresult;
 }
 
@@ -12740,8 +12749,8 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_Array_has_metadata(void * jarg
 }
 
 
-SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_Array_metadata_num(void * jarg1) {
-  unsigned long long jresult ;
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_Array_metadata_num(void * jarg1) {
+  unsigned long jresult ;
   tiledb::Array *arg1 = (tiledb::Array *) 0 ;
   std::shared_ptr< tiledb::Array const > *smartarg1 = 0 ;
   uint64_t result;
@@ -12750,7 +12759,7 @@ SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_Array_metadata_num(void 
   smartarg1 = (std::shared_ptr< const tiledb::Array > *)jarg1;
   arg1 = (tiledb::Array *)(smartarg1 ? smartarg1->get() : 0); 
   result = (uint64_t)((tiledb::Array const *)arg1)->metadata_num();
-  jresult = result; 
+  jresult = (unsigned long)result; 
   return jresult;
 }
 
@@ -12906,8 +12915,8 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_ArraySchema_array_type(void * jarg1) {
 }
 
 
-SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_ArraySchema_capacity(void * jarg1) {
-  unsigned long long jresult ;
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_ArraySchema_capacity(void * jarg1) {
+  unsigned long jresult ;
   tiledb::ArraySchema *arg1 = (tiledb::ArraySchema *) 0 ;
   std::shared_ptr< tiledb::ArraySchema const > *smartarg1 = 0 ;
   uint64_t result;
@@ -12916,12 +12925,12 @@ SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_ArraySchema_capacity(voi
   smartarg1 = (std::shared_ptr< const tiledb::ArraySchema > *)jarg1;
   arg1 = (tiledb::ArraySchema *)(smartarg1 ? smartarg1->get() : 0); 
   result = (uint64_t)((tiledb::ArraySchema const *)arg1)->capacity();
-  jresult = result; 
+  jresult = (unsigned long)result; 
   return jresult;
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_ArraySchema_set_capacity(void * jarg1, unsigned long long jarg2) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_ArraySchema_set_capacity(void * jarg1, unsigned long jarg2) {
   void * jresult ;
   tiledb::ArraySchema *arg1 = (tiledb::ArraySchema *) 0 ;
   uint64_t arg2 ;
@@ -13627,8 +13636,8 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_Attribute_type(void * jarg1) {
 }
 
 
-SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_Attribute_cell_size(void * jarg1) {
-  unsigned long long jresult ;
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_Attribute_cell_size(void * jarg1) {
+  unsigned long jresult ;
   tiledb::Attribute *arg1 = (tiledb::Attribute *) 0 ;
   std::shared_ptr< tiledb::Attribute const > *smartarg1 = 0 ;
   uint64_t result;
@@ -13637,7 +13646,7 @@ SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_Attribute_cell_size(void
   smartarg1 = (std::shared_ptr< const tiledb::Attribute > *)jarg1;
   arg1 = (tiledb::Attribute *)(smartarg1 ? smartarg1->get() : 0); 
   result = (uint64_t)((tiledb::Attribute const *)arg1)->cell_size();
-  jresult = result; 
+  jresult = (unsigned long)result; 
   return jresult;
 }
 
@@ -14387,7 +14396,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_Dimension_create_int32_dimension(voi
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_Dimension_create_int64_dimension(void * jarg1, char * jarg2, long long jarg3, long long jarg4, long long jarg5) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_Dimension_create_int64_dimension(void * jarg1, char * jarg2, long jarg3, long jarg4, long jarg5) {
   void * jresult ;
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
@@ -14413,7 +14422,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_Dimension_create_int64_dimension(voi
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_Dimension_create_uint64_dimension(void * jarg1, char * jarg2, unsigned long long jarg3, unsigned long long jarg4, unsigned long long jarg5) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_Dimension_create_uint64_dimension(void * jarg1, char * jarg2, unsigned long jarg3, unsigned long jarg4, unsigned long jarg5) {
   void * jresult ;
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
@@ -14530,8 +14539,8 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Domain__SWIG_1(void * jarg1) {
 }
 
 
-SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_Domain_cell_num(void * jarg1) {
-  unsigned long long jresult ;
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_Domain_cell_num(void * jarg1) {
+  unsigned long jresult ;
   tiledb::Domain *arg1 = (tiledb::Domain *) 0 ;
   std::shared_ptr< tiledb::Domain const > *smartarg1 = 0 ;
   uint64_t result;
@@ -14540,7 +14549,7 @@ SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_Domain_cell_num(void * j
   smartarg1 = (std::shared_ptr< const tiledb::Domain > *)jarg1;
   arg1 = (tiledb::Domain *)(smartarg1 ? smartarg1->get() : 0); 
   result = (uint64_t)((tiledb::Domain const *)arg1)->cell_num();
-  jresult = result; 
+  jresult = (unsigned long)result; 
   return jresult;
 }
 
@@ -14699,7 +14708,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Domain_add_int32_dimension(void * jarg
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Domain_add_int64_dimension(void * jarg1, char * jarg2, long long jarg3, long long jarg4, long long jarg5) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Domain_add_int64_dimension(void * jarg1, char * jarg2, long jarg3, long jarg4, long jarg5) {
   tiledb::Domain *arg1 = (tiledb::Domain *) 0 ;
   std::string *arg2 = 0 ;
   int64_t arg3 ;
@@ -14723,7 +14732,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Domain_add_int64_dimension(void * jarg
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Domain_add_uint64_dimension(void * jarg1, char * jarg2, unsigned long long jarg3, unsigned long long jarg4, unsigned long long jarg5) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Domain_add_uint64_dimension(void * jarg1, char * jarg2, unsigned long jarg3, unsigned long jarg4, unsigned long jarg5) {
   tiledb::Domain *arg1 = (tiledb::Domain *) 0 ;
   std::string *arg2 = 0 ;
   uint64_t arg3 ;
@@ -15763,8 +15772,8 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_Query_add_range(void * jarg1, unsign
 }
 
 
-SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_Query_range_num(void * jarg1, unsigned int jarg2) {
-  unsigned long long jresult ;
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_Query_range_num(void * jarg1, unsigned int jarg2) {
+  unsigned long jresult ;
   tiledb::Query *arg1 = (tiledb::Query *) 0 ;
   unsigned int arg2 ;
   std::shared_ptr< tiledb::Query const > *smartarg1 = 0 ;
@@ -15775,12 +15784,12 @@ SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_Query_range_num(void * j
   arg1 = (tiledb::Query *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (unsigned int)jarg2; 
   result = (uint64_t)((tiledb::Query const *)arg1)->range_num(arg2);
-  jresult = result; 
+  jresult = (unsigned long)result; 
   return jresult;
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_Query_range(void * jarg1, unsigned int jarg2, unsigned long long jarg3) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_Query_range(void * jarg1, unsigned int jarg2, unsigned long jarg3) {
   void * jresult ;
   tiledb::Query *arg1 = (tiledb::Query *) 0 ;
   unsigned int arg2 ;
@@ -15799,8 +15808,8 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_Query_range(void * jarg1, unsigned i
 }
 
 
-SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_Query_est_result_size(void * jarg1, char * jarg2) {
-  unsigned long long jresult ;
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_Query_est_result_size(void * jarg1, char * jarg2) {
+  unsigned long jresult ;
   tiledb::Query *arg1 = (tiledb::Query *) 0 ;
   std::string *arg2 = 0 ;
   std::shared_ptr< tiledb::Query const > *smartarg1 = 0 ;
@@ -15816,7 +15825,7 @@ SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_Query_est_result_size(vo
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
   result = (uint64_t)((tiledb::Query const *)arg1)->est_result_size((std::string const &)*arg2);
-  jresult = result; 
+  jresult = (unsigned long)result; 
   return jresult;
 }
 
@@ -16570,8 +16579,8 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_VFS_remove_file(void * jarg1, char * j
 }
 
 
-SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_VFS_dir_size(void * jarg1, char * jarg2) {
-  unsigned long long jresult ;
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_VFS_dir_size(void * jarg1, char * jarg2) {
+  unsigned long jresult ;
   tiledb::VFS *arg1 = (tiledb::VFS *) 0 ;
   std::string *arg2 = 0 ;
   std::shared_ptr< tiledb::VFS const > *smartarg1 = 0 ;
@@ -16587,7 +16596,7 @@ SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_VFS_dir_size(void * jarg
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
   result = (uint64_t)((tiledb::VFS const *)arg1)->dir_size((std::string const &)*arg2);
-  jresult = result; 
+  jresult = (unsigned long)result; 
   return jresult;
 }
 
@@ -16614,8 +16623,8 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_VFS_ls(void * jarg1, char * jarg2) {
 }
 
 
-SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_VFS_file_size(void * jarg1, char * jarg2) {
-  unsigned long long jresult ;
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_TileDB_VFS_file_size(void * jarg1, char * jarg2) {
+  unsigned long jresult ;
   tiledb::VFS *arg1 = (tiledb::VFS *) 0 ;
   std::string *arg2 = 0 ;
   std::shared_ptr< tiledb::VFS const > *smartarg1 = 0 ;
@@ -16631,7 +16640,7 @@ SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_VFS_file_size(void * jar
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
   result = (uint64_t)((tiledb::VFS const *)arg1)->file_size((std::string const &)*arg2);
-  jresult = result; 
+  jresult = (unsigned long)result; 
   return jresult;
 }
 

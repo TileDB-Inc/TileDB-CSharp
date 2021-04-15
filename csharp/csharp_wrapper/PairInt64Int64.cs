@@ -10,20 +10,20 @@
 
 namespace TileDB {
 
-public class ArrayUtil : global::System.IDisposable {
+public class PairInt64Int64 : global::System.IDisposable {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   protected bool swigCMemOwn;
 
-  internal ArrayUtil(global::System.IntPtr cPtr, bool cMemoryOwn) {
+  internal PairInt64Int64(global::System.IntPtr cPtr, bool cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
   }
 
-  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(ArrayUtil obj) {
+  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(PairInt64Int64 obj) {
     return (obj == null) ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : obj.swigCPtr;
   }
 
-  ~ArrayUtil() {
+  ~PairInt64Int64() {
     Dispose(false);
   }
 
@@ -37,23 +37,41 @@ public class ArrayUtil : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwn) {
           swigCMemOwn = false;
-          tiledbcsPINVOKE.delete_ArrayUtil(swigCPtr);
+          tiledbcsPINVOKE.delete_PairInt64Int64(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public ArrayUtil() : this(tiledbcsPINVOKE.new_ArrayUtil__SWIG_0(), true) {
+  public PairInt64Int64() : this(tiledbcsPINVOKE.new_PairInt64Int64__SWIG_0(), true) {
   }
 
-  public ArrayUtil(ArrayUtil from) : this(tiledbcsPINVOKE.new_ArrayUtil__SWIG_1(ArrayUtil.getCPtr(from)), true) {
+  public PairInt64Int64(long first, long second) : this(tiledbcsPINVOKE.new_PairInt64Int64__SWIG_1(first, second), true) {
+  }
+
+  public PairInt64Int64(PairInt64Int64 other) : this(tiledbcsPINVOKE.new_PairInt64Int64__SWIG_2(PairInt64Int64.getCPtr(other)), true) {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static string get_tiledb_version() {
-    string ret = tiledbcsPINVOKE.ArrayUtil_get_tiledb_version();
-    return ret;
+  public long first {
+    set {
+      tiledbcsPINVOKE.PairInt64Int64_first_set(swigCPtr, value);
+    } 
+    get {
+      long ret = tiledbcsPINVOKE.PairInt64Int64_first_get(swigCPtr);
+      return ret;
+    } 
+  }
+
+  public long second {
+    set {
+      tiledbcsPINVOKE.PairInt64Int64_second_set(swigCPtr, value);
+    } 
+    get {
+      long ret = tiledbcsPINVOKE.PairInt64Int64_second_get(swigCPtr);
+      return ret;
+    } 
   }
 
 }

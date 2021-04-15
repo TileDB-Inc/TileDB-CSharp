@@ -44,6 +44,7 @@
 #include <array>
 #include <memory>
 #include <string>
+#include <map> 
 #include <unordered_map>
 
 namespace tiledb {
@@ -503,11 +504,11 @@ class ArraySchema : public Schema {
    *
    * @return Map of attribute name to copy of Attribute instance.
    */
-  std::unordered_map<std::string, tiledb::Attribute> attributes() const override {
+  std::map<std::string, tiledb::Attribute> attributes() const override { //std::unordered_map<std::string, tiledb::Attribute> attributes() const override {
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_attribute_t* attrptr;
     unsigned int nattr;
-    std::unordered_map<std::string, Attribute> attrs;
+    std::map<std::string, Attribute> attrs; //std::unordered_map<std::string, Attribute> attrs;
     ctx_->handle_error(tiledb_array_schema_get_attribute_num(
         ctx_->ptr().get(), schema_.get(), &nattr));
     for (unsigned int i = 0; i < nattr; ++i) {

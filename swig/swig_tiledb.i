@@ -113,7 +113,6 @@
 %ignore tiledb::Array::non_empty_domain();
 %ignore tiledb::Array::non_empty_domain(unsigned);
 %ignore tiledb::Array::non_empty_domain(const std::string &);
-%ignore tiledb::Array::max_buffer_elements(const std::vector<T> &);
 %ignore tiledb::Array::consolidate_metadata(const std::shared_ptr<tiledb::Context> &,const std::string &,tiledb_encryption_type_t,const void *,uint32_t,tiledb::Config * const);
 %ignore tiledb::Array::put_metadata(const std::string &,tiledb_datatype_t,uint32_t,const void *);
 %ignore tiledb::Array::get_metadata(const std::string &,tiledb_datatype_t *,uint32_t *,const void * *);
@@ -126,7 +125,6 @@
 %ignore tiledb::ArraySchema::operator=(tiledb::ArraySchema &);
 %ignore tiledb::ArraySchema::dump(FILE *);
 %ignore tiledb::ArraySchema::ptr();
-%ignore tiledb::ArraySchema::attributes();
 
 //ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_array_util.h
 %ignore tiledb::ArrayUtil::operator=(const tiledb::ArrayUtil &);
@@ -205,7 +203,6 @@
 %ignore tiledb::Query::operator=(const tiledb::Query);
 %ignore tiledb::Query::operator=(tiledb::Query &);
 %ignore tiledb::Query::ptr();
-%ignore tiledb::Query::result_buffer_elements();
 %ignore tiledb::Query::set_buffer(const std::string &,void *,uint64_t);
 %ignore tiledb::Query::set_buffer(const std::string &,uint64_t *,uint64_t,void *,uint64_t);
 %ignore tiledb::Query::get_buffer(const std::string &,void * *,uint64_t *,uint64_t *);
