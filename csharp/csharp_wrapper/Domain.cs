@@ -58,13 +58,8 @@ public class Domain : global::System.IDisposable {
     return ret;
   }
 
-  public void dump(SWIGTYPE_p_FILE out_) {
-    tiledbcsPINVOKE.Domain_dump__SWIG_0(swigCPtr, SWIGTYPE_p_FILE.getCPtr(out_));
-    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
-  }
-
-  public void dump() {
-    tiledbcsPINVOKE.Domain_dump__SWIG_1(swigCPtr);
+  public void dump(string filename) {
+    tiledbcsPINVOKE.Domain_dump(swigCPtr, filename);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -80,8 +75,8 @@ public class Domain : global::System.IDisposable {
     return ret;
   }
 
-  public SWIGTYPE_p_std__vectorT_tiledb__Dimension_t dimensions() {
-    SWIGTYPE_p_std__vectorT_tiledb__Dimension_t ret = new SWIGTYPE_p_std__vectorT_tiledb__Dimension_t(tiledbcsPINVOKE.Domain_dimensions(swigCPtr), true);
+  public VectorString dimension_names() {
+    VectorString ret = new VectorString(tiledbcsPINVOKE.Domain_dimension_names(swigCPtr), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

@@ -6,8 +6,8 @@ namespace tiledb {
 
 	std::string ArrayUtil::get_tiledb_version()
 	{
-		std::tuple<int, int, int> t = tiledb::version();
-		return std::to_string(std::get<0>(t)) + "." + std::to_string(std::get<1>(t)) + "." + std::to_string(std::get<2>(t));
+		std::vector<int> t = tiledb::version();
+		return std::to_string(t[0]) + "." + std::to_string(t[1]) + "." + std::to_string(t[2]);
 	}//std::string ArrayUtil::get_tiledb_version()
 
 

@@ -106,11 +106,6 @@ public class Query : global::System.IDisposable {
     return ret;
   }
 
-  public void submit_async() {
-    tiledbcsPINVOKE.Query_submit_async(swigCPtr);
-    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
-  }
-
   public void finalize() {
     tiledbcsPINVOKE.Query_finalize(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
@@ -134,8 +129,8 @@ public class Query : global::System.IDisposable {
     return ret;
   }
 
-  public SWIGTYPE_p_std__arrayT_std__string_2_t range(uint dim_idx, ulong range_idx) {
-    SWIGTYPE_p_std__arrayT_std__string_2_t ret = new SWIGTYPE_p_std__arrayT_std__string_2_t(tiledbcsPINVOKE.Query_range(swigCPtr, dim_idx, range_idx), true);
+  public PairStringString range(uint dim_idx, ulong range_idx) {
+    PairStringString ret = new PairStringString(tiledbcsPINVOKE.Query_range(swigCPtr, dim_idx, range_idx), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -238,12 +233,6 @@ public class Query : global::System.IDisposable {
   public void set_double_vector_buffer(string attr, VectorDouble buf) {
     tiledbcsPINVOKE.Query_set_double_vector_buffer(swigCPtr, attr, VectorDouble.getCPtr(buf));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
-  }
-
-  public Query set_buffer(string name, VectorUInt64 offsets, SWIGTYPE_p_std__string data) {
-    Query ret = new Query(tiledbcsPINVOKE.Query_set_buffer(swigCPtr, name, VectorUInt64.getCPtr(offsets), SWIGTYPE_p_std__string.getCPtr(data)), true);
-    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
   }
 
   public static Query.Status to_status(tiledb_query_status_t status) {

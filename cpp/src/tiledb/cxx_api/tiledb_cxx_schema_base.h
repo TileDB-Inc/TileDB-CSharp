@@ -85,7 +85,7 @@ class Schema {
   /* ********************************* */
 
   /** Dumps the array schema in an ASCII representation to an output. */
-  virtual void dump(FILE* out) const = 0;
+  virtual void dump(const std::string& filename) const = 0; //virtual void dump(FILE* out) const = 0;
 
   /** Adds an attribute to the array. */
   virtual tiledb::Schema& add_attribute(const tiledb::Attribute& attr) = 0;
@@ -94,8 +94,11 @@ class Schema {
   virtual void check() const = 0;
 
   /** Gets all attributes in the array. */
-  virtual std::map<std::string, tiledb::Attribute> attributes() const = 0; //virtual std::unordered_map<std::string, tiledb::Attribute> attributes() const = 0;
+  //virtual std::map<std::string,tiledb::Attribute> attributes() const = 0; //virtual std::unordered_map<std::string, tiledb::Attribute> attributes() const = 0;
 
+  /** Gets all attribute names in the array */
+  virtual std::vector<std::string> attribute_names() const = 0;
+  
   /** Number of attributes **/
   virtual unsigned attribute_num() const = 0;
 

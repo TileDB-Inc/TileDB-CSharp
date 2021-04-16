@@ -104,13 +104,8 @@ public class Attribute : global::System.IDisposable {
     return ret;
   }
 
-  public void dump(SWIGTYPE_p_FILE out_) {
-    tiledbcsPINVOKE.Attribute_dump__SWIG_0(swigCPtr, SWIGTYPE_p_FILE.getCPtr(out_));
-    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
-  }
-
-  public void dump() {
-    tiledbcsPINVOKE.Attribute_dump__SWIG_1(swigCPtr);
+  public void dump(string filename) {
+    tiledbcsPINVOKE.Attribute_dump(swigCPtr, filename);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 

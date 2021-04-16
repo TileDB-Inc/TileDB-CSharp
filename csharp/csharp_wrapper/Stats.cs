@@ -56,20 +56,24 @@ public class Stats : global::System.IDisposable {
     tiledbcsPINVOKE.Stats_reset();
   }
 
-  public static void dump() {
-    tiledbcsPINVOKE.Stats_dump__SWIG_0();
+  public static void dump(string filename) {
+    tiledbcsPINVOKE.Stats_dump(filename);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static void dump(SWIGTYPE_p_std__string out_) {
-    tiledbcsPINVOKE.Stats_dump__SWIG_1(SWIGTYPE_p_std__string.getCPtr(out_));
+  public static string dump_to_str() {
+    string ret = tiledbcsPINVOKE.Stats_dump_to_str();
+    return ret;
   }
 
-  public static void raw_dump() {
-    tiledbcsPINVOKE.Stats_raw_dump__SWIG_0();
+  public static void raw_dump(string filename) {
+    tiledbcsPINVOKE.Stats_raw_dump(filename);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static void raw_dump(SWIGTYPE_p_std__string out_) {
-    tiledbcsPINVOKE.Stats_raw_dump__SWIG_1(SWIGTYPE_p_std__string.getCPtr(out_));
+  public static string raw_dump_to_str() {
+    string ret = tiledbcsPINVOKE.Stats_raw_dump_to_str();
+    return ret;
   }
 
   public Stats() : this(tiledbcsPINVOKE.new_Stats(), true) {

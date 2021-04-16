@@ -63,13 +63,8 @@ public class ArraySchema : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void dump(SWIGTYPE_p_FILE out_) {
-    tiledbcsPINVOKE.ArraySchema_dump__SWIG_0(swigCPtr, SWIGTYPE_p_FILE.getCPtr(out_));
-    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
-  }
-
-  public void dump() {
-    tiledbcsPINVOKE.ArraySchema_dump__SWIG_1(swigCPtr);
+  public void dump(string filename) {
+    tiledbcsPINVOKE.ArraySchema_dump(swigCPtr, filename);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -115,8 +110,8 @@ public class ArraySchema : global::System.IDisposable {
     return ret;
   }
 
-  public ArraySchema set_order(SWIGTYPE_p_std__arrayT_tiledb_layout_t_2_t p) {
-    ArraySchema ret = new ArraySchema(tiledbcsPINVOKE.ArraySchema_set_order(swigCPtr, SWIGTYPE_p_std__arrayT_tiledb_layout_t_2_t.getCPtr(p)), true);
+  public ArraySchema set_order(tiledb_layout_t tile_order, tiledb_layout_t cell_order) {
+    ArraySchema ret = new ArraySchema(tiledbcsPINVOKE.ArraySchema_set_order(swigCPtr, (int)tile_order, (int)cell_order), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -180,8 +175,8 @@ public class ArraySchema : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public SWIGTYPE_p_std__mapT_std__string_tiledb__Attribute_std__lessT_std__string_t_t attributes() {
-    SWIGTYPE_p_std__mapT_std__string_tiledb__Attribute_std__lessT_std__string_t_t ret = new SWIGTYPE_p_std__mapT_std__string_tiledb__Attribute_std__lessT_std__string_t_t(tiledbcsPINVOKE.ArraySchema_attributes(swigCPtr), true);
+  public VectorString attribute_names() {
+    VectorString ret = new VectorString(tiledbcsPINVOKE.ArraySchema_attribute_names(swigCPtr), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -223,12 +218,6 @@ public class ArraySchema : global::System.IDisposable {
 
   public static string to_str(tiledb_layout_t layout) {
     string ret = tiledbcsPINVOKE.ArraySchema_to_str__SWIG_1((int)layout);
-    return ret;
-  }
-
-  public VectorString attribute_names() {
-    VectorString ret = new VectorString(tiledbcsPINVOKE.ArraySchema_attribute_names(swigCPtr), true);
-    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

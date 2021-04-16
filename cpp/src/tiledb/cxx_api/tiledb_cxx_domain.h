@@ -156,9 +156,19 @@ class Domain {
    * @param out (Optional) File to dump output to. Defaults to `nullptr`
    * which will lead to selection of `stdout`.
    */
-  void dump(FILE* out = nullptr) const {
+  void dump(const std::string& filename) const { //void dump(FILE* out = nullptr) const {
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
-    ctx_->handle_error(tiledb_domain_dump(c_ctx, domain_.get(), out));
+    FILE* pFile = nullptr;
+    if(!filename.empty())
+    {
+      pFile = fopen(filename.c_str(),"w");
+    }
+    ctx_->handle_error(tiledb_domain_dump(c_ctx, domain_.get(), pFile));
+    if(pFile!=nullptr)
+    {
+      fclose(pFile);
+    }
+
   }
 
   /** Returns the domain type. */
@@ -179,21 +189,28 @@ class Domain {
     return n;
   }
 
-  /** Returns the current set of dimensions in the domain. */
-  std::vector<tiledb::Dimension> dimensions() const {
+  std::vector<std::string> dimension_names() const {
+    std::vector<std::string> result;
+
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
  
     unsigned int ndim;
     tiledb_dimension_t* dimptr;
-    std::vector<Dimension> dims;
+   // std::vector<Dimension> dims;
     ctx_->handle_error(tiledb_domain_get_ndim(c_ctx, domain_.get(), &ndim));
     for (unsigned int i = 0; i < ndim; ++i) {
       ctx_->handle_error(tiledb_domain_get_dimension_from_index(
           c_ctx, domain_.get(), i, &dimptr));
-      dims.emplace_back(Dimension(ctx_, dimptr));
+     // dims.emplace_back(Dimension(ctx_, dimptr));
+	  const char* name;
+	  ctx_->handle_error(
+		  tiledb_dimension_get_name(c_ctx, dimptr, &name));
+	  result.push_back(std::string(name));
     }
-    return dims;
+
+    return result;
   }
+
 
   /** Returns the dimensions with the given index. */
   tiledb::Dimension dimension(unsigned idx) const {
@@ -321,6 +338,24 @@ class Domain {
     return domain_;
   }
 
+  protected:
+	  /** Returns the current set of dimensions in the domain. */
+	  std::vector<tiledb::Dimension> dimensions() const {
+		  tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+
+		  unsigned int ndim;
+		  tiledb_dimension_t* dimptr;
+		  std::vector<Dimension> dims;
+		  ctx_->handle_error(tiledb_domain_get_ndim(c_ctx, domain_.get(), &ndim));
+		  for (unsigned int i = 0; i < ndim; ++i) {
+			  ctx_->handle_error(tiledb_domain_get_dimension_from_index(
+				  c_ctx, domain_.get(), i, &dimptr));
+			  dims.emplace_back(Dimension(ctx_, dimptr));
+		  }
+		  return dims;
+	  }
+
+
  private:
   /**
    * Returns the total number of cells in the domain.
@@ -358,9 +393,11 @@ class Domain {
 /* ********************************* */
 
 /** Get a string representation of an attribute for an output stream. */
-inline std::ostream& operator<<(std::ostream& os, const tiledb::Domain& d) {
+inline std::ostream& operator<<(std::ostream& os,  const tiledb::Domain& d) {
   os << "Domain<(" << impl::to_str(d.type()) << ")";
-  for (const auto& dimension : d.dimensions()) {
+  std::vector<std::string> dim_names = d.dimension_names();
+  for(auto it = dim_names.begin(); it != dim_names.end(); ++it) { // for (const auto& dim_name : d.dimension_names()) {
+    Dimension dimension = d.dimension((*it));
     os << " " << dimension;
   }
   os << '>';

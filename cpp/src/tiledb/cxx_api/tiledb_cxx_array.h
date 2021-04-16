@@ -285,31 +285,31 @@ class Array {
             timestamp) {
   }
 
-  /**
-   * Constructor. Creates a TileDB Array instance wrapping the given pointer.
-   * @param ctx tiledb::Context
-   * @param own=true If false, disables underlying cleanup upon destruction.
-   * @throws TileDBError if construction fails
-   */
-  Array(const std::shared_ptr<tiledb::Context>& ctx, tiledb_array_t* carray, bool own = true)
-      : ctx_(ctx)
-      , schema_(ArraySchema(ctx, (tiledb_array_schema_t*)nullptr)) {
-    if (carray == nullptr)
-      throw TileDBError(
-          "[TileDB::C++API] Error: Failed to create Array from null pointer");
+  ///**
+  // * Constructor. Creates a TileDB Array instance wrapping the given pointer.
+  // * @param ctx tiledb::Context
+  // * @param own=true If false, disables underlying cleanup upon destruction.
+  // * @throws TileDBError if construction fails
+  // */
+  //Array(const std::shared_ptr<tiledb::Context>& ctx, tiledb_array_t* carray, bool own = true)
+  //    : ctx_(ctx)
+  //    , schema_(ArraySchema(ctx, (tiledb_array_schema_t*)nullptr)) {
+  //  if (carray == nullptr)
+  //    throw TileDBError(
+  //        "[TileDB::C++API] Error: Failed to create Array from null pointer");
 
-    tiledb_ctx_t* c_ctx = ctx->ptr().get();
+  //  tiledb_ctx_t* c_ctx = ctx->ptr().get();
 
-    tiledb_array_schema_t* array_schema;
-    ctx->handle_error(tiledb_array_get_schema(c_ctx, carray, &array_schema));
-    schema_ = ArraySchema(ctx, array_schema);
+  //  tiledb_array_schema_t* array_schema;
+  //  ctx->handle_error(tiledb_array_get_schema(c_ctx, carray, &array_schema));
+  //  schema_ = ArraySchema(ctx, array_schema);
 
-    array_ = std::shared_ptr<tiledb_array_t>(carray, [own](tiledb_array_t* p) {
-      if (own) {
-        tiledb_array_free(&p);
-      }
-    });
-  }
+  //  array_ = std::shared_ptr<tiledb_array_t>(carray, [own](tiledb_array_t* p) {
+  //    if (own) {
+  //      tiledb_array_free(&p);
+  //    }
+  //  });
+  //}
 
   Array(const tiledb::Array&) = default;
   Array(tiledb::Array&&) = default;
@@ -913,8 +913,8 @@ class Array {
     impl::type_check<T>(schema_.domain().type());
     std::vector<std::pair<std::string, std::pair<T, T>>> ret;
 
-    auto dims = schema_.domain().dimensions();
-    std::vector<T> buf(dims.size() * 2);
+	std::vector<std::string> dim_names = schema_.domain().dimension_names();// auto dims = schema_.domain().dimensions();
+	std::vector<T> buf(dim_names.size() * 2);  //std::vector<T> buf(dims.size() * 2);
     int empty;
 
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
@@ -924,10 +924,9 @@ class Array {
     if (empty)
       return ret;
 
-    for (size_t i = 0; i < dims.size(); ++i) {
+    for (size_t i = 0; i < dim_names.size(); ++i) { //for (size_t i = 0; i < dims.size(); ++i) {
       auto domain = std::pair<T, T>(buf[i * 2], buf[(i * 2) + 1]);
-      ret.push_back(
-          std::pair<std::string, std::pair<T, T>>(dims[i].name(), domain));
+	  ret.push_back(std::pair<std::string, std::pair<T, T>>(dim_names[i], domain));  //ret.push_back(std::pair<std::string, std::pair<T, T>>(dims[i].name(), domain));
     }
 
     return ret;
@@ -1381,12 +1380,13 @@ class Array {
    * @return true if the key exists, else false.
    * @note If the key does not exist, then `value_type` will not be modified.
    */
-  bool has_metadata(const std::string& key, tiledb_datatype_t* value_type) {
+  bool has_metadata(const std::string& key, tiledb_datatype_t value_type) {
  //   tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     int32_t has_key;
+	tiledb_datatype_t datatype = value_type;
     ctx_->handle_error(tiledb_array_has_metadata_key(
-        c_ctx, array_.get(), key.c_str(), value_type, &has_key));
+        c_ctx, array_.get(), key.c_str(), &datatype, &has_key));
     return has_key == 1;
   }
 

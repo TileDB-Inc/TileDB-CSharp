@@ -60,11 +60,7 @@ public class Array : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Array(Context ctx, SWIGTYPE_p_tiledb_array_t carray) : this(tiledbcsPINVOKE.new_Array__SWIG_4(Context.getCPtr(ctx), SWIGTYPE_p_tiledb_array_t.getCPtr(carray)), true) {
-    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
-  }
-
-  public Array(Array arg0) : this(tiledbcsPINVOKE.new_Array__SWIG_5(Array.getCPtr(arg0)), true) {
+  public Array(Array arg0) : this(tiledbcsPINVOKE.new_Array__SWIG_4(Array.getCPtr(arg0)), true) {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -233,8 +229,8 @@ public class Array : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public bool has_metadata(string key, SWIGTYPE_p_tiledb_datatype_t value_type) {
-    bool ret = tiledbcsPINVOKE.Array_has_metadata(swigCPtr, key, SWIGTYPE_p_tiledb_datatype_t.getCPtr(value_type));
+  public bool has_metadata(string key, tiledb_datatype_t value_type) {
+    bool ret = tiledbcsPINVOKE.Array_has_metadata(swigCPtr, key, (int)value_type);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

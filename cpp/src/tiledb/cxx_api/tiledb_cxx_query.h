@@ -564,7 +564,7 @@ class Query {
    * @param range_idx The range index.
    * @return A pair of the form (start, end).
    */
-  std::array<std::string, 2> range(unsigned dim_idx, uint64_t range_idx) {
+  std::pair<std::string, std::string> range(unsigned dim_idx, uint64_t range_idx) { //std::array<std::string, 2> range(unsigned dim_idx, uint64_t range_idx) {
     impl::type_check<char>(schema_.domain().dimension(dim_idx).type());
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     uint64_t start_size, end_size;
@@ -582,7 +582,7 @@ class Query {
     end.resize(end_size);
     ctx_->handle_error(tiledb_query_get_range_var(
         c_ctx, query_.get(), dim_idx, range_idx, &start[0], &end[0]));
-    std::array<std::string, 2> ret = {{std::move(start), std::move(end)}};
+    std::pair<std::string,std::string> ret = std::make_pair(start,end);// std::array<std::string, 2> ret = {{std::move(start), std::move(end)}};
     return ret;
   }
 
@@ -1209,37 +1209,37 @@ void set_double_coordinates(std::vector<double>& buf) {
     return set_buffer(name, buf.first, buf.second);
   }
 
-  /**
-   * Sets a buffer for a string-typed variable-sized attribute/dimension.
-   *
-   * @param name Attribute/Dimension name
-   * @param offsets Offsets where a new element begins in the data buffer.
-   * @param data Pre-allocated string buffer.
-   **/
-  tiledb::Query& set_buffer(
-      const std::string& name,
-      std::vector<uint64_t>& offsets,
-      std::string& data) {
-    // Checks
-    auto is_attr = schema_.has_attribute(name);
-    auto is_dim = schema_.domain().has_dimension(name);
-    if (!is_attr && !is_dim)
-      throw TileDBError(
-          std::string("Cannot set buffer; Attribute/Dimension '") + name +
-          "' does not exist");
-    else if (is_attr)
-      impl::type_check<char>(schema_.attribute(name).type());
-    else if (is_dim)
-      impl::type_check<char>(schema_.domain().dimension(name).type());
+  // /**
+  //  * Sets a buffer for a string-typed variable-sized attribute/dimension.
+  //  *
+  //  * @param name Attribute/Dimension name
+  //  * @param offsets Offsets where a new element begins in the data buffer.
+  //  * @param data Pre-allocated string buffer.
+  //  **/
+  // tiledb::Query& set_buffer(
+  //     const std::string& name,
+  //     std::vector<uint64_t>& offsets,
+  //     std::string& data) {
+  //   // Checks
+  //   auto is_attr = schema_.has_attribute(name);
+  //   auto is_dim = schema_.domain().has_dimension(name);
+  //   if (!is_attr && !is_dim)
+  //     throw TileDBError(
+  //         std::string("Cannot set buffer; Attribute/Dimension '") + name +
+  //         "' does not exist");
+  //   else if (is_attr)
+  //     impl::type_check<char>(schema_.attribute(name).type());
+  //   else if (is_dim)
+  //     impl::type_check<char>(schema_.domain().dimension(name).type());
 
-    return set_buffer(
-        name,
-        offsets.data(),
-        offsets.size(),
-        &data[0],
-        data.size(),
-        sizeof(char));
-  }
+  //   return set_buffer(
+  //       name,
+  //       offsets.data(),
+  //       offsets.size(),
+  //       &data[0],
+  //       data.size(),
+  //       sizeof(char));
+  // }
 
 //  void set_string_vector_buffer(
 //	  const std::string& name, std::vector<std::string>& buffer)

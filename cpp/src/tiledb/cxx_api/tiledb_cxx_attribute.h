@@ -271,11 +271,20 @@ class Attribute {
    * @param out (Optional) File to dump output to. Defaults to `nullptr`
    * which will lead to selection of `stdout`.
    */
-  void dump(FILE* out = nullptr) const {
+  void dump(const std::string& filename) const { //void dump(FILE* out = nullptr) const {
 	tiledb_ctx_t* c_ctx = ctx_->ptr().get();
-    ctx_->handle_error(
-        tiledb_attribute_dump(c_ctx, attr_.get(), out));
+  FILE* pFile = nullptr;
+  if(!filename.empty())
+  {
+    pFile = fopen(filename.c_str(),"w");
   }
+    ctx_->handle_error(
+        tiledb_attribute_dump(c_ctx, attr_.get(), pFile));
+  if(pFile!=nullptr)
+  {
+    fclose(pFile);
+  }
+}
 
   /* ********************************* */
   /*          STATIC FUNCTIONS         */

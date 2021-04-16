@@ -74,8 +74,17 @@ class Stats {
    *
    * @param out The output.
    */
-  static void dump(FILE* out = nullptr) {
-    check_error(tiledb_stats_dump(out), "error dumping stats");
+  static void dump(const std::string& filename) { //static void dump(FILE* out = nullptr) {
+    FILE* pFile = nullptr;
+    if(!filename.empty())
+    {
+      pFile = fopen(filename.c_str(),"w");
+    }  
+    check_error(tiledb_stats_dump(pFile), "error dumping stats");
+    if(pFile!=nullptr)
+    {
+      fclose(pFile);
+    }  
   }
 
   /**
@@ -83,11 +92,12 @@ class Stats {
    *
    * @param out The output.
    */
-  static void dump(std::string* out) {
+  static std::string dump_to_str() {
     char* c_str = nullptr;
     check_error(tiledb_stats_dump_str(&c_str), "error dumping stats");
-    *out = std::string(c_str);
+    
     check_error(tiledb_stats_free_str(&c_str), "error freeing stats string");
+	return std::string(c_str); //*out = std::string(c_str);
   }
 
   /**
@@ -95,8 +105,17 @@ class Stats {
    *
    * @param out The output.
    */
-  static void raw_dump(FILE* out = nullptr) {
-    check_error(tiledb_stats_raw_dump(out), "error dumping stats");
+  static void raw_dump(const std::string& filename) { //static void raw_dump(FILE* out = nullptr) {
+    FILE* pFile = nullptr;
+    if(!filename.empty())
+    {
+      pFile = fopen(filename.c_str(),"w");
+    } 
+    check_error(tiledb_stats_raw_dump(pFile), "error dumping stats");
+    if(pFile!=nullptr)
+    {
+      fclose(pFile);
+    }
   }
 
   /**
@@ -104,11 +123,11 @@ class Stats {
    *
    * @param out The output.
    */
-  static void raw_dump(std::string* out) {
+  static std::string raw_dump_to_str() {
     char* c_str = nullptr;
     check_error(tiledb_stats_raw_dump_str(&c_str), "error dumping stats");
-    *out = std::string(c_str);
     check_error(tiledb_stats_free_str(&c_str), "error freeing stats string");
+    return std::string(c_str);//*out = std::string(c_str);
   }
 
  private:

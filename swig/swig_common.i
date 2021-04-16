@@ -55,6 +55,16 @@ namespace std {
   %template(VectorString) vector<string>;
   %template(VectorConstChar) vector<const char*>;
 
+  %template(VectorOfVectorInt32) vector<vector<int> >;
+  %template(VectorOfVectorUInt32) vector<vector<unsigned int> >;
+  %template(VectorOfVectorInt64) vector<vector<int64_t> >;
+  %template(VectorOfVectorUInt64) vector<vector<uint64_t> >;
+  %template(VectorOfVectorChar) vector<vector<char> >;
+  %template(VectorOfVectorUChar) vector<vector<unsigned char> >;
+  %template(VectorOfVectorDouble) vector<vector<double> >;  
+  %template(VectorOfVectorString) vector<vector<string> >;
+
+
   %template(MapStringString) map<string,string>;
   %template(MapStringInt32) map<string,int>;
   %template(MapStringUInt32) map<string,uint32_t>;

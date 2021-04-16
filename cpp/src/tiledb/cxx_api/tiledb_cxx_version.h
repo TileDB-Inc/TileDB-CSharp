@@ -41,9 +41,17 @@
 namespace tiledb {
 
 /** Get the Major, Minor, and Patch version. */
-inline std::tuple<int, int, int> version() {
-  std::tuple<int, int, int> v;
-  tiledb_version(&std::get<0>(v), &std::get<1>(v), &std::get<2>(v));
+inline std::vector<int> version() { //inline std::tuple<int, int, int> version() {
+//  std::tuple<int, int, int> v;
+//  tiledb_version(&std::get<0>(v), &std::get<1>(v), &std::get<2>(v));
+  int v0=0;
+  int v1=0;
+  int v2=0;
+  tiledb_version(&v0,&v1,&v2);
+  std::vector<int> v;
+  v.push_back(v0);
+  v.push_back(v1);
+  v.push_back(v2);
   return v;
 }
 

@@ -20,7 +20,6 @@
 
 %shared_ptr(tiledb::Context)
 
-
 %shared_ptr(tiledb::Dimension)
 
 %shared_ptr(tiledb::Domain)
@@ -35,14 +34,9 @@
 %shared_ptr(tiledb::FilterList)
 
 
-%shared_ptr(tiledb::Object)
-
-%shared_ptr(tiledb::ObjectIter)
-
 %shared_ptr(tiledb::Query)
 
 %shared_ptr(tiledb::Stats)
-
 
 
 %shared_ptr(tiledb::VFS)
@@ -65,8 +59,6 @@
 
 #include "tiledb_cxx_context.h"
 
-#include "tiledb_cxx_core_interface.h"
-
 #include "tiledb_cxx_dimension.h"
 
 #include "tiledb_cxx_domain.h"
@@ -79,15 +71,9 @@
 
 #include "tiledb_cxx_group.h"
 
-#include "tiledb_cxx_object.h"
-
-#include "tiledb_cxx_object_iter.h"
-
 #include "tiledb_cxx_query.h"
 
 #include "tiledb_cxx_stats.h"
-
-#include "tiledb_cxx_utils.h"
 
 #include "tiledb_cxx_version.h"
 
@@ -101,7 +87,6 @@
 //ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_array.h
 %ignore tiledb::Array::Array(const std::shared_ptr<tiledb::Context> &,const std::string &,tiledb_query_type_t,tiledb_encryption_type_t,const void *,uint32_t);
 %ignore tiledb::Array::Array(const std::shared_ptr<tiledb::Context> &,const std::string &,tiledb_query_type_t,tiledb_encryption_type_t,const void *,uint32_t,uint64_t);
-%ignore tiledb::Array::Array(const std::shared_ptr<tiledb::Context> &,tiledb_array_t *,bool);
 %ignore tiledb::Array::operator=(const tiledb::Array);
 %ignore tiledb::Array::operator=(tiledb::Array &);
 %ignore tiledb::Array::ptr();
@@ -123,7 +108,6 @@
 %ignore tiledb::ArraySchema::ArraySchema(const std::shared_ptr<tiledb::Context> &,tiledb_array_schema_t *);
 %ignore tiledb::ArraySchema::operator=(const tiledb::ArraySchema);
 %ignore tiledb::ArraySchema::operator=(tiledb::ArraySchema &);
-%ignore tiledb::ArraySchema::dump(FILE *);
 %ignore tiledb::ArraySchema::ptr();
 
 //ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_array_util.h
@@ -134,7 +118,6 @@
 %ignore tiledb::Attribute::operator=(const tiledb::Attribute);
 %ignore tiledb::Attribute::operator=(tiledb::Attribute &);
 %ignore tiledb::Attribute::ptr();
-%ignore tiledb::Attribute::dump(FILE *);
 
 //ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_config.h
 %ignore ConfigIter;
@@ -148,10 +131,8 @@
 %ignore tiledb::Config::free(tiledb_config_t *);
 
 //ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_context.h
-%ignore tiledb::Context::Context(tiledb_ctx_t *,bool);
 %ignore tiledb::Context::ptr();
-
-//ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_core_interface.h
+%ignore tiledb::Context::set_error_handler(const std::function<void ( const std::string & )> &);
 
 //ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_dimension.h
 %ignore tiledb::Dimension::Dimension(const std::shared_ptr<tiledb::Context> &,tiledb_dimension_t *);
@@ -166,7 +147,6 @@
 %ignore tiledb::Domain::operator=(const tiledb::Domain);
 %ignore tiledb::Domain::operator=(tiledb::Domain &);
 %ignore tiledb::Domain::cell_num();
-%ignore tiledb::Domain::dump(FILE *);
 %ignore tiledb::Domain::ptr();
 
 //ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_exception.h
@@ -188,31 +168,18 @@
 
 //ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_group.h
 
-//ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_object.h
-%ignore tiledb::Object::Object(Type,const std::string &);
-%ignore tiledb::Object::operator=(const tiledb::Object);
-%ignore tiledb::Object::operator=(tiledb::Object &);
-%ignore tiledb::Object::type();
-
-//ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_object_iter.h
-%ignore tiledb::ObjectIter::obj_getter(const char *,tiledb_object_t,void *);
-%ignore ObjGetterData;
-%ignore iterator;
-
 //ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_query.h
 %ignore tiledb::Query::operator=(const tiledb::Query);
 %ignore tiledb::Query::operator=(tiledb::Query &);
 %ignore tiledb::Query::ptr();
+%ignore tiledb::Query::submit_async(const Fn &);
+%ignore tiledb::Query::submit_async();
 %ignore tiledb::Query::set_buffer(const std::string &,void *,uint64_t);
 %ignore tiledb::Query::set_buffer(const std::string &,uint64_t *,uint64_t,void *,uint64_t);
 %ignore tiledb::Query::get_buffer(const std::string &,void * *,uint64_t *,uint64_t *);
 %ignore tiledb::Query::get_buffer(const std::string &,uint64_t * *,uint64_t *,void * *,uint64_t *,uint64_t *);
 
 //ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_stats.h
-%ignore tiledb::Stats::dump(FILE *);
-%ignore tiledb::Stats::raw_dump(FILE *);
-
-//ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_utils.h
 
 //ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_version.h
 
@@ -241,8 +208,6 @@
 
 %include "tiledb_cxx_context.h"
 
-%include "tiledb_cxx_core_interface.h"
-
 %include "tiledb_cxx_dimension.h"
 
 %include "tiledb_cxx_domain.h"
@@ -255,15 +220,9 @@
 
 %include "tiledb_cxx_group.h"
 
-%include "tiledb_cxx_object.h"
-
-%include "tiledb_cxx_object_iter.h"
-
 %include "tiledb_cxx_query.h"
 
 %include "tiledb_cxx_stats.h"
-
-%include "tiledb_cxx_utils.h"
 
 %include "tiledb_cxx_version.h"
 

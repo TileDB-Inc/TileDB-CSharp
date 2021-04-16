@@ -13,7 +13,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">
     <OutputPath>../../../dist/Darwin/lib</OutputPath>
-  </PropertyGroup>  
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\csharp_wrapper\Array.cs" Link="Array.cs" />
     <Compile Include="..\..\csharp_wrapper\ArraySchema.cs" Link="ArraySchema.cs" />
@@ -52,8 +52,6 @@
     <Compile Include="..\..\csharp_wrapper\MapStringUChar.cs" Link="MapStringUChar.cs" />
     <Compile Include="..\..\csharp_wrapper\MapStringUInt32.cs" Link="MapStringUInt32.cs" />
     <Compile Include="..\..\csharp_wrapper\MapStringUInt64.cs" Link="MapStringUInt64.cs" />
-    <Compile Include="..\..\csharp_wrapper\Object.cs" Link="Object.cs" />
-    <Compile Include="..\..\csharp_wrapper\ObjectIter.cs" Link="ObjectIter.cs" />
     <Compile Include="..\..\csharp_wrapper\PairDoubleDouble.cs" Link="PairDoubleDouble.cs" />
     <Compile Include="..\..\csharp_wrapper\PairInt32Int32.cs" Link="PairInt32Int32.cs" />
     <Compile Include="..\..\csharp_wrapper\PairInt64Int64.cs" Link="PairInt64Int64.cs" />
@@ -63,20 +61,6 @@
     <Compile Include="..\..\csharp_wrapper\Query.cs" Link="Query.cs" />
     <Compile Include="..\..\csharp_wrapper\SchemaMismatch.cs" Link="SchemaMismatch.cs" />
     <Compile Include="..\..\csharp_wrapper\Stats.cs" Link="Stats.cs" />
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_FILE.cs" Link="SWIGTYPE_p_FILE.cs" />
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__arrayT_std__string_2_t.cs" Link="SWIGTYPE_p_std__arrayT_std__string_2_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__arrayT_tiledb_layout_t_2_t.cs" Link="SWIGTYPE_p_std__arrayT_tiledb_layout_t_2_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__functionT_void_fstd__string_const_RF_t.cs" Link="SWIGTYPE_p_std__functionT_void_fstd__string_const_RF_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__mapT_std__string_tiledb__Attribute_std__lessT_std__string_t_t.cs" Link="SWIGTYPE_p_std__mapT_std__string_tiledb__Attribute_std__lessT_std__string_t_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__string.cs" Link="SWIGTYPE_p_std__string.cs" />
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__tupleT_int_int_int_t.cs" Link="SWIGTYPE_p_std__tupleT_int_int_int_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_std__vectorT_tiledb__Dimension_t.cs" Link="SWIGTYPE_p_std__vectorT_tiledb__Dimension_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_tiledb_array_t.cs" Link="SWIGTYPE_p_tiledb_array_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_tiledb_ctx_t.cs" Link="SWIGTYPE_p_tiledb_ctx_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_tiledb_datatype_t.cs" Link="SWIGTYPE_p_tiledb_datatype_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_tiledb_error_t.cs" Link="SWIGTYPE_p_tiledb_error_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_tiledb_query_t.cs" Link="SWIGTYPE_p_tiledb_query_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\SWIGTYPE_p_tiledb__ObjectIter__iterator.cs" Link="SWIGTYPE_p_tiledb__ObjectIter__iterator.cs" />
     <Compile Include="..\..\csharp_wrapper\tiledbcs.cs" Link="tiledbcs.cs" />
     <Compile Include="..\..\csharp_wrapper\tiledbcsPINVOKE.cs" Link="tiledbcsPINVOKE.cs" />
     <Compile Include="..\..\csharp_wrapper\TileDBError.cs" Link="TileDBError.cs" />
@@ -99,6 +83,14 @@
     <Compile Include="..\..\csharp_wrapper\VectorDouble.cs" Link="VectorDouble.cs" />
     <Compile Include="..\..\csharp_wrapper\VectorInt32.cs" Link="VectorInt32.cs" />
     <Compile Include="..\..\csharp_wrapper\VectorInt64.cs" Link="VectorInt64.cs" />
+    <Compile Include="..\..\csharp_wrapper\VectorOfVectorChar.cs" Link="VectorOfVectorChar.cs" />
+    <Compile Include="..\..\csharp_wrapper\VectorOfVectorDouble.cs" Link="VectorOfVectorDouble.cs" />
+    <Compile Include="..\..\csharp_wrapper\VectorOfVectorInt32.cs" Link="VectorOfVectorInt32.cs" />
+    <Compile Include="..\..\csharp_wrapper\VectorOfVectorInt64.cs" Link="VectorOfVectorInt64.cs" />
+    <Compile Include="..\..\csharp_wrapper\VectorOfVectorString.cs" Link="VectorOfVectorString.cs" />
+    <Compile Include="..\..\csharp_wrapper\VectorOfVectorUChar.cs" Link="VectorOfVectorUChar.cs" />
+    <Compile Include="..\..\csharp_wrapper\VectorOfVectorUInt32.cs" Link="VectorOfVectorUInt32.cs" />
+    <Compile Include="..\..\csharp_wrapper\VectorOfVectorUInt64.cs" Link="VectorOfVectorUInt64.cs" />
     <Compile Include="..\..\csharp_wrapper\VectorString.cs" Link="VectorString.cs" />
     <Compile Include="..\..\csharp_wrapper\VectorUChar.cs" Link="VectorUChar.cs" />
     <Compile Include="..\..\csharp_wrapper\VectorUInt32.cs" Link="VectorUInt32.cs" />

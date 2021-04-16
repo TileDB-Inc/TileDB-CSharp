@@ -51,18 +51,9 @@ public class Context : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Context(SWIGTYPE_p_tiledb_ctx_t ctx) : this(tiledbcsPINVOKE.new_Context__SWIG_2(SWIGTYPE_p_tiledb_ctx_t.getCPtr(ctx)), true) {
-  }
-
   public void handle_error(int rc) {
     tiledbcsPINVOKE.Context_handle_error(swigCPtr, rc);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
-  }
-
-  public Context set_error_handler(SWIGTYPE_p_std__functionT_void_fstd__string_const_RF_t fn) {
-    Context ret = new Context(tiledbcsPINVOKE.Context_set_error_handler(swigCPtr, SWIGTYPE_p_std__functionT_void_fstd__string_const_RF_t.getCPtr(fn)), true);
-    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
   }
 
   public Config config() {

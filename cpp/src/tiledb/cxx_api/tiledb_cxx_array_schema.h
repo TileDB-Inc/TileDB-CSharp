@@ -218,10 +218,20 @@ class ArraySchema : public Schema {
    * @param out (Optional) File to dump output to. Defaults to `nullptr`
    * which will lead to selection of `stdout`.
    */
-  void dump(FILE* out = nullptr) const override {
+  void dump(const std::string& filename) const override { //void dump(FILE* out = nullptr) const override {
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    FILE* pFile = nullptr;
+    if(!filename.empty())
+    {
+      pFile = fopen(filename.c_str(),"w");
+    }
+    
     ctx_->handle_error(
-        tiledb_array_schema_dump(ctx_->ptr().get(), schema_.get(), out));
+        tiledb_array_schema_dump(ctx_->ptr().get(), schema_.get(), pFile));
+    if(pFile!=NULL)
+    {
+      fclose(pFile);
+    }
   }
 
   /** Returns the array type. */
@@ -307,9 +317,9 @@ class ArraySchema : public Schema {
    * @param layout Pair of {tile order, cell order}
    * @return Reference to this `ArraySchema` instance.
    */
-  tiledb::ArraySchema& set_order(const std::array<tiledb_layout_t, 2>& p) {
-    set_tile_order(p[0]);
-    set_cell_order(p[1]);
+  tiledb::ArraySchema& set_order(tiledb_layout_t tile_order, tiledb_layout_t cell_order) { //tiledb::ArraySchema& set_order(const std::array<tiledb_layout_t, 2>& p) {
+    set_tile_order(tile_order); //set_tile_order(p[0]);
+    set_cell_order(cell_order);// set_cell_order(p[1]);
     return *this;
   }
 
@@ -499,27 +509,29 @@ class ArraySchema : public Schema {
     ctx_->handle_error(tiledb_array_schema_check(ctx_->ptr().get(), schema_.get()));
   }
 
-  /**
-   * Gets all attributes in the array.
-   *
-   * @return Map of attribute name to copy of Attribute instance.
-   */
-  std::map<std::string, tiledb::Attribute> attributes() const override { //std::unordered_map<std::string, tiledb::Attribute> attributes() const override {
-    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
-    tiledb_attribute_t* attrptr;
-    unsigned int nattr;
-    std::map<std::string, Attribute> attrs; //std::unordered_map<std::string, Attribute> attrs;
-    ctx_->handle_error(tiledb_array_schema_get_attribute_num(
-        ctx_->ptr().get(), schema_.get(), &nattr));
-    for (unsigned int i = 0; i < nattr; ++i) {
-      ctx_->handle_error(tiledb_array_schema_get_attribute_from_index(
-          ctx_->ptr().get(), schema_.get(), i, &attrptr));
-      auto attr = Attribute(ctx_, attrptr);
-      attrs.emplace(
-          std::pair<std::string, Attribute>(attr.name(), std::move(attr)));
-    }
-    return attrs;
-  }
+ 	/**
+	* Gets all attribute name vector.
+	*
+	* @return vector of attribute names.
+	*/
+	std::vector<std::string> attribute_names() const {
+		tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+		tiledb_attribute_t* attrptr;
+		unsigned int nattr;
+ 
+		ctx_->handle_error(tiledb_array_schema_get_attribute_num(
+			c_ctx, schema_.get(), &nattr));
+		std::vector<std::string> result;
+		result.reserve(nattr);
+		for (unsigned int i = 0; i < nattr; ++i) {
+			ctx_->handle_error(tiledb_array_schema_get_attribute_from_index(
+				c_ctx, schema_.get(), i, &attrptr));
+			auto attr = Attribute(ctx_, attrptr);
+			result.push_back(attr.name());
+			 
+		}
+		return result;
+	} 
 
   /**
    * Get a copy of an Attribute in the schema by name.
@@ -625,31 +637,33 @@ class ArraySchema : public Schema {
 
 
 //////customized
+protected:
+  /**
+   * Gets all attributes in the array.
+   *
+   * @return Map of attribute name to copy of Attribute instance.
+   */
+  std::map<std::string,tiledb::Attribute> attributes() const { //std::unordered_map<std::string, tiledb::Attribute> attributes() const override {
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    tiledb_attribute_t* attrptr;
+    unsigned int nattr;
+    std::map<std::string, Attribute> attrs; //std::unordered_map<std::string, Attribute> attrs;
+    ctx_->handle_error(tiledb_array_schema_get_attribute_num(
+        ctx_->ptr().get(), schema_.get(), &nattr));
+    for (unsigned int i = 0; i < nattr; ++i) {
+      ctx_->handle_error(tiledb_array_schema_get_attribute_from_index(
+          ctx_->ptr().get(), schema_.get(), i, &attrptr));
+      auto attr = Attribute(ctx_, attrptr);
+      attrs.emplace(
+          std::pair<std::string, Attribute>(attr.name(), std::move(attr)));
+    }
+    return attrs;
+  }
+
+
 
 public:
-	/**
-	* Gets all attribute name vector.
-	*
-	* @return vector of attribute names.
-	*/
-	std::vector<std::string> attribute_names() const {
-		tiledb_ctx_t* c_ctx = ctx_->ptr().get();
-		tiledb_attribute_t* attrptr;
-		unsigned int nattr;
- 
-		ctx_->handle_error(tiledb_array_schema_get_attribute_num(
-			c_ctx, schema_.get(), &nattr));
-		std::vector<std::string> result;
-		result.reserve(nattr);
-		for (unsigned int i = 0; i < nattr; ++i) {
-			ctx_->handle_error(tiledb_array_schema_get_attribute_from_index(
-				c_ctx, schema_.get(), i, &attrptr));
-			auto attr = Attribute(ctx_, attrptr);
-			result.push_back(attr.name());
-			 
-		}
-		return result;
-	}
+
 
 	/**
 	* Gets all dimension name vector.
@@ -666,14 +680,8 @@ public:
 	 
 		Domain cpp_domain(ctx_, domain);
 
-		const std::vector<Dimension> dims = cpp_domain.dimensions();
-
-		for (auto it = dims.begin(); it != dims.end(); ++it)
-		{
-			result.push_back(it->name());
-		}
- 
-		return result;
+		return cpp_domain.dimension_names();
+		 
 	}
 
 	/**
@@ -787,18 +795,19 @@ public:
 		ss << "\"dimensions\":[";
 		Domain cpp_domain(ctx_, domain);
 
-		const std::vector<Dimension> dims = cpp_domain.dimensions();
+		std::vector<std::string> dim_names = cpp_domain.dimension_names();// const std::vector<Dimension> dims = cpp_domain.dimensions();
 
-		int ndim = (int)dims.size();
+		int ndim = (int)dim_names.size();
 		for (int i = 0; i < ndim; ++i) {
+			Dimension dim = cpp_domain.dimension(dim_names[i]);
 			if (i > 0)
 			{
 				ss << ",";
 			}
 			ss << "{";
-			ss << "\"name\":\"" << dims[i].name() << "\"";
-			ss << ",\"type\":" << dims[i].type() ;
-			ss << ",\"domain_bound\":\"" << dims[i].domain_to_str() << "\"";
+			ss << "\"name\":\"" << dim.name() << "\"";
+			ss << ",\"type\":" << dim.type() ;
+			ss << ",\"domain_bound\":\"" << dim.domain_to_str() << "\"";
 			ss << "}";
 		}
 
@@ -857,8 +866,9 @@ inline std::ostream& operator<<(std::ostream& os, const tiledb::ArraySchema& sch
   os << "ArraySchema<";
   os << tiledb::ArraySchema::to_str(schema.array_type());
   os << ' ' << schema.domain();
-  for (const auto& a : schema.attributes()) {
-    os << ' ' << a.second;
+  for (const auto& attr_name : schema.attribute_names()) {
+    Attribute attr = schema.attribute(attr_name);
+    os << ' ' << attr;
   }
   os << '>';
   return os;
