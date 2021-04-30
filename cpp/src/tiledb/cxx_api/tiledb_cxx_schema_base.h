@@ -94,7 +94,7 @@ class Schema {
   virtual void check() const = 0;
 
   /** Gets all attributes in the array. */
-  //virtual std::map<std::string,tiledb::Attribute> attributes() const = 0; //virtual std::unordered_map<std::string, tiledb::Attribute> attributes() const = 0;
+  virtual std::map<std::string,tiledb::Attribute> attributes() const = 0; //virtual std::unordered_map<std::string, tiledb::Attribute> attributes() const = 0;
 
   /** Gets all attribute names in the array */
   virtual std::vector<std::string> attribute_names() const = 0;

@@ -514,7 +514,7 @@ class ArraySchema : public Schema {
 	*
 	* @return vector of attribute names.
 	*/
-	std::vector<std::string> attribute_names() const {
+	std::vector<std::string> attribute_names() const override {
 		tiledb_ctx_t* c_ctx = ctx_->ptr().get();
 		tiledb_attribute_t* attrptr;
 		unsigned int nattr;
@@ -637,13 +637,13 @@ class ArraySchema : public Schema {
 
 
 //////customized
-protected:
+public:
   /**
    * Gets all attributes in the array.
    *
    * @return Map of attribute name to copy of Attribute instance.
    */
-  std::map<std::string,tiledb::Attribute> attributes() const { //std::unordered_map<std::string, tiledb::Attribute> attributes() const override {
+  std::map<std::string,tiledb::Attribute> attributes() const override { //std::unordered_map<std::string, tiledb::Attribute> attributes() const override {
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_attribute_t* attrptr;
     unsigned int nattr;
