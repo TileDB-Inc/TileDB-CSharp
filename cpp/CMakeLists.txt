@@ -5,7 +5,7 @@
 # setup
 cmake_minimum_required(VERSION 3.16)
 
-set(TILEDB_VERSION "2.2.7" CACHE STRING "TileDB version")
+set(TILEDB_VERSION "2.2.9" CACHE STRING "TileDB version")
 
 project(TileDB-CSharp)
 
