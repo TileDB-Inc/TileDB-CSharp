@@ -24,7 +24,7 @@ Currently the following platforms are supported:
 cd cpp
 mkdir build_win64
 cd build_win64
-cmake -G "Visual Studio 14 2015" -A x64 ..
+cmake -G "Visual Studio 16 2019" -A x64 ..
 cmake --build . --target install --config Release
 ```
 ### Build c++ Wrapper for Linux or macOS

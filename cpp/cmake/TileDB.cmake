@@ -24,6 +24,7 @@ if(NOT zlib_POPULATED)
       ${zlib_BINARY_DIR}
       )
 endif()
+
 if(MSVC)
 
 file(
@@ -34,7 +35,7 @@ install(
   FILES 
     ${ZLIB_DLLFILES}
   DESTINATION 
-  ${CMAKE_INSTALL_LIBDIR}
+  ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}
 )
 
 endif()
@@ -69,14 +70,25 @@ message(STATUS "start to set tiledb for version:${TILEDB_VERSION}")
 if(${TILEDB_VERSION} STREQUAL "nightly_build")
 ##TODO: change to nightly_build
   if (WIN32) # Windows
-    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.2.9/tiledb-windows-2.2.9-dc3bb54-full.zip")
-    SET(TILEDB_DOWNLOAD_SHA1 "41D72B04A2C503AEEEB45A893DD82B071C732D45")
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.0/tiledb-windows-2.3.0-a87da7f-full.zip")
+    SET(TILEDB_DOWNLOAD_SHA1 "CBE6F41108B49DA6ECA516A9A12BAD2064BD2240")
   elseif(APPLE) # OSX
-    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.2.9/tiledb-macos-2.2.9-dc3bb54-full.tar.gz")
-    SET(TILEDB_DOWNLOAD_SHA1 "6E6A04351A6DDA4C22BE15B639F48931423F3B86")
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.0/tiledb-macos-2.3.0-a87da7f-full.tar.gz")
+    SET(TILEDB_DOWNLOAD_SHA1 "BFA0247199BD6E2E08104534B45FF83123B7D4AB")
   else() # Linux
-    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.2.9/tiledb-linux-2.2.9-dc3bb54-full.tar.gz")
-    SET(TILEDB_DOWNLOAD_SHA1 "CB0AD1D6D942F926260B580F2C3073740DEAAD9F")
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.0/tiledb-linux-2.3.0-a87da7f-full.tar.gz")
+    SET(TILEDB_DOWNLOAD_SHA1 "15592594E38560A55FD7E3B7A052D9FF79F59A49")
+  endif()
+elseif(${TILEDB_VERSION} STREQUAL "2.3.0")
+  if (WIN32) # Windows
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.0/tiledb-windows-2.3.0-a87da7f-full.zip")
+    SET(TILEDB_DOWNLOAD_SHA1 "CBE6F41108B49DA6ECA516A9A12BAD2064BD2240")
+  elseif(APPLE) # OSX
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.0/tiledb-macos-2.3.0-a87da7f-full.tar.gz")
+    SET(TILEDB_DOWNLOAD_SHA1 "BFA0247199BD6E2E08104534B45FF83123B7D4AB")
+  else() # Linux
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.0/tiledb-linux-2.3.0-a87da7f-full.tar.gz")
+    SET(TILEDB_DOWNLOAD_SHA1 "15592594E38560A55FD7E3B7A052D9FF79F59A49")
   endif()
 elseif(${TILEDB_VERSION} STREQUAL "2.2.9")
   if (WIN32) # Windows
@@ -213,14 +225,14 @@ elseif(${TILEDB_VERSION} STREQUAL "1.4.1")
   endif()
 else()
   if (WIN32) # Windows
-    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.2.8/tiledb-windows-2.2.8-6e7a5a2-full.zip")
-    SET(TILEDB_DOWNLOAD_SHA1 "54633F19A142FFB507E030633C8C713FB529169E")
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.0/tiledb-windows-2.3.0-a87da7f-full.zip")
+    SET(TILEDB_DOWNLOAD_SHA1 "CBE6F41108B49DA6ECA516A9A12BAD2064BD2240")
   elseif(APPLE) # OSX
-    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.2.8/tiledb-macos-2.2.8-6e7a5a2-full.tar.gz")
-    SET(TILEDB_DOWNLOAD_SHA1 "0037958A043F21B9392E3261C7495F81C6780C5B")
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.0/tiledb-macos-2.3.0-a87da7f-full.tar.gz")
+    SET(TILEDB_DOWNLOAD_SHA1 "BFA0247199BD6E2E08104534B45FF83123B7D4AB")
   else() # Linux
-    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.2.8/tiledb-linux-2.2.8-6e7a5a2-full.tar.gz")
-    SET(TILEDB_DOWNLOAD_SHA1 "C8CEF21926EE9860B307ACD200961DB0B5E693A3")
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.0/tiledb-linux-2.3.0-a87da7f-full.tar.gz")
+    SET(TILEDB_DOWNLOAD_SHA1 "15592594E38560A55FD7E3B7A052D9FF79F59A49")
   endif()
 endif() ###
 
@@ -270,13 +282,13 @@ foreach(item ${TILEDB_BIN_FILES_AND_DIRS})
 endforeach()
 
 
-message(STATUS "TILEDB install  ${TILEDB_BIN_FILES} to bin directory:${CMAKE_INSTALL_BINDIR}")
+message(STATUS "TILEDB install  ${TILEDB_BIN_FILES} to lib directory:${CMAKE_INSTALL_BINDIR}")
 install(FILES ${TILEDB_BIN_FILES}
   DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
 if(TILEDB_BIN_DIRS)
-message(STATUS "TILEDB install  ${TILEDB_BIN_DIRS} to bin directory:${CMAKE_INSTALL_BINDIR}")
+message(STATUS "TILEDB install  ${TILEDB_BIN_DIRS} to lib directory:${CMAKE_INSTALL_BINDIR}")
   install( DIRECTORY ${TILEDB_BIN_DIRS}
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
   )

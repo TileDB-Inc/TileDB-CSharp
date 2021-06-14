@@ -5,7 +5,7 @@
 # setup
 cmake_minimum_required(VERSION 3.16)
 
-set(TILEDB_VERSION "2.2.9" CACHE STRING "TileDB version")
+set(TILEDB_VERSION "2.3.0" CACHE STRING "TileDB version")
 
 project(TileDB-CSharp)
 
@@ -29,6 +29,8 @@ if (OVERRIDE_INSTALL_PREFIX)
   set(CMAKE_INSTALL_PREFIX "${DEFAULT_PREFIX}" CACHE PATH "Default install prefix" FORCE)
   message(STATUS "Using default install prefix ${CMAKE_INSTALL_PREFIX}. To control CMAKE_INSTALL_PREFIX, set OVERRIDE_INSTALL_PREFIX=OFF")
   set(CMAKE_INSTALL_BINDIR "${CMAKE_INSTALL_PREFIX}/lib")
+  ### the following is to force zlib.dll in the lib directory
+  set(INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/lib" CACHE INTERNAL "") 
   message(STATUS "CMAKE_INSTALL_BINDIR: ${CMAKE_INSTALL_BINDIR}")
 endif()
 

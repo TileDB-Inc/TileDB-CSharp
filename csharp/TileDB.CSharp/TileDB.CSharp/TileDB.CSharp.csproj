@@ -99,9 +99,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\..\..\dist\Windows\lib\tbb.dll" Condition=" '$(OS)' == 'Windows_NT' ">
-      <Link>tbb.dll</Link>
-    </Content>
     <Content Include="..\..\..\dist\Windows\lib\tiledb.dll" Condition=" '$(OS)' == 'Windows_NT' ">
       <Link>tiledb.dll</Link>
     </Content>
