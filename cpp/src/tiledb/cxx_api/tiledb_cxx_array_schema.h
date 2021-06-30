@@ -637,7 +637,7 @@ class ArraySchema : public Schema {
 
 
 //////customized
-public:
+protected:
   /**
    * Gets all attributes in the array.
    *

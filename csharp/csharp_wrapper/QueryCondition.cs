@@ -10,20 +10,20 @@
 
 namespace TileDB {
 
-public class FilterList : global::System.IDisposable {
+public class QueryCondition : global::System.IDisposable {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   private bool swigCMemOwnBase;
 
-  internal FilterList(global::System.IntPtr cPtr, bool cMemoryOwn) {
+  internal QueryCondition(global::System.IntPtr cPtr, bool cMemoryOwn) {
     swigCMemOwnBase = cMemoryOwn;
     swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
   }
 
-  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(FilterList obj) {
+  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(QueryCondition obj) {
     return (obj == null) ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : obj.swigCPtr;
   }
 
-  ~FilterList() {
+  ~QueryCondition() {
     Dispose(false);
   }
 
@@ -37,50 +37,34 @@ public class FilterList : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnBase) {
           swigCMemOwnBase = false;
-          tiledbcsPINVOKE.delete_FilterList(swigCPtr);
+          tiledbcsPINVOKE.delete_QueryCondition(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public FilterList(Context ctx) : this(tiledbcsPINVOKE.new_FilterList__SWIG_0(Context.getCPtr(ctx)), true) {
+  public QueryCondition(Context ctx) : this(tiledbcsPINVOKE.new_QueryCondition__SWIG_0(Context.getCPtr(ctx)), true) {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public FilterList() : this(tiledbcsPINVOKE.new_FilterList__SWIG_1(), true) {
-  }
-
-  public FilterList(FilterList arg0) : this(tiledbcsPINVOKE.new_FilterList__SWIG_2(FilterList.getCPtr(arg0)), true) {
+  public QueryCondition(QueryCondition arg0) : this(tiledbcsPINVOKE.new_QueryCondition__SWIG_1(QueryCondition.getCPtr(arg0)), true) {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public FilterList add_filter(Filter filter) {
-    FilterList ret = new FilterList(tiledbcsPINVOKE.FilterList_add_filter(swigCPtr, Filter.getCPtr(filter)), true);
+  public void init(string attribute_name, string condition_value, tiledb_query_condition_op_t op) {
+    tiledbcsPINVOKE.QueryCondition_init(swigCPtr, attribute_name, condition_value, (int)op);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
   }
 
-  public Filter filter(uint filter_index) {
-    Filter ret = new Filter(tiledbcsPINVOKE.FilterList_filter(swigCPtr, filter_index), true);
+  public QueryCondition combine(QueryCondition rhs, tiledb_query_condition_combination_op_t combination_op) {
+    QueryCondition ret = new QueryCondition(tiledbcsPINVOKE.QueryCondition_combine(swigCPtr, QueryCondition.getCPtr(rhs), (int)combination_op), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public uint max_chunk_size() {
-    uint ret = tiledbcsPINVOKE.FilterList_max_chunk_size(swigCPtr);
-    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
-  public uint nfilters() {
-    uint ret = tiledbcsPINVOKE.FilterList_nfilters(swigCPtr);
-    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
-  public FilterList set_max_chunk_size(uint max_chunk_size) {
-    FilterList ret = new FilterList(tiledbcsPINVOKE.FilterList_set_max_chunk_size(swigCPtr, max_chunk_size), true);
+  public static QueryCondition create(Context ctx, string attribute_name, string value, tiledb_query_condition_op_t op) {
+    QueryCondition ret = new QueryCondition(tiledbcsPINVOKE.QueryCondition_create(Context.getCPtr(ctx), attribute_name, value, (int)op), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

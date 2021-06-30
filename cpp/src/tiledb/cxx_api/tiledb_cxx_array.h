@@ -1139,7 +1139,14 @@ class Array {
 
     // Handle attributes
     std::map<std::string, std::pair<uint64_t, uint64_t>> ret; //std::unordered_map<std::string, std::pair<uint64_t, uint64_t>> ret;
-    auto schema_attrs = schema_.attributes();
+    //auto schema_attrs = schema_.attributes();
+    std::map<std::string, tiledb::Attribute> schema_attrs;
+    std::vector<std::string> attr_names=schema_.attribute_names();
+    for(auto& attr_name: attr_names) {
+      schema_attrs[attr_name]=schema_.attribute(attr_name);
+    }
+
+
     uint64_t attr_size, type_size;
 
     for (const auto& a : schema_attrs) {

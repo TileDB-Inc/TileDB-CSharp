@@ -10,10 +10,10 @@
 
 namespace TileDB {
 
-public enum tiledb_object_t {
-  TILEDB_INVALID = 0,
-  TILEDB_GROUP = 1,
-  TILEDB_ARRAY = 2
+public enum tiledb_query_condition_combination_op_t {
+  TILEDB_AND = 0,
+  TILEDB_OR = 1,
+  TILEDB_NOT = 2
 }
 
 }

@@ -196,6 +196,31 @@ enum tiledb_query_status_t{ //#ifdef TILEDB_QUERY_STATUS_ENUM
     TILEDB_UNINITIALIZED =  4, //    TILEDB_QUERY_STATUS_ENUM(UNINITIALIZED) = 4,
 };//#endif
 
+enum tiledb_query_condition_op_t { //#ifdef TILEDB_QUERY_CONDITION_OP_ENUM
+    /** Less-than operator */
+    TILEDB_LT = 0, //TILEDB_QUERY_CONDITION_OP_ENUM(LT) = 0,
+    /** Less-than-or-equal operator */
+    TILEDB_LE = 1, //TILEDB_QUERY_CONDITION_OP_ENUM(LE) = 1,
+    /** Greater-than operator */
+    TILEDB_GT = 2, //TILEDB_QUERY_CONDITION_OP_ENUM(GT) = 2,
+    /** Greater-than-or-equal operator */
+    TILEDB_GE = 3, //TILEDB_QUERY_CONDITION_OP_ENUM(GE) = 3,
+    /** Equal operator */
+    TILEDB_EQ = 4, //TILEDB_QUERY_CONDITION_OP_ENUM(EQ) = 4,
+    /** Not-equal operator */
+    TILEDB_NE = 5, //TILEDB_QUERY_CONDITION_OP_ENUM(NE) = 5,
+};//#endif
+
+enum tiledb_query_condition_combination_op_t { //#ifdef TILEDB_QUERY_CONDITION_COMBINATION_OP_ENUM
+    /**'And' operator */
+    TILEDB_AND = 0, //TILEDB_QUERY_CONDITION_COMBINATION_OP_ENUM(AND) = 0,
+    /** 'Or' operator */
+     TILEDB_OR = 1, //TILEDB_QUERY_CONDITION_COMBINATION_OP_ENUM(OR) = 1,
+    /** 'Not' operator */
+    TILEDB_NOT = 2, //TILEDB_QUERY_CONDITION_COMBINATION_OP_ENUM(NOT) = 2,
+}; //#endif
+ 
+
 enum tiledb_serialization_type_t{ //#ifdef TILEDB_SERIALIZATION_TYPE_ENUM
     /** Serialize to json */
     TILEDB_JSON = 0, //    TILEDB_SERIALIZATION_TYPE_ENUM(JSON),

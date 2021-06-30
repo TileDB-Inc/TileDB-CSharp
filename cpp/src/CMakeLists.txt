@@ -30,6 +30,7 @@ set(TILEDB_CXX_API_SOURCES
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_object.h  
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_object_iter.h 
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_query.h 
+   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_query_condition.h
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_schema_base.h     
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_stats.h 
  # ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_string_util.h 

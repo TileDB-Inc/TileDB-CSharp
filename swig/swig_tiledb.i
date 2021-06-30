@@ -36,6 +36,8 @@
 
 %shared_ptr(tiledb::Query)
 
+%shared_ptr(tiledb::QueryCondition)
+
 %shared_ptr(tiledb::Stats)
 
 
@@ -72,6 +74,8 @@
 #include "tiledb_cxx_group.h"
 
 #include "tiledb_cxx_query.h"
+
+#include "tiledb_cxx_query_condition.h"
 
 #include "tiledb_cxx_stats.h"
 
@@ -179,6 +183,13 @@
 %ignore tiledb::Query::get_buffer(const std::string &,void * *,uint64_t *,uint64_t *);
 %ignore tiledb::Query::get_buffer(const std::string &,uint64_t * *,uint64_t *,void * *,uint64_t *,uint64_t *);
 
+//ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_query_condition.h
+%ignore tiledb::QueryCondition::QueryCondition(const std::shared_ptr<tiledb::Context> &,tiledb_query_condition_t * const);
+%ignore tiledb::QueryCondition::operator=(const QueryCondition);
+%ignore tiledb::QueryCondition::operator=(QueryCondition &);
+%ignore tiledb::QueryCondition::init(const std::string &,const void *,uint64_t,tiledb_query_condition_op_t);
+%ignore tiledb::QueryCondition::ptr();
+
 //ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_stats.h
 
 //ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_version.h
@@ -221,6 +232,8 @@
 %include "tiledb_cxx_group.h"
 
 %include "tiledb_cxx_query.h"
+
+%include "tiledb_cxx_query_condition.h"
 
 %include "tiledb_cxx_stats.h"
 

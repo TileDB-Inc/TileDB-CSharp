@@ -59,6 +59,7 @@
     <Compile Include="..\..\csharp_wrapper\PairUInt32UInt32.cs" Link="PairUInt32UInt32.cs" />
     <Compile Include="..\..\csharp_wrapper\PairUInt64UInt64.cs" Link="PairUInt64UInt64.cs" />
     <Compile Include="..\..\csharp_wrapper\Query.cs" Link="Query.cs" />
+    <Compile Include="..\..\csharp_wrapper\QueryCondition.cs" Link="QueryCondition.cs" />
     <Compile Include="..\..\csharp_wrapper\SchemaMismatch.cs" Link="SchemaMismatch.cs" />
     <Compile Include="..\..\csharp_wrapper\Stats.cs" Link="Stats.cs" />
     <Compile Include="..\..\csharp_wrapper\tiledbcs.cs" Link="tiledbcs.cs" />
@@ -72,6 +73,8 @@
     <Compile Include="..\..\csharp_wrapper\tiledb_filter_type_t.cs" Link="tiledb_filter_type_t.cs" />
     <Compile Include="..\..\csharp_wrapper\tiledb_layout_t.cs" Link="tiledb_layout_t.cs" />
     <Compile Include="..\..\csharp_wrapper\tiledb_object_t.cs" Link="tiledb_object_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\tiledb_query_condition_combination_op_t.cs" Link="tiledb_query_condition_combination_op_t.cs" />
+    <Compile Include="..\..\csharp_wrapper\tiledb_query_condition_op_t.cs" Link="tiledb_query_condition_op_t.cs" />
     <Compile Include="..\..\csharp_wrapper\tiledb_query_status_t.cs" Link="tiledb_query_status_t.cs" />
     <Compile Include="..\..\csharp_wrapper\tiledb_query_type_t.cs" Link="tiledb_query_type_t.cs" />
     <Compile Include="..\..\csharp_wrapper\tiledb_serialization_type_t.cs" Link="tiledb_serialization_type_t.cs" />

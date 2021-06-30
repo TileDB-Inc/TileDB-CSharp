@@ -5,7 +5,7 @@
  *
  * The MIT License
  *
- * @copyright Copyright (c) 2019-2020 TileDB, Inc.
+ * @copyright Copyright (c) 2019-2021 TileDB, Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,15 +39,13 @@
 extern "C" {
 #endif
 
+/** Serialization type. */
+typedef enum {
+/** Helper macro for defining array type enums. */
+#define TILEDB_SERIALIZATION_TYPE_ENUM(id) TILEDB_##id
 #include "tiledb_enum.h"
-
-// /** Serialization type. */
-// typedef enum {
-// /** Helper macro for defining array type enums. */
-// #define TILEDB_SERIALIZATION_TYPE_ENUM(id) TILEDB_##id
-// #include "tiledb_enum.h"
-// #undef TILEDB_SERIALIZATION_TYPE_ENUM
-// } tiledb_serialization_type_t;
+#undef TILEDB_SERIALIZATION_TYPE_ENUM
+} tiledb_serialization_type_t;
 
 /**
  * Returns a string representation of the given serialization type.
@@ -82,7 +80,7 @@ TILEDB_EXPORT int32_t tiledb_serialization_type_from_str(
  * @param ctx The TileDB context.
  * @param array_schema The array schema to serialize.
  * @param serialization_type Type of serialization to use
- * @param client_side If set to 1, deserialize from "client-side" perspective.
+ * @param client_side If set to 1, serialize from "client-side" perspective.
  *    Else, "server-side."
  * @param buffer Will be set to a newly allocated buffer containing the
  *      serialized max buffer sizes.
@@ -336,6 +334,45 @@ TILEDB_EXPORT int32_t tiledb_deserialize_query_est_result_sizes(
     tiledb_serialization_type_t serialize_type,
     int32_t client_side,
     const tiledb_buffer_t* buffer);
+
+/**
+ * Serializes the given config.
+ *
+ * @note The caller must free the returned `tiledb_buffer_t`.
+ *
+ * @param ctx The TileDB context.
+ * @param config The config to serialize.
+ * @param serialization_type Type of serialization to use
+ * @param client_side If set to 1, serialize from "client-side" perspective.
+ *    Else, "server-side.". Currently unused for config
+ * @param buffer Will be set to a newly allocated buffer containing the
+ *      serialized max buffer sizes.
+ * @return `TILEDB_OK` for success and `TILEDB_ERR` for error.
+ */
+TILEDB_EXPORT int32_t tiledb_serialize_config(
+    tiledb_ctx_t* ctx,
+    const tiledb_config_t* config,
+    tiledb_serialization_type_t serialize_type,
+    int32_t client_side,
+    tiledb_buffer_t** buffer);
+
+/**
+ * Deserializes a new config from the given buffer.
+ *
+ * @param ctx The TileDB context.
+ * @param buffer Buffer to deserialize from
+ * @param serialization_type Type of serialization to use
+ * @param client_side If set to 1, deserialize from "client-side" perspective.
+ *    Else, "server-side.". Currently unused for config
+ * @param config Will be set to a newly allocated config.
+ * @return `TILEDB_OK` for success and `TILEDB_ERR` for error.
+ */
+TILEDB_EXPORT int32_t tiledb_deserialize_config(
+    tiledb_ctx_t* ctx,
+    const tiledb_buffer_t* buffer,
+    tiledb_serialization_type_t serialize_type,
+    int32_t client_side,
+    tiledb_config_t** config);
 
 #ifdef __cplusplus
 }

@@ -5,7 +5,7 @@
  *
  * The MIT License
  *
- * @copyright Copyright (c) 2017-2020 TileDB, Inc.
+ * @copyright Copyright (c) 2017-2021 TileDB, Inc.
  * @copyright Copyright (c) 2016 MIT and Intel Corporation
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -42,7 +42,9 @@
 #include "tiledb/sm/filesystem/vfs_file_handle.h"
 #include "tiledb/sm/filter/compression_filter.h"
 #include "tiledb/sm/filter/filter_pipeline.h"
+#include "tiledb/sm/fragment/fragment_info.h"
 #include "tiledb/sm/query/query.h"
+#include "tiledb/sm/query/query_condition.h"
 #include "tiledb/sm/storage_manager/context.h"
 #include "tiledb/sm/subarray/subarray.h"
 #include "tiledb/sm/subarray/subarray_partitioner.h"
@@ -104,12 +106,20 @@ struct tiledb_query_t {
   tiledb::sm::Query* query_ = nullptr;
 };
 
+struct tiledb_query_condition_t {
+  tiledb::sm::QueryCondition* query_condition_ = nullptr;
+};
+
 struct tiledb_vfs_t {
   tiledb::sm::VFS* vfs_ = nullptr;
 };
 
 struct tiledb_vfs_fh_t {
   tiledb::sm::VFSFileHandle* vfs_fh_ = nullptr;
+};
+
+struct tiledb_fragment_info_t {
+  tiledb::sm::FragmentInfo* fragment_info_ = nullptr;
 };
 
 #endif
