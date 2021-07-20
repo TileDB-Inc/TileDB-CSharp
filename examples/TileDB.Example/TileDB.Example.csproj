@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\ExampleConfig.cs" Link="ExampleConfig.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\dist\Windows\lib\tiledb.dll" Link="tiledb.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\dist\Windows\lib\tiledbcs.dll" Link="tiledbcs.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\dist\Windows\lib\zlib.dll" Link="zlib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="TileDB.CSharp">
+      <HintPath>..\..\dist\Windows\lib\net5.0\TileDB.CSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
