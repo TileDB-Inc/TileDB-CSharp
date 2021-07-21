@@ -71,12 +71,12 @@ namespace TileDB.Example
             TileDB.Domain dom = new TileDB.Domain(ctx);
             dom.add_int32_dimension("rows", 1, 4, 4);
             dom.add_int32_dimension("cols", 1, 4, 4);
-
+         
             TileDB.ArraySchema schema = new TileDB.ArraySchema(ctx, TileDB.tiledb_array_type_t.TILEDB_SPARSE);
             schema.set_domain(dom);
             TileDB.Attribute attr1 = TileDB.Attribute.create_attribute(ctx, "a", TileDB.tiledb_datatype_t.TILEDB_INT32);
             schema.add_attribute(attr1);
-
+            
             //delete array if it already exists
             TileDB.VFS vfs = new TileDB.VFS(ctx);
             if (vfs.is_dir(array_uri_))
@@ -117,7 +117,7 @@ namespace TileDB.Example
             query.set_int32_vector_buffer("a", data);
             query.set_int32_vector_buffer("rows", coords_rows);
             query.set_int32_vector_buffer("cols", coords_cols);
-
+            
             TileDB.Query.Status status = query.submit();
             array.close();
 

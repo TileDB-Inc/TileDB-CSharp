@@ -28,36 +28,14 @@ using System.Collections.Generic;
 
 namespace TileDB.Example
 {
-    public class ExampleArraySchema
+    public class ExampleVersion
     {
         static void Main(string[] args)
         {
-        
-            TileDB.Context ctx = new TileDB.Context();//Create context
-            TileDB.Domain dom = new TileDB.Domain(ctx);//Create domain
-            dom.add_int32_dimension("rows", 1, 4, 4); //Add an int32 dimension
-            dom.add_int32_dimension("cols", 1, 4, 4); //Add an int32 dimension
+            // Get TileDB version
+            String tiledb_version = TileDB.ArrayUtil.get_tiledb_version();
 
-            // Create an dense array schema
-            TileDB.ArraySchema schema = new TileDB.ArraySchema(ctx, TileDB.tiledb_array_type_t.TILEDB_DENSE);
-            schema.set_domain(dom);
-
-            // Create and add an int attribute
-            TileDB.Attribute attr1 = TileDB.Attribute.create_attribute(ctx, "a", TileDB.tiledb_datatype_t.TILEDB_INT32);
-            schema.add_attribute(attr1);
-
-            try
-            {
-                schema.check();
-            }
-            catch(System.Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-
-            // Dump schema to file
-            schema.dump("temp.schema");
- 
+            Console.WriteLine("TileDB version:{0}", tiledb_version);
 
             return;
         }
