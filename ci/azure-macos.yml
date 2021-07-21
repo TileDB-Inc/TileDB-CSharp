@@ -1,0 +1,18 @@
+steps:
+- bash: |
+    mkdir -p $BUILD_REPOSITORY_LOCALPATH/cpp/build
+    cd $BUILD_REPOSITORY_LOCALPATH/cpp/build
+    cmake ..
+    if ($LastExitCode -ne 0) {
+      Write-Host "Build failed. CMake exit status: " $LastExitCocde
+      $host.SetShouldExit($LastExitCode)
+    }
+    cmake --build $env:AGENT_BUILDDIRECTORY/cpp/build  -j $env:NUMBER_OF_PROCESSORS --target install --config Release
+    if ($LastExitCode -ne 0) {
+      Write-Host "Installation failed."
+      $host.SetShouldExit($LastExitCode)
+    }    
+- bash: |
+    cd $BUILD_REPOSITORY_LOCALPATH/csharp/TileDB.CSharp/TileDB.CSharp
+    dotnet build /p:Platform=x64 -c Release
+  displayName: "Build_CSharp"     
