@@ -97,11 +97,20 @@ add_compile_options(
       
 )
 
-set_target_properties(tiledbcs
-  PROPERTIES
-    PREFIX ""
-    SUFFIX ".so"
-)
+if(APPLE)
+   set_target_properties(tiledbcs
+    PROPERTIES
+      PREFIX ""
+      SUFFIX ".dylib"
+  )
+else()
+   set_target_properties(tiledbcs
+    PROPERTIES
+      PREFIX ""
+      SUFFIX ".so"
+  )
+endif()
+
 target_link_libraries(tiledbcs
   PUBLIC
     pthread
@@ -109,6 +118,7 @@ target_link_libraries(tiledbcs
 #    -l:libarrow.so.200
 #    -l:libarrow_python.so.200
 )
+
 endif()
 
 if(MSVC)
