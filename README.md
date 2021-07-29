@@ -60,7 +60,7 @@ cd examples/TileDB.Example/bin/x64/Release/net5.0
 dotnet TileDB.Example.dll
 ```
 
-#### To build your own example, you can add the refrence library information in you csproj file
+#### To build your own example, you can add the reference library information in you csproj file
 ##### For Windows
 ```
   <ItemGroup Condition=" '$(OS)' == 'Windows_NT' ">
