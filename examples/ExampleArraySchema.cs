@@ -30,9 +30,9 @@ namespace TileDB.Example
 {
     public class ExampleArraySchema
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-        
+
             TileDB.Context ctx = new TileDB.Context();//Create context
             TileDB.Domain dom = new TileDB.Domain(ctx);//Create domain
             dom.add_int32_dimension("rows", 1, 4, 4); //Add an int32 dimension
@@ -57,11 +57,10 @@ namespace TileDB.Example
 
             // Dump schema to file
             schema.dump("temp.schema");
- 
+
 
             return;
         }
     }
 
 }
- 

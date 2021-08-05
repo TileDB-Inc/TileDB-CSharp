@@ -30,7 +30,7 @@ namespace TileDB.Example
 {
     public class ExampleConfig
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             TileDB.Config config = new TileDB.Config();
 
@@ -54,4 +54,3 @@ namespace TileDB.Example
     }
 
 }
- 

@@ -28,15 +28,15 @@ using System.Collections.Generic;
 
 namespace TileDB.Example
 {
-    public class ExampleArray
+    public class ExampleSparseArray
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.WriteLine("Start to create a simple sparse array...");
 
             // Create a sparse array
             CreateSparseSimpleArray();
-            
+
             // Write the sparse array
             TileDB.QueryStatus status_write = WriteSparseSimpleArray();
             if (status_write == TileDB.QueryStatus.TILEDB_FAILED)
@@ -71,12 +71,12 @@ namespace TileDB.Example
             TileDB.Domain dom = new TileDB.Domain(ctx);
             dom.add_int32_dimension("rows", 1, 4, 4);
             dom.add_int32_dimension("cols", 1, 4, 4);
-         
+
             TileDB.ArraySchema schema = new TileDB.ArraySchema(ctx, TileDB.ArrayType.TILEDB_SPARSE);
             schema.set_domain(dom);
             TileDB.Attribute attr1 = TileDB.Attribute.create_attribute(ctx, "a", TileDB.DataType.TILEDB_INT32);
             schema.add_attribute(attr1);
-            
+
             //delete array if it already exists
             TileDB.VFS vfs = new TileDB.VFS(ctx);
             if (vfs.is_dir(array_uri_))
@@ -117,7 +117,7 @@ namespace TileDB.Example
             query.set_int32_vector_buffer("a", data);
             query.set_int32_vector_buffer("rows", coords_rows);
             query.set_int32_vector_buffer("cols", coords_cols);
-            
+
             TileDB.QueryStatus status = query.submit();
             array.close();
 
@@ -162,6 +162,4 @@ namespace TileDB.Example
 
 
     }
-
 }
- 

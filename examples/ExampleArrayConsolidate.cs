@@ -30,16 +30,16 @@ namespace TileDB.Example
 {
     public class ExampleArrayConsolidate
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             System.Console.WriteLine("Start to consolidate an array...");
 
             // Create a config
             TileDB.Config config = new TileDB.Config();
 
-            // Create a context 
+            // Create a context
             TileDB.Context context = new TileDB.Context(config);
-            
+
             string array_uri = "test_array";
 
             try
@@ -63,4 +63,3 @@ namespace TileDB.Example
     }
 
 }
- 
