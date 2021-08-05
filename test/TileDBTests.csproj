@@ -3,12 +3,10 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <!-- don't compile all .cs files by default -->
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-<!--
-    <StartupObject>CSharpTests.Build</StartupObject>
+    <!-- set entrypoint -->
+    <StartupObject>test.UnitTestExamples</StartupObject>
+    <!-- allow multiple Main in compilation unit -->
     <GenerateProgramFile>false</GenerateProgramFile>
--->
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="TileDBTests.cs" />
+    <Compile Include="../examples/*.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -14,6 +14,8 @@ namespace test
         [Fact]
         public void TestConfig()
         {
+            Console.WriteLine("\n\n HERE I AM \n\n");
+
             var config = new tdb.Config();
             config.set("sm.memory_budget", "1234567");
             var context = new tdb.Context(config);
