@@ -10,7 +10,7 @@
 
 namespace TileDB {
 
-public enum tiledb_encryption_type_t {
+public enum EncryptionType {
   TILEDB_NO_ENCRYPTION = 0,
   TILEDB_AES_256_GCM = 1
 }

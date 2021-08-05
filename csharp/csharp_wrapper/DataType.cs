@@ -10,7 +10,7 @@
 
 namespace TileDB {
 
-public enum tiledb_datatype_t {
+public enum DataType {
   TILEDB_INT32 = 0,
   TILEDB_INT64 = 1,
   TILEDB_FLOAT32 = 2,

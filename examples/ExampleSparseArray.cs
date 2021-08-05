@@ -38,8 +38,8 @@ namespace TileDB.Example
             CreateSparseSimpleArray();
             
             // Write the sparse array
-            TileDB.Query.Status status_write = WriteSparseSimpleArray();
-            if (status_write == TileDB.Query.Status.FAILED)
+            TileDB.QueryStatus status_write = WriteSparseSimpleArray();
+            if (status_write == TileDB.QueryStatus.TILEDB_FAILED)
             {
                 Console.WriteLine("Failed to write the sparse array!");
             }
@@ -49,8 +49,8 @@ namespace TileDB.Example
             }
 
             // Read the sparse array
-            TileDB.Query.Status status_read = ReadSparseSimpleArray();
-            if (status_read == TileDB.Query.Status.FAILED)
+            TileDB.QueryStatus status_read = ReadSparseSimpleArray();
+            if (status_read == TileDB.QueryStatus.TILEDB_FAILED)
             {
                 Console.WriteLine("Failed to read the sparse array!");
             }
@@ -72,9 +72,9 @@ namespace TileDB.Example
             dom.add_int32_dimension("rows", 1, 4, 4);
             dom.add_int32_dimension("cols", 1, 4, 4);
          
-            TileDB.ArraySchema schema = new TileDB.ArraySchema(ctx, TileDB.tiledb_array_type_t.TILEDB_SPARSE);
+            TileDB.ArraySchema schema = new TileDB.ArraySchema(ctx, TileDB.ArrayType.TILEDB_SPARSE);
             schema.set_domain(dom);
-            TileDB.Attribute attr1 = TileDB.Attribute.create_attribute(ctx, "a", TileDB.tiledb_datatype_t.TILEDB_INT32);
+            TileDB.Attribute attr1 = TileDB.Attribute.create_attribute(ctx, "a", TileDB.DataType.TILEDB_INT32);
             schema.add_attribute(attr1);
             
             //delete array if it already exists
@@ -89,7 +89,7 @@ namespace TileDB.Example
 
         }//private void CreateSparseSimpleArray()
 
-        private static TileDB.Query.Status WriteSparseSimpleArray()
+        private static TileDB.QueryStatus WriteSparseSimpleArray()
         {
             TileDB.Context ctx = new TileDB.Context();
 
@@ -111,21 +111,21 @@ namespace TileDB.Example
 
 
             //open array for write
-            TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.tiledb_query_type_t.TILEDB_WRITE);
-            TileDB.Query query = new TileDB.Query(ctx, array, TileDB.tiledb_query_type_t.TILEDB_WRITE);
-            query.set_layout(TileDB.tiledb_layout_t.TILEDB_UNORDERED);
+            TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.QueryType.TILEDB_WRITE);
+            TileDB.Query query = new TileDB.Query(ctx, array, TileDB.QueryType.TILEDB_WRITE);
+            query.set_layout(TileDB.LayoutType.TILEDB_UNORDERED);
             query.set_int32_vector_buffer("a", data);
             query.set_int32_vector_buffer("rows", coords_rows);
             query.set_int32_vector_buffer("cols", coords_cols);
             
-            TileDB.Query.Status status = query.submit();
+            TileDB.QueryStatus status = query.submit();
             array.close();
 
             return status;
 
         }//private void WriteSparseSimpleArray()
 
-        private static TileDB.Query.Status ReadSparseSimpleArray()
+        private static TileDB.QueryStatus ReadSparseSimpleArray()
         {
             TileDB.Context ctx = new TileDB.Context();
 
@@ -142,21 +142,21 @@ namespace TileDB.Example
             subarray.Add(4);
 
             //open array for read
-            TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.tiledb_query_type_t.TILEDB_READ);
+            TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.QueryType.TILEDB_READ);
 
             //query
-            TileDB.Query query = new TileDB.Query(ctx, array, TileDB.tiledb_query_type_t.TILEDB_READ);
-            query.set_layout(TileDB.tiledb_layout_t.TILEDB_ROW_MAJOR);
+            TileDB.Query query = new TileDB.Query(ctx, array, TileDB.QueryType.TILEDB_READ);
+            query.set_layout(TileDB.LayoutType.TILEDB_ROW_MAJOR);
             query.set_int32_subarray(subarray);
             query.set_int32_vector_buffer("a", data);
             query.set_int32_vector_buffer("rows", coords_rows);
             query.set_int32_vector_buffer("cols", coords_cols);
 
-            TileDB.Query.Status status = query.submit();
+            TileDB.QueryStatus status = query.submit();
             array.close();
 
             return status;
-        }//private TileDB.Query.Status ReadSimpleSparseArray()
+        }//private TileDB.QueryStatus ReadSimpleSparseArray()
 
         #endregion
 

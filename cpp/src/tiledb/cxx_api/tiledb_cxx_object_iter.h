@@ -109,7 +109,7 @@ class ObjectIter {
       : ctx_(ctx)
       , root_(root) {
     recursive_ = false;
-    walk_order_ = TILEDB_PREORDER;
+    walk_order_ = (tiledb_walk_order_t)TILEDB_PREORDER;
     group_ = true;
     array_ = true;
   }
@@ -137,9 +137,10 @@ class ObjectIter {
    *
    * @param walk_order The walk order.
    */
-  void set_recursive(tiledb_walk_order_t walk_order = TILEDB_PREORDER) {
+  void set_recursive(WalkOrderType walkorder = WalkOrderType::TILEDB_PREORDER) {
+ 
     recursive_ = true;
-    walk_order_ = walk_order;
+    walk_order_ = (tiledb_walk_order_t)walkorder;
   }
 
   /** Disables recursive traversal. */
@@ -235,8 +236,8 @@ class ObjectIter {
    */
   static int obj_getter(const char* path, tiledb_object_t type, void* data) {
     auto data_struct = static_cast<ObjGetterData*>(data);
-    if ((type == TILEDB_ARRAY && data_struct->array_) ||
-        (type == TILEDB_GROUP && data_struct->group_)) {
+    if ((type == ::TILEDB_ARRAY && data_struct->array_) ||
+        (type == ::TILEDB_GROUP && data_struct->group_)) {
       Object obj(type, path);
       //auto& objs = data_struct->objs_.get();
 	  data_struct->objs_->emplace_back(obj);  //objs.emplace_back(obj);

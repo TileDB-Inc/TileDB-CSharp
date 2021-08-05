@@ -10,9 +10,11 @@
 
 namespace TileDB {
 
-public enum tiledb_serialization_type_t {
-  TILEDB_JSON = 0,
-  TILEDB_CAPNP = 1
+public enum FilesystemType {
+  TILEDB_HDFS = 0,
+  TILEDB_S3 = 1,
+  TILEDB_AZURE = 2,
+  TILEDB_GCS = 3
 }
 
 }

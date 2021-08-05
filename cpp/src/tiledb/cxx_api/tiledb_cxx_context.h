@@ -38,6 +38,7 @@
 #include "tiledb_cxx_config.h"
 #include "tiledb_cxx_exception.h"
 #include "tiledb.h"
+#include "tiledb_cxx_enum.h"
 
 #include <functional>
 #include <iostream>
@@ -202,7 +203,8 @@ class Context {
    *
    * @param fs Filesystem to check
    */
-  bool is_supported_fs(tiledb_filesystem_t fs) const {
+  bool is_supported_fs(tiledb::FilesystemType fstype) const {
+    tiledb_filesystem_t fs = (tiledb_filesystem_t)fstype;
     int ret;
     handle_error(tiledb_ctx_is_supported_fs(ctx_.get(), fs, &ret));
     return ret != 0;

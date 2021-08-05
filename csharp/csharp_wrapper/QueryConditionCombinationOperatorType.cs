@@ -10,12 +10,10 @@
 
 namespace TileDB {
 
-public enum tiledb_query_status_t {
-  TILEDB_FAILED = 0,
-  TILEDB_COMPLETED = 1,
-  TILEDB_INPROGRESS = 2,
-  TILEDB_INCOMPLETE = 3,
-  TILEDB_UNINITIALIZED = 4
+public enum QueryConditionCombinationOperatorType {
+  TILEDB_AND = 0,
+  TILEDB_OR = 1,
+  TILEDB_NOT = 2
 }
 
 }

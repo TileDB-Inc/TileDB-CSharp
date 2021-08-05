@@ -38,6 +38,7 @@
 #include "tiledb_cxx_context.h"
 #include "tiledb_cxx_deleter.h"
 #include "tiledb.h"
+#include "tiledb_cxx_enum.h"
 
 #include <functional>
 #include <locale>
@@ -594,11 +595,11 @@ inline VFSFilebuf* VFSFilebuf::open(
   tiledb_vfs_mode_t mode;
 
   if (openmode == std::ios::out) {
-    mode = TILEDB_VFS_WRITE;
+    mode = (tiledb_vfs_mode_t)TILEDB_VFS_WRITE;
   } else if (openmode == std::ios::app) {
-    mode = TILEDB_VFS_APPEND;
+    mode = (tiledb_vfs_mode_t)TILEDB_VFS_APPEND;
   } else if (openmode == std::ios::in) {
-    mode = TILEDB_VFS_READ;
+    mode = (tiledb_vfs_mode_t)TILEDB_VFS_READ;
   } else
     return nullptr;
 
@@ -612,7 +613,7 @@ inline VFSFilebuf* VFSFilebuf::open(
   }
   fh_ = std::shared_ptr<tiledb_vfs_fh_t>(fh, deleter_);
 
-  if (mode == TILEDB_VFS_APPEND && vfs_->is_file(uri)) {
+  if (mode == (tiledb_vfs_mode_t)TILEDB_VFS_APPEND && vfs_->is_file(uri)) {
     seekoff(0, std::ios::end, openmode);
   }
 

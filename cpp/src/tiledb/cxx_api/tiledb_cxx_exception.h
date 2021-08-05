@@ -37,6 +37,7 @@
 #include "tiledb_cxx_core_interface.h"
 #include "tiledb.h"
 #include "tiledb_cxx_type.h"
+#include "tiledb_cxx_enum.h"
 
 #include <stdexcept>
 
@@ -80,9 +81,10 @@ const T& identity(const T& t) {
 
 /** Checks if the input type complies with the template type. */
 template <typename T, typename Handler = TypeHandler<T>>
-inline void type_check(tiledb_datatype_t type, unsigned num = 0) {
+inline void type_check(DataType datatype, unsigned num = 0) {
+  tiledb_datatype_t type = (tiledb_datatype_t)datatype;
   if (tiledb_string_type(type)) {
-    if (Handler::tiledb_type != identity(TILEDB_CHAR)) {
+    if (Handler::tiledb_type != identity(::TILEDB_CHAR)) {
       throw TypeError(
           "Static type (" + impl::type_to_str(Handler::tiledb_type) +
           ") does not match expected container type CHAR for tiledb type (" +

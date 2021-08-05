@@ -10,7 +10,7 @@
 
 namespace TileDB {
 
-public enum tiledb_query_type_t {
+public enum QueryType {
   TILEDB_READ = 0,
   TILEDB_WRITE = 1
 }

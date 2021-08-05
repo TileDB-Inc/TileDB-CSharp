@@ -52,19 +52,19 @@ public class QueryCondition : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void init(string attribute_name, string condition_value, tiledb_query_condition_op_t op) {
-    tiledbcsPINVOKE.QueryCondition_init(swigCPtr, attribute_name, condition_value, (int)op);
+  public void init(string attribute_name, string condition_value, QueryConditionOperatorType optype) {
+    tiledbcsPINVOKE.QueryCondition_init(swigCPtr, attribute_name, condition_value, (int)optype);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public QueryCondition combine(QueryCondition rhs, tiledb_query_condition_combination_op_t combination_op) {
-    QueryCondition ret = new QueryCondition(tiledbcsPINVOKE.QueryCondition_combine(swigCPtr, QueryCondition.getCPtr(rhs), (int)combination_op), true);
+  public QueryCondition combine(QueryCondition rhs, QueryConditionCombinationOperatorType combination_optype) {
+    QueryCondition ret = new QueryCondition(tiledbcsPINVOKE.QueryCondition_combine(swigCPtr, QueryCondition.getCPtr(rhs), (int)combination_optype), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static QueryCondition create(Context ctx, string attribute_name, string value, tiledb_query_condition_op_t op) {
-    QueryCondition ret = new QueryCondition(tiledbcsPINVOKE.QueryCondition_create(Context.getCPtr(ctx), attribute_name, value, (int)op), true);
+  public static QueryCondition create(Context ctx, string attribute_name, string value, QueryConditionOperatorType optype) {
+    QueryCondition ret = new QueryCondition(tiledbcsPINVOKE.QueryCondition_create(Context.getCPtr(ctx), attribute_name, value, (int)optype), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

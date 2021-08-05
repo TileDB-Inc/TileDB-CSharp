@@ -40,6 +40,8 @@
 #include "tiledb_cxx_dimension.h"
 #include "tiledb.h"
 #include "tiledb_cxx_type.h"
+#include "tiledb_cxx_enum.h"
+
 #include <cstdint>
 #include <functional>
 #include <memory>
@@ -172,12 +174,12 @@ class Domain {
   }
 
   /** Returns the domain type. */
-  tiledb_datatype_t type() const {
+  tiledb::DataType type() const {
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_datatype_t type;
     ctx_->handle_error(
         tiledb_domain_get_type(c_ctx, domain_.get(), &type));
-    return type;
+    return (tiledb::DataType)type;
   }
 
   /** Returns the number of dimensions. */
@@ -394,7 +396,7 @@ class Domain {
 
 /** Get a string representation of an attribute for an output stream. */
 inline std::ostream& operator<<(std::ostream& os,  const tiledb::Domain& d) {
-  os << "Domain<(" << impl::to_str(d.type()) << ")";
+  os << "Domain<(" << impl::to_str((tiledb_datatype_t)(d.type())) << ")";
   std::vector<std::string> dim_names = d.dimension_names();
   for(auto it = dim_names.begin(); it != dim_names.end(); ++it) { // for (const auto& dim_name : d.dimension_names()) {
     Dimension dimension = d.dimension((*it));

@@ -34,6 +34,7 @@
 #define TILEDB_CPP_API_FILTER_H
 
 #include "tiledb.h"
+#include "tiledb_cxx_enum.h"
 #include "tiledb_cxx_deleter.h"
 #include <iostream>
 #include <string>
@@ -72,10 +73,11 @@ class Filter {
    * @param ctx TileDB context
    * @param filter_type Enumerated type of filter
    */
-  Filter(const std::shared_ptr<tiledb::Context>& ctx, tiledb_filter_type_t filter_type)
+  Filter(const std::shared_ptr<tiledb::Context>& ctx, tiledb::FilterType filtertype)
       : ctx_(ctx) {
+    tiledb_filter_type_t filter_type = (tiledb_filter_type_t)filtertype;
     tiledb_filter_t* filter;
-	tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     ctx_->handle_error(
         tiledb_filter_alloc(c_ctx, filter_type, &filter));
     filter_ = std::shared_ptr<tiledb_filter_t>(filter, deleter_);
@@ -131,7 +133,8 @@ class Filter {
   template <
       typename T,
       typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
-  tiledb::Filter& set_option(tiledb_filter_option_t option, T value) {
+  tiledb::Filter& set_option(FilterOption filteroption, T value) {
+    tiledb_filter_option_t option = (tiledb_filter_option_t)filteroption;
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     option_value_typecheck<T>(option);
     ctx_->handle_error(tiledb_filter_set_option(
@@ -162,7 +165,8 @@ class Filter {
    *
    * @note set_option<T>(option, T value) is preferred as it is safer.
    */
-  tiledb::Filter& set_option(tiledb_filter_option_t option, const void* value) {
+  tiledb::Filter& set_option(FilterOption filteroption, const void* value) {
+    tiledb_filter_option_t option = (tiledb_filter_option_t)filteroption;
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     ctx_->handle_error(tiledb_filter_set_option(
         c_ctx, filter_.get(), option, value));
@@ -196,7 +200,8 @@ class Filter {
   template <
       typename T,
       typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
-  void get_option(tiledb_filter_option_t option, T* value) {
+  void get_option(FilterOption filteroption, T* value) {
+    tiledb_filter_option_t option = (tiledb_filter_option_t)filteroption;
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     option_value_typecheck<T>(option);
     ctx_->handle_error(tiledb_filter_get_option(
@@ -228,19 +233,20 @@ class Filter {
    *
    * @note get_option<T>(option, T* value) is preferred as it is safer.
    */
-  void get_option(tiledb_filter_option_t option, void* value) {
+  void get_option(FilterOption filteroption, void* value) {
+    tiledb_filter_option_t option = (tiledb_filter_option_t)filteroption;
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     ctx_->handle_error(tiledb_filter_get_option(
         c_ctx, filter_.get(), option, value));
   }
 
   /** Gets the filter type of this filter. */
-  tiledb_filter_type_t filter_type() const {
+  tiledb::FilterType filter_type() const {
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_filter_type_t type;
     ctx_->handle_error(
         tiledb_filter_get_type(c_ctx, filter_.get(), &type));
-    return type;
+    return (tiledb::FilterType)type;
   }
 
   /* ********************************* */
@@ -248,7 +254,7 @@ class Filter {
   /* ********************************* */
 
   /** Returns the input type in string format. */
-  static std::string to_str(tiledb_filter_type_t type) {
+  static std::string to_str(tiledb::FilterType type) {
     switch (type) {
       case TILEDB_FILTER_NONE:
         return "NOOP";
@@ -303,7 +309,8 @@ class Filter {
    * @throws invalid_argument If the value type is invalid
    */
   template <typename T>
-  void option_value_typecheck(tiledb_filter_option_t option) {
+  void option_value_typecheck(FilterOption filteroption) {
+    tiledb_filter_option_t option = (tiledb_filter_option_t)filteroption;
     switch (option) {
       case TILEDB_COMPRESSION_LEVEL:
         if (!std::is_same<int32_t, T>::value)

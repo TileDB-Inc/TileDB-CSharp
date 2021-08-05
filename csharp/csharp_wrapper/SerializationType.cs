@@ -10,11 +10,9 @@
 
 namespace TileDB {
 
-public enum tiledb_layout_t {
-  TILEDB_ROW_MAJOR = 0,
-  TILEDB_COL_MAJOR = 1,
-  TILEDB_GLOBAL_ORDER = 2,
-  TILEDB_UNORDERED = 3
+public enum SerializationType {
+  TILEDB_JSON = 0,
+  TILEDB_CAPNP = 1
 }
 
 }

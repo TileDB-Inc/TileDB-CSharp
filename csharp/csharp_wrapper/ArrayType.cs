@@ -10,9 +10,9 @@
 
 namespace TileDB {
 
-public enum tiledb_walk_order_t {
-  TILEDB_PREORDER = 0,
-  TILEDB_POSTORDER = 1
+public enum ArrayType {
+  TILEDB_DENSE = 0,
+  TILEDB_SPARSE = 1
 }
 
 }

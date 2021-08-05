@@ -44,11 +44,11 @@ public class Attribute : global::System.IDisposable {
     }
   }
 
-  public Attribute(Context ctx, string name, tiledb_datatype_t type) : this(tiledbcsPINVOKE.new_Attribute__SWIG_0(Context.getCPtr(ctx), name, (int)type), true) {
+  public Attribute(Context ctx, string name, DataType datatype) : this(tiledbcsPINVOKE.new_Attribute__SWIG_0(Context.getCPtr(ctx), name, (int)datatype), true) {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Attribute(Context ctx, string name, tiledb_datatype_t type, FilterList filter_list) : this(tiledbcsPINVOKE.new_Attribute__SWIG_1(Context.getCPtr(ctx), name, (int)type, FilterList.getCPtr(filter_list)), true) {
+  public Attribute(Context ctx, string name, DataType datatype, FilterList filter_list) : this(tiledbcsPINVOKE.new_Attribute__SWIG_1(Context.getCPtr(ctx), name, (int)datatype, FilterList.getCPtr(filter_list)), true) {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -62,14 +62,14 @@ public class Attribute : global::System.IDisposable {
     return ret;
   }
 
-  public tiledb_datatype_t type() {
-    tiledb_datatype_t ret = (tiledb_datatype_t)tiledbcsPINVOKE.Attribute_type(swigCPtr);
+  public DataType type() {
+    DataType ret = (DataType)tiledbcsPINVOKE.Attribute_type(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public uint cell_size() {
-    uint ret = tiledbcsPINVOKE.Attribute_cell_size(swigCPtr);
+  public ulong cell_size() {
+    ulong ret = tiledbcsPINVOKE.Attribute_cell_size(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -114,7 +114,7 @@ public class Attribute : global::System.IDisposable {
     return ret;
   }
 
-  public static Attribute create_attribute(Context ctx, string name, tiledb_datatype_t datatype) {
+  public static Attribute create_attribute(Context ctx, string name, DataType datatype) {
     Attribute ret = new Attribute(tiledbcsPINVOKE.Attribute_create_attribute(Context.getCPtr(ctx), name, (int)datatype), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;

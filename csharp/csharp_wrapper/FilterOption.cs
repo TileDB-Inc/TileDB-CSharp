@@ -10,10 +10,10 @@
 
 namespace TileDB {
 
-public enum tiledb_vfs_mode_t {
-  TILEDB_VFS_READ = 0,
-  TILEDB_VFS_WRITE = 1,
-  TILEDB_VFS_APPEND = 2
+public enum FilterOption {
+  TILEDB_COMPRESSION_LEVEL = 0,
+  TILEDB_BIT_WIDTH_MAX_WINDOW = 1,
+  TILEDB_POSITIVE_DELTA_MAX_WINDOW = 2
 }
 
 }

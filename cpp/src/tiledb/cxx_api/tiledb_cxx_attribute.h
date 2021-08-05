@@ -42,6 +42,7 @@
 #include "tiledb_cxx_object.h"
 #include "tiledb.h"
 #include "tiledb_cxx_type.h"
+#include "tiledb_cxx_enum.h"
 
 #include <array>
 #include <functional>
@@ -108,19 +109,19 @@ class Attribute {
    * @param name Name of attribute
    * @param type Enumerated type of attribute
    */
-  Attribute(const std::shared_ptr<tiledb::Context>& ctx, const std::string& name, tiledb_datatype_t type)
+  Attribute(const std::shared_ptr<tiledb::Context>& ctx, const std::string& name, tiledb::DataType datatype)
       : ctx_(ctx) {
-    init_from_type(name, type);
+    init_from_type(name, datatype);
   }
 
   /** Construct an attribute with an enumerated type and given filter list. */
   Attribute(
       const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& name,
-      tiledb_datatype_t type,
+      tiledb::DataType datatype,
       const tiledb::FilterList& filter_list)
       : ctx_(ctx) {
-    init_from_type(name, type);
+    init_from_type(name, datatype);
     set_filter_list(filter_list);
   }
 
@@ -143,12 +144,12 @@ class Attribute {
   }
 
   /** Returns the attribute datatype. */
-  tiledb_datatype_t type() const {
+  tiledb::DataType type() const {
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_datatype_t type;
     ctx_->handle_error(
         tiledb_attribute_get_type(c_ctx, attr_.get(), &type));
-    return type;
+    return (tiledb::DataType)type;
   }
 
   /**
@@ -313,7 +314,7 @@ class Attribute {
   template <typename T>
   static tiledb::Attribute create(const std::shared_ptr<tiledb::Context>& ctx, const std::string& name) {
     using DataT = typename impl::TypeHandler<T>;
-    Attribute a(ctx, name, DataT::tiledb_type);
+    Attribute a(ctx, name,tiledb::DataType(DataT::tiledb_type));
     a.set_cell_val_num(DataT::tiledb_num);
     return a;
   }
@@ -393,75 +394,76 @@ class Attribute {
   }
 
   static tiledb::Attribute create_attribute(const std::shared_ptr<tiledb::Context>& ctx,
-	  const std::string& name, tiledb_datatype_t datatype)
+	  const std::string& name, tiledb::DataType datatype)
   {
-	  if (datatype == TILEDB_INT8)
+ 
+	  if (datatype == tiledb::DataType::TILEDB_INT8)
 	  {
 		  return create<int8_t>(ctx, name);
 	  }
-	  else if (datatype == TILEDB_UINT8)
+	  else if (datatype == tiledb::DataType::TILEDB_UINT8)
 	  {
 		  return create<uint8_t>(ctx, name);
 	  }
-	  else if (datatype == TILEDB_INT16)
+	  else if (datatype == tiledb::DataType::TILEDB_INT16)
 	  {
 		  return create<int16_t>(ctx, name);
 	  }
-	  else if (datatype == TILEDB_UINT16)
+	  else if (datatype == tiledb::DataType::TILEDB_UINT16)
 	  {
 		  return create<uint16_t>(ctx, name);
 	  }
-	  else if (datatype == TILEDB_INT32)
+	  else if (datatype == tiledb::DataType::TILEDB_INT32)
 	  {
 		  return create<int32_t>(ctx, name);
 	  }
-	  else if (datatype == TILEDB_UINT32)
+	  else if (datatype == tiledb::DataType::TILEDB_UINT32)
 	  {
 		  return create<uint32_t>(ctx, name);
 	  }
-	  else if (datatype == TILEDB_INT64)
+	  else if (datatype == tiledb::DataType::TILEDB_INT64)
 	  {
 		  return create<int64_t>(ctx, name);
 	  }
-	  else if (datatype == TILEDB_UINT64)
+	  else if (datatype == tiledb::DataType::TILEDB_UINT64)
 	  {
 		  return create<uint64_t>(ctx, name);
 	  }
-	  else if (datatype == TILEDB_FLOAT32)
+	  else if (datatype == tiledb::DataType::TILEDB_FLOAT32)
 	  {
 		  return create<float>(ctx, name);
 	  }
-	  else if (datatype == TILEDB_FLOAT64)
+	  else if (datatype == tiledb::DataType::TILEDB_FLOAT64)
 	  {
 		  return create<double>(ctx, name);
 	  }
-	  else if (datatype == TILEDB_DATETIME_YEAR
-		  || datatype == TILEDB_DATETIME_MONTH
-		  || datatype == TILEDB_DATETIME_WEEK
-		  || datatype == TILEDB_DATETIME_DAY
-		  || datatype == TILEDB_DATETIME_HR
-		  || datatype == TILEDB_DATETIME_MIN
-		  || datatype == TILEDB_DATETIME_SEC
-		  || datatype == TILEDB_DATETIME_MS
-		  || datatype == TILEDB_DATETIME_US
-		  || datatype == TILEDB_DATETIME_NS
-		  || datatype == TILEDB_DATETIME_PS
-		  || datatype == TILEDB_DATETIME_FS
-		  || datatype == TILEDB_DATETIME_AS)
+	  else if (datatype == tiledb::DataType::TILEDB_DATETIME_YEAR
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_MONTH
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_WEEK
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_DAY
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_HR
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_MIN
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_SEC
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_MS
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_US
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_NS
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_PS
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_FS
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_AS)
 	  {
 		  return create<int64_t>(ctx, name);
 	  }
-	  else if (datatype == TILEDB_STRING_ASCII)
+	  else if (datatype == tiledb::DataType::TILEDB_STRING_ASCII)
 	  {
 		  return create<std::string>(ctx, name);
 	  }
-	  else if (datatype == TILEDB_CHAR
-		  || datatype == TILEDB_STRING_UTF8
-		  || datatype == TILEDB_STRING_UTF16
-		  || datatype == TILEDB_STRING_UTF32
-		  || datatype == TILEDB_STRING_UCS2
-		  || datatype == TILEDB_STRING_UCS4
-		  || datatype == TILEDB_ANY
+	  else if (datatype == tiledb::DataType::TILEDB_CHAR
+		  || datatype == tiledb::DataType::TILEDB_STRING_UTF8
+		  || datatype == tiledb::DataType::TILEDB_STRING_UTF16
+		  || datatype == tiledb::DataType::TILEDB_STRING_UTF32
+		  || datatype == tiledb::DataType::TILEDB_STRING_UCS2
+		  || datatype == tiledb::DataType::TILEDB_STRING_UCS4
+		  || datatype == tiledb::DataType::TILEDB_ANY
 		  ) {
 		  return create<std::string>(ctx, name);
  
@@ -490,7 +492,8 @@ class Attribute {
   /*         PRIVATE FUNCTIONS         */
   /* ********************************* */
 
-  void init_from_type(const std::string& name, tiledb_datatype_t type) {
+  void init_from_type(const std::string& name, tiledb::DataType datatype) {
+    tiledb_datatype_t type = (tiledb_datatype_t)datatype;
     tiledb_attribute_t* attr;
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     ctx_->handle_error(
@@ -505,7 +508,7 @@ class Attribute {
 
 /** Gets a string representation of an attribute for an output stream. */
 inline std::ostream& operator<<(std::ostream& os, const tiledb::Attribute& a) {
-  os << "Attr<" << a.name() << ',' << tiledb::impl::to_str(a.type()) << ','
+  os << "Attr<" << a.name() << ',' << tiledb::impl::to_str((tiledb_datatype_t)(a.type())) << ','
      << (a.cell_val_num() == TILEDB_VAR_NUM ? "VAR" :
                                               std::to_string(a.cell_val_num()))
      << '>';

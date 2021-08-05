@@ -6,10 +6,6 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Include="..\ExampleDenseArray.cs" Link="ExampleDenseArray.cs" />
-  </ItemGroup>
-
   <ItemGroup Condition=" '$(OS)' == 'Windows_NT' ">
     <None Include="..\..\dist\Windows\lib\tiledb.dll" Link="tiledb.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -62,6 +58,10 @@
     <Reference Include="TileDB.CSharp">
       <HintPath>..\..\dist\Darwin\lib\net5.0\TileDB.CSharp.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\ExampleDenseArray.cs" Link="ExampleDenseArray.cs" />
   </ItemGroup>    
 
 </Project>

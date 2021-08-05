@@ -10,7 +10,7 @@
 
 namespace TileDB {
 
-public class VectorUInt64 : global::System.IDisposable, global::System.Collections.IEnumerable, global::System.Collections.Generic.IList<uint>
+public class VectorUInt64 : global::System.IDisposable, global::System.Collections.IEnumerable, global::System.Collections.Generic.IList<ulong>
  {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   protected bool swigCMemOwn;
@@ -48,15 +48,15 @@ public class VectorUInt64 : global::System.IDisposable, global::System.Collectio
   public VectorUInt64(global::System.Collections.IEnumerable c) : this() {
     if (c == null)
       throw new global::System.ArgumentNullException("c");
-    foreach (uint element in c) {
+    foreach (ulong element in c) {
       this.Add(element);
     }
   }
 
-  public VectorUInt64(global::System.Collections.Generic.IEnumerable<uint> c) : this() {
+  public VectorUInt64(global::System.Collections.Generic.IEnumerable<ulong> c) : this() {
     if (c == null)
       throw new global::System.ArgumentNullException("c");
-    foreach (uint element in c) {
+    foreach (ulong element in c) {
       this.Add(element);
     }
   }
@@ -73,7 +73,7 @@ public class VectorUInt64 : global::System.IDisposable, global::System.Collectio
     }
   }
 
-  public uint this[int index]  {
+  public ulong this[int index]  {
     get {
       return getitem(index);
     }
@@ -105,17 +105,17 @@ public class VectorUInt64 : global::System.IDisposable, global::System.Collectio
     }
   }
 
-  public void CopyTo(uint[] array)
+  public void CopyTo(ulong[] array)
   {
     CopyTo(0, array, 0, this.Count);
   }
 
-  public void CopyTo(uint[] array, int arrayIndex)
+  public void CopyTo(ulong[] array, int arrayIndex)
   {
     CopyTo(0, array, arrayIndex, this.Count);
   }
 
-  public void CopyTo(int index, uint[] array, int arrayIndex, int count)
+  public void CopyTo(int index, ulong[] array, int arrayIndex, int count)
   {
     if (array == null)
       throw new global::System.ArgumentNullException("array");
@@ -133,13 +133,13 @@ public class VectorUInt64 : global::System.IDisposable, global::System.Collectio
       array.SetValue(getitemcopy(index+i), arrayIndex+i);
   }
 
-  public uint[] ToArray() {
-    uint[] array = new uint[this.Count];
+  public ulong[] ToArray() {
+    ulong[] array = new ulong[this.Count];
     this.CopyTo(array);
     return array;
   }
 
-  global::System.Collections.Generic.IEnumerator<uint> global::System.Collections.Generic.IEnumerable<uint>.GetEnumerator() {
+  global::System.Collections.Generic.IEnumerator<ulong> global::System.Collections.Generic.IEnumerable<ulong>.GetEnumerator() {
     return new VectorUInt64Enumerator(this);
   }
 
@@ -157,7 +157,7 @@ public class VectorUInt64 : global::System.IDisposable, global::System.Collectio
   /// collection but not when one of the elements of the collection is modified as it is a bit
   /// tricky to detect unmanaged code that modifies the collection under our feet.
   public sealed class VectorUInt64Enumerator : global::System.Collections.IEnumerator
-    , global::System.Collections.Generic.IEnumerator<uint>
+    , global::System.Collections.Generic.IEnumerator<ulong>
   {
     private VectorUInt64 collectionRef;
     private int currentIndex;
@@ -172,7 +172,7 @@ public class VectorUInt64 : global::System.IDisposable, global::System.Collectio
     }
 
     // Type-safe iterator Current
-    public uint Current {
+    public ulong Current {
       get {
         if (currentIndex == -1)
           throw new global::System.InvalidOperationException("Enumeration not started.");
@@ -180,7 +180,7 @@ public class VectorUInt64 : global::System.IDisposable, global::System.Collectio
           throw new global::System.InvalidOperationException("Enumeration finished.");
         if (currentObject == null)
           throw new global::System.InvalidOperationException("Collection modified.");
-        return (uint)currentObject;
+        return (ulong)currentObject;
       }
     }
 
@@ -221,7 +221,7 @@ public class VectorUInt64 : global::System.IDisposable, global::System.Collectio
     tiledbcsPINVOKE.VectorUInt64_Clear(swigCPtr);
   }
 
-  public void Add(uint x) {
+  public void Add(ulong x) {
     tiledbcsPINVOKE.VectorUInt64_Add(swigCPtr, x);
   }
 
@@ -250,19 +250,19 @@ public class VectorUInt64 : global::System.IDisposable, global::System.Collectio
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  private uint getitemcopy(int index) {
-    uint ret = tiledbcsPINVOKE.VectorUInt64_getitemcopy(swigCPtr, index);
+  private ulong getitemcopy(int index) {
+    ulong ret = tiledbcsPINVOKE.VectorUInt64_getitemcopy(swigCPtr, index);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  private uint getitem(int index) {
-    uint ret = tiledbcsPINVOKE.VectorUInt64_getitem(swigCPtr, index);
+  private ulong getitem(int index) {
+    ulong ret = tiledbcsPINVOKE.VectorUInt64_getitem(swigCPtr, index);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  private void setitem(int index, uint val) {
+  private void setitem(int index, ulong val) {
     tiledbcsPINVOKE.VectorUInt64_setitem(swigCPtr, index, val);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
@@ -279,7 +279,7 @@ public class VectorUInt64 : global::System.IDisposable, global::System.Collectio
     return ret;
   }
 
-  public void Insert(int index, uint x) {
+  public void Insert(int index, ulong x) {
     tiledbcsPINVOKE.VectorUInt64_Insert(swigCPtr, index, x);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
@@ -299,7 +299,7 @@ public class VectorUInt64 : global::System.IDisposable, global::System.Collectio
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static VectorUInt64 Repeat(uint value, int count) {
+  public static VectorUInt64 Repeat(ulong value, int count) {
     global::System.IntPtr cPtr = tiledbcsPINVOKE.VectorUInt64_Repeat(value, count);
     VectorUInt64 ret = (cPtr == global::System.IntPtr.Zero) ? null : new VectorUInt64(cPtr, true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
@@ -320,22 +320,22 @@ public class VectorUInt64 : global::System.IDisposable, global::System.Collectio
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public bool Contains(uint value) {
+  public bool Contains(ulong value) {
     bool ret = tiledbcsPINVOKE.VectorUInt64_Contains(swigCPtr, value);
     return ret;
   }
 
-  public int IndexOf(uint value) {
+  public int IndexOf(ulong value) {
     int ret = tiledbcsPINVOKE.VectorUInt64_IndexOf(swigCPtr, value);
     return ret;
   }
 
-  public int LastIndexOf(uint value) {
+  public int LastIndexOf(ulong value) {
     int ret = tiledbcsPINVOKE.VectorUInt64_LastIndexOf(swigCPtr, value);
     return ret;
   }
 
-  public bool Remove(uint value) {
+  public bool Remove(ulong value) {
     bool ret = tiledbcsPINVOKE.VectorUInt64_Remove(swigCPtr, value);
     return ret;
   }

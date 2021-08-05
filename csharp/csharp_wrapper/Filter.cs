@@ -44,7 +44,7 @@ public class Filter : global::System.IDisposable {
     }
   }
 
-  public Filter(Context ctx, tiledb_filter_type_t filter_type) : this(tiledbcsPINVOKE.new_Filter__SWIG_0(Context.getCPtr(ctx), (int)filter_type), true) {
+  public Filter(Context ctx, FilterType filtertype) : this(tiledbcsPINVOKE.new_Filter__SWIG_0(Context.getCPtr(ctx), (int)filtertype), true) {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -55,13 +55,13 @@ public class Filter : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public tiledb_filter_type_t filter_type() {
-    tiledb_filter_type_t ret = (tiledb_filter_type_t)tiledbcsPINVOKE.Filter_filter_type(swigCPtr);
+  public FilterType filter_type() {
+    FilterType ret = (FilterType)tiledbcsPINVOKE.Filter_filter_type(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static string to_str(tiledb_filter_type_t type) {
+  public static string to_str(FilterType type) {
     string ret = tiledbcsPINVOKE.Filter_to_str((int)type);
     return ret;
   }

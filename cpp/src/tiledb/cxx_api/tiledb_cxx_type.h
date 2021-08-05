@@ -80,77 +80,77 @@ template <typename T>
 struct type_to_tiledb {
   static_assert(IS_TRIVIALLY_COPYABLE(T), "Type must be trivially copyable.");
   using type = char;
-  static const tiledb_datatype_t tiledb_type = TILEDB_CHAR;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_CHAR;
   static constexpr const char* name = "Trivially Copyable (CHAR)";
 };
 
 template <>
 struct type_to_tiledb<int8_t> {
   using type = int8_t;
-  static const tiledb_datatype_t tiledb_type = TILEDB_INT8;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_INT8;
   static constexpr const char* name = "INT8";
 };
 
 template <>
 struct type_to_tiledb<uint8_t> {
   using type = uint8_t;
-  static const tiledb_datatype_t tiledb_type = TILEDB_UINT8;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_UINT8;
   static constexpr const char* name = "UINT8";
 };
 
 template <>
 struct type_to_tiledb<int16_t> {
   using type = int16_t;
-  static const tiledb_datatype_t tiledb_type = TILEDB_INT16;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_INT16;
   static constexpr const char* name = "INT16";
 };
 
 template <>
 struct type_to_tiledb<uint16_t> {
   using type = uint16_t;
-  static const tiledb_datatype_t tiledb_type = TILEDB_UINT16;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_UINT16;
   static constexpr const char* name = "UINT16";
 };
 
 template <>
 struct type_to_tiledb<int32_t> {
   using type = int32_t;
-  static const tiledb_datatype_t tiledb_type = TILEDB_INT32;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_INT32;
   static constexpr const char* name = "INT32";
 };
 
 template <>
 struct type_to_tiledb<uint32_t> {
   using type = uint32_t;
-  static const tiledb_datatype_t tiledb_type = TILEDB_UINT32;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_UINT32;
   static constexpr const char* name = "UINT32";
 };
 
 template <>
 struct type_to_tiledb<int64_t> {
   using type = int64_t;
-  static const tiledb_datatype_t tiledb_type = TILEDB_INT64;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_INT64;
   static constexpr const char* name = "INT64";
 };
 
 template <>
 struct type_to_tiledb<uint64_t> {
   using type = uint64_t;
-  static const tiledb_datatype_t tiledb_type = TILEDB_UINT64;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_UINT64;
   static constexpr const char* name = "UINT64";
 };
 
 template <>
 struct type_to_tiledb<float> {
   using type = float;
-  static const tiledb_datatype_t tiledb_type = TILEDB_FLOAT32;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_FLOAT32;
   static constexpr const char* name = "FLOAT32";
 };
 
 template <>
 struct type_to_tiledb<double> {
   using type = double;
-  static const tiledb_datatype_t tiledb_type = TILEDB_FLOAT64;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_FLOAT64;
   static constexpr const char* name = "FLOAT64";
 };
 
@@ -159,79 +159,79 @@ template <tiledb_datatype_t T>
 struct tiledb_to_type;
 
 template <>
-struct tiledb_to_type<TILEDB_CHAR> {
+struct tiledb_to_type<::TILEDB_CHAR> {
   using type = char;
-  static const tiledb_datatype_t tiledb_type = TILEDB_CHAR;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_CHAR;
   static constexpr const char* name = "CHAR";
 };
 
 template <>
-struct tiledb_to_type<TILEDB_INT8> {
+struct tiledb_to_type<::TILEDB_INT8> {
   using type = int8_t;
-  static const tiledb_datatype_t tiledb_type = TILEDB_INT8;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_INT8;
   static constexpr const char* name = "INT8";
 };
 
 template <>
-struct tiledb_to_type<TILEDB_UINT8> {
+struct tiledb_to_type<::TILEDB_UINT8> {
   using type = uint8_t;
-  static const tiledb_datatype_t tiledb_type = TILEDB_UINT8;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_UINT8;
   static constexpr const char* name = "UINT8";
 };
 
 template <>
-struct tiledb_to_type<TILEDB_INT16> {
+struct tiledb_to_type<::TILEDB_INT16> {
   using type = int16_t;
-  static const tiledb_datatype_t tiledb_type = TILEDB_INT16;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_INT16;
   static constexpr const char* name = "INT16";
 };
 
 template <>
-struct tiledb_to_type<TILEDB_UINT16> {
+struct tiledb_to_type<::TILEDB_UINT16> {
   using type = uint16_t;
-  static const tiledb_datatype_t tiledb_type = TILEDB_UINT16;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_UINT16;
   static constexpr const char* name = "UINT16";
 };
 
 template <>
-struct tiledb_to_type<TILEDB_INT32> {
+struct tiledb_to_type<::TILEDB_INT32> {
   using type = int32_t;
-  static const tiledb_datatype_t tiledb_type = TILEDB_INT32;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_INT32;
   static constexpr const char* name = "INT32";
 };
 
 template <>
-struct tiledb_to_type<TILEDB_UINT32> {
+struct tiledb_to_type<::TILEDB_UINT32> {
   using type = uint32_t;
-  static const tiledb_datatype_t tiledb_type = TILEDB_UINT32;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_UINT32;
   static constexpr const char* name = "UINT32";
 };
 
 template <>
-struct tiledb_to_type<TILEDB_INT64> {
+struct tiledb_to_type<::TILEDB_INT64> {
   using type = int64_t;
-  static const tiledb_datatype_t tiledb_type = TILEDB_INT64;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_INT64;
   static constexpr const char* name = "INT64";
 };
 
 template <>
-struct tiledb_to_type<TILEDB_UINT64> {
+struct tiledb_to_type<::TILEDB_UINT64> {
   using type = uint64_t;
-  static const tiledb_datatype_t tiledb_type = TILEDB_UINT64;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_UINT64;
   static constexpr const char* name = "UINT64";
 };
 
 template <>
-struct tiledb_to_type<TILEDB_FLOAT32> {
+struct tiledb_to_type<::TILEDB_FLOAT32> {
   using type = float;
-  static const tiledb_datatype_t tiledb_type = TILEDB_FLOAT32;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_FLOAT32;
   static constexpr const char* name = "FLOAT32";
 };
 
 template <>
-struct tiledb_to_type<TILEDB_FLOAT64> {
+struct tiledb_to_type<::TILEDB_FLOAT64> {
   using type = double;
-  static const tiledb_datatype_t tiledb_type = TILEDB_FLOAT64;
+  static const tiledb_datatype_t tiledb_type = (tiledb_datatype_t)TILEDB_FLOAT64;
   static constexpr const char* name = "FLOAT64";
 };
 

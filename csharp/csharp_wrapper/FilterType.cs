@@ -10,7 +10,7 @@
 
 namespace TileDB {
 
-public enum tiledb_filter_type_t {
+public enum FilterType {
   TILEDB_FILTER_NONE = 0,
   TILEDB_FILTER_GZIP = 1,
   TILEDB_FILTER_ZSTD = 2,

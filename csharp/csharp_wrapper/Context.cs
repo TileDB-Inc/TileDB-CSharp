@@ -62,8 +62,8 @@ public class Context : global::System.IDisposable {
     return ret;
   }
 
-  public bool is_supported_fs(tiledb_filesystem_t fs) {
-    bool ret = tiledbcsPINVOKE.Context_is_supported_fs(swigCPtr, (int)fs);
+  public bool is_supported_fs(FilesystemType fstype) {
+    bool ret = tiledbcsPINVOKE.Context_is_supported_fs(swigCPtr, (int)fstype);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

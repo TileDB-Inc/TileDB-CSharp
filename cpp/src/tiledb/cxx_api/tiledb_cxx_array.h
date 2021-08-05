@@ -38,6 +38,7 @@
 #include "tiledb_cxx_config.h"
 #include "tiledb.h"
 #include "tiledb_cxx_type.h"
+#include "tiledb_cxx_enum.h"
 
 #include <map>
 #include <unordered_map>
@@ -86,7 +87,7 @@ class Array {
   Array(
       const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& array_uri,
-      tiledb_query_type_t query_type)
+      tiledb::QueryType query_type)
       : Array(ctx, array_uri, query_type, TILEDB_NO_ENCRYPTION, nullptr, 0) {
   }
 
@@ -108,20 +109,22 @@ class Array {
    *
    * @param ctx TileDB context.
    * @param array_uri The array URI.
-   * @param query_type Query type to open the array for.
-   * @param encryption_type The encryption type to use.
+   * @param querytype Query type to open the array for.
+   * @param encryptiontype The encryption type to use.
    * @param encryption_key The encryption key to use.
    * @param key_length Length in bytes of the encryption key.
    */
   Array(
       const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& array_uri,
-      tiledb_query_type_t query_type,
-      tiledb_encryption_type_t encryption_type,
+      tiledb::QueryType querytype,
+      tiledb::EncryptionType encryptiontype,
       const void* encryption_key,
       uint32_t key_length)
       : ctx_(ctx)
       , schema_(ArraySchema(ctx, (tiledb_array_schema_t*)nullptr)) {
+    tiledb_query_type_t query_type = (tiledb_query_type_t)querytype;
+    tiledb_encryption_type_t encryption_type = (tiledb_encryption_type_t)encryptiontype;
     tiledb_ctx_t* c_ctx = ctx->ptr().get();
     tiledb_array_t* array;
     ctx->handle_error(tiledb_array_alloc(c_ctx, array_uri.c_str(), &array));
@@ -136,28 +139,28 @@ class Array {
 
   // clang-format off
   /**
-   * @copybrief Array::Array(const Context&,const std::string&,tiledb_query_type_t,tiledb_encryption_type_t,const void*,uint32_t)
+   * @copybrief Array::Array(const Context&,const std::string&,tiledb::QueryType,tiledb::EncryptionType,const void*,uint32_t)
    *
-   * See @ref Array::Array(const Context&,const std::string&,tiledb_query_type_t,tiledb_encryption_type_t,const void*,uint32_t) "Array::Array"
+   * See @ref Array::Array(const Context&,const std::string&,tiledb::QueryType,tiledb::EncryptionType,const void*,uint32_t) "Array::Array"
    *
    * @param ctx TileDB context.
    * @param array_uri The array URI.
-   * @param query_type Query type to open the array for.
-   * @param encryption_type The encryption type to use.
+   * @param querytype Query type to open the array for.
+   * @param encryptiontype The encryption type to use.
    * @param encryption_key The encryption key to use.
    */
   // clang-format on
   Array(
       const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& array_uri,
-      tiledb_query_type_t query_type,
-      tiledb_encryption_type_t encryption_type,
+      tiledb::QueryType querytype,
+      tiledb::EncryptionType encryptiontype,
       const std::string& encryption_key)
       : Array(
             ctx,
             array_uri,
-            query_type,
-            encryption_type,
+            querytype,
+            encryptiontype,
             encryption_key.data(),
             (uint32_t)encryption_key.size()) {
   }
@@ -193,12 +196,12 @@ class Array {
   Array(
       const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& array_uri,
-      tiledb_query_type_t query_type,
+      tiledb::QueryType querytype,
       uint64_t timestamp)
       : Array(
             ctx,
             array_uri,
-            query_type,
+            querytype,
             TILEDB_NO_ENCRYPTION,
             nullptr,
             0,
@@ -207,9 +210,9 @@ class Array {
 
   // clang-format off
   /**
-   * @copybrief Array::Array(const Context&,const std::string&,tiledb_query_type_t,uint64_t)
+   * @copybrief Array::Array(const Context&,const std::string&,tiledb::QueryType,uint64_t)
    *
-   * Same as @ref Array::Array(const Context&,const std::string&,tiledb_query_type_t,uint64_t) "Array::Array"
+   * Same as @ref Array::Array(const Context&,const std::string&,tiledb::QueryType,uint64_t) "Array::Array"
    * but for encrypted arrays.
    *
    * **Example:**
@@ -226,8 +229,8 @@ class Array {
    *
    * @param ctx TileDB context.
    * @param array_uri The array URI.
-   * @param query_type Query type to open the array for.
-   * @param encryption_type The encryption type to use.
+   * @param querytype Query type to open the array for.
+   * @param encryptiontype The encryption type to use.
    * @param encryption_key The encryption key to use.
    * @param key_length Length in bytes of the encryption key.
    * @param timestamp The timestamp to open the array at.
@@ -236,13 +239,15 @@ class Array {
   Array(
       const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& array_uri,
-      tiledb_query_type_t query_type,
-      tiledb_encryption_type_t encryption_type,
+      tiledb::QueryType querytype,
+      tiledb::EncryptionType encryptiontype,
       const void* encryption_key,
       uint32_t key_length,
       uint64_t timestamp)
       : ctx_(ctx)
       , schema_(ArraySchema(ctx, (tiledb_array_schema_t*)nullptr)) {
+    tiledb_query_type_t query_type = tiledb_query_type_t(querytype);
+    tiledb_encryption_type_t encryption_type = (tiledb_encryption_type_t)encryptiontype;
     tiledb_ctx_t* c_ctx = ctx->ptr().get();
     tiledb_array_t* array;
     ctx->handle_error(tiledb_array_alloc(c_ctx, array_uri.c_str(), &array));
@@ -263,23 +268,23 @@ class Array {
 
   // clang-format off
   /**
-   * @copybrief Array::Array(const Context&,const std::string&,tiledb_query_type_t,tiledb_encryption_type_t,const void*,uint32_t,uint64_t)
+   * @copybrief Array::Array(const Context&,const std::string&,tiledb::QueryType,tiledb::EncryptionType,const void*,uint32_t,uint64_t)
    *
-   * See @ref Array::Array(const Context&,const std::string&,tiledb_query_type_t,tiledb_encryption_type_t,const void*,uint32_t,uint64_t) "Array::Array"
+   * See @ref Array::Array(const Context&,const std::string&,tiledb::QueryType,tiledb::EncryptionType,const void*,uint32_t,uint64_t) "Array::Array"
    */
   // clang-format on
   Array(
       const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& array_uri,
-      tiledb_query_type_t query_type,
-      tiledb_encryption_type_t encryption_type,
+      tiledb::QueryType querytype,
+      tiledb::EncryptionType encryptiontype,
       const std::string& encryption_key,
       uint64_t timestamp)
       : Array(
             ctx,
             array_uri,
-            query_type,
-            encryption_type,
+            querytype,
+            encryptiontype,
             encryption_key.data(),
             (uint32_t)encryption_key.size(),
             timestamp) {
@@ -374,11 +379,11 @@ class Array {
    * array.open(TILEDB_READ);
    * @endcode
    *
-   * @param query_type The type of queries the array object will be receiving.
+   * @param querytype The type of queries the array object will be receiving.
    * @throws TileDBError if the array is already open or other error occurred.
    */
-  void open(tiledb_query_type_t query_type) {
-    open(query_type, TILEDB_NO_ENCRYPTION, nullptr, 0);
+  void open(tiledb::QueryType querytype) {
+    open(querytype, TILEDB_NO_ENCRYPTION, nullptr, 0);
   }
 
   /**
@@ -396,17 +401,18 @@ class Array {
    * array.open(TILEDB_READ, TILEDB_AES_256_GCM, key, sizeof(key));
    * @endcode
    *
-   * @param query_type The type of queries the array object will be receiving.
-   * @param encryption_type The encryption type to use.
+   * @param querytype The type of queries the array object will be receiving.
+   * @param encryptiontype The encryption type to use.
    * @param encryption_key The encryption key to use.
    * @param key_length Length in bytes of the encryption key.
    */
   void open(
-      tiledb_query_type_t query_type,
-      tiledb_encryption_type_t encryption_type,
+      tiledb::QueryType querytype,
+      tiledb::EncryptionType encryptiontype,
       const void* encryption_key,
       uint32_t key_length) {
- 
+    tiledb_query_type_t query_type = tiledb_query_type_t(querytype);
+    tiledb_encryption_type_t encryption_type = (tiledb_encryption_type_t)encryptiontype;
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     ctx_->handle_error(tiledb_array_open_with_key(
         c_ctx,
@@ -423,18 +429,18 @@ class Array {
 
   // clang-format off
   /**
-   * @copybrief Array::open(tiledb_query_type_t,tiledb_encryption_type_t,const void*,uint32_t)
+   * @copybrief Array::open(tiledb::QueryType,tiledb::EncryptionType,const void*,uint32_t)
    *
-   * See @ref Array::open(tiledb_query_type_t,tiledb_encryption_type_t,const void*,uint32_t) "Array::open"
+   * See @ref Array::open(tiledb::QueryType,tiledb::EncryptionType,const void*,uint32_t) "Array::open"
    */
   // clang-format on
   void open(
-      tiledb_query_type_t query_type,
-      tiledb_encryption_type_t encryption_type,
+      tiledb::QueryType querytype,
+      tiledb::EncryptionType encryptiontype,
       const std::string& encryption_key) {
     open(
-        query_type,
-        encryption_type,
+        querytype,
+        encryptiontype,
         encryption_key.data(),
         (uint32_t)encryption_key.size());
   }
@@ -461,18 +467,18 @@ class Array {
    * array.open(TILEDB_READ, timestamp);
    * @endcode
    *
-   * @param query_type The type of queries the array object will be receiving.
+   * @param querytype The type of queries the array object will be receiving.
    * @param timestamp The timestamp to open the array at.
    * @throws TileDBError if the array is already open or other error occurred.
    */
-  void open(tiledb_query_type_t query_type, uint64_t timestamp) {
-    open(query_type, TILEDB_NO_ENCRYPTION, nullptr, 0, timestamp);
+  void open(tiledb::QueryType querytype, uint64_t timestamp) {
+    open(querytype, TILEDB_NO_ENCRYPTION, nullptr, 0, timestamp);
   }
 
   /**
-   * @copybrief Array::open(tiledb_query_type_t,uint64_t)
+   * @copybrief Array::open(tiledb::QueryType,uint64_t)
    *
-   * Same as @ref Array::open(tiledb_query_type_t,uint64_t) "Array::open"
+   * Same as @ref Array::open(tiledb::QueryType,uint64_t) "Array::open"
    * but for encrypted arrays.
    *
    * **Example:**
@@ -495,12 +501,13 @@ class Array {
    * @param timestamp The timestamp to open the array at.
    */
   void open(
-      tiledb_query_type_t query_type,
-      tiledb_encryption_type_t encryption_type,
+      tiledb::QueryType querytype,
+      tiledb::EncryptionType encryptiontype,
       const void* encryption_key,
       uint32_t key_length,
       uint64_t timestamp) {
- 
+    tiledb_query_type_t query_type = tiledb_query_type_t(querytype);
+    tiledb_encryption_type_t encryption_type = (tiledb_encryption_type_t)encryptiontype; 
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     ctx_->handle_error(tiledb_array_open_at_with_key(
         c_ctx,
@@ -518,19 +525,19 @@ class Array {
 
   // clang-format off
   /**
-   * @copybrief Array::open(tiledb_query_type_t,tiledb_encryption_type_t,const void*,uint32_t,uint64_t)
+   * @copybrief Array::open(tiledb::QueryType,tiledb::EncryptionType,const void*,uint32_t,uint64_t)
    *
-   * See @ref Array::open(tiledb_query_type_t,tiledb_encryption_type_t,const void*,uint32_t,uint64_t) "Array::open"
+   * See @ref Array::open(tiledb::QueryType,tiledb::EncryptionType,const void*,uint32_t,uint64_t) "Array::open"
    */
   // clang-format on
   void open(
-      tiledb_query_type_t query_type,
-      tiledb_encryption_type_t encryption_type,
+      tiledb::QueryType querytype,
+      tiledb::EncryptionType encryptiontype,
       const std::string& encryption_key,
       uint64_t timestamp) {
     open(
-        query_type,
-        encryption_type,
+        querytype,
+        encryptiontype,
         encryption_key.data(),
         (uint32_t)encryption_key.size(),
         timestamp);
@@ -666,10 +673,11 @@ class Array {
   static void consolidate(
       const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& uri,
-      tiledb_encryption_type_t encryption_type,
+      tiledb::EncryptionType encryptiontype,
       const void* encryption_key,
       uint32_t key_length,
       tiledb::Config* const config = nullptr) {
+  tiledb_encryption_type_t encryption_type = (tiledb_encryption_type_t)encryptiontype;      
 	tiledb_ctx_t* c_ctx = ctx->ptr().get();
     ctx->handle_error(tiledb_array_consolidate_with_key(
         c_ctx,
@@ -724,13 +732,14 @@ class Array {
   static void consolidate(
       const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& uri,
-      tiledb_encryption_type_t encryption_type,
+      tiledb::EncryptionType encryptiontype,
       const std::string& encryption_key,
       tiledb::Config* const config = nullptr) {
+ 
     return consolidate(
         ctx,
         uri,
-        encryption_type,
+        encryptiontype,
         encryption_key.data(),
         (uint32_t)encryption_key.size(),
         config);
@@ -791,10 +800,11 @@ class Array {
   static std::shared_ptr<tiledb::ArraySchema> load_schema(
       const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& uri,
-      tiledb_encryption_type_t encryption_type,
+      tiledb::EncryptionType encryptiontype,
       const void* encryption_key,
       uint32_t key_length) {
-    tiledb_array_schema_t* schema;
+  tiledb_encryption_type_t encryption_type = (tiledb_encryption_type_t)encryptiontype;
+  tiledb_array_schema_t* schema;
 	tiledb_ctx_t* c_ctx = ctx->ptr().get();
     ctx->handle_error(tiledb_array_schema_load_with_key(
         c_ctx,
@@ -826,9 +836,10 @@ class Array {
   static void create(
       const std::string& uri,
       const std::shared_ptr<tiledb::ArraySchema>& schema,
-      tiledb_encryption_type_t encryption_type,
+      tiledb::EncryptionType encryptiontype,
       const void* encryption_key,
       uint32_t key_length) {
+    tiledb_encryption_type_t encryption_type = (tiledb_encryption_type_t)encryptiontype;
     auto& ctx = schema->context();
     tiledb_ctx_t* c_ctx = schema->context()->ptr().get();
     ctx->handle_error(tiledb_array_schema_check(c_ctx, schema->ptr().get()));
@@ -856,12 +867,12 @@ class Array {
   static void create(
       const std::string& uri,
       const std::shared_ptr<tiledb::ArraySchema>& schema,
-      tiledb_encryption_type_t encryption_type,
+      tiledb::EncryptionType encryptiontype,
       const std::string& encryption_key) {
     return create(
         uri,
         schema,
-        encryption_type,
+        encryptiontype,
         encryption_key.data(),
         (uint32_t)encryption_key.size());
   }
@@ -880,12 +891,12 @@ class Array {
    * @param array_uri The URI of the TileDB array to be consolidated.
    * @param encryption_type Set to the encryption type of the array.
    */
-  static tiledb_encryption_type_t encryption_type(
+  static tiledb::EncryptionType encryption_type(
       const std::shared_ptr<tiledb::Context>& ctx, const std::string& array_uri) {
     tiledb_encryption_type_t encryption_type;
     ctx->handle_error(tiledb_array_encryption_type(
         ctx->ptr().get(), array_uri.c_str(), &encryption_type));
-    return encryption_type;
+    return (tiledb::EncryptionType)encryption_type;
   }
 
   /**
@@ -1152,7 +1163,7 @@ class Array {
     for (const auto& a : schema_attrs) {
       auto var = a.second.cell_val_num() == TILEDB_VAR_NUM;
       auto name = a.second.name();
-      type_size = tiledb_datatype_size(a.second.type());
+      type_size = tiledb_datatype_size((tiledb_datatype_t)(a.second.type()));
 
       if (var) {
         uint64_t size_off, size_val;
@@ -1173,7 +1184,7 @@ class Array {
     }
 
     // Handle coordinates
-    type_size = tiledb_datatype_size(schema_.domain().type());
+    type_size = tiledb_datatype_size((tiledb_datatype_t)(schema_.domain().type()));
     ctx_->handle_error(tiledb_array_max_buffer_size(
         c_ctx, array_.get(), TILEDB_COORDS, subarray.data(), &attr_size));
     ret[TILEDB_COORDS] =
@@ -1183,12 +1194,12 @@ class Array {
   }
 
   /** Returns the query type the array was opened with. */
-  tiledb_query_type_t query_type() const {
+  tiledb::QueryType query_type() const {
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_query_type_t query_type;
     ctx_->handle_error(tiledb_array_get_query_type(
         ctx_->ptr().get(), array_.get(), &query_type));
-    return query_type;
+    return (tiledb::QueryType)query_type;
   }
 
   /**
@@ -1252,10 +1263,11 @@ class Array {
   static void consolidate_metadata(
       const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& uri,
-      tiledb_encryption_type_t encryption_type,
+      tiledb::EncryptionType encryptiontype,
       const void* encryption_key,
       uint32_t key_length,
       tiledb::Config* const config = nullptr) {
+//    tiledb_encryption_type_t encryption_type = (tiledb_encryption_type_t)encryptiontype;
     Config local_cfg;
     Config* config_aux = config;
     if (!config_aux) {
@@ -1264,7 +1276,7 @@ class Array {
 
     (*config)["sm.consolidation.mode"] = "array_meta";
     consolidate(
-        ctx, uri, encryption_type, encryption_key, key_length, config_aux);
+        ctx, uri, encryptiontype, encryption_key, key_length, config_aux);
   }
 
   // clang-format off
@@ -1289,9 +1301,10 @@ class Array {
   static void consolidate_metadata(
       const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& uri,
-      tiledb_encryption_type_t encryption_type,
+      tiledb::EncryptionType encryptiontype,
       const std::string& encryption_key,
       tiledb::Config* const config = nullptr) {
+    tiledb_encryption_type_t encryption_type = (tiledb_encryption_type_t)encryptiontype;
     Config local_cfg;
     Config* config_aux = config;
     if (!config_aux) {
@@ -1302,7 +1315,7 @@ class Array {
     consolidate(
         ctx,
         uri,
-        encryption_type,
+        encryptiontype,
         encryption_key.data(),
         (uint32_t)encryption_key.size(),
         config_aux);
@@ -1324,10 +1337,10 @@ class Array {
    */
   void put_metadata(
       const std::string& key,
-      tiledb_datatype_t value_type,
+      tiledb::DataType valuetype,
       uint32_t value_num,
       const void* value) {
-    
+    tiledb_datatype_t value_type = (tiledb_datatype_t)valuetype;
     tiledb_ctx_t* c_ctx = ctx_->ptr().get(); //tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     ctx_->handle_error(tiledb_array_put_metadata(
         c_ctx, array_.get(), key.c_str(), value_type, value_num, value));
@@ -1356,7 +1369,7 @@ class Array {
    *
    * @param key The key of the metadata item to be retrieved. UTF-8 encodings
    *     are acceptable.
-   * @param value_type The datatype of the value.
+   * @param valuetype The datatype of the value.
    * @param value_num The value may consist of more than one items of the
    *     same datatype. This argument indicates the number of items in the
    *     value component of the metadata. Keys with empty values are indicated
@@ -1367,13 +1380,14 @@ class Array {
    */
   void get_metadata(
       const std::string& key,
-      tiledb_datatype_t* value_type,
+      tiledb::DataType* valuetype,
       uint32_t* value_num,
       const void** value) {
-    
+    tiledb_datatype_t value_type;
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();// 
     ctx_->handle_error(tiledb_array_get_metadata(
-        c_ctx, array_.get(), key.c_str(), value_type, value_num, value));
+        c_ctx, array_.get(), key.c_str(), &value_type, value_num, value));
+    *valuetype = (tiledb::DataType)value_type;
   }
 
   /**
@@ -1382,13 +1396,14 @@ class Array {
    *
    * @param key The key of the metadata item to be retrieved. UTF-8 encodings
    *     are acceptable.
-   * @param value_type The datatype of the value associated with the key (if
+   * @param valuetype The datatype of the value associated with the key (if
    * any).
    * @return true if the key exists, else false.
    * @note If the key does not exist, then `value_type` will not be modified.
    */
-  bool has_metadata(const std::string& key, tiledb_datatype_t value_type) {
+  bool has_metadata(const std::string& key, tiledb::DataType valuetype) {
  //   tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+  tiledb_datatype_t value_type = (tiledb_datatype_t)valuetype; 
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     int32_t has_key;
 	tiledb_datatype_t datatype = value_type;
@@ -1416,7 +1431,7 @@ class Array {
    *
    * @param index The index used to get the metadata.
    * @param key The metadata key.
-   * @param value_type The datatype of the value.
+   * @param valuetype The datatype of the value.
    * @param value_num The value may consist of more than one items of the
    *     same datatype. This argument indicates the number of items in the
    *     value component of the metadata. Keys with empty values are indicated
@@ -1426,12 +1441,12 @@ class Array {
   void get_metadata_from_index(
       uint64_t index,
       std::string* key,
-      tiledb_datatype_t* value_type,
+      tiledb::DataType* valuetype,
       uint32_t* value_num,
       const void** value) {
     const char* key_c;
     uint32_t key_len;
- 
+   tiledb_datatype_t value_type;
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     ctx_->handle_error(tiledb_array_get_metadata_from_index(
         c_ctx,
@@ -1439,11 +1454,12 @@ class Array {
         index,
         &key_c,
         &key_len,
-        value_type,
+        &value_type,
         value_num,
         value));
     key->resize(key_len);
     std::memcpy((void*)key->data(), key_c, key_len);
+    *valuetype = (tiledb::DataType)value_type;
   }
 
  private:
