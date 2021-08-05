@@ -38,6 +38,7 @@
 #include "tiledb_cxx_context.h"
 #include "tiledb_enum.h"
 #include "tiledb.h"
+#include "tiledb_cxx_enum.h"
 
 #include <functional>
 #include <iostream>
@@ -52,40 +53,40 @@ namespace tiledb {
  */
 class Object {
  public:
-  /* ********************************* */
-  /*           TYPE DEFINITIONS        */
-  /* ********************************* */
+  // /* ********************************* */
+  // /*           TYPE DEFINITIONS        */
+  // /* ********************************* */
 
-  /** The object type. */
-  enum class Type {
-    /** TileDB array object. */
-    Array,
-    /** TileDB group object. */
-    Group,
-    /** Invalid or unknown object type. */
-    Invalid
-  };
+  // /** The object type. */
+  // enum class Type {
+  //   /** TileDB array object. */
+  //   Array,
+  //   /** TileDB group object. */
+  //   Group,
+  //   /** Invalid or unknown object type. */
+  //   Invalid
+  // };
 
   /* ********************************* */
   /*     CONSTRUCTORS & DESTRUCTORS    */
   /* ********************************* */
 
-  explicit Object(const Type& type, const std::string& uri = "")
+  explicit Object(const tiledb::ObjectType& type, const std::string& uri = "")
       : type_(type)
       , uri_(uri) {
   }
 
-  explicit Object(tiledb_object_t type, const std::string& uri = "")
+  explicit Object(tiledb_object_t  type, const std::string& uri = "")
       : uri_(uri) {
     switch (type) {
       case TILEDB_ARRAY:
-        type_ = Type::Array;
+        type_ = tiledb::ObjectType::TILEDB_ARRAY;
         break;
       case TILEDB_GROUP:
-        type_ = Type::Group;
+        type_ = tiledb::ObjectType::TILEDB_GROUP;
         break;
       case TILEDB_INVALID:
-        type_ = Type::Invalid;
+        type_ = tiledb::ObjectType::TILEDB_INVALID;
         break;
     }
   }
@@ -107,13 +108,13 @@ class Object {
   std::string to_str() const {
     std::string ret = "Obj<";
     switch (type_) {
-      case Type::Array:
+      case tiledb::ObjectType::TILEDB_ARRAY:
         ret += "ARRAY";
         break;
-      case Type::Group:
+      case tiledb::ObjectType::TILEDB_GROUP:
         ret += "GROUP";
         break;
-      case Type::Invalid:
+      case tiledb::ObjectType::TILEDB_INVALID:
         ret += "INVALID";
         break;
     }
@@ -122,7 +123,7 @@ class Object {
   }
 
   /** Returns the object type. */
-  Type type() const {
+  tiledb::ObjectType type() const {
     return type_;
   }
 
@@ -182,7 +183,7 @@ class Object {
   /* ********************************* */
 
   /** The object type. */
-  Type type_;
+  ObjectType type_; // Type type_;
 
   /** The obkect uri. */
   std::string uri_;

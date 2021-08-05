@@ -10,9 +10,11 @@
 
 namespace TileDB {
 
-public enum tiledb_array_type_t {
-  TILEDB_DENSE = 0,
-  TILEDB_SPARSE = 1
+public enum LayoutType {
+  TILEDB_ROW_MAJOR = 0,
+  TILEDB_COL_MAJOR = 1,
+  TILEDB_GLOBAL_ORDER = 2,
+  TILEDB_UNORDERED = 3
 }
 
 }

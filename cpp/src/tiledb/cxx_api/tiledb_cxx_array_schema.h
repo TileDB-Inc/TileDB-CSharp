@@ -40,6 +40,7 @@
 #include "tiledb_cxx_object.h"
 #include "tiledb_cxx_schema_base.h"
 #include "tiledb.h"
+#include "tiledb_cxx_enum.h"
 
 #include <array>
 #include <memory>
@@ -107,11 +108,12 @@ class ArraySchema : public Schema {
    * @param ctx TileDB context
    * @param type Array type, sparse or dense.
    */
-  explicit ArraySchema(const std::shared_ptr<tiledb::Context>& ctx, tiledb_array_type_t type)
+  explicit ArraySchema(const std::shared_ptr<tiledb::Context>& ctx, tiledb::ArrayType arraytype)
       : Schema(ctx) {
+    tiledb_array_type_t array_type = tiledb_array_type_t(arraytype);
     tiledb_array_schema_t* schema;
-	tiledb_ctx_t* c_ctx = ctx_->ptr().get();
-    ctx_->handle_error(tiledb_array_schema_alloc(c_ctx, type, &schema));
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_array_schema_alloc(c_ctx, array_type, &schema));
     schema_ = std::shared_ptr<tiledb_array_schema_t>(schema, deleter_);
   }
 
@@ -145,17 +147,18 @@ class ArraySchema : public Schema {
    *
    * @param ctx TileDB context
    * @param uri URI of array
-   * @param encryption_type The encryption type to use.
+   * @param encryptiontype The encryption type to use.
    * @param encryption_key The encryption key to use.
    * @param key_length Length in bytes of the encryption key.
    */
   ArraySchema(
       const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& uri,
-      tiledb_encryption_type_t encryption_type,
+      tiledb::EncryptionType encryptiontype,
       const void* encryption_key,
       uint32_t key_length)
       : Schema(ctx) {
+    tiledb_encryption_type_t encryption_type = (tiledb_encryption_type_t)encryptiontype;    
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_array_schema_t* schema;
     ctx_->handle_error(tiledb_array_schema_load_with_key(
@@ -179,12 +182,12 @@ class ArraySchema : public Schema {
   ArraySchema(
       const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& uri,
-      tiledb_encryption_type_t encryption_type,
+      tiledb::EncryptionType encryptiontype,
       const std::string& encryption_key)
       : ArraySchema(
             ctx,
             uri,
-            encryption_type,
+            encryptiontype,
             encryption_key.data(),
             (uint32_t)encryption_key.size()) {
   }
@@ -235,12 +238,12 @@ class ArraySchema : public Schema {
   }
 
   /** Returns the array type. */
-  tiledb_array_type_t array_type() const {
+  tiledb::ArrayType array_type() const {
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_array_type_t type;
     ctx_->handle_error(tiledb_array_schema_get_array_type(
         ctx_->ptr().get(), schema_.get(), &type));
-    return type;
+    return (tiledb::ArrayType)type;
   }
 
   /** Returns the tile capacity. */
@@ -290,12 +293,12 @@ class ArraySchema : public Schema {
   }
 
   /** Returns the tile order. */
-  tiledb_layout_t tile_order() const {
+  tiledb::LayoutType tile_order() const {
   //  tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_layout_t layout;
     ctx_->handle_error(tiledb_array_schema_get_tile_order(
         ctx_->ptr().get(), schema_.get(), &layout));
-    return layout;
+    return (tiledb::LayoutType)layout;
   }
 
   /**
@@ -304,7 +307,8 @@ class ArraySchema : public Schema {
    * @param layout Tile order to set.
    * @return Reference to this `ArraySchema` instance.
    */
-  tiledb::ArraySchema& set_tile_order(tiledb_layout_t layout) {
+  tiledb::ArraySchema& set_tile_order(tiledb::LayoutType layouttype) {
+    tiledb_layout_t layout = tiledb_layout_t(layouttype);
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     ctx_->handle_error(tiledb_array_schema_set_tile_order(
         ctx_->ptr().get(), schema_.get(), layout));
@@ -317,19 +321,19 @@ class ArraySchema : public Schema {
    * @param layout Pair of {tile order, cell order}
    * @return Reference to this `ArraySchema` instance.
    */
-  tiledb::ArraySchema& set_order(tiledb_layout_t tile_order, tiledb_layout_t cell_order) { //tiledb::ArraySchema& set_order(const std::array<tiledb_layout_t, 2>& p) {
+  tiledb::ArraySchema& set_order(tiledb::LayoutType tile_order, tiledb::LayoutType cell_order) { //tiledb::ArraySchema& set_order(const std::array<tiledb_layout_t, 2>& p) {
     set_tile_order(tile_order); //set_tile_order(p[0]);
     set_cell_order(cell_order);// set_cell_order(p[1]);
     return *this;
   }
 
   /** Returns the cell order. */
-  tiledb_layout_t cell_order() const {
+  tiledb::LayoutType cell_order() const {
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_layout_t layout;
     ctx_->handle_error(tiledb_array_schema_get_cell_order(
         ctx_->ptr().get(), schema_.get(), &layout));
-    return layout;
+    return (tiledb::LayoutType)layout;
   }
 
   /**
@@ -338,7 +342,8 @@ class ArraySchema : public Schema {
    * @param layout Cell order to set.
    * @return Reference to this `ArraySchema` instance.
    */
-  tiledb::ArraySchema& set_cell_order(tiledb_layout_t layout) {
+  tiledb::ArraySchema& set_cell_order(tiledb::LayoutType layouttype) {
+    tiledb_layout_t layout = tiledb_layout_t(layouttype);
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     ctx_->handle_error(tiledb_array_schema_set_cell_order(
         ctx_->ptr().get(), schema_.get(), layout));
@@ -608,12 +613,12 @@ class ArraySchema : public Schema {
   /* ********************************* */
 
   /** Returns the input array type in string format. */
-  static std::string to_str(tiledb_array_type_t type) {
+  static std::string to_str(tiledb::ArrayType type) {
     return type == TILEDB_DENSE ? "DENSE" : "SPARSE";
   }
 
   /** Returns the input layout in string format. */
-  static std::string to_str(tiledb_layout_t layout) {
+  static std::string to_str(tiledb::LayoutType layout) {
     switch (layout) {
       case TILEDB_GLOBAL_ORDER:
         return "GLOBAL";
@@ -768,13 +773,14 @@ public:
 	* Adds an Attribute to the array.
 	*
 	* @param name  The Attribute name
-	* @param type datatype
+	* @param datatype DataType
 	* @return Reference to this `ArraySchema` instance.
 	*/
-	void add_attribute(const std::string& name, tiledb_datatype_t type)
+	void add_attribute(const std::string& name, tiledb::DataType datatype)
 	{
+ 
 		tiledb_ctx_t* c_ctx = ctx_->ptr().get();
-		tiledb::Attribute attr(ctx_, name, type);
+		tiledb::Attribute attr(ctx_, name, datatype);
 		ctx_->handle_error(tiledb_array_schema_add_attribute(
 			c_ctx, schema_.get(), attr.ptr().get()));
 

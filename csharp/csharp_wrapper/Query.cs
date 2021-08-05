@@ -44,7 +44,7 @@ public class Query : global::System.IDisposable {
     }
   }
 
-  public Query(Context ctx, Array array, tiledb_query_type_t type) : this(tiledbcsPINVOKE.new_Query__SWIG_0(Context.getCPtr(ctx), Array.getCPtr(array), (int)type), true) {
+  public Query(Context ctx, Array array, QueryType querytype) : this(tiledbcsPINVOKE.new_Query__SWIG_0(Context.getCPtr(ctx), Array.getCPtr(array), (int)querytype), true) {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -63,20 +63,20 @@ public class Query : global::System.IDisposable {
     return ret;
   }
 
-  public tiledb_query_type_t query_type() {
-    tiledb_query_type_t ret = (tiledb_query_type_t)tiledbcsPINVOKE.Query_query_type(swigCPtr);
+  public QueryType query_type() {
+    QueryType ret = (QueryType)tiledbcsPINVOKE.Query_query_type(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public Query set_layout(tiledb_layout_t layout) {
-    Query ret = new Query(tiledbcsPINVOKE.Query_set_layout(swigCPtr, (int)layout), true);
+  public Query set_layout(LayoutType layouttype) {
+    Query ret = new Query(tiledbcsPINVOKE.Query_set_layout(swigCPtr, (int)layouttype), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public tiledb_layout_t query_layout() {
-    tiledb_layout_t ret = (tiledb_layout_t)tiledbcsPINVOKE.Query_query_layout(swigCPtr);
+  public LayoutType query_layout() {
+    LayoutType ret = (LayoutType)tiledbcsPINVOKE.Query_query_layout(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -88,8 +88,8 @@ public class Query : global::System.IDisposable {
     return ret;
   }
 
-  public Query.Status query_status() {
-    Query.Status ret = (Query.Status)tiledbcsPINVOKE.Query_query_status(swigCPtr);
+  public QueryStatus query_status() {
+    QueryStatus ret = (QueryStatus)tiledbcsPINVOKE.Query_query_status(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -100,8 +100,8 @@ public class Query : global::System.IDisposable {
     return ret;
   }
 
-  public Query.Status submit() {
-    Query.Status ret = (Query.Status)tiledbcsPINVOKE.Query_submit(swigCPtr);
+  public QueryStatus submit() {
+    QueryStatus ret = (QueryStatus)tiledbcsPINVOKE.Query_submit(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -123,20 +123,20 @@ public class Query : global::System.IDisposable {
     return ret;
   }
 
-  public uint range_num(uint dim_idx) {
-    uint ret = tiledbcsPINVOKE.Query_range_num(swigCPtr, dim_idx);
+  public ulong range_num(uint dim_idx) {
+    ulong ret = tiledbcsPINVOKE.Query_range_num(swigCPtr, dim_idx);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public PairStringString range(uint dim_idx, uint range_idx) {
+  public PairStringString range(uint dim_idx, ulong range_idx) {
     PairStringString ret = new PairStringString(tiledbcsPINVOKE.Query_range(swigCPtr, dim_idx, range_idx), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public uint est_result_size(string attr_name) {
-    uint ret = tiledbcsPINVOKE.Query_est_result_size(swigCPtr, attr_name);
+  public ulong est_result_size(string attr_name) {
+    ulong ret = tiledbcsPINVOKE.Query_est_result_size(swigCPtr, attr_name);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -235,22 +235,9 @@ public class Query : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static Query.Status to_status(tiledb_query_status_t status) {
-    Query.Status ret = (Query.Status)tiledbcsPINVOKE.Query_to_status((int)status);
-    return ret;
-  }
-
-  public static string to_str(tiledb_query_type_t type) {
+  public static string to_str(QueryType type) {
     string ret = tiledbcsPINVOKE.Query_to_str((int)type);
     return ret;
-  }
-
-  public enum Status {
-    FAILED,
-    COMPLETE,
-    INPROGRESS,
-    INCOMPLETE,
-    UNINITIALIZED
   }
 
 }

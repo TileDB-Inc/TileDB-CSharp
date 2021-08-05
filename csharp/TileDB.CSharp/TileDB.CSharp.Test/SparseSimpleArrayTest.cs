@@ -69,9 +69,9 @@ namespace TileDB.CSharp.Test
             dom.add_int32_dimension("rows", 1, 4, 4);
             dom.add_int32_dimension("cols", 1, 4, 4);
 
-            TileDB.ArraySchema schema = new TileDB.ArraySchema(ctx, TileDB.tiledb_array_type_t.TILEDB_SPARSE);
+            TileDB.ArraySchema schema = new TileDB.ArraySchema(ctx, TileDB.ArrayType.TILEDB_SPARSE);
             schema.set_domain(dom);
-            TileDB.Attribute attr1 = TileDB.Attribute.create_attribute(ctx, "a", TileDB.tiledb_datatype_t.TILEDB_INT32);
+            TileDB.Attribute attr1 = TileDB.Attribute.create_attribute(ctx, "a", TileDB.DataType.TILEDB_INT32);
             schema.add_attribute(attr1);
 
             //delete array if it already exists
@@ -86,7 +86,7 @@ namespace TileDB.CSharp.Test
 
         }//private void CreateSparseSimpleArray()
 
-        private TileDB.Query.Status WriteSparseSimpleArray()
+        private TileDB.QueryStatus WriteSparseSimpleArray()
         {
             TileDB.Context ctx = new TileDB.Context();
 
@@ -108,21 +108,21 @@ namespace TileDB.CSharp.Test
 
 
             //open array for write
-            TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.tiledb_query_type_t.TILEDB_WRITE);
-            TileDB.Query query = new TileDB.Query(ctx, array, TileDB.tiledb_query_type_t.TILEDB_WRITE);
-            query.set_layout(TileDB.tiledb_layout_t.TILEDB_UNORDERED);
+            TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.QueryType.TILEDB_WRITE);
+            TileDB.Query query = new TileDB.Query(ctx, array, TileDB.QueryType.TILEDB_WRITE);
+            query.set_layout(TileDB.LayoutType.TILEDB_UNORDERED);
             query.set_int32_vector_buffer("a", data);
             query.set_int32_vector_buffer("rows", coords_rows);
             query.set_int32_vector_buffer("cols", coords_cols);
 
-            TileDB.Query.Status status = query.submit();
+            TileDB.QueryStatus status = query.submit();
             array.close();
 
             return status;
 
         }//private void WriteSparseSimpleArray()
 
-        private TileDB.Query.Status ReadSparseSimpleArray()
+        private TileDB.QueryStatus ReadSparseSimpleArray()
         {
             TileDB.Context ctx = new TileDB.Context();
 
@@ -139,17 +139,17 @@ namespace TileDB.CSharp.Test
             subarray.Add(4);
 
             //open array for read
-            TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.tiledb_query_type_t.TILEDB_READ);
+            TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.QueryType.TILEDB_READ);
 
             //query
-            TileDB.Query query = new TileDB.Query(ctx, array, TileDB.tiledb_query_type_t.TILEDB_READ);
-            query.set_layout(TileDB.tiledb_layout_t.TILEDB_ROW_MAJOR);
+            TileDB.Query query = new TileDB.Query(ctx, array, TileDB.QueryType.TILEDB_READ);
+            query.set_layout(TileDB.LayoutType.TILEDB_ROW_MAJOR);
             query.set_int32_subarray(subarray);
             query.set_int32_vector_buffer("a", data);
             query.set_int32_vector_buffer("rows", coords_rows);
             query.set_int32_vector_buffer("cols", coords_cols);
 
-            TileDB.Query.Status status = query.submit();
+            TileDB.QueryStatus status = query.submit();
             array.close();
 
             return status;
@@ -162,13 +162,13 @@ namespace TileDB.CSharp.Test
         public void TestSparseSimpleArray()
         {
             CreateSparseSimpleArray();
-            TileDB.Query.Status status_write = WriteSparseSimpleArray();
-            if (status_write == TileDB.Query.Status.FAILED)
+            TileDB.QueryStatus status_write = WriteSparseSimpleArray();
+            if (status_write == TileDB.QueryStatus.TILEDB_FAILED)
             {
                 Assert.Fail();
             }
-            TileDB.Query.Status status_read = ReadSparseSimpleArray();
-            if (status_read == TileDB.Query.Status.FAILED)
+            TileDB.QueryStatus status_read = ReadSparseSimpleArray();
+            if (status_read == TileDB.QueryStatus.TILEDB_FAILED)
             {
                 Assert.Fail();
             }

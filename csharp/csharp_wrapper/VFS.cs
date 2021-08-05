@@ -110,8 +110,8 @@ public class VFS : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public uint dir_size(string uri) {
-    uint ret = tiledbcsPINVOKE.VFS_dir_size(swigCPtr, uri);
+  public ulong dir_size(string uri) {
+    ulong ret = tiledbcsPINVOKE.VFS_dir_size(swigCPtr, uri);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -122,8 +122,8 @@ public class VFS : global::System.IDisposable {
     return ret;
   }
 
-  public uint file_size(string uri) {
-    uint ret = tiledbcsPINVOKE.VFS_file_size(swigCPtr, uri);
+  public ulong file_size(string uri) {
+    ulong ret = tiledbcsPINVOKE.VFS_file_size(swigCPtr, uri);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

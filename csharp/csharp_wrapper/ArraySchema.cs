@@ -44,7 +44,7 @@ public class ArraySchema : global::System.IDisposable {
     }
   }
 
-  public ArraySchema(Context ctx, tiledb_array_type_t type) : this(tiledbcsPINVOKE.new_ArraySchema__SWIG_0(Context.getCPtr(ctx), (int)type), true) {
+  public ArraySchema(Context ctx, ArrayType arraytype) : this(tiledbcsPINVOKE.new_ArraySchema__SWIG_0(Context.getCPtr(ctx), (int)arraytype), true) {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -52,7 +52,7 @@ public class ArraySchema : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public ArraySchema(Context ctx, string uri, tiledb_encryption_type_t encryption_type, string encryption_key) : this(tiledbcsPINVOKE.new_ArraySchema__SWIG_2(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key), true) {
+  public ArraySchema(Context ctx, string uri, EncryptionType encryptiontype, string encryption_key) : this(tiledbcsPINVOKE.new_ArraySchema__SWIG_2(Context.getCPtr(ctx), uri, (int)encryptiontype, encryption_key), true) {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -68,19 +68,19 @@ public class ArraySchema : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public tiledb_array_type_t array_type() {
-    tiledb_array_type_t ret = (tiledb_array_type_t)tiledbcsPINVOKE.ArraySchema_array_type(swigCPtr);
+  public ArrayType array_type() {
+    ArrayType ret = (ArrayType)tiledbcsPINVOKE.ArraySchema_array_type(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public uint capacity() {
-    uint ret = tiledbcsPINVOKE.ArraySchema_capacity(swigCPtr);
+  public ulong capacity() {
+    ulong ret = tiledbcsPINVOKE.ArraySchema_capacity(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public ArraySchema set_capacity(uint capacity) {
+  public ArraySchema set_capacity(ulong capacity) {
     ArraySchema ret = new ArraySchema(tiledbcsPINVOKE.ArraySchema_set_capacity(swigCPtr, capacity), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
@@ -98,32 +98,32 @@ public class ArraySchema : global::System.IDisposable {
     return ret;
   }
 
-  public tiledb_layout_t tile_order() {
-    tiledb_layout_t ret = (tiledb_layout_t)tiledbcsPINVOKE.ArraySchema_tile_order(swigCPtr);
+  public LayoutType tile_order() {
+    LayoutType ret = (LayoutType)tiledbcsPINVOKE.ArraySchema_tile_order(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public ArraySchema set_tile_order(tiledb_layout_t layout) {
-    ArraySchema ret = new ArraySchema(tiledbcsPINVOKE.ArraySchema_set_tile_order(swigCPtr, (int)layout), true);
+  public ArraySchema set_tile_order(LayoutType layouttype) {
+    ArraySchema ret = new ArraySchema(tiledbcsPINVOKE.ArraySchema_set_tile_order(swigCPtr, (int)layouttype), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public ArraySchema set_order(tiledb_layout_t tile_order, tiledb_layout_t cell_order) {
+  public ArraySchema set_order(LayoutType tile_order, LayoutType cell_order) {
     ArraySchema ret = new ArraySchema(tiledbcsPINVOKE.ArraySchema_set_order(swigCPtr, (int)tile_order, (int)cell_order), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public tiledb_layout_t cell_order() {
-    tiledb_layout_t ret = (tiledb_layout_t)tiledbcsPINVOKE.ArraySchema_cell_order(swigCPtr);
+  public LayoutType cell_order() {
+    LayoutType ret = (LayoutType)tiledbcsPINVOKE.ArraySchema_cell_order(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public ArraySchema set_cell_order(tiledb_layout_t layout) {
-    ArraySchema ret = new ArraySchema(tiledbcsPINVOKE.ArraySchema_set_cell_order(swigCPtr, (int)layout), true);
+  public ArraySchema set_cell_order(LayoutType layouttype) {
+    ArraySchema ret = new ArraySchema(tiledbcsPINVOKE.ArraySchema_set_cell_order(swigCPtr, (int)layouttype), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -211,12 +211,12 @@ public class ArraySchema : global::System.IDisposable {
     return ret;
   }
 
-  public static string to_str(tiledb_array_type_t type) {
+  public static string to_str(ArrayType type) {
     string ret = tiledbcsPINVOKE.ArraySchema_to_str__SWIG_0((int)type);
     return ret;
   }
 
-  public static string to_str(tiledb_layout_t layout) {
+  public static string to_str(LayoutType layout) {
     string ret = tiledbcsPINVOKE.ArraySchema_to_str__SWIG_1((int)layout);
     return ret;
   }
@@ -250,8 +250,8 @@ public class ArraySchema : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void add_attribute(string name, tiledb_datatype_t type) {
-    tiledbcsPINVOKE.ArraySchema_add_attribute__SWIG_1(swigCPtr, name, (int)type);
+  public void add_attribute(string name, DataType datatype) {
+    tiledbcsPINVOKE.ArraySchema_add_attribute__SWIG_1(swigCPtr, name, (int)datatype);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 

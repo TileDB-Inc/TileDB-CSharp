@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -17,15 +17,22 @@
   <ItemGroup>
     <Compile Include="..\..\csharp_wrapper\Array.cs" Link="Array.cs" />
     <Compile Include="..\..\csharp_wrapper\ArraySchema.cs" Link="ArraySchema.cs" />
+    <Compile Include="..\..\csharp_wrapper\ArrayType.cs" Link="ArrayType.cs" />
     <Compile Include="..\..\csharp_wrapper\ArrayUtil.cs" Link="ArrayUtil.cs" />
     <Compile Include="..\..\csharp_wrapper\Attribute.cs" Link="Attribute.cs" />
     <Compile Include="..\..\csharp_wrapper\AttributeError.cs" Link="AttributeError.cs" />
     <Compile Include="..\..\csharp_wrapper\Config.cs" Link="Config.cs" />
     <Compile Include="..\..\csharp_wrapper\Context.cs" Link="Context.cs" />
+    <Compile Include="..\..\csharp_wrapper\DataType.cs" Link="DataType.cs" />
     <Compile Include="..\..\csharp_wrapper\Dimension.cs" Link="Dimension.cs" />
     <Compile Include="..\..\csharp_wrapper\Domain.cs" Link="Domain.cs" />
+    <Compile Include="..\..\csharp_wrapper\EncryptionType.cs" Link="EncryptionType.cs" />
+    <Compile Include="..\..\csharp_wrapper\FilesystemType.cs" Link="FilesystemType.cs" />
     <Compile Include="..\..\csharp_wrapper\Filter.cs" Link="Filter.cs" />
     <Compile Include="..\..\csharp_wrapper\FilterList.cs" Link="FilterList.cs" />
+    <Compile Include="..\..\csharp_wrapper\FilterOption.cs" Link="FilterOption.cs" />
+    <Compile Include="..\..\csharp_wrapper\FilterType.cs" Link="FilterType.cs" />
+    <Compile Include="..\..\csharp_wrapper\LayoutType.cs" Link="LayoutType.cs" />
     <Compile Include="..\..\csharp_wrapper\MapInt32Char.cs" Link="MapInt32Char.cs" />
     <Compile Include="..\..\csharp_wrapper\MapInt32Double.cs" Link="MapInt32Double.cs" />
     <Compile Include="..\..\csharp_wrapper\MapInt32Int32.cs" Link="MapInt32Int32.cs" />
@@ -52,6 +59,7 @@
     <Compile Include="..\..\csharp_wrapper\MapStringUChar.cs" Link="MapStringUChar.cs" />
     <Compile Include="..\..\csharp_wrapper\MapStringUInt32.cs" Link="MapStringUInt32.cs" />
     <Compile Include="..\..\csharp_wrapper\MapStringUInt64.cs" Link="MapStringUInt64.cs" />
+    <Compile Include="..\..\csharp_wrapper\ObjectType.cs" Link="ObjectType.cs" />
     <Compile Include="..\..\csharp_wrapper\PairDoubleDouble.cs" Link="PairDoubleDouble.cs" />
     <Compile Include="..\..\csharp_wrapper\PairInt32Int32.cs" Link="PairInt32Int32.cs" />
     <Compile Include="..\..\csharp_wrapper\PairInt64Int64.cs" Link="PairInt64Int64.cs" />
@@ -60,26 +68,16 @@
     <Compile Include="..\..\csharp_wrapper\PairUInt64UInt64.cs" Link="PairUInt64UInt64.cs" />
     <Compile Include="..\..\csharp_wrapper\Query.cs" Link="Query.cs" />
     <Compile Include="..\..\csharp_wrapper\QueryCondition.cs" Link="QueryCondition.cs" />
+    <Compile Include="..\..\csharp_wrapper\QueryConditionCombinationOperatorType.cs" Link="QueryConditionCombinationOperatorType.cs" />
+    <Compile Include="..\..\csharp_wrapper\QueryConditionOperatorType.cs" Link="QueryConditionOperatorType.cs" />
+    <Compile Include="..\..\csharp_wrapper\QueryStatus.cs" Link="QueryStatus.cs" />
+    <Compile Include="..\..\csharp_wrapper\QueryType.cs" Link="QueryType.cs" />
     <Compile Include="..\..\csharp_wrapper\SchemaMismatch.cs" Link="SchemaMismatch.cs" />
+    <Compile Include="..\..\csharp_wrapper\SerializationType.cs" Link="SerializationType.cs" />
     <Compile Include="..\..\csharp_wrapper\Stats.cs" Link="Stats.cs" />
     <Compile Include="..\..\csharp_wrapper\tiledbcs.cs" Link="tiledbcs.cs" />
     <Compile Include="..\..\csharp_wrapper\tiledbcsPINVOKE.cs" Link="tiledbcsPINVOKE.cs" />
     <Compile Include="..\..\csharp_wrapper\TileDBError.cs" Link="TileDBError.cs" />
-    <Compile Include="..\..\csharp_wrapper\tiledb_array_type_t.cs" Link="tiledb_array_type_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\tiledb_datatype_t.cs" Link="tiledb_datatype_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\tiledb_encryption_type_t.cs" Link="tiledb_encryption_type_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\tiledb_filesystem_t.cs" Link="tiledb_filesystem_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\tiledb_filter_option_t.cs" Link="tiledb_filter_option_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\tiledb_filter_type_t.cs" Link="tiledb_filter_type_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\tiledb_layout_t.cs" Link="tiledb_layout_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\tiledb_object_t.cs" Link="tiledb_object_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\tiledb_query_condition_combination_op_t.cs" Link="tiledb_query_condition_combination_op_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\tiledb_query_condition_op_t.cs" Link="tiledb_query_condition_op_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\tiledb_query_status_t.cs" Link="tiledb_query_status_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\tiledb_query_type_t.cs" Link="tiledb_query_type_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\tiledb_serialization_type_t.cs" Link="tiledb_serialization_type_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\tiledb_vfs_mode_t.cs" Link="tiledb_vfs_mode_t.cs" />
-    <Compile Include="..\..\csharp_wrapper\tiledb_walk_order_t.cs" Link="tiledb_walk_order_t.cs" />
     <Compile Include="..\..\csharp_wrapper\TypeError.cs" Link="TypeError.cs" />
     <Compile Include="..\..\csharp_wrapper\VectorChar.cs" Link="VectorChar.cs" />
     <Compile Include="..\..\csharp_wrapper\VectorConstChar.cs" Link="VectorConstChar.cs" />
@@ -99,6 +97,8 @@
     <Compile Include="..\..\csharp_wrapper\VectorUInt32.cs" Link="VectorUInt32.cs" />
     <Compile Include="..\..\csharp_wrapper\VectorUInt64.cs" Link="VectorUInt64.cs" />
     <Compile Include="..\..\csharp_wrapper\VFS.cs" Link="VFS.cs" />
+    <Compile Include="..\..\csharp_wrapper\VFSMode.cs" Link="VFSMode.cs" />
+    <Compile Include="..\..\csharp_wrapper\WalkOrderType.cs" Link="WalkOrderType.cs" />
   </ItemGroup>
 
   <ItemGroup>

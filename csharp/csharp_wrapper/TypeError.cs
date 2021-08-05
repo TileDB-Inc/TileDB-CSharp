@@ -36,6 +36,10 @@ public class TypeError : TileDBError {
     }
   }
 
+  public TypeError(string msg) : this(tiledbcsPINVOKE.new_TypeError(msg), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
 }
 
 }

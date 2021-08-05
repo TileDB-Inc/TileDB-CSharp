@@ -52,8 +52,8 @@ public class Domain : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public uint cell_num() {
-    uint ret = tiledbcsPINVOKE.Domain_cell_num(swigCPtr);
+  public ulong cell_num() {
+    ulong ret = tiledbcsPINVOKE.Domain_cell_num(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -63,8 +63,8 @@ public class Domain : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public tiledb_datatype_t type() {
-    tiledb_datatype_t ret = (tiledb_datatype_t)tiledbcsPINVOKE.Domain_type(swigCPtr);
+  public DataType type() {
+    DataType ret = (DataType)tiledbcsPINVOKE.Domain_type(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -104,12 +104,12 @@ public class Domain : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void add_int64_dimension(string name, int bound_lower, int bound_upper, int extent) {
+  public void add_int64_dimension(string name, long bound_lower, long bound_upper, long extent) {
     tiledbcsPINVOKE.Domain_add_int64_dimension(swigCPtr, name, bound_lower, bound_upper, extent);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void add_uint64_dimension(string name, uint bound_lower, uint bound_upper, uint extent) {
+  public void add_uint64_dimension(string name, ulong bound_lower, ulong bound_upper, ulong extent) {
     tiledbcsPINVOKE.Domain_add_uint64_dimension(swigCPtr, name, bound_lower, bound_upper, extent);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }

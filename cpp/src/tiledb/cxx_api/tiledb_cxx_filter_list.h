@@ -36,7 +36,7 @@
 #include "tiledb_cxx_context.h"
 #include "tiledb_cxx_filter.h"
 #include "tiledb.h"
-
+#include "tiledb_cxx_enum.h"
 #include <iostream>
 #include <string>
 

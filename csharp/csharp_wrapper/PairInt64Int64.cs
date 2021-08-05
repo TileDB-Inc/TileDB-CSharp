@@ -47,29 +47,29 @@ public class PairInt64Int64 : global::System.IDisposable {
   public PairInt64Int64() : this(tiledbcsPINVOKE.new_PairInt64Int64__SWIG_0(), true) {
   }
 
-  public PairInt64Int64(int first, int second) : this(tiledbcsPINVOKE.new_PairInt64Int64__SWIG_1(first, second), true) {
+  public PairInt64Int64(long first, long second) : this(tiledbcsPINVOKE.new_PairInt64Int64__SWIG_1(first, second), true) {
   }
 
   public PairInt64Int64(PairInt64Int64 other) : this(tiledbcsPINVOKE.new_PairInt64Int64__SWIG_2(PairInt64Int64.getCPtr(other)), true) {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public int first {
+  public long first {
     set {
       tiledbcsPINVOKE.PairInt64Int64_first_set(swigCPtr, value);
     } 
     get {
-      int ret = tiledbcsPINVOKE.PairInt64Int64_first_get(swigCPtr);
+      long ret = tiledbcsPINVOKE.PairInt64Int64_first_get(swigCPtr);
       return ret;
     } 
   }
 
-  public int second {
+  public long second {
     set {
       tiledbcsPINVOKE.PairInt64Int64_second_set(swigCPtr, value);
     } 
     get {
-      int ret = tiledbcsPINVOKE.PairInt64Int64_second_get(swigCPtr);
+      long ret = tiledbcsPINVOKE.PairInt64Int64_second_get(swigCPtr);
       return ret;
     } 
   }

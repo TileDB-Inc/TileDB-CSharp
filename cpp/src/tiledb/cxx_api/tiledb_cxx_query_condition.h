@@ -35,7 +35,7 @@
 
 #include "tiledb_cxx_context.h"
 #include "tiledb.h"
-
+#include "tiledb_cxx_enum.h"
 #include <string>
 #include <type_traits>
 
@@ -120,7 +120,8 @@ class QueryCondition {
       const std::string& attribute_name,
       const void* condition_value,
       uint64_t condition_value_size,
-      tiledb_query_condition_op_t op) {
+      tiledb::QueryConditionOperatorType optype) {
+    tiledb_query_condition_op_t op = (tiledb_query_condition_op_t)optype;
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     ctx_->handle_error(tiledb_query_condition_init(
         c_ctx,
@@ -157,7 +158,8 @@ class QueryCondition {
   void init(
       const std::string& attribute_name,
       const std::string& condition_value,
-      tiledb_query_condition_op_t op) {
+      tiledb::QueryConditionOperatorType optype) {
+    tiledb_query_condition_op_t op = (tiledb_query_condition_op_t)optype;
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     ctx_->handle_error(tiledb_query_condition_init(
         c_ctx,
@@ -197,7 +199,8 @@ class QueryCondition {
    */
   QueryCondition combine(
       const QueryCondition& rhs,
-      tiledb_query_condition_combination_op_t combination_op) const {
+      tiledb::QueryConditionCombinationOperatorType combination_optype) const {
+    tiledb_query_condition_combination_op_t combination_op = (tiledb_query_condition_combination_op_t)combination_optype;    
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_query_condition_t* combined_qc;
     ctx_->handle_error(tiledb_query_condition_combine(
@@ -236,9 +239,10 @@ class QueryCondition {
       const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& attribute_name,
       const std::string& value,
-      tiledb_query_condition_op_t op) {
+      tiledb::QueryConditionOperatorType optype) {
+ 
     QueryCondition qc(ctx);
-    qc.init(attribute_name, value, op);
+    qc.init(attribute_name, value, optype);
     return qc;
   }
 
@@ -268,7 +272,8 @@ class QueryCondition {
       const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& attribute_name,
       T value,
-      tiledb_query_condition_op_t op) {
+      tiledb::QueryConditionOperatorType optype) {
+    tiledb_query_condition_op_t op = (tiledb_query_condition_op_t)optype;
     QueryCondition qc(ctx);
     qc.init(attribute_name, &value, sizeof(T), op);
     return qc;

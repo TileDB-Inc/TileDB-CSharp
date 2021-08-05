@@ -10,10 +10,10 @@
 
 namespace TileDB {
 
-public enum tiledb_filter_option_t {
-  TILEDB_COMPRESSION_LEVEL = 0,
-  TILEDB_BIT_WIDTH_MAX_WINDOW = 1,
-  TILEDB_POSITIVE_DELTA_MAX_WINDOW = 2
+public enum ObjectType {
+  TILEDB_INVALID = 0,
+  TILEDB_GROUP = 1,
+  TILEDB_ARRAY = 2
 }
 
 }

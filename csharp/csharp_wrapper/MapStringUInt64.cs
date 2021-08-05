@@ -11,7 +11,7 @@
 namespace TileDB {
 
 public class MapStringUInt64 : global::System.IDisposable 
-    , global::System.Collections.Generic.IDictionary<string, uint>
+    , global::System.Collections.Generic.IDictionary<string, ulong>
  {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   protected bool swigCMemOwn;
@@ -47,7 +47,7 @@ public class MapStringUInt64 : global::System.IDisposable
   }
 
 
-  public uint this[string key] {
+  public ulong this[string key] {
     get {
       return getitem(key);
     }
@@ -57,12 +57,12 @@ public class MapStringUInt64 : global::System.IDisposable
     }
   }
 
-  public bool TryGetValue(string key, out uint value) {
+  public bool TryGetValue(string key, out ulong value) {
     if (this.ContainsKey(key)) {
       value = this[key];
       return true;
     }
-    value = default(uint);
+    value = default(ulong);
     return false;
   }
 
@@ -93,21 +93,21 @@ public class MapStringUInt64 : global::System.IDisposable
     }
   }
 
-  public global::System.Collections.Generic.ICollection<uint> Values {
+  public global::System.Collections.Generic.ICollection<ulong> Values {
     get {
-      global::System.Collections.Generic.ICollection<uint> vals = new global::System.Collections.Generic.List<uint>();
-      foreach (global::System.Collections.Generic.KeyValuePair<string, uint> pair in this) {
+      global::System.Collections.Generic.ICollection<ulong> vals = new global::System.Collections.Generic.List<ulong>();
+      foreach (global::System.Collections.Generic.KeyValuePair<string, ulong> pair in this) {
         vals.Add(pair.Value);
       }
       return vals;
     }
   }
 
-  public void Add(global::System.Collections.Generic.KeyValuePair<string, uint> item) {
+  public void Add(global::System.Collections.Generic.KeyValuePair<string, ulong> item) {
     Add(item.Key, item.Value);
   }
 
-  public bool Remove(global::System.Collections.Generic.KeyValuePair<string, uint> item) {
+  public bool Remove(global::System.Collections.Generic.KeyValuePair<string, ulong> item) {
     if (Contains(item)) {
       return Remove(item.Key);
     } else {
@@ -115,7 +115,7 @@ public class MapStringUInt64 : global::System.IDisposable
     }
   }
 
-  public bool Contains(global::System.Collections.Generic.KeyValuePair<string, uint> item) {
+  public bool Contains(global::System.Collections.Generic.KeyValuePair<string, ulong> item) {
     if (this[item.Key] == item.Value) {
       return true;
     } else {
@@ -123,11 +123,11 @@ public class MapStringUInt64 : global::System.IDisposable
     }
   }
 
-  public void CopyTo(global::System.Collections.Generic.KeyValuePair<string, uint>[] array) {
+  public void CopyTo(global::System.Collections.Generic.KeyValuePair<string, ulong>[] array) {
     CopyTo(array, 0);
   }
 
-  public void CopyTo(global::System.Collections.Generic.KeyValuePair<string, uint>[] array, int arrayIndex) {
+  public void CopyTo(global::System.Collections.Generic.KeyValuePair<string, ulong>[] array, int arrayIndex) {
     if (array == null)
       throw new global::System.ArgumentNullException("array");
     if (arrayIndex < 0)
@@ -140,11 +140,11 @@ public class MapStringUInt64 : global::System.IDisposable
     global::System.Collections.Generic.IList<string> keyList = new global::System.Collections.Generic.List<string>(this.Keys);
     for (int i = 0; i < keyList.Count; i++) {
       string currentKey = keyList[i];
-      array.SetValue(new global::System.Collections.Generic.KeyValuePair<string, uint>(currentKey, this[currentKey]), arrayIndex+i);
+      array.SetValue(new global::System.Collections.Generic.KeyValuePair<string, ulong>(currentKey, this[currentKey]), arrayIndex+i);
     }
   }
 
-  global::System.Collections.Generic.IEnumerator<global::System.Collections.Generic.KeyValuePair<string, uint>> global::System.Collections.Generic.IEnumerable<global::System.Collections.Generic.KeyValuePair<string, uint>>.GetEnumerator() {
+  global::System.Collections.Generic.IEnumerator<global::System.Collections.Generic.KeyValuePair<string, ulong>> global::System.Collections.Generic.IEnumerable<global::System.Collections.Generic.KeyValuePair<string, ulong>>.GetEnumerator() {
     return new MapStringUInt64Enumerator(this);
   }
 
@@ -162,7 +162,7 @@ public class MapStringUInt64 : global::System.IDisposable
   /// collection but not when one of the elements of the collection is modified as it is a bit
   /// tricky to detect unmanaged code that modifies the collection under our feet.
   public sealed class MapStringUInt64Enumerator : global::System.Collections.IEnumerator,
-      global::System.Collections.Generic.IEnumerator<global::System.Collections.Generic.KeyValuePair<string, uint>>
+      global::System.Collections.Generic.IEnumerator<global::System.Collections.Generic.KeyValuePair<string, ulong>>
   {
     private MapStringUInt64 collectionRef;
     private global::System.Collections.Generic.IList<string> keyCollection;
@@ -179,7 +179,7 @@ public class MapStringUInt64 : global::System.IDisposable
     }
 
     // Type-safe iterator Current
-    public global::System.Collections.Generic.KeyValuePair<string, uint> Current {
+    public global::System.Collections.Generic.KeyValuePair<string, ulong> Current {
       get {
         if (currentIndex == -1)
           throw new global::System.InvalidOperationException("Enumeration not started.");
@@ -187,7 +187,7 @@ public class MapStringUInt64 : global::System.IDisposable
           throw new global::System.InvalidOperationException("Enumeration finished.");
         if (currentObject == null)
           throw new global::System.InvalidOperationException("Collection modified.");
-        return (global::System.Collections.Generic.KeyValuePair<string, uint>)currentObject;
+        return (global::System.Collections.Generic.KeyValuePair<string, ulong>)currentObject;
       }
     }
 
@@ -204,7 +204,7 @@ public class MapStringUInt64 : global::System.IDisposable
       if (moveOkay) {
         currentIndex++;
         string currentKey = keyCollection[currentIndex];
-        currentObject = new global::System.Collections.Generic.KeyValuePair<string, uint>(currentKey, collectionRef[currentKey]);
+        currentObject = new global::System.Collections.Generic.KeyValuePair<string, ulong>(currentKey, collectionRef[currentKey]);
       } else {
         currentObject = null;
       }
@@ -247,13 +247,13 @@ public class MapStringUInt64 : global::System.IDisposable
     tiledbcsPINVOKE.MapStringUInt64_Clear(swigCPtr);
   }
 
-  private uint getitem(string key) {
-    uint ret = tiledbcsPINVOKE.MapStringUInt64_getitem(swigCPtr, key);
+  private ulong getitem(string key) {
+    ulong ret = tiledbcsPINVOKE.MapStringUInt64_getitem(swigCPtr, key);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  private void setitem(string key, uint x) {
+  private void setitem(string key, ulong x) {
     tiledbcsPINVOKE.MapStringUInt64_setitem(swigCPtr, key, x);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
@@ -264,7 +264,7 @@ public class MapStringUInt64 : global::System.IDisposable
     return ret;
   }
 
-  public void Add(string key, uint value) {
+  public void Add(string key, ulong value) {
     tiledbcsPINVOKE.MapStringUInt64_Add(swigCPtr, key, value);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }

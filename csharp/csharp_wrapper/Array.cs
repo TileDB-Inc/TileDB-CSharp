@@ -44,19 +44,19 @@ public class Array : global::System.IDisposable {
     }
   }
 
-  public Array(Context ctx, string array_uri, tiledb_query_type_t query_type) : this(tiledbcsPINVOKE.new_Array__SWIG_0(Context.getCPtr(ctx), array_uri, (int)query_type), true) {
+  public Array(Context ctx, string array_uri, QueryType query_type) : this(tiledbcsPINVOKE.new_Array__SWIG_0(Context.getCPtr(ctx), array_uri, (int)query_type), true) {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Array(Context ctx, string array_uri, tiledb_query_type_t query_type, tiledb_encryption_type_t encryption_type, string encryption_key) : this(tiledbcsPINVOKE.new_Array__SWIG_1(Context.getCPtr(ctx), array_uri, (int)query_type, (int)encryption_type, encryption_key), true) {
+  public Array(Context ctx, string array_uri, QueryType querytype, EncryptionType encryptiontype, string encryption_key) : this(tiledbcsPINVOKE.new_Array__SWIG_1(Context.getCPtr(ctx), array_uri, (int)querytype, (int)encryptiontype, encryption_key), true) {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Array(Context ctx, string array_uri, tiledb_query_type_t query_type, uint timestamp) : this(tiledbcsPINVOKE.new_Array__SWIG_2(Context.getCPtr(ctx), array_uri, (int)query_type, timestamp), true) {
+  public Array(Context ctx, string array_uri, QueryType querytype, ulong timestamp) : this(tiledbcsPINVOKE.new_Array__SWIG_2(Context.getCPtr(ctx), array_uri, (int)querytype, timestamp), true) {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public Array(Context ctx, string array_uri, tiledb_query_type_t query_type, tiledb_encryption_type_t encryption_type, string encryption_key, uint timestamp) : this(tiledbcsPINVOKE.new_Array__SWIG_3(Context.getCPtr(ctx), array_uri, (int)query_type, (int)encryption_type, encryption_key, timestamp), true) {
+  public Array(Context ctx, string array_uri, QueryType querytype, EncryptionType encryptiontype, string encryption_key, ulong timestamp) : this(tiledbcsPINVOKE.new_Array__SWIG_3(Context.getCPtr(ctx), array_uri, (int)querytype, (int)encryptiontype, encryption_key, timestamp), true) {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -82,23 +82,23 @@ public class Array : global::System.IDisposable {
     return ret;
   }
 
-  public void open(tiledb_query_type_t query_type) {
-    tiledbcsPINVOKE.Array_open__SWIG_0(swigCPtr, (int)query_type);
+  public void open(QueryType querytype) {
+    tiledbcsPINVOKE.Array_open__SWIG_0(swigCPtr, (int)querytype);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void open(tiledb_query_type_t query_type, tiledb_encryption_type_t encryption_type, string encryption_key) {
-    tiledbcsPINVOKE.Array_open__SWIG_1(swigCPtr, (int)query_type, (int)encryption_type, encryption_key);
+  public void open(QueryType querytype, EncryptionType encryptiontype, string encryption_key) {
+    tiledbcsPINVOKE.Array_open__SWIG_1(swigCPtr, (int)querytype, (int)encryptiontype, encryption_key);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void open(tiledb_query_type_t query_type, uint timestamp) {
-    tiledbcsPINVOKE.Array_open__SWIG_2(swigCPtr, (int)query_type, timestamp);
+  public void open(QueryType querytype, ulong timestamp) {
+    tiledbcsPINVOKE.Array_open__SWIG_2(swigCPtr, (int)querytype, timestamp);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void open(tiledb_query_type_t query_type, tiledb_encryption_type_t encryption_type, string encryption_key, uint timestamp) {
-    tiledbcsPINVOKE.Array_open__SWIG_3(swigCPtr, (int)query_type, (int)encryption_type, encryption_key, timestamp);
+  public void open(QueryType querytype, EncryptionType encryptiontype, string encryption_key, ulong timestamp) {
+    tiledbcsPINVOKE.Array_open__SWIG_3(swigCPtr, (int)querytype, (int)encryptiontype, encryption_key, timestamp);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -107,13 +107,13 @@ public class Array : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void reopen_at(uint timestamp) {
+  public void reopen_at(ulong timestamp) {
     tiledbcsPINVOKE.Array_reopen_at(swigCPtr, timestamp);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public uint timestamp() {
-    uint ret = tiledbcsPINVOKE.Array_timestamp(swigCPtr);
+  public ulong timestamp() {
+    ulong ret = tiledbcsPINVOKE.Array_timestamp(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -133,8 +133,8 @@ public class Array : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static void consolidate(Context ctx, string uri, tiledb_encryption_type_t encryption_type, System.IntPtr encryption_key, uint key_length) {
-    tiledbcsPINVOKE.Array_consolidate__SWIG_2(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key, key_length);
+  public static void consolidate(Context ctx, string uri, EncryptionType encryptiontype, System.IntPtr encryption_key, uint key_length) {
+    tiledbcsPINVOKE.Array_consolidate__SWIG_2(Context.getCPtr(ctx), uri, (int)encryptiontype, encryption_key, key_length);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -148,13 +148,13 @@ public class Array : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static void consolidate(Context ctx, string uri, tiledb_encryption_type_t encryption_type, string encryption_key, Config config) {
-    tiledbcsPINVOKE.Array_consolidate__SWIG_3(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key, Config.getCPtr(config));
+  public static void consolidate(Context ctx, string uri, EncryptionType encryptiontype, string encryption_key, Config config) {
+    tiledbcsPINVOKE.Array_consolidate__SWIG_3(Context.getCPtr(ctx), uri, (int)encryptiontype, encryption_key, Config.getCPtr(config));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static void consolidate(Context ctx, string uri, tiledb_encryption_type_t encryption_type, string encryption_key) {
-    tiledbcsPINVOKE.Array_consolidate__SWIG_4(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key);
+  public static void consolidate(Context ctx, string uri, EncryptionType encryptiontype, string encryption_key) {
+    tiledbcsPINVOKE.Array_consolidate__SWIG_4(Context.getCPtr(ctx), uri, (int)encryptiontype, encryption_key);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -170,13 +170,13 @@ public class Array : global::System.IDisposable {
     return ret;
   }
 
-  public static void create(string uri, ArraySchema schema, tiledb_encryption_type_t encryption_type, string encryption_key) {
-    tiledbcsPINVOKE.Array_create__SWIG_1(uri, ArraySchema.getCPtr(schema), (int)encryption_type, encryption_key);
+  public static void create(string uri, ArraySchema schema, EncryptionType encryptiontype, string encryption_key) {
+    tiledbcsPINVOKE.Array_create__SWIG_1(uri, ArraySchema.getCPtr(schema), (int)encryptiontype, encryption_key);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static tiledb_encryption_type_t encryption_type(Context ctx, string array_uri) {
-    tiledb_encryption_type_t ret = (tiledb_encryption_type_t)tiledbcsPINVOKE.Array_encryption_type(Context.getCPtr(ctx), array_uri);
+  public static EncryptionType encryption_type(Context ctx, string array_uri) {
+    EncryptionType ret = (EncryptionType)tiledbcsPINVOKE.Array_encryption_type(Context.getCPtr(ctx), array_uri);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -193,8 +193,8 @@ public class Array : global::System.IDisposable {
     return ret;
   }
 
-  public tiledb_query_type_t query_type() {
-    tiledb_query_type_t ret = (tiledb_query_type_t)tiledbcsPINVOKE.Array_query_type(swigCPtr);
+  public QueryType query_type() {
+    QueryType ret = (QueryType)tiledbcsPINVOKE.Array_query_type(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -209,18 +209,18 @@ public class Array : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static void consolidate_metadata(Context ctx, string uri, tiledb_encryption_type_t encryption_type, System.IntPtr encryption_key, uint key_length) {
-    tiledbcsPINVOKE.Array_consolidate_metadata__SWIG_2(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key, key_length);
+  public static void consolidate_metadata(Context ctx, string uri, EncryptionType encryptiontype, System.IntPtr encryption_key, uint key_length) {
+    tiledbcsPINVOKE.Array_consolidate_metadata__SWIG_2(Context.getCPtr(ctx), uri, (int)encryptiontype, encryption_key, key_length);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static void consolidate_metadata(Context ctx, string uri, tiledb_encryption_type_t encryption_type, string encryption_key, Config config) {
-    tiledbcsPINVOKE.Array_consolidate_metadata__SWIG_3(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key, Config.getCPtr(config));
+  public static void consolidate_metadata(Context ctx, string uri, EncryptionType encryptiontype, string encryption_key, Config config) {
+    tiledbcsPINVOKE.Array_consolidate_metadata__SWIG_3(Context.getCPtr(ctx), uri, (int)encryptiontype, encryption_key, Config.getCPtr(config));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static void consolidate_metadata(Context ctx, string uri, tiledb_encryption_type_t encryption_type, string encryption_key) {
-    tiledbcsPINVOKE.Array_consolidate_metadata__SWIG_4(Context.getCPtr(ctx), uri, (int)encryption_type, encryption_key);
+  public static void consolidate_metadata(Context ctx, string uri, EncryptionType encryptiontype, string encryption_key) {
+    tiledbcsPINVOKE.Array_consolidate_metadata__SWIG_4(Context.getCPtr(ctx), uri, (int)encryptiontype, encryption_key);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -229,14 +229,14 @@ public class Array : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public bool has_metadata(string key, tiledb_datatype_t value_type) {
-    bool ret = tiledbcsPINVOKE.Array_has_metadata(swigCPtr, key, (int)value_type);
+  public bool has_metadata(string key, DataType valuetype) {
+    bool ret = tiledbcsPINVOKE.Array_has_metadata(swigCPtr, key, (int)valuetype);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public uint metadata_num() {
-    uint ret = tiledbcsPINVOKE.Array_metadata_num(swigCPtr);
+  public ulong metadata_num() {
+    ulong ret = tiledbcsPINVOKE.Array_metadata_num(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

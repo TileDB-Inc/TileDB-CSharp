@@ -3192,6 +3192,8 @@ SWIGINTERN void std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__
 
 #include "tiledb_cxx_domain.h"
 
+#include "tiledb_cxx_enum.h"
+
 #include "tiledb_cxx_exception.h"
 
 #include "tiledb_cxx_filter.h"
@@ -3209,8 +3211,6 @@ SWIGINTERN void std_map_Sl_std_string_Sc_std_pair_Sl_int64_t_Sc_int64_t_Sg__Sg__
 #include "tiledb_cxx_version.h"
 
 #include "tiledb_cxx_vfs.h"
-
-#include "tiledb_enum.h"
 
 
 struct SWIG_null_deleter {
@@ -15514,7 +15514,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Array__SWIG_0(void * jarg1, char
   void * jresult ;
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
-  tiledb_query_type_t arg3 ;
+  tiledb::QueryType arg3 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
   tiledb::Array *result = 0 ;
   
@@ -15525,7 +15525,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Array__SWIG_0(void * jarg1, char
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (tiledb_query_type_t)jarg3; 
+  arg3 = (tiledb::QueryType)jarg3; 
   result = (tiledb::Array *)new tiledb::Array((std::shared_ptr< tiledb::Context > const &)*arg1,(std::string const &)*arg2,arg3);
   
   jresult = result ? new std::shared_ptr<  tiledb::Array >(result SWIG_NO_NULL_DELETER_1) : 0;
@@ -15538,8 +15538,8 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Array__SWIG_1(void * jarg1, char
   void * jresult ;
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
-  tiledb_query_type_t arg3 ;
-  tiledb_encryption_type_t arg4 ;
+  tiledb::QueryType arg3 ;
+  tiledb::EncryptionType arg4 ;
   std::string *arg5 = 0 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
   tiledb::Array *result = 0 ;
@@ -15551,8 +15551,8 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Array__SWIG_1(void * jarg1, char
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (tiledb_query_type_t)jarg3; 
-  arg4 = (tiledb_encryption_type_t)jarg4; 
+  arg3 = (tiledb::QueryType)jarg3; 
+  arg4 = (tiledb::EncryptionType)jarg4; 
   if (!jarg5) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
@@ -15571,7 +15571,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Array__SWIG_2(void * jarg1, char
   void * jresult ;
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
-  tiledb_query_type_t arg3 ;
+  tiledb::QueryType arg3 ;
   uint64_t arg4 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
   tiledb::Array *result = 0 ;
@@ -15583,7 +15583,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Array__SWIG_2(void * jarg1, char
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (tiledb_query_type_t)jarg3; 
+  arg3 = (tiledb::QueryType)jarg3; 
   arg4 = (uint64_t)jarg4; 
   result = (tiledb::Array *)new tiledb::Array((std::shared_ptr< tiledb::Context > const &)*arg1,(std::string const &)*arg2,arg3,arg4);
   
@@ -15597,8 +15597,8 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Array__SWIG_3(void * jarg1, char
   void * jresult ;
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
-  tiledb_query_type_t arg3 ;
-  tiledb_encryption_type_t arg4 ;
+  tiledb::QueryType arg3 ;
+  tiledb::EncryptionType arg4 ;
   std::string *arg5 = 0 ;
   uint64_t arg6 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
@@ -15611,8 +15611,8 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Array__SWIG_3(void * jarg1, char
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (tiledb_query_type_t)jarg3; 
-  arg4 = (tiledb_encryption_type_t)jarg4; 
+  arg3 = (tiledb::QueryType)jarg3; 
+  arg4 = (tiledb::EncryptionType)jarg4; 
   if (!jarg5) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
@@ -15705,29 +15705,29 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_Array_schema(void * jarg1) {
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_open__SWIG_0(void * jarg1, int jarg2) {
   tiledb::Array *arg1 = (tiledb::Array *) 0 ;
-  tiledb_query_type_t arg2 ;
+  tiledb::QueryType arg2 ;
   std::shared_ptr< tiledb::Array > *smartarg1 = 0 ;
   
   
   smartarg1 = (std::shared_ptr<  tiledb::Array > *)jarg1;
   arg1 = (tiledb::Array *)(smartarg1 ? smartarg1->get() : 0); 
-  arg2 = (tiledb_query_type_t)jarg2; 
+  arg2 = (tiledb::QueryType)jarg2; 
   (arg1)->open(arg2);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_open__SWIG_1(void * jarg1, int jarg2, int jarg3, char * jarg4) {
   tiledb::Array *arg1 = (tiledb::Array *) 0 ;
-  tiledb_query_type_t arg2 ;
-  tiledb_encryption_type_t arg3 ;
+  tiledb::QueryType arg2 ;
+  tiledb::EncryptionType arg3 ;
   std::string *arg4 = 0 ;
   std::shared_ptr< tiledb::Array > *smartarg1 = 0 ;
   
   
   smartarg1 = (std::shared_ptr<  tiledb::Array > *)jarg1;
   arg1 = (tiledb::Array *)(smartarg1 ? smartarg1->get() : 0); 
-  arg2 = (tiledb_query_type_t)jarg2; 
-  arg3 = (tiledb_encryption_type_t)jarg3; 
+  arg2 = (tiledb::QueryType)jarg2; 
+  arg3 = (tiledb::EncryptionType)jarg3; 
   if (!jarg4) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
@@ -15740,14 +15740,14 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_open__SWIG_1(void * jarg1, int j
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_open__SWIG_2(void * jarg1, int jarg2, unsigned long long jarg3) {
   tiledb::Array *arg1 = (tiledb::Array *) 0 ;
-  tiledb_query_type_t arg2 ;
+  tiledb::QueryType arg2 ;
   uint64_t arg3 ;
   std::shared_ptr< tiledb::Array > *smartarg1 = 0 ;
   
   
   smartarg1 = (std::shared_ptr<  tiledb::Array > *)jarg1;
   arg1 = (tiledb::Array *)(smartarg1 ? smartarg1->get() : 0); 
-  arg2 = (tiledb_query_type_t)jarg2; 
+  arg2 = (tiledb::QueryType)jarg2; 
   arg3 = (uint64_t)jarg3; 
   (arg1)->open(arg2,arg3);
 }
@@ -15755,8 +15755,8 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_open__SWIG_2(void * jarg1, int j
 
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_open__SWIG_3(void * jarg1, int jarg2, int jarg3, char * jarg4, unsigned long long jarg5) {
   tiledb::Array *arg1 = (tiledb::Array *) 0 ;
-  tiledb_query_type_t arg2 ;
-  tiledb_encryption_type_t arg3 ;
+  tiledb::QueryType arg2 ;
+  tiledb::EncryptionType arg3 ;
   std::string *arg4 = 0 ;
   uint64_t arg5 ;
   std::shared_ptr< tiledb::Array > *smartarg1 = 0 ;
@@ -15764,8 +15764,8 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_open__SWIG_3(void * jarg1, int j
   
   smartarg1 = (std::shared_ptr<  tiledb::Array > *)jarg1;
   arg1 = (tiledb::Array *)(smartarg1 ? smartarg1->get() : 0); 
-  arg2 = (tiledb_query_type_t)jarg2; 
-  arg3 = (tiledb_encryption_type_t)jarg3; 
+  arg2 = (tiledb::QueryType)jarg2; 
+  arg3 = (tiledb::EncryptionType)jarg3; 
   if (!jarg4) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
@@ -15867,7 +15867,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_consolidate__SWIG_1(void * jarg1
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_consolidate__SWIG_2(void * jarg1, char * jarg2, int jarg3, void * jarg4, unsigned int jarg5) {
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
-  tiledb_encryption_type_t arg3 ;
+  tiledb::EncryptionType arg3 ;
   void *arg4 = (void *) 0 ;
   uint32_t arg5 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
@@ -15879,7 +15879,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_consolidate__SWIG_2(void * jarg1
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (tiledb_encryption_type_t)jarg3; 
+  arg3 = (tiledb::EncryptionType)jarg3; 
   arg4 = jarg4; 
   arg5 = (uint32_t)jarg5; 
   tiledb::Array::consolidate((std::shared_ptr< tiledb::Context > const &)*arg1,(std::string const &)*arg2,arg3,(void const *)arg4,arg5);
@@ -15926,7 +15926,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_vacuum__SWIG_1(void * jarg1, cha
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_consolidate__SWIG_3(void * jarg1, char * jarg2, int jarg3, char * jarg4, void * jarg5) {
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
-  tiledb_encryption_type_t arg3 ;
+  tiledb::EncryptionType arg3 ;
   std::string *arg4 = 0 ;
   tiledb::Config *arg5 = (tiledb::Config *) (tiledb::Config *)0 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
@@ -15939,7 +15939,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_consolidate__SWIG_3(void * jarg1
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (tiledb_encryption_type_t)jarg3; 
+  arg3 = (tiledb::EncryptionType)jarg3; 
   if (!jarg4) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
@@ -15956,7 +15956,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_consolidate__SWIG_3(void * jarg1
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_consolidate__SWIG_4(void * jarg1, char * jarg2, int jarg3, char * jarg4) {
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
-  tiledb_encryption_type_t arg3 ;
+  tiledb::EncryptionType arg3 ;
   std::string *arg4 = 0 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
   
@@ -15967,7 +15967,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_consolidate__SWIG_4(void * jarg1
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (tiledb_encryption_type_t)jarg3; 
+  arg3 = (tiledb::EncryptionType)jarg3; 
   if (!jarg4) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
@@ -16017,7 +16017,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_Array_load_schema(void * jarg1, char
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_create__SWIG_1(char * jarg1, void * jarg2, int jarg3, char * jarg4) {
   std::string *arg1 = 0 ;
   std::shared_ptr< tiledb::ArraySchema > *arg2 = 0 ;
-  tiledb_encryption_type_t arg3 ;
+  tiledb::EncryptionType arg3 ;
   std::string *arg4 = 0 ;
   std::shared_ptr< tiledb::ArraySchema > tempnull2 ;
   
@@ -16028,7 +16028,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_create__SWIG_1(char * jarg1, voi
   std::string arg1_str(jarg1);
   arg1 = &arg1_str; 
   arg2 = jarg2 ? (std::shared_ptr< tiledb::ArraySchema > *)jarg2 : &tempnull2; 
-  arg3 = (tiledb_encryption_type_t)jarg3; 
+  arg3 = (tiledb::EncryptionType)jarg3; 
   if (!jarg4) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
@@ -16044,7 +16044,7 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_Array_encryption_type(void * jarg1, cha
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
-  tiledb_encryption_type_t result;
+  tiledb::EncryptionType result;
   
   arg1 = jarg1 ? (std::shared_ptr< tiledb::Context > *)jarg1 : &tempnull1; 
   if (!jarg2) {
@@ -16053,7 +16053,7 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_Array_encryption_type(void * jarg1, cha
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  result = (tiledb_encryption_type_t)tiledb::Array::encryption_type((std::shared_ptr< tiledb::Context > const &)*arg1,(std::string const &)*arg2);
+  result = (tiledb::EncryptionType)tiledb::Array::encryption_type((std::shared_ptr< tiledb::Context > const &)*arg1,(std::string const &)*arg2);
   jresult = (int)result; 
   return jresult;
 }
@@ -16102,12 +16102,12 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_Array_query_type(void * jarg1) {
   int jresult ;
   tiledb::Array *arg1 = (tiledb::Array *) 0 ;
   std::shared_ptr< tiledb::Array const > *smartarg1 = 0 ;
-  tiledb_query_type_t result;
+  tiledb::QueryType result;
   
   
   smartarg1 = (std::shared_ptr< const tiledb::Array > *)jarg1;
   arg1 = (tiledb::Array *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (tiledb_query_type_t)((tiledb::Array const *)arg1)->query_type();
+  result = (tiledb::QueryType)((tiledb::Array const *)arg1)->query_type();
   jresult = (int)result; 
   return jresult;
 }
@@ -16153,7 +16153,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_consolidate_metadata__SWIG_1(voi
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_consolidate_metadata__SWIG_2(void * jarg1, char * jarg2, int jarg3, void * jarg4, unsigned int jarg5) {
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
-  tiledb_encryption_type_t arg3 ;
+  tiledb::EncryptionType arg3 ;
   void *arg4 = (void *) 0 ;
   uint32_t arg5 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
@@ -16165,7 +16165,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_consolidate_metadata__SWIG_2(voi
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (tiledb_encryption_type_t)jarg3; 
+  arg3 = (tiledb::EncryptionType)jarg3; 
   arg4 = jarg4; 
   arg5 = (uint32_t)jarg5; 
   tiledb::Array::consolidate_metadata((std::shared_ptr< tiledb::Context > const &)*arg1,(std::string const &)*arg2,arg3,(void const *)arg4,arg5);
@@ -16175,7 +16175,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_consolidate_metadata__SWIG_2(voi
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_consolidate_metadata__SWIG_3(void * jarg1, char * jarg2, int jarg3, char * jarg4, void * jarg5) {
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
-  tiledb_encryption_type_t arg3 ;
+  tiledb::EncryptionType arg3 ;
   std::string *arg4 = 0 ;
   tiledb::Config *arg5 = (tiledb::Config *) (tiledb::Config *)0 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
@@ -16188,7 +16188,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_consolidate_metadata__SWIG_3(voi
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (tiledb_encryption_type_t)jarg3; 
+  arg3 = (tiledb::EncryptionType)jarg3; 
   if (!jarg4) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
@@ -16205,7 +16205,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_consolidate_metadata__SWIG_3(voi
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_consolidate_metadata__SWIG_4(void * jarg1, char * jarg2, int jarg3, char * jarg4) {
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
-  tiledb_encryption_type_t arg3 ;
+  tiledb::EncryptionType arg3 ;
   std::string *arg4 = 0 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
   
@@ -16216,7 +16216,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Array_consolidate_metadata__SWIG_4(voi
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (tiledb_encryption_type_t)jarg3; 
+  arg3 = (tiledb::EncryptionType)jarg3; 
   if (!jarg4) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
@@ -16249,7 +16249,7 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_Array_has_metadata(void * jarg
   unsigned int jresult ;
   tiledb::Array *arg1 = (tiledb::Array *) 0 ;
   std::string *arg2 = 0 ;
-  tiledb_datatype_t arg3 ;
+  tiledb::DataType arg3 ;
   std::shared_ptr< tiledb::Array > *smartarg1 = 0 ;
   bool result;
   
@@ -16262,7 +16262,7 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_Array_has_metadata(void * jarg
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (tiledb_datatype_t)jarg3; 
+  arg3 = (tiledb::DataType)jarg3; 
   result = (bool)(arg1)->has_metadata((std::string const &)*arg2,arg3);
   jresult = result; 
   return jresult;
@@ -16287,12 +16287,12 @@ SWIGEXPORT unsigned long long SWIGSTDCALL CSharp_TileDB_Array_metadata_num(void 
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_ArraySchema__SWIG_0(void * jarg1, int jarg2) {
   void * jresult ;
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
-  tiledb_array_type_t arg2 ;
+  tiledb::ArrayType arg2 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
   tiledb::ArraySchema *result = 0 ;
   
   arg1 = jarg1 ? (std::shared_ptr< tiledb::Context > *)jarg1 : &tempnull1; 
-  arg2 = (tiledb_array_type_t)jarg2; 
+  arg2 = (tiledb::ArrayType)jarg2; 
   result = (tiledb::ArraySchema *)new tiledb::ArraySchema((std::shared_ptr< tiledb::Context > const &)*arg1,arg2);
   
   jresult = result ? new std::shared_ptr<  tiledb::ArraySchema >(result SWIG_NO_NULL_DELETER_1) : 0;
@@ -16327,7 +16327,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_ArraySchema__SWIG_2(void * jarg1
   void * jresult ;
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
-  tiledb_encryption_type_t arg3 ;
+  tiledb::EncryptionType arg3 ;
   std::string *arg4 = 0 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
   tiledb::ArraySchema *result = 0 ;
@@ -16339,7 +16339,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_ArraySchema__SWIG_2(void * jarg1
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (tiledb_encryption_type_t)jarg3; 
+  arg3 = (tiledb::EncryptionType)jarg3; 
   if (!jarg4) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
@@ -16418,12 +16418,12 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_ArraySchema_array_type(void * jarg1) {
   int jresult ;
   tiledb::ArraySchema *arg1 = (tiledb::ArraySchema *) 0 ;
   std::shared_ptr< tiledb::ArraySchema const > *smartarg1 = 0 ;
-  tiledb_array_type_t result;
+  tiledb::ArrayType result;
   
   
   smartarg1 = (std::shared_ptr< const tiledb::ArraySchema > *)jarg1;
   arg1 = (tiledb::ArraySchema *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (tiledb_array_type_t)((tiledb::ArraySchema const *)arg1)->array_type();
+  result = (tiledb::ArrayType)((tiledb::ArraySchema const *)arg1)->array_type();
   jresult = (int)result; 
   return jresult;
 }
@@ -16497,12 +16497,12 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_ArraySchema_tile_order(void * jarg1) {
   int jresult ;
   tiledb::ArraySchema *arg1 = (tiledb::ArraySchema *) 0 ;
   std::shared_ptr< tiledb::ArraySchema const > *smartarg1 = 0 ;
-  tiledb_layout_t result;
+  tiledb::LayoutType result;
   
   
   smartarg1 = (std::shared_ptr< const tiledb::ArraySchema > *)jarg1;
   arg1 = (tiledb::ArraySchema *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (tiledb_layout_t)((tiledb::ArraySchema const *)arg1)->tile_order();
+  result = (tiledb::LayoutType)((tiledb::ArraySchema const *)arg1)->tile_order();
   jresult = (int)result; 
   return jresult;
 }
@@ -16511,14 +16511,14 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_ArraySchema_tile_order(void * jarg1) {
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_ArraySchema_set_tile_order(void * jarg1, int jarg2) {
   void * jresult ;
   tiledb::ArraySchema *arg1 = (tiledb::ArraySchema *) 0 ;
-  tiledb_layout_t arg2 ;
+  tiledb::LayoutType arg2 ;
   std::shared_ptr< tiledb::ArraySchema > *smartarg1 = 0 ;
   tiledb::ArraySchema *result = 0 ;
   
   
   smartarg1 = (std::shared_ptr<  tiledb::ArraySchema > *)jarg1;
   arg1 = (tiledb::ArraySchema *)(smartarg1 ? smartarg1->get() : 0); 
-  arg2 = (tiledb_layout_t)jarg2; 
+  arg2 = (tiledb::LayoutType)jarg2; 
   result = (tiledb::ArraySchema *) &(arg1)->set_tile_order(arg2);
   jresult = new std::shared_ptr<  tiledb::ArraySchema >(result SWIG_NO_NULL_DELETER_0); 
   return jresult;
@@ -16528,16 +16528,16 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_ArraySchema_set_tile_order(void * ja
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_ArraySchema_set_order(void * jarg1, int jarg2, int jarg3) {
   void * jresult ;
   tiledb::ArraySchema *arg1 = (tiledb::ArraySchema *) 0 ;
-  tiledb_layout_t arg2 ;
-  tiledb_layout_t arg3 ;
+  tiledb::LayoutType arg2 ;
+  tiledb::LayoutType arg3 ;
   std::shared_ptr< tiledb::ArraySchema > *smartarg1 = 0 ;
   tiledb::ArraySchema *result = 0 ;
   
   
   smartarg1 = (std::shared_ptr<  tiledb::ArraySchema > *)jarg1;
   arg1 = (tiledb::ArraySchema *)(smartarg1 ? smartarg1->get() : 0); 
-  arg2 = (tiledb_layout_t)jarg2; 
-  arg3 = (tiledb_layout_t)jarg3; 
+  arg2 = (tiledb::LayoutType)jarg2; 
+  arg3 = (tiledb::LayoutType)jarg3; 
   result = (tiledb::ArraySchema *) &(arg1)->set_order(arg2,arg3);
   jresult = new std::shared_ptr<  tiledb::ArraySchema >(result SWIG_NO_NULL_DELETER_0); 
   return jresult;
@@ -16548,12 +16548,12 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_ArraySchema_cell_order(void * jarg1) {
   int jresult ;
   tiledb::ArraySchema *arg1 = (tiledb::ArraySchema *) 0 ;
   std::shared_ptr< tiledb::ArraySchema const > *smartarg1 = 0 ;
-  tiledb_layout_t result;
+  tiledb::LayoutType result;
   
   
   smartarg1 = (std::shared_ptr< const tiledb::ArraySchema > *)jarg1;
   arg1 = (tiledb::ArraySchema *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (tiledb_layout_t)((tiledb::ArraySchema const *)arg1)->cell_order();
+  result = (tiledb::LayoutType)((tiledb::ArraySchema const *)arg1)->cell_order();
   jresult = (int)result; 
   return jresult;
 }
@@ -16562,14 +16562,14 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_ArraySchema_cell_order(void * jarg1) {
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_ArraySchema_set_cell_order(void * jarg1, int jarg2) {
   void * jresult ;
   tiledb::ArraySchema *arg1 = (tiledb::ArraySchema *) 0 ;
-  tiledb_layout_t arg2 ;
+  tiledb::LayoutType arg2 ;
   std::shared_ptr< tiledb::ArraySchema > *smartarg1 = 0 ;
   tiledb::ArraySchema *result = 0 ;
   
   
   smartarg1 = (std::shared_ptr<  tiledb::ArraySchema > *)jarg1;
   arg1 = (tiledb::ArraySchema *)(smartarg1 ? smartarg1->get() : 0); 
-  arg2 = (tiledb_layout_t)jarg2; 
+  arg2 = (tiledb::LayoutType)jarg2; 
   result = (tiledb::ArraySchema *) &(arg1)->set_cell_order(arg2);
   jresult = new std::shared_ptr<  tiledb::ArraySchema >(result SWIG_NO_NULL_DELETER_0); 
   return jresult;
@@ -16828,10 +16828,10 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArraySchema_to_info_str(void * jarg1
 
 SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArraySchema_to_str__SWIG_0(int jarg1) {
   char * jresult ;
-  tiledb_array_type_t arg1 ;
+  tiledb::ArrayType arg1 ;
   std::string result;
   
-  arg1 = (tiledb_array_type_t)jarg1; 
+  arg1 = (tiledb::ArrayType)jarg1; 
   result = tiledb::ArraySchema::to_str(arg1);
   jresult = SWIG_csharp_string_callback((&result)->c_str()); 
   return jresult;
@@ -16840,10 +16840,10 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArraySchema_to_str__SWIG_0(int jarg1
 
 SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArraySchema_to_str__SWIG_1(int jarg1) {
   char * jresult ;
-  tiledb_layout_t arg1 ;
+  tiledb::LayoutType arg1 ;
   std::string result;
   
-  arg1 = (tiledb_layout_t)jarg1; 
+  arg1 = (tiledb::LayoutType)jarg1; 
   result = tiledb::ArraySchema::to_str(arg1);
   jresult = SWIG_csharp_string_callback((&result)->c_str()); 
   return jresult;
@@ -16953,7 +16953,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_ArraySchema_add_int_dimension(void * j
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_ArraySchema_add_attribute__SWIG_1(void * jarg1, char * jarg2, int jarg3) {
   tiledb::ArraySchema *arg1 = (tiledb::ArraySchema *) 0 ;
   std::string *arg2 = 0 ;
-  tiledb_datatype_t arg3 ;
+  tiledb::DataType arg3 ;
   std::shared_ptr< tiledb::ArraySchema > *smartarg1 = 0 ;
   
   
@@ -16965,7 +16965,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_ArraySchema_add_attribute__SWIG_1(void
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (tiledb_datatype_t)jarg3; 
+  arg3 = (tiledb::DataType)jarg3; 
   (arg1)->add_attribute((std::string const &)*arg2,arg3);
 }
 
@@ -17033,7 +17033,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Attribute__SWIG_0(void * jarg1, 
   void * jresult ;
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
-  tiledb_datatype_t arg3 ;
+  tiledb::DataType arg3 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
   tiledb::Attribute *result = 0 ;
   
@@ -17044,7 +17044,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Attribute__SWIG_0(void * jarg1, 
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (tiledb_datatype_t)jarg3; 
+  arg3 = (tiledb::DataType)jarg3; 
   result = (tiledb::Attribute *)new tiledb::Attribute((std::shared_ptr< tiledb::Context > const &)*arg1,(std::string const &)*arg2,arg3);
   
   jresult = result ? new std::shared_ptr<  tiledb::Attribute >(result SWIG_NO_NULL_DELETER_1) : 0;
@@ -17057,7 +17057,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Attribute__SWIG_1(void * jarg1, 
   void * jresult ;
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
-  tiledb_datatype_t arg3 ;
+  tiledb::DataType arg3 ;
   tiledb::FilterList *arg4 = 0 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
   tiledb::Attribute *result = 0 ;
@@ -17069,7 +17069,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Attribute__SWIG_1(void * jarg1, 
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (tiledb_datatype_t)jarg3; 
+  arg3 = (tiledb::DataType)jarg3; 
   
   arg4 = (tiledb::FilterList *)(((std::shared_ptr< const tiledb::FilterList > *)jarg4) ? ((std::shared_ptr< const tiledb::FilterList > *)jarg4)->get() : 0);
   if (!arg4) {
@@ -17122,12 +17122,12 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_Attribute_type(void * jarg1) {
   int jresult ;
   tiledb::Attribute *arg1 = (tiledb::Attribute *) 0 ;
   std::shared_ptr< tiledb::Attribute const > *smartarg1 = 0 ;
-  tiledb_datatype_t result;
+  tiledb::DataType result;
   
   
   smartarg1 = (std::shared_ptr< const tiledb::Attribute > *)jarg1;
   arg1 = (tiledb::Attribute *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (tiledb_datatype_t)((tiledb::Attribute const *)arg1)->type();
+  result = (tiledb::DataType)((tiledb::Attribute const *)arg1)->type();
   jresult = (int)result; 
   return jresult;
 }
@@ -17266,7 +17266,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_Attribute_create_attribute(void * ja
   void * jresult ;
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
-  tiledb_datatype_t arg3 ;
+  tiledb::DataType arg3 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
   SwigValueWrapper< tiledb::Attribute > result;
   
@@ -17277,7 +17277,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_Attribute_create_attribute(void * ja
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (tiledb_datatype_t)jarg3; 
+  arg3 = (tiledb::DataType)jarg3; 
   result = tiledb::Attribute::create_attribute((std::shared_ptr< tiledb::Context > const &)*arg1,(std::string const &)*arg2,arg3);
   jresult = new std::shared_ptr<  tiledb::Attribute >(new tiledb::Attribute((tiledb::Attribute &)result)); 
   return jresult;
@@ -17489,14 +17489,14 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_Context_config(void * jarg1) {
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TileDB_Context_is_supported_fs(void * jarg1, int jarg2) {
   unsigned int jresult ;
   tiledb::Context *arg1 = (tiledb::Context *) 0 ;
-  tiledb_filesystem_t arg2 ;
+  tiledb::FilesystemType arg2 ;
   std::shared_ptr< tiledb::Context const > *smartarg1 = 0 ;
   bool result;
   
   
   smartarg1 = (std::shared_ptr< const tiledb::Context > *)jarg1;
   arg1 = (tiledb::Context *)(smartarg1 ? smartarg1->get() : 0); 
-  arg2 = (tiledb_filesystem_t)jarg2; 
+  arg2 = (tiledb::FilesystemType)jarg2; 
   result = (bool)((tiledb::Context const *)arg1)->is_supported_fs(arg2);
   jresult = result; 
   return jresult;
@@ -17670,12 +17670,12 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_Dimension_type(void * jarg1) {
   int jresult ;
   tiledb::Dimension *arg1 = (tiledb::Dimension *) 0 ;
   std::shared_ptr< tiledb::Dimension const > *smartarg1 = 0 ;
-  tiledb_datatype_t result;
+  tiledb::DataType result;
   
   
   smartarg1 = (std::shared_ptr< const tiledb::Dimension > *)jarg1;
   arg1 = (tiledb::Dimension *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (tiledb_datatype_t)((tiledb::Dimension const *)arg1)->type();
+  result = (tiledb::DataType)((tiledb::Dimension const *)arg1)->type();
   jresult = (int)result; 
   return jresult;
 }
@@ -17972,12 +17972,12 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_Domain_type(void * jarg1) {
   int jresult ;
   tiledb::Domain *arg1 = (tiledb::Domain *) 0 ;
   std::shared_ptr< tiledb::Domain const > *smartarg1 = 0 ;
-  tiledb_datatype_t result;
+  tiledb::DataType result;
   
   
   smartarg1 = (std::shared_ptr< const tiledb::Domain > *)jarg1;
   arg1 = (tiledb::Domain *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (tiledb_datatype_t)((tiledb::Domain const *)arg1)->type();
+  result = (tiledb::DataType)((tiledb::Domain const *)arg1)->type();
   jresult = (int)result; 
   return jresult;
 }
@@ -18251,6 +18251,25 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_delete_TileDBError(void * jarg1) {
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_TypeError(char * jarg1) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  tiledb::TypeError *result = 0 ;
+  
+  if (!jarg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
+  result = (tiledb::TypeError *)new tiledb::TypeError((std::string const &)*arg1);
+  
+  jresult = result ? new std::shared_ptr<  tiledb::TypeError >(result SWIG_NO_NULL_DELETER_1) : 0;
+  
+  return jresult;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_delete_TypeError(void * jarg1) {
   tiledb::TypeError *arg1 = (tiledb::TypeError *) 0 ;
   std::shared_ptr< tiledb::TypeError > *smartarg1 = 0 ;
@@ -18325,12 +18344,12 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_delete_AttributeError(void * jarg1) {
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Filter__SWIG_0(void * jarg1, int jarg2) {
   void * jresult ;
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
-  tiledb_filter_type_t arg2 ;
+  tiledb::FilterType arg2 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
   tiledb::Filter *result = 0 ;
   
   arg1 = jarg1 ? (std::shared_ptr< tiledb::Context > *)jarg1 : &tempnull1; 
-  arg2 = (tiledb_filter_type_t)jarg2; 
+  arg2 = (tiledb::FilterType)jarg2; 
   result = (tiledb::Filter *)new tiledb::Filter((std::shared_ptr< tiledb::Context > const &)*arg1,arg2);
   
   jresult = result ? new std::shared_ptr<  tiledb::Filter >(result SWIG_NO_NULL_DELETER_1) : 0;
@@ -18374,12 +18393,12 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_Filter_filter_type(void * jarg1) {
   int jresult ;
   tiledb::Filter *arg1 = (tiledb::Filter *) 0 ;
   std::shared_ptr< tiledb::Filter const > *smartarg1 = 0 ;
-  tiledb_filter_type_t result;
+  tiledb::FilterType result;
   
   
   smartarg1 = (std::shared_ptr< const tiledb::Filter > *)jarg1;
   arg1 = (tiledb::Filter *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (tiledb_filter_type_t)((tiledb::Filter const *)arg1)->filter_type();
+  result = (tiledb::FilterType)((tiledb::Filter const *)arg1)->filter_type();
   jresult = (int)result; 
   return jresult;
 }
@@ -18387,10 +18406,10 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_Filter_filter_type(void * jarg1) {
 
 SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_Filter_to_str(int jarg1) {
   char * jresult ;
-  tiledb_filter_type_t arg1 ;
+  tiledb::FilterType arg1 ;
   std::string result;
   
-  arg1 = (tiledb_filter_type_t)jarg1; 
+  arg1 = (tiledb::FilterType)jarg1; 
   result = tiledb::Filter::to_str(arg1);
   jresult = SWIG_csharp_string_callback((&result)->c_str()); 
   return jresult;
@@ -18571,14 +18590,14 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Query__SWIG_0(void * jarg1, void
   void * jresult ;
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::shared_ptr< tiledb::Array > *arg2 = 0 ;
-  tiledb_query_type_t arg3 ;
+  tiledb::QueryType arg3 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
   std::shared_ptr< tiledb::Array > tempnull2 ;
   tiledb::Query *result = 0 ;
   
   arg1 = jarg1 ? (std::shared_ptr< tiledb::Context > *)jarg1 : &tempnull1; 
   arg2 = jarg2 ? (std::shared_ptr< tiledb::Array > *)jarg2 : &tempnull2; 
-  arg3 = (tiledb_query_type_t)jarg3; 
+  arg3 = (tiledb::QueryType)jarg3; 
   result = (tiledb::Query *)new tiledb::Query((std::shared_ptr< tiledb::Context > const &)*arg1,(std::shared_ptr< tiledb::Array > const &)*arg2,arg3);
   
   jresult = result ? new std::shared_ptr<  tiledb::Query >(result SWIG_NO_NULL_DELETER_1) : 0;
@@ -18643,12 +18662,12 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_Query_query_type(void * jarg1) {
   int jresult ;
   tiledb::Query *arg1 = (tiledb::Query *) 0 ;
   std::shared_ptr< tiledb::Query const > *smartarg1 = 0 ;
-  tiledb_query_type_t result;
+  tiledb::QueryType result;
   
   
   smartarg1 = (std::shared_ptr< const tiledb::Query > *)jarg1;
   arg1 = (tiledb::Query *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (tiledb_query_type_t)((tiledb::Query const *)arg1)->query_type();
+  result = (tiledb::QueryType)((tiledb::Query const *)arg1)->query_type();
   jresult = (int)result; 
   return jresult;
 }
@@ -18657,14 +18676,14 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_Query_query_type(void * jarg1) {
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_Query_set_layout(void * jarg1, int jarg2) {
   void * jresult ;
   tiledb::Query *arg1 = (tiledb::Query *) 0 ;
-  tiledb_layout_t arg2 ;
+  tiledb::LayoutType arg2 ;
   std::shared_ptr< tiledb::Query > *smartarg1 = 0 ;
   tiledb::Query *result = 0 ;
   
   
   smartarg1 = (std::shared_ptr<  tiledb::Query > *)jarg1;
   arg1 = (tiledb::Query *)(smartarg1 ? smartarg1->get() : 0); 
-  arg2 = (tiledb_layout_t)jarg2; 
+  arg2 = (tiledb::LayoutType)jarg2; 
   result = (tiledb::Query *) &(arg1)->set_layout(arg2);
   jresult = new std::shared_ptr<  tiledb::Query >(result SWIG_NO_NULL_DELETER_0); 
   return jresult;
@@ -18675,12 +18694,12 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_Query_query_layout(void * jarg1) {
   int jresult ;
   tiledb::Query *arg1 = (tiledb::Query *) 0 ;
   std::shared_ptr< tiledb::Query const > *smartarg1 = 0 ;
-  tiledb_layout_t result;
+  tiledb::LayoutType result;
   
   
   smartarg1 = (std::shared_ptr< const tiledb::Query > *)jarg1;
   arg1 = (tiledb::Query *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (tiledb_layout_t)((tiledb::Query const *)arg1)->query_layout();
+  result = (tiledb::LayoutType)((tiledb::Query const *)arg1)->query_layout();
   jresult = (int)result; 
   return jresult;
 }
@@ -18705,12 +18724,12 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_Query_query_status(void * jarg1) {
   int jresult ;
   tiledb::Query *arg1 = (tiledb::Query *) 0 ;
   std::shared_ptr< tiledb::Query const > *smartarg1 = 0 ;
-  tiledb::Query::Status result;
+  tiledb::QueryStatus result;
   
   
   smartarg1 = (std::shared_ptr< const tiledb::Query > *)jarg1;
   arg1 = (tiledb::Query *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (tiledb::Query::Status)((tiledb::Query const *)arg1)->query_status();
+  result = (tiledb::QueryStatus)((tiledb::Query const *)arg1)->query_status();
   jresult = (int)result; 
   return jresult;
 }
@@ -18735,12 +18754,12 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_Query_submit(void * jarg1) {
   int jresult ;
   tiledb::Query *arg1 = (tiledb::Query *) 0 ;
   std::shared_ptr< tiledb::Query > *smartarg1 = 0 ;
-  tiledb::Query::Status result;
+  tiledb::QueryStatus result;
   
   
   smartarg1 = (std::shared_ptr<  tiledb::Query > *)jarg1;
   arg1 = (tiledb::Query *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (tiledb::Query::Status)(arg1)->submit();
+  result = (tiledb::QueryStatus)(arg1)->submit();
   jresult = (int)result; 
   return jresult;
 }
@@ -19205,26 +19224,12 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Query_set_double_vector_buffer(void * 
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_Query_to_status(int jarg1) {
-  int jresult ;
-  tiledb_query_status_t *arg1 = 0 ;
-  tiledb_query_status_t temp1 ;
-  tiledb::Query::Status result;
-  
-  temp1 = (tiledb_query_status_t)jarg1; 
-  arg1 = &temp1; 
-  result = (tiledb::Query::Status)tiledb::Query::to_status((enum tiledb_query_status_t const &)*arg1);
-  jresult = (int)result; 
-  return jresult;
-}
-
-
 SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_Query_to_str(int jarg1) {
   char * jresult ;
-  tiledb_query_type_t arg1 ;
+  tiledb::QueryType arg1 ;
   std::string result;
   
-  arg1 = (tiledb_query_type_t)jarg1; 
+  arg1 = (tiledb::QueryType)jarg1; 
   result = tiledb::Query::to_str(arg1);
   jresult = SWIG_csharp_string_callback((&result)->c_str()); 
   return jresult;
@@ -19291,7 +19296,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_QueryCondition_init(void * jarg1, char
   tiledb::QueryCondition *arg1 = (tiledb::QueryCondition *) 0 ;
   std::string *arg2 = 0 ;
   std::string *arg3 = 0 ;
-  tiledb_query_condition_op_t arg4 ;
+  tiledb::QueryConditionOperatorType arg4 ;
   std::shared_ptr< tiledb::QueryCondition > *smartarg1 = 0 ;
   
   
@@ -19309,7 +19314,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_QueryCondition_init(void * jarg1, char
   }
   std::string arg3_str(jarg3);
   arg3 = &arg3_str; 
-  arg4 = (tiledb_query_condition_op_t)jarg4; 
+  arg4 = (tiledb::QueryConditionOperatorType)jarg4; 
   (arg1)->init((std::string const &)*arg2,(std::string const &)*arg3,arg4);
 }
 
@@ -19318,7 +19323,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_QueryCondition_combine(void * jarg1,
   void * jresult ;
   tiledb::QueryCondition *arg1 = (tiledb::QueryCondition *) 0 ;
   tiledb::QueryCondition *arg2 = 0 ;
-  tiledb_query_condition_combination_op_t arg3 ;
+  tiledb::QueryConditionCombinationOperatorType arg3 ;
   std::shared_ptr< tiledb::QueryCondition const > *smartarg1 = 0 ;
   SwigValueWrapper< tiledb::QueryCondition > result;
   
@@ -19331,7 +19336,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_QueryCondition_combine(void * jarg1,
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "tiledb::QueryCondition const & reference is null", 0);
     return 0;
   } 
-  arg3 = (tiledb_query_condition_combination_op_t)jarg3; 
+  arg3 = (tiledb::QueryConditionCombinationOperatorType)jarg3; 
   result = ((tiledb::QueryCondition const *)arg1)->combine((tiledb::QueryCondition const &)*arg2,arg3);
   jresult = new std::shared_ptr<  tiledb::QueryCondition >(new tiledb::QueryCondition((tiledb::QueryCondition &)result)); 
   return jresult;
@@ -19343,7 +19348,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_QueryCondition_create(void * jarg1, 
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
   std::string *arg3 = 0 ;
-  tiledb_query_condition_op_t arg4 ;
+  tiledb::QueryConditionOperatorType arg4 ;
   std::shared_ptr< tiledb::Context > tempnull1 ;
   SwigValueWrapper< tiledb::QueryCondition > result;
   
@@ -19360,7 +19365,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_QueryCondition_create(void * jarg1, 
   }
   std::string arg3_str(jarg3);
   arg3 = &arg3_str; 
-  arg4 = (tiledb_query_condition_op_t)jarg4; 
+  arg4 = (tiledb::QueryConditionOperatorType)jarg4; 
   result = tiledb::QueryCondition::create((std::shared_ptr< tiledb::Context > const &)*arg1,(std::string const &)*arg2,(std::string const &)*arg3,arg4);
   jresult = new std::shared_ptr<  tiledb::QueryCondition >(new tiledb::QueryCondition((tiledb::QueryCondition &)result)); 
   return jresult;

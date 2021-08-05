@@ -11,7 +11,7 @@
 namespace TileDB {
 
 public class MapInt64Double : global::System.IDisposable 
-    , global::System.Collections.Generic.IDictionary<int, double>
+    , global::System.Collections.Generic.IDictionary<long, double>
  {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   protected bool swigCMemOwn;
@@ -47,7 +47,7 @@ public class MapInt64Double : global::System.IDisposable
   }
 
 
-  public double this[int key] {
+  public double this[long key] {
     get {
       return getitem(key);
     }
@@ -57,7 +57,7 @@ public class MapInt64Double : global::System.IDisposable
     }
   }
 
-  public bool TryGetValue(int key, out double value) {
+  public bool TryGetValue(long key, out double value) {
     if (this.ContainsKey(key)) {
       value = this[key];
       return true;
@@ -78,9 +78,9 @@ public class MapInt64Double : global::System.IDisposable
     }
   }
 
-  public global::System.Collections.Generic.ICollection<int> Keys {
+  public global::System.Collections.Generic.ICollection<long> Keys {
     get {
-      global::System.Collections.Generic.ICollection<int> keys = new global::System.Collections.Generic.List<int>();
+      global::System.Collections.Generic.ICollection<long> keys = new global::System.Collections.Generic.List<long>();
       int size = this.Count;
       if (size > 0) {
         global::System.IntPtr iter = create_iterator_begin();
@@ -96,18 +96,18 @@ public class MapInt64Double : global::System.IDisposable
   public global::System.Collections.Generic.ICollection<double> Values {
     get {
       global::System.Collections.Generic.ICollection<double> vals = new global::System.Collections.Generic.List<double>();
-      foreach (global::System.Collections.Generic.KeyValuePair<int, double> pair in this) {
+      foreach (global::System.Collections.Generic.KeyValuePair<long, double> pair in this) {
         vals.Add(pair.Value);
       }
       return vals;
     }
   }
 
-  public void Add(global::System.Collections.Generic.KeyValuePair<int, double> item) {
+  public void Add(global::System.Collections.Generic.KeyValuePair<long, double> item) {
     Add(item.Key, item.Value);
   }
 
-  public bool Remove(global::System.Collections.Generic.KeyValuePair<int, double> item) {
+  public bool Remove(global::System.Collections.Generic.KeyValuePair<long, double> item) {
     if (Contains(item)) {
       return Remove(item.Key);
     } else {
@@ -115,7 +115,7 @@ public class MapInt64Double : global::System.IDisposable
     }
   }
 
-  public bool Contains(global::System.Collections.Generic.KeyValuePair<int, double> item) {
+  public bool Contains(global::System.Collections.Generic.KeyValuePair<long, double> item) {
     if (this[item.Key] == item.Value) {
       return true;
     } else {
@@ -123,11 +123,11 @@ public class MapInt64Double : global::System.IDisposable
     }
   }
 
-  public void CopyTo(global::System.Collections.Generic.KeyValuePair<int, double>[] array) {
+  public void CopyTo(global::System.Collections.Generic.KeyValuePair<long, double>[] array) {
     CopyTo(array, 0);
   }
 
-  public void CopyTo(global::System.Collections.Generic.KeyValuePair<int, double>[] array, int arrayIndex) {
+  public void CopyTo(global::System.Collections.Generic.KeyValuePair<long, double>[] array, int arrayIndex) {
     if (array == null)
       throw new global::System.ArgumentNullException("array");
     if (arrayIndex < 0)
@@ -137,14 +137,14 @@ public class MapInt64Double : global::System.IDisposable
     if (arrayIndex+this.Count > array.Length)
       throw new global::System.ArgumentException("Number of elements to copy is too large.");
 
-    global::System.Collections.Generic.IList<int> keyList = new global::System.Collections.Generic.List<int>(this.Keys);
+    global::System.Collections.Generic.IList<long> keyList = new global::System.Collections.Generic.List<long>(this.Keys);
     for (int i = 0; i < keyList.Count; i++) {
-      int currentKey = keyList[i];
-      array.SetValue(new global::System.Collections.Generic.KeyValuePair<int, double>(currentKey, this[currentKey]), arrayIndex+i);
+      long currentKey = keyList[i];
+      array.SetValue(new global::System.Collections.Generic.KeyValuePair<long, double>(currentKey, this[currentKey]), arrayIndex+i);
     }
   }
 
-  global::System.Collections.Generic.IEnumerator<global::System.Collections.Generic.KeyValuePair<int, double>> global::System.Collections.Generic.IEnumerable<global::System.Collections.Generic.KeyValuePair<int, double>>.GetEnumerator() {
+  global::System.Collections.Generic.IEnumerator<global::System.Collections.Generic.KeyValuePair<long, double>> global::System.Collections.Generic.IEnumerable<global::System.Collections.Generic.KeyValuePair<long, double>>.GetEnumerator() {
     return new MapInt64DoubleEnumerator(this);
   }
 
@@ -162,24 +162,24 @@ public class MapInt64Double : global::System.IDisposable
   /// collection but not when one of the elements of the collection is modified as it is a bit
   /// tricky to detect unmanaged code that modifies the collection under our feet.
   public sealed class MapInt64DoubleEnumerator : global::System.Collections.IEnumerator,
-      global::System.Collections.Generic.IEnumerator<global::System.Collections.Generic.KeyValuePair<int, double>>
+      global::System.Collections.Generic.IEnumerator<global::System.Collections.Generic.KeyValuePair<long, double>>
   {
     private MapInt64Double collectionRef;
-    private global::System.Collections.Generic.IList<int> keyCollection;
+    private global::System.Collections.Generic.IList<long> keyCollection;
     private int currentIndex;
     private object currentObject;
     private int currentSize;
 
     public MapInt64DoubleEnumerator(MapInt64Double collection) {
       collectionRef = collection;
-      keyCollection = new global::System.Collections.Generic.List<int>(collection.Keys);
+      keyCollection = new global::System.Collections.Generic.List<long>(collection.Keys);
       currentIndex = -1;
       currentObject = null;
       currentSize = collectionRef.Count;
     }
 
     // Type-safe iterator Current
-    public global::System.Collections.Generic.KeyValuePair<int, double> Current {
+    public global::System.Collections.Generic.KeyValuePair<long, double> Current {
       get {
         if (currentIndex == -1)
           throw new global::System.InvalidOperationException("Enumeration not started.");
@@ -187,7 +187,7 @@ public class MapInt64Double : global::System.IDisposable
           throw new global::System.InvalidOperationException("Enumeration finished.");
         if (currentObject == null)
           throw new global::System.InvalidOperationException("Collection modified.");
-        return (global::System.Collections.Generic.KeyValuePair<int, double>)currentObject;
+        return (global::System.Collections.Generic.KeyValuePair<long, double>)currentObject;
       }
     }
 
@@ -203,8 +203,8 @@ public class MapInt64Double : global::System.IDisposable
       bool moveOkay = (currentIndex+1 < size) && (size == currentSize);
       if (moveOkay) {
         currentIndex++;
-        int currentKey = keyCollection[currentIndex];
-        currentObject = new global::System.Collections.Generic.KeyValuePair<int, double>(currentKey, collectionRef[currentKey]);
+        long currentKey = keyCollection[currentIndex];
+        currentObject = new global::System.Collections.Generic.KeyValuePair<long, double>(currentKey, collectionRef[currentKey]);
       } else {
         currentObject = null;
       }
@@ -247,27 +247,27 @@ public class MapInt64Double : global::System.IDisposable
     tiledbcsPINVOKE.MapInt64Double_Clear(swigCPtr);
   }
 
-  private double getitem(int key) {
+  private double getitem(long key) {
     double ret = tiledbcsPINVOKE.MapInt64Double_getitem(swigCPtr, key);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  private void setitem(int key, double x) {
+  private void setitem(long key, double x) {
     tiledbcsPINVOKE.MapInt64Double_setitem(swigCPtr, key, x);
   }
 
-  public bool ContainsKey(int key) {
+  public bool ContainsKey(long key) {
     bool ret = tiledbcsPINVOKE.MapInt64Double_ContainsKey(swigCPtr, key);
     return ret;
   }
 
-  public void Add(int key, double value) {
+  public void Add(long key, double value) {
     tiledbcsPINVOKE.MapInt64Double_Add(swigCPtr, key, value);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public bool Remove(int key) {
+  public bool Remove(long key) {
     bool ret = tiledbcsPINVOKE.MapInt64Double_Remove(swigCPtr, key);
     return ret;
   }
@@ -277,8 +277,8 @@ public class MapInt64Double : global::System.IDisposable
     return ret;
   }
 
-  private int get_next_key(global::System.IntPtr swigiterator) {
-    int ret = tiledbcsPINVOKE.MapInt64Double_get_next_key(swigCPtr, swigiterator);
+  private long get_next_key(global::System.IntPtr swigiterator) {
+    long ret = tiledbcsPINVOKE.MapInt64Double_get_next_key(swigCPtr, swigiterator);
     return ret;
   }
 

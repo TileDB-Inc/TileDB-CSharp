@@ -44,6 +44,7 @@
 #include "tiledb.h"
 #include "tiledb_cxx_type.h"
 #include "tiledb_cxx_utils.h"
+#include "tiledb_cxx_enum.h"
 
 #include <algorithm>
 #include <cassert>
@@ -81,23 +82,23 @@ namespace tiledb {
  */
 class Query {
  public:
-  /* ********************************* */
-  /*           TYPE DEFINITIONS        */
-  /* ********************************* */
+  // /* ********************************* */
+  // /*           TYPE DEFINITIONS        */
+  // /* ********************************* */
 
-  /** The query or query attribute status. */
-  enum class Status {
-    /** Query failed. */
-    FAILED,
-    /** Query completed (all data has been read) */
-    COMPLETE,
-    /** Query is in progress */
-    INPROGRESS,
-    /** Query completed (but not all data has been read) */
-    INCOMPLETE,
-    /** Query not initialized.  */
-    UNINITIALIZED
-  };
+  // /** The query or query attribute status. */
+  // enum class Status {
+  //   /** Query failed. */
+  //   FAILED,
+  //   /** Query completed (all data has been read) */
+  //   COMPLETE,
+  //   /** Query is in progress */
+  //   INPROGRESS,
+  //   /** Query completed (but not all data has been read) */
+  //   INCOMPLETE,
+  //   /** Query not initialized.  */
+  //   UNINITIALIZED
+  // };
 
   /* ********************************* */
   /*     CONSTRUCTORS & DESTRUCTORS    */
@@ -125,13 +126,14 @@ class Query {
    *
    * @param ctx TileDB context
    * @param array Open Array object
-   * @param type The TileDB query type
+   * @param querytype The TileDB query type
    */
-  Query(const std::shared_ptr<tiledb::Context>& ctx, const std::shared_ptr<tiledb::Array>& array, tiledb_query_type_t type)
+  Query(const std::shared_ptr<tiledb::Context>& ctx, const std::shared_ptr<tiledb::Array>& array, QueryType querytype)
       : ctx_(ctx)
       , array_(array)
       , schema_(array->schema()) {
-	tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    tiledb_query_type_t type = tiledb_query_type_t(querytype);
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_query_t* q;
     ctx_->handle_error(
         tiledb_query_alloc(c_ctx, array->ptr().get(), type, &q));
@@ -169,7 +171,8 @@ class Query {
       , schema_(array->schema()) {
 	tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_query_t* q;
-    auto type = array->query_type();
+    auto querytype = array->query_type();
+    tiledb_query_type_t type = (tiledb_query_type_t)querytype;
     ctx_->handle_error(
         tiledb_query_alloc(c_ctx, array->ptr().get(), type, &q));
     query_ = std::shared_ptr<tiledb_query_t>(q, deleter_);
@@ -201,12 +204,12 @@ class Query {
 
 
   /** Returns the query type (read or write). */
-  tiledb_query_type_t query_type() const {
+  tiledb::QueryType query_type() const {
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_query_type_t query_type;
     ctx_->handle_error(
         tiledb_query_get_type(c_ctx, query_.get(), &query_type));
-    return query_type;
+    return (QueryType)query_type;
   }
 
   /**
@@ -230,7 +233,8 @@ class Query {
    *      writing.
    * @return Reference to this Query
    */
-  Query& set_layout(tiledb_layout_t layout) {
+  Query& set_layout(tiledb::LayoutType layouttype) {
+    tiledb_layout_t layout = (tiledb_layout_t)layouttype;
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     ctx_->handle_error(
         tiledb_query_set_layout(c_ctx, query_.get(), layout));
@@ -238,12 +242,12 @@ class Query {
   }
 
   /** Returns the layout of the query. */
-  tiledb_layout_t query_layout() const {
+  tiledb::LayoutType query_layout() const {
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     tiledb_layout_t query_layout;
     ctx_->handle_error(
         tiledb_query_get_layout(c_ctx, query_.get(), &query_layout));
-    return query_layout;
+    return (tiledb::LayoutType)query_layout;
   }
 
   /** Returns the array of the query. */
@@ -252,12 +256,12 @@ class Query {
   }
 
   /** Returns the query status. */
-  Status query_status() const {
+  tiledb::QueryStatus query_status() const {
     tiledb_query_status_t status;
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     ctx_->handle_error(
         tiledb_query_get_status(c_ctx, query_.get(), &status));
-    return to_status(status);
+    return (tiledb::QueryStatus)status;// return to_status(status);
   }
 
   /**
@@ -291,7 +295,7 @@ class Query {
    *
    * @return Query status
    */
-  Status submit() {
+  tiledb::QueryStatus submit() {
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     ctx_->handle_error(tiledb_query_submit(c_ctx, query_.get()));
     return query_status();
@@ -1045,12 +1049,12 @@ void set_double_coordinates(std::vector<double>& buf) {
     // Compute element size (in bytes).
     size_t element_size = 0;
     if (name == "__coords")
-      element_size = tiledb_datatype_size(schema_.domain().type());
+      element_size = tiledb_datatype_size((tiledb_datatype_t)(schema_.domain().type()));
     else if (is_attr)
-      element_size = tiledb_datatype_size(schema_.attribute(name).type());
+      element_size = tiledb_datatype_size((tiledb_datatype_t)(schema_.attribute(name).type()));
     else if (is_dim)
       element_size =
-          tiledb_datatype_size(schema_.domain().dimension(name).type());
+          tiledb_datatype_size((tiledb_datatype_t)(schema_.domain().dimension(name).type()));
 
     return set_buffer(name, buff, nelements, element_size);
   }
@@ -1135,7 +1139,7 @@ void set_double_coordinates(std::vector<double>& buf) {
     // Compute element size (in bytes).
     auto type = is_attr ? schema_.attribute(name).type() :
                           schema_.domain().dimension(name).type();
-    size_t element_size = tiledb_datatype_size(type);
+    size_t element_size = tiledb_datatype_size((tiledb_datatype_t)type);
 
     return set_buffer(
         name, offsets, offset_nelements, data, data_nelements, element_size);
@@ -1381,25 +1385,25 @@ void set_double_coordinates(std::vector<double>& buf) {
   /* ********************************* */
 
   /** Converts the TileDB C query status to a C++ query status. */
-  static Status to_status(const tiledb_query_status_t& status) {
+  static tiledb::QueryStatus to_status(const tiledb_query_status_t& status) {
     switch (status) {
       case TILEDB_INCOMPLETE:
-        return Status::INCOMPLETE;
+        return tiledb::QueryStatus::TILEDB_INCOMPLETE;
       case TILEDB_COMPLETED:
-        return Status::COMPLETE;
+        return tiledb::QueryStatus::TILEDB_COMPLETED;
       case TILEDB_INPROGRESS:
-        return Status::INPROGRESS;
+        return tiledb::QueryStatus::TILEDB_INPROGRESS;
       case TILEDB_FAILED:
-        return Status::FAILED;
+        return tiledb::QueryStatus::TILEDB_FAILED;
       case TILEDB_UNINITIALIZED:
-        return Status::UNINITIALIZED;
+        return tiledb::QueryStatus::TILEDB_UNINITIALIZED;
     }
     assert(false);
-    return Status::UNINITIALIZED;
+    return tiledb::QueryStatus::TILEDB_UNINITIALIZED;
   }
 
   /** Converts the TileDB C query type to a string representation. */
-  static std::string to_str(tiledb_query_type_t type) {
+  static std::string to_str(tiledb::QueryType type) {
     switch (type) {
       case TILEDB_READ:
         return "READ";
@@ -1520,21 +1524,21 @@ void set_double_coordinates(std::vector<double>& buf) {
 /* ********************************* */
 
 /** Get a string representation of a query status for an output stream. */
-inline std::ostream& operator<<(std::ostream& os, const Query::Status& stat) {
+inline std::ostream& operator<<(std::ostream& os, const tiledb::QueryStatus& stat) {
   switch (stat) {
-    case tiledb::Query::Status::INCOMPLETE:
+    case tiledb::QueryStatus::TILEDB_INCOMPLETE:
       os << "INCOMPLETE";
       break;
-    case tiledb::Query::Status::INPROGRESS:
+    case tiledb::QueryStatus::TILEDB_INPROGRESS:
       os << "INPROGRESS";
       break;
-    case tiledb::Query::Status::FAILED:
+    case tiledb::QueryStatus::TILEDB_FAILED:
       os << "FAILED";
       break;
-    case tiledb::Query::Status::COMPLETE:
+    case tiledb::QueryStatus::TILEDB_COMPLETED:
       os << "COMPLETE";
       break;
-    case tiledb::Query::Status::UNINITIALIZED:
+    case tiledb::QueryStatus::TILEDB_UNINITIALIZED:
       os << "UNINITIALIZED";
       break;
   }

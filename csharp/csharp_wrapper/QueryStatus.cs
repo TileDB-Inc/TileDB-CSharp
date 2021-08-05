@@ -10,10 +10,12 @@
 
 namespace TileDB {
 
-public enum tiledb_object_t {
-  TILEDB_INVALID = 0,
-  TILEDB_GROUP = 1,
-  TILEDB_ARRAY = 2
+public enum QueryStatus {
+  TILEDB_FAILED = 0,
+  TILEDB_COMPLETED = 1,
+  TILEDB_INPROGRESS = 2,
+  TILEDB_INCOMPLETE = 3,
+  TILEDB_UNINITIALIZED = 4
 }
 
 }

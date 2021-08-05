@@ -39,13 +39,13 @@ namespace TileDB.CSharp.Benchmark
             dom.add_int32_dimension("rows", 1, array_rows, tile_rows_);
             dom.add_int32_dimension("cols", 1, array_cols, tile_cols_);
 
-            TileDB.ArraySchema schema = new TileDB.ArraySchema(ctx, TileDB.tiledb_array_type_t.TILEDB_DENSE);
+            TileDB.ArraySchema schema = new TileDB.ArraySchema(ctx, TileDB.ArrayType.TILEDB_DENSE);
             schema.set_domain(dom);
 
             TileDB.FilterList filterlist = new TileDB.FilterList();
       //      filterlist.add_filter(new TileDB.Filter(ctx, TileDB.tiledb_filter_type_t.TILEDB_FILTER_GZIP));
 
-            TileDB.Attribute attr1 = TileDB.Attribute.create_attribute(ctx, "a", TileDB.tiledb_datatype_t.TILEDB_INT32);
+            TileDB.Attribute attr1 = TileDB.Attribute.create_attribute(ctx, "a", TileDB.DataType.TILEDB_INT32);
     //        attr1.set_filter_list(filterlist);
             schema.add_attribute(attr1);
 
@@ -77,12 +77,12 @@ namespace TileDB.CSharp.Benchmark
 
 
             //open array for write
-            TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.tiledb_query_type_t.TILEDB_WRITE);
-            TileDB.Query query = new TileDB.Query(ctx, array, TileDB.tiledb_query_type_t.TILEDB_WRITE);
-            query.set_layout(TileDB.tiledb_layout_t.TILEDB_ROW_MAJOR);
+            TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.QueryType.TILEDB_WRITE);
+            TileDB.Query query = new TileDB.Query(ctx, array, TileDB.QueryType.TILEDB_WRITE);
+            query.set_layout(TileDB.LayoutType.TILEDB_ROW_MAJOR);
             query.set_int32_vector_buffer("a", data_);
 
-            TileDB.Query.Status status = query.submit();
+            TileDB.QueryStatus status = query.submit();
             array.close();
         }
 
@@ -102,15 +102,15 @@ namespace TileDB.CSharp.Benchmark
             data_ = new TileDB.VectorInt32(dimsize * dimsize);
 
             //open array for read
-            TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.tiledb_query_type_t.TILEDB_READ);
+            TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.QueryType.TILEDB_READ);
 
             //query
-            TileDB.Query query = new TileDB.Query(ctx, array, TileDB.tiledb_query_type_t.TILEDB_READ);
-            query.set_layout(TileDB.tiledb_layout_t.TILEDB_ROW_MAJOR);
+            TileDB.Query query = new TileDB.Query(ctx, array, TileDB.QueryType.TILEDB_READ);
+            query.set_layout(TileDB.LayoutType.TILEDB_ROW_MAJOR);
             query.set_int32_subarray(subarray);
             query.set_int32_vector_buffer("a", data_);
 
-            TileDB.Query.Status status = query.submit();
+            TileDB.QueryStatus status = query.submit();
             array.close();
 
         }

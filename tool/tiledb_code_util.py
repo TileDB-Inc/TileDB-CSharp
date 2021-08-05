@@ -127,7 +127,7 @@ def get_default_cfginfo():
     ignore_method_keywords.extend(['FILE','ptr()','std::function','std::vector<tiledb::Dimension>','attributes()','std::map<std::string,tiledb::Attribute>','arrow::Array','arrow::Table','arrow::Schema']) # for tiledb
     ignore_method_keywords.extend(['tiledb_array_t ','tiledb_buffer_t','tiledb_buffer_list_t','tiledb_config_t','tiledb_config_iter_t'])#for tiledb
     ignore_method_keywords.extend(['tiledb_ctx_t','tiledb_error_t','tiledb_attribute_t','tiledb_array_schema_t','tiledb_dimension_t','tiledb_query_condition_t']) #for tiledb
-    ignore_method_keywords.extend(['tiledb_domain_t','tiledb_filter_t ','tiledb_filter_list_t','submit_async'])#,'tiledb_query_t']) #for tiledb
+    ignore_method_keywords.extend(['tiledb_domain_t','tiledb_filter_t ','tiledb_filter_list_t','submit_async','tiledb_query_status_t'])#,'tiledb_query_t']) #for tiledb
     ignore_method_keywords.extend(['tiledb_vfs_t','tiledb_vfs_fh_t','const void','const void*','void *','std::pair<T,','ConfigIter','cell_num'])#for tiledb
     cfginfo['ignore_method_keywords']=ignore_method_keywords
 #
@@ -531,7 +531,7 @@ def get_tiledb_dir_cfginfo_map():
 #    
     cppapi_dir_cfginfo=copy.deepcopy(default_dir_cfginfo)
     cppapi_dir_cfginfo["dir"]="../cpp/src/tiledb/cxx_api"
-    cppapi_dir_cfginfo["ignore_file_keywords"]=['typedef','deleter','schema_base.h','arrow_io',"tiledb.h","tiledb_cxx.h","tiledb_cxx_type.h","tiledb_cxx_core_interface","tiledb_cxx_object","tiledb_cxx_utils","tiledb_export","tiledb_serialization","tiledb_struct_def","tiledb_version"]
+    cppapi_dir_cfginfo["ignore_file_keywords"]=['typedef','deleter','schema_base.h','arrow_io',"tiledb.h","tiledb_cxx.h","tiledb_cxx_type.h","tiledb_cxx_core_interface","tiledb_cxx_object","tiledb_cxx_utils","tiledb_enum","tiledb_export","tiledb_serialization","tiledb_struct_def","tiledb_version"]
 
     cppapi_dir_cfginfo['ignore_class_keywords']=['VectorData','MapData','PrimitiveColumnData','VectorColumnData','GenericColumnData']
 #    
@@ -653,8 +653,8 @@ def get_swig_for_file_cfginfo(file_cfginfo):
                 is_ignore_method=True
             elif is_any_of_words_in_str(ignore_method_keywords, linestr_api): ## ('operator' in linestr_api): # and cm['constructor']:
                 is_ignore_method=True
-            elif c['namespace']=='tiledb' and   'Type' in linestr_api:
-                is_ignore_method=True     
+###            elif c['namespace']=='tiledb' and   'Type' in linestr_api:
+###                is_ignore_method=True     
             if is_ignore_method:
                 ignore_str='%s%%ignore %s::%s::%s(%s);\n' % (ignore_str,c['namespace'],c['name'],cmname,orig_param_str)
     dd['shared_ptr_str']=shared_ptr_str

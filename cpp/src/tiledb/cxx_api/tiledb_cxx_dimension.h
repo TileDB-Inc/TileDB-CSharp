@@ -42,6 +42,7 @@
 #include "tiledb_cxx_filter_list.h"
 #include "tiledb.h"
 #include "tiledb_cxx_type.h"
+#include "tiledb_cxx_enum.h"
 
 #include <functional>
 #include <memory>
@@ -136,12 +137,12 @@ class Dimension {
   }
 
   /** Returns the dimension datatype. */
-  tiledb_datatype_t type() const {
+  tiledb::DataType type() const {
     tiledb_datatype_t type;
     tiledb_ctx_t* c_ctx = ctx_->ptr().get();
     ctx_->handle_error(
         tiledb_dimension_get_type(c_ctx, dim_.get(), &type));
-    return type;
+    return (tiledb::DataType)type;
   }
 
   /**
@@ -393,7 +394,7 @@ class Dimension {
     static_assert(
         DataT::tiledb_num == 1,
         "Dimension types cannot be compound, use arithmetic type.");
-    return create_impl(ctx, name, DataT::tiledb_type, &domain, &extent);
+    return create_impl(ctx, name, tiledb::DataType(DataT::tiledb_type), &domain, &extent);
   }
 
   /**
@@ -410,7 +411,7 @@ class Dimension {
   static tiledb::Dimension create(
       const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& name,
-      tiledb_datatype_t datatype,
+     tiledb::DataType datatype,
       const void* domain,
       const void* extent) {
     return create_impl(ctx, name, datatype, domain, extent);
@@ -532,12 +533,12 @@ class Dimension {
 	  {
 		  std::array<int64_t, 2> bound = { (int64_t)atoi(lower_bound_str.c_str()), (int64_t)atoi(upper_bound_str.c_str()) };
 		  int64_t extent = (int64_t)atoi(extent_str.c_str());
-		  tiledb_datatype_t datatype = (tiledb_datatype_t)(intdatatype);
+		  tiledb::DataType datatype = (tiledb::DataType)(intdatatype);
 		  return create(ctx, name, datatype,&bound, &extent);
 	  }
 	  else if (intdatatype == (int)TILEDB_STRING_ASCII)
 	  {
-		  return create(ctx, name, TILEDB_STRING_ASCII, nullptr, nullptr);
+		  return create(ctx, name, tiledb::DataType::TILEDB_STRING_ASCII, nullptr, nullptr);
 	  }
 	  else if (intdatatype == (int)TILEDB_CHAR
 		  || intdatatype == (int)TILEDB_STRING_UTF8
@@ -593,7 +594,7 @@ class Dimension {
   static tiledb::Dimension create_string_dimension(const std::shared_ptr<tiledb::Context>& ctx, const std::string& name)
   {
 
-	  return Dimension::create(ctx, name, tiledb_datatype_t::TILEDB_STRING_ASCII, nullptr, nullptr);
+	  return Dimension::create(ctx, name, tiledb::DataType::TILEDB_STRING_ASCII, nullptr, nullptr);
   }
 
 
@@ -645,13 +646,14 @@ class Dimension {
   static tiledb::Dimension create_impl(
       const std::shared_ptr<tiledb::Context>& ctx,
       const std::string& name,
-      tiledb_datatype_t type,
+      tiledb::DataType datatype,
       const void* domain,
       const void* tile_extent) {
+    tiledb_datatype_t data_type = (tiledb_datatype_t)datatype;
     tiledb_dimension_t* d;
 	tiledb_ctx_t* c_ctx = ctx->ptr().get();
     ctx->handle_error(tiledb_dimension_alloc(
-        c_ctx, name.c_str(), type, domain, tile_extent, &d));
+        c_ctx, name.c_str(), data_type, domain, tile_extent, &d));
     return Dimension(ctx, d);
   }
 };

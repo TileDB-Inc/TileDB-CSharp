@@ -78,8 +78,8 @@ public class Dimension : global::System.IDisposable {
     return ret;
   }
 
-  public tiledb_datatype_t type() {
-    tiledb_datatype_t ret = (tiledb_datatype_t)tiledbcsPINVOKE.Dimension_type(swigCPtr);
+  public DataType type() {
+    DataType ret = (DataType)tiledbcsPINVOKE.Dimension_type(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -113,13 +113,13 @@ public class Dimension : global::System.IDisposable {
     return ret;
   }
 
-  public static Dimension create_int64_dimension(Context ctx, string name, int bound_lower, int bound_upper, int extent) {
+  public static Dimension create_int64_dimension(Context ctx, string name, long bound_lower, long bound_upper, long extent) {
     Dimension ret = new Dimension(tiledbcsPINVOKE.Dimension_create_int64_dimension(Context.getCPtr(ctx), name, bound_lower, bound_upper, extent), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static Dimension create_uint64_dimension(Context ctx, string name, uint bound_lower, uint bound_upper, uint extent) {
+  public static Dimension create_uint64_dimension(Context ctx, string name, ulong bound_lower, ulong bound_upper, ulong extent) {
     Dimension ret = new Dimension(tiledbcsPINVOKE.Dimension_create_uint64_dimension(Context.getCPtr(ctx), name, bound_lower, bound_upper, extent), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;

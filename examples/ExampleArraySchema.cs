@@ -39,11 +39,11 @@ namespace TileDB.Example
             dom.add_int32_dimension("cols", 1, 4, 4); //Add an int32 dimension
 
             // Create an dense array schema
-            TileDB.ArraySchema schema = new TileDB.ArraySchema(ctx, TileDB.tiledb_array_type_t.TILEDB_DENSE);
+            TileDB.ArraySchema schema = new TileDB.ArraySchema(ctx, TileDB.ArrayType.TILEDB_DENSE);
             schema.set_domain(dom);
 
             // Create and add an int attribute
-            TileDB.Attribute attr1 = TileDB.Attribute.create_attribute(ctx, "a", TileDB.tiledb_datatype_t.TILEDB_INT32);
+            TileDB.Attribute attr1 = TileDB.Attribute.create_attribute(ctx, "a", TileDB.DataType.TILEDB_INT32);
             schema.add_attribute(attr1);
 
             try

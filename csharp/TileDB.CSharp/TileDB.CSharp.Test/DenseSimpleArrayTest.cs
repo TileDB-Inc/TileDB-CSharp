@@ -68,9 +68,9 @@ namespace TileDB.CSharp.Test
             dom.add_int32_dimension("rows", 1, 4, 4);
             dom.add_int32_dimension("cols", 1, 4, 4);
 
-            TileDB.ArraySchema schema = new TileDB.ArraySchema(ctx, TileDB.tiledb_array_type_t.TILEDB_DENSE);
+            TileDB.ArraySchema schema = new TileDB.ArraySchema(ctx, TileDB.ArrayType.TILEDB_DENSE);
             schema.set_domain(dom);
-            TileDB.Attribute attr1 = TileDB.Attribute.create_attribute(ctx, "a", TileDB.tiledb_datatype_t.TILEDB_INT32);
+            TileDB.Attribute attr1 = TileDB.Attribute.create_attribute(ctx, "a", TileDB.DataType.TILEDB_INT32);
             schema.add_attribute(attr1);
 
             //delete array if it already exists
@@ -85,7 +85,7 @@ namespace TileDB.CSharp.Test
 
         }//private void CreateArray()
 
-        private TileDB.Query.Status WriteDenseSimpleArray()
+        private TileDB.QueryStatus WriteDenseSimpleArray()
         {
             TileDB.Context ctx = new TileDB.Context();
 
@@ -97,19 +97,19 @@ namespace TileDB.CSharp.Test
 
 
             //open array for write
-            TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.tiledb_query_type_t.TILEDB_WRITE);
-            TileDB.Query query = new TileDB.Query(ctx, array, TileDB.tiledb_query_type_t.TILEDB_WRITE);
-            query.set_layout(TileDB.tiledb_layout_t.TILEDB_ROW_MAJOR);
+            TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.QueryType.TILEDB_WRITE);
+            TileDB.Query query = new TileDB.Query(ctx, array, TileDB.QueryType.TILEDB_WRITE);
+            query.set_layout(TileDB.LayoutType.TILEDB_ROW_MAJOR);
             query.set_int32_vector_buffer("a", data);
 
-            TileDB.Query.Status status = query.submit();
+            TileDB.QueryStatus status = query.submit();
             array.close();
 
             return status;
 
         }//private void WriteArray()
 
-        private TileDB.Query.Status ReadDenseSimpleArray()
+        private TileDB.QueryStatus ReadDenseSimpleArray()
         {
             TileDB.Context ctx = new TileDB.Context();
 
@@ -122,15 +122,15 @@ namespace TileDB.CSharp.Test
             TileDB.VectorInt32 data = new TileDB.VectorInt32(6); //hold 6 elements
 
             //open array for read
-            TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.tiledb_query_type_t.TILEDB_READ);
+            TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.QueryType.TILEDB_READ);
 
             //query
-            TileDB.Query query = new TileDB.Query(ctx, array, TileDB.tiledb_query_type_t.TILEDB_READ);
-            query.set_layout(TileDB.tiledb_layout_t.TILEDB_ROW_MAJOR);
+            TileDB.Query query = new TileDB.Query(ctx, array, TileDB.QueryType.TILEDB_READ);
+            query.set_layout(TileDB.LayoutType.TILEDB_ROW_MAJOR);
             query.set_int32_subarray(subarray);
             query.set_int32_vector_buffer("a", data);
 
-            TileDB.Query.Status status = query.submit();
+            TileDB.QueryStatus status = query.submit();
             array.close();
 
             return status;
@@ -143,13 +143,13 @@ namespace TileDB.CSharp.Test
         public void TestDenseSimpleArray()
         {
             CreateDenseSimpleArray();
-            TileDB.Query.Status status_write = WriteDenseSimpleArray();
-            if (status_write == TileDB.Query.Status.FAILED)
+            TileDB.QueryStatus status_write = WriteDenseSimpleArray();
+            if (status_write == TileDB.QueryStatus.TILEDB_FAILED)
             {
                 Assert.Fail();
             }
-            TileDB.Query.Status status_read = ReadDenseSimpleArray();
-            if (status_read == TileDB.Query.Status.FAILED)
+            TileDB.QueryStatus status_read = ReadDenseSimpleArray();
+            if (status_read == TileDB.QueryStatus.TILEDB_FAILED)
             {
                 Assert.Fail();
             }
