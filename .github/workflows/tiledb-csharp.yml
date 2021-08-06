@@ -44,7 +44,7 @@ jobs:
 
     # Run example
     - name: Run example
-      run: ./.github/scripts/run_example.sh
+      run: ./.github/scripts/run_example_linux.sh
 
   Macos_Example:
     runs-on: macos-latest
@@ -82,4 +82,4 @@ jobs:
 
     # Run example
     - name: Run example
-      run: ./.github/scripts/run_example.sh
+      run: ./.github/scripts/run_example_mac.sh
