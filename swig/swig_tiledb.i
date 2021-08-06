@@ -3,7 +3,7 @@
 
 //////include other i files
 %include swig_common.i
-//%include protobuf.i
+%include swig_tiledb_exception.i
 
 //////
 
@@ -24,11 +24,6 @@
 
 %shared_ptr(tiledb::Domain)
 
-
-%shared_ptr(tiledb::TileDBError)
-%shared_ptr(tiledb::TypeError)
-%shared_ptr(tiledb::SchemaMismatch)
-%shared_ptr(tiledb::AttributeError)
 
 %shared_ptr(tiledb::Filter)
 
@@ -66,8 +61,6 @@
 #include "tiledb_cxx_domain.h"
 
 #include "tiledb_cxx_enum.h"
-
-#include "tiledb_cxx_exception.h"
 
 #include "tiledb_cxx_filter.h"
 
@@ -155,8 +148,6 @@
 
 //ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_enum.h
 
-//ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_exception.h
-
 //ignore class or methods in file:../cpp/src/tiledb/cxx_api/tiledb_cxx_filter.h
 %ignore tiledb::Filter::Filter(const std::shared_ptr<tiledb::Context> &,tiledb_filter_t *);
 %ignore tiledb::Filter::operator=(const tiledb::Filter);
@@ -224,8 +215,6 @@
 %include "tiledb_cxx_domain.h"
 
 %include "tiledb_cxx_enum.h"
-
-%include "tiledb_cxx_exception.h"
 
 %include "tiledb_cxx_filter.h"
 

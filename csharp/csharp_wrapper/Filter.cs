@@ -49,6 +49,7 @@ public class Filter : global::System.IDisposable {
   }
 
   public Filter() : this(tiledbcsPINVOKE.new_Filter__SWIG_1(), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public Filter(Filter arg0) : this(tiledbcsPINVOKE.new_Filter__SWIG_2(Filter.getCPtr(arg0)), true) {
@@ -63,6 +64,7 @@ public class Filter : global::System.IDisposable {
 
   public static string to_str(FilterType type) {
     string ret = tiledbcsPINVOKE.Filter_to_str((int)type);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

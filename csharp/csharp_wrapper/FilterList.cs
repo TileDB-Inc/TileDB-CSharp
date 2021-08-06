@@ -49,6 +49,7 @@ public class FilterList : global::System.IDisposable {
   }
 
   public FilterList() : this(tiledbcsPINVOKE.new_FilterList__SWIG_1(), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public FilterList(FilterList arg0) : this(tiledbcsPINVOKE.new_FilterList__SWIG_2(FilterList.getCPtr(arg0)), true) {

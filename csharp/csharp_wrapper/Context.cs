@@ -45,6 +45,7 @@ public class Context : global::System.IDisposable {
   }
 
   public Context() : this(tiledbcsPINVOKE.new_Context__SWIG_0(), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public Context(Config config) : this(tiledbcsPINVOKE.new_Context__SWIG_1(Config.getCPtr(config)), true) {

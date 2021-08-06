@@ -45,6 +45,7 @@ public class Config : global::System.IDisposable {
   }
 
   public Config() : this(tiledbcsPINVOKE.new_Config__SWIG_0(), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public Config(string filename) : this(tiledbcsPINVOKE.new_Config__SWIG_1(filename), true) {
