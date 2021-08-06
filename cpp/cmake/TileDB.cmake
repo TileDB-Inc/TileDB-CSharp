@@ -1,68 +1,8 @@
 include(FetchContent)
 include(GNUInstallDirs)
-###############################
-# zlib  
-###############################
-FetchContent_Declare(
-    zlib
-    GIT_REPOSITORY "https://github.com/madler/zlib.git"
-    GIT_TAG "v1.2.11"
-)
-FetchContent_GetProperties(zlib)
- 
-if(NOT zlib_POPULATED)
-    FetchContent_Populate(zlib)
-    message(STATUS "zlib_SOURCE_DIR:${zlib_SOURCE_DIR}")
-    message(STATUS "zlib_BINARY_DIR:${zlib_BINARY_DIR}")
-    include_directories(
-      ${zlib_SOURCE_DIR} 
-      ${zlib_BINARY_DIR}      
-    )
- ##   set(INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/lib")
-    add_subdirectory(
-      ${zlib_SOURCE_DIR} 
-      ${zlib_BINARY_DIR}
-      )
-endif()
 
-if(MSVC)
-
-file(
-  GLOB ZLIB_DLLFILES 
-  ${zlib_BINARY_DIR}/Release/*.dll
-)
-install(
-  FILES 
-    ${ZLIB_DLLFILES}
-  DESTINATION 
-  ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}
-)
-
-endif()
- 
-
-#################################
-# snappy
-################################
-#FetchContent_Declare(
-#    snappy
-#    GIT_REPOSITORY "https://github.com/google/snappy.git"
-#    GIT_TAG "1.1.8"
-#)
-#FetchContent_GetProperties(snappy)
-#if(NOT snappy_POPULATED)
-#    FetchContent_Populate(snappy)
-#    message(STATUS "snappy_SOURCE_DIR:${snappy_SOURCE_DIR}")
-#    message(STATUS "snappy_BINARY_DIR:${snappy_BINARY_DIR}")
-#    add_subdirectory(
-#      ${snappy_SOURCE_DIR} 
-#      ${snappy_BINARY_DIR}
-#      )
-#endif()
-#set(SNAPPY_INSTALL ON)
-
-###########################
-# tiledb
+############################
+# Download pre-build tiledb
 ############################
 ##TODO: generate more different libraries according to tiledb versions
 message(STATUS "start to set tiledb for version:${TILEDB_VERSION}")
