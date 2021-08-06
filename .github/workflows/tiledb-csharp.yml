@@ -1,0 +1,85 @@
+name: TileDB-CSharp
+
+on:
+  push:
+    tags: [ v* ]
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  Linux_Example:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Will be checking following versions
+        dotnet: [ '5.0.201' ]
+    steps:
+    # Checks out repository
+    - uses: actions/checkout@v2
+
+    # Downloads TileDB-Core from release assets and install
+    - name: Run TileDB install script
+      run: ./.github/scripts/install_tiledb_linux.sh
+      shell: bash
+
+    # Following action sets up dotnet and uses the strategy matrix to test on
+    # specific versions
+    - name: Set up dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.dotnet }}
+
+    # Build c++ Wrapper
+    - name: Build c++ Wrapper for TileDB-CSharp
+      run: ./.github/scripts/build_cpp_wrapper_linux_mac.sh
+
+    # DotNet build
+    - name: DotNet build for TileDB-CSharp
+      run: ./.github/scripts/dotnet_build_all.sh
+
+    # Build example
+    - name: Build example
+      run: ./.github/scripts/build_example.sh
+
+    # Run example
+    - name: Run example
+      run: ./.github/scripts/run_example.sh
+
+  Macos_Example:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        # Will be checking following versions
+        dotnet: [ '5.0.201' ]
+    steps:
+    # Checks out repository
+    - uses: actions/checkout@v2
+
+    # Downloads TileDB-Core from release assets and install
+    - name: Run TileDB install script
+      run: ./.github/scripts/install_tiledb_macos.sh
+      shell: bash
+
+    # Following action sets up dotnet and uses the strategy matrix to test on
+    # specific versions
+    - name: Set up dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.dotnet }}
+
+    # Build c++ Wrapper
+    - name: Build c++ Wrapper for TileDB-CSharp
+      run: ./.github/scripts/build_cpp_wrapper_linux_mac.sh
+
+    # DotNet build
+    - name: DotNet build for TileDB-CSharp
+      run: ./.github/scripts/dotnet_build_all.sh
+
+    # Build example
+    - name: Build example
+      run: ./.github/scripts/build_example.sh
+
+    # Run example
+    - name: Run example
+      run: ./.github/scripts/run_example.sh
