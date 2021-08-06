@@ -32,10 +32,10 @@
 *.app
 
 cpp/build
-csharp/TileDB.CSharp/TileDB.CSharp.Benchmark/obj
-csharp/TileDB.CSharp/TileDB.CSharp.Test/obj
-csharp/TileDB.CSharp/TileDB.CSharp/obj
-csharp/TileDB.CSharp/TileDB.CSharp.Benchmark/bin/
+TileDB.CSharp/obj
+TileDB.CSharp/bin
+TileDB.CSharp/benchmark/obj
+TileDB.CSharp/benchmark/bin
 examples/TileDB.Example/bin/
 examples/TileDB.Example/obj/
 dist
