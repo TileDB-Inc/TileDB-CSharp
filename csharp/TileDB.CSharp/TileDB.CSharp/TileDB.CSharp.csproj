@@ -101,35 +101,29 @@
     <Compile Include="..\..\csharp_wrapper\WalkOrderType.cs" Link="WalkOrderType.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="..\..\..\dist\Windows\lib\tiledb.dll" Condition=" '$(OS)' == 'Windows_NT' ">
+
+  <ItemGroup Condition=" '$(OS)' == 'Windows_NT' ">
+    <Content Include="..\..\..\dist\Windows\lib\tiledb.dll" CopyToOutputDirectory="PreserveNewest">
       <Link>tiledb.dll</Link>
     </Content>
-    <Content Include="..\..\..\dist\Linux\lib\libtiledb.so" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
-      <Link>tiledb.so</Link>
-    </Content>
-    <Content Include="..\..\..\dist\Darwin\lib\libtiledb.dylib" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
-      <Link>tiledb.dylib</Link>
-    </Content>
-    <Content Include="..\..\..\dist\Windows\lib\tiledbcs.dll" Condition=" '$(OS)' == 'Windows_NT' ">
+    <Content Include="..\..\..\dist\Windows\lib\tiledbcs.dll" CopyToOutputDirectory="PreserveNewest">
       <Link>tiledbcs.dll</Link>
     </Content>
-    <Content Include="..\..\..\dist\Linux\lib\tiledbcs.so" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
+  </ItemGroup>
+  <ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
+    <Content Include="..\..\..\dist\Darwin\lib\libtiledb.dylib" CopyToOutputDirectory="PreserveNewest">
+      <Link>libtiledb.dylib</Link>
+    </Content>
+    <Content Include="..\..\..\dist\Darwin\lib\tiledbcs.dylib" CopyToOutputDirectory="PreserveNewest">
+      <Link>libtiledbcs.dylib</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
+     <Content Include="..\..\..\dist\Linux\lib\libtiledb.so" CopyToOutputDirectory="PreserveNewest">
+      <Link>tiledb.so</Link>
+    </Content>
+    <Content Include="..\..\..\dist\Linux\lib\tiledbcs.so" CopyToOutputDirectory="PreserveNewest">
       <Link>tiledbcs.so</Link>
     </Content>
-    <Content Include="..\..\..\dist\Darwin\lib\tiledbcs.dylib" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
-      <Link>tiledbcs.dylib</Link>
-    </Content>
-    <Content Include="..\..\..\dist\Windows\lib\zlib.dll" Condition=" '$(OS)' == 'Windows_NT' ">
-      <Link>zlib.dll</Link>
-    </Content>
-    <Content Include="..\..\..\dist\Linux\lib\libz.so" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
-      <Link>libz.so</Link>
-    </Content>
-    <Content Include="..\..\..\dist\Darwin\lib\libz.dylib" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
-      <Link>libz.dylib</Link>
-    </Content>
-
   </ItemGroup>
-
 </Project>
