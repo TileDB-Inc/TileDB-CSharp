@@ -32,31 +32,31 @@ namespace TileDB.Example
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Start to create a simple sparse array...");
+            Console.WriteLine("Start to create a simple dense array...");
 
             // Create a dense array
             CreateDenseSimpleArray();
 
-            // Write the sparse array
+            // Write the dense array
             TileDB.QueryStatus status_write = WriteDenseSimpleArray();
             if (status_write == TileDB.QueryStatus.TILEDB_FAILED)
             {
-                Console.WriteLine("Failed to write the sparse array!");
+                Console.WriteLine("Failed to write the dense array!");
             }
             else
             {
-                Console.WriteLine("Finished writing the sparse array.");
+                Console.WriteLine("Finished writing the dense array.");
             }
 
-            // Read the sparse array
+            // Read the dense array
             TileDB.QueryStatus status_read = ReadDenseSimpleArray();
             if (status_read == TileDB.QueryStatus.TILEDB_FAILED)
             {
-                Console.WriteLine("Failed to read the sparse array!");
+                Console.WriteLine("Failed to read the dense array!");
             }
             else
             {
-                Console.WriteLine("Finished reading the sparse array.");
+                Console.WriteLine("Finished reading the dense array.");
             }
 
             return;
