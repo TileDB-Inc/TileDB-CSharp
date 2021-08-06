@@ -32,7 +32,7 @@ namespace TileDB.Example
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Start to consolidate an array...");
+            System.Console.WriteLine("Start to consolidate an array...");
 
             // Create a config
             TileDB.Config config = new TileDB.Config();
@@ -41,13 +41,22 @@ namespace TileDB.Example
             TileDB.Context context = new TileDB.Context(config);
             
             string array_uri = "test_array";
-            
-            // Consolidate the array
-            TileDB.Array.consolidate(context, array_uri, config);
 
-            // Vacuum the array
-            TileDB.Array.vacuum(context, array_uri);
- 
+            try
+            {
+                // Consolidate the array
+                TileDB.Array.consolidate(context, array_uri, config);
+
+                // Vacuum the array
+                TileDB.Array.vacuum(context, array_uri);
+            }
+            catch (Exception e)
+            {
+                System.Console.WriteLine(e.Message);
+            }
+
+            System.Console.WriteLine("Finished consolidating an array!");
+
             return;
         }
 
