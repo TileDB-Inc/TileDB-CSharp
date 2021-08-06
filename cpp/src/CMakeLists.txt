@@ -102,12 +102,14 @@ if(APPLE)
     PROPERTIES
       PREFIX ""
       SUFFIX ".dylib"
+      INSTALL_RPATH "@loader_path/"
   )
 else()
    set_target_properties(tiledbcs
     PROPERTIES
       PREFIX ""
       SUFFIX ".so"
+      INSTALL_RPATH "$ORIGIN"
   )
 endif()
 
