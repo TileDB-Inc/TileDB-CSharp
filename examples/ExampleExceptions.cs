@@ -28,15 +28,15 @@ using System.Collections.Generic;
 
 namespace TileDB.Example
 {
-    public class ExampleArrayConsolidate
+    public class ExampleExceptions
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.WriteLine("Start to read/consolidate a non-existing array...");
             // Create a config
             TileDB.Config config = new TileDB.Config();
 
-            // Create a context 
+            // Create a context
             TileDB.Context ctx = new TileDB.Context(config);
 
             string array_uri = "test_nonexist_array";

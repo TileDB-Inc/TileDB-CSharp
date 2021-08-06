@@ -28,15 +28,15 @@ using System.Collections.Generic;
 
 namespace TileDB.Example
 {
-    public class ExampleArray
+    public class ExampleDenseArray
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.WriteLine("Start to create a simple sparse array...");
 
             // Create a dense array
             CreateDenseSimpleArray();
-            
+
             // Write the sparse array
             TileDB.QueryStatus status_write = WriteDenseSimpleArray();
             if (status_write == TileDB.QueryStatus.TILEDB_FAILED)
@@ -145,4 +145,3 @@ namespace TileDB.Example
     }
 
 }
- 
