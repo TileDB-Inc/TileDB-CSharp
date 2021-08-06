@@ -57,6 +57,7 @@ public class ArraySchema : global::System.IDisposable {
   }
 
   public ArraySchema() : this(tiledbcsPINVOKE.new_ArraySchema__SWIG_3(), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public ArraySchema(ArraySchema arg0) : this(tiledbcsPINVOKE.new_ArraySchema__SWIG_4(ArraySchema.getCPtr(arg0)), true) {
@@ -213,11 +214,13 @@ public class ArraySchema : global::System.IDisposable {
 
   public static string to_str(ArrayType type) {
     string ret = tiledbcsPINVOKE.ArraySchema_to_str__SWIG_0((int)type);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public static string to_str(LayoutType layout) {
     string ret = tiledbcsPINVOKE.ArraySchema_to_str__SWIG_1((int)layout);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

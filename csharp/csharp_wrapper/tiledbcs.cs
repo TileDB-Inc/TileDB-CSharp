@@ -18,6 +18,7 @@ public class tiledbcs {
 
   public static VectorInt32 version() {
     VectorInt32 ret = new VectorInt32(tiledbcsPINVOKE.version(), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

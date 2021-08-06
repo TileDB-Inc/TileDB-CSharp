@@ -45,6 +45,7 @@ public class ArrayUtil : global::System.IDisposable {
   }
 
   public ArrayUtil() : this(tiledbcsPINVOKE.new_ArrayUtil__SWIG_0(), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public ArrayUtil(ArrayUtil from) : this(tiledbcsPINVOKE.new_ArrayUtil__SWIG_1(ArrayUtil.getCPtr(from)), true) {
@@ -53,6 +54,7 @@ public class ArrayUtil : global::System.IDisposable {
 
   public static string get_tiledb_version() {
     string ret = tiledbcsPINVOKE.ArrayUtil_get_tiledb_version();
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

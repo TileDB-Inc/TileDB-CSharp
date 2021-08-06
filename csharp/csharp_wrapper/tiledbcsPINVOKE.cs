@@ -2659,6 +2659,30 @@ class tiledbcsPINVOKE {
   [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_delete_MapStringPairInt64Int64")]
   public static extern void delete_MapStringPairInt64Int64(global::System.Runtime.InteropServices.HandleRef jarg1);
 
+  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_new_TileDBError")]
+  public static extern global::System.IntPtr new_TileDBError(string jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_delete_TileDBError")]
+  public static extern void delete_TileDBError(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_new_TypeError")]
+  public static extern global::System.IntPtr new_TypeError(string jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_delete_TypeError")]
+  public static extern void delete_TypeError(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_new_SchemaMismatch")]
+  public static extern global::System.IntPtr new_SchemaMismatch(string jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_delete_SchemaMismatch")]
+  public static extern void delete_SchemaMismatch(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_new_AttributeError")]
+  public static extern global::System.IntPtr new_AttributeError(string jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_delete_AttributeError")]
+  public static extern void delete_AttributeError(global::System.Runtime.InteropServices.HandleRef jarg1);
+
   [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_new_Array__SWIG_0")]
   public static extern global::System.IntPtr new_Array__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, int jarg3);
 
@@ -3102,30 +3126,6 @@ class tiledbcsPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_delete_Domain")]
   public static extern void delete_Domain(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_new_TileDBError")]
-  public static extern global::System.IntPtr new_TileDBError(string jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_delete_TileDBError")]
-  public static extern void delete_TileDBError(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_new_TypeError")]
-  public static extern global::System.IntPtr new_TypeError(string jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_delete_TypeError")]
-  public static extern void delete_TypeError(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_new_SchemaMismatch")]
-  public static extern global::System.IntPtr new_SchemaMismatch(string jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_delete_SchemaMismatch")]
-  public static extern void delete_SchemaMismatch(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_new_AttributeError")]
-  public static extern global::System.IntPtr new_AttributeError(string jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_delete_AttributeError")]
-  public static extern void delete_AttributeError(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_new_Filter__SWIG_0")]
   public static extern global::System.IntPtr new_Filter__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);

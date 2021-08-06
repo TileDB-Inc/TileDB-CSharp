@@ -237,6 +237,7 @@ public class Query : global::System.IDisposable {
 
   public static string to_str(QueryType type) {
     string ret = tiledbcsPINVOKE.Query_to_str((int)type);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

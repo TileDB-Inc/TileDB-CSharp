@@ -98,6 +98,7 @@ public class Dimension : global::System.IDisposable {
 
   public static bool is_valid_intdatatype(int intdatatype) {
     bool ret = tiledbcsPINVOKE.Dimension_is_valid_intdatatype(intdatatype);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

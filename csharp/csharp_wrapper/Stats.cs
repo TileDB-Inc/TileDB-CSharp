@@ -46,14 +46,17 @@ public class Stats : global::System.IDisposable {
 
   public static void enable() {
     tiledbcsPINVOKE.Stats_enable();
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void disable() {
     tiledbcsPINVOKE.Stats_disable();
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void reset() {
     tiledbcsPINVOKE.Stats_reset();
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void dump(string filename) {
@@ -63,6 +66,7 @@ public class Stats : global::System.IDisposable {
 
   public static string dump_to_str() {
     string ret = tiledbcsPINVOKE.Stats_dump_to_str();
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
@@ -73,10 +77,12 @@ public class Stats : global::System.IDisposable {
 
   public static string raw_dump_to_str() {
     string ret = tiledbcsPINVOKE.Stats_raw_dump_to_str();
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Stats() : this(tiledbcsPINVOKE.new_Stats(), true) {
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
 }
