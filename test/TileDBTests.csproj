@@ -23,7 +23,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\csharp\TileDB.CSharp\TileDB.CSharp\TileDB.CSharp.csproj"/>
+    <ProjectReference Include="..\TileDB.CSharp\TileDB.CSharp.csproj"/>
   </ItemGroup>
 
   <ItemGroup>

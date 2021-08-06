@@ -3,126 +3,46 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Platforms>x64</Platforms>
+    <!-- don't compile everything under path by default -->
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$(OS)' == 'Windows_NT'">
-    <OutputPath>../../../dist/Windows/lib</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">
-    <OutputPath>../../../dist/Linux/lib</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">
-    <OutputPath>../../../dist/Darwin/lib</OutputPath>
-  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\csharp_wrapper\Array.cs" Link="Array.cs" />
-    <Compile Include="..\..\csharp_wrapper\ArraySchema.cs" Link="ArraySchema.cs" />
-    <Compile Include="..\..\csharp_wrapper\ArrayType.cs" Link="ArrayType.cs" />
-    <Compile Include="..\..\csharp_wrapper\ArrayUtil.cs" Link="ArrayUtil.cs" />
-    <Compile Include="..\..\csharp_wrapper\Attribute.cs" Link="Attribute.cs" />
-    <Compile Include="..\..\csharp_wrapper\AttributeError.cs" Link="AttributeError.cs" />
-    <Compile Include="..\..\csharp_wrapper\Config.cs" Link="Config.cs" />
-    <Compile Include="..\..\csharp_wrapper\Context.cs" Link="Context.cs" />
-    <Compile Include="..\..\csharp_wrapper\DataType.cs" Link="DataType.cs" />
-    <Compile Include="..\..\csharp_wrapper\Dimension.cs" Link="Dimension.cs" />
-    <Compile Include="..\..\csharp_wrapper\Domain.cs" Link="Domain.cs" />
-    <Compile Include="..\..\csharp_wrapper\EncryptionType.cs" Link="EncryptionType.cs" />
-    <Compile Include="..\..\csharp_wrapper\FilesystemType.cs" Link="FilesystemType.cs" />
-    <Compile Include="..\..\csharp_wrapper\Filter.cs" Link="Filter.cs" />
-    <Compile Include="..\..\csharp_wrapper\FilterList.cs" Link="FilterList.cs" />
-    <Compile Include="..\..\csharp_wrapper\FilterOption.cs" Link="FilterOption.cs" />
-    <Compile Include="..\..\csharp_wrapper\FilterType.cs" Link="FilterType.cs" />
-    <Compile Include="..\..\csharp_wrapper\LayoutType.cs" Link="LayoutType.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapInt32Char.cs" Link="MapInt32Char.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapInt32Double.cs" Link="MapInt32Double.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapInt32Int32.cs" Link="MapInt32Int32.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapInt32Int64.cs" Link="MapInt32Int64.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapInt32String.cs" Link="MapInt32String.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapInt32UChar.cs" Link="MapInt32UChar.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapInt32UInt32.cs" Link="MapInt32UInt32.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapInt32UInt64.cs" Link="MapInt32UInt64.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapInt64Char.cs" Link="MapInt64Char.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapInt64Double.cs" Link="MapInt64Double.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapInt64Int32.cs" Link="MapInt64Int32.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapInt64Int64.cs" Link="MapInt64Int64.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapInt64String.cs" Link="MapInt64String.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapInt64UChar.cs" Link="MapInt64UChar.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapInt64UInt32.cs" Link="MapInt64UInt32.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapInt64UInt64.cs" Link="MapInt64UInt64.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapStringChar.cs" Link="MapStringChar.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapStringDouble.cs" Link="MapStringDouble.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapStringInt32.cs" Link="MapStringInt32.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapStringInt64.cs" Link="MapStringInt64.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapStringPairInt64Int64.cs" Link="MapStringPairInt64Int64.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapStringPairUInt64UInt64.cs" Link="MapStringPairUInt64UInt64.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapStringString.cs" Link="MapStringString.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapStringUChar.cs" Link="MapStringUChar.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapStringUInt32.cs" Link="MapStringUInt32.cs" />
-    <Compile Include="..\..\csharp_wrapper\MapStringUInt64.cs" Link="MapStringUInt64.cs" />
-    <Compile Include="..\..\csharp_wrapper\ObjectType.cs" Link="ObjectType.cs" />
-    <Compile Include="..\..\csharp_wrapper\PairDoubleDouble.cs" Link="PairDoubleDouble.cs" />
-    <Compile Include="..\..\csharp_wrapper\PairInt32Int32.cs" Link="PairInt32Int32.cs" />
-    <Compile Include="..\..\csharp_wrapper\PairInt64Int64.cs" Link="PairInt64Int64.cs" />
-    <Compile Include="..\..\csharp_wrapper\PairStringString.cs" Link="PairStringString.cs" />
-    <Compile Include="..\..\csharp_wrapper\PairUInt32UInt32.cs" Link="PairUInt32UInt32.cs" />
-    <Compile Include="..\..\csharp_wrapper\PairUInt64UInt64.cs" Link="PairUInt64UInt64.cs" />
-    <Compile Include="..\..\csharp_wrapper\Query.cs" Link="Query.cs" />
-    <Compile Include="..\..\csharp_wrapper\QueryCondition.cs" Link="QueryCondition.cs" />
-    <Compile Include="..\..\csharp_wrapper\QueryConditionCombinationOperatorType.cs" Link="QueryConditionCombinationOperatorType.cs" />
-    <Compile Include="..\..\csharp_wrapper\QueryConditionOperatorType.cs" Link="QueryConditionOperatorType.cs" />
-    <Compile Include="..\..\csharp_wrapper\QueryStatus.cs" Link="QueryStatus.cs" />
-    <Compile Include="..\..\csharp_wrapper\QueryType.cs" Link="QueryType.cs" />
-    <Compile Include="..\..\csharp_wrapper\SchemaMismatch.cs" Link="SchemaMismatch.cs" />
-    <Compile Include="..\..\csharp_wrapper\SerializationType.cs" Link="SerializationType.cs" />
-    <Compile Include="..\..\csharp_wrapper\Stats.cs" Link="Stats.cs" />
-    <Compile Include="..\..\csharp_wrapper\tiledbcs.cs" Link="tiledbcs.cs" />
-    <Compile Include="..\..\csharp_wrapper\tiledbcsPINVOKE.cs" Link="tiledbcsPINVOKE.cs" />
-    <Compile Include="..\..\csharp_wrapper\TileDBError.cs" Link="TileDBError.cs" />
-    <Compile Include="..\..\csharp_wrapper\TypeError.cs" Link="TypeError.cs" />
-    <Compile Include="..\..\csharp_wrapper\VectorChar.cs" Link="VectorChar.cs" />
-    <Compile Include="..\..\csharp_wrapper\VectorConstChar.cs" Link="VectorConstChar.cs" />
-    <Compile Include="..\..\csharp_wrapper\VectorDouble.cs" Link="VectorDouble.cs" />
-    <Compile Include="..\..\csharp_wrapper\VectorInt32.cs" Link="VectorInt32.cs" />
-    <Compile Include="..\..\csharp_wrapper\VectorInt64.cs" Link="VectorInt64.cs" />
-    <Compile Include="..\..\csharp_wrapper\VectorOfVectorChar.cs" Link="VectorOfVectorChar.cs" />
-    <Compile Include="..\..\csharp_wrapper\VectorOfVectorDouble.cs" Link="VectorOfVectorDouble.cs" />
-    <Compile Include="..\..\csharp_wrapper\VectorOfVectorInt32.cs" Link="VectorOfVectorInt32.cs" />
-    <Compile Include="..\..\csharp_wrapper\VectorOfVectorInt64.cs" Link="VectorOfVectorInt64.cs" />
-    <Compile Include="..\..\csharp_wrapper\VectorOfVectorString.cs" Link="VectorOfVectorString.cs" />
-    <Compile Include="..\..\csharp_wrapper\VectorOfVectorUChar.cs" Link="VectorOfVectorUChar.cs" />
-    <Compile Include="..\..\csharp_wrapper\VectorOfVectorUInt32.cs" Link="VectorOfVectorUInt32.cs" />
-    <Compile Include="..\..\csharp_wrapper\VectorOfVectorUInt64.cs" Link="VectorOfVectorUInt64.cs" />
-    <Compile Include="..\..\csharp_wrapper\VectorString.cs" Link="VectorString.cs" />
-    <Compile Include="..\..\csharp_wrapper\VectorUChar.cs" Link="VectorUChar.cs" />
-    <Compile Include="..\..\csharp_wrapper\VectorUInt32.cs" Link="VectorUInt32.cs" />
-    <Compile Include="..\..\csharp_wrapper\VectorUInt64.cs" Link="VectorUInt64.cs" />
-    <Compile Include="..\..\csharp_wrapper\VFS.cs" Link="VFS.cs" />
-    <Compile Include="..\..\csharp_wrapper\VFSMode.cs" Link="VFSMode.cs" />
-    <Compile Include="..\..\csharp_wrapper\WalkOrderType.cs" Link="WalkOrderType.cs" />
+    <!-- compile files in src/ -->
+    <Compile Include="src\*.cs" />
   </ItemGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$(OS)' == 'Windows_NT'">
+    <OutputPath>../dist/Windows/lib</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">
+    <OutputPath>../dist/Linux/lib</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">
+    <OutputPath>../dist/Darwin/lib</OutputPath>
+  </PropertyGroup>
 
   <ItemGroup Condition=" '$(OS)' == 'Windows_NT' ">
-    <Content Include="..\..\..\dist\Windows\lib\tiledb.dll" CopyToOutputDirectory="PreserveNewest">
+    <Content Include="..\dist\Windows\lib\tiledb.dll" CopyToOutputDirectory="PreserveNewest">
       <Link>tiledb.dll</Link>
     </Content>
-    <Content Include="..\..\..\dist\Windows\lib\tiledbcs.dll" CopyToOutputDirectory="PreserveNewest">
+    <Content Include="..\dist\Windows\lib\tiledbcs.dll" CopyToOutputDirectory="PreserveNewest">
       <Link>tiledbcs.dll</Link>
     </Content>
   </ItemGroup>
   <ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
-    <Content Include="..\..\..\dist\Darwin\lib\libtiledb.dylib" CopyToOutputDirectory="PreserveNewest">
+    <Content Include="..\dist\Darwin\lib\libtiledb.dylib" CopyToOutputDirectory="PreserveNewest">
       <Link>libtiledb.dylib</Link>
     </Content>
-    <Content Include="..\..\..\dist\Darwin\lib\tiledbcs.dylib" CopyToOutputDirectory="PreserveNewest">
+    <Content Include="..\dist\Darwin\lib\tiledbcs.dylib" CopyToOutputDirectory="PreserveNewest">
       <Link>libtiledbcs.dylib</Link>
     </Content>
   </ItemGroup>
   <ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
-     <Content Include="..\..\..\dist\Linux\lib\libtiledb.so" CopyToOutputDirectory="PreserveNewest">
+     <Content Include="..\dist\Linux\lib\libtiledb.so" CopyToOutputDirectory="PreserveNewest">
       <Link>tiledb.so</Link>
     </Content>
-    <Content Include="..\..\..\dist\Linux\lib\tiledbcs.so" CopyToOutputDirectory="PreserveNewest">
+    <Content Include="..\dist\Linux\lib\tiledbcs.so" CopyToOutputDirectory="PreserveNewest">
       <Link>tiledbcs.so</Link>
     </Content>
   </ItemGroup>
