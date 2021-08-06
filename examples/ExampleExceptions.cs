@@ -32,29 +32,42 @@ namespace TileDB.Example
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Start to read a non-existing array...");
+            Console.WriteLine("Start to read/consolidate a non-existing array...");
+            // Create a config
+            TileDB.Config config = new TileDB.Config();
+
+            // Create a context 
+            TileDB.Context ctx = new TileDB.Context(config);
+
+            string array_uri = "test_nonexist_array";
 
             try
             {
-                // Create a config
-                TileDB.Config config = new TileDB.Config();
-
-                // Create a context 
-                TileDB.Context ctx = new TileDB.Context(config);
-
-                string array_uri = "test_nonexist_array";
-
                 // Consolidate the array
                 var arr = new TileDB.Array(ctx, array_uri, TileDB.QueryType.TILEDB_READ);
-
             }
             catch (Exception e)
             {
-                System.Console.WriteLine("got exception:");
+                System.Console.WriteLine("got exception when reading:");
                 System.Console.WriteLine(e.Message);
             }
 
-            Console.WriteLine("Finished reading a non-existing array...");
+
+            try
+            {
+                // Consolidate the array
+                TileDB.Array.consolidate(ctx, array_uri, config);
+
+                // Vacuum the array
+                TileDB.Array.vacuum(ctx, array_uri);
+            }
+            catch (Exception e)
+            {
+                System.Console.WriteLine("got exception when consolidating:");
+                System.Console.WriteLine(e.Message);
+            }
+
+            System.Console.WriteLine("Finished reading and consolidating an array!");
 
             return;
         }
