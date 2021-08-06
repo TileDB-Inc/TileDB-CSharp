@@ -29,10 +29,4 @@
     <Compile Include="../examples/*.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <DistFiles Include="dist/**.dylib"/>
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="../dist/Darwin/lib/**.dylib"  CopyToOutputDirectory="PreserveNewest"  />
-  </ItemGroup>
 </Project>
