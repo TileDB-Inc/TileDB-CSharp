@@ -23,22 +23,27 @@ namespace test
         }
 
         // currently disabled due to ch9397: the C++ TileDBError aborts
-        /*
         [Fact]
-        void TestError()
+        void TestException()
         {
+            /*
+            var ctx = new TileDB.Context();
+            var _ = Assert.Throws<TileDBError>(
+                () => new TileDB.Array(ctx, "/tmptmp/foo/bar", TileDB.QueryType.TILEDB_READ)
+            );
+            */
+
             // using try/catch here because the Assert.Throws version won't compile
-            //   Assert.Throws<TileDBError>(() => new TileDB.Array(...))
             try {
                 var ctx = new TileDB.Context();
-                //var _ = new TileDB.Array(ctx, "/tmptmp/foo/bar", TileDB.tiledb_query_type_t.TILEDB_READ);
-            } catch (Exception e) {
-                Assert.True(true);
+                var _ = new TileDB.Array(ctx, "/tmptmp/foo/bar", TileDB.QueryType.TILEDB_READ);
+            // cannot catch TileDBError yet
+            //} catch (tdb.TileDBError e) {
+            } catch (System.Exception e) {
+                Assert.True(e.Message.Contains("[TileDB::IO] Error: Cannot open filelock"));
                 return;
             }
             Assert.True(false, "unhandled exception");
         }
-        */
-
     }
 }
