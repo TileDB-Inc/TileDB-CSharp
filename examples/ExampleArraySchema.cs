@@ -50,7 +50,7 @@ namespace TileDB.Example
             {
                 schema.check();
             }
-            catch(System.Exception e)
+            catch (System.Exception e)
             {
                 Console.WriteLine(e.Message);
             }

@@ -13,7 +13,8 @@ namespace test
     public class UnitTestExamples
     {
         [Fact]
-        public static void Main() {
+        public static void Main()
+        {
             // This test runs all examples, to exercise them as unit test
 
             var args = new string[0];
@@ -29,7 +30,7 @@ namespace test
                     select t;
 
             // Run all Main methods for classes in 'TileDB.Example' namespace
-            q.ToList().ForEach(t => t.GetMethod("Main").Invoke(t, new object[]{args}));
+            q.ToList().ForEach(t => t.GetMethod("Main").Invoke(t, new object[] { args }));
         }
     }
 }
