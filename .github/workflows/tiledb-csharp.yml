@@ -18,11 +18,6 @@ jobs:
     # Checks out repository
     - uses: actions/checkout@v2
 
-    # Downloads TileDB-Core from release assets and install
-    - name: Run TileDB install script
-      run: ./.github/scripts/install_tiledb_linux.sh
-      shell: bash
-
     # Following action sets up dotnet and uses the strategy matrix to test on
     # specific versions
     - name: Set up dotnet
@@ -55,11 +50,6 @@ jobs:
     steps:
     # Checks out repository
     - uses: actions/checkout@v2
-
-    # Downloads TileDB-Core from release assets and install
-    - name: Run TileDB install script
-      run: ./.github/scripts/install_tiledb_macos.sh
-      shell: bash
 
     # Following action sets up dotnet and uses the strategy matrix to test on
     # specific versions
