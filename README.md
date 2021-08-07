@@ -30,16 +30,15 @@ cmake --build . --target install --config Release
 ### Build c++ Wrapper for Linux or macOS
 ```
 cd cpp
-mkdir build
-cd build
+mkdir build && cd build
 cmake ..
 cmake --build . --target install --config Release
 ```
 ### DotNet build for Windows, Linux or macOS
 ```
-cd csharp/TileDB.CSharp/TileDB.CSharp
+cd TileDB.CSharp
 dotnet build /p:Platform=x64 -c Release
-cd ../TileDB.CSharp.Benchmark
+cd benchmark
 dotnet build /p:Platform=x64 -c Release
 ```
 
