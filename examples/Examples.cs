@@ -28,38 +28,22 @@ using System.Collections.Generic;
 
 namespace TileDB.Example
 {
-    public class ExampleArrayConsolidate
+    public class Examples
     {
-        public static void Run()
+        public static void Main(string[] args)
         {
-            System.Console.WriteLine("Start to consolidate an array...");
-
-            // Create a config
-            TileDB.Config config = new TileDB.Config();
-
-            // Create a context
-            TileDB.Context context = new TileDB.Context(config);
-
-            string array_uri = "test_array";
-
-            try
-            {
-                // Consolidate the array
-                TileDB.Array.consolidate(context, array_uri, config);
-
-                // Vacuum the array
-                TileDB.Array.vacuum(context, array_uri);
-            }
-            catch (Exception e)
-            {
-                System.Console.WriteLine(e.Message);
-            }
-
-            System.Console.WriteLine("Finished consolidating an array!");
+            Console.WriteLine("Running TileDB Examples");
+            ExampleArrayConsolidate.Run();
+            ExampleArraySchema.Run();
+            ExampleConfig.Run();
+            ExampleDenseArray.Run();
+            ExampleExceptions.Run();
+            ExampleSparseArray.Run();
+            ExampleVersion.Run();
+            Console.WriteLine("Finished running TileDB Examples");
 
             return;
         }
-
     }
 
 }

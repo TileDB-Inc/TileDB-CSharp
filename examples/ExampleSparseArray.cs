@@ -30,15 +30,15 @@ namespace TileDB.Example
 {
     public class ExampleSparseArray
     {
-        public static void Main(string[] args)
+        public static void Run()
         {
-            Console.WriteLine("Start to create a simple sparse array...");
+            Console.WriteLine("Start creating sparse array...");
 
             // Create a sparse array
-            CreateSparseSimpleArray();
+            CreateSparseArray();
 
             // Write the sparse array
-            TileDB.QueryStatus status_write = WriteSparseSimpleArray();
+            TileDB.QueryStatus status_write = WriteSparseArray();
             if (status_write == TileDB.QueryStatus.TILEDB_FAILED)
             {
                 Console.WriteLine("Failed to write the sparse array!");
@@ -49,7 +49,7 @@ namespace TileDB.Example
             }
 
             // Read the sparse array
-            TileDB.QueryStatus status_read = ReadSparseSimpleArray();
+            TileDB.QueryStatus status_read = ReadSparseArray();
             if (status_read == TileDB.QueryStatus.TILEDB_FAILED)
             {
                 Console.WriteLine("Failed to read the sparse array!");
@@ -59,13 +59,16 @@ namespace TileDB.Example
                 Console.WriteLine("Finished reading the sparse array.");
             }
 
+            // Remove sparse array
+            RemoveSparseArray();
+
             return;
         }
 
         private static String array_uri_ = "test_sparse_array";
 
-        #region Simple Sparse Array
-        private static void CreateSparseSimpleArray()
+        #region Sparse Array
+        private static void CreateSparseArray()
         {
             TileDB.Context ctx = new TileDB.Context();
             TileDB.Domain dom = new TileDB.Domain(ctx);
@@ -77,19 +80,24 @@ namespace TileDB.Example
             TileDB.Attribute attr1 = TileDB.Attribute.create_attribute(ctx, "a", TileDB.DataType.TILEDB_INT32);
             schema.add_attribute(attr1);
 
-            //delete array if it already exists
+            //create array
+            TileDB.Array.create(array_uri_, schema);
+
+        }//private void CreateSparseArray()
+
+        private static void RemoveSparseArray()
+        {
+            TileDB.Context ctx = new TileDB.Context();
+
+            // Delete array if it already exists
             TileDB.VFS vfs = new TileDB.VFS(ctx);
             if (vfs.is_dir(array_uri_))
             {
                 vfs.remove_dir(array_uri_);
             }
+        }//private void RemoveSparseArray()
 
-            //create array
-            TileDB.Array.create(array_uri_, schema);
-
-        }//private void CreateSparseSimpleArray()
-
-        private static TileDB.QueryStatus WriteSparseSimpleArray()
+        private static TileDB.QueryStatus WriteSparseArray()
         {
             TileDB.Context ctx = new TileDB.Context();
 
@@ -123,9 +131,9 @@ namespace TileDB.Example
 
             return status;
 
-        }//private void WriteSparseSimpleArray()
+        }//private void WriteSparseArray()
 
-        private static TileDB.QueryStatus ReadSparseSimpleArray()
+        private static TileDB.QueryStatus ReadSparseArray()
         {
             TileDB.Context ctx = new TileDB.Context();
 
@@ -156,7 +164,7 @@ namespace TileDB.Example
             array.close();
 
             return status;
-        }//private TileDB.QueryStatus ReadSimpleSparseArray()
+        }//private TileDB.QueryStatus ReadSparseArray()
 
         #endregion
 
