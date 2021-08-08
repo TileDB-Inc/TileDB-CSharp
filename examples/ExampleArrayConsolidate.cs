@@ -50,6 +50,9 @@ namespace TileDB.Example
                 // Vacuum the array
                 TileDB.Array.vacuum(context, array_uri);
             }
+            catch(TileDB.TileDBError tdbe) {
+                System.Console.WriteLine(tdbe.Message);
+            }
             catch (Exception e)
             {
                 System.Console.WriteLine(e.Message);
