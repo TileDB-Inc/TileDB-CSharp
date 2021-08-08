@@ -6,20 +6,9 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
-	<ItemGroup Condition=" '$(OS)' == 'Windows_NT' ">
-		<None Include="..\..\dist\Windows\lib\tiledb.dll" Link="tiledb.dll">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Include="..\..\dist\Windows\lib\tiledbcs.dll" Link="tiledbcs.dll">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Include="..\..\dist\Windows\lib\zlib.dll" Link="zlib.dll">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<Reference Include="TileDB.CSharp">
-			<HintPath>..\..\dist\Windows\lib\net5.0\TileDB.CSharp.dll</HintPath>
-		</Reference>		
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\TileDB.CSharp\TileDB.CSharp.csproj"/>
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Include="..\ExampleArrayConsolidate.cs" Link="ExampleVersion.cs" />
