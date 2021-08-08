@@ -30,15 +30,15 @@ namespace TileDB.Example
 {
     public class ExampleDenseArray
     {
-        public static void Main(string[] args)
+        public static void Run()
         {
-            Console.WriteLine("Start to create a simple dense array...");
+            Console.WriteLine("Start to create a dense array...");
 
             // Create a dense array
-            CreateDenseSimpleArray();
+            CreateDenseArray();
 
             // Write the dense array
-            TileDB.QueryStatus status_write = WriteDenseSimpleArray();
+            TileDB.QueryStatus status_write = WriteDenseArray();
             if (status_write == TileDB.QueryStatus.TILEDB_FAILED)
             {
                 Console.WriteLine("Failed to write the dense array!");
@@ -49,7 +49,7 @@ namespace TileDB.Example
             }
 
             // Read the dense array
-            TileDB.QueryStatus status_read = ReadDenseSimpleArray();
+            TileDB.QueryStatus status_read = ReadDenseArray();
             if (status_read == TileDB.QueryStatus.TILEDB_FAILED)
             {
                 Console.WriteLine("Failed to read the dense array!");
@@ -59,13 +59,16 @@ namespace TileDB.Example
                 Console.WriteLine("Finished reading the dense array.");
             }
 
+            // Remove dense array
+            RemoveDenseArray();
+
             return;
         }
 
         private static String array_uri_ = "test_dense_array";
 
-        #region Simple Dense Array
-        private static void CreateDenseSimpleArray()
+        #region Dense Array
+        private static void CreateDenseArray()
         {
             TileDB.Context ctx = new TileDB.Context();
             TileDB.Domain dom = new TileDB.Domain(ctx);
@@ -77,19 +80,24 @@ namespace TileDB.Example
             TileDB.Attribute attr1 = TileDB.Attribute.create_attribute(ctx, "a", TileDB.DataType.TILEDB_INT32);
             schema.add_attribute(attr1);
 
-            //delete array if it already exists
+            //create array
+            TileDB.Array.create(array_uri_, schema);
+
+        }//private void CreateDenseArray()
+
+        private static void RemoveDenseArray()
+        {
+            TileDB.Context ctx = new TileDB.Context();
+
+            // Delete array if it already exists
             TileDB.VFS vfs = new TileDB.VFS(ctx);
             if (vfs.is_dir(array_uri_))
             {
                 vfs.remove_dir(array_uri_);
             }
+        }//private void RemoveDenseArray()
 
-            //create array
-            TileDB.Array.create(array_uri_, schema);
-
-        }//private void CreateDenseSimpleArray()
-
-        private static TileDB.QueryStatus WriteDenseSimpleArray()
+        private static TileDB.QueryStatus WriteDenseArray()
         {
             TileDB.Context ctx = new TileDB.Context();
 
@@ -111,9 +119,9 @@ namespace TileDB.Example
 
             return status;
 
-        }//private void WriteDenseSimpleArray()
+        }//private void WriteDenseArray()
 
-        private static TileDB.QueryStatus ReadDenseSimpleArray()
+        private static TileDB.QueryStatus ReadDenseArray()
         {
             TileDB.Context ctx = new TileDB.Context();
 
@@ -138,7 +146,7 @@ namespace TileDB.Example
             array.close();
 
             return status;
-        }//private TileDB.QueryStatus ReadDenseSimpleArray()
+        }//private TileDB.QueryStatus ReadDenseArray()
         #endregion
 
 

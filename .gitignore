@@ -39,3 +39,5 @@ TileDB.CSharp/benchmark/bin
 examples/TileDB.Example/bin/
 examples/TileDB.Example/obj/
 dist
+test/bin
+test/obj
