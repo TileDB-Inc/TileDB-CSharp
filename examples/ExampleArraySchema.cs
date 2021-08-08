@@ -50,6 +50,10 @@ namespace TileDB.Example
             {
                 schema.check();
             }
+            catch(TileDB.TileDBError tdbe)
+            {
+                Console.WriteLine(tdbe.Message);
+            }
             catch (System.Exception e)
             {
                 Console.WriteLine(e.Message);

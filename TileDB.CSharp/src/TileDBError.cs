@@ -10,7 +10,7 @@
 
 namespace TileDB {
 
-public class TileDBError : global::System.IDisposable {
+public class TileDBError : global::System.Exception {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   private bool swigCMemOwnBase;
 

@@ -46,6 +46,11 @@ namespace TileDB.Example
                 // Consolidate the array
                 var arr = new TileDB.Array(ctx, array_uri, TileDB.QueryType.TILEDB_READ);
             }
+            catch (TileDB.TileDBError tdbe)
+            {
+                System.Console.WriteLine("got TileDBError exception:");
+                System.Console.WriteLine(tdbe.Message);
+            }
             catch (Exception e)
             {
                 System.Console.WriteLine("got exception when reading:");
@@ -60,6 +65,11 @@ namespace TileDB.Example
 
                 // Vacuum the array
                 TileDB.Array.vacuum(ctx, array_uri);
+            }
+            catch (TileDB.TileDBError tdbe)
+            {
+                System.Console.WriteLine("got TileDBError exception:");
+                System.Console.WriteLine(tdbe.Message);
             }
             catch (Exception e)
             {
