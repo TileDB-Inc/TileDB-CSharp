@@ -2659,6 +2659,90 @@ class tiledbcsPINVOKE {
   [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_delete_MapStringPairInt64Int64")]
   public static extern void delete_MapStringPairInt64Int64(global::System.Runtime.InteropServices.HandleRef jarg1);
 
+  class TileDBErrorExceptionHelper {
+    // C# delegate for the C/C++ tileDBErrorExceptionCallback
+    public delegate void TileDBErrorExceptionDelegate(string message);
+    static TileDBErrorExceptionDelegate tileDBErrorDelegate =
+                                   new TileDBErrorExceptionDelegate(SetPendingTileDBErrorException);
+
+    [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="TileDBErrorExceptionRegisterCallback")]
+    public static extern
+           void TileDBErrorExceptionRegisterCallback(TileDBErrorExceptionDelegate tileDBErrorCallback);
+
+    static void SetPendingTileDBErrorException(string message) {
+      SWIGPendingException.Set(new TileDB.TileDBError(message));
+    }
+
+    static TileDBErrorExceptionHelper() {
+      TileDBErrorExceptionRegisterCallback(tileDBErrorDelegate);
+    }
+  }
+  static TileDBErrorExceptionHelper tileDBErrorExceptionHelper = new TileDBErrorExceptionHelper();
+
+
+  class TypeErrorExceptionHelper {
+    // C# delegate for the C/C++ typeErrorExceptionCallback
+    public delegate void TypeErrorExceptionDelegate(string message);
+    static TypeErrorExceptionDelegate typeErrorDelegate =
+                                   new TypeErrorExceptionDelegate(SetPendingTypeErrorException);
+
+    [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="TypeErrorExceptionRegisterCallback")]
+    public static extern
+           void TypeErrorExceptionRegisterCallback(TypeErrorExceptionDelegate typeErrorCallback);
+
+    static void SetPendingTypeErrorException(string message) {
+      SWIGPendingException.Set(new TileDB.TypeError(message));
+    }
+
+    static TypeErrorExceptionHelper() {
+      TypeErrorExceptionRegisterCallback(typeErrorDelegate);
+    }
+  }
+  static TypeErrorExceptionHelper typeErrorExceptionHelper = new TypeErrorExceptionHelper();
+
+
+  class SchemaMismatchExceptionHelper {
+    // C# delegate for the C/C++ schemaMismatchExceptionCallback
+    public delegate void SchemaMismatchExceptionDelegate(string message);
+    static SchemaMismatchExceptionDelegate schemaMismatchDelegate =
+                                   new SchemaMismatchExceptionDelegate(SetPendingSchemaMismatchException);
+
+    [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="SchemaMismatchExceptionRegisterCallback")]
+    public static extern
+           void SchemaMismatchExceptionRegisterCallback(SchemaMismatchExceptionDelegate schemaMismatchCallback);
+
+    static void SetPendingSchemaMismatchException(string message) {
+      SWIGPendingException.Set(new TileDB.SchemaMismatch(message));
+    }
+
+    static SchemaMismatchExceptionHelper() {
+      SchemaMismatchExceptionRegisterCallback(schemaMismatchDelegate);
+    }
+  }
+  static SchemaMismatchExceptionHelper schemaMismatchExceptionHelper = new SchemaMismatchExceptionHelper();
+
+
+  class AttributeErrorExceptionHelper {
+    // C# delegate for the C/C++ attributeErrorExceptionCallback
+    public delegate void AttributeErrorExceptionDelegate(string message);
+    static AttributeErrorExceptionDelegate attributeErrorDelegate =
+                                   new AttributeErrorExceptionDelegate(SetPendingAttributeErrorException);
+
+    [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="AttributeErrorExceptionRegisterCallback")]
+    public static extern
+           void AttributeErrorExceptionRegisterCallback(AttributeErrorExceptionDelegate attributeErrorCallback);
+
+    static void SetPendingAttributeErrorException(string message) {
+      SWIGPendingException.Set(new TileDB.AttributeError(message));
+    }
+
+    static AttributeErrorExceptionHelper() {
+      AttributeErrorExceptionRegisterCallback(attributeErrorDelegate);
+    }
+  }
+  static AttributeErrorExceptionHelper attributeErrorExceptionHelper = new AttributeErrorExceptionHelper();
+
+
   [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_new_TileDBError")]
   public static extern global::System.IntPtr new_TileDBError(string jarg1);
 

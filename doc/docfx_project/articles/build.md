@@ -13,7 +13,7 @@ cd cpp
 mkdir build
 cd build
 cmake ..
-cmake --build . --target install --config Release
+cmake --build . --target install --config Releasecd
 ```
 ### DotNet build for Windows, Linux or macOS
 ```
