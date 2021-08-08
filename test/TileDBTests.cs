@@ -37,8 +37,10 @@ namespace test
             try {
                 var ctx = new TileDB.Context();
                 var _ = new TileDB.Array(ctx, "/tmptmp/foo/bar", TileDB.QueryType.TILEDB_READ);
-            // cannot catch TileDBError yet
-            //} catch (tdb.TileDBError e) {
+            } catch (tdb.TileDBError e) {
+                //caught TileDBError
+                Assert.True(true);
+                return;
             } catch (System.Exception e) {
                 Assert.True(e.Message.Contains("TileDBError"));
                 return;
