@@ -23,6 +23,7 @@
  * SOFTWARE.
  */
 using System;
+using System.IO;
 using System.Text;
 using System.Collections.Generic;
 
@@ -30,8 +31,9 @@ namespace TileDB.Example
 {
     public class ExampleArraySchema
     {
-        public static void Main(string[] args)
+        public static void Run()
         {
+            const string tempSchema = "temp.schema";
 
             TileDB.Context ctx = new TileDB.Context();//Create context
             TileDB.Domain dom = new TileDB.Domain(ctx);//Create domain
@@ -60,8 +62,9 @@ namespace TileDB.Example
             }
 
             // Dump schema to file
-            schema.dump("temp.schema");
+            schema.dump(tempSchema);
 
+            File.Delete(tempSchema);
 
             return;
         }

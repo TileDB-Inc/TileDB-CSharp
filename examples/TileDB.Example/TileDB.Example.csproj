@@ -21,44 +21,15 @@
 		</Reference>		
 	</ItemGroup>
 
- 
-
-	<ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
-		<None Include="..\..\dist\Linux\lib\libtiledb.so.2.3" Link="libtiledb.so.2.3">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Include="..\..\dist\Linux\lib\tiledbcs.so" Link="tiledbcs.so">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Include="..\..\dist\Linux\lib\libz.so" Link="libz.so">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<Reference Include="TileDB.CSharp">
-			<HintPath>..\..\dist\Linux\lib\net5.0\TileDB.CSharp.dll</HintPath>
-		</Reference>		
-	</ItemGroup>
- 
-
-	<ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
-		<None Include="..\..\dist\Darwin\lib\libtiledb.dylib" Link="libtiledb.dylib">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Include="..\..\dist\Darwin\lib\tiledbcs.dylib" Link="tiledbcs.dylib">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Include="..\..\dist\Darwin\lib\libz.dylib" Link="libz.dylib">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<Reference Include="TileDB.CSharp">
-			<HintPath>..\..\dist\Darwin\lib\net5.0\TileDB.CSharp.dll</HintPath>
-		</Reference>		
-	</ItemGroup>
- 
-
-	<ItemGroup>
-	  <Compile Include="..\ExampleDenseArray.cs" Link="ExampleDenseArray.cs" />
-	</ItemGroup>
- 
- 
+  <ItemGroup>
+    <Compile Include="..\ExampleArrayConsolidate.cs" Link="ExampleVersion.cs" />
+    <Compile Include="..\ExampleArraySchema.cs" Link="ExampleArraySchema.cs" />
+    <Compile Include="..\ExampleConfig.cs" Link="ExampleConfig.cs" />
+    <Compile Include="..\ExampleDenseArray.cs" Link="ExampleDenseArray.cs" />
+    <Compile Include="..\ExampleExceptions.cs" Link="ExampleExceptions.cs" />
+    <Compile Include="..\ExampleSparseArray.cs" Link="ExampleSparseArray.cs" />
+    <Compile Include="..\ExampleVersion.cs" Link="ExampleVersion.cs" />
+    <Compile Include="..\Examples.cs" Link="Examples.cs" />
+  </ItemGroup>
 
 </Project>
