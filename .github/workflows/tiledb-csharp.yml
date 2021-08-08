@@ -42,6 +42,11 @@ jobs:
     - name: Run example
       run: ./.github/scripts/run_example_linux.sh
 
+    - name: Run tests
+      run: |
+        cd test
+        dotnet test
+
   Macos_Example:
     runs-on: macos-latest
     strategy:
@@ -74,3 +79,8 @@ jobs:
     # Run example
     - name: Run example
       run: ./.github/scripts/run_example_mac.sh
+
+    - name: Run tests
+      run: |
+        cd test
+        dotnet test
