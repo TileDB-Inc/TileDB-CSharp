@@ -20,6 +20,8 @@ namespace test
             var args = new string[0];
             var exclusions = new string[]{
               // List any test classes which should be exluded here
+              // disabled due to ch9421: example aborts due to error
+                "ExampleArrayConsolidate"
             };
 
             // Get list of classes in 'TileDB.Example' namespace

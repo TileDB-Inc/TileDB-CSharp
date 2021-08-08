@@ -40,7 +40,7 @@ namespace test
             // cannot catch TileDBError yet
             //} catch (tdb.TileDBError e) {
             } catch (System.Exception e) {
-                Assert.True(e.Message.Contains("[TileDB::IO] Error: Cannot open filelock"));
+                Assert.True(e.Message.Contains("TileDBError"));
                 return;
             }
             Assert.True(false, "unhandled exception");
