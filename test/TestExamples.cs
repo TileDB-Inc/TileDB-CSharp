@@ -31,8 +31,7 @@ namespace test
                     select t;
 
             // Run all Main methods for classes in 'TileDB.Example' namespace
-            // Will enable it later
-            //q.ToList().ForEach(t => t.GetMethod("Main").Invoke(t, new object[] { args }));
+            q.ToList().ForEach(t => t.GetMethod("Main").Invoke(t, new object[] { args }));
 
         }
     }
