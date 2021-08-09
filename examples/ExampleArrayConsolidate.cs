@@ -30,7 +30,7 @@ namespace TileDB.Example
 {
     public class ExampleArrayConsolidate
     {
-        public static void Run()
+        public static void Main(string[] args)
         {
             System.Console.WriteLine("Start to consolidate an array...");
 

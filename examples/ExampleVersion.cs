@@ -30,7 +30,7 @@ namespace TileDB.Example
 {
     public class ExampleVersion
     {
-        public static void Run()
+        public static void Main(string[] args)
         {
             // Get TileDB version
             String tiledb_version = TileDB.ArrayUtil.get_tiledb_version();

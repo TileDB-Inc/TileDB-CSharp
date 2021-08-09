@@ -23,7 +23,6 @@
  * SOFTWARE.
  */
 using System;
-using System.IO;
 using System.Text;
 using System.Collections.Generic;
 
@@ -31,10 +30,8 @@ namespace TileDB.Example
 {
     public class ExampleConfig
     {
-        public static void Run()
+        public static void Main(string[] args)
         {
-            const string tempConfig = "temp.cfg";
-
             TileDB.Config config = new TileDB.Config();
 
             // Set values
@@ -47,12 +44,10 @@ namespace TileDB.Example
             Console.WriteLine("memory_budget:{0}", memory_budget);
 
             // Save to a file
-            config.save_to_file(tempConfig);
+            config.save_to_file("temp.cfg");
 
             // Assign a config object to a context
             TileDB.Context ctx = new TileDB.Context(config);
-
-            File.Delete(tempConfig);
 
             return;
         }
