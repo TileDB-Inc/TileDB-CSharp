@@ -280,6 +280,14 @@ class Domain {
 		  c_ctx, domain_.get(), d.ptr().get()));
   }
 
+  void add_float32_dimension(const std::string& name, float bound_lower, float bound_upper, float extent)
+  {
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+	  tiledb::Dimension d = Dimension::create_float32_dimension(ctx_, name, bound_lower, bound_upper, extent);
+	  ctx_->handle_error(tiledb_domain_add_dimension(
+		  c_ctx, domain_.get(), d.ptr().get()));
+  }  
+
   void add_double_dimension(const std::string& name, double bound_lower, double bound_upper, double extent)
   {
 	  tiledb_ctx_t* c_ctx = ctx_->ptr().get();

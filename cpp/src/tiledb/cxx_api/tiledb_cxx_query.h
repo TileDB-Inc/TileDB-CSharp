@@ -865,6 +865,10 @@ void set_uint64_coordinates(std::vector<uint64_t>& buf) {
     set_coordinates(buf);
 }
 
+void set_float32_coordinates(std::vector<float>& buf) {
+    set_coordinates(buf);
+}
+
 void set_double_coordinates(std::vector<double>& buf) {
     set_coordinates(buf);
 }
@@ -1008,6 +1012,22 @@ void set_double_coordinates(std::vector<double>& buf) {
 		  buf.data(), //buff,
 		  &(buff_sizes_[attr].second)));
   }
+
+  void set_float32_vector_buffer(const std::string& attr, std::vector<float>& buf) {
+//	  return set_buffer(name, buf.data(), buf.size(), sizeof(double));
+	  size_t nelements = buf.size();
+	  uint64_t element_size = sizeof(float);
+	  tiledb_ctx_t* c_ctx = ctx_->ptr().get(); //auto ctx = ctx_.get();
+	  size_t size = nelements * element_size;
+	  buff_sizes_[attr] = std::pair<uint64_t, uint64_t>(0, size);
+	  element_sizes_[attr] = element_size;
+	  ctx_->handle_error(tiledb_query_set_buffer(
+		  c_ctx,
+		  query_.get(),
+		  attr.c_str(),
+		  buf.data(), //buff,
+		  &(buff_sizes_[attr].second)));
+  }  
 
   void set_double_vector_buffer(const std::string& attr, std::vector<double>& buf) {
 //	  return set_buffer(name, buf.data(), buf.size(), sizeof(double));
