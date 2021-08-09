@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TileDB.CSharp\TileDB.CSharp.csproj" />
+    <Compile Include="..\ExampleDenseArray.cs" Link="ExampleDenseArray.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\ExampleDenseArray.cs" Link="ExampleDenseArray.cs" />
+    <ProjectReference Include="..\..\TileDB.CSharp\TileDB.CSharp.csproj" />
   </ItemGroup>
 
 </Project>

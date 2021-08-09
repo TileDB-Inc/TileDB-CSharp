@@ -29,7 +29,7 @@ namespace TileDB.Example
 {
     public class ExampleReadDenseLayouts
     {
-        public static void Run()
+        public static void Main(string[] args)
         {
             Console.WriteLine("Start to create a dense array...");
 
@@ -100,7 +100,7 @@ namespace TileDB.Example
         {
             TileDB.Context ctx = new TileDB.Context();
 
-            int[] array_values = new int[]{ 1, 2, 5, 6, 3, 4, 7, 8, 9, 10, 13, 14, 11, 12, 15, 16 };
+            int[] array_values = new int[16]{ 1, 2, 5, 6, 3, 4, 7, 8, 9, 10, 13, 14, 11, 12, 15, 16 };
             TileDB.VectorInt32 data = new TileDB.VectorInt32(array_values);
 
             //open array for write
