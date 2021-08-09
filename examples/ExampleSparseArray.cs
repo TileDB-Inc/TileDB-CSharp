@@ -123,8 +123,8 @@ namespace TileDB.Example
             TileDB.Query query = new TileDB.Query(ctx, array, TileDB.QueryType.TILEDB_WRITE);
             query.set_layout(TileDB.LayoutType.TILEDB_UNORDERED);
             query.set_int32_vector_buffer("a", data);
-            query.set_int32_vector_buffer("rows", coords_rows);
-            query.set_int32_vector_buffer("cols", coords_cols);
+            query.set_vector_buffer("rows", coords_rows, VectorInt32.getCPtr(coords_rows));
+            query.set_vector_buffer("cols", coords_cols, VectorInt32.getCPtr(coords_cols));
 
             TileDB.QueryStatus status = query.submit();
             array.close();
@@ -157,8 +157,8 @@ namespace TileDB.Example
             query.set_layout(TileDB.LayoutType.TILEDB_ROW_MAJOR);
             query.set_int32_subarray(subarray);
             query.set_int32_vector_buffer("a", data);
-            query.set_int32_vector_buffer("rows", coords_rows);
-            query.set_int32_vector_buffer("cols", coords_cols);
+            query.set_vector_buffer("rows", coords_rows, VectorInt32.getCPtr(coords_rows));
+            query.set_vector_buffer("cols", coords_cols, VectorInt32.getCPtr(coords_cols));
 
             TileDB.QueryStatus status = query.submit();
             array.close();

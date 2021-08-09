@@ -13,14 +13,14 @@ namespace TileDB {
 public class VectorDouble : global::System.IDisposable, global::System.Collections.IEnumerable, global::System.Collections.Generic.IList<double>
  {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
-  protected bool swigCMemOwn;
+  public bool swigCMemOwn;
 
-  internal VectorDouble(global::System.IntPtr cPtr, bool cMemoryOwn) {
+  public VectorDouble(global::System.IntPtr cPtr, bool cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
   }
 
-  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(VectorDouble obj) {
+  public static global::System.Runtime.InteropServices.HandleRef getCPtr(VectorDouble obj) {
     return (obj == null) ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : obj.swigCPtr;
   }
 

@@ -140,7 +140,7 @@ namespace TileDB.Example
             TileDB.Query query = new TileDB.Query(ctx, array, TileDB.QueryType.TILEDB_READ);
             query.set_layout(TileDB.LayoutType.TILEDB_ROW_MAJOR);
             query.set_int32_subarray(subarray);
-            query.set_int32_vector_buffer("a", data);
+            query.set_vector_buffer("a", data, VectorInt32.getCPtr(data));
 
             TileDB.QueryStatus status = query.submit();
             array.close();

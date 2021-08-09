@@ -13,14 +13,14 @@ namespace TileDB {
 public class VectorInt32 : global::System.IDisposable, global::System.Collections.IEnumerable, global::System.Collections.Generic.IList<int>
  {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
-  protected bool swigCMemOwn;
+  public bool swigCMemOwn;
 
-  internal VectorInt32(global::System.IntPtr cPtr, bool cMemoryOwn) {
+  public VectorInt32(global::System.IntPtr cPtr, bool cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
   }
 
-  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(VectorInt32 obj) {
+  public static global::System.Runtime.InteropServices.HandleRef getCPtr(VectorInt32 obj) {
     return (obj == null) ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : obj.swigCPtr;
   }
 
