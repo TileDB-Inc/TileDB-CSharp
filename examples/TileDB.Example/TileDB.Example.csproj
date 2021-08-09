@@ -11,14 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\ExampleArrayConsolidate.cs" Link="ExampleVersion.cs" />
-    <Compile Include="..\ExampleArraySchema.cs" Link="ExampleArraySchema.cs" />
-    <Compile Include="..\ExampleConfig.cs" Link="ExampleConfig.cs" />
     <Compile Include="..\ExampleDenseArray.cs" Link="ExampleDenseArray.cs" />
-    <Compile Include="..\ExampleExceptions.cs" Link="ExampleExceptions.cs" />
-    <Compile Include="..\ExampleSparseArray.cs" Link="ExampleSparseArray.cs" />
-    <Compile Include="..\ExampleVersion.cs" Link="ExampleVersion.cs" />
-    <Compile Include="..\Examples.cs" Link="Examples.cs" />
   </ItemGroup>
 
 </Project>

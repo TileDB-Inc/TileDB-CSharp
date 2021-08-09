@@ -30,7 +30,7 @@ namespace TileDB.Example
 {
     public class ExampleExceptions
     {
-        public static void Run()
+        public static void Main(string[] args)
         {
             Console.WriteLine("Start to read/consolidate a non-existing array...");
             // Create a config
