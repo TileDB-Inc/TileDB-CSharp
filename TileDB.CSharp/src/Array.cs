@@ -181,6 +181,12 @@ public class Array : global::System.IDisposable {
     return ret;
   }
 
+  public string non_empty_domain_json_str() {
+    string ret = tiledbcsPINVOKE.Array_non_empty_domain_json_str(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public PairStringString non_empty_domain_var(uint idx) {
     PairStringString ret = new PairStringString(tiledbcsPINVOKE.Array_non_empty_domain_var__SWIG_0(swigCPtr, idx), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();

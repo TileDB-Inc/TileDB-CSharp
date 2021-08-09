@@ -530,8 +530,8 @@ def get_tiledb_dir_cfginfo_map():
     default_dir_cfginfo['namespaces']=['tiledb','IB']
 #    
     cppapi_dir_cfginfo=copy.deepcopy(default_dir_cfginfo)
-    cppapi_dir_cfginfo["dir"]="../cpp/src/tiledb/cxx_api"
-    cppapi_dir_cfginfo["ignore_file_keywords"]=['typedef','deleter','schema_base.h','arrow_io',"tiledb.h","tiledb_cxx.h","tiledb_cxx_exception.h","tiledb_cxx_type.h","tiledb_cxx_core_interface","tiledb_cxx_object","tiledb_cxx_utils","tiledb_enum","tiledb_export","tiledb_serialization","tiledb_struct_def","tiledb_version"]
+    cppapi_dir_cfginfo["dir"]="../src/tiledb/cxx_api"
+    cppapi_dir_cfginfo["ignore_file_keywords"]=['typedef','deleter','schema_base.h','arrow_io',"tiledb.h","tiledb_cxx.h","tiledb_cxx_exception.h","tiledb_cxx_type.h","tiledb_cxx_core_interface","tiledb_cxx_object","tiledb_cxx_string_util","tiledb_cxx_utils","tiledb_enum","tiledb_export","tiledb_serialization","tiledb_struct_def","tiledb_version"]
 
     cppapi_dir_cfginfo['ignore_class_keywords']=['VectorData','MapData','PrimitiveColumnData','VectorColumnData','GenericColumnData']
 #    

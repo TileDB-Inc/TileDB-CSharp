@@ -114,6 +114,11 @@ public class Domain : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public void add_float32_dimension(string name, float bound_lower, float bound_upper, float extent) {
+    tiledbcsPINVOKE.Domain_add_float32_dimension(swigCPtr, name, bound_lower, bound_upper, extent);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
   public void add_double_dimension(string name, double bound_lower, double bound_upper, double extent) {
     tiledbcsPINVOKE.Domain_add_double_dimension(swigCPtr, name, bound_lower, bound_upper, extent);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();

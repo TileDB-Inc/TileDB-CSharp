@@ -20,6 +20,7 @@ set(TILEDB_CXX_API_SOURCES
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_deleter.h
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_dimension.h
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_domain.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_enum.h
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_exception.h
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_filter.h
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_filter_list.h
@@ -31,8 +32,8 @@ set(TILEDB_CXX_API_SOURCES
    ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_query_condition.h
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_schema_base.h
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_stats.h
- # ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_string_util.h
- # ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_string_util.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_string_util.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_string_util.cc
  ## ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx.h
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_enum.h
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_type.h

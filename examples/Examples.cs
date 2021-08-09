@@ -40,6 +40,7 @@ namespace TileDB.Example
             ExampleExceptions.Run();
             ExampleSparseArray.Run();
             ExampleVersion.Run();
+            ExampleReadDenseLayouts.Run();
             Console.WriteLine("Finished running TileDB Examples");
 
             return;

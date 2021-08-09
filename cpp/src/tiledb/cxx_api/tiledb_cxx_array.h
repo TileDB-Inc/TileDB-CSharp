@@ -39,6 +39,7 @@
 #include "tiledb.h"
 #include "tiledb_cxx_type.h"
 #include "tiledb_cxx_enum.h"
+#include "tiledb_cxx_string_util.h"
 
 #include <map>
 #include <unordered_map>
@@ -944,6 +945,56 @@ class Array {
   }
 
   /**
+   * Retrieves the non-empty domain json string information from the array. This is the union of the
+   * non-empty domains of the array fragments.
+   *
+   *
+   * **Example:**
+   * @code{.cpp}
+   * tiledb::Context ctx;
+   * tiledb::Array array(ctx, "s3://bucket-name/array-name", TILEDB_READ);
+   * // Specify the domain type (example uint32_t)
+   * std::string non_empty_json = array.non_empty_domain_json_str();
+   * std::cout << non_empty_json << std::endl;
+   * @endcode
+   *
+   * @return json string representative of non-empty domain.
+   */
+  std::string non_empty_domain_json_str() {
+    std::stringstream ss;
+
+    ss <<"{";
+
+    std::vector<std::string> dim_names = schema_.domain().dimension_names();
+    int count=0;
+    for (size_t i = 0; i < dim_names.size(); ++i) {
+      std::string dim_name = dim_names[i];
+      auto dim = schema_.domain().dimension(dim_name);
+      std::string domain_str = dim.domain_to_str();
+
+      std::string temp_str= domain_str;
+      bool isok = StringUtil::replace_first(temp_str,"[","");
+      isok = StringUtil::replace_last(temp_str,"]","");
+      std::vector<std::string> items = StringUtil::split(temp_str,",",true);
+      if(items.size()==2 && items[0]==items[1]) {
+        //Empty domain
+        continue;
+      }
+
+      if(count>0)
+      {
+        ss <<",";
+      }
+      ss <<"\"" << dim_name <<"\":" << domain_str;
+      count++;
+    }
+
+    ss << "}";
+
+    return ss.str();
+  }
+
+  /**
    * Retrieves the non-empty domain from the array on the given dimension.
    * This is the union of the non-empty domains of the array fragments.
    *
@@ -979,6 +1030,8 @@ class Array {
     ret = std::pair<T, T>(buf[0], buf[1]);
     return ret;
   }
+
+ 
 
   /**
    * Retrieves the non-empty domain from the array on the given dimension.

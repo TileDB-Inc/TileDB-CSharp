@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TileDB.CSharp\TileDB.CSharp.csproj"/>
+    <ProjectReference Include="..\..\TileDB.CSharp\TileDB.CSharp.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +16,7 @@
     <Compile Include="..\ExampleConfig.cs" Link="ExampleConfig.cs" />
     <Compile Include="..\ExampleDenseArray.cs" Link="ExampleDenseArray.cs" />
     <Compile Include="..\ExampleExceptions.cs" Link="ExampleExceptions.cs" />
+    <Compile Include="..\ExampleReadDenseLayouts.cs" Link="ExampleReadDenseLayouts.cs" />
     <Compile Include="..\ExampleSparseArray.cs" Link="ExampleSparseArray.cs" />
     <Compile Include="..\ExampleVersion.cs" Link="ExampleVersion.cs" />
     <Compile Include="..\Examples.cs" Link="Examples.cs" />

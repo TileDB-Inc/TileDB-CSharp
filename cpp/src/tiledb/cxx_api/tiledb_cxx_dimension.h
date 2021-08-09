@@ -583,6 +583,14 @@ class Dimension {
 	  return Dimension::create<uint64_t>(ctx, name, bound, extent);
   }
 
+  static tiledb::Dimension create_float32_dimension(const std::shared_ptr<tiledb::Context>& ctx, const std::string& name, float bound_lower, float bound_upper, float extent)
+  {
+	  std::array<float, 2> bound;
+	  bound[0] = bound_lower;
+	  bound[1] = bound_upper;
+	  return Dimension::create<float>(ctx, name, bound, extent);
+  }
+
   static tiledb::Dimension create_double_dimension(const std::shared_ptr<tiledb::Context>& ctx, const std::string& name, double bound_lower, double bound_upper, double extent)
   {
 	  std::array<double, 2> bound;

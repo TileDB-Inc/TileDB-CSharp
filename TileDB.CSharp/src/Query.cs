@@ -205,6 +205,11 @@ public class Query : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public void set_float32_coordinates(VectorFloat32 buf) {
+    tiledbcsPINVOKE.Query_set_float32_coordinates(swigCPtr, VectorFloat32.getCPtr(buf));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
   public void set_double_coordinates(VectorDouble buf) {
     tiledbcsPINVOKE.Query_set_double_coordinates(swigCPtr, VectorDouble.getCPtr(buf));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
@@ -227,6 +232,11 @@ public class Query : global::System.IDisposable {
 
   public void set_uint64_vector_buffer(string attr, VectorUInt64 buf) {
     tiledbcsPINVOKE.Query_set_uint64_vector_buffer(swigCPtr, attr, VectorUInt64.getCPtr(buf));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void set_float32_vector_buffer(string attr, VectorFloat32 buf) {
+    tiledbcsPINVOKE.Query_set_float32_vector_buffer(swigCPtr, attr, VectorFloat32.getCPtr(buf));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 

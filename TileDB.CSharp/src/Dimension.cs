@@ -126,6 +126,12 @@ public class Dimension : global::System.IDisposable {
     return ret;
   }
 
+  public static Dimension create_float32_dimension(Context ctx, string name, float bound_lower, float bound_upper, float extent) {
+    Dimension ret = new Dimension(tiledbcsPINVOKE.Dimension_create_float32_dimension(Context.getCPtr(ctx), name, bound_lower, bound_upper, extent), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public static Dimension create_double_dimension(Context ctx, string name, double bound_lower, double bound_upper, double extent) {
     Dimension ret = new Dimension(tiledbcsPINVOKE.Dimension_create_double_dimension(Context.getCPtr(ctx), name, bound_lower, bound_upper, extent), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
