@@ -144,10 +144,8 @@ namespace TileDB.Example
             TileDB.QueryStatus status = query.submit();
             array.close();
             
-            for (int i = 0; i < data.Count; ++i)
-            {
-                System.Console.WriteLine("data at {0}:{1}", i, data[i]);
-            }
+            System.Console.WriteLine("query result:");
+            System.Console.WriteLine(String.Join(" ", data));
             return status;
         }//private TileDB.QueryStatus ReadArray()
         #endregion
