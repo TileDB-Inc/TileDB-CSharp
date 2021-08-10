@@ -1,8 +1,7 @@
 message(STATUS "Starting TileDB-CSharp build")
 
 find_package(TileDB HINTS /usr/local/lib64/cmake/TileDB/)
-if (NOT ${TileDB-FOUND})
-  message(FATAL_ERROR "HERE")
+if (NOT TileDB_FOUND)
   include(../cmake/TileDB.cmake)
 endif()
 
