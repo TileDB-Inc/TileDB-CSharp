@@ -1,7 +1,9 @@
 message(STATUS "Starting TileDB-CSharp build")
 
-
-include(../cmake/TileDB.cmake)
+find_package(TileDB HINTS /usr/local/lib64/cmake/TileDB/)
+if (NOT TileDB_FOUND)
+  include(../cmake/TileDB.cmake)
+endif()
 
 ##################################
 # TileDB cxx api library
