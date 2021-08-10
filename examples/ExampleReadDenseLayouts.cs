@@ -126,7 +126,7 @@ namespace TileDB.Example
             subarray.Add(2);
             subarray.Add(4); //cols 2,3,4
 
-            TileDB.VectorInt32 data = new TileDB.VectorInt32(6); //hold 6 elements
+            TileDB.VectorInt32 data = TileDB.VectorInt32.Repeat(0,6); //hold 6 elements
 
             //open array for read
             TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.QueryType.TILEDB_READ);
@@ -143,7 +143,9 @@ namespace TileDB.Example
 
             TileDB.QueryStatus status = query.submit();
             array.close();
-
+            
+            System.Console.WriteLine("query result:");
+            System.Console.WriteLine(String.Join(" ", data));
             return status;
         }//private TileDB.QueryStatus ReadArray()
         #endregion
