@@ -2,7 +2,9 @@
 
 
 # TileDB CSharp Bindings
-This repo provides TileDB C# bindings via swig.
+This repo provides TileDB C# bindings.
+
+Documentation: https://tiledb-inc.github.io/TileDB-CSharp/
 
 ## Quick Links for TileDB
 * Quickstart: https://docs.tiledb.com/quickstart
@@ -10,7 +12,19 @@ This repo provides TileDB C# bindings via swig.
 * Full documentation: https://docs.tiledb.com
 
 ## Quick Installation
-We will upload to nuget soon.
+  
+* Docker
+  
+  An Alpine-based Docker image is available at `tiledb/tiledbcs-alpine`.
+  The image may also be built locally:
+  ```
+  docker build -f examples/docker .
+  ```
+  
+* NuGet
+  
+  The project files support `dotnet pack` for generating a local, single-platform nupkg.
+  We will make a multi-platform NuGet package available soon.
 
 ## Build
 ### Supported Platforms
@@ -61,7 +75,7 @@ dotnet TileDB.Example.dll
 
 # Building against TileDB.CSharp
 
-To build your own project, you can add `TileDB.CSharp` as a `ProjectReference`
+To build your own project, add `TileDB.CSharp` as a `ProjectReference`
 in your csproj file:
 
 ```
