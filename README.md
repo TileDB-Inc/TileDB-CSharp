@@ -15,8 +15,11 @@ Documentation: https://tiledb-inc.github.io/TileDB-CSharp/
   
 * Docker
   
-  An Alpine-based Docker image is available at `tiledb/tiledbcs-alpine`.
-  The image may also be built locally:
+  An Alpine-based Docker image is available on Dockerhub:
+  
+  - [`tiledb/tiledb-cs`](https://hub.docker.com/repository/docker/tiledb/tiledb-cs)
+  
+  The image may also be built locally (see [examples/docker](examples/docker)):
   ```
   docker build -f examples/docker .
   ```
