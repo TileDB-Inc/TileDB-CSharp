@@ -38,10 +38,13 @@
       <Link>libtiledbcs.dylib</Link>
     </Content>
   </ItemGroup>
-  <ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
+  <ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' And Exists('..\dist\Linux\lib\libtiledb.so')">
+     <!-- this item is conditional in case we have a system-wide install -->
      <Content Include="..\dist\Linux\lib\libtiledb.so" CopyToOutputDirectory="PreserveNewest">
       <Link>tiledb.so</Link>
     </Content>
+  </ItemGroup>
+  <ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">
     <Content Include="..\dist\Linux\lib\tiledbcs.so" CopyToOutputDirectory="PreserveNewest">
       <Link>tiledbcs.so</Link>
     </Content>
