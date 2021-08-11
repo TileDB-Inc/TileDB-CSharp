@@ -233,14 +233,14 @@
 %exception {
   try {
     $action
-  } catch(const tiledb::TileDBError& e) {
-    SWIG_CSharpSetPendingExceptionTileDBError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());
   } catch(const tiledb::TypeError& e) {
     SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
   } catch(const tiledb::SchemaMismatch& e) {
      SWIG_CSharpSetPendingExceptionSchemaMismatch(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());   
   } catch(const tiledb::AttributeError& e) {
      SWIG_CSharpSetPendingExceptionAttributeError(e.what());// SWIG_exception(SWIG_RuntimeError, e.what());
+  } catch(const tiledb::TileDBError& e) {
+    SWIG_CSharpSetPendingExceptionTileDBError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());     
   } catch(const std::exception& e) {
       SWIG_exception(SWIG_RuntimeError, e.what());
   } catch(...) {
