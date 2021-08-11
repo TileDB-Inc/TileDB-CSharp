@@ -11,35 +11,7 @@
 namespace TileDB {
 
 public class TypeError : TileDBError {
-  private global::System.Runtime.InteropServices.HandleRef swigCPtr;
-  private bool swigCMemOwnDerived;
-
-  internal TypeError(global::System.IntPtr cPtr, bool cMemoryOwn) : base(tiledbcsPINVOKE.TypeError_SWIGSmartPtrUpcast(cPtr), true) {
-    swigCMemOwnDerived = cMemoryOwn;
-    swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
-  }
-
-  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(TypeError obj) {
-    return (obj == null) ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : obj.swigCPtr;
-  }
-
-  protected override void Dispose(bool disposing) {
-    lock(this) {
-      if (swigCPtr.Handle != global::System.IntPtr.Zero) {
-        if (swigCMemOwnDerived) {
-          swigCMemOwnDerived = false;
-          tiledbcsPINVOKE.delete_TypeError(swigCPtr);
-        }
-        swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
-      }
-      base.Dispose(disposing);
-    }
-  }
-
-  public TypeError(string msg) : this(tiledbcsPINVOKE.new_TypeError(msg), true) {
-    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
-  }
-
+  public TypeError(string msg) : base (msg) {}
 }
 
 }

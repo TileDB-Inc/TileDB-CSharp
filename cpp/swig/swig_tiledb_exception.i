@@ -6,7 +6,6 @@
 %}
 
 %include "std_string.i"
-%include "exception.i"
 %include "std_shared_ptr.i"
 
 %shared_ptr(tiledb::TileDBError)
@@ -56,6 +55,27 @@
   static TileDBErrorExceptionHelper tileDBErrorExceptionHelper = new TileDBErrorExceptionHelper();
 %}
 
+%typemap(csinterfaces) tiledb::TileDBError "global::System.Exception"
+
+%typemap(csbody) tiledb::TileDBError %{%}
+%typemap(csbody_derived) tiledb::TypeError %{%}
+%typemap(csbody_derived) tiledb::SchemaMismatch %{%}
+%typemap(csbody_derived) tiledb::AttributeError %{%}
+
+%typemap(csdispose) tiledb::TileDBError ""
+%typemap(csdispose_derived) tiledb::TypeError ""
+%typemap(csdispose_derived) tiledb::SchemaMismatch ""
+%typemap(csdispose_derived) tiledb::AttributeError ""
+
+%typemap(csdisposing) tiledb::TileDBError ""
+%typemap(csdisposing_derived) tiledb::TypeError ""
+%typemap(csdisposing_derived) tiledb::SchemaMismatch ""
+%typemap(csdisposing_derived) tiledb::AttributeError ""
+
+%typemap(csconstruct) tiledb::TileDBError ": base (msg) {}"
+%typemap(csconstruct) tiledb::TypeError ": base (msg) {}"
+%typemap(csconstruct) tiledb::SchemaMismatch ": base (msg) {}"
+%typemap(csconstruct) tiledb::AttributeError ": base (msg) {}"
 
 %typemap(throws, canthrow=1) tiledb::TileDBError {
   SWIG_CSharpSetPendingExceptionTileDBError($1.what());
@@ -213,14 +233,14 @@
 %exception {
   try {
     $action
-  } catch(const tiledb::TileDBError& e) {
-    SWIG_CSharpSetPendingExceptionTileDBError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());
   } catch(const tiledb::TypeError& e) {
     SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
   } catch(const tiledb::SchemaMismatch& e) {
      SWIG_CSharpSetPendingExceptionSchemaMismatch(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());   
   } catch(const tiledb::AttributeError& e) {
      SWIG_CSharpSetPendingExceptionAttributeError(e.what());// SWIG_exception(SWIG_RuntimeError, e.what());
+  } catch(const tiledb::TileDBError& e) {
+    SWIG_CSharpSetPendingExceptionTileDBError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());     
   } catch(const std::exception& e) {
       SWIG_exception(SWIG_RuntimeError, e.what());
   } catch(...) {
@@ -229,11 +249,6 @@
 }
 
 //////
-%exceptionclass tiledb::TileDBError;
-%exceptionclass tiledb::TypeError;
-%exceptionclass tiledb::SchemaMismatch;
-%exceptionclass tiledb::AttributeError;
-
 
 %include "tiledb_cxx_exception.h" 
 
