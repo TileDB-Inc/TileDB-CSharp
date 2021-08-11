@@ -2,13 +2,13 @@ include(FetchContent)
 include(GNUInstallDirs)
 
 ############################
-# Download pre-build tiledb
+# Download pre-build tiledb or build from source
 ############################
-##TODO: generate more different libraries according to tiledb versions
 message(STATUS "start to set tiledb for version:${TILEDB_VERSION}")
 
-if(${TILEDB_VERSION} STREQUAL "nightly_build")
-##TODO: change to nightly_build
+if(${TILEDB_VERSION} MATCHES "^([0-9]+)\\.([0-9]+)\\.([0-9]+)$")
+message(STATUS "start to set TILEDB_DOWNLOAD_URL and TILEDB_DOWNLOAD_SHA1")
+if(${TILEDB_VERSION} STREQUAL "2.3.0")
   if (WIN32) # Windows
     SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.0/tiledb-windows-2.3.0-a87da7f-full.zip")
     SET(TILEDB_DOWNLOAD_SHA1 "CBE6F41108B49DA6ECA516A9A12BAD2064BD2240")
@@ -19,17 +19,39 @@ if(${TILEDB_VERSION} STREQUAL "nightly_build")
     SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.0/tiledb-linux-2.3.0-a87da7f-full.tar.gz")
     SET(TILEDB_DOWNLOAD_SHA1 "15592594E38560A55FD7E3B7A052D9FF79F59A49")
   endif()
-elseif(${TILEDB_VERSION} STREQUAL "2.3.0")
+elseif(${TILEDB_VERSION} STREQUAL "2.3.1")
   if (WIN32) # Windows
-    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.0/tiledb-windows-2.3.0-a87da7f-full.zip")
-    SET(TILEDB_DOWNLOAD_SHA1 "CBE6F41108B49DA6ECA516A9A12BAD2064BD2240")
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.1/tiledb-windows-x86_64-2.3.1-6d36169.zip")
+    SET(TILEDB_DOWNLOAD_SHA1 "FF1DB0E556B2922D7DD0C2D7ECE6FDD03AEA1258")
   elseif(APPLE) # OSX
-    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.0/tiledb-macos-2.3.0-a87da7f-full.tar.gz")
-    SET(TILEDB_DOWNLOAD_SHA1 "BFA0247199BD6E2E08104534B45FF83123B7D4AB")
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.1/tiledb-macos-x86_64-2.3.1-6d36169.tar.gz")
+    SET(TILEDB_DOWNLOAD_SHA1 "E9086167F6B9B5B304F3A724BAC08E9128AA7913")
   else() # Linux
-    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.0/tiledb-linux-2.3.0-a87da7f-full.tar.gz")
-    SET(TILEDB_DOWNLOAD_SHA1 "15592594E38560A55FD7E3B7A052D9FF79F59A49")
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.1/tiledb-linux-x86_64-2.3.1-6d36169.tar.gz")
+    SET(TILEDB_DOWNLOAD_SHA1 "DD65523F22632161B43E2263AD6080F338F759D1")
   endif()
+elseif(${TILEDB_VERSION} STREQUAL "2.3.2")
+  if (WIN32) # Windows
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.2/tiledb-windows-x86_64-2.3.2-4b563fe.zip")
+    SET(TILEDB_DOWNLOAD_SHA1 "5C0F8C7FDBD927151DFA927129ED87B7C073C5EE")
+  elseif(APPLE) # OSX
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.2/tiledb-macos-x86_64-2.3.2-4b563fe.tar.gz")
+    SET(TILEDB_DOWNLOAD_SHA1 "7610017E1835903286942C388FE58BF55CF8EC5C")
+  else() # Linux
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.2/tiledb-linux-x86_64-2.3.2-4b563fe.tar.gz")
+    SET(TILEDB_DOWNLOAD_SHA1 "06360C3F6D6B96B2BE8038DE6E56ABB3C1A00E43")
+  endif()
+elseif(${TILEDB_VERSION} STREQUAL "2.3.3")
+  if (WIN32) # Windows
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.3/tiledb-windows-x86_64-2.3.3-9336d3f.zip")
+    SET(TILEDB_DOWNLOAD_SHA1 "7C777FC98E40E72400A590EF8EB9C23046D18689")
+  elseif(APPLE) # OSX
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.3/tiledb-macos-x86_64-2.3.3-9336d3f.tar.gz")
+    SET(TILEDB_DOWNLOAD_SHA1 "AE0D1606DAA6D984333E06D42DF25044BF7E347E")
+  else() # Linux
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.3/tiledb-linux-x86_64-2.3.3-9336d3f.tar.gz")
+    SET(TILEDB_DOWNLOAD_SHA1 "803368D31C2EADF1B866A362CE0514073F84DAD9")
+  endif()      
 elseif(${TILEDB_VERSION} STREQUAL "2.2.9")
   if (WIN32) # Windows
     SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.2.9/tiledb-windows-2.2.9-dc3bb54-full.zip")
@@ -118,51 +140,6 @@ elseif(${TILEDB_VERSION} STREQUAL "2.0.7")
     SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.0.7/tiledb-linux-2.0.7-2058d3d.tar.gz")
     SET(TILEDB_DOWNLOAD_SHA1 "556CCD6265A9F62884A8F798753625D7352ACCD5")
   endif()
-elseif(${TILEDB_VERSION} STREQUAL "2.0.0")  
-#TODO no compiled binaries for downloading
-  if (WIN32) # Windows
-    SET(TILEDB_DOWNLOAD_URL "")
-    SET(TILEDB_DOWNLOAD_SHA1 "")
-  elseif(APPLE) # OSX
-    SET(TILEDB_DOWNLOAD_URL "")
-    SET(TILEDB_DOWNLOAD_SHA1 "")
-  else() # Linux
-    SET(TILEDB_DOWNLOAD_URL "")
-    SET(TILEDB_DOWNLOAD_SHA1 "")
-  endif()
-elseif(${TILEDB_VERSION} STREQUAL "1.7.0")  
-  if (WIN32) # Windows
-    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/1.7.0/tiledb-windows-x64-1.7.0.zip")
-    SET(TILEDB_DOWNLOAD_SHA1 "1520c6a19d082a61b36fe284f88c00d3cb3079ea")
-  elseif(APPLE) # OSX
-    SET(TILEDB_DOWNLOAD_URL "")
-    SET(TILEDB_DOWNLOAD_SHA1 "")
-  else() # Linux
-    SET(TILEDB_DOWNLOAD_URL "")
-    SET(TILEDB_DOWNLOAD_SHA1 "")
-  endif()
-elseif(${TILEDB_VERSION} STREQUAL "1.6.0")  
-  if (WIN32) # Windows
-    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/1.6.0/tiledb-windows-x64-1.6.0.zip")
-    SET(TILEDB_DOWNLOAD_SHA1 "0855d539091d74ba90d70d101c7cc66f0a5fbfa0")
-  elseif(APPLE) # OSX
-    SET(TILEDB_DOWNLOAD_URL "")
-    SET(TILEDB_DOWNLOAD_SHA1 "")
-  else() # Linux
-    SET(TILEDB_DOWNLOAD_URL "")
-    SET(TILEDB_DOWNLOAD_SHA1 "")
-  endif()
-elseif(${TILEDB_VERSION} STREQUAL "1.4.1")  
-  if (WIN32) # Windows
-    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/1.4.1/tiledb-windows-x64.zip")
-    SET(TILEDB_DOWNLOAD_SHA1 "6282adffb47749752a7811ff863c433cdea65e70")
-  elseif(APPLE) # OSX
-    SET(TILEDB_DOWNLOAD_URL "")
-    SET(TILEDB_DOWNLOAD_SHA1 "")
-  else() # Linux
-    SET(TILEDB_DOWNLOAD_URL "")
-    SET(TILEDB_DOWNLOAD_SHA1 "")
-  endif()
 else()
   if (WIN32) # Windows
     SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.0/tiledb-windows-2.3.0-a87da7f-full.zip")
@@ -174,45 +151,114 @@ else()
     SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.3.0/tiledb-linux-2.3.0-a87da7f-full.tar.gz")
     SET(TILEDB_DOWNLOAD_SHA1 "15592594E38560A55FD7E3B7A052D9FF79F59A49")
   endif()
-endif() ###
+endif() 
 
- 
+message(STATUS "TILEDB_DOWNLOAD_URL: ${TILEDB_DOWNLOAD_URL}")
+message(STATUS "TILEDB_DOWNLOAD_SHA1: ${TILEDB_DOWNLOAD_SHA1}")
 
-
-##fetch tiledb 
-FetchContent_Declare(
-  tiledb_prebuilt
-  URL ${TILEDB_DOWNLOAD_URL}
-  URL_HASH SHA1=${TILEDB_DOWNLOAD_SHA1}
-)
-FetchContent_GetProperties(tiledb_prebuilt)
-
-if(NOT tiledb_prebuilt_POPULATED)
-  FetchContent_Populate(tiledb_prebuilt)
-
-  message(STATUS "tiledb_prebuilt_SOURCE_DIR:${tiledb_prebuilt_SOURCE_DIR}")
-  message(STATUS "tiledb_prebuilt_BINARY_DIR:${tiledb_prebuilt_BINARY_DIR}")
-#  add_subdirectory(
-#    ${tiledb_prebuilt_SOURCE_DIR}
-#    ${tiledb_prebuilt_BINARY_DIR}
-#  )
 endif()
 
  
-include(${tiledb_prebuilt_SOURCE_DIR}/lib/cmake/TileDB/TileDBConfig.cmake)
- 
+### fetch prebuilt tiledb  
+if(${TILEDB_VERSION} MATCHES "^([0-9]+)\\.([0-9]+)\\.([0-9]+)$")
+
+  ##fetch tiledb 
+  FetchContent_Declare(
+    tiledb_prebuilt
+    URL ${TILEDB_DOWNLOAD_URL}
+    URL_HASH SHA1=${TILEDB_DOWNLOAD_SHA1}
+  )
+  FetchContent_GetProperties(tiledb_prebuilt)
+
+  if(NOT tiledb_prebuilt_POPULATED)
+    FetchContent_Populate(tiledb_prebuilt)
+    message(STATUS "tiledb_prebuilt_SOURCE_DIR:${tiledb_prebuilt_SOURCE_DIR}")
+    message(STATUS "tiledb_prebuilt_BINARY_DIR:${tiledb_prebuilt_BINARY_DIR}")
+  endif()
+  include(${tiledb_prebuilt_SOURCE_DIR}/lib/cmake/TileDB/TileDBConfig.cmake)
+
+  #get_target_property(TILEDB_BINARY_DIR TileDB::tiledb_shared BINARY_DIR)
+  #get_target_property(TILEDB_IMPORTED_LINK_DEPENDENT_LIBRARIES_RELEASE TileDB::tiledb_shared IMPORTED_LINK_DEPENDENT_LIBRARIES_RELEASE)
+  get_target_property(TILEDB_IMPORTED_LOCATION_RELEASE TileDB::tiledb_shared IMPORTED_LOCATION_RELEASE)
+  get_filename_component(TILEDB_RELEASE_BINARY_DIR ${TILEDB_IMPORTED_LOCATION_RELEASE} PATH)
+  message(STATUS "TILEDB_BINARY_DIR:${TILEDB_RELEASE_BINARY_DIR}")
+  #message(STATUS "TILEDB dependent:${TILEDB_IMPORTED_LINK_DEPENDENT_LIBRARIES_RELEASE}")
+  #message(STATUS "TILEDB location release:${TILEDB_IMPORTED_LOCATION_RELEASE}")
+  #message(STATUS "TILEDB_RELEASE_BINARY_DIR:${TILEDB_RELEASE_BINARY_DIR}")
+
+  file(GLOB TILEDB_BIN_FILES_AND_DIRS "${TILEDB_RELEASE_BINARY_DIR}/*")
+
+else()
+  message(STATUS "start to build tiledb from source")
+  FetchContent_Declare(
+    tiledb
+    GIT_REPOSITORY https://github.com/TileDB-Inc/TileDB.git
+    GIT_TAG ${TILEDB_GIT_TAG}
+  )
+  FetchContent_GetProperties(tiledb)
+  if(NOT tiledb_POPULATED)
+    FetchContent_Populate(tiledb)
+    message(STATUS "tiledb_SOURCE_DIR:${tiledb_SOURCE_DIR}, cmake_generator:${CMAKE_GENERATOR}")
+    message(STATUS "tiledb_BINARY_DIR:${tiledb_BINARY_DIR}")
+    set(SUPERBUILD OFF)
+    message("start to build tiledb at ${tiledb_BINARY_DIR}, buildtype:${CMAKE_BUILD_TYPE}...")
+    if(WIN32)
+      execute_process(
+        COMMAND
+          "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}" -A x64
+          -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+          -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+          -DTILEDB_S3=${TILEDB_S3}  
+          -DTILEDB_AZURE=${TILEDB_AZURE}
+          -DTILEDB_TESTS=OFF
+          -DTILEDB_WERROR=OFF
+          ${tiledb_SOURCE_DIR}
+        WORKING_DIRECTORY
+          ${tiledb_BINARY_DIR}
+      )    
+    else()
+      execute_process(
+        COMMAND
+          "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}"
+          -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+          -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+          -DTILEDB_S3=${TILEDB_S3}  
+          -DTILEDB_AZURE=${TILEDB_AZURE}
+          -DTILEDB_TESTS=OFF
+          -DTILEDB_WERROR=OFF
+          ${tiledb_SOURCE_DIR}
+        WORKING_DIRECTORY
+         ${tiledb_BINARY_DIR}
+      )
+    endif()
+
+    message("start to build tiledb at ${tiledb_BINARY_DIR} ...")
+    execute_process(
+      COMMAND
+       "${CMAKE_COMMAND}" --build .  --config Release
+      WORKING_DIRECTORY
+       ${tiledb_BINARY_DIR}
+    )
+
+    message("start to build install-tiledb at ${tiledb_BINARY_DIR} ...")
+    execute_process(
+      COMMAND
+        "${CMAKE_COMMAND}" --build .  --target install-tiledb  --config Release
+      WORKING_DIRECTORY
+       ${tiledb_BINARY_DIR}
+    )    
+
+  endif()
+
+  message("start to include TileDBConfig.cmake")
+  include( ${CMAKE_INSTALL_LIBDIR}/cmake/TileDB/TileDBConfig.cmake)
+
+  file(GLOB TILEDB_BIN_FILES_AND_DIRS "${CMAKE_INSTALL_PREFIX}/bin/*")
+
+endif()  
 
 
-#get_target_property(TILEDB_BINARY_DIR TileDB::tiledb_shared BINARY_DIR)
-#get_target_property(TILEDB_IMPORTED_LINK_DEPENDENT_LIBRARIES_RELEASE TileDB::tiledb_shared IMPORTED_LINK_DEPENDENT_LIBRARIES_RELEASE)
-get_target_property(TILEDB_IMPORTED_LOCATION_RELEASE TileDB::tiledb_shared IMPORTED_LOCATION_RELEASE)
-get_filename_component(TILEDB_RELEASE_BINARY_DIR ${TILEDB_IMPORTED_LOCATION_RELEASE} PATH)
-message(STATUS "TILEDB_BINARY_DIR:${TILEDB_RELEASE_BINARY_DIR}")
-#message(STATUS "TILEDB dependent:${TILEDB_IMPORTED_LINK_DEPENDENT_LIBRARIES_RELEASE}")
-#message(STATUS "TILEDB location release:${TILEDB_IMPORTED_LOCATION_RELEASE}")
-#message(STATUS "TILEDB_RELEASE_BINARY_DIR:${TILEDB_RELEASE_BINARY_DIR}")
-
-file(GLOB TILEDB_BIN_FILES_AND_DIRS "${TILEDB_RELEASE_BINARY_DIR}/*")
+### copy files from /bin to /lib
 foreach(item ${TILEDB_BIN_FILES_AND_DIRS})
   if(IS_DIRECTORY "${item}")
     LIST(APPEND TILEDB_BIN_DIRS "${item}")
@@ -221,17 +267,14 @@ foreach(item ${TILEDB_BIN_FILES_AND_DIRS})
   endif()
 endforeach()
 
-
 message(STATUS "TILEDB install  ${TILEDB_BIN_FILES} to lib directory:${CMAKE_INSTALL_BINDIR}")
 install(FILES ${TILEDB_BIN_FILES}
   DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
 if(TILEDB_BIN_DIRS)
-message(STATUS "TILEDB install  ${TILEDB_BIN_DIRS} to lib directory:${CMAKE_INSTALL_BINDIR}")
+  message(STATUS "TILEDB install  ${TILEDB_BIN_DIRS} to lib directory:${CMAKE_INSTALL_BINDIR}")
   install( DIRECTORY ${TILEDB_BIN_DIRS}
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
   )
-endif()
- 
- 
+endif() 
