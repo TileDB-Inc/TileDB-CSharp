@@ -1,2 +1,3 @@
 ##*.cs linguist-detectable
-cpp linguist-generated
+cpp/* linguist-generated
+cpp/* linguist-documentation
