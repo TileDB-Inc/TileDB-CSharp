@@ -1,3 +1,4 @@
 ##*.cs linguist-detectable
 cpp/* linguist-generated
 cpp/* linguist-documentation
+cpp/* linguist-vendored
