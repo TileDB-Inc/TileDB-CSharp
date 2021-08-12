@@ -5,7 +5,7 @@
         {
           "src": "../..",
           "files": [
-            "csharp/TileDB.CSharp/TileDB.CSharp/**.csproj"
+            "TileDB.CSharp/*.csproj"
           ],
           "exclude":[
             "**/bin/**",

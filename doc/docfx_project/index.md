@@ -10,7 +10,7 @@ Note that the CSharp interface to TileDB is a pre-release and still under develo
 3. [Build an example](articles/examples.md)
 4. [Build your own app using the example project file as a template](articles/userapp.md)
 
-## Devloper documentation:
+## Developer documentation:
 * [How we wrapper TileDB in C#](articles/devdoc.md)
 
 ## Quick Links
