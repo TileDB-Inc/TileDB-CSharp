@@ -18,6 +18,7 @@ Documentation: https://tiledb-inc.github.io/TileDB-CSharp/
   An Alpine-based Docker image is available on Dockerhub:
   
   - [`tiledb/tiledb-cs`](https://hub.docker.com/repository/docker/tiledb/tiledb-cs)
+  - usage example: `docker run -ti tiledb/tiledb-cs:latest-alpine dotnet test test/`
   
   The image may also be built locally (see [examples/docker](examples/docker)):
   ```
