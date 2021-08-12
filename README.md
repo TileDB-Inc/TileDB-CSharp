@@ -1,17 +1,18 @@
 <a href="https://tiledb.com"><img src="https://github.com/TileDB-Inc/TileDB/raw/dev/doc/source/_static/tiledb-logo_color_no_margin_@4x.png" alt="TileDB logo" width="400"></a>
 
 
-# TileDB CSharp Bindings
-This repo provides TileDB C# bindings.
+# TileDB CSharp API
+This repo provides a TileDB API for C#. We have initially developed and tested these bindings
+against .NET Core 5 on macOS and Linux; Windows and .NET Foundation are also known to work.
 
-Documentation: https://tiledb-inc.github.io/TileDB-CSharp/
+* Documentation: https://tiledb-inc.github.io/TileDB-CSharp/
 
-## Quick Links for TileDB
+## Quick Links for TileDB Embedded
 * Quickstart: https://docs.tiledb.com/quickstart
 * Installation: https://docs.tiledb.com/installation
 * Full documentation: https://docs.tiledb.com
 
-## Quick Installation
+## Quick Start
   
 * Docker
   
@@ -32,7 +33,7 @@ Documentation: https://tiledb-inc.github.io/TileDB-CSharp/
 
 ## Build
 ### Supported Platforms
-Currently the following platforms are supported:
+Currently we test against .NET Core 5, and the following platforms are supported:
 * Windows
 * Linux
 * macOS
