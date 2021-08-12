@@ -170,10 +170,10 @@
 %ignore tiledb::Query::ptr();
 %ignore tiledb::Query::submit_async(const Fn &);
 %ignore tiledb::Query::submit_async();
-%ignore tiledb::Query::set_buffer(const std::string &,void *,uint64_t);
-%ignore tiledb::Query::set_buffer(const std::string &,uint64_t *,uint64_t,void *,uint64_t);
 %ignore tiledb::Query::get_buffer(const std::string &,void * *,uint64_t *,uint64_t *);
 %ignore tiledb::Query::get_buffer(const std::string &,uint64_t * *,uint64_t *,void * *,uint64_t *,uint64_t *);
+%ignore tiledb::Query::get_buffer_nullable(const std::string &,void * *,uint64_t *,uint64_t *,uint8_t * *,uint64_t *);
+%ignore tiledb::Query::get_buffer_nullable(const std::string &,uint64_t * *,uint64_t *,void * *,uint64_t *,uint64_t *,uint8_t * *,uint64_t *);
 %ignore tiledb::Query::to_status(const tiledb_query_status_t &);
 
 //ignore class or methods in file:../src/tiledb/cxx_api/tiledb_cxx_query_condition.h

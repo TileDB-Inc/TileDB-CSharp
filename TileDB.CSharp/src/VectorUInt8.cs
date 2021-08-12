@@ -10,21 +10,21 @@
 
 namespace TileDB {
 
-public class VectorUChar : global::System.IDisposable, global::System.Collections.IEnumerable, global::System.Collections.Generic.IList<byte>
+public class VectorUInt8 : global::System.IDisposable, global::System.Collections.IEnumerable, global::System.Collections.Generic.IList<byte>
  {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   protected bool swigCMemOwn;
 
-  internal VectorUChar(global::System.IntPtr cPtr, bool cMemoryOwn) {
+  internal VectorUInt8(global::System.IntPtr cPtr, bool cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
   }
 
-  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(VectorUChar obj) {
+  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(VectorUInt8 obj) {
     return (obj == null) ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : obj.swigCPtr;
   }
 
-  ~VectorUChar() {
+  ~VectorUInt8() {
     Dispose(false);
   }
 
@@ -38,14 +38,14 @@ public class VectorUChar : global::System.IDisposable, global::System.Collection
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwn) {
           swigCMemOwn = false;
-          tiledbcsPINVOKE.delete_VectorUChar(swigCPtr);
+          tiledbcsPINVOKE.delete_VectorUInt8(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public VectorUChar(global::System.Collections.IEnumerable c) : this() {
+  public VectorUInt8(global::System.Collections.IEnumerable c) : this() {
     if (c == null)
       throw new global::System.ArgumentNullException("c");
     foreach (byte element in c) {
@@ -53,7 +53,7 @@ public class VectorUChar : global::System.IDisposable, global::System.Collection
     }
   }
 
-  public VectorUChar(global::System.Collections.Generic.IEnumerable<byte> c) : this() {
+  public VectorUInt8(global::System.Collections.Generic.IEnumerable<byte> c) : this() {
     if (c == null)
       throw new global::System.ArgumentNullException("c");
     foreach (byte element in c) {
@@ -140,15 +140,15 @@ public class VectorUChar : global::System.IDisposable, global::System.Collection
   }
 
   global::System.Collections.Generic.IEnumerator<byte> global::System.Collections.Generic.IEnumerable<byte>.GetEnumerator() {
-    return new VectorUCharEnumerator(this);
+    return new VectorUInt8Enumerator(this);
   }
 
   global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() {
-    return new VectorUCharEnumerator(this);
+    return new VectorUInt8Enumerator(this);
   }
 
-  public VectorUCharEnumerator GetEnumerator() {
-    return new VectorUCharEnumerator(this);
+  public VectorUInt8Enumerator GetEnumerator() {
+    return new VectorUInt8Enumerator(this);
   }
 
   // Type-safe enumerator
@@ -156,15 +156,15 @@ public class VectorUChar : global::System.IDisposable, global::System.Collection
   /// whenever the collection is modified. This has been done for changes in the size of the
   /// collection but not when one of the elements of the collection is modified as it is a bit
   /// tricky to detect unmanaged code that modifies the collection under our feet.
-  public sealed class VectorUCharEnumerator : global::System.Collections.IEnumerator
+  public sealed class VectorUInt8Enumerator : global::System.Collections.IEnumerator
     , global::System.Collections.Generic.IEnumerator<byte>
   {
-    private VectorUChar collectionRef;
+    private VectorUInt8 collectionRef;
     private int currentIndex;
     private object currentObject;
     private int currentSize;
 
-    public VectorUCharEnumerator(VectorUChar collection) {
+    public VectorUInt8Enumerator(VectorUInt8 collection) {
       collectionRef = collection;
       currentIndex = -1;
       currentObject = null;
@@ -218,125 +218,125 @@ public class VectorUChar : global::System.IDisposable, global::System.Collection
   }
 
   public void Clear() {
-    tiledbcsPINVOKE.VectorUChar_Clear(swigCPtr);
+    tiledbcsPINVOKE.VectorUInt8_Clear(swigCPtr);
   }
 
   public void Add(byte x) {
-    tiledbcsPINVOKE.VectorUChar_Add(swigCPtr, x);
+    tiledbcsPINVOKE.VectorUInt8_Add(swigCPtr, x);
   }
 
   private uint size() {
-    uint ret = tiledbcsPINVOKE.VectorUChar_size(swigCPtr);
+    uint ret = tiledbcsPINVOKE.VectorUInt8_size(swigCPtr);
     return ret;
   }
 
   private uint capacity() {
-    uint ret = tiledbcsPINVOKE.VectorUChar_capacity(swigCPtr);
+    uint ret = tiledbcsPINVOKE.VectorUInt8_capacity(swigCPtr);
     return ret;
   }
 
   private void reserve(uint n) {
-    tiledbcsPINVOKE.VectorUChar_reserve(swigCPtr, n);
+    tiledbcsPINVOKE.VectorUInt8_reserve(swigCPtr, n);
   }
 
-  public VectorUChar() : this(tiledbcsPINVOKE.new_VectorUChar__SWIG_0(), true) {
+  public VectorUInt8() : this(tiledbcsPINVOKE.new_VectorUInt8__SWIG_0(), true) {
   }
 
-  public VectorUChar(VectorUChar other) : this(tiledbcsPINVOKE.new_VectorUChar__SWIG_1(VectorUChar.getCPtr(other)), true) {
+  public VectorUInt8(VectorUInt8 other) : this(tiledbcsPINVOKE.new_VectorUInt8__SWIG_1(VectorUInt8.getCPtr(other)), true) {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public VectorUChar(int capacity) : this(tiledbcsPINVOKE.new_VectorUChar__SWIG_2(capacity), true) {
+  public VectorUInt8(int capacity) : this(tiledbcsPINVOKE.new_VectorUInt8__SWIG_2(capacity), true) {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   private byte getitemcopy(int index) {
-    byte ret = tiledbcsPINVOKE.VectorUChar_getitemcopy(swigCPtr, index);
+    byte ret = tiledbcsPINVOKE.VectorUInt8_getitemcopy(swigCPtr, index);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   private byte getitem(int index) {
-    byte ret = tiledbcsPINVOKE.VectorUChar_getitem(swigCPtr, index);
+    byte ret = tiledbcsPINVOKE.VectorUInt8_getitem(swigCPtr, index);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   private void setitem(int index, byte val) {
-    tiledbcsPINVOKE.VectorUChar_setitem(swigCPtr, index, val);
+    tiledbcsPINVOKE.VectorUInt8_setitem(swigCPtr, index, val);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void AddRange(VectorUChar values) {
-    tiledbcsPINVOKE.VectorUChar_AddRange(swigCPtr, VectorUChar.getCPtr(values));
+  public void AddRange(VectorUInt8 values) {
+    tiledbcsPINVOKE.VectorUInt8_AddRange(swigCPtr, VectorUInt8.getCPtr(values));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public VectorUChar GetRange(int index, int count) {
-    global::System.IntPtr cPtr = tiledbcsPINVOKE.VectorUChar_GetRange(swigCPtr, index, count);
-    VectorUChar ret = (cPtr == global::System.IntPtr.Zero) ? null : new VectorUChar(cPtr, true);
+  public VectorUInt8 GetRange(int index, int count) {
+    global::System.IntPtr cPtr = tiledbcsPINVOKE.VectorUInt8_GetRange(swigCPtr, index, count);
+    VectorUInt8 ret = (cPtr == global::System.IntPtr.Zero) ? null : new VectorUInt8(cPtr, true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void Insert(int index, byte x) {
-    tiledbcsPINVOKE.VectorUChar_Insert(swigCPtr, index, x);
+    tiledbcsPINVOKE.VectorUInt8_Insert(swigCPtr, index, x);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void InsertRange(int index, VectorUChar values) {
-    tiledbcsPINVOKE.VectorUChar_InsertRange(swigCPtr, index, VectorUChar.getCPtr(values));
+  public void InsertRange(int index, VectorUInt8 values) {
+    tiledbcsPINVOKE.VectorUInt8_InsertRange(swigCPtr, index, VectorUInt8.getCPtr(values));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void RemoveAt(int index) {
-    tiledbcsPINVOKE.VectorUChar_RemoveAt(swigCPtr, index);
+    tiledbcsPINVOKE.VectorUInt8_RemoveAt(swigCPtr, index);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void RemoveRange(int index, int count) {
-    tiledbcsPINVOKE.VectorUChar_RemoveRange(swigCPtr, index, count);
+    tiledbcsPINVOKE.VectorUInt8_RemoveRange(swigCPtr, index, count);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static VectorUChar Repeat(byte value, int count) {
-    global::System.IntPtr cPtr = tiledbcsPINVOKE.VectorUChar_Repeat(value, count);
-    VectorUChar ret = (cPtr == global::System.IntPtr.Zero) ? null : new VectorUChar(cPtr, true);
+  public static VectorUInt8 Repeat(byte value, int count) {
+    global::System.IntPtr cPtr = tiledbcsPINVOKE.VectorUInt8_Repeat(value, count);
+    VectorUInt8 ret = (cPtr == global::System.IntPtr.Zero) ? null : new VectorUInt8(cPtr, true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void Reverse() {
-    tiledbcsPINVOKE.VectorUChar_Reverse__SWIG_0(swigCPtr);
+    tiledbcsPINVOKE.VectorUInt8_Reverse__SWIG_0(swigCPtr);
   }
 
   public void Reverse(int index, int count) {
-    tiledbcsPINVOKE.VectorUChar_Reverse__SWIG_1(swigCPtr, index, count);
+    tiledbcsPINVOKE.VectorUInt8_Reverse__SWIG_1(swigCPtr, index, count);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void SetRange(int index, VectorUChar values) {
-    tiledbcsPINVOKE.VectorUChar_SetRange(swigCPtr, index, VectorUChar.getCPtr(values));
+  public void SetRange(int index, VectorUInt8 values) {
+    tiledbcsPINVOKE.VectorUInt8_SetRange(swigCPtr, index, VectorUInt8.getCPtr(values));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public bool Contains(byte value) {
-    bool ret = tiledbcsPINVOKE.VectorUChar_Contains(swigCPtr, value);
+    bool ret = tiledbcsPINVOKE.VectorUInt8_Contains(swigCPtr, value);
     return ret;
   }
 
   public int IndexOf(byte value) {
-    int ret = tiledbcsPINVOKE.VectorUChar_IndexOf(swigCPtr, value);
+    int ret = tiledbcsPINVOKE.VectorUInt8_IndexOf(swigCPtr, value);
     return ret;
   }
 
   public int LastIndexOf(byte value) {
-    int ret = tiledbcsPINVOKE.VectorUChar_LastIndexOf(swigCPtr, value);
+    int ret = tiledbcsPINVOKE.VectorUInt8_LastIndexOf(swigCPtr, value);
     return ret;
   }
 
   public bool Remove(byte value) {
-    bool ret = tiledbcsPINVOKE.VectorUChar_Remove(swigCPtr, value);
+    bool ret = tiledbcsPINVOKE.VectorUInt8_Remove(swigCPtr, value);
     return ret;
   }
 

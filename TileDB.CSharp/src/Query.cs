@@ -81,6 +81,12 @@ public class Query : global::System.IDisposable {
     return ret;
   }
 
+  public Query set_condition(QueryCondition condition) {
+    Query ret = new Query(tiledbcsPINVOKE.Query_set_condition(swigCPtr, QueryCondition.getCPtr(condition)), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public Array array() {
     global::System.IntPtr cPtr = tiledbcsPINVOKE.Query_array(swigCPtr);
     Array ret = (cPtr == global::System.IntPtr.Zero) ? null : new Array(cPtr, true);
@@ -111,8 +117,14 @@ public class Query : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public MapStringPairUInt64UInt64 result_buffer_elements() {
-    MapStringPairUInt64UInt64 ret = new MapStringPairUInt64UInt64(tiledbcsPINVOKE.Query_result_buffer_elements(swigCPtr), true);
+  public MapStringVectorUInt64 result_buffer_elements() {
+    MapStringVectorUInt64 ret = new MapStringVectorUInt64(tiledbcsPINVOKE.Query_result_buffer_elements(swigCPtr), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public MapStringVectorUInt64 result_buffer_elements_nullable() {
+    MapStringVectorUInt64 ret = new MapStringVectorUInt64(tiledbcsPINVOKE.Query_result_buffer_elements_nullable(swigCPtr), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -141,8 +153,20 @@ public class Query : global::System.IDisposable {
     return ret;
   }
 
-  public PairUInt64UInt64 est_result_size_var(string attr_name) {
-    PairUInt64UInt64 ret = new PairUInt64UInt64(tiledbcsPINVOKE.Query_est_result_size_var(swigCPtr, attr_name), true);
+  public VectorUInt64 est_result_size_var(string attr_name) {
+    VectorUInt64 ret = new VectorUInt64(tiledbcsPINVOKE.Query_est_result_size_var(swigCPtr, attr_name), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public VectorUInt64 est_result_size_nullable(string attr_name) {
+    VectorUInt64 ret = new VectorUInt64(tiledbcsPINVOKE.Query_est_result_size_nullable(swigCPtr, attr_name), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public VectorUInt64 est_result_size_var_nullable(string attr_name) {
+    VectorUInt64 ret = new VectorUInt64(tiledbcsPINVOKE.Query_est_result_size_var_nullable(swigCPtr, attr_name), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -185,6 +209,18 @@ public class Query : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public Query set_config(Config config) {
+    Query ret = new Query(tiledbcsPINVOKE.Query_set_config(swigCPtr, Config.getCPtr(config)), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public Config config() {
+    Config ret = new Config(tiledbcsPINVOKE.Query_config(swigCPtr), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public void set_int32_coordinates(VectorInt32 buf) {
     tiledbcsPINVOKE.Query_set_int32_coordinates(swigCPtr, VectorInt32.getCPtr(buf));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
@@ -212,6 +248,26 @@ public class Query : global::System.IDisposable {
 
   public void set_double_coordinates(VectorDouble buf) {
     tiledbcsPINVOKE.Query_set_double_coordinates(swigCPtr, VectorDouble.getCPtr(buf));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void set_char_vector_buffer(string attr, VectorChar buf) {
+    tiledbcsPINVOKE.Query_set_char_vector_buffer(swigCPtr, attr, VectorChar.getCPtr(buf));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void set_char_vector_buffer_with_offsets(string attr, VectorChar buf, VectorUInt64 offsets) {
+    tiledbcsPINVOKE.Query_set_char_vector_buffer_with_offsets(swigCPtr, attr, VectorChar.getCPtr(buf), VectorUInt64.getCPtr(offsets));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void set_char_vector_buffer_with_validity(string attr, VectorChar buf, VectorUInt8 validity) {
+    tiledbcsPINVOKE.Query_set_char_vector_buffer_with_validity(swigCPtr, attr, VectorChar.getCPtr(buf), VectorUInt8.getCPtr(validity));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void set_char_vector_buffer_with_offsets_validity(string attr, VectorChar buf, VectorUInt64 offsets, VectorUInt8 validity) {
+    tiledbcsPINVOKE.Query_set_char_vector_buffer_with_offsets_validity(swigCPtr, attr, VectorChar.getCPtr(buf), VectorUInt64.getCPtr(offsets), VectorUInt8.getCPtr(validity));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -243,6 +299,12 @@ public class Query : global::System.IDisposable {
   public void set_double_vector_buffer(string attr, VectorDouble buf) {
     tiledbcsPINVOKE.Query_set_double_vector_buffer(swigCPtr, attr, VectorDouble.getCPtr(buf));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public string stats() {
+    string ret = tiledbcsPINVOKE.Query_stats(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
   }
 
   public static string to_str(QueryType type) {
