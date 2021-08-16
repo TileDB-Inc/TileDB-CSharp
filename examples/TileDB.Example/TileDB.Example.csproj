@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\ExampleDenseArray.cs" Link="ExampleDenseArray.cs" />
+    <Compile Include="..\ExampleQueryCondition.cs" Link="ExampleQueryCondition.cs" />
   </ItemGroup>
 
   <ItemGroup>

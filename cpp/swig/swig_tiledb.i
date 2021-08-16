@@ -114,6 +114,10 @@
 %ignore tiledb::Attribute::Attribute(const std::shared_ptr<tiledb::Context> &,tiledb_attribute_t *);
 %ignore tiledb::Attribute::operator=(const tiledb::Attribute);
 %ignore tiledb::Attribute::operator=(tiledb::Attribute &);
+%ignore tiledb::Attribute::set_fill_value(const void *,uint64_t);
+%ignore tiledb::Attribute::get_fill_value(const void * *,uint64_t *);
+%ignore tiledb::Attribute::set_fill_value(const void *,uint64_t,uint8_t);
+%ignore tiledb::Attribute::get_fill_value(const void * *,uint64_t *,uint8_t *);
 %ignore tiledb::Attribute::ptr();
 
 //ignore class or methods in file:../src/tiledb/cxx_api/tiledb_cxx_config.h
@@ -147,6 +151,11 @@
 %ignore tiledb::Domain::ptr();
 
 //ignore class or methods in file:../src/tiledb/cxx_api/tiledb_cxx_enum.h
+%ignore tiledb::EnumUtil::operator=(const tiledb::EnumUtil &);
+%ignore tiledb::EnumUtil::queryconditionoperatortype_to_str(QueryConditionOperatorType);
+%ignore tiledb::EnumUtil::queryconditionoperatortype_from_str(const std::string &);
+%ignore tiledb::EnumUtil::queryconditioncombinationoperatortype_to_str(QueryConditionCombinationOperatorType);
+%ignore tiledb::EnumUtil::queryconditioncombinationoperatortype_from_str(const std::string &);
 
 //ignore class or methods in file:../src/tiledb/cxx_api/tiledb_cxx_filter.h
 %ignore tiledb::Filter::Filter(const std::shared_ptr<tiledb::Context> &,tiledb_filter_t *);

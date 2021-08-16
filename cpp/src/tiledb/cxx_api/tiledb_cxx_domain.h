@@ -255,7 +255,31 @@ class Domain {
     return *this;
   }
 
+  /**
+   * Adds a new dimension to the domain.
+   *
+   * **Example:**
+   * @code{.cpp}
+   * domain.add_dimension_for_datatype("d1",DataType::TILEDB_INT32,"-10","10","10");
+   * @endcode
+   *
+   * @param name The dimension name.
+   * @param datatype The DataType.*
+   * @param str_bound_lower The lower bound.
+   * @param str_bound_upper The upper bound.
+   * @param str_extent The extent
+   * 
+   */
+  void add_dimension_for_datatype(const std::string& name, tiledb::DataType datatype, const std::string& str_bound_lower, const std::string& str_bound_upper, const std::string& str_extent )
+  {
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    tiledb::Dimension d = Dimension::create_dimension_for_datatype(ctx_,name,datatype,str_bound_lower,str_bound_upper,str_extent);
+    ctx_->handle_error(tiledb_domain_add_dimension(
+		  c_ctx, domain_.get(), d.ptr().get()));
 
+  }
+
+//specialized functions
   void add_int32_dimension(const std::string& name, int bound_lower, int bound_upper, int extent)
   {
 	  tiledb_ctx_t* c_ctx = ctx_->ptr().get();

@@ -602,6 +602,201 @@ class Query {
     return *this;
   }
 
+
+  /**
+   * Adds a 1D range along a subarray dimension from a string vector.
+   * The first element vector[0] is the string representation of start
+   * The second element vector[1] is the string representation of end 
+   * If the vector size is 3, then vector[2] is the strig representation of stride
+   *
+   * **Example:**
+   *
+   * @code{.cpp}
+   * // Set a 1D range on dimension 0, assuming the domain type is int64.
+   * std::vector<std::string> vec;
+   * vec.push_back("10");
+   * vec.push_back("20");
+   * int64_t end = 20;
+   * // Stride is optional
+   * query.add_range(0, vec);
+   * @endcode
+   *
+   * @param dim_idx The index of the dimension to add the range to.
+   * @param vec The range information vector.
+   * @return Reference to this Query
+   */
+  tiledb::Query& add_range_from_str_vector(
+      uint32_t dim_idx, const std::vector<std::string>& vec) {
+ 
+    if(dim_idx>= schema_.domain().ndim())
+    {
+      return *this;
+    }
+    if(vec.size()<2) {
+      return *this;
+    }
+    auto dim = schema_.domain().dimension(dim_idx);
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    tiledb::DataType dim_datatype = dim.type();
+
+    switch (dim_datatype) {
+      case DataType::TILEDB_INT8:
+        {
+          int8_t start = (int8_t)atoi(vec[0].c_str());
+          int8_t end = (int8_t)atoi(vec[1].c_str());
+          int8_t stripe = 0;
+          if(vec.size()>2) {
+            stripe = (int8_t)atoi(vec[2].c_str());
+          }
+          return add_range<int8_t>(dim_idx,start,end,stripe);
+        }
+        break;
+      case DataType::TILEDB_UINT8:
+        {
+          uint8_t start = (uint8_t)atoi(vec[0].c_str());
+          uint8_t end = (uint8_t)atoi(vec[1].c_str());
+          uint8_t stripe = 0;
+          if(vec.size()>2) {
+            stripe = (uint8_t)atoi(vec[2].c_str());
+          }
+          return add_range<uint8_t>(dim_idx,start,end,stripe);
+        }
+        break;
+      case DataType::TILEDB_INT16:
+        {
+          int16_t start = (int16_t)atoi(vec[0].c_str());
+          int16_t end = (int16_t)atoi(vec[1].c_str());
+          int16_t stripe = 0;
+          if(vec.size()>2) {
+            stripe = (int16_t)atoi(vec[2].c_str());
+          }
+          return add_range<int16_t>(dim_idx,start,end,stripe);
+        }
+        break;
+      case DataType::TILEDB_UINT16:
+        {
+          uint16_t start = (uint16_t)atoi(vec[0].c_str());
+          uint16_t end = (uint16_t)atoi(vec[1].c_str());
+          uint16_t stripe = 0;
+          if(vec.size()>2) {
+            stripe = (uint16_t)atoi(vec[2].c_str());
+          }
+          return add_range<uint16_t>(dim_idx,start,end,stripe);
+        }
+        break;
+      case DataType::TILEDB_INT32:
+        {
+          int start = (int)atoi(vec[0].c_str());
+          int end = (int)atoi(vec[1].c_str());
+          int stripe = 0;
+          if(vec.size()>2) {
+            stripe = (int)atoi(vec[2].c_str());
+          }
+          return add_range<int>(dim_idx,start,end,stripe);
+        }
+        break;
+      case DataType::TILEDB_UINT32:
+        {
+          uint32_t start = (uint32_t)atoll(vec[0].c_str());
+          uint32_t end = (uint32_t)atoll(vec[1].c_str());
+          uint32_t stripe = 0;
+          if(vec.size()>2) {
+            stripe = (uint32_t)atoll(vec[2].c_str());
+          }
+          return add_range<uint32_t>(dim_idx,start,end,stripe);
+        }
+        break;
+      case DataType::TILEDB_INT64:
+        {
+          int64_t start = (int64_t)atoll(vec[0].c_str());
+          int64_t end = (int64_t)atoll(vec[1].c_str());
+          int64_t stripe = 0;
+          if(vec.size()>2) {
+            stripe = (int64_t)atoll(vec[2].c_str());
+          }
+          return add_range<int64_t>(dim_idx,start,end,stripe);
+        }
+        break;
+      case DataType::TILEDB_UINT64:
+        {
+          uint64_t start = (uint64_t)atoll(vec[0].c_str());
+          uint64_t end = (uint64_t)atoll(vec[1].c_str());
+          uint64_t stripe = 0;
+          if(vec.size()>2) {
+            stripe = (uint64_t)atoll(vec[2].c_str());
+          }
+          return add_range<uint64_t>(dim_idx,start,end,stripe);
+        }
+        break;
+      case DataType::TILEDB_FLOAT32:
+        {
+          float start = (float)atof(vec[0].c_str());
+          float end = (float)atof(vec[1].c_str());
+          float stripe = 0;
+          if(vec.size()>2) {
+            stripe = (float)atof(vec[2].c_str());
+          }
+          return add_range<float>(dim_idx,start,end,stripe);
+        }
+        break;
+      case DataType::TILEDB_FLOAT64:
+        {
+          double start = atof(vec[0].c_str());
+          double end = atof(vec[1].c_str());
+          double stripe = 0;
+          if(vec.size()>2) {
+            stripe = atof(vec[2].c_str());
+          }
+          return add_range<double>(dim_idx,start,end,stripe);
+        }
+        break;
+      case TILEDB_DATETIME_YEAR:
+      case TILEDB_DATETIME_MONTH:
+      case TILEDB_DATETIME_WEEK:
+      case TILEDB_DATETIME_DAY:
+      case TILEDB_DATETIME_HR:
+      case TILEDB_DATETIME_MIN:
+      case TILEDB_DATETIME_SEC:
+      case TILEDB_DATETIME_MS:
+      case TILEDB_DATETIME_US:
+      case TILEDB_DATETIME_NS:
+      case TILEDB_DATETIME_PS:
+      case TILEDB_DATETIME_FS:
+      case TILEDB_DATETIME_AS:
+        {
+          int64_t start = (int64_t)atoll(vec[0].c_str());
+          int64_t end = (int64_t)atoll(vec[1].c_str());
+          int64_t stripe = 0;
+          if(vec.size()>2) {
+            stripe = (int64_t)atoll(vec[2].c_str());
+          }
+          return add_range<int64_t>(dim_idx,start,end,stripe);
+        }
+        break;
+      case TILEDB_STRING_ASCII:
+      case TILEDB_CHAR:
+      case TILEDB_STRING_UTF8:
+      case TILEDB_STRING_UTF16:
+      case TILEDB_STRING_UTF32:
+      case TILEDB_STRING_UCS2:
+      case TILEDB_STRING_UCS4:
+        {
+          std::string start = vec[0];
+          std::string end = vec[1];
+          return add_range(dim_idx,start,end);
+        }
+        break;
+      case TILEDB_ANY:
+        // Not supported domain types
+        throw TileDBError("Invalid Dim type");
+      default:
+        break;
+    }//switch     
+
+    return *this;
+  }//add_range_from_str_vector
+
+
   /**
    * Retrieves the number of ranges for a given dimension.
    *
@@ -1296,50 +1491,103 @@ void set_double_coordinates(std::vector<double>& buf) {
  
   }  
 
- //specialized functions
+ //specialized functions for char
   void set_char_vector_buffer(const std::string& attr, std::vector<char>& buf) {
     auto& q = set_buffer<char>(attr,buf);
   }
-
   void set_char_vector_buffer_with_offsets(const std::string& attr, std::vector<char>& buf,std::vector<uint64_t>& offsets) {
     auto& q = set_buffer<char>(attr,offsets,buf);
   }
-
   void set_char_vector_buffer_with_validity(const std::string& attr, std::vector<char>& buf,std::vector<uint8_t>& validity) {
     auto& q = set_buffer_nullable<char>(attr,buf,validity);
   }
-
   void set_char_vector_buffer_with_offsets_validity(const std::string& attr, std::vector<char>& buf,std::vector<uint64_t>& offsets,std::vector<uint8_t>& validity) {
     auto& q = set_buffer_nullable<char>(attr,offsets,buf,validity);
   }
 
-
+//specialized functions for int
   void set_int32_vector_buffer(const std::string& attr, std::vector<int>& buf) {
     auto& q = set_buffer<int>(attr,buf);
   }
+  void set_int32_vector_buffer_with_offsets(const std::string& attr, std::vector<int>& buf,std::vector<uint64_t>& offsets) {
+    auto& q = set_buffer<int>(attr,offsets,buf);
+  }
+  void set_int32_vector_buffer_with_validity(const std::string& attr, std::vector<int>& buf,std::vector<uint8_t>& validity) {
+    auto& q = set_buffer_nullable<int>(attr,buf,validity);
+  }
+  void set_int32_vector_buffer_with_offsets_validity(const std::string& attr, std::vector<int>& buf,std::vector<uint64_t>& offsets,std::vector<uint8_t>& validity) {
+    auto& q = set_buffer_nullable<int>(attr,offsets,buf,validity);
+  }  
 
+//specialized functions for int64_t
   void set_int64_vector_buffer(const std::string& attr, std::vector<int64_t>& buf) {
     auto& q = set_buffer<int64_t>(attr,buf);
   }
+  void set_int64_vector_buffer_with_offsets(const std::string& attr, std::vector<int64_t>& buf,std::vector<uint64_t>& offsets) {
+    auto& q = set_buffer<int64_t>(attr,offsets,buf);
+  }
+  void set_int64_vector_buffer_with_validity(const std::string& attr, std::vector<int64_t>& buf,std::vector<uint8_t>& validity) {
+    auto& q = set_buffer_nullable<int64_t>(attr,buf,validity);
+  }
+  void set_int64_vector_buffer_with_offsets_validity(const std::string& attr, std::vector<int64_t>& buf,std::vector<uint64_t>& offsets,std::vector<uint8_t>& validity) {
+    auto& q = set_buffer_nullable<int64_t>(attr,offsets,buf,validity);
+  }    
 
+//specialized functions for uint32_t
   void set_uint32_vector_buffer(const std::string& attr, std::vector<uint32_t>& buf) {
     auto& q = set_buffer<uint32_t>(attr,buf);
-
   }
+  void set_uint32_vector_buffer_with_offsets(const std::string& attr, std::vector<uint32_t>& buf,std::vector<uint64_t>& offsets) {
+    auto& q = set_buffer<uint32_t>(attr,offsets,buf);
+  }
+  void set_uint32_vector_buffer_with_validity(const std::string& attr, std::vector<uint32_t>& buf,std::vector<uint8_t>& validity) {
+    auto& q = set_buffer_nullable<uint32_t>(attr,buf,validity);
+  }
+  void set_uint32_vector_buffer_with_offsets_validity(const std::string& attr, std::vector<uint32_t>& buf,std::vector<uint64_t>& offsets,std::vector<uint8_t>& validity) {
+    auto& q = set_buffer_nullable<uint32_t>(attr,offsets,buf,validity);
+  }    
 
-
+//specialized functions for uint64_t
   void set_uint64_vector_buffer(const std::string& attr, std::vector<uint64_t>& buf) {
     auto& q = set_buffer<uint64_t>(attr,buf);
   }
+  void set_uint64_vector_buffer_with_offsets(const std::string& attr, std::vector<uint64_t>& buf,std::vector<uint64_t>& offsets) {
+    auto& q = set_buffer<uint64_t>(attr,offsets,buf);
+  }
+  void set_uint64_vector_buffer_with_validity(const std::string& attr, std::vector<uint64_t>& buf,std::vector<uint8_t>& validity) {
+    auto& q = set_buffer_nullable<uint64_t>(attr,buf,validity);
+  }
+  void set_uint64_vector_buffer_with_offsets_validity(const std::string& attr, std::vector<uint64_t>& buf,std::vector<uint64_t>& offsets,std::vector<uint8_t>& validity) {
+    auto& q = set_buffer_nullable<uint64_t>(attr,offsets,buf,validity);
+  }    
 
+//specialized functions for float
   void set_float32_vector_buffer(const std::string& attr, std::vector<float>& buf) {
     auto& q = set_buffer<float>(attr,buf);
   }  
+  void set_float32_vector_buffer_with_offsets(const std::string& attr, std::vector<float>& buf,std::vector<uint64_t>& offsets) {
+    auto& q = set_buffer<float>(attr,offsets,buf);
+  }
+  void set_float32_vector_buffer_with_validity(const std::string& attr, std::vector<float>& buf,std::vector<uint8_t>& validity) {
+    auto& q = set_buffer_nullable<float>(attr,buf,validity);
+  }
+  void set_float32_vector_buffer_with_offsets_validity(const std::string& attr, std::vector<float>& buf,std::vector<uint64_t>& offsets,std::vector<uint8_t>& validity) {
+    auto& q = set_buffer_nullable<float>(attr,offsets,buf,validity);
+  }  
 
+//specialized functions for double
   void set_double_vector_buffer(const std::string& attr, std::vector<double>& buf) {
     auto& q = set_buffer<double>(attr,buf);
- 
   }
+  void set_double_vector_buffer_with_offsets(const std::string& attr, std::vector<double>& buf,std::vector<uint64_t>& offsets) {
+    auto& q = set_buffer<double>(attr,offsets,buf);
+  }
+  void set_double_vector_buffer_with_validity(const std::string& attr, std::vector<double>& buf,std::vector<uint8_t>& validity) {
+    auto& q = set_buffer_nullable<double>(attr,buf,validity);
+  }
+  void set_double_vector_buffer_with_offsets_validity(const std::string& attr, std::vector<double>& buf,std::vector<uint64_t>& offsets,std::vector<uint8_t>& validity) {
+    auto& q = set_buffer_nullable<double>(attr,offsets,buf,validity);
+  }    
 
 
   ////////

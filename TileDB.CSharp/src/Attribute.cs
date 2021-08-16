@@ -104,6 +104,18 @@ public class Attribute : global::System.IDisposable {
     return ret;
   }
 
+  public Attribute set_nullable(bool nullable) {
+    Attribute ret = new Attribute(tiledbcsPINVOKE.Attribute_set_nullable(swigCPtr, nullable), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public bool nullable() {
+    bool ret = tiledbcsPINVOKE.Attribute_nullable(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public void dump(string filename) {
     tiledbcsPINVOKE.Attribute_dump(swigCPtr, filename);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
@@ -117,6 +129,12 @@ public class Attribute : global::System.IDisposable {
 
   public static Attribute create_attribute(Context ctx, string name, DataType datatype) {
     Attribute ret = new Attribute(tiledbcsPINVOKE.Attribute_create_attribute(Context.getCPtr(ctx), name, (int)datatype), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static Attribute create_vector_attribute(Context ctx, string name, DataType datatype) {
+    Attribute ret = new Attribute(tiledbcsPINVOKE.Attribute_create_vector_attribute(Context.getCPtr(ctx), name, (int)datatype), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

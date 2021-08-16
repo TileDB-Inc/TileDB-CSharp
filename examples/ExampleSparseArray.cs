@@ -130,8 +130,8 @@ namespace TileDB.Example
             TileDB.Context ctx = new TileDB.Context();
 
 
-            TileDB.VectorInt32 coords_rows = new TileDB.VectorInt32(3);
-            TileDB.VectorInt32 coords_cols = new TileDB.VectorInt32(3);
+            TileDB.VectorInt32 coords_rows = TileDB.VectorInt32.Repeat(0,3);
+            TileDB.VectorInt32 coords_cols = TileDB.VectorInt32.Repeat(0,3);
 
             TileDB.VectorInt32 data = TileDB.VectorInt32.Repeat(0,3); //hold 3 elements
 
@@ -156,7 +156,9 @@ namespace TileDB.Example
             array.close();
             
             System.Console.WriteLine("query result:");
-            System.Console.WriteLine(String.Join(" ", data));
+            System.Console.WriteLine("coords_rows:{0}", String.Join(" ", coords_rows));
+            System.Console.WriteLine("coords_cols:{0}", String.Join(" ", coords_cols));
+            System.Console.WriteLine("data:{0}",String.Join(" ", data));
             return status;
         }//private TileDB.QueryStatus ReadSimpleSparseArray()
 

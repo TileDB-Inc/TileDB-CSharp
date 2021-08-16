@@ -226,6 +226,173 @@ class Attribute {
     return *this;
   }
 
+ /**
+   * Sets the default fill value for the input attribute. This value will
+   * be used for the input attribute whenever querying (1) an empty cell in
+   * a dense array, or (2) a non-empty cell (in either dense or sparse array)
+   * when values on the input attribute are missing (e.g., if the user writes
+   * a subset of the attributes in a write operation).
+   *
+   * Applicable to var-sized attributes.
+   *
+   * **Example:**
+   *
+   * @code{.c}
+   * tiledb::Context ctx;
+   *
+   * // Fixed-sized attribute
+   * auto a1 = tiledb::Attribute::create<int>(ctx, "a1");
+   * int32_t value = 0;
+   * uint64_t size = sizeof(value);
+   * a1.set_fill_value(&value, size);
+   *
+   * // Var-sized attribute
+   * auto a2 = tiledb::Attribute::create<std::string>(ctx, "a2");
+   * std::string value("null");
+   * a2.set_fill_value(value.c_str(), value.size());
+   * @endcode
+   *
+   * @param value The fill value to set.
+   * @param size The fill value size in bytes.
+   *
+   * @note A call to `cell_val_num` sets the fill value
+   *     of the attribute to its default. Therefore, make sure you invoke
+   *     `set_fill_value` after deciding on the number
+   *     of values this attribute will hold in each cell.
+   *
+   * @note For fixed-sized attributes, the input `size` should be equal
+   *     to the cell size.
+   */
+  Attribute& set_fill_value(const void* value, uint64_t size) {
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_attribute_set_fill_value(
+        c_ctx, attr_.get(), value, size));
+    return *this;
+  }
+
+  /**
+   * Gets the default fill value for the input attribute. This value will
+   * be used for the input attribute whenever querying (1) an empty cell in
+   * a dense array, or (2) a non-empty cell (in either dense or sparse array)
+   * when values on the input attribute are missing (e.g., if the user writes
+   * a subset of the attributes in a write operation).
+   *
+   * Applicable to both fixed-sized and var-sized attributes.
+   *
+   * **Example:**
+   *
+   * @code{.c}
+   * // Fixed-sized attribute
+   * auto a1 = tiledb::Attribute::create<int>(ctx, "a1");
+   * const int32_t* value;
+   * uint64_t size;
+   * a1.get_fill_value(&value, &size);
+   *
+   * // Var-sized attribute
+   * auto a2 = tiledb::Attribute::create<std::string>(ctx, "a2");
+   * const char* value;
+   * uint64_t size;
+   * a2.get_fill_value(&value, &size);
+   * @endcode
+   *
+   * @param value A pointer to the fill value to get.
+   * @param size The size of the fill value to get.
+   */
+  void get_fill_value(const void** value, uint64_t* size) {
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_attribute_get_fill_value(
+        c_ctx, attr_.get(), value, size));
+  }
+
+  /**
+   * Sets the default fill value for the input, nullable attribute. This value
+   * will be used for the input attribute whenever querying (1) an empty cell in
+   * a dense array, or (2) a non-empty cell (in either dense or sparse array)
+   * when values on the input attribute are missing (e.g., if the user writes
+   * a subset of the attributes in a write operation).
+   *
+   * Applicable to var-sized attributes.
+   *
+   * **Example:**
+   *
+   * @code{.c}
+   * tiledb::Context ctx;
+   *
+   * // Fixed-sized attribute
+   * auto a1 = tiledb::Attribute::create<int>(ctx, "a1");
+   * a1.set_nullable(true);
+   * int32_t value = 0;
+   * uint64_t size = sizeof(value);
+   * uint8_t valid = 0;
+   * a1.set_fill_value(&value, size, valid);
+   *
+   * // Var-sized attribute
+   * auto a2 = tiledb::Attribute::create<std::string>(ctx, "a2");
+   * a2.set_nullable(true);
+   * std::string value("null");
+   * uint8_t valid = 0;
+   * a2.set_fill_value(value.c_str(), value.size(), valid);
+   * @endcode
+   *
+   * @param value The fill value to set.
+   * @param size The fill value size in bytes.
+   * @param valid The validity fill value, zero for a null value and
+   *     non-zero for a valid attribute.
+   *
+   * @note A call to `cell_val_num` sets the fill value
+   *     of the attribute to its default. Therefore, make sure you invoke
+   *     `set_fill_value` after deciding on the number
+   *     of values this attribute will hold in each cell.
+   *
+   * @note For fixed-sized attributes, the input `size` should be equal
+   *     to the cell size.
+   */
+  Attribute& set_fill_value(const void* value, uint64_t size, uint8_t valid) {
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_attribute_set_fill_value_nullable(
+        c_ctx, attr_.get(), value, size, valid));
+    return *this;
+  }
+
+  /**
+   * Gets the default fill value for the input attribute. This value will
+   * be used for the input attribute whenever querying (1) an empty cell in
+   * a dense array, or (2) a non-empty cell (in either dense or sparse array)
+   * when values on the input attribute are missing (e.g., if the user writes
+   * a subset of the attributes in a write operation).
+   *
+   * Applicable to both fixed-sized and var-sized attributes.
+   *
+   * **Example:**
+   *
+   * @code{.c}
+   * // Fixed-sized attribute
+   * auto a1 = tiledb::Attribute::create<int>(ctx, "a1");
+   * a1.set_nullable(true);
+   * const int32_t* value;
+   * uint64_t size;
+   * uint8_t valid;
+   * a1.get_fill_value(&value, &size, &valid);
+   *
+   * // Var-sized attribute
+   * auto a2 = tiledb::Attribute::create<std::string>(ctx, "a2");
+   * a2.set_nullable(true);
+   * const char* value;
+   * uint64_t size;
+   * uint8_t valid;
+   * a2.get_fill_value(&value, &size, &valid);
+   * @endcode
+   *
+   * @param value A pointer to the fill value to get.
+   * @param size The size of the fill value to get.
+   * @param valid The fill value validity to get.
+   */
+  void get_fill_value(const void** value, uint64_t* size, uint8_t* valid) {
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_attribute_get_fill_value_nullable(
+        c_ctx, attr_.get(), value, size, valid));
+  }
+
   /** Check if attribute is variable sized. **/
   bool variable_sized() const {
     return cell_val_num() == TILEDB_VAR_NUM;
@@ -258,6 +425,44 @@ class Attribute {
     ctx_->handle_error(tiledb_attribute_set_filter_list(
         c_ctx, attr_.get(), filter_list.ptr().get()));
     return *this;
+  }
+
+    /**
+   * Sets the nullability of an attribute.
+   *
+   * **Example:**
+   * @code{.cpp}
+   * auto a1 = Attribute::create<int>(...);
+   * a1.set_nullable(true);
+   * @endcode
+   *
+   * @param nullable Whether the attribute is nullable.
+   * @return Reference to this Attribute
+   */
+  Attribute& set_nullable(bool nullable) {
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    ctx_->handle_error(tiledb_attribute_set_nullable(
+        c_ctx, attr_.get(), static_cast<uint8_t>(nullable)));
+    return *this;
+  }
+
+  /**
+   * Gets the nullability of an attribute.
+   *
+   * **Example:**
+   * @code{.cpp}
+   * auto a1 = Attribute::create<int>(...);
+   * auto nullable = a1.nullable();
+   * @endcode
+   *
+   * @return Whether the attribute is nullable.
+   */
+  bool nullable() {
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    uint8_t nullable;
+    ctx_->handle_error(
+        tiledb_attribute_get_nullable(c_ctx, attr_.get(), &nullable));
+    return static_cast<bool>(nullable);
   }
 
   /** Returns the C TileDB attribute object pointer. */
@@ -472,7 +677,88 @@ class Attribute {
 		  return create<std::string>(ctx, name);
  
 	  }
-  }
+  }//tiledb::Attribute create_attribute
+
+  static tiledb::Attribute create_vector_attribute(const std::shared_ptr<tiledb::Context>& ctx,
+	  const std::string& name, tiledb::DataType datatype)
+  {
+ 
+	  if (datatype == tiledb::DataType::TILEDB_INT8)
+	  {
+		  return create<std::vector<int8_t> >(ctx, name);
+	  }
+	  else if (datatype == tiledb::DataType::TILEDB_UINT8)
+	  {
+		  return create<std::vector<uint8_t> >(ctx, name);
+	  }
+	  else if (datatype == tiledb::DataType::TILEDB_INT16)
+	  {
+		  return create<std::vector<int16_t> >(ctx, name);
+	  }
+	  else if (datatype == tiledb::DataType::TILEDB_UINT16)
+	  {
+		  return create<std::vector<uint16_t> >(ctx, name);
+	  }
+	  else if (datatype == tiledb::DataType::TILEDB_INT32)
+	  {
+		  return create<std::vector<int32_t> >(ctx, name);
+	  }
+	  else if (datatype == tiledb::DataType::TILEDB_UINT32)
+	  {
+		  return create<std::vector<uint32_t> >(ctx, name);
+	  }
+	  else if (datatype == tiledb::DataType::TILEDB_INT64)
+	  {
+		  return create<std::vector<int64_t> >(ctx, name);
+	  }
+	  else if (datatype == tiledb::DataType::TILEDB_UINT64)
+	  {
+		  return create<std::vector<uint64_t> >(ctx, name);
+	  }
+	  else if (datatype == tiledb::DataType::TILEDB_FLOAT32)
+	  {
+		  return create<std::vector<float> >(ctx, name);
+	  }
+	  else if (datatype == tiledb::DataType::TILEDB_FLOAT64)
+	  {
+		  return create<std::vector<double> >(ctx, name);
+	  }
+	  else if (datatype == tiledb::DataType::TILEDB_DATETIME_YEAR
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_MONTH
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_WEEK
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_DAY
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_HR
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_MIN
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_SEC
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_MS
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_US
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_NS
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_PS
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_FS
+		  || datatype == tiledb::DataType::TILEDB_DATETIME_AS)
+	  {
+		  return create<std::vector<int64_t> >(ctx, name);
+	  }
+	  else if (datatype == tiledb::DataType::TILEDB_STRING_ASCII)
+	  {
+		  return create<std::string>(ctx, name);
+	  }
+	  else if (datatype == tiledb::DataType::TILEDB_CHAR
+		  || datatype == tiledb::DataType::TILEDB_STRING_UTF8
+		  || datatype == tiledb::DataType::TILEDB_STRING_UTF16
+		  || datatype == tiledb::DataType::TILEDB_STRING_UTF32
+		  || datatype == tiledb::DataType::TILEDB_STRING_UCS2
+		  || datatype == tiledb::DataType::TILEDB_STRING_UCS4
+		  || datatype == tiledb::DataType::TILEDB_ANY
+		  ) {
+		  return create<std::string>(ctx, name);
+ 
+	  }
+	  else {
+		  return create<std::string>(ctx, name);
+ 
+	  }
+  }//tiledb::Attribute create_vector_attribute  
 
  private:
   /* ********************************* */
