@@ -168,7 +168,9 @@ namespace TileDB.Example
                 do
                 {
                     status = query.submit();
-                    System.Console.WriteLine("dim1:{0},dim1_offset:{1},dim2:{2},data:{3}", new string(dim1_data.ToArray()), dim1_offsets[0], dim2_data[0], a1_data[0]);
+                    TileDB.MapStringVectorUInt64 buffer_elements = query.result_buffer_elements();
+                    int num_dim1 = (int)buffer_elements["dim1"][1];
+                    System.Console.WriteLine("dim1:{0},dim1_offset:{1},dim2:{2},data:{3}", new string(dim1_data.GetRange(0,num_dim1).ToArray()), dim1_offsets[0], dim2_data[0], a1_data[0]);
 
                 } while (status == TileDB.QueryStatus.TILEDB_INCOMPLETE);
 
