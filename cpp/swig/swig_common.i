@@ -45,12 +45,15 @@
 
 namespace std {
 
+
+ 
+
   %template(VectorInt32) vector<int>;
   %template(VectorUInt32) vector<unsigned int>;
   %template(VectorInt64) vector<int64_t>;
   %template(VectorUInt64) vector<uint64_t>;
   %template(VectorChar) vector<char>;
-  %template(VectorUChar) vector<unsigned char>;
+  %template(VectorUInt8) vector<uint8_t>;
   %template(VectorFloat32) vector<float>;
   %template(VectorDouble) vector<double>;
   %template(VectorString) vector<string>;
@@ -107,6 +110,20 @@ namespace std {
 
   %template(MapStringPairUInt64UInt64) map<string, pair<uint64_t,uint64_t> >;
   %template(MapStringPairInt64Int64) map<string, pair<int64_t,int64_t> >;
+
+  %template(MapStringVectorUInt8) map<string, vector<uint8_t> >;
+  %template(MapStringVectorUInt32) map<string, vector<uint32_t> >;
+  %template(MapStringVectorInt32) map<string, vector<int> >;
+  %template(MapStringVectorUInt64) map<string, vector<uint64_t> >;
+  %template(MapStringVectorInt64) map<string, vector<int64_t> >;
+
+  %template(MapStringVectorFloat32) map<string, vector<float> >;
+  %template(MapStringVectorDouble) map<string, vector<double> >;
+
+  %template(MapStringVectorString) map<string, vector<string> >;
+  %template(MapStringVectorChar) map<string, vector<char> >;   
+
+
 
 }
 

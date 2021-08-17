@@ -279,6 +279,137 @@ class QueryCondition {
     return qc;
   }
 
+  /**
+   * Factory function for creating a new query condition with datatype T.
+   *
+   * **Example:**
+   * @code{.cpp}
+   * tiledb::Context ctx;
+   * auto a1 = tiledb::QueryCondition::create_for_datatype(ctx, DataType::TILEDB_INT32 "a1", 5, TILEDB_LE);
+   * auto a2 = tiledb::QueryCondition::create_for_datatype(ctx, DataType::TILEDB_FLOAT64, "a2", "3.5",
+   *   TILEDB_GT);
+   * auto a3 = tiledb::QueryCondition::create_for_datatype(ctx, DataType::TILEDB_FLOAT64,
+   *   "a3", "10.0", TILEDB_LT);
+   * @endcode
+   *
+   * @param ctx The TileDB context.
+   * @param datatype The DataType type.
+   * @param name The attribute name.
+   * @param strvalue The string value to compare against.
+   * @param op The comparison operator.
+   * @return A new QueryCondition object.
+   */
+  static QueryCondition create_for_datatype(
+      const std::shared_ptr<tiledb::Context>& ctx,
+      tiledb::DataType datatype,
+      const std::string& attribute_name,
+      std::string strvalue,
+      tiledb::QueryConditionOperatorType optype) {
+    tiledb_query_condition_op_t op = (tiledb_query_condition_op_t)optype;
+    QueryCondition qc(ctx);
+
+    switch (datatype) {
+      case DataType::TILEDB_INT8:
+        {
+          int8_t v = (int8_t)atoi(strvalue.c_str());
+           qc.init(attribute_name, &v, sizeof(int8_t), optype);
+        }
+        break;
+      case DataType::TILEDB_UINT8:
+        {
+          uint8_t v = (uint8_t)atoi(strvalue.c_str());
+           qc.init(attribute_name, &v, sizeof(uint8_t), optype);
+        }
+        break;
+      case DataType::TILEDB_INT16:
+        {
+          int16_t v = (int16_t)atoi(strvalue.c_str());
+           qc.init(attribute_name, &v, sizeof(int16_t), optype);
+        }
+        break;
+      case DataType::TILEDB_UINT16:
+        {
+          uint16_t v = (uint16_t)atoi(strvalue.c_str());
+           qc.init(attribute_name, &v, sizeof(uint16_t), optype);
+        }
+        break;
+      case DataType::TILEDB_INT32:
+        {
+          int32_t v = atoi(strvalue.c_str());
+           qc.init(attribute_name, &v, sizeof(int32_t), optype);
+        }
+        break;
+      case DataType::TILEDB_UINT32:
+        {
+          uint32_t v = (uint32_t)atoll(strvalue.c_str());
+           qc.init(attribute_name, &v, sizeof(uint32_t), optype);
+        }
+        break;
+      case DataType::TILEDB_INT64:
+        {
+          int64_t v = (int64_t)atoll(strvalue.c_str());
+           qc.init(attribute_name, &v, sizeof(int64_t), optype);
+        }
+        break;
+      case DataType::TILEDB_UINT64:
+        {
+          uint64_t v = (uint64_t)atoll(strvalue.c_str());
+           qc.init(attribute_name, &v, sizeof(uint64_t), optype);
+        }
+        break;
+      case DataType::TILEDB_FLOAT32:
+        {
+          float v = (float)atof(strvalue.c_str());
+           qc.init(attribute_name, &v, sizeof(float), optype);
+        }
+        break;
+      case DataType::TILEDB_FLOAT64:
+        {
+          double v = atof(strvalue.c_str());
+           qc.init(attribute_name, &v, sizeof(double), optype);
+        }
+        break;
+      case TILEDB_DATETIME_YEAR:
+      case TILEDB_DATETIME_MONTH:
+      case TILEDB_DATETIME_WEEK:
+      case TILEDB_DATETIME_DAY:
+      case TILEDB_DATETIME_HR:
+      case TILEDB_DATETIME_MIN:
+      case TILEDB_DATETIME_SEC:
+      case TILEDB_DATETIME_MS:
+      case TILEDB_DATETIME_US:
+      case TILEDB_DATETIME_NS:
+      case TILEDB_DATETIME_PS:
+      case TILEDB_DATETIME_FS:
+      case TILEDB_DATETIME_AS:
+        {
+          int64_t v = (int64_t)atoll(strvalue.c_str());
+           qc.init(attribute_name, &v, sizeof(int64_t), optype);
+        }
+        break;
+      case TILEDB_STRING_ASCII:
+      case TILEDB_CHAR:
+      case TILEDB_STRING_UTF8:
+      case TILEDB_STRING_UTF16:
+      case TILEDB_STRING_UTF32:
+      case TILEDB_STRING_UCS2:
+      case TILEDB_STRING_UCS4:
+        {
+          qc.init(attribute_name,strvalue,optype);
+        }
+        break;
+      case TILEDB_ANY:
+        // Not supported domain types
+        throw TileDBError("Invalid Dim type");
+      default:
+        break;
+    }//switch       
+
+   
+
+    return qc;
+  }  
+
  private:
   /* ********************************* */
   /*         PRIVATE ATTRIBUTES        */

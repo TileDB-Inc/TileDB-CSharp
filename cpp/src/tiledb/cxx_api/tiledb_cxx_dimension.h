@@ -453,106 +453,105 @@ class Dimension {
 	  }
   }
 
-  static tiledb::Dimension create_dimension(const std::shared_ptr<tiledb::Context>& ctx, const std::string& name, int intdatatype,
+  static tiledb::Dimension create_dimension_for_datatype(const std::shared_ptr<tiledb::Context>& ctx, const std::string& name, tiledb::DataType datatype,
 	  const std::string& lower_bound_str, const std::string& upper_bound_str, const std::string& extent_str)
   {
-	  if (intdatatype == (int)TILEDB_INT8)
+	  if (datatype == DataType::TILEDB_INT8)
 	  {
 		  std::array<int8_t, 2> bound = { (int8_t)atoi(lower_bound_str.c_str()), (int8_t)atoi(upper_bound_str.c_str()) };
 		  int8_t extent = (int8_t)atoi(extent_str.c_str());
 		  return create<int8_t>(ctx, name, bound, extent);
 
 	  }
-	  else if (intdatatype == (int)TILEDB_UINT8)
+	  else if (datatype == DataType::TILEDB_UINT8)
 	  {
 		  std::array<uint8_t, 2> bound = { (uint8_t)atoi(lower_bound_str.c_str()), (uint8_t)atoi(upper_bound_str.c_str()) };
 		  uint8_t extent = (uint8_t)atoi(extent_str.c_str());
 		  return create<uint8_t>(ctx, name, bound, extent);
 	  }
-	  else if (intdatatype == (int)TILEDB_INT16)
+	  else if (datatype == DataType::TILEDB_INT16)
 	  {
 		  std::array<int16_t, 2> bound = { (int16_t)atoi(lower_bound_str.c_str()), (int16_t)atoi(upper_bound_str.c_str()) };
 		  int16_t extent = (int16_t)atoi(extent_str.c_str());
 		  return create<int16_t>(ctx, name, bound, extent);
 	  }
-	  else if (intdatatype == (int)TILEDB_UINT16)
+	  else if (datatype == DataType::TILEDB_UINT16)
 	  {
 		  std::array<uint16_t, 2> bound = { (uint16_t)atoi(lower_bound_str.c_str()), (uint16_t)atoi(upper_bound_str.c_str()) };
 		  uint16_t extent = (uint16_t)atoi(extent_str.c_str());
 		  return create<uint16_t>(ctx, name, bound, extent);
 	  }
-	  else if (intdatatype == (int)TILEDB_INT32)
+	  else if (datatype == DataType::TILEDB_INT32)
 	  {
 		  std::array<int32_t, 2> bound = { (int32_t)atoi(lower_bound_str.c_str()), (int32_t)atoi(upper_bound_str.c_str()) };
 		  int32_t extent = (int32_t)atoi(extent_str.c_str());
 		  return create<int32_t>(ctx, name, bound, extent);
 	  }
-	  else if (intdatatype == (int)TILEDB_UINT32)
+	  else if (datatype == DataType::TILEDB_UINT32)
 	  {
-		  std::array<uint32_t, 2> bound = { (uint32_t)atoi(lower_bound_str.c_str()), (uint32_t)atoi(upper_bound_str.c_str()) };
-		  uint32_t extent = (uint32_t)atoi(extent_str.c_str());
+		  std::array<uint32_t, 2> bound = { (uint32_t)atoll(lower_bound_str.c_str()), (uint32_t)atoll(upper_bound_str.c_str()) };
+		  uint32_t extent = (uint32_t)atoll(extent_str.c_str());
 		  return create<uint32_t>(ctx, name, bound, extent);
 	  }
-	  else if (intdatatype == (int)TILEDB_INT64)
+	  else if (datatype == DataType::TILEDB_INT64)
 	  {
-		  std::array<int64_t, 2> bound = { (int64_t)atoi(lower_bound_str.c_str()), (int64_t)atoi(upper_bound_str.c_str()) };
-		  int64_t extent = (int64_t)atoi(extent_str.c_str());
+		  std::array<int64_t, 2> bound = { (int64_t)atoll(lower_bound_str.c_str()), (int64_t)atoll(upper_bound_str.c_str()) };
+		  int64_t extent = (int64_t)atoll(extent_str.c_str());
 		  return create<int64_t>(ctx, name, bound, extent);
 	  }
-	  else if (intdatatype == (int)TILEDB_UINT64)
+	  else if (datatype == DataType::TILEDB_UINT64)
 	  {
-		  std::array<uint64_t, 2> bound = { (uint64_t)atoi(lower_bound_str.c_str()), (uint64_t)atoi(upper_bound_str.c_str()) };
-		  uint64_t extent = (uint64_t)atoi(extent_str.c_str());
+		  std::array<uint64_t, 2> bound = { (uint64_t)atoll(lower_bound_str.c_str()), (uint64_t)atoll(upper_bound_str.c_str()) };
+		  uint64_t extent = (uint64_t)atoll(extent_str.c_str());
 		  return create<uint64_t>(ctx, name, bound, extent);
 	  }
-	  else if (intdatatype == (int)TILEDB_FLOAT32)
+	  else if (datatype == DataType::TILEDB_FLOAT32)
 	  {
-		  std::array<float, 2> bound = { (float)atoi(lower_bound_str.c_str()), (float)atoi(upper_bound_str.c_str()) };
-		  float extent = (float)atoi(extent_str.c_str());
+		  std::array<float, 2> bound = { (float)atof(lower_bound_str.c_str()), (float)atof(upper_bound_str.c_str()) };
+		  float extent = (float)atof(extent_str.c_str());
 		  return create<float>(ctx, name, bound, extent);
 	  }
-	  else if (intdatatype == (int)TILEDB_FLOAT64)
+	  else if (datatype == (int)TILEDB_FLOAT64)
 	  {
-		  std::array<double, 2> bound = { (double)atoi(lower_bound_str.c_str()), (double)atoi(upper_bound_str.c_str()) };
-		  double extent = (double)atoi(extent_str.c_str());
+		  std::array<double, 2> bound = { (double)atof(lower_bound_str.c_str()), (double)atof(upper_bound_str.c_str()) };
+		  double extent = (double)atof(extent_str.c_str());
 		  return create<double>(ctx, name, bound, extent);
 	  }
-	  else if (intdatatype == (int)TILEDB_DATETIME_YEAR
-		  || intdatatype == (int)TILEDB_DATETIME_MONTH
-		  || intdatatype == (int)TILEDB_DATETIME_WEEK
-		  || intdatatype == (int)TILEDB_DATETIME_DAY
-		  || intdatatype == (int)TILEDB_DATETIME_HR
-		  || intdatatype == (int)TILEDB_DATETIME_MIN
-		  || intdatatype == (int)TILEDB_DATETIME_SEC
-		  || intdatatype == (int)TILEDB_DATETIME_MS
-		  || intdatatype == (int)TILEDB_DATETIME_US
-		  || intdatatype == (int)TILEDB_DATETIME_NS
-		  || intdatatype == (int)TILEDB_DATETIME_PS
-		  || intdatatype == (int)TILEDB_DATETIME_FS
-		  || intdatatype == (int)TILEDB_DATETIME_AS)
+	  else if (datatype == DataType::TILEDB_DATETIME_YEAR
+		  || datatype == DataType::TILEDB_DATETIME_MONTH
+		  || datatype == DataType::TILEDB_DATETIME_WEEK
+		  || datatype == DataType::TILEDB_DATETIME_DAY
+		  || datatype == DataType::TILEDB_DATETIME_HR
+		  || datatype == DataType::TILEDB_DATETIME_MIN
+		  || datatype == DataType::TILEDB_DATETIME_SEC
+		  || datatype == DataType::TILEDB_DATETIME_MS
+		  || datatype == DataType::TILEDB_DATETIME_US
+		  || datatype == DataType::TILEDB_DATETIME_NS
+		  || datatype == DataType::TILEDB_DATETIME_PS
+		  || datatype == DataType::TILEDB_DATETIME_FS
+		  || datatype == DataType::TILEDB_DATETIME_AS)
 	  {
-		  std::array<int64_t, 2> bound = { (int64_t)atoi(lower_bound_str.c_str()), (int64_t)atoi(upper_bound_str.c_str()) };
-		  int64_t extent = (int64_t)atoi(extent_str.c_str());
-		  tiledb::DataType datatype = (tiledb::DataType)(intdatatype);
-		  return create(ctx, name, datatype,&bound, &extent);
+		  std::array<int64_t, 2> bound = { (int64_t)atoll(lower_bound_str.c_str()), (int64_t)atoll(upper_bound_str.c_str()) };
+		  int64_t extent = (int64_t)atoll(extent_str.c_str());
+		  return create<int64_t>(ctx, name, bound, extent);
 	  }
-	  else if (intdatatype == (int)TILEDB_STRING_ASCII)
+	  else if (datatype == DataType::TILEDB_STRING_ASCII)
 	  {
 		  return create(ctx, name, tiledb::DataType::TILEDB_STRING_ASCII, nullptr, nullptr);
 	  }
-	  else if (intdatatype == (int)TILEDB_CHAR
-		  || intdatatype == (int)TILEDB_STRING_UTF8
-		  || intdatatype == (int)TILEDB_STRING_UTF16
-		  || intdatatype == (int)TILEDB_STRING_UTF32
-		  || intdatatype == (int)TILEDB_STRING_UCS2
-		  || intdatatype == (int)TILEDB_STRING_UCS4
-		  || intdatatype == (int)TILEDB_ANY
+	  else if (datatype == DataType::TILEDB_CHAR
+		  || datatype == DataType::TILEDB_STRING_UTF8
+		  || datatype == DataType::TILEDB_STRING_UTF16
+		  || datatype == DataType::TILEDB_STRING_UTF32
+		  || datatype == DataType::TILEDB_STRING_UCS2
+		  || datatype == DataType::TILEDB_STRING_UCS4
+		  || datatype == DataType::TILEDB_ANY
 		  ) {
-		  std::cout << "tiledb::Dimension create_dimension, unknown type:" << intdatatype << std::endl;
+		  std::cout << "tiledb::Dimension create_dimension, unsupported type:" << datatype << std::endl;
 		  return Dimension(ctx,nullptr);
 	  }
 	  else {
-		  std::cout << "tiledb::Dimension create_dimension, unknown type:" << intdatatype << std::endl;
+		  std::cout << "tiledb::Dimension create_dimension, unsupported type:" << datatype << std::endl;
 		  return Dimension(ctx, nullptr);
 	  }
 

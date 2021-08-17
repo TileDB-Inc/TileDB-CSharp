@@ -22,6 +22,11 @@
  * THE SOFTWARE.
  */
 #pragma once
+#ifndef TILEDB_CPP_ENUM_H
+#define TILEDB_CPP_ENUM_H
+#include <string>
+#include "tiledb_enum.h"
+#include "tiledb.h"
 // clang-format is disabled on the first enum so that we can manually indent it
 // properly.
 // clang-format off
@@ -247,4 +252,301 @@ enum VFSMode { // tiledb_vfs_mode_t{ //#ifdef TILEDB_VFS_MODE_ENUM
     TILEDB_VFS_APPEND =  2, //    TILEDB_VFS_MODE_ENUM(VFS_APPEND) = 2,
 };//#endif
 
+class EnumUtil {
+public:
+  /**
+  * @name Constructor and Destructor
+  */
+  ///@{
+
+  /**
+  * @brief constructor
+  */
+  EnumUtil() {}
+
+  /**
+  * @brief copy constructor
+  */
+  EnumUtil(const tiledb::EnumUtil& from) {}  
+
+  /**
+  * @brief copy assignment
+  */
+  EnumUtil& operator=(const tiledb::EnumUtil& from) { return *this; }  
+
+  /**
+  * @brief destructor
+  */
+  virtual ~EnumUtil() {}
+
+  ///@}
+
+//helper functions
+  static std::string querytype_to_str(QueryType querytype) {
+    char buffer[100];
+    const char* p = buffer;
+    int rc = tiledb_query_type_to_str((tiledb_query_type_t)querytype,&p);
+    return std::string(p);
+  }
+  static QueryType querytype_from_str(const std::string& s) {
+    tiledb_query_type_t t;
+    int rc = tiledb_query_type_from_str(s.c_str(),&t);
+    return (QueryType)t;
+  }
+
+  static std::string objecttype_to_str(ObjectType t) {
+    char buffer[100];
+    const char* p = buffer;
+    int rc = tiledb_object_type_to_str((tiledb_object_t)t,&p);
+    return std::string(p);
+  }
+
+  static ObjectType objecttype_from_str(const std::string& s) {
+    tiledb_object_t t;
+    int rc = tiledb_object_type_from_str(s.c_str(),&t);
+    return (ObjectType)t;
+  }
+
+  static std::string filesystemtype_to_str(FilesystemType t) {
+    char buffer[100];
+    const char*p = buffer;
+    int rc = tiledb_filesystem_to_str((tiledb_filesystem_t)t,&p);
+    return std::string(p);
+  }
+  static FilesystemType filesystemtype_from_str(const std::string& s) {
+    tiledb_filesystem_t t; 
+    int rc = tiledb_filesystem_from_str(s.c_str(),&t);
+    return (FilesystemType)t;
+  }
+
+  static uint64_t datatype_size(DataType datatype) {
+    return tiledb_datatype_size((tiledb_datatype_t)datatype);
+  }
+
+  static std::string datatype_to_str(DataType datatype) {
+    char buffer[100];
+    const char* p = buffer;
+    int rc = tiledb_datatype_to_str((tiledb_datatype_t)datatype,&p);
+    return std::string(p);
+  }
+
+  static DataType datatype_from_str(const std::string& s) {
+    tiledb_datatype_t t;
+    int rc = tiledb_datatype_from_str(s.c_str(),&t);
+    return (DataType)t;
+  }
+
+  static std::string arraytype_to_str(ArrayType t) {
+    char buffer[100];
+    const char* p = buffer;
+    int rc = tiledb_array_type_to_str((tiledb_array_type_t)t, &p);
+    return std::string(p);
+  }
+  static ArrayType arraytype_from_str(const std::string& s) {
+    tiledb_array_type_t t;
+    int rc = tiledb_array_type_from_str(s.c_str(), &t);
+    return (ArrayType)t;
+  }
+
+  static std::string layouttype_to_str(LayoutType t) {
+    char buffer[100];
+    const char* p = buffer;
+    int rc = tiledb_layout_to_str((tiledb_layout_t)t, &p);
+    return std::string(p);
+  }
+  static LayoutType layouttype_from_str(const std::string& s) {
+    tiledb_layout_t t;
+    int rc = tiledb_layout_from_str(s.c_str(), &t);
+    return (LayoutType)t;
+  }
+
+  static std::string filtertype_to_str(FilterType t) {
+    char buffer[100];
+    const char* p = buffer;
+    int rc = tiledb_filter_type_to_str((tiledb_filter_type_t)t, &p);
+    return std::string(p);
+  }
+  static FilterType filtertype_from_str(const std::string& s) {
+    tiledb_filter_type_t t;
+    int rc = tiledb_filter_type_from_str(s.c_str(), &t);
+    return (FilterType)t;
+  }
+
+  static std::string filteroption_to_str(FilterOption t) {
+    char buffer[100];
+    const char* p = buffer;
+    int rc = tiledb_filter_option_to_str((tiledb_filter_option_t)t, &p);
+    return std::string(p);
+  }
+  static FilterOption filteroption_from_str(const std::string& s) {
+    tiledb_filter_option_t t;
+    int rc = tiledb_filter_option_from_str(s.c_str(), &t);
+    return (FilterOption)t;
+  }
+
+  static std::string encryptiontype_to_str(EncryptionType t) {
+    char buffer[100];
+    const char* p = buffer;
+    int rc = tiledb_encryption_type_to_str((tiledb_encryption_type_t)t, &p);
+    return std::string(p);
+  }
+  static EncryptionType encryptiontype_from_str(const std::string& s) {
+    tiledb_encryption_type_t t;
+    int rc = tiledb_encryption_type_from_str(s.c_str(), &t);
+    return (EncryptionType)t;
+  } 
+
+  //QueryStatus  
+  static std::string querystatus_to_str(QueryStatus t) {
+    char buffer[100];
+    const char* p = buffer;
+    int rc = tiledb_query_status_to_str((tiledb_query_status_t)t, &p);
+    return std::string(p);
+  }
+  static QueryStatus querystatus_from_str(const std::string& s) {
+    tiledb_query_status_t t;
+    int rc = tiledb_query_status_from_str(s.c_str(), &t);
+    return (QueryStatus)t;
+  }   
+
+  //QueryConditionOperatorType  
+  static std::string queryconditionoperatortype_to_str(QueryConditionOperatorType t) {
+   switch(t)
+   {
+      case QueryConditionOperatorType::TILEDB_LT:
+        return "LT";
+      case QueryConditionOperatorType::TILEDB_LE:
+        return "LE";
+      case QueryConditionOperatorType::TILEDB_GT:
+        return "GT";
+      case QueryConditionOperatorType::TILEDB_GE:
+        return "GE";
+      case QueryConditionOperatorType::TILEDB_NE:
+        return "NE";
+      default:
+        return "";
+
+   }
+  }
+  static QueryConditionOperatorType queryconditionoperatortype_from_str(const std::string& s) {
+    if(s=="LT")
+    {
+      return QueryConditionOperatorType::TILEDB_LT;
+    }
+    else if(s=="LE") {
+      return QueryConditionOperatorType::TILEDB_LE;
+    }
+    else if(s=="GT") {
+      return QueryConditionOperatorType::TILEDB_GT;
+    }
+    else if(s=="GE") {
+      return QueryConditionOperatorType::TILEDB_GE;  
+    }
+    else if(s=="NE") {
+      return QueryConditionOperatorType::TILEDB_NE;
+    }
+    else {
+      return QueryConditionOperatorType::TILEDB_LE; //default;
+    }
+
+  }   
+
+  //QueryConditionCombinationOperatorType  
+  static std::string queryconditioncombinationoperatortype_to_str(QueryConditionCombinationOperatorType t) {
+   switch(t)
+   {
+      case QueryConditionCombinationOperatorType::TILEDB_AND:
+        return "AND";
+      case QueryConditionCombinationOperatorType::TILEDB_OR:
+        return "OR";
+      case QueryConditionCombinationOperatorType::TILEDB_NOT:
+        return "NOT";
+      default:
+        return "";
+
+   }
+  }
+  static QueryConditionCombinationOperatorType queryconditioncombinationoperatortype_from_str(const std::string& s) {
+    if(s=="AND")
+    {
+      return QueryConditionCombinationOperatorType::TILEDB_AND;
+    }
+    else if(s=="OR") {
+      return QueryConditionCombinationOperatorType::TILEDB_OR;
+    }
+    else if(s=="NOT") {
+      return QueryConditionCombinationOperatorType::TILEDB_NOT;
+    }
+    else {
+      return QueryConditionCombinationOperatorType::TILEDB_AND; //default;
+    }
+
+  }   
+
+
+  //SerializationType  
+  static std::string serializationtype_to_str(SerializationType t) {
+    switch(t) {
+      case SerializationType::TILEDB_JSON:
+        return "JSON";
+      case SerializationType::TILEDB_CAPNP:
+        return "CAPNP";
+      default:
+        return "JSON";    
+    }
+  }
+  static SerializationType serializationtype_from_str(const std::string& s) {
+    if(s=="CAPNP") {
+      return SerializationType::TILEDB_CAPNP;
+    }
+    else if(s=="JSON") {
+      return SerializationType::TILEDB_JSON;
+    }
+    else {
+      return SerializationType::TILEDB_JSON;
+    }
+  }   
+
+  //WalkOrderType  
+  static std::string walkordertype_to_str(WalkOrderType t) {
+    char buffer[100];
+    const char* p = buffer;
+    int rc = tiledb_walk_order_to_str((tiledb_walk_order_t)t, &p);
+    return std::string(p);
+  }
+  static WalkOrderType walkordertype_from_str(const std::string& s) {
+    tiledb_walk_order_t t;
+    int rc = tiledb_walk_order_from_str(s.c_str(), &t);
+    return (WalkOrderType)t;
+  }  
+
+  //VFSMode  
+  static std::string vfsmode_to_str(VFSMode t) {
+    char buffer[100];
+    const char* p = buffer;
+    int rc = tiledb_vfs_mode_to_str((tiledb_vfs_mode_t)t, &p);
+    return std::string(p);
+  }
+  static VFSMode vfsmode_from_str(const std::string& s) {
+    tiledb_vfs_mode_t t;
+    int rc = tiledb_vfs_mode_from_str(s.c_str(), &t);
+    return (VFSMode)t;
+  }  
+
+
+
+
+
+
+
+
+
+
+};//EnumUtil
+
+ 
+
+
 } //namespace 
+
+#endif

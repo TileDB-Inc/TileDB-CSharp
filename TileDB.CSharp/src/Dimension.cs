@@ -102,8 +102,8 @@ public class Dimension : global::System.IDisposable {
     return ret;
   }
 
-  public static Dimension create_dimension(Context ctx, string name, int intdatatype, string lower_bound_str, string upper_bound_str, string extent_str) {
-    Dimension ret = new Dimension(tiledbcsPINVOKE.Dimension_create_dimension(Context.getCPtr(ctx), name, intdatatype, lower_bound_str, upper_bound_str, extent_str), true);
+  public static Dimension create_dimension_for_datatype(Context ctx, string name, DataType datatype, string lower_bound_str, string upper_bound_str, string extent_str) {
+    Dimension ret = new Dimension(tiledbcsPINVOKE.Dimension_create_dimension_for_datatype(Context.getCPtr(ctx), name, (int)datatype, lower_bound_str, upper_bound_str, extent_str), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

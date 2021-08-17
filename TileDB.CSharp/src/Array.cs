@@ -187,6 +187,12 @@ public class Array : global::System.IDisposable {
     return ret;
   }
 
+  public VectorString non_empty_domain_str_vector_from_name(string dim_name) {
+    VectorString ret = new VectorString(tiledbcsPINVOKE.Array_non_empty_domain_str_vector_from_name(swigCPtr, dim_name), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public PairStringString non_empty_domain_var(uint idx) {
     PairStringString ret = new PairStringString(tiledbcsPINVOKE.Array_non_empty_domain_var__SWIG_0(swigCPtr, idx), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();

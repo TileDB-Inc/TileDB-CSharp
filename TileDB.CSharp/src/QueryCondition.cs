@@ -69,6 +69,12 @@ public class QueryCondition : global::System.IDisposable {
     return ret;
   }
 
+  public static QueryCondition create_for_datatype(Context ctx, DataType datatype, string attribute_name, string strvalue, QueryConditionOperatorType optype) {
+    QueryCondition ret = new QueryCondition(tiledbcsPINVOKE.QueryCondition_create_for_datatype(Context.getCPtr(ctx), (int)datatype, attribute_name, strvalue, (int)optype), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
 }
 
 }

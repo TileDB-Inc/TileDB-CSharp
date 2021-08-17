@@ -99,6 +99,11 @@ public class Domain : global::System.IDisposable {
     return ret;
   }
 
+  public void add_dimension_for_datatype(string name, DataType datatype, string str_bound_lower, string str_bound_upper, string str_extent) {
+    tiledbcsPINVOKE.Domain_add_dimension_for_datatype(swigCPtr, name, (int)datatype, str_bound_lower, str_bound_upper, str_extent);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
   public void add_int32_dimension(string name, int bound_lower, int bound_upper, int extent) {
     tiledbcsPINVOKE.Domain_add_int32_dimension(swigCPtr, name, bound_lower, bound_upper, extent);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();

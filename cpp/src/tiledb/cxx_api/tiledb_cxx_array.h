@@ -953,7 +953,6 @@ class Array {
    * @code{.cpp}
    * tiledb::Context ctx;
    * tiledb::Array array(ctx, "s3://bucket-name/array-name", TILEDB_READ);
-   * // Specify the domain type (example uint32_t)
    * std::string non_empty_json = array.non_empty_domain_json_str();
    * std::cout << non_empty_json << std::endl;
    * @endcode
@@ -966,33 +965,492 @@ class Array {
     ss <<"{";
 
     std::vector<std::string> dim_names = schema_.domain().dimension_names();
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    int empty;
     int count=0;
     for (size_t i = 0; i < dim_names.size(); ++i) {
       std::string dim_name = dim_names[i];
       auto dim = schema_.domain().dimension(dim_name);
-      std::string domain_str = dim.domain_to_str();
 
-      std::string temp_str= domain_str;
-      bool isok = StringUtil::replace_first(temp_str,"[","");
-      isok = StringUtil::replace_last(temp_str,"]","");
-      std::vector<std::string> items = StringUtil::split(temp_str,",",true);
-      if(items.size()==2 && items[0]==items[1]) {
-        //Empty domain
-        continue;
-      }
+      tiledb::DataType dim_datatype = dim.type();
+      switch (dim_datatype) {
+      case DataType::TILEDB_INT8:
+        {
+          std::vector<int8_t> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(empty==0) {
+            if(count>0)
+            {
+              ss <<",";
+            }
+            ss <<"\"" << dim_name <<"\":";
+            ss <<"[" << buf[0] << "," << buf[1] << "]";
+            ++count;
+          }
+        }
+        break;
+      case DataType::TILEDB_UINT8:
+        {
+          std::vector<uint8_t> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(empty==0) {
+            if(count>0)
+            {
+              ss <<",";
+            }
+            ss <<"\"" << dim_name <<"\":";
+            ss <<"[" << buf[0] << "," << buf[1] << "]";
+            ++count;
+          }
+        }
+        break;
+      case DataType::TILEDB_INT16:
+        {
+          std::vector<int16_t> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(empty==0) {
+            if(count>0)
+            {
+              ss <<",";
+            }
+            ss <<"\"" << dim_name <<"\":";
+            ss <<"[" << buf[0] << "," << buf[1] << "]";
+            ++count;
+          }
+        }
+        break;
+      case DataType::TILEDB_UINT16:
+        {
+          std::vector<uint16_t> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(empty==0) {
+            if(count>0)
+            {
+              ss <<",";
+            }
+            ss <<"\"" << dim_name <<"\":";
+            ss <<"[" << buf[0] << "," << buf[1] << "]";
+            ++count;
+          }
+        }
+        break;
+      case DataType::TILEDB_INT32:
+        {
+          std::vector<int32_t> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(empty==0) {
+            if(count>0)
+            {
+              ss <<",";
+            }
+            ss <<"\"" << dim_name <<"\":";
+            ss <<"[" << buf[0] << "," << buf[1] << "]";
+            ++count;
+          }
+        }
+        break;
+      case DataType::TILEDB_UINT32:
+        {
+          std::vector<uint32_t> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(empty==0) {
+            if(count>0)
+            {
+              ss <<",";
+            }
+            ss <<"\"" << dim_name <<"\":";
+            ss <<"[" << buf[0] << "," << buf[1] << "]";
+            ++count;
+          }
+        }
+        break;
+      case DataType::TILEDB_INT64:
+        {
+          std::vector<int64_t> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(empty==0) {
+            if(count>0)
+            {
+              ss <<",";
+            }
+            ss <<"\"" << dim_name <<"\":";
+            ss <<"[" << buf[0] << "," << buf[1] << "]";
+            ++count;
+          }
+        }
+        break;
+      case DataType::TILEDB_UINT64:
+        {
+          std::vector<uint64_t> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(empty==0) {
+            if(count>0)
+            {
+              ss <<",";
+            }
+            ss <<"\"" << dim_name <<"\":";
+            ss <<"[" << buf[0] << "," << buf[1] << "]";
+            ++count;
+          }
+        }
+        break;
+      case DataType::TILEDB_FLOAT32:
+        {
+          std::vector<float> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(empty==0) {
+            if(count>0)
+            {
+              ss <<",";
+            }
+            ss <<"\"" << dim_name <<"\":";
+            ss <<"[" << buf[0] << "," << buf[1] << "]";
+            ++count;
+          }
+        }
+        break;
+      case DataType::TILEDB_FLOAT64:
+        {
+          std::vector<double> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(empty==0) {
+            if(count>0)
+            {
+              ss <<",";
+            }
+            ss <<"\"" << dim_name <<"\":";
+            ss <<"[" << buf[0] << "," << buf[1] << "]";
+            ++count;
+          }
+        }
+        break;
+      case TILEDB_DATETIME_YEAR:
+      case TILEDB_DATETIME_MONTH:
+      case TILEDB_DATETIME_WEEK:
+      case TILEDB_DATETIME_DAY:
+      case TILEDB_DATETIME_HR:
+      case TILEDB_DATETIME_MIN:
+      case TILEDB_DATETIME_SEC:
+      case TILEDB_DATETIME_MS:
+      case TILEDB_DATETIME_US:
+      case TILEDB_DATETIME_NS:
+      case TILEDB_DATETIME_PS:
+      case TILEDB_DATETIME_FS:
+      case TILEDB_DATETIME_AS:
+        {
+          std::vector<int64_t> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(empty==0) {
+            if(count>0)
+            {
+              ss <<",";
+            }
+            ss <<"\"" << dim_name <<"\":";
+            ss <<"[" << buf[0] << "," << buf[1] << "]";
+            ++count;
+          }
+        }
+        break;
+      case TILEDB_STRING_ASCII:
+      case TILEDB_CHAR:
+      case TILEDB_STRING_UTF8:
+      case TILEDB_STRING_UTF16:
+      case TILEDB_STRING_UTF32:
+      case TILEDB_STRING_UCS2:
+      case TILEDB_STRING_UCS4:
+        {
+          std::pair<std::string, std::string> result;
 
-      if(count>0)
-      {
-        ss <<",";
-      }
-      ss <<"\"" << dim_name <<"\":" << domain_str;
-      count++;
-    }
+          // Get range sizes
+          uint64_t start_size, end_size;
+ 
+         ctx_->handle_error(tiledb_array_get_non_empty_domain_var_size_from_name(
+          ctx_->ptr().get(), array_.get(), dim_name.c_str(),
+          &start_size,&end_size,&empty));
+          if (empty==0) 
+          {
+            // Get ranges
+            result.first.resize(start_size);
+            result.second.resize(end_size);
+            ctx_->handle_error(tiledb_array_get_non_empty_domain_var_from_name(
+              ctx_->ptr().get(),array_.get(),dim_name.c_str(),
+              &(result.first[0]),&(result.second[0]),&empty));
+            if(count>0)
+            {
+              ss <<",";
+            }
+            ss <<"\"" << dim_name <<"\":";
+            ss <<"[" << result.first << "," << result.second << "]";
+            ++count;  
+          }
+        }
+        break;
+      case TILEDB_ANY:
+        // Not supported domain types
+        throw TileDBError("Invalid Dim type");
+    }//switch 
+
+
+ 
+    }//for (size_t i = 0; i < dim_names.size(); ++i)
 
     ss << "}";
 
     return ss.str();
   }
+
+  /**
+   * Retrieves the non-empty domain string information[start,end] from the array. This is the union of the
+   * non-empty domains of the array fragments.
+   *
+   *
+   * **Example:**
+   * @code{.cpp}
+   * tiledb::Context ctx;
+   * tiledb::Array array(ctx, "s3://bucket-name/array-name", TILEDB_READ);
+   * auto non_empty_domain_str_vector = array.non_empty_domain_str_vector_from_name("d1");
+   * @endcode
+   *
+   * @param dim_name The dimension name.
+   * @return map of string representative of non-empty domain.
+   */
+  std::vector<std::string> non_empty_domain_str_vector_from_name(const std::string& dim_name) {
+    std::vector<std::string> ret;
+
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();
+    int empty;
+ 
+    auto dim = schema_.domain().dimension(dim_name);
+
+    tiledb::DataType dim_datatype = dim.type();
+    switch (dim_datatype) {
+      case DataType::TILEDB_INT8:
+        {
+          std::vector<int8_t> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(!empty) {
+            std::stringstream ss0;
+            ss0 << buf[0];
+            std::stringstream ss1;
+            ss1 << buf[1];
+            ret.push_back(ss0.str());
+            ret.push_back(ss1.str());
+          }
+        }
+        break;
+      case DataType::TILEDB_UINT8:
+        {
+          std::vector<uint8_t> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(!empty) {
+            std::stringstream ss0;
+            ss0 << buf[0];
+            std::stringstream ss1;
+            ss1 << buf[1];
+            ret.push_back(ss0.str());
+            ret.push_back(ss1.str());
+          }
+        }
+        break;
+      case DataType::TILEDB_INT16:
+        {
+          std::vector<int16_t> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(!empty) {
+            std::stringstream ss0;
+            ss0 << buf[0];
+            std::stringstream ss1;
+            ss1 << buf[1];
+            ret.push_back(ss0.str());
+            ret.push_back(ss1.str());
+          }
+        }
+        break;
+      case DataType::TILEDB_UINT16:
+        {
+          std::vector<uint16_t> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(!empty) {
+            std::stringstream ss0;
+            ss0 << buf[0];
+            std::stringstream ss1;
+            ss1 << buf[1];
+            ret.push_back(ss0.str());
+            ret.push_back(ss1.str());
+          }
+        }
+        break;
+      case DataType::TILEDB_INT32:
+        {
+          std::vector<int32_t> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(!empty) {
+            std::stringstream ss0;
+            ss0 << buf[0];
+            std::stringstream ss1;
+            ss1 << buf[1];
+            ret.push_back(ss0.str());
+            ret.push_back(ss1.str());
+          }
+        }
+        break;
+      case DataType::TILEDB_UINT32:
+        {
+          std::vector<uint32_t> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(!empty) {
+            std::stringstream ss0;
+            ss0 << buf[0];
+            std::stringstream ss1;
+            ss1 << buf[1];
+            ret.push_back(ss0.str());
+            ret.push_back(ss1.str());
+          }
+        }
+        break;
+      case DataType::TILEDB_INT64:
+        {
+          std::vector<int64_t> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(!empty) {
+            std::stringstream ss0;
+            ss0 << buf[0];
+            std::stringstream ss1;
+            ss1 << buf[1];
+            ret.push_back(ss0.str());
+            ret.push_back(ss1.str());
+          }
+        }
+        break;
+      case DataType::TILEDB_UINT64:
+        {
+          std::vector<uint64_t> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(!empty) {
+            std::stringstream ss0;
+            ss0 << buf[0];
+            std::stringstream ss1;
+            ss1 << buf[1];
+            ret.push_back(ss0.str());
+            ret.push_back(ss1.str());
+          }
+        }
+        break;
+      case DataType::TILEDB_FLOAT32:
+        {
+          std::vector<float> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(!empty) {
+            std::stringstream ss0;
+            ss0 << buf[0];
+            std::stringstream ss1;
+            ss1 << buf[1];
+            ret.push_back(ss0.str());
+            ret.push_back(ss1.str());
+          }
+        }
+        break;
+      case DataType::TILEDB_FLOAT64:
+        {
+          std::vector<double> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(!empty) {
+            std::stringstream ss0;
+            ss0 << buf[0];
+            std::stringstream ss1;
+            ss1 << buf[1];
+            ret.push_back(ss0.str());
+            ret.push_back(ss1.str());
+          }
+        }
+        break;
+      case TILEDB_DATETIME_YEAR:
+      case TILEDB_DATETIME_MONTH:
+      case TILEDB_DATETIME_WEEK:
+      case TILEDB_DATETIME_DAY:
+      case TILEDB_DATETIME_HR:
+      case TILEDB_DATETIME_MIN:
+      case TILEDB_DATETIME_SEC:
+      case TILEDB_DATETIME_MS:
+      case TILEDB_DATETIME_US:
+      case TILEDB_DATETIME_NS:
+      case TILEDB_DATETIME_PS:
+      case TILEDB_DATETIME_FS:
+      case TILEDB_DATETIME_AS:
+        {
+          std::vector<int64_t> buf(2);
+          ctx_->handle_error(tiledb_array_get_non_empty_domain_from_name(
+            c_ctx, array_.get(), dim_name.c_str(), buf.data(), &empty));
+          if(!empty) {
+            std::stringstream ss0;
+            ss0 << buf[0];
+            std::stringstream ss1;
+            ss1 << buf[1];
+            ret.push_back(ss0.str());
+            ret.push_back(ss1.str());
+          }
+        }
+        break;
+      case TILEDB_STRING_ASCII:
+      case TILEDB_CHAR:
+      case TILEDB_STRING_UTF8:
+      case TILEDB_STRING_UTF16:
+      case TILEDB_STRING_UTF32:
+      case TILEDB_STRING_UCS2:
+      case TILEDB_STRING_UCS4:
+        {
+          std::pair<std::string, std::string> result;
+
+          // Get range sizes
+          uint64_t start_size, end_size;
+ 
+         ctx_->handle_error(tiledb_array_get_non_empty_domain_var_size_from_name(
+          ctx_->ptr().get(), array_.get(), dim_name.c_str(),
+          &start_size,&end_size,&empty));
+          if (!empty) 
+          {
+            // Get ranges
+            result.first.resize(start_size);
+            result.second.resize(end_size);
+            ctx_->handle_error(tiledb_array_get_non_empty_domain_var_from_name(
+              ctx_->ptr().get(),array_.get(),dim_name.c_str(),
+              &(result.first[0]),&(result.second[0]),&empty));
+            ret.push_back(result.first);
+            ret.push_back(result.second); 
+          }
+        }
+        break;
+      case TILEDB_ANY:
+        // Not supported domain types
+        throw TileDBError("Invalid Dim type");
+    }//switch 
+ 
+   
+    
+    return ret;
+  }
+
 
   /**
    * Retrieves the non-empty domain from the array on the given dimension.

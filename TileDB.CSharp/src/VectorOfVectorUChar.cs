@@ -10,7 +10,7 @@
 
 namespace TileDB {
 
-public class VectorOfVectorUChar : global::System.IDisposable, global::System.Collections.IEnumerable, global::System.Collections.Generic.IEnumerable<VectorUChar>
+public class VectorOfVectorUChar : global::System.IDisposable, global::System.Collections.IEnumerable, global::System.Collections.Generic.IEnumerable<VectorUInt8>
  {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   protected bool swigCMemOwn;
@@ -48,15 +48,15 @@ public class VectorOfVectorUChar : global::System.IDisposable, global::System.Co
   public VectorOfVectorUChar(global::System.Collections.IEnumerable c) : this() {
     if (c == null)
       throw new global::System.ArgumentNullException("c");
-    foreach (VectorUChar element in c) {
+    foreach (VectorUInt8 element in c) {
       this.Add(element);
     }
   }
 
-  public VectorOfVectorUChar(global::System.Collections.Generic.IEnumerable<VectorUChar> c) : this() {
+  public VectorOfVectorUChar(global::System.Collections.Generic.IEnumerable<VectorUInt8> c) : this() {
     if (c == null)
       throw new global::System.ArgumentNullException("c");
-    foreach (VectorUChar element in c) {
+    foreach (VectorUInt8 element in c) {
       this.Add(element);
     }
   }
@@ -73,7 +73,7 @@ public class VectorOfVectorUChar : global::System.IDisposable, global::System.Co
     }
   }
 
-  public VectorUChar this[int index]  {
+  public VectorUInt8 this[int index]  {
     get {
       return getitem(index);
     }
@@ -105,17 +105,17 @@ public class VectorOfVectorUChar : global::System.IDisposable, global::System.Co
     }
   }
 
-  public void CopyTo(VectorUChar[] array)
+  public void CopyTo(VectorUInt8[] array)
   {
     CopyTo(0, array, 0, this.Count);
   }
 
-  public void CopyTo(VectorUChar[] array, int arrayIndex)
+  public void CopyTo(VectorUInt8[] array, int arrayIndex)
   {
     CopyTo(0, array, arrayIndex, this.Count);
   }
 
-  public void CopyTo(int index, VectorUChar[] array, int arrayIndex, int count)
+  public void CopyTo(int index, VectorUInt8[] array, int arrayIndex, int count)
   {
     if (array == null)
       throw new global::System.ArgumentNullException("array");
@@ -133,13 +133,13 @@ public class VectorOfVectorUChar : global::System.IDisposable, global::System.Co
       array.SetValue(getitemcopy(index+i), arrayIndex+i);
   }
 
-  public VectorUChar[] ToArray() {
-    VectorUChar[] array = new VectorUChar[this.Count];
+  public VectorUInt8[] ToArray() {
+    VectorUInt8[] array = new VectorUInt8[this.Count];
     this.CopyTo(array);
     return array;
   }
 
-  global::System.Collections.Generic.IEnumerator<VectorUChar> global::System.Collections.Generic.IEnumerable<VectorUChar>.GetEnumerator() {
+  global::System.Collections.Generic.IEnumerator<VectorUInt8> global::System.Collections.Generic.IEnumerable<VectorUInt8>.GetEnumerator() {
     return new VectorOfVectorUCharEnumerator(this);
   }
 
@@ -157,7 +157,7 @@ public class VectorOfVectorUChar : global::System.IDisposable, global::System.Co
   /// collection but not when one of the elements of the collection is modified as it is a bit
   /// tricky to detect unmanaged code that modifies the collection under our feet.
   public sealed class VectorOfVectorUCharEnumerator : global::System.Collections.IEnumerator
-    , global::System.Collections.Generic.IEnumerator<VectorUChar>
+    , global::System.Collections.Generic.IEnumerator<VectorUInt8>
   {
     private VectorOfVectorUChar collectionRef;
     private int currentIndex;
@@ -172,7 +172,7 @@ public class VectorOfVectorUChar : global::System.IDisposable, global::System.Co
     }
 
     // Type-safe iterator Current
-    public VectorUChar Current {
+    public VectorUInt8 Current {
       get {
         if (currentIndex == -1)
           throw new global::System.InvalidOperationException("Enumeration not started.");
@@ -180,7 +180,7 @@ public class VectorOfVectorUChar : global::System.IDisposable, global::System.Co
           throw new global::System.InvalidOperationException("Enumeration finished.");
         if (currentObject == null)
           throw new global::System.InvalidOperationException("Collection modified.");
-        return (VectorUChar)currentObject;
+        return (VectorUInt8)currentObject;
       }
     }
 
@@ -221,8 +221,8 @@ public class VectorOfVectorUChar : global::System.IDisposable, global::System.Co
     tiledbcsPINVOKE.VectorOfVectorUChar_Clear(swigCPtr);
   }
 
-  public void Add(VectorUChar x) {
-    tiledbcsPINVOKE.VectorOfVectorUChar_Add(swigCPtr, VectorUChar.getCPtr(x));
+  public void Add(VectorUInt8 x) {
+    tiledbcsPINVOKE.VectorOfVectorUChar_Add(swigCPtr, VectorUInt8.getCPtr(x));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -251,20 +251,20 @@ public class VectorOfVectorUChar : global::System.IDisposable, global::System.Co
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  private VectorUChar getitemcopy(int index) {
-    VectorUChar ret = new VectorUChar(tiledbcsPINVOKE.VectorOfVectorUChar_getitemcopy(swigCPtr, index), true);
+  private VectorUInt8 getitemcopy(int index) {
+    VectorUInt8 ret = new VectorUInt8(tiledbcsPINVOKE.VectorOfVectorUChar_getitemcopy(swigCPtr, index), true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  private VectorUChar getitem(int index) {
-    VectorUChar ret = new VectorUChar(tiledbcsPINVOKE.VectorOfVectorUChar_getitem(swigCPtr, index), false);
+  private VectorUInt8 getitem(int index) {
+    VectorUInt8 ret = new VectorUInt8(tiledbcsPINVOKE.VectorOfVectorUChar_getitem(swigCPtr, index), false);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  private void setitem(int index, VectorUChar val) {
-    tiledbcsPINVOKE.VectorOfVectorUChar_setitem(swigCPtr, index, VectorUChar.getCPtr(val));
+  private void setitem(int index, VectorUInt8 val) {
+    tiledbcsPINVOKE.VectorOfVectorUChar_setitem(swigCPtr, index, VectorUInt8.getCPtr(val));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -280,8 +280,8 @@ public class VectorOfVectorUChar : global::System.IDisposable, global::System.Co
     return ret;
   }
 
-  public void Insert(int index, VectorUChar x) {
-    tiledbcsPINVOKE.VectorOfVectorUChar_Insert(swigCPtr, index, VectorUChar.getCPtr(x));
+  public void Insert(int index, VectorUInt8 x) {
+    tiledbcsPINVOKE.VectorOfVectorUChar_Insert(swigCPtr, index, VectorUInt8.getCPtr(x));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -300,8 +300,8 @@ public class VectorOfVectorUChar : global::System.IDisposable, global::System.Co
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static VectorOfVectorUChar Repeat(VectorUChar value, int count) {
-    global::System.IntPtr cPtr = tiledbcsPINVOKE.VectorOfVectorUChar_Repeat(VectorUChar.getCPtr(value), count);
+  public static VectorOfVectorUChar Repeat(VectorUInt8 value, int count) {
+    global::System.IntPtr cPtr = tiledbcsPINVOKE.VectorOfVectorUChar_Repeat(VectorUInt8.getCPtr(value), count);
     VectorOfVectorUChar ret = (cPtr == global::System.IntPtr.Zero) ? null : new VectorOfVectorUChar(cPtr, true);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
