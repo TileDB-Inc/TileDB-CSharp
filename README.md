@@ -11,6 +11,7 @@ against .NET Core 5 on macOS and Linux; Windows and .NET Foundation are also kno
 * Quickstart: https://docs.tiledb.com/quickstart
 * Installation: https://docs.tiledb.com/installation
 * Full documentation: https://docs.tiledb.com
+* Source code: https://github.com/TileDB-Inc/TileDB
 
 ## Quick Start
   
