@@ -51,11 +51,11 @@
         ],
         "exclude": [
           "obj/**",
-          "_site/**"
+          "_site/docs/**"
         ]
       }
     ],
-    "dest": "_site",
+    "dest": "_site/docs",
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
