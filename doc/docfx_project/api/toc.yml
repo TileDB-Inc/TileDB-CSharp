@@ -6,6 +6,8 @@
     name: Array
   - uid: TileDB.ArraySchema
     name: ArraySchema
+  - uid: TileDB.ArrayType
+    name: ArrayType
   - uid: TileDB.ArrayUtil
     name: ArrayUtil
   - uid: TileDB.Attribute
@@ -16,14 +18,28 @@
     name: Config
   - uid: TileDB.Context
     name: Context
+  - uid: TileDB.DataType
+    name: DataType
   - uid: TileDB.Dimension
     name: Dimension
   - uid: TileDB.Domain
     name: Domain
+  - uid: TileDB.EncryptionType
+    name: EncryptionType
+  - uid: TileDB.EnumUtil
+    name: EnumUtil
+  - uid: TileDB.FilesystemType
+    name: FilesystemType
   - uid: TileDB.Filter
     name: Filter
   - uid: TileDB.FilterList
     name: FilterList
+  - uid: TileDB.FilterOption
+    name: FilterOption
+  - uid: TileDB.FilterType
+    name: FilterType
+  - uid: TileDB.LayoutType
+    name: LayoutType
   - uid: TileDB.MapInt32Char
     name: MapInt32Char
   - uid: TileDB.MapInt32Char.MapInt32CharEnumerator
@@ -32,6 +48,10 @@
     name: MapInt32Double
   - uid: TileDB.MapInt32Double.MapInt32DoubleEnumerator
     name: MapInt32Double.MapInt32DoubleEnumerator
+  - uid: TileDB.MapInt32Float32
+    name: MapInt32Float32
+  - uid: TileDB.MapInt32Float32.MapInt32Float32Enumerator
+    name: MapInt32Float32.MapInt32Float32Enumerator
   - uid: TileDB.MapInt32Int32
     name: MapInt32Int32
   - uid: TileDB.MapInt32Int32.MapInt32Int32Enumerator
@@ -64,6 +84,10 @@
     name: MapInt64Double
   - uid: TileDB.MapInt64Double.MapInt64DoubleEnumerator
     name: MapInt64Double.MapInt64DoubleEnumerator
+  - uid: TileDB.MapInt64Float32
+    name: MapInt64Float32
+  - uid: TileDB.MapInt64Float32.MapInt64Float32Enumerator
+    name: MapInt64Float32.MapInt64Float32Enumerator
   - uid: TileDB.MapInt64Int32
     name: MapInt64Int32
   - uid: TileDB.MapInt64Int32.MapInt64Int32Enumerator
@@ -96,6 +120,10 @@
     name: MapStringDouble
   - uid: TileDB.MapStringDouble.MapStringDoubleEnumerator
     name: MapStringDouble.MapStringDoubleEnumerator
+  - uid: TileDB.MapStringFloat32
+    name: MapStringFloat32
+  - uid: TileDB.MapStringFloat32.MapStringFloat32Enumerator
+    name: MapStringFloat32.MapStringFloat32Enumerator
   - uid: TileDB.MapStringInt32
     name: MapStringInt32
   - uid: TileDB.MapStringInt32.MapStringInt32Enumerator
@@ -128,8 +156,48 @@
     name: MapStringUInt64
   - uid: TileDB.MapStringUInt64.MapStringUInt64Enumerator
     name: MapStringUInt64.MapStringUInt64Enumerator
+  - uid: TileDB.MapStringVectorChar
+    name: MapStringVectorChar
+  - uid: TileDB.MapStringVectorChar.MapStringVectorCharEnumerator
+    name: MapStringVectorChar.MapStringVectorCharEnumerator
+  - uid: TileDB.MapStringVectorDouble
+    name: MapStringVectorDouble
+  - uid: TileDB.MapStringVectorDouble.MapStringVectorDoubleEnumerator
+    name: MapStringVectorDouble.MapStringVectorDoubleEnumerator
+  - uid: TileDB.MapStringVectorFloat32
+    name: MapStringVectorFloat32
+  - uid: TileDB.MapStringVectorFloat32.MapStringVectorFloat32Enumerator
+    name: MapStringVectorFloat32.MapStringVectorFloat32Enumerator
+  - uid: TileDB.MapStringVectorInt32
+    name: MapStringVectorInt32
+  - uid: TileDB.MapStringVectorInt32.MapStringVectorInt32Enumerator
+    name: MapStringVectorInt32.MapStringVectorInt32Enumerator
+  - uid: TileDB.MapStringVectorInt64
+    name: MapStringVectorInt64
+  - uid: TileDB.MapStringVectorInt64.MapStringVectorInt64Enumerator
+    name: MapStringVectorInt64.MapStringVectorInt64Enumerator
+  - uid: TileDB.MapStringVectorString
+    name: MapStringVectorString
+  - uid: TileDB.MapStringVectorString.MapStringVectorStringEnumerator
+    name: MapStringVectorString.MapStringVectorStringEnumerator
+  - uid: TileDB.MapStringVectorUInt32
+    name: MapStringVectorUInt32
+  - uid: TileDB.MapStringVectorUInt32.MapStringVectorUInt32Enumerator
+    name: MapStringVectorUInt32.MapStringVectorUInt32Enumerator
+  - uid: TileDB.MapStringVectorUInt64
+    name: MapStringVectorUInt64
+  - uid: TileDB.MapStringVectorUInt64.MapStringVectorUInt64Enumerator
+    name: MapStringVectorUInt64.MapStringVectorUInt64Enumerator
+  - uid: TileDB.MapStringVectorUInt8
+    name: MapStringVectorUInt8
+  - uid: TileDB.MapStringVectorUInt8.MapStringVectorUInt8Enumerator
+    name: MapStringVectorUInt8.MapStringVectorUInt8Enumerator
+  - uid: TileDB.ObjectType
+    name: ObjectType
   - uid: TileDB.PairDoubleDouble
     name: PairDoubleDouble
+  - uid: TileDB.PairFloat32Float32
+    name: PairFloat32Float32
   - uid: TileDB.PairInt32Int32
     name: PairInt32Int32
   - uid: TileDB.PairInt64Int64
@@ -142,44 +210,22 @@
     name: PairUInt64UInt64
   - uid: TileDB.Query
     name: Query
-  - uid: TileDB.Query.Status
-    name: Query.Status
   - uid: TileDB.QueryCondition
     name: QueryCondition
+  - uid: TileDB.QueryConditionCombinationOperatorType
+    name: QueryConditionCombinationOperatorType
+  - uid: TileDB.QueryConditionOperatorType
+    name: QueryConditionOperatorType
+  - uid: TileDB.QueryStatus
+    name: QueryStatus
+  - uid: TileDB.QueryType
+    name: QueryType
   - uid: TileDB.SchemaMismatch
     name: SchemaMismatch
+  - uid: TileDB.SerializationType
+    name: SerializationType
   - uid: TileDB.Stats
     name: Stats
-  - uid: TileDB.tiledb_array_type_t
-    name: tiledb_array_type_t
-  - uid: TileDB.tiledb_datatype_t
-    name: tiledb_datatype_t
-  - uid: TileDB.tiledb_encryption_type_t
-    name: tiledb_encryption_type_t
-  - uid: TileDB.tiledb_filesystem_t
-    name: tiledb_filesystem_t
-  - uid: TileDB.tiledb_filter_option_t
-    name: tiledb_filter_option_t
-  - uid: TileDB.tiledb_filter_type_t
-    name: tiledb_filter_type_t
-  - uid: TileDB.tiledb_layout_t
-    name: tiledb_layout_t
-  - uid: TileDB.tiledb_object_t
-    name: tiledb_object_t
-  - uid: TileDB.tiledb_query_condition_combination_op_t
-    name: tiledb_query_condition_combination_op_t
-  - uid: TileDB.tiledb_query_condition_op_t
-    name: tiledb_query_condition_op_t
-  - uid: TileDB.tiledb_query_status_t
-    name: tiledb_query_status_t
-  - uid: TileDB.tiledb_query_type_t
-    name: tiledb_query_type_t
-  - uid: TileDB.tiledb_serialization_type_t
-    name: tiledb_serialization_type_t
-  - uid: TileDB.tiledb_vfs_mode_t
-    name: tiledb_vfs_mode_t
-  - uid: TileDB.tiledb_walk_order_t
-    name: tiledb_walk_order_t
   - uid: TileDB.tiledbcs
     name: tiledbcs
   - uid: TileDB.TileDBError
@@ -198,6 +244,10 @@
     name: VectorDouble
   - uid: TileDB.VectorDouble.VectorDoubleEnumerator
     name: VectorDouble.VectorDoubleEnumerator
+  - uid: TileDB.VectorFloat32
+    name: VectorFloat32
+  - uid: TileDB.VectorFloat32.VectorFloat32Enumerator
+    name: VectorFloat32.VectorFloat32Enumerator
   - uid: TileDB.VectorInt32
     name: VectorInt32
   - uid: TileDB.VectorInt32.VectorInt32Enumerator
@@ -214,6 +264,10 @@
     name: VectorOfVectorDouble
   - uid: TileDB.VectorOfVectorDouble.VectorOfVectorDoubleEnumerator
     name: VectorOfVectorDouble.VectorOfVectorDoubleEnumerator
+  - uid: TileDB.VectorOfVectorFloat32
+    name: VectorOfVectorFloat32
+  - uid: TileDB.VectorOfVectorFloat32.VectorOfVectorFloat32Enumerator
+    name: VectorOfVectorFloat32.VectorOfVectorFloat32Enumerator
   - uid: TileDB.VectorOfVectorInt32
     name: VectorOfVectorInt32
   - uid: TileDB.VectorOfVectorInt32.VectorOfVectorInt32Enumerator
@@ -242,10 +296,6 @@
     name: VectorString
   - uid: TileDB.VectorString.VectorStringEnumerator
     name: VectorString.VectorStringEnumerator
-  - uid: TileDB.VectorUChar
-    name: VectorUChar
-  - uid: TileDB.VectorUChar.VectorUCharEnumerator
-    name: VectorUChar.VectorUCharEnumerator
   - uid: TileDB.VectorUInt32
     name: VectorUInt32
   - uid: TileDB.VectorUInt32.VectorUInt32Enumerator
@@ -254,5 +304,13 @@
     name: VectorUInt64
   - uid: TileDB.VectorUInt64.VectorUInt64Enumerator
     name: VectorUInt64.VectorUInt64Enumerator
+  - uid: TileDB.VectorUInt8
+    name: VectorUInt8
+  - uid: TileDB.VectorUInt8.VectorUInt8Enumerator
+    name: VectorUInt8.VectorUInt8Enumerator
   - uid: TileDB.VFS
     name: VFS
+  - uid: TileDB.VFSMode
+    name: VFSMode
+  - uid: TileDB.WalkOrderType
+    name: WalkOrderType
