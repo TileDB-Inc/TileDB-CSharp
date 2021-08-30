@@ -1,0 +1,1871 @@
+{
+  "homepages": [],
+  "source_base_path": "C:/tiledb_dev/TileDB-CSharp/doc/docfx_project",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.Array.html",
+          "hash": "FyZBVwy2eMTlLu8TWhjYL8sDlD0ZhKTikAiywJ+lRU8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.ArraySchema.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.ArraySchema.html",
+          "hash": "ZPi1+s65/dVijQYmy5dkw2cfcnN1DckXQJTMkxC7Nr0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.ArrayType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.ArrayType.html",
+          "hash": "zt++sUuwJ8mjUO1tNX9m/2X23A3pepq3jrtML98YCck="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.ArrayUtil.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.ArrayUtil.html",
+          "hash": "ZZnArWyOxYIVEQuHAO4dd8kzyfHnzu4Bi6XPukG0vbE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.Attribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.Attribute.html",
+          "hash": "c1ejyMDWyonLwZQhfP1/rprp/o+auPnVSjPEYppRSf8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.AttributeError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.AttributeError.html",
+          "hash": "TxJZ/qezS5ZaDIgYvRLBVbzU0+mo2qDM+EsAdbCytUA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.Config.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.Config.html",
+          "hash": "wP7O8jyJus/TP7I4h0vKHR08deaHFOiigAI3UkkMhMc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.Context.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.Context.html",
+          "hash": "X0/PnH9xSjXCXKBhO+zJXuEpcrYJAodbA62JcnmH6X0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.DataType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.DataType.html",
+          "hash": "W4Wz3VNT3IhbIANS2ULdiKSroZr80/56jksY10kDfCE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.Dimension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.Dimension.html",
+          "hash": "ihPHuVRYUDhrnqE+DIi2cEkNyQFiOV7cYGGN452Q0WU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.Domain.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.Domain.html",
+          "hash": "Aha9qz/PDcO+++7S8/QJ3ua8AjY2QtzkzCYGuBMUqmE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.EncryptionType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.EncryptionType.html",
+          "hash": "VBNMew2+TBPidr4HD3foQT8I1Mvqi6AD8LQePtS6SJg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.FilesystemType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.FilesystemType.html",
+          "hash": "lqclgiQoBgRzzl3BrgLQtvVa+AHEhfWtPaIk7XnQlLM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.Filter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.Filter.html",
+          "hash": "6hToNNFrMu8l1w2eiIvTsDMgPHu/QtCLhwaKI8mAL0o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.FilterList.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.FilterList.html",
+          "hash": "P3bvB++kLhpT+SJnArvAY+CuJO4O3uY+25b7DPAXwOw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.FilterOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.FilterOption.html",
+          "hash": "q5+chJXGjPSVE71vjd0Tn5rCI1RBEtQaY7kAUqNeHLU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.FilterType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.FilterType.html",
+          "hash": "b2j1pXQNEH6Rn+FXyiPi3a/P2zwAlAUTFEbeqF1CTnw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.LayoutType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.LayoutType.html",
+          "hash": "zKX/w5LQw5r8eRnGaVzb3Y0ln/b9nkiQ1h9Cvf8mhrg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt32Char.MapInt32CharEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt32Char.MapInt32CharEnumerator.html",
+          "hash": "9TE3au65d2Ty44cBpAf/Da+VbXuJEIntnJGhuBZ3crw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt32Char.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt32Char.html",
+          "hash": "uy+GfVk0s7zsiWy8ORYy8AXBUhtGZM6yW6QrI8NhPaw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt32Double.MapInt32DoubleEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt32Double.MapInt32DoubleEnumerator.html",
+          "hash": "Q+vt2jazqtKokHNMYxTdu/SBohZSCktmYXxV4SQmX38="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt32Double.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt32Double.html",
+          "hash": "SYBsgoPXFvyZptrqh39x+qU/vZEonwi7QhxYvfyQx3g="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt32Float32.MapInt32Float32Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt32Float32.MapInt32Float32Enumerator.html",
+          "hash": "lWq89j6XfCCxS6X1JtAGvCpoOkkvSarRQKmThHYxQzk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt32Float32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt32Float32.html",
+          "hash": "8H0J2OCWrI6J7YkjuVj29hZKiZWWYxOwDHpvzYLkOxI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt32Int32.MapInt32Int32Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt32Int32.MapInt32Int32Enumerator.html",
+          "hash": "aLu4PB36Zir9f9eJAmcfSZoRyOYaYvCqVkZqijsx8c8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt32Int32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt32Int32.html",
+          "hash": "uv0JUV8zt8h7WrCzLRtYrTaOEC9AUDatIBdWXN7QqnM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt32Int64.MapInt32Int64Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt32Int64.MapInt32Int64Enumerator.html",
+          "hash": "ohTedx4GEnVzTbtkoH8qYxLfdao8dStLNGG3MQxJtSs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt32Int64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt32Int64.html",
+          "hash": "ah0GRy3zIX2VxZhjDKjj//iTOAPk5BSsZdx4QYHzTtE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt32String.MapInt32StringEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt32String.MapInt32StringEnumerator.html",
+          "hash": "bFnwJwcZD8li4w6tX9vt9Zz5Q2yZy6uMpFkh2cJpEOU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt32String.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt32String.html",
+          "hash": "o9GabTnZkAgZxhlJpYY1WGGOmYmxu5XbbIlI1R9M74Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt32UChar.MapInt32UCharEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt32UChar.MapInt32UCharEnumerator.html",
+          "hash": "WkFNsQ/rJvwNKyxsAFMgo0L1ovT8LqqThAeNpoX21y0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt32UChar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt32UChar.html",
+          "hash": "fOPLCU9tDsxF3nx0PUeAv7YTEtPxmITtgBVPXI4bLr4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt32UInt32.MapInt32UInt32Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt32UInt32.MapInt32UInt32Enumerator.html",
+          "hash": "UwQtouu9zEK/c6aGPIX/VOTJ+VvfLmNJF4cIAzI0TLk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt32UInt32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt32UInt32.html",
+          "hash": "DftUFHjCSEfZWh6x6wjHJhZgbqfSFBlTpIXt7l3TOWI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt32UInt64.MapInt32UInt64Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt32UInt64.MapInt32UInt64Enumerator.html",
+          "hash": "1wDnBAahbrbSBTPpYejys/QKy0mhDyg36ILt5HPiOVo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt32UInt64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt32UInt64.html",
+          "hash": "YdCj5kZVYet+igsWchCsOM0F6Nkjn3Y3JSd0xgKRLg8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt64Char.MapInt64CharEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt64Char.MapInt64CharEnumerator.html",
+          "hash": "Z4lGRiMoS6f4o+/SUPlkds+rowiG+nRv1jtTDuOP2QI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt64Char.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt64Char.html",
+          "hash": "g1ju+tpnmKv4Xkk8RBurgU6mjC5IL2prkKhRfXEcUqs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt64Double.MapInt64DoubleEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt64Double.MapInt64DoubleEnumerator.html",
+          "hash": "WP31ZRNoSbIxK99pHRlDcRyGDJEVBX0BehLGWAaTc2I="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt64Double.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt64Double.html",
+          "hash": "oZyqN77OTVtDO7xxGTczdQ/719KqpNiUk+84HgjQoG8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt64Float32.MapInt64Float32Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt64Float32.MapInt64Float32Enumerator.html",
+          "hash": "BPdWykYGe8q2n4nyifnIvoKtayfx2wYTjyOQEO0DA7M="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt64Float32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt64Float32.html",
+          "hash": "jX8YN+O+beVHY0XG0nNQEybB41Urbxgl4fgJmsxHV9E="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt64Int32.MapInt64Int32Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt64Int32.MapInt64Int32Enumerator.html",
+          "hash": "66zS1EVJ9XBDmr2WWXfz4+bVoXo/dWqikY2RVr8V8SI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt64Int32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt64Int32.html",
+          "hash": "lTn6QcNnzDmW5Hgq3qu0F9ZI1KyhppX5Onv53AqaIuA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt64Int64.MapInt64Int64Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt64Int64.MapInt64Int64Enumerator.html",
+          "hash": "QnxGlt4zFfVv5Qznv0XjXgYHt8iKqAAhRtCNomExIY0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt64Int64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt64Int64.html",
+          "hash": "s4nc9VwGzALaldhTmdhUAMJOyzylwZtQmnVwM5zsaec="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt64String.MapInt64StringEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt64String.MapInt64StringEnumerator.html",
+          "hash": "dfDK+2JStHEX4f9iVfHWCCGNMqvSpB6DAnHHz4EQRqw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt64String.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt64String.html",
+          "hash": "cJuWIAsM/2qVzMguIqdVMZ10G406bJnug2BflVGLCgM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt64UChar.MapInt64UCharEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt64UChar.MapInt64UCharEnumerator.html",
+          "hash": "B4QxDHe47IsMmgUyn3MVjbLAePMrY9q45JuoNkoNBKY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt64UChar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt64UChar.html",
+          "hash": "WlRTuW4gwDnDdZxIdIlz5RD3gJxFPa+9ZRHSC1uyM5g="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt64UInt32.MapInt64UInt32Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt64UInt32.MapInt64UInt32Enumerator.html",
+          "hash": "Cz+ndoYyVrNPCPYRZgd3gEzkOhqPJOX336at8O2Y/D8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt64UInt32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt64UInt32.html",
+          "hash": "KVrhcVlSahepoBplO9W9V2p4++CS5r7O816zIY7EREw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt64UInt64.MapInt64UInt64Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt64UInt64.MapInt64UInt64Enumerator.html",
+          "hash": "PVvOkkC9um+Zl1ojgR7OA4rSu7k2/gd+LKVRH7UYGi8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapInt64UInt64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapInt64UInt64.html",
+          "hash": "ziZ8egzCRiAg7vaD1AAWkab6eDIYnvDqcP5RrGCM2Os="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringChar.MapStringCharEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringChar.MapStringCharEnumerator.html",
+          "hash": "7QnF3pP9e18b68XgJrUiqJ9UhXKrs9lt2xbsp+Da/wM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringChar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringChar.html",
+          "hash": "GuGmelAIYxByRW5mceRJdSCwNVVTBD8RUowZeBTZka8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringDouble.MapStringDoubleEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringDouble.MapStringDoubleEnumerator.html",
+          "hash": "vifSl1n6drldZ3pJ6oc0k6yfY6JNKv8IdFe4I31jMME="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringDouble.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringDouble.html",
+          "hash": "dVnaoOBISpLiLBK99X2JIgC5k/NgYISh9hwEyfjdMBQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringFloat32.MapStringFloat32Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringFloat32.MapStringFloat32Enumerator.html",
+          "hash": "/YZLNzXTjKfk1qonLHuylEioJw0x4NVstKdAY6e2FxE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringFloat32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringFloat32.html",
+          "hash": "uC4JN0zyhiCrhsOY38aTyRS3VPwZR8gT2eG/lOAwzaY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringInt32.MapStringInt32Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringInt32.MapStringInt32Enumerator.html",
+          "hash": "QEZwCjRvm+Kbg/M+ZWo7vdlnTgkatPoJvBYaVzuAQaM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringInt32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringInt32.html",
+          "hash": "C/xEzUhIUjXrjcmMDxgwLbewpnWBrtXNdh1EWZvyajo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringInt64.MapStringInt64Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringInt64.MapStringInt64Enumerator.html",
+          "hash": "Zy0RbmetIzjbj/VTAXE7Ac3DwOiAwesSk9POQZLwIQg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringInt64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringInt64.html",
+          "hash": "s1Kh8//O/E79iFUZIdhLru2Te6uxQ5A8WteipKp3gFI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringPairInt64Int64.MapStringPairInt64Int64Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringPairInt64Int64.MapStringPairInt64Int64Enumerator.html",
+          "hash": "oPjtdn30LQ6T9Zur5l0ADttbT18OFXKcInrSbNBuwyY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringPairInt64Int64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringPairInt64Int64.html",
+          "hash": "+gc1eAOv0a+pE0XTc0h0eP919zz3aOWO7mXvg8Sp/jo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringPairUInt64UInt64.MapStringPairUInt64UInt64Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringPairUInt64UInt64.MapStringPairUInt64UInt64Enumerator.html",
+          "hash": "6RgUjLiSZkcwBUnBNEiBQfkr2s05Z1Ll9ZwiUAQjpcQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringPairUInt64UInt64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringPairUInt64UInt64.html",
+          "hash": "jjoqdDuL6jpclEN+/EAY69ekw9JSSj5xZQkiAJn3ymY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringString.MapStringStringEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringString.MapStringStringEnumerator.html",
+          "hash": "gRGmXj5T7kJac416X4WC4bPo+7U6O7XJTZ33w/ukCC0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringString.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringString.html",
+          "hash": "jBjBiGMB1EWuODwNzw9bEmKd2CdEs0gzlsozH+m/z1o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringUChar.MapStringUCharEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringUChar.MapStringUCharEnumerator.html",
+          "hash": "n/6aqQxSZQEb/7isvG+9u5iiiyWCzkVdzZFDxB8vAYk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringUChar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringUChar.html",
+          "hash": "LpOQ11+FhAtIsKXC4aU11lQNrCS22iyl/QMfnD/mEpo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringUInt32.MapStringUInt32Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringUInt32.MapStringUInt32Enumerator.html",
+          "hash": "pOh1xiz6w9qpDzn3nmAgykOrwtN6PbWhz7f4e7gZXf8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringUInt32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringUInt32.html",
+          "hash": "N7AQLP5XAAohgcrtwjavobAAOGe64j7h6+9xQpqQnZs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringUInt64.MapStringUInt64Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringUInt64.MapStringUInt64Enumerator.html",
+          "hash": "HreqEkrr9Y8Ti0zeQf0ZbuL3fkHOUidyKSsjpq1BrjA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.MapStringUInt64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.MapStringUInt64.html",
+          "hash": "lY/SRiYaT48CoU3wA8WaP1d6Yn7Vz3+vCbNVJ8Apk2s="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.ObjectType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.ObjectType.html",
+          "hash": "VaJBMJkrF3GJKOhrk9IW6yefroNAejfeu9eJ15naUBk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.PairDoubleDouble.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.PairDoubleDouble.html",
+          "hash": "U3pZMYh/73JEoj3SFD4Ue63AFM08S5vp6QH4rNe1De4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.PairFloat32Float32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.PairFloat32Float32.html",
+          "hash": "XsFLwox8HmpUTKWBx8uyeSIrlbvy0Dqo3UdSNS2vGxU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.PairInt32Int32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.PairInt32Int32.html",
+          "hash": "1SsT2Rg0KXQjzlHcpS6+gscAC5B/AGpTaJG/lT68onw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.PairInt64Int64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.PairInt64Int64.html",
+          "hash": "e6ov/C+C3LKDNIeq3D9AW3PEjyyClA0iiU/q4s3fB8E="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.PairStringString.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.PairStringString.html",
+          "hash": "gDupb2LVW8Av8mZkuS3g/f+MknAH7q7EDa1uCb5Ccg4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.PairUInt32UInt32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.PairUInt32UInt32.html",
+          "hash": "OvG4ehRrSsZOWWShzr6Daiwnddoo4a/wZtmxLIxmF14="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.PairUInt64UInt64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.PairUInt64UInt64.html",
+          "hash": "eHBgHqO7jj5am2aKKbZOk/UmXj6PXGVSazk7u+3jIdU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.Query.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.Query.html",
+          "hash": "z9equXlIKaR5NV5VXZbrU9OJ0LQEXnj3EwBmXXdZEig="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.QueryCondition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.QueryCondition.html",
+          "hash": "vNPeMFd/nv2X8+oiG7/jmvX+c4atbzQTAUUc6rTuq+w="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.QueryConditionCombinationOperatorType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.QueryConditionCombinationOperatorType.html",
+          "hash": "rk6xlx4aIBBJZt2d3j2L1BshVZrSs7D2e/FdHZ72XaE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.QueryConditionOperatorType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.QueryConditionOperatorType.html",
+          "hash": "DZwfyqxjglEMRgFVrfgEtlvnt7eIQyF4Akw9bN7Ub1E="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.QueryStatus.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.QueryStatus.html",
+          "hash": "PdeY6AVvrRITmIhifzsUhcuwgeQJjCr4GYj1TMW+s6Y="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.QueryType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.QueryType.html",
+          "hash": "fIG7EfSOWNHiH0OWngIvTbwefOV7MgdBu8qtYhKHE3Y="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.SchemaMismatch.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.SchemaMismatch.html",
+          "hash": "q/9Nle0pyOv9jEVpDaLDzNmG1V8VquKiIJnqalUkWiI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.SerializationType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.SerializationType.html",
+          "hash": "+lPkhmHoMq6G/ykBv8uczwPHg1XPSsfTW6/++ZQxNTE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.Stats.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.Stats.html",
+          "hash": "mX9SF6f+WVY4fqWeeRl+ubg8aWI7L5E7lWNrtWAoqyA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.TileDBError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.TileDBError.html",
+          "hash": "xfQj7QA7Qh9EXN5K1XA9lJdBZY68FAGKWD7mh5/4/kg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.TypeError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.TypeError.html",
+          "hash": "UsXoxmGvPfKT1Pt6cV7SXJh38DAH6PPCUwCzbC1YnKA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VFS.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VFS.html",
+          "hash": "Yttgjvj3FbCbn70jTSRQjec7XN7Dfbph7jokJXtCJj0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VFSMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VFSMode.html",
+          "hash": "evqFMWLndrWFsUgWuK1rz8lP274/DCSD8IqhCNe3VKA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorChar.VectorCharEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorChar.VectorCharEnumerator.html",
+          "hash": "IN4OspLgsSePLZgziim9vhEpg1fP9C7HE1+PircZcdE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorChar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorChar.html",
+          "hash": "s8LhloJGJbzvQh+6j3VMxdy5XZ799S9V1V9CpJB0rpM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorConstChar.VectorConstCharEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorConstChar.VectorConstCharEnumerator.html",
+          "hash": "HStNspiVdpgOGXAKtF6IJa6Bkzzq4Opm7YaufjqPVBk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorConstChar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorConstChar.html",
+          "hash": "wgl3E4bBjV4/rZVqMX2cXzZ8NhDUych7MhEID76gSok="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorDouble.VectorDoubleEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorDouble.VectorDoubleEnumerator.html",
+          "hash": "hoOTGVqi8UxPggJ+95FAEgS37jXDEZbwvUcDLNlyHT4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorDouble.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorDouble.html",
+          "hash": "pLkMspq6p0AkWgTSE7VMezMADkDuMNojT+5mlcywEuU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorFloat32.VectorFloat32Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorFloat32.VectorFloat32Enumerator.html",
+          "hash": "i05Ky+fUJYJCFgbF1Od28xC502nxtcTTXCokpKfZ7Eg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorFloat32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorFloat32.html",
+          "hash": "KjibBl3UAGPZVbcKTuBEJjEIpsk63mkW9vJXR7+4p8A="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorInt32.VectorInt32Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorInt32.VectorInt32Enumerator.html",
+          "hash": "wWSvLlBt4Jp9W/PSeInZDoQMPC0aoVy9IgKspXMCyUk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorInt32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorInt32.html",
+          "hash": "8SR52gsHf67I1RaBqaKdcQmqeznS7YRWoDE43qf5wzs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorInt64.VectorInt64Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorInt64.VectorInt64Enumerator.html",
+          "hash": "WWrMuzrOVPa0PMi26dM7rsO2lsum0Bcj/vcnrCmrcnQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorInt64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorInt64.html",
+          "hash": "wMGQRJR54bVYcMDoK0ULjA/41deI5V1j+C2NcziJg80="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorOfVectorChar.VectorOfVectorCharEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorOfVectorChar.VectorOfVectorCharEnumerator.html",
+          "hash": "D5dKVFfFC/YqZW81tfNtBdlByfS67hB5p0A0w+ai1m8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorOfVectorChar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorOfVectorChar.html",
+          "hash": "fKbHguUdQTznDZeZaq9is7Pkn1bUPGZDkMpnlQe7SlY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorOfVectorDouble.VectorOfVectorDoubleEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorOfVectorDouble.VectorOfVectorDoubleEnumerator.html",
+          "hash": "ra2MeTuI/k6x2VfnY7FiTEwuWk3NL4sUWLUMhdYNp44="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorOfVectorDouble.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorOfVectorDouble.html",
+          "hash": "hPqwjd+1Rz+qVIgnMxRMeeVtt2Rp2kDQBZosewpUiuQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorOfVectorFloat32.VectorOfVectorFloat32Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorOfVectorFloat32.VectorOfVectorFloat32Enumerator.html",
+          "hash": "ERHdu1AWcN2yUivvg1dFelYkVMGbnpev6wY6ajyqGFI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorOfVectorFloat32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorOfVectorFloat32.html",
+          "hash": "QGsiiMKcNvw6PG3EegIluZ7DGscE5Duszri8zcQOJSI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorOfVectorInt32.VectorOfVectorInt32Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorOfVectorInt32.VectorOfVectorInt32Enumerator.html",
+          "hash": "gYCBZw9zoB20WHrHlEVeiO4kS7xlILe07jV6RBg4neA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorOfVectorInt32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorOfVectorInt32.html",
+          "hash": "anvy0CWN0AbUXhcHXNkNQrry9Ux5qFRmiGpwwC0H/k0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorOfVectorInt64.VectorOfVectorInt64Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorOfVectorInt64.VectorOfVectorInt64Enumerator.html",
+          "hash": "sWZfhAngDFpK/lCnN/svu+b+FEbjXJUQbUGH+E4eJbw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorOfVectorInt64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorOfVectorInt64.html",
+          "hash": "JhVRzZsi0kF0YXaDR8b1DU07Mw1oJ/g0oz1bRYU5fBo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorOfVectorString.VectorOfVectorStringEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorOfVectorString.VectorOfVectorStringEnumerator.html",
+          "hash": "xItBMo/idweVvJxs21KzDRQ7nhiDi/KHnNWrjixhhFY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorOfVectorString.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorOfVectorString.html",
+          "hash": "fh1mxikIC7FwOx67WFzMy8L9a3sBAOQzrRT5c2RQZuQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorOfVectorUChar.VectorOfVectorUCharEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorOfVectorUChar.VectorOfVectorUCharEnumerator.html",
+          "hash": "ngCIXkgeDU+wbW0OIhXaktuY1Y20fBPS7b1Zc2rQhzU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorOfVectorUChar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorOfVectorUChar.html",
+          "hash": "nFqYkHsZClV6XXsJDHzbup4cVkREMp2oScZhE5tNOcI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorOfVectorUInt32.VectorOfVectorUInt32Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorOfVectorUInt32.VectorOfVectorUInt32Enumerator.html",
+          "hash": "TWLQNWw2F3UGSPvRuSF3QBngBeZx0mK+yp32pXDdpoU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorOfVectorUInt32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorOfVectorUInt32.html",
+          "hash": "bPPz7pk6xZNED7JGMU8RDk6put7DvA1R5uTQVZQMFOI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorOfVectorUInt64.VectorOfVectorUInt64Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorOfVectorUInt64.VectorOfVectorUInt64Enumerator.html",
+          "hash": "vSvPwY2q5mmq4Bu82PUNjFHfPBIWiV+raG5G2hmvBd8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorOfVectorUInt64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorOfVectorUInt64.html",
+          "hash": "N1NkvdP5DtKlfDH1DU485N7TNE8SVpITn97ypcEuAMU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorString.VectorStringEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorString.VectorStringEnumerator.html",
+          "hash": "MlpB4MrGAqJomCFTeFdighaqp/rKXGVDfG5PI8g9CtM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorString.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorString.html",
+          "hash": "b8gM2vsxp7qosPFhEcCtR+vV1/r41m8Mq3XhtLjcO0g="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorUChar.VectorUCharEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorUChar.VectorUCharEnumerator.html",
+          "hash": "tXp+8QNH5ydmMmNRrIwavocYbCUnkgxgyZ/mvqOqiFY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorUChar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorUChar.html",
+          "hash": "AGfoNznooq7sZNoC9mew8JactyTEZT+8IHP18N3JdfE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorUInt32.VectorUInt32Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorUInt32.VectorUInt32Enumerator.html",
+          "hash": "+9hKeCaxvVTvLMGq6qvLPyF/poBnzRvZw0/3SOy62v4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorUInt32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorUInt32.html",
+          "hash": "o4THGtcSdXJc/w69LekNQYjU44mJHBt6+llmiLibfmI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorUInt64.VectorUInt64Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorUInt64.VectorUInt64Enumerator.html",
+          "hash": "Lx3zFN5fLiTpkrD22+OPZuzy4hpQJyJJDe1oHTTvi+k="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.VectorUInt64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.VectorUInt64.html",
+          "hash": "UsvdNIE9EfpRsu1ZGRhJG0sqOawPEB9FK+9YLGbtMOw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.WalkOrderType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.WalkOrderType.html",
+          "hash": "iatyeAobrSRUboFtXG0dJWZFC2w1EUUtyQyyzBIF2ow="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.tiledbcs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.tiledbcs.html",
+          "hash": "iRbs9rz10RS/P6cyZJ+BzVG7gTUT98t8LRdUTtx2/jc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.html",
+          "hash": "tWijTiXPMr5PAJR+4fnMiweNRB/MiEUwvbKNzEWYRn8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "vpOjwVVSBa9pDAo2TVWWLM/vgZUOz/dYJUSl/h/cGn4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "/7DSvKd2XQYG3fQJadW34ar1hHOGNCGDefObJam1HuQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/build.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/build.html",
+          "hash": "zoIGcInSW8i7lH0ll95znoWIt7eppNirR5Pqxi5qspQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/devdoc.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/devdoc.html",
+          "hash": "9RjW8Ss0oz17L1zuqY14BMnlewb1I7XoJwQeofjoMmE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/examples.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/examples.html",
+          "hash": "VKbCLFHA8gWksudKnaFE0K+jCJos/XRzDudWq/iY1d4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "MpZGYnyEIVeG+UlDlB1NKL8s/v0qpDsYMlgkhFjAql8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/introduction.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/introduction.html",
+          "hash": "xf/C5OT1aGmbLRqf/428V8/SOqatydYPROT1i+awmkg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "cppndFBZyjr9WoXyZT2R40zKCVCloLdpDX8+G491WEI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/userapp.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/userapp.html",
+          "hash": "0ZZzZAWxjYi/uTf7c13gFUJuWPtVYkvJDBxpBFsQiGk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "favicon.ico",
+      "output": {
+        "resource": {
+          "relative_path": "favicon.ico"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "r9XGSx8RK4tc/v7GSEcrfzXF6Fzk0eV7SL90HehNLzY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "logo.svg",
+      "output": {
+        "resource": {
+          "relative_path": "logo.svg"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "ixtg4XZM9aWTXVTdctkI57YZp9Qx4YSCUF1+FcXYi5s="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 8,
+          "skipped_file_count": 7
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 138,
+          "skipped_file_count": 17
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
