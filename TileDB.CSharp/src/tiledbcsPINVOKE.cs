@@ -4243,6 +4243,9 @@ class tiledbcsPINVOKE {
   [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_Query_set_double_vector_buffer_with_offsets_validity")]
   public static extern void Query_set_double_vector_buffer_with_offsets_validity(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3, global::System.Runtime.InteropServices.HandleRef jarg4, global::System.Runtime.InteropServices.HandleRef jarg5);
 
+  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_Query_set_buffer")]
+  public static extern global::System.IntPtr Query_set_buffer(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, System.IntPtr jarg3, ulong jarg4, uint jarg5);
+
   [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_Query_stats")]
   public static extern string Query_stats(global::System.Runtime.InteropServices.HandleRef jarg1);
 

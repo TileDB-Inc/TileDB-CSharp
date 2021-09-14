@@ -397,6 +397,12 @@ public class Query : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public Query set_buffer(string attr, System.IntPtr buff, ulong nelements, uint element_size) {
+    Query ret = new Query(tiledbcsPINVOKE.Query_set_buffer(swigCPtr, attr, buff, nelements, element_size), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public string stats() {
     string ret = tiledbcsPINVOKE.Query_stats(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
