@@ -5,6 +5,7 @@
     <Platforms>x64</Platforms>
     <!-- don't compile everything under path by default -->
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
