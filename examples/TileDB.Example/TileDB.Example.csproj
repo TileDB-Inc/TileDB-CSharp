@@ -6,8 +6,16 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
   <ItemGroup>
-    <Compile Include="..\ExampleSystemArray.cs" Link="ExampleSystemArray.cs" />
+    <Compile Include="..\ExampleSpanOfT.cs" Link="ExampleSpanOfT.cs" />
   </ItemGroup>
 
   <ItemGroup>
