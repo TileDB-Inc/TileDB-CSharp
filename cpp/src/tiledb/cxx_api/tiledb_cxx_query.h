@@ -1590,6 +1590,32 @@ void set_double_coordinates(std::vector<double>& buf) {
   }    
 
 
+  /**
+   * Sets a buffer for a fixed-sized attribute.
+   *
+   * @param attr Attribute name
+   * @param buff Buffer array pointer with elements of the attribute type.
+   * @param nelements Number of array elements.
+   * @param element_size Size of array elements (in bytes).
+   **/
+  tiledb::Query& set_buffer(
+      const std::string& attr,
+      void* buff,
+      uint64_t nelements,
+      size_t element_size) {
+	tiledb_ctx_t* c_ctx = ctx_->ptr().get();  //auto ctx = ctx_.get();
+    size_t size = nelements * element_size;
+    buff_sizes_[attr] = std::tuple<uint64_t, uint64_t, uint64_t>(0, size, 0);
+    element_sizes_[attr] = element_size;
+    ctx_->handle_error(tiledb_query_set_buffer(
+        c_ctx,
+        query_.get(),
+        attr.c_str(),
+        buff,
+        &std::get<1>(buff_sizes_[attr])));
+    return *this;
+  }
+
   ////////
 
  
@@ -1866,31 +1892,6 @@ void set_double_coordinates(std::vector<double>& buf) {
   /*          PRIVATE METHODS          */
   /* ********************************* */
 
-  /**
-   * Sets a buffer for a fixed-sized attribute.
-   *
-   * @param attr Attribute name
-   * @param buff Buffer array pointer with elements of the attribute type.
-   * @param nelements Number of array elements.
-   * @param element_size Size of array elements (in bytes).
-   **/
-  tiledb::Query& set_buffer(
-      const std::string& attr,
-      void* buff,
-      uint64_t nelements,
-      size_t element_size) {
-	tiledb_ctx_t* c_ctx = ctx_->ptr().get();  //auto ctx = ctx_.get();
-    size_t size = nelements * element_size;
-    buff_sizes_[attr] = std::tuple<uint64_t, uint64_t, uint64_t>(0, size, 0);
-    element_sizes_[attr] = element_size;
-    ctx_->handle_error(tiledb_query_set_buffer(
-        c_ctx,
-        query_.get(),
-        attr.c_str(),
-        buff,
-        &std::get<1>(buff_sizes_[attr])));
-    return *this;
-  }
 
   /**
    * Sets a buffer for a variable-sized attribute.

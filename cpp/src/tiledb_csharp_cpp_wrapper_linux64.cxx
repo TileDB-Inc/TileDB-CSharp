@@ -31604,6 +31604,54 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_Query_set_double_vector_buffer_with_of
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_Query_set_buffer(void * jarg1, char * jarg2, void * jarg3, unsigned long jarg4, unsigned long jarg5) {
+  void * jresult ;
+  tiledb::Query *arg1 = (tiledb::Query *) 0 ;
+  std::string *arg2 = 0 ;
+  void *arg3 = (void *) 0 ;
+  uint64_t arg4 ;
+  size_t arg5 ;
+  std::shared_ptr< tiledb::Query > *smartarg1 = 0 ;
+  tiledb::Query *result = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  tiledb::Query > *)jarg1;
+  arg1 = (tiledb::Query *)(smartarg1 ? smartarg1->get() : 0); 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  arg3 = jarg3; 
+  arg4 = (uint64_t)jarg4; 
+  arg5 = (size_t)jarg5; 
+  {
+    try {
+      result = (tiledb::Query *) &(arg1)->set_buffer((std::string const &)*arg2,arg3,arg4,arg5);
+    } catch(const tiledb::TypeError& e) {
+      SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
+    } catch(const tiledb::SchemaMismatch& e) {
+      SWIG_CSharpSetPendingExceptionSchemaMismatch(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());   
+    } catch(const tiledb::AttributeError& e) {
+      SWIG_CSharpSetPendingExceptionAttributeError(e.what());// SWIG_exception(SWIG_RuntimeError, e.what());
+    } catch(const tiledb::TileDBError& e) {
+      SWIG_CSharpSetPendingExceptionTileDBError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());     
+    } catch(const std::exception& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    } catch(...) {
+      {
+        SWIG_CSharpException(SWIG_UnknownError, ""); return 0; 
+      };
+    }
+  }
+  jresult = new std::shared_ptr<  tiledb::Query >(result SWIG_NO_NULL_DELETER_0); 
+  return jresult;
+}
+
+
 SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_Query_stats(void * jarg1) {
   char * jresult ;
   tiledb::Query *arg1 = (tiledb::Query *) 0 ;
