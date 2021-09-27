@@ -1,18 +1,21 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Platforms>x64</Platforms>
     <IsPackable>false</IsPackable>
     <!-- set entrypoint -->
     <StartupObject>test.UnitTestExamples</StartupObject>
     <!-- allow multiple Main in compilation unit -->
     <GenerateProgramFile>false</GenerateProgramFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4"/>
-    <PackageReference Include="xunit" Version="2.4.1"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -23,11 +26,11 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TileDB.CSharp\TileDB.CSharp.csproj"/>
+    <ProjectReference Include="..\TileDB.CSharp\TileDB.CSharp.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="../examples/*.cs"/>
+    <Compile Include="../examples/*.cs" />
   </ItemGroup>
 
 </Project>
