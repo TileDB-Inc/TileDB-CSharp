@@ -29,7 +29,7 @@ using System.Collections.Generic;
 
 namespace TileDB.Example
 {
-    public class ExampleSystemArray
+    public class ExampleSpanOfT
     {
         public static void Main(string[] args)
         {
