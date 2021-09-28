@@ -94,8 +94,16 @@ namespace TileDB
             Release();
             
             m_data = new T[length];
-            m_offsets = TileDB.VectorUInt64.Repeat(0, length);
-            m_validities = TileDB.VectorUInt8.Repeat(0, length);
+            if(isVarSize)
+            {
+                m_offsets = TileDB.VectorUInt64.Repeat(0, length);
+            }
+
+            if (isNullable)
+            {
+                m_validities = TileDB.VectorUInt8.Repeat(0, length);
+            }
+            
 
             m_dataGCHandle = System.Runtime.InteropServices.GCHandle.Alloc(m_data, System.Runtime.InteropServices.GCHandleType.Pinned);
             m_intptr = m_dataGCHandle.AddrOfPinnedObject();
@@ -107,6 +115,15 @@ namespace TileDB
             {
                 m_dataGCHandle.Free();
             }
+            if(m_offsets!=null)
+            {
+                m_offsets.Clear();
+            }
+            if(m_validities !=null)
+            {
+                m_validities.Clear();
+            }
+           
             m_intptr = System.IntPtr.Zero;
         }
         #endregion
