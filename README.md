@@ -39,6 +39,13 @@ Currently we test against .NET Core 5, and the following platforms are supported
 * Linux
 * macOS
 
+### Check out source
+
+```
+git clone https://github.com/TileDB-Inc/TileDB-CSharp
+cd TileDB-CSharp
+```
+
 ### Build c++ Wrapper for Windows
 ```
 cd cpp
