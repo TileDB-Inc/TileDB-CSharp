@@ -1,5 +1,4 @@
-## Build for Windows
-
+## Build from scratch for Windows
 ### Build c++ Wrapper tiledbcs.dll
 ```
 cd cpp
@@ -17,7 +16,7 @@ cd TileDB.CSharp/benchmark
 dotnet build /p:Platform=x64 -c Release
 ```
 
-## Build for Linux or macOS
+## Build from scratch for Linux or macOS
 ### Build c++ Wrapper tiledbcs.so or tiledbcs.dylib
 ```
 cd cpp
