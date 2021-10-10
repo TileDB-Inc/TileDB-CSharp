@@ -9,7 +9,7 @@
 
 
   <ItemGroup>
-    <Compile Include="..\ExampleSpanOfT.cs" Link="ExampleSpanOfT.cs" />
+    <Compile Include="..\ExampleTileDBBuffer.cs" Link="ExampleTileDBBuffer.cs" />
   </ItemGroup>
 
   <ItemGroup>
