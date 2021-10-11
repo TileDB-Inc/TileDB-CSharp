@@ -82,14 +82,41 @@
   </div>
   <div classs="implements">
     <h5>Implements</h5>
-    <div><span class="xref">System.Collections.IEnumerable</span></div>
+    <div><span class="xref">System.IDisposable</span></div>
     <div><span class="xref">System.Collections.Generic.IList</span>&lt;<span class="xref">System.Int64</span>&gt;</div>
+    <div><span class="xref">System.Collections.Generic.ICollection</span>&lt;<span class="xref">System.Int64</span>&gt;</div>
+    <div><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Int64</span>&gt;</div>
+    <div><span class="xref">System.Collections.IEnumerable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="TileDB.html">TileDB</a></h6>
   <h6><strong>Assembly</strong>: TileDB.CSharp.dll</h6>
   <h5 id="TileDB_VectorInt64_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class VectorInt64 : System.IDisposable, System.Collections.IEnumerable, System.Collections.Generic.IList&lt;long&gt;</code></pre>
+    <pre><code class="lang-csharp hljs">public class VectorInt64 : IDisposable, IList&lt;long&gt;, ICollection&lt;long&gt;, IEnumerable&lt;long&gt;, IEnumerable</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -116,12 +143,12 @@
     <a href="https://github.com/TileDB-Inc/TileDB-CSharp/blob/main/TileDB.CSharp/src/VectorInt64.cs/#L56">View Source</a>
   </span>
   <a id="TileDB_VectorInt64__ctor_" data-uid="TileDB.VectorInt64.#ctor*"></a>
-  <h4 id="TileDB_VectorInt64__ctor_System_Collections_Generic_IEnumerable_System_Int64__" data-uid="TileDB.VectorInt64.#ctor(System.Collections.Generic.IEnumerable{System.Int64})">VectorInt64(System.Collections.Generic.IEnumerable&lt;Int64&gt;)</h4>
+  <h4 id="TileDB_VectorInt64__ctor_System_Collections_Generic_IEnumerable_System_Int64__" data-uid="TileDB.VectorInt64.#ctor(System.Collections.Generic.IEnumerable{System.Int64})">VectorInt64(IEnumerable&lt;Int64&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public VectorInt64(System.Collections.Generic.IEnumerable&lt;long&gt; c)</code></pre>
+    <pre><code class="lang-csharp hljs">public VectorInt64(IEnumerable&lt;long&gt; c)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -148,12 +175,12 @@
     <a href="https://github.com/TileDB-Inc/TileDB-CSharp/blob/main/TileDB.CSharp/src/VectorInt64.cs/#L48">View Source</a>
   </span>
   <a id="TileDB_VectorInt64__ctor_" data-uid="TileDB.VectorInt64.#ctor*"></a>
-  <h4 id="TileDB_VectorInt64__ctor_System_Collections_IEnumerable_" data-uid="TileDB.VectorInt64.#ctor(System.Collections.IEnumerable)">VectorInt64(System.Collections.IEnumerable)</h4>
+  <h4 id="TileDB_VectorInt64__ctor_System_Collections_IEnumerable_" data-uid="TileDB.VectorInt64.#ctor(System.Collections.IEnumerable)">VectorInt64(IEnumerable)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public VectorInt64(System.Collections.IEnumerable c)</code></pre>
+    <pre><code class="lang-csharp hljs">public VectorInt64(IEnumerable c)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1309,12 +1336,83 @@
       </tr>
     </tbody>
   </table>
+  <h3 id="eii">Explicit Interface Implementations
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/TileDB-Inc/TileDB-CSharp/new/main/apiSpec/new?filename=TileDB_VectorInt64_System_Collections_Generic_IEnumerable_System_Int64__GetEnumerator.md&amp;value=---%0Auid%3A%20TileDB.VectorInt64.System%23Collections%23Generic%23IEnumerable%7BSystem%23Int64%7D%23GetEnumerator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/TileDB-Inc/TileDB-CSharp/blob/main/TileDB.CSharp/src/VectorInt64.cs/#L142">View Source</a>
+  </span>
+  <a id="TileDB_VectorInt64_System_Collections_Generic_IEnumerable_System_Int64__GetEnumerator_" data-uid="TileDB.VectorInt64.System#Collections#Generic#IEnumerable{System#Int64}#GetEnumerator*"></a>
+  <h4 id="TileDB_VectorInt64_System_Collections_Generic_IEnumerable_System_Int64__GetEnumerator" data-uid="TileDB.VectorInt64.System#Collections#Generic#IEnumerable{System#Int64}#GetEnumerator">IEnumerable&lt;Int64&gt;.GetEnumerator()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IEnumerator&lt;long&gt; IEnumerable&lt;long&gt;.GetEnumerator()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerator</span>&lt;<span class="xref">System.Int64</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/TileDB-Inc/TileDB-CSharp/new/main/apiSpec/new?filename=TileDB_VectorInt64_System_Collections_IEnumerable_GetEnumerator.md&amp;value=---%0Auid%3A%20TileDB.VectorInt64.System%23Collections%23IEnumerable%23GetEnumerator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/TileDB-Inc/TileDB-CSharp/blob/main/TileDB.CSharp/src/VectorInt64.cs/#L146">View Source</a>
+  </span>
+  <a id="TileDB_VectorInt64_System_Collections_IEnumerable_GetEnumerator_" data-uid="TileDB.VectorInt64.System#Collections#IEnumerable#GetEnumerator*"></a>
+  <h4 id="TileDB_VectorInt64_System_Collections_IEnumerable_GetEnumerator" data-uid="TileDB.VectorInt64.System#Collections#IEnumerable#GetEnumerator">IEnumerable.GetEnumerator()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IEnumerator IEnumerable.GetEnumerator()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="implements">Implements</h3>
   <div>
-      <span class="xref">System.Collections.IEnumerable</span>
+      <span class="xref">System.IDisposable</span>
   </div>
   <div>
-      <span class="xref">System.Collections.Generic.IList&lt;&gt;</span>
+      <span class="xref">System.Collections.Generic.IList&lt;T&gt;</span>
+  </div>
+  <div>
+      <span class="xref">System.Collections.Generic.ICollection&lt;T&gt;</span>
+  </div>
+  <div>
+      <span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span>
+  </div>
+  <div>
+      <span class="xref">System.Collections.IEnumerable</span>
   </div>
 </article>
           </div>

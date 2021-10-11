@@ -80,11 +80,39 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">Array</span></div>
   </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">System.IDisposable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="TileDB.html">TileDB</a></h6>
   <h6><strong>Assembly</strong>: TileDB.CSharp.dll</h6>
   <h5 id="TileDB_Array_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Array : System.IDisposable</code></pre>
+    <pre><code class="lang-csharp hljs">public class Array : IDisposable</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -422,12 +450,12 @@
     <a href="https://github.com/TileDB-Inc/TileDB-CSharp/blob/main/TileDB.CSharp/src/Array.cs/#L136">View Source</a>
   </span>
   <a id="TileDB_Array_consolidate_" data-uid="TileDB.Array.consolidate*"></a>
-  <h4 id="TileDB_Array_consolidate_TileDB_Context_System_String_TileDB_EncryptionType_System_IntPtr_System_UInt32_" data-uid="TileDB.Array.consolidate(TileDB.Context,System.String,TileDB.EncryptionType,System.IntPtr,System.UInt32)">consolidate(Context, String, EncryptionType, System.IntPtr, UInt32)</h4>
+  <h4 id="TileDB_Array_consolidate_TileDB_Context_System_String_TileDB_EncryptionType_System_IntPtr_System_UInt32_" data-uid="TileDB.Array.consolidate(TileDB.Context,System.String,TileDB.EncryptionType,System.IntPtr,System.UInt32)">consolidate(Context, String, EncryptionType, IntPtr, UInt32)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void consolidate(Context ctx, string uri, EncryptionType encryptiontype, System.IntPtr encryption_key, uint key_length)</code></pre>
+    <pre><code class="lang-csharp hljs">public static void consolidate(Context ctx, string uri, EncryptionType encryptiontype, IntPtr encryption_key, uint key_length)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -652,12 +680,12 @@
     <a href="https://github.com/TileDB-Inc/TileDB-CSharp/blob/main/TileDB.CSharp/src/Array.cs/#L224">View Source</a>
   </span>
   <a id="TileDB_Array_consolidate_metadata_" data-uid="TileDB.Array.consolidate_metadata*"></a>
-  <h4 id="TileDB_Array_consolidate_metadata_TileDB_Context_System_String_TileDB_EncryptionType_System_IntPtr_System_UInt32_" data-uid="TileDB.Array.consolidate_metadata(TileDB.Context,System.String,TileDB.EncryptionType,System.IntPtr,System.UInt32)">consolidate_metadata(Context, String, EncryptionType, System.IntPtr, UInt32)</h4>
+  <h4 id="TileDB_Array_consolidate_metadata_TileDB_Context_System_String_TileDB_EncryptionType_System_IntPtr_System_UInt32_" data-uid="TileDB.Array.consolidate_metadata(TileDB.Context,System.String,TileDB.EncryptionType,System.IntPtr,System.UInt32)">consolidate_metadata(Context, String, EncryptionType, IntPtr, UInt32)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void consolidate_metadata(Context ctx, string uri, EncryptionType encryptiontype, System.IntPtr encryption_key, uint key_length)</code></pre>
+    <pre><code class="lang-csharp hljs">public static void consolidate_metadata(Context ctx, string uri, EncryptionType encryptiontype, IntPtr encryption_key, uint key_length)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1764,6 +1792,10 @@
       </tr>
     </tbody>
   </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">System.IDisposable</span>
+  </div>
 </article>
           </div>
           

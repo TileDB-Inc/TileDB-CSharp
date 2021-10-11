@@ -80,11 +80,39 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">Query</span></div>
   </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">System.IDisposable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="TileDB.html">TileDB</a></h6>
   <h6><strong>Assembly</strong>: TileDB.CSharp.dll</h6>
   <h5 id="TileDB_Query_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Query : System.IDisposable</code></pre>
+    <pre><code class="lang-csharp hljs">public class Query : IDisposable</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -1064,6 +1092,68 @@
     <tbody>
       <tr>
         <td><a class="xref" href="TileDB.MapStringVectorUInt64.html">MapStringVectorUInt64</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/TileDB-Inc/TileDB-CSharp/new/main/apiSpec/new?filename=TileDB_Query_set_buffer_System_String_System_IntPtr_System_UInt64_System_UInt32_.md&amp;value=---%0Auid%3A%20TileDB.Query.set_buffer(System.String%2CSystem.IntPtr%2CSystem.UInt64%2CSystem.UInt32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/TileDB-Inc/TileDB-CSharp/blob/main/TileDB.CSharp/src/Query.cs/#L400">View Source</a>
+  </span>
+  <a id="TileDB_Query_set_buffer_" data-uid="TileDB.Query.set_buffer*"></a>
+  <h4 id="TileDB_Query_set_buffer_System_String_System_IntPtr_System_UInt64_System_UInt32_" data-uid="TileDB.Query.set_buffer(System.String,System.IntPtr,System.UInt64,System.UInt32)">set_buffer(String, IntPtr, UInt64, UInt32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Query set_buffer(string attr, IntPtr buff, ulong nelements, uint element_size)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">attr</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.IntPtr</span></td>
+        <td><span class="parametername">buff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt64</span></td>
+        <td><span class="parametername">nelements</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt32</span></td>
+        <td><span class="parametername">element_size</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TileDB.Query.html">Query</a></td>
         <td></td>
       </tr>
     </tbody>
@@ -2710,7 +2800,7 @@
     <a href="https://github.com/TileDB-Inc/TileDB-CSharp/new/main/apiSpec/new?filename=TileDB_Query_stats.md&amp;value=---%0Auid%3A%20TileDB.Query.stats%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/TileDB-Inc/TileDB-CSharp/blob/main/TileDB.CSharp/src/Query.cs/#L400">View Source</a>
+    <a href="https://github.com/TileDB-Inc/TileDB-CSharp/blob/main/TileDB.CSharp/src/Query.cs/#L406">View Source</a>
   </span>
   <a id="TileDB_Query_stats_" data-uid="TileDB.Query.stats*"></a>
   <h4 id="TileDB_Query_stats" data-uid="TileDB.Query.stats">stats()</h4>
@@ -2770,7 +2860,7 @@
     <a href="https://github.com/TileDB-Inc/TileDB-CSharp/new/main/apiSpec/new?filename=TileDB_Query_to_str_TileDB_QueryType_.md&amp;value=---%0Auid%3A%20TileDB.Query.to_str(TileDB.QueryType)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/TileDB-Inc/TileDB-CSharp/blob/main/TileDB.CSharp/src/Query.cs/#L406">View Source</a>
+    <a href="https://github.com/TileDB-Inc/TileDB-CSharp/blob/main/TileDB.CSharp/src/Query.cs/#L412">View Source</a>
   </span>
   <a id="TileDB_Query_to_str_" data-uid="TileDB.Query.to_str*"></a>
   <h4 id="TileDB_Query_to_str_TileDB_QueryType_" data-uid="TileDB.Query.to_str(TileDB.QueryType)">to_str(QueryType)</h4>
@@ -2812,6 +2902,10 @@
       </tr>
     </tbody>
   </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">System.IDisposable</span>
+  </div>
 </article>
           </div>
           

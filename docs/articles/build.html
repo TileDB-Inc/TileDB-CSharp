@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Build c++ Wrapper for Windows </title>
+    <title>Build from scratch for Windows </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Build c++ Wrapper for Windows ">
+    <meta name="title" content="Build from scratch for Windows ">
     <meta name="generator" content="docfx 2.58.0.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -67,22 +67,30 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h3 id="build-c-wrapper-for-windows">Build c++ Wrapper for Windows</h3>
+<h2 id="build-from-scratch-for-windows">Build from scratch for Windows</h2>
 
+<h3 id="build-c-wrapper-tiledbcsdll">Build c++ Wrapper tiledbcs.dll</h3>
 <pre><code>cd cpp
 mkdir build_win64
 cd build_win64
 cmake -G &quot;Visual Studio 16 2019&quot; -A x64 ..
 cmake --build . --target install --config Release
 </code></pre>
-<h3 id="build-c-wrapper-for-linux-or-macos">Build c++ Wrapper for Linux or macOS</h3>
+<h3 id="dotnet-build-csharp-dll-tiledbcsharpdll-and-benchmark">DotNet build csharp dll TileDB.CSharp.dll and benchmark</h3>
+<pre><code>cd TileDB.CSharp
+dotnet build /p:Platform=x64 -c Release
+cd TileDB.CSharp/benchmark
+dotnet build /p:Platform=x64 -c Release
+</code></pre>
+<h2 id="build-from-scratch-for-linux-or-macos">Build from scratch for Linux or macOS</h2>
+<h3 id="build-c-wrapper-tiledbcsso-or-tiledbcsdylib">Build c++ Wrapper tiledbcs.so or tiledbcs.dylib</h3>
 <pre><code>cd cpp
 mkdir build
 cd build
 cmake ..
 cmake --build . --target install --config Release
 </code></pre>
-<h3 id="dotnet-build-for-windows-linux-or-macos">DotNet build for Windows, Linux or macOS</h3>
+<h3 id="dotnet-build-for-csharp-dll-tiledbcsharpdll-and-benchmark">DotNet build for csharp dll TileDB.CSharp.dll and benchmark</h3>
 <pre><code>cd TileDB.CSharp
 dotnet build /p:Platform=x64 -c Release
 cd TileDB.CSharp/benchmark
@@ -96,7 +104,7 @@ dotnet build /p:Platform=x64 -c Release
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/TileDB-Inc/TileDB-CSharp/blob/bd/ch9661-add-more-examples/doc/docfx_project/articles/build.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/TileDB-Inc/TileDB-CSharp/blob/doc/doc/docfx_project/articles/build.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

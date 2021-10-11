@@ -82,14 +82,39 @@
   </div>
   <div classs="implements">
     <h5>Implements</h5>
-    <div><span class="xref">System.Collections.IEnumerable</span></div>
+    <div><span class="xref">System.IDisposable</span></div>
     <div><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="TileDB.VectorString.html">VectorString</a>&gt;</div>
+    <div><span class="xref">System.Collections.IEnumerable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="TileDB.html">TileDB</a></h6>
   <h6><strong>Assembly</strong>: TileDB.CSharp.dll</h6>
   <h5 id="TileDB_VectorOfVectorString_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class VectorOfVectorString : System.IDisposable, System.Collections.IEnumerable, System.Collections.Generic.IEnumerable&lt;VectorString&gt;</code></pre>
+    <pre><code class="lang-csharp hljs">public class VectorOfVectorString : IDisposable, IEnumerable&lt;VectorString&gt;, IEnumerable</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -116,12 +141,12 @@
     <a href="https://github.com/TileDB-Inc/TileDB-CSharp/blob/main/TileDB.CSharp/src/VectorOfVectorString.cs/#L56">View Source</a>
   </span>
   <a id="TileDB_VectorOfVectorString__ctor_" data-uid="TileDB.VectorOfVectorString.#ctor*"></a>
-  <h4 id="TileDB_VectorOfVectorString__ctor_System_Collections_Generic_IEnumerable_TileDB_VectorString__" data-uid="TileDB.VectorOfVectorString.#ctor(System.Collections.Generic.IEnumerable{TileDB.VectorString})">VectorOfVectorString(System.Collections.Generic.IEnumerable&lt;VectorString&gt;)</h4>
+  <h4 id="TileDB_VectorOfVectorString__ctor_System_Collections_Generic_IEnumerable_TileDB_VectorString__" data-uid="TileDB.VectorOfVectorString.#ctor(System.Collections.Generic.IEnumerable{TileDB.VectorString})">VectorOfVectorString(IEnumerable&lt;VectorString&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public VectorOfVectorString(System.Collections.Generic.IEnumerable&lt;VectorString&gt; c)</code></pre>
+    <pre><code class="lang-csharp hljs">public VectorOfVectorString(IEnumerable&lt;VectorString&gt; c)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -148,12 +173,12 @@
     <a href="https://github.com/TileDB-Inc/TileDB-CSharp/blob/main/TileDB.CSharp/src/VectorOfVectorString.cs/#L48">View Source</a>
   </span>
   <a id="TileDB_VectorOfVectorString__ctor_" data-uid="TileDB.VectorOfVectorString.#ctor*"></a>
-  <h4 id="TileDB_VectorOfVectorString__ctor_System_Collections_IEnumerable_" data-uid="TileDB.VectorOfVectorString.#ctor(System.Collections.IEnumerable)">VectorOfVectorString(System.Collections.IEnumerable)</h4>
+  <h4 id="TileDB_VectorOfVectorString__ctor_System_Collections_IEnumerable_" data-uid="TileDB.VectorOfVectorString.#ctor(System.Collections.IEnumerable)">VectorOfVectorString(IEnumerable)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public VectorOfVectorString(System.Collections.IEnumerable c)</code></pre>
+    <pre><code class="lang-csharp hljs">public VectorOfVectorString(IEnumerable c)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1121,12 +1146,77 @@
       </tr>
     </tbody>
   </table>
+  <h3 id="eii">Explicit Interface Implementations
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/TileDB-Inc/TileDB-CSharp/new/main/apiSpec/new?filename=TileDB_VectorOfVectorString_System_Collections_Generic_IEnumerable_TileDB_VectorString__GetEnumerator.md&amp;value=---%0Auid%3A%20TileDB.VectorOfVectorString.System%23Collections%23Generic%23IEnumerable%7BTileDB%23VectorString%7D%23GetEnumerator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/TileDB-Inc/TileDB-CSharp/blob/main/TileDB.CSharp/src/VectorOfVectorString.cs/#L142">View Source</a>
+  </span>
+  <a id="TileDB_VectorOfVectorString_System_Collections_Generic_IEnumerable_TileDB_VectorString__GetEnumerator_" data-uid="TileDB.VectorOfVectorString.System#Collections#Generic#IEnumerable{TileDB#VectorString}#GetEnumerator*"></a>
+  <h4 id="TileDB_VectorOfVectorString_System_Collections_Generic_IEnumerable_TileDB_VectorString__GetEnumerator" data-uid="TileDB.VectorOfVectorString.System#Collections#Generic#IEnumerable{TileDB#VectorString}#GetEnumerator">IEnumerable&lt;VectorString&gt;.GetEnumerator()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IEnumerator&lt;VectorString&gt; IEnumerable&lt;VectorString&gt;.GetEnumerator()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerator</span>&lt;<a class="xref" href="TileDB.VectorString.html">VectorString</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/TileDB-Inc/TileDB-CSharp/new/main/apiSpec/new?filename=TileDB_VectorOfVectorString_System_Collections_IEnumerable_GetEnumerator.md&amp;value=---%0Auid%3A%20TileDB.VectorOfVectorString.System%23Collections%23IEnumerable%23GetEnumerator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/TileDB-Inc/TileDB-CSharp/blob/main/TileDB.CSharp/src/VectorOfVectorString.cs/#L146">View Source</a>
+  </span>
+  <a id="TileDB_VectorOfVectorString_System_Collections_IEnumerable_GetEnumerator_" data-uid="TileDB.VectorOfVectorString.System#Collections#IEnumerable#GetEnumerator*"></a>
+  <h4 id="TileDB_VectorOfVectorString_System_Collections_IEnumerable_GetEnumerator" data-uid="TileDB.VectorOfVectorString.System#Collections#IEnumerable#GetEnumerator">IEnumerable.GetEnumerator()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IEnumerator IEnumerable.GetEnumerator()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="implements">Implements</h3>
   <div>
-      <span class="xref">System.Collections.IEnumerable</span>
+      <span class="xref">System.IDisposable</span>
   </div>
   <div>
-      <span class="xref">System.Collections.Generic.IEnumerable&lt;&gt;</span>
+      <span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span>
+  </div>
+  <div>
+      <span class="xref">System.Collections.IEnumerable</span>
   </div>
 </article>
           </div>

@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "/Users/inorton/work/git/TileDB-CSharp/doc/docfx_project",
+  "source_base_path": "C:/tiledb_dev/TileDB-CSharp/doc/docfx_project",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -9,10 +9,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.Array.html",
-          "hash": "ErHDbn3KxXggsEVLviKsX5NTRlkgBCqVAwAfkNkt1k4="
+          "hash": "JbljZ4bVeRdgX+KYMjpWWnAc4mB9SEiwG03EMRbVAUY="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -21,10 +21,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.ArraySchema.html",
-          "hash": "A1TuUFHAo0qxs7QV/lFzIHQ6IbrftaEdScFakFd+n10="
+          "hash": "N9vcG5SY8Y+Kuus3oS4Vdy7IVVy+ZkNbG7QYWP7sESc="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -33,10 +33,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.ArrayType.html",
-          "hash": "ha5GcteLdBpAMwEAWl0GLLiH3oCzEceec+hP++GZ9ww="
+          "hash": "c2qbAvxGpjP89BG0RGtlg8WmORzzpwDRh8VoBvioQBg="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -45,10 +45,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.ArrayUtil.html",
-          "hash": "vMp6Q88vciF50xRECbHr2S4TjDhvxTh5fPCI7D7KY0g="
+          "hash": "+PCN+AGNO1gU9CNFU/jdsYCb/XIScNf9wkmGz4bTTJI="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -57,10 +57,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.Attribute.html",
-          "hash": "3AKGMHI51KPKixJT9mSHKZdT/YumNGHlitCBzRgio6E="
+          "hash": "cao8V0FIU4NdcEHfz6ulYnVw72na312Tb2UQvK8JWlk="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -69,10 +69,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.AttributeError.html",
-          "hash": "zgWpvTK+DltDfoIfqQV+7cB7lGyUAMOERU/26u9nhpU="
+          "hash": "fdt0kYb/xolEomTE4WCPPPy06YYtzlIynUcm0VaAjaw="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -81,10 +81,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.Config.html",
-          "hash": "2QU++HwbyI7LnTxnm4eoA58DRg2mI13jR0tqJED65KU="
+          "hash": "p5e60E6v8M43/L2hoLEKN9Uv1wJZ8Qcy+V7d5euDaDs="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -93,10 +93,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.Context.html",
-          "hash": "kBTI2KHDyvOt0EpCL0aCjH1pNdObW4mWZ7poEsGt1tE="
+          "hash": "nMhBTdeGylixsNtF8RoXdn46IgdEZA2pixIPqm7eE1A="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -105,10 +105,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.DataType.html",
-          "hash": "WCl8qVbRnHbZfOEyHVazpFf6+q07CR2KfZtR2/CNhPw="
+          "hash": "TDkYJtn58/r5AIBg0U7YfRAMGZBzA/dESLEU3pCnrBA="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -117,10 +117,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.Dimension.html",
-          "hash": "xELh9L8CzNhQyjE36WkmCawf4oay89P3rhKF+OW+ZTI="
+          "hash": "InFUIxFt11UglUk3jDxrKEf7/rHOEvepznro4Urt+mk="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -129,10 +129,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.Domain.html",
-          "hash": "182jvqZFcmkzwg8wyPUXvVP2myTxtF/LoO36IuG9QLg="
+          "hash": "S1fQCDzN0TiWmqvb/H7MdRpONb7howgHpOWbLuBafH0="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -141,10 +141,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.EncryptionType.html",
-          "hash": "TY2h6Z0lxNhNHrZqW8GhKU+/DcVKDhTz+3JI/TlzxL4="
+          "hash": "tVilHMiWhEQffJz2hQGj31u6+8nimgKjiVhDUIN6AII="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -153,10 +153,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.EnumUtil.html",
-          "hash": "1gHs1VzbynbKHVGKIi9Vl873KA/8unL8v6kqhbPP/y0="
+          "hash": "gqBAY3oGZv810SGlANSe0GwsD0frbR2DEy5rkUApgVk="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -165,10 +165,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.FilesystemType.html",
-          "hash": "6dN2Pn+raFpJ3kX56vrY4DUUshd2bqhUqsAzXMs5vHs="
+          "hash": "rA4IhNpcXja2YS/9bFn8Bpj8ABfLXpQwCdMMCWkgYV8="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -177,10 +177,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.Filter.html",
-          "hash": "EVOI7NHsjCxk7jP63NGgS4gDekywmtHUqX0PaJJCMt4="
+          "hash": "EbmHSOPIGlAlfLYHr88JXpa8fwaRN0D+QI2zashdRJo="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -189,10 +189,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.FilterList.html",
-          "hash": "IKUmRj/9Ez1nBvNTv200ntDSYBfUqTekQG91pxYBYAE="
+          "hash": "bE6hcENEbfOhCz5GR8CTzBW3RIGnqheprRVhQB6Ch1g="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -201,10 +201,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.FilterOption.html",
-          "hash": "jGDPbp/PLjpdHUzJHg3IitLJFlkR7w6H6uqmhx9qmOE="
+          "hash": "wGAcH8bpb4mMDdVJt5vUE7//HVMVrp+czhqVmCiIlKs="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -213,10 +213,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.FilterType.html",
-          "hash": "5sxE9b6E3wjhMfTIxBB2XPa3M5+Y81Cd4stTq88HkzM="
+          "hash": "jTw81Ze4qhJQosN7jXRNs4vT0HaZnPzy3kFV3vY0JWQ="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -225,10 +225,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.LayoutType.html",
-          "hash": "iQtPtUhyqaJpVORyfpZZ5MlAG2QcOic/itSEDxAkZsM="
+          "hash": "6GC/+alHvmiohbm1lb0EZuJr/1mKeRadYumc68XsiRM="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -237,10 +237,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt32Char.MapInt32CharEnumerator.html",
-          "hash": "/4hAxEbKPREJYt2LKEALIL2hCciZfB0zfBgCcRiEmtk="
+          "hash": "inIcnWJURCyDN6nNmVSJmMJPQHdVIZAHTheCzKkupis="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -249,10 +249,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt32Char.html",
-          "hash": "Pmi2PbeZ9Wca4CPrne8/eGuka2ECLYNeFqrEFsmo+Cs="
+          "hash": "ivtaQ+ySVBfvd2CpC5OgIFtusPLBI0D2Zf2+sOfP4EE="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -261,10 +261,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt32Double.MapInt32DoubleEnumerator.html",
-          "hash": "Tfo5BskgVupZvT8722C6mIp3JBXJSy930SVMNCONrRY="
+          "hash": "fBCviGzPjggtAxE3dY2aRIuxka/RJYKq9ExNxDqLHxc="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -273,10 +273,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt32Double.html",
-          "hash": "QX3adlVuWvqG+2+F3fNZHHAR1ZyXXLBgVv9w+0rQPTs="
+          "hash": "+e4BWKmKA8IyCW1Yp7FX63a8nlB6UW2HE4rJG4qkjv0="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -285,10 +285,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt32Float32.MapInt32Float32Enumerator.html",
-          "hash": "dCkTgVmbwbSbE1PwNZaOSRMKEk4eruJdXFBYfWnjRyA="
+          "hash": "6ZBA9vzfyzbd+mz/x2WnE8qTFZ0IyA336DihCb0WC4c="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -297,10 +297,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt32Float32.html",
-          "hash": "nACCG9bFcFTjyZCAsu9Hy8RH86H66G0MyrupdEYZlzo="
+          "hash": "HLUpPWK0APvvda1iffFOffxA24Pa3B3I48Hz0suaRac="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -309,10 +309,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt32Int32.MapInt32Int32Enumerator.html",
-          "hash": "4VgcxPot14t4xlLQa6tq4lN1ei4tOqh+z223L3z+oR4="
+          "hash": "bPBjx1Z+IB4370jRy6kW5/1KOZ4HrAOoZ5BtHKrmOoA="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -321,10 +321,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt32Int32.html",
-          "hash": "tYuhmFnTf+r/UAvnppIx33FmpinCDaHhTzB4po8exac="
+          "hash": "rzxVoXnnsjkjEMtv0Zin0fOrhOvwKWv131s64B4QSh4="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -333,10 +333,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt32Int64.MapInt32Int64Enumerator.html",
-          "hash": "FDZMf/2Ympcf7gIAdbXn/yOZlE6LysB1xL7l7KfK5fo="
+          "hash": "yxuk9S3EDr8d1YG8gLPnPGo3OLLuQfaREcgJ/JLk5xk="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -345,10 +345,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt32Int64.html",
-          "hash": "Cgf3sSIXvZ/0IAa+4/Kr3D093MvgQfKMMP+rmtSjVLI="
+          "hash": "02A3RcYx0IiNK3kYbbkUimDSDh/UShm7NxpUNicDkDY="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -357,10 +357,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt32String.MapInt32StringEnumerator.html",
-          "hash": "PNBAlZNZuokq4pgabv89+lv9B/mmikCx/M4/TuRs9zE="
+          "hash": "kPHVTarZLzC+DtWHqw5c3HOquF7QxyIpqXk3mxtOawA="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -369,10 +369,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt32String.html",
-          "hash": "Rk6wLcMOCb2FKP3qApxvbf/fzrSH7YaUODMxFey7iEI="
+          "hash": "NvbyOknPogFCrZROFgo1ZWseInslffSr3yjZ73AgAq0="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -381,10 +381,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt32UChar.MapInt32UCharEnumerator.html",
-          "hash": "JZy61nDe4KRwkJEBKIPULWEliJSmGurZxbga1anaW7E="
+          "hash": "qAD5nwxsmJMTC14MG9Wkqb6ezMdcMo2c3L2Z2it3njU="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -393,10 +393,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt32UChar.html",
-          "hash": "dZbL7NYtMwecEmVLkTNPN1WGFTZWLGh6wF2AjZPnHqQ="
+          "hash": "F0da0aP616o2ZaZWdUZkSIhobCSKW1p5dRWVzSEXaKA="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -405,10 +405,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt32UInt32.MapInt32UInt32Enumerator.html",
-          "hash": "16IVvlQQsYk4vCz82gC+yd8vNRABJyHQDOMbzeUA2/c="
+          "hash": "QfRGbLeKHfptn5mCeVS//LdflfXBnZWhkKv57BOFQYQ="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -417,10 +417,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt32UInt32.html",
-          "hash": "wgZx4GXbyP3Ne3X7HP3LgkITORN/K0XoCJP5myo5J+U="
+          "hash": "LqJAHCVIrThwJLxidwHHMXRAOZYrH7ZwaWJnJtiGTn8="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -429,10 +429,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt32UInt64.MapInt32UInt64Enumerator.html",
-          "hash": "SdLg+b50UN9ekvJaI4aI8w9yGyAESj65eby1J9hiVm4="
+          "hash": "/4Mmws0f1sC8d5GcP7HrtZ6LVUDerkgWCWvZKEqb7Xs="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -441,10 +441,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt32UInt64.html",
-          "hash": "sYEhCkeSFcREyvkdXulLrcOhBOQZiyjlcoegUX/4QWU="
+          "hash": "YHzXdqW0TN+btKsYswNgTLqGjjoVlV+yhuNDW+U5RH4="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -453,10 +453,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt64Char.MapInt64CharEnumerator.html",
-          "hash": "1pRC1RX3QMMAMmbqMyvrJfYuqTRO4WO+tu0u2aT9aeM="
+          "hash": "vivPjkxiHBPZ9M//kP9sUmUvlw8vZUt7Nhx3cGxLWpo="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -465,10 +465,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt64Char.html",
-          "hash": "7UYirY3xpQXCv/iWWtRqVmnNtIac2wYPV5GckWE+TzI="
+          "hash": "XlVc+CQhDI9rNHujC8sSgwo5Nb0USE7AaxjXMiSMnW0="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -477,10 +477,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt64Double.MapInt64DoubleEnumerator.html",
-          "hash": "WBrMkCqPuA4yZWhW5jY9GBR1XSUrhJBLQ7d7wm8rd7g="
+          "hash": "h+FclwsDBF+VBirBF9iCeGbTbUAIy+Hz1jIGkl4ZKz8="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -489,10 +489,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt64Double.html",
-          "hash": "WCigxPb6LkzetVfVWf4Srg2UB6dW/052HNK27Gov9to="
+          "hash": "vOtp3qxgoTsuV6O5sU6q+Puo8a+LKP7jgH1jmVkc8yw="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -501,10 +501,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt64Float32.MapInt64Float32Enumerator.html",
-          "hash": "X10QoQ9tNS3JUUhfK9piauZOPldy0kDBWl9UeGl45z0="
+          "hash": "XGo8DSY701+t+X16afZf7238F6n0tmdYgoKYruduWSI="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -513,10 +513,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt64Float32.html",
-          "hash": "VnVpZGdGGtJk5ccJbKT7246ASc33Wf2FJGbQ6+SJM7s="
+          "hash": "I6jvbHr1fHVRAFOPmZijhtNi/o3Foj06OACoBsafRPc="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -525,10 +525,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt64Int32.MapInt64Int32Enumerator.html",
-          "hash": "vVh1a1NilJh89E0AmBbfmdckMUZ49neyemt7+SH/UaE="
+          "hash": "f1Qj/igfSYeTZZPojRAQrJu1nHWQDG1o1DU6ryo9pPE="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -537,10 +537,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt64Int32.html",
-          "hash": "49HwpldaCnhNPcaQOZXU/RPCsFVKceKKzygwHhwvDt0="
+          "hash": "ZNb0ePD9geXsLKbO3JDYJjkxJSbQLBRhw9UdfPqEgE4="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -549,10 +549,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt64Int64.MapInt64Int64Enumerator.html",
-          "hash": "S2V0xCJM36iB+kA1e9T4EMEzOfgz4SQJgOSCCY9vbb8="
+          "hash": "kLfO0COfbP/Td82gWPwnWfpnK9kq76ShFs24j0cvEqA="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -561,10 +561,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt64Int64.html",
-          "hash": "j0AM1ekSIXO2CRl1wYuA63yi+JCqnmOcQroAF2nLZ9M="
+          "hash": "+NnhnEpOQHei4OIeY6lLnIB7SH12/GxE/aLAzyUBZio="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -573,10 +573,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt64String.MapInt64StringEnumerator.html",
-          "hash": "pCHK5IhtuC4Y6C3AxIxWCLnb6iIhRcSU2U4fXDg9xHk="
+          "hash": "82JCYH18fjYtDBD4asmUXA+GlBym19iC/0vIWqxePh8="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -585,10 +585,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt64String.html",
-          "hash": "Bh4lbvWFJPmjjzzBk5w4q7y9U4sCaC3A5W3vK5yPrhQ="
+          "hash": "XMgbF3OZYfjqluYghNyA/zxNCon2Roi6sBY2OFJDEh8="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -597,10 +597,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt64UChar.MapInt64UCharEnumerator.html",
-          "hash": "X5tr6ciQR7NLQAbUYDsh/1Pq3r5LsHaHDU+kKAsPGME="
+          "hash": "NxjuH5OD3eSfhG3kMcxxh9Tel2mTbxZhdpXbPhlEypY="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -609,10 +609,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt64UChar.html",
-          "hash": "zUcZJpvnz0KatWyTLICNFijjsQLDqV0q1ApbFSnLivU="
+          "hash": "Xcfww1Bl8ZtYZH1mIB+IHJee1QXuJYxrNzfp0ky1CFg="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -621,10 +621,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt64UInt32.MapInt64UInt32Enumerator.html",
-          "hash": "z42bEk0CWYhHijS3AzUbPWus06N2TypRk5n4FWUtdYU="
+          "hash": "vv+ihf5KPQHWc1e653XxTXAz/xh+mVwfzlq175VQJpU="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -633,10 +633,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt64UInt32.html",
-          "hash": "FRjyjfqgJoe6RK6M615rxbB2KKdCzOD+XbVNHq0GxEg="
+          "hash": "izpLC7yLABWl1LHCs8ehSmhmUQV07WtYjY3hjMhajEM="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -645,10 +645,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt64UInt64.MapInt64UInt64Enumerator.html",
-          "hash": "mhMU7CuOuL7TVCe/nXHnc0iqhT+4KXz8NHgN1OyB1HQ="
+          "hash": "emSMbNrGo23kRuE7K6Do/Zyz2h1rGejD5k+LMmod8QI="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -657,10 +657,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapInt64UInt64.html",
-          "hash": "wMdz0uDQe6j3x7nndT/jEseKg57o+X1PQ/zcChw8s1s="
+          "hash": "QnZnlvCNeKKe71os7/BEOUHHOcJgQM9UGC8eIZVUovE="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -669,10 +669,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringChar.MapStringCharEnumerator.html",
-          "hash": "0JDWPt2IWL8N3641evEKuptdz6CXmpw4MEUb2NY3I/o="
+          "hash": "K8fiFLcTrGhhjiYzKJm9nEVVYNoeqhYmQjRTptoO6Es="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -681,10 +681,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringChar.html",
-          "hash": "Kww8u69Y8hm/em7rzfOD2F8Qs6djJJQ9N0P5HhAmLlI="
+          "hash": "LpieAM/IWe1Au0L9/LTC4SZevFJPd1N58goRpCq67ZM="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -693,10 +693,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringDouble.MapStringDoubleEnumerator.html",
-          "hash": "lf7h3GQO7Mncg/U/kRagFm235P0MDFb5tje9fwhPqMk="
+          "hash": "elkqoBv+LlCc3LFW+ohQV+3X8F8GpLEyGiXcEckq+MU="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -705,10 +705,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringDouble.html",
-          "hash": "yLyari7BSNZFWTeFteRxOpCEIlLxSV84te/j7YDB1OY="
+          "hash": "N/ObE1cUe56II3YbzQEHoKCiwZDSNr44H2TKKG5H+8A="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -717,10 +717,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringFloat32.MapStringFloat32Enumerator.html",
-          "hash": "Avi1sGB4G6SXInoPQ9BSTsCxnlgWy665CHWJ5zw+5vg="
+          "hash": "SZkcankFFlcm/w3VzyMXun9CbRQWJqOFDyZycC4i74M="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -729,10 +729,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringFloat32.html",
-          "hash": "5OCdd0r/W1lMQFVExQ4LaTXw1GepdwBQsOlbTJqcgYA="
+          "hash": "+WFswWnfCUg/xE+S+eMdbzz8VW8ulqIvCeUq/5bgMmw="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -741,10 +741,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringInt32.MapStringInt32Enumerator.html",
-          "hash": "0hpR9yDzjWd3BpU+BrJ7BN5GqpLwMgpmVejS8yOsR8g="
+          "hash": "ukmtSfv55ulOgVVNBvSERSvwZBBoMvQCXrNgXR6OcSs="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -753,10 +753,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringInt32.html",
-          "hash": "+dZlPU3CZoHCS7gFyShCAy6qy7d6Lm4uqoLxi0ez5Bw="
+          "hash": "izbZP5WRdDT66WgzU28xFwNXbv9KMIattdE/nwb+wnc="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -765,10 +765,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringInt64.MapStringInt64Enumerator.html",
-          "hash": "A9iUWI0DaFEXDHGhF18jjBffkrxzKC6hVqHbTZ0D4CY="
+          "hash": "7cGVXAcjsXO/qOVUU1aMQPg/tsEUI1cSxmmLhVV8hOM="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -777,10 +777,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringInt64.html",
-          "hash": "Y94fSwrOmvIfb35RqUEhNP/kTI0KyIeoq+KGqJC0Bf8="
+          "hash": "N6HGRM3pJIMDHuEIhqtCO1OUsTqfQcIu6Y8hhnpkpkY="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -789,10 +789,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringPairInt64Int64.MapStringPairInt64Int64Enumerator.html",
-          "hash": "mpgbXKW1az57OuXiwTyULNZAktqRE+nAP6eQpDKlofQ="
+          "hash": "fUxC6EBWFF6OhYYTMY2WggUnK/b0zinUSUwle0FMuEU="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -801,10 +801,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringPairInt64Int64.html",
-          "hash": "NexvqxBQNaKNnWpdJ0r0icpYeWGswlQ1LNreb4TZ45o="
+          "hash": "ph2FtUlHuWxD7GIBoiuXXC0yKTLfiD6Hvv1nEqWtsnU="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -813,10 +813,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringPairUInt64UInt64.MapStringPairUInt64UInt64Enumerator.html",
-          "hash": "hE8R2v50HnV3eWwv78CPamv/sIMBnbF+Axp1iRxDZgU="
+          "hash": "05grD0F10JSgLjygn3sB7A7GyGmWg8QNabKVJhNexHc="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -825,10 +825,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringPairUInt64UInt64.html",
-          "hash": "u5EsrS0HKGvEeCVbrNUimCjCDEl6BKLj/4417kcOceY="
+          "hash": "WAXTc7CjG2R3B3qGtpxEKc9iqK9CFPiMaD1TK1Xmo24="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -837,10 +837,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringString.MapStringStringEnumerator.html",
-          "hash": "HWklY8sTRtG3kn7eSJLkC7fwLBkkE7vktShoVRfblqM="
+          "hash": "12CbhSvhJlhcQTECoeAXC9YKmL4eAAVSBpDrNppwvNg="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -849,10 +849,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringString.html",
-          "hash": "lFRhvRSLOlrGJGjNPpiVOWoPl5hYB8KIG22ldr3t7Mg="
+          "hash": "+jexjlUVk9YC0mXKL6QnEqv86CniuscPU0GvkXi/mzU="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -861,10 +861,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringUChar.MapStringUCharEnumerator.html",
-          "hash": "6JVaOzFsKVnDAJYy52gbmb8kXASjPG2GK0BmULHuat8="
+          "hash": "XcCDMSvFlcO42cbj44qf4QnwBVyh4k+CxXMApzSSz7s="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -873,10 +873,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringUChar.html",
-          "hash": "4CenfBVEDfOhHb2OwMaCycPZ0KLcm3EdIqlJ+phBCck="
+          "hash": "4XFYvV+dfBK88dWgIM6iJ5b8nk92FqfhCYMiVIQx3Hs="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -885,10 +885,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringUInt32.MapStringUInt32Enumerator.html",
-          "hash": "Av3xSRyb5BaKbHoUdM0f2uTpEXy0GhI3qAOQlqg4K28="
+          "hash": "SRYFD4aStxwP+YYsUNjIOjCpGCIw8xH8uY6vZ3h1D4I="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -897,10 +897,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringUInt32.html",
-          "hash": "3DEluK1FV94hDMPxk5fRU6CreI22Jf8FKkaq2msUab4="
+          "hash": "gjpp52zpel9YG45Oo+e9vA5YlkkirMBp2l3cRlAIL9U="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -909,10 +909,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringUInt64.MapStringUInt64Enumerator.html",
-          "hash": "OxgRbCDJFijr2xEl3E3KA+rGu5OGqQeiMGlLLD5lOJI="
+          "hash": "3A8CpX8f7fjIqi3HiEnpq3Z99wmICS4+BgGhp0kTcpc="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -921,10 +921,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringUInt64.html",
-          "hash": "RQJtmFG4nj8aNkNmJ1esqRsjKAquh+48RRNJTfUGeCg="
+          "hash": "1Bcu9eEfA8AqcBFbEaCUwiNd5e8DjfQKomZgii3QQg8="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -933,10 +933,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringVectorChar.MapStringVectorCharEnumerator.html",
-          "hash": "8pP3U5Vm/Fd6F4m2MGGp1eLadVpszO/IHidknr4idlg="
+          "hash": "7k5qQm9Y9EeFPUMK4qN4Ta6tSEZ1CF7zO8b8yb3D8Wk="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -945,10 +945,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringVectorChar.html",
-          "hash": "VhRCjrCi1ESPY6WPTXIK7RpUwjgzPgzGS6Hk8YvYRpU="
+          "hash": "GWIiykqLJ1ZxY/C9sEUZR2pGWtRtJzDpBuXYo5dZZRs="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -957,10 +957,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringVectorDouble.MapStringVectorDoubleEnumerator.html",
-          "hash": "G/zU9ny2WYDTLC/cT9p/eAtifiZsGXELQdHihlnboRo="
+          "hash": "1h8ZeqFfXs+af8mp0OM4KVDuEWQFB4mutffopfcwqMg="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -969,10 +969,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringVectorDouble.html",
-          "hash": "JG8LwryuieQ18glCYv7MnC8wwUfsSAN6H4xVthfg6jE="
+          "hash": "dEsNTDFaTwKJ22q9V0qjRS9Uu753altOMmo5rWdauhI="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -981,10 +981,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringVectorFloat32.MapStringVectorFloat32Enumerator.html",
-          "hash": "KXVft8R6U/Mb39JCKrOZaRzf2sfbuho6KqTr25aUxhM="
+          "hash": "qMmNSwq+KB/Oe8ofWsO+FDpTvk80ZffzFAdsFruMmn0="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -993,10 +993,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringVectorFloat32.html",
-          "hash": "fVUjY1k8tw6lm82x20cPaeHO0/Anbio6q0Kr/yzupQY="
+          "hash": "YUhRWyBDfdWoPW9hhJMYTuu/qXPQRBQIpW34/2ZCopI="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1005,10 +1005,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringVectorInt32.MapStringVectorInt32Enumerator.html",
-          "hash": "bWRrvjrA1fPe53bWuFpbkkxvQLvWIrtBBtVA0RGLUno="
+          "hash": "gZeTd5BCzFyONjkON27S2KqWKKJnIr97LlEAbBzqDeE="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1017,10 +1017,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringVectorInt32.html",
-          "hash": "DfG26AQprwsQcEaU6gt/j/P0hBz6YA6j0lV4sGe6IJ4="
+          "hash": "GoorimyAAw8h5DuB8Rg8A9Wg99ePa8j0F218sRpUtwE="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1029,10 +1029,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringVectorInt64.MapStringVectorInt64Enumerator.html",
-          "hash": "+AcZayli+JOVWWGSBnev54KYYLyxwy2lsrmTY7/l4Aw="
+          "hash": "D73aMeRLRF6l9Ecm3Km9iQp2zwQm9z1ZNfZkLBLx4v0="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1041,10 +1041,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringVectorInt64.html",
-          "hash": "tlocbq1v/9ywM9WjRbsPkgig3iZPqHnAfGjoQdg2SdE="
+          "hash": "YHmdK2XS2kkJkhdUhogTDByccg3bh9l6Ds3Uwa91dtg="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1053,10 +1053,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringVectorString.MapStringVectorStringEnumerator.html",
-          "hash": "gUkPwIesV3iQ6cKGBqVeKvfiTHwRB0tS7ed5ubOROkQ="
+          "hash": "Kmg9R6+FiP22mUI9fdXdAFBLVy2pxXyrxAFqszTdkPQ="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1065,10 +1065,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringVectorString.html",
-          "hash": "vA6W6Qoq08Q8+I0agpxJEPXJA+VAq+muVvj4hjY6/oU="
+          "hash": "LSvwIgaxuNRahyABodmWS71OD/5LU1GCzElAyxsu740="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1077,10 +1077,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringVectorUInt32.MapStringVectorUInt32Enumerator.html",
-          "hash": "adVJzOnlDnro9ERilFV+1ZeGL1jJ7oDhyBJc3K0ZdjI="
+          "hash": "Li/xHrZHF9TAe/LwRvjvEYEc//GIuZA2NxgRgLfFbmQ="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1089,10 +1089,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringVectorUInt32.html",
-          "hash": "B/mI1joAhkb3m19sP4uAlKzwk3kjl3chppbhCFkNkes="
+          "hash": "aLEcx84CxIqbrKEARRbDr+XhAge4GvrSqS3TnNPESqg="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1101,10 +1101,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringVectorUInt64.MapStringVectorUInt64Enumerator.html",
-          "hash": "GMJRgF48FPsrCHMaFzunNx19YbLDVyT0xSF6dCwY9to="
+          "hash": "RGljp6acctclJulBLbJLEEeAR2Bb+9yRj0X5YWQqHeA="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1113,10 +1113,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringVectorUInt64.html",
-          "hash": "mQng1unfNXMnqERH+jIpC1SDiXRpZVpgtKsaemRvHSw="
+          "hash": "77BhoStJ8A925rB18bMGyNwWLIUA9C7UIGjSKB/30po="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1125,10 +1125,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringVectorUInt8.MapStringVectorUInt8Enumerator.html",
-          "hash": "fUD/ePAwZn0isuySbsU4QGF2cwMCnYQUeA/Tpr8Qqog="
+          "hash": "dLPKq9RUqnmrVJlx3fy/ZnYRZnHlnu7FYtGCbRjUYHM="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1137,10 +1137,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.MapStringVectorUInt8.html",
-          "hash": "Cpa1gSneaV1fRpSlOELrIymcTXFtAULD9xIjTyhyB98="
+          "hash": "eIBHObMd4GGUR66U8cuPGJ0fXuVIWPpoFZXZWH4eHEI="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1149,10 +1149,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.ObjectType.html",
-          "hash": "t1m+i/fx+M3bwJ2rgsPLpXcSvZmvkZmOWrkh9x1A44w="
+          "hash": "smfXX7QyBQyoL2Yj9wG/R7AfY2ipmhS9c9Cn9cBrl0M="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1161,10 +1161,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.PairDoubleDouble.html",
-          "hash": "MEhUfiVtfuElnvVMcE/0GxLCvr0IiLZzno/7cJQ28Fs="
+          "hash": "PzceWv8eraxZ0pz9RZtY/t60YcdQ+Yn2Oj3tkJf4EFE="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1173,10 +1173,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.PairFloat32Float32.html",
-          "hash": "fbuR+bPNN3ZI01qF/xuzc7CPC/BUEf6PhJoQM62RNJ4="
+          "hash": "HozPzSMMC5VOaeMgfnbyWdO6TYqIBladTZhpxpXpZCM="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1185,10 +1185,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.PairInt32Int32.html",
-          "hash": "xQGgAuH2UsBQak7VXkitvJoWE90VgXwZ0fgri2BueaY="
+          "hash": "TNj+qk5JY+qvKIo92OPEO38f/hKNF4UUsd37fcc2/HM="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1197,10 +1197,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.PairInt64Int64.html",
-          "hash": "e/H8HnEK5aZ9hHXmddXcXWaR6oXtdHG40/h+2Ec7WUI="
+          "hash": "PQ7u+S50+XHTqgay86MN1ldv+iQkNKVyEpkMu19e6Dc="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1209,10 +1209,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.PairStringString.html",
-          "hash": "fNE5JIObB9dhAJn2bPYpBk9q/Uc5D5u29AwrXruG304="
+          "hash": "YKseROkZ3EN/WMUu5lA7KjRY1u6LKzbpswPVV2uo2Xg="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1221,10 +1221,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.PairUInt32UInt32.html",
-          "hash": "0OVXh49LrNV9XbEhoy5UX2hBhW6XKkYybtpWcp75nxY="
+          "hash": "t2yRtVDewmKMWctjd4HgdJwX0jk529Z6hd0DnW0wvnM="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1233,10 +1233,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.PairUInt64UInt64.html",
-          "hash": "Coze01tH70j4v0Iy7677/9Bx814L4SpFLHMgoGcD41E="
+          "hash": "zPPSAjymLxDH0eVOeUagoqOI2lHUJjCqJ0ht80CUccI="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1245,10 +1245,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.Query.html",
-          "hash": "1W32thFdOc1Uj3Dfo1PkdSAnXDJjV6TW5p4buAB9cro="
+          "hash": "XgR05JsdYPADEtBiDZYSTB74Aff2y3Wcqf6M8dxBBT0="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1257,10 +1257,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.QueryCondition.html",
-          "hash": "z4LO5S71Xdk2xPbtItBcTLic6sJa2niPsHoYDQaSIo0="
+          "hash": "pSwYnezUlT/MKGUIDGFjOxNGWt+bKsfXhzdUDrnDNg4="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1269,10 +1269,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.QueryConditionCombinationOperatorType.html",
-          "hash": "vGXRVN2ONNtLC07G1rI0P2v1uwuICH4bPscNxllelNs="
+          "hash": "PHLQNxnBvtMRfukVTC9ml+1mgA9MMiz4V1X2mtUHRY0="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1281,10 +1281,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.QueryConditionOperatorType.html",
-          "hash": "1rZeZhXTQV4+GlV1RsZd8jjf6ac26oDn9GvRTe+o67Q="
+          "hash": "lUpJi22kuiun5CfeaZ2ovmPo0P0mLiFRzZiRAFs8xNs="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1293,10 +1293,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.QueryStatus.html",
-          "hash": "x/POZjD4X0BHHs+gUPYR6tT4/w6uv+CjRwkI/Eu+3UM="
+          "hash": "AZWAHFXWcO2qqPJu2H50WC086W+iILbyJyKWdLGifVM="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1305,10 +1305,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.QueryType.html",
-          "hash": "E4EieYh4nhTdqgC0XZutJGnPufSlgh9aJxQrrVEbtKs="
+          "hash": "Vra73+x4gC9GfFxxIyjHRbNpKn8RgMNRIbZBIKWA7r4="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1317,10 +1317,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.SchemaMismatch.html",
-          "hash": "LAMM808sPe7BTtiqSTUN1FlDpoUgQ7kK9hjmgaKPz38="
+          "hash": "7bKCqO8+GsouOX98AO04E8oCMIhd0JtuQnu4eM5srdc="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1329,10 +1329,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.SerializationType.html",
-          "hash": "jfjzqx6oKu//BGfeHZtEnLVaSh531eTtHznxl4sMTvA="
+          "hash": "rt8FXYf0BLmiFavtmby70ZgnLa/Vv2TWlhgJU0v7z5o="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1341,10 +1341,22 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.Stats.html",
-          "hash": "zksuGyDq6fhAAC+87xpyJR5s1XjzBYkaPEWgbW6nOoM="
+          "hash": "0NDuPMOIKY0rVKXX8/8Zz/yS9MX1n8m9OhzxoNYBWKs="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TileDB.TileDBBuffer-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TileDB.TileDBBuffer-1.html",
+          "hash": "mdP5S3ENH2rl9O1bbUNN9H7m7acp5fqocgS8Yf0cJgM="
+        }
+      },
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1353,10 +1365,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.TileDBError.html",
-          "hash": "xJ9ttvGC3v4kCi3vxefdm7BHXeH7BtAx4ekSaIcTqvA="
+          "hash": "Upu2rLu+I+kOud6Qmvv7MIlJuSHmaF9XLjsMFRS9ghM="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1365,10 +1377,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.TypeError.html",
-          "hash": "e8CIUFaUP7tu8fLwpV3q3TZlTS1GbJAXXof8YcwLEPY="
+          "hash": "ksgCpi1JUgu8J1lvBfMakWmhL77qedg/8hErb8MA9pQ="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1377,10 +1389,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VFS.html",
-          "hash": "I9zGc+i6HEdHt6Dyi3ek0hIQ1k70a2HVxBTXhcd6acs="
+          "hash": "kyjWc8+RRK8lT6TIpSa6TjnUuogTxXUoa7JOL7lN80w="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1389,10 +1401,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VFSMode.html",
-          "hash": "2Fk5CMiny3C9Ag/ZaMTNsQoy7f01gKpY2Pxo4dSJEPM="
+          "hash": "SyH/WVVVDfFZZqccL+kgXcEuQrvj3or/QM8KZYsXM6E="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1401,10 +1413,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorChar.VectorCharEnumerator.html",
-          "hash": "Cid78TinxlRMa7TtPQfrfv1N5AhLfL914NUsxQoIYjg="
+          "hash": "YYNcZ0UqR7IgUf7p972oPBC0n8LGJbmpKfgzL5b4Fsg="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1413,10 +1425,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorChar.html",
-          "hash": "rcym72MVYLkIKUSGQDKgJVuAcIBmb3v7FfLFs7sHoSU="
+          "hash": "e2ntuyguM7pwWS7Sgf+1rKhIdHIZEpQH74K750SAhHI="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1425,10 +1437,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorConstChar.VectorConstCharEnumerator.html",
-          "hash": "kIrUp9YzyvK1udqUWbVh8wop2T0n0HcqwQ3naoIWhBo="
+          "hash": "RNSM2/IcDFb2L+7A6cAcZvKSPJ/4dG72AYxKg4rzWIA="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1437,10 +1449,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorConstChar.html",
-          "hash": "V8dFg+aMFIBt9jmRKDLXMiSgp3lXjvZoBAdHohr2ZMU="
+          "hash": "zhEAb8ilR4nUucbambTqz/8ns1Ftw3/YxnZGqpnsvZ4="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1449,10 +1461,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorDouble.VectorDoubleEnumerator.html",
-          "hash": "sX3Z3UiqQzcY5XwFTipKL6kv4CRT7VOoe0hl/nDV/qw="
+          "hash": "CNO0bLcrv1F/CHNEBlxMuAh5IBssZpxCacX/h2aOTIE="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1461,10 +1473,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorDouble.html",
-          "hash": "LR4egT+ibbe6P8dzU0OtY7/P4ixYTLCadxxMAF40W6Q="
+          "hash": "rCUZtlPQEduyvzpaIA2gSwKsRT1I7FekxP1/aeULRq8="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1473,10 +1485,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorFloat32.VectorFloat32Enumerator.html",
-          "hash": "RfkAwGo3E579vQ0JoVa9dj3kiAxoMrOfw5ynBkmY150="
+          "hash": "j2I/ySIV1B1KChah7n2KNUtrjb05f9qptvxlb6vqdMs="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1485,10 +1497,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorFloat32.html",
-          "hash": "QY4m5m4j5D5zZ0CYEOuoGCvM/7vJxYoutUnsHjkbU5Q="
+          "hash": "MY1yxTF7T1s8ztDgzmdCzJvlwWT2u2Po0CF6zCFimEs="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1497,10 +1509,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorInt32.VectorInt32Enumerator.html",
-          "hash": "2fltRxjoUQPGbIXlkScmHJX4uWSr1Xn+0uiDvl0pf3Y="
+          "hash": "VFiY3qpc8JXB+YnYdb0eUG2T1Km32V8XDarbMcey7dc="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1509,10 +1521,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorInt32.html",
-          "hash": "PXjPIqhfeKF1ppc4sNiyZohgU1RMea9xxEN8ba+ZZlI="
+          "hash": "iryvURTNEXW1jeb2YhFVqPd8fo72hYIPDwCkdU2Z9X4="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1521,10 +1533,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorInt64.VectorInt64Enumerator.html",
-          "hash": "sDCj9iIllRCYDCsZPsJQgQlh+7diIdvGVUIk2aAa3gg="
+          "hash": "XW7R13W9H3GIQnxt2bU/dVNc58/QFSMrxs358rhHW44="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1533,10 +1545,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorInt64.html",
-          "hash": "6wQ9/xZegE4eaxZT42Vg78TDw6ebLduLSP4dKZjvdzI="
+          "hash": "/yqnypyNdlpf1obLO+wouoQlyx/YuyB6Y45xGUCS5KE="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1545,10 +1557,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorOfVectorChar.VectorOfVectorCharEnumerator.html",
-          "hash": "6cFPmyvADY1vQhO7Zhj5oY8ur+jdsf2Ho2hOUvYJP8E="
+          "hash": "VnBgERowakLK2Z7KG91Q/kFazZbYqk2BLJFK1bwPVbs="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1557,10 +1569,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorOfVectorChar.html",
-          "hash": "Kz49V+Ufc3TkucALuammDp32TpXuwJAGmwjUj8pkc/8="
+          "hash": "faiOnrlUNXuGYcEEnkvTZ92SfaZyLysCbBcMD9RAhWg="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1569,10 +1581,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorOfVectorDouble.VectorOfVectorDoubleEnumerator.html",
-          "hash": "Rtw/KGN6PJQmB8ipzCmO8oFoM4ravi7cT3jRamlMifY="
+          "hash": "UGu5MZiafHTBmM3ValF7QgA8tZveKaYdNdgVKkj0EE8="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1581,10 +1593,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorOfVectorDouble.html",
-          "hash": "Q3NKo/EEkVg5eZjq6rzeWcozpkH1FTGVRfOtrpMK4sY="
+          "hash": "QgJV+OGngPIpxQ56oDnuzO1a4A7Do5NZrX0f4N3KziI="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1593,10 +1605,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorOfVectorFloat32.VectorOfVectorFloat32Enumerator.html",
-          "hash": "J76eCxZQz4MG5b3bqL0lqRkhOEelchP86/14zN/AoFw="
+          "hash": "Xf9k+lUzsIWbnvxx3swP9HLEejkYHrlUZwu3z2GG0Go="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1605,10 +1617,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorOfVectorFloat32.html",
-          "hash": "CTI8CJqj1FIikMbQWd+zTDEaAk1LwXZElsBb3KWTuwc="
+          "hash": "lSs3oBFIl5vfC5/F4lERt2r5hARbDfi9Lmgsm09/SvU="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1617,10 +1629,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorOfVectorInt32.VectorOfVectorInt32Enumerator.html",
-          "hash": "SdhpUVl9Jm1IwnxDUE14bAPmRIqis9V6FKmBerBDRTc="
+          "hash": "doWjdLAT1o1aT85+Zqr72PWZ6+eJf5bnefXLFwB1CRo="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1629,10 +1641,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorOfVectorInt32.html",
-          "hash": "r1KU1JcCzsUQKWxjUWPlpWsFR1psAJsRYQpXPvNg20s="
+          "hash": "1y8vXGObL4j9sVb7ZPaiVNUNM9Qq5c+aZLScr8mcMFI="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1641,10 +1653,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorOfVectorInt64.VectorOfVectorInt64Enumerator.html",
-          "hash": "aEDGa2unnTyjPWIaHXhEdSQZnEQcuh0rh4jA60jeKWQ="
+          "hash": "8MSQN1FtBOEDzmel7KEA83sRhqsr5ZRSoDvgxcIUcsA="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1653,10 +1665,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorOfVectorInt64.html",
-          "hash": "G7ycGRoCEvj9lGLKTLtKBq1+5eOtMOEQXvhSyCF+ceI="
+          "hash": "pg5Ka45lfgS3+0v5BefJ3YUMPYRBMEL1Mg8DuGvY8Tc="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1665,10 +1677,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorOfVectorString.VectorOfVectorStringEnumerator.html",
-          "hash": "jiMZgOkAu3mfcIEg7bIw/gyjRa3JLiHiYf1gxJYksOk="
+          "hash": "VQHpl5QRIFqKnKmVCqLk3FSdBgsokZ2FEYlhpJIA4Io="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1677,10 +1689,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorOfVectorString.html",
-          "hash": "3J0kihnUojh5B6g9lFgWJzqxX7MBuCQUt3rc6crC/c8="
+          "hash": "e9e7D3lBXlaCuNKv4Vfl3XtxEMoBfG8MeE/vg2l3mGQ="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1689,10 +1701,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorOfVectorUChar.VectorOfVectorUCharEnumerator.html",
-          "hash": "hQ8+z2RpryAh0lUOjEEZzGBFa+Fa6vhSG/PnV2gfgLA="
+          "hash": "5NnRqVr66gncbExX+SDgy4j/WPrDGaUKDVQF69gO1zY="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1701,10 +1713,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorOfVectorUChar.html",
-          "hash": "t173PDMkc9lO9nDCP0lcSSLQYJIV261w2sjB9KBP96Y="
+          "hash": "V3L0hWv7GPUfkPbuCaSoG7UTnCGOXzo9+hqAJ58jqHI="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1713,10 +1725,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorOfVectorUInt32.VectorOfVectorUInt32Enumerator.html",
-          "hash": "5n2Y258x0PKRrF8b0SMDp3zgZh+CX2SsfBOrKpu64Zk="
+          "hash": "1s/1EJ2MdJkDNqxmTzMRxJIxe+9UPbsHu/1OJZpOke4="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1725,10 +1737,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorOfVectorUInt32.html",
-          "hash": "uo02HTVvCf9stc08maaXkBgF9ZAE3VnVLo7kQY7slI4="
+          "hash": "neomZm3pr0CMqV9dq8zOMHOV4FR2JzrDBEb+sfvtveU="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1737,10 +1749,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorOfVectorUInt64.VectorOfVectorUInt64Enumerator.html",
-          "hash": "NvYwR7K9JazwdmKSKkguvNBBQGZQo2LKEkZWkt0Ufzk="
+          "hash": "0mD6R+/CGKtKD6wZklutfqsjdW3IiM4bxIRo9TJmaw4="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1749,10 +1761,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorOfVectorUInt64.html",
-          "hash": "OEmGa0VPj95zgi7eHHCeTWrZsLzlo7C9JUeUVkGPejU="
+          "hash": "MkLJJZHS3p8NLFDZKWihLm8uV7UrgY1c57s2mP+CzhE="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1761,10 +1773,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorString.VectorStringEnumerator.html",
-          "hash": "fM5xODSRlT5mfbicpEqDz0Ya7LyLFj3Ka8CyE6GEEYk="
+          "hash": "RGBATdT2tuqU/WeHe3ZraQCGz+p5TfwWbHkeIHf08sY="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1773,10 +1785,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorString.html",
-          "hash": "vo3dLMDAYSqGkEpHBqgl7A+48KP6CMXLIo2/i1Elzto="
+          "hash": "jxSCXv2RK4iWR1Pvc+xtxrecPZbd0sYTdoVKFm9YHkI="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1785,10 +1797,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorUInt32.VectorUInt32Enumerator.html",
-          "hash": "6DAqd2LyqliLjFKzv3QFNge+T7Z6hr6t1w8xdoZ/61U="
+          "hash": "3wVqOulWu5A2OotoDUfJgMARsk0IZqnPp9f+34FxBbY="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1797,10 +1809,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorUInt32.html",
-          "hash": "c43z1jOKhWCRd/KCx2+KsAi9lLEsLqxd2+DDUkfJE1c="
+          "hash": "WaRVMJbTanvpTXsyvZV70YQljxO6jiv0f0GQaRqLVDc="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1809,10 +1821,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorUInt64.VectorUInt64Enumerator.html",
-          "hash": "nFuCRy4hlPk7G6MTEw6nQSvq6qTstut+/P1hrabWslE="
+          "hash": "Yx4WFsGlQ8pd0qwRjfr7ftS1YLFf9NQg2+Df0pjm7Zs="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1821,10 +1833,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorUInt64.html",
-          "hash": "F8NAy4oDQ23F5op8/9vs9Bn/y5GqL56FjAGdZIYtnyQ="
+          "hash": "N9eJcbADDq2mE1i1zdRfeovny0VGtbojRYobx7ZNo0A="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1833,10 +1845,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorUInt8.VectorUInt8Enumerator.html",
-          "hash": "+fyZ174cO4oYVxjPRP6GLAJpd9lcflrybB7UOVI4hnw="
+          "hash": "D2Bm3hvOewp3Fv99/c3cIpHqFRKHkbhJ6gMMVfQh/UQ="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1845,10 +1857,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.VectorUInt8.html",
-          "hash": "zklT5MgTGj9D2+2hUgodNEZSzRi/ubT3wMYs/cY9m6U="
+          "hash": "CuEN3ts9JQahL2d899Zh6PIqtDADqSmcDpdmbBgtie0="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1857,10 +1869,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.WalkOrderType.html",
-          "hash": "Yf/oJBpLGSoFiOx6RmBsIOcWCpRB9JpEgD+Raa1GuQ4="
+          "hash": "V/bQSpSUU9e329KaiwAe5QrscvnpcnzvY0j4eLRfazE="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1869,10 +1881,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.tiledbcs.html",
-          "hash": "Fq8MlfPU1fwHbTAMg6VDALsXlgJAFvr5aZFhg5onTU4="
+          "hash": "kBc/snAUFpsn9v/4bVe4rcdk+HpqHhG2YecV2yFNfck="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1881,10 +1893,10 @@
       "output": {
         ".html": {
           "relative_path": "api/TileDB.html",
-          "hash": "jretaIR+vPqH4BwU0+SoPx/gVGWy78Gq+KxeiOAwz5I="
+          "hash": "rUsmOE/iKeuiDjEDgSijDpveQyc/J3waThoHyEWjUig="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1893,7 +1905,7 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "o47JhmPMAfH9q5BlrmnoF/i4wV9n0KA+pXOQ3qLSoVI="
+          "hash": "vpOjwVVSBa9pDAo2TVWWLM/vgZUOz/dYJUSl/h/cGn4="
         }
       },
       "is_incremental": true,
@@ -1905,7 +1917,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "YPMJbuqxAqXXu8/4ELrfXltwYALmMfPLe2sTbKhgvXk="
+          "hash": "ibK3icJiiPoZuhRqRktxQRAlgNPhCxJ+HrdrgAESUs0="
         }
       },
       "is_incremental": false,
@@ -1917,7 +1929,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/build.html",
-          "hash": "yVEBTNPxva3w9pkRut9F1EKl9Is7U0Y/QRSf+EK9oQE="
+          "hash": "Mc4TwZAjPnBvtGJoeICknBye/TzHQZl8grmaoB55J0I="
         }
       },
       "is_incremental": true,
@@ -1929,7 +1941,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/devdoc.html",
-          "hash": "tbeOU/1i5aAXBRHoPvIjxlvUT3oXXBE2cqIE+o2tEuw="
+          "hash": "9RjW8Ss0oz17L1zuqY14BMnlewb1I7XoJwQeofjoMmE="
         }
       },
       "is_incremental": true,
@@ -1941,10 +1953,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/examples.html",
-          "hash": "/pqnDqG0pKZ0J/5gEzDlbeONs+qXXV3Y3ckH/wWFXgM="
+          "hash": "VKbCLFHA8gWksudKnaFE0K+jCJos/XRzDudWq/iY1d4="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1953,10 +1965,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "XbdrebBy9o4SlBVxbjeIrRPuf9U+vftqjkBX+fiMLjo="
+          "hash": "MpZGYnyEIVeG+UlDlB1NKL8s/v0qpDsYMlgkhFjAql8="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1965,10 +1977,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/introduction.html",
-          "hash": "GPX7CPKSRt/ocKpgdXWKUfUlednrOGhNAg4XJgnTDpw="
+          "hash": "xf/C5OT1aGmbLRqf/428V8/SOqatydYPROT1i+awmkg="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1989,10 +2001,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/userapp.html",
-          "hash": "viRGQDdcs1hf4+FJ2q9+Rdpaizc9/4IbNncNHiSF1Z4="
+          "hash": "0ZZzZAWxjYi/uTf7c13gFUJuWPtVYkvJDBxpBFsQiGk="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -2012,10 +2024,10 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "Df8dOvVVxBRVy6j20RCd9GGjwz7BOtldArWGmK0mu7I="
+          "hash": "b6ta9mGnNpMDT5GBogsoh8dzgeueU3wVj0eaWsHfnIs="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -2055,13 +2067,13 @@
           "can_incremental": true,
           "incrementalPhase": "build",
           "total_file_count": 8,
-          "skipped_file_count": 8
+          "skipped_file_count": 4
         },
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build",
-          "total_file_count": 157,
-          "skipped_file_count": 157
+          "total_file_count": 158,
+          "skipped_file_count": 1
         },
         "ResourceDocumentProcessor": {
           "can_incremental": false,
