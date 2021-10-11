@@ -226,6 +226,9 @@
     name: SerializationType
   - uid: TileDB.Stats
     name: Stats
+  - uid: TileDB.TileDBBuffer`1
+    name: TileDBBuffer<T>
+    name.vb: TileDBBuffer(Of T)
   - uid: TileDB.tiledbcs
     name: tiledbcs
   - uid: TileDB.TileDBError
