@@ -1616,6 +1616,77 @@ void set_double_coordinates(std::vector<double>& buf) {
     return *this;
   }
 
+  tiledb::Query& set_buffer_with_offsets(const std::string& attr, 
+    void* data, 
+    uint64_t data_nelements, 
+    size_t element_size,
+    std::vector<uint64_t>& offsets) {
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get(); //auto ctx = ctx_.get();
+    auto data_size = data_nelements * element_size;
+    auto offset_size = (uint64_t)(offsets.size() * sizeof(uint64_t));
+    element_sizes_[attr] = element_size;
+    buff_sizes_[attr] = std::tuple<uint64_t, uint64_t, uint64_t>(offset_size, data_size, 0);
+    ctx_->handle_error(tiledb_query_set_buffer_var(
+      c_ctx,
+      query_.get(),
+      attr.c_str(),
+      offsets.data(),
+      &std::get<0>(buff_sizes_[attr]),
+      data,
+      &std::get<1>(buff_sizes_[attr])));
+    return *this;
+  }
+
+  // 
+  tiledb::Query& set_buffer_with_validity(const std::string& attr,
+    void* data,
+    uint64_t data_nelements,
+    size_t data_element_size,
+    std::vector<uint8_t>& validity) {
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get(); //auto ctx = ctx_.get();
+    uint64_t data_size = data_nelements * data_element_size;
+    uint64_t validity_size = (uint64_t)(validity.size() * sizeof(uint8_t));
+    buff_sizes_[attr] =
+      std::tuple<uint64_t, uint64_t, uint64_t>(0, data_size, validity_size);
+    element_sizes_[attr] = data_element_size;
+    ctx_->handle_error(tiledb_query_set_buffer_nullable(
+      c_ctx,
+      query_.get(),
+      attr.c_str(),
+      data,
+      &std::get<1>(buff_sizes_[attr]),
+      validity.data(),
+      &std::get<2>(buff_sizes_[attr])));
+    return *this;
+  }
+
+  tiledb::Query& set_buffer_with_offsets_validity(const std::string& attr,
+    void* data,
+    uint64_t data_nelements,
+    size_t data_element_size,
+    std::vector<uint64_t>& offsets,
+    std::vector<uint8_t>& validity) {
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get(); //auto ctx = ctx_.get();
+    uint64_t data_size = data_nelements * data_element_size;
+    uint64_t offset_size = (uint64_t)(offsets.size() * sizeof(uint64_t));
+    uint64_t validity_size = (uint64_t)(validity.size() * sizeof(uint8_t));
+    element_sizes_[attr] = data_element_size;
+    buff_sizes_[attr] = std::tuple<uint64_t, uint64_t, uint64_t>(
+      offset_size, data_size, validity_size);
+    ctx_->handle_error(tiledb_query_set_buffer_var_nullable(
+      c_ctx,
+      query_.get(),
+      attr.c_str(),
+      offsets.data(),
+      &std::get<0>(buff_sizes_[attr]),
+      data,
+      &std::get<1>(buff_sizes_[attr]),
+      validity.data(),
+      &std::get<2>(buff_sizes_[attr])));
+    return *this;
+  }
+
+
   ////////
 
  

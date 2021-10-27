@@ -403,6 +403,24 @@ public class Query : global::System.IDisposable {
     return ret;
   }
 
+  public Query set_buffer_with_offsets(string attr, System.IntPtr data, ulong data_nelements, uint element_size, VectorUInt64 offsets) {
+    Query ret = new Query(tiledbcsPINVOKE.Query_set_buffer_with_offsets(swigCPtr, attr, data, data_nelements, element_size, VectorUInt64.getCPtr(offsets)), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public Query set_buffer_with_validity(string attr, System.IntPtr data, ulong data_nelements, uint data_element_size, VectorUInt8 validity) {
+    Query ret = new Query(tiledbcsPINVOKE.Query_set_buffer_with_validity(swigCPtr, attr, data, data_nelements, data_element_size, VectorUInt8.getCPtr(validity)), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public Query set_buffer_with_offsets_validity(string attr, System.IntPtr data, ulong data_nelements, uint data_element_size, VectorUInt64 offsets, VectorUInt8 validity) {
+    Query ret = new Query(tiledbcsPINVOKE.Query_set_buffer_with_offsets_validity(swigCPtr, attr, data, data_nelements, data_element_size, VectorUInt64.getCPtr(offsets), VectorUInt8.getCPtr(validity)), true);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public string stats() {
     string ret = tiledbcsPINVOKE.Query_stats(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
