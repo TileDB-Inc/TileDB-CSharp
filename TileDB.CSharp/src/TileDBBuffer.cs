@@ -200,10 +200,14 @@ namespace TileDB
 
         }
 
-        public string[] UnPackStringArray()
+        public string[] UnPackStringArray(int totbytesize)
         {
             string[] data = new string[m_offsets.Count];
-            if (m_offsets.Count == 0 || m_bytes.Length == 0)
+            if(totbytesize > m_bytes.Length)
+            {
+                totbytesize = m_bytes.Length;
+            }
+            if (m_offsets.Count == 0 || totbytesize == 0)
             {
                 return data;
             }
@@ -220,16 +224,17 @@ namespace TileDB
                 }
                 else
                 {
-                    bytesize = m_bytes.Length - (int)m_offsets[m_offsets.Count - 1];
+                    bytesize = totbytesize - (int)m_offsets[m_offsets.Count - 1];
 
                 }
                 
                 totsize += bytesize;
-                if (totsize <= m_bytes.Length && bytesize>0)
+                if (totsize <= totbytesize && bytesize>0)
                 {
                     byte[] bytes = new byte[bytesize];// 
                     System.Array.Copy(m_bytes, indexFrom, bytes, 0, bytesize);
                     data[i] = Encoding.ASCII.GetString(bytes);
+                    indexFrom = totsize;
                 }
                 
             }

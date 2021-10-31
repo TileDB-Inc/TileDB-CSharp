@@ -33,7 +33,7 @@ namespace TileDB.Example
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Start to create a dense array...");
+            Console.WriteLine("Start to create the array...");
 
             // Create a dense array
             CreateArray();
@@ -70,9 +70,8 @@ namespace TileDB.Example
         {
             TileDB.Context ctx = new TileDB.Context();
             TileDB.Domain dom = new TileDB.Domain(ctx);
-            dom.add_int32_dimension("rows", 1, 4, 4);
-            dom.add_int32_dimension("cols", 1, 4, 4);
-
+            dom.add_int32_dimension("d", 1, 8, 8);
+          
             TileDB.ArraySchema schema = new TileDB.ArraySchema(ctx, TileDB.ArrayType.TILEDB_DENSE);
             schema.set_domain(dom);
             TileDB.Attribute attr1 = TileDB.Attribute.create_attribute(ctx, "a", TileDB.DataType.TILEDB_STRING_ASCII);
@@ -96,13 +95,18 @@ namespace TileDB.Example
 
             TileDB.TileDBBuffer<System.String> strbuffer = new TileDBBuffer<string>();
 
-            string[] strarr = new string[16]
+            string[] strarr = new string[8]
             {
                 "a","b","c","d",
-                "aa","bb","cc","dd",
-                "aaa","bbb","ccc","ddd",
-                "aaaa","bbbb","cccc","dddd"
+                "aa","bb","cc","dd"
             };
+
+            System.Console.WriteLine("start to write the follwing string data:");
+            foreach(string v in strarr)
+            {
+                System.Console.Write(" {0}", v);
+            }
+            System.Console.WriteLine();
 
             strbuffer.PackStringArray(strarr);
 
@@ -114,6 +118,7 @@ namespace TileDB.Example
             query.set_buffer_with_offsets("a", strbuffer.DataIntPtr, strbuffer.BufferSize, strbuffer.ElementDataSize, strbuffer.Offsets);
 
             TileDB.QueryStatus status = query.submit();
+            query.finalize();
             array.close();
 
             return status;
@@ -126,12 +131,10 @@ namespace TileDB.Example
 
             TileDB.VectorInt32 subarray = new TileDB.VectorInt32();
             subarray.Add(1);
-            subarray.Add(2); //rows 1,2
-            subarray.Add(2);
-            subarray.Add(4); //cols 2,3,4
+            subarray.Add(8); //d1 3,6
  
             TileDB.TileDBBuffer<string> strbuffer = new TileDBBuffer<string>();
-            strbuffer.Init(6, true, false, 100);
+            strbuffer.Init(8, true, false, 100);
 
             //open array for read
             TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.QueryType.TILEDB_READ);
@@ -141,13 +144,18 @@ namespace TileDB.Example
             query.set_layout(TileDB.LayoutType.TILEDB_ROW_MAJOR);
             query.set_int32_subarray(subarray);
 
- 
             query.set_buffer_with_offsets("a", strbuffer.DataIntPtr, strbuffer.BufferSize, strbuffer.ElementDataSize, strbuffer.Offsets);
 
             TileDB.QueryStatus status = query.submit();
+            query.finalize();
+            TileDB.MapStringVectorUInt64 buffer_elements = query.result_buffer_elements();
             array.close();
-            
-            string[] data = strbuffer.UnPackStringArray();
+
+            // a query result
+            UInt64 result_el_a1_size = buffer_elements["a"][1];
+
+            string[] data = strbuffer.UnPackStringArray((int)result_el_a1_size);
+            System.Console.WriteLine();
             System.Console.WriteLine("query result:");
             foreach(string v in data)
             {
