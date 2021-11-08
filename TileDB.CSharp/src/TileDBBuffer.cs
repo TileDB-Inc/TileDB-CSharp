@@ -159,7 +159,7 @@ namespace TileDB
         #endregion
 
         #region string
-        public void PackStringArray(string[] strarray)
+        public void PackStringArray(string[] strarray, string encodingmethod="UTF8")
         {
             Release();
             if(strarray.Length==0)
@@ -168,28 +168,60 @@ namespace TileDB
             }
             m_data = new T[strarray.Length];
             m_offsets = TileDB.VectorUInt64.Repeat(0, strarray.Length);
-
-            List<byte[]> bytesList = new List<byte[]>();
-
+            
             int totsize = 0;
             for(int i=0; i<strarray.Length; ++i)
             {
-                byte[] bytes = Encoding.ASCII.GetBytes(strarray[i]);
-                totsize += bytes.Length;
-                bytesList.Add(bytes);
+                int bytes_size = 0;
+                if (encodingmethod == "ASCII")
+                {
+                    bytes_size = Encoding.ASCII.GetByteCount(strarray[i]);
+                }
+                else if (encodingmethod == "UTF16") 
+                {
+                    bytes_size = Encoding.Unicode.GetByteCount(strarray[i]);
+                }
+                else if (encodingmethod == "UTF32")
+                {
+                    bytes_size = Encoding.UTF32.GetByteCount(strarray[i]);
+                }
+                else
+                {
+                    bytes_size = Encoding.UTF8.GetByteCount(strarray[i]);
+                }
+                totsize += bytes_size;
             }
 
             m_bytes = new byte[totsize];
 
             int idx = 0;
-            for (int i = 0; i < bytesList.Count; ++i)
+            for (int i = 0; i < strarray.Length; ++i)
             {
-                bytesList[i].CopyTo(m_bytes, idx);
-                idx += bytesList[i].Length;
-
-                if(i<(bytesList.Count-1))
+                byte[] bytes;
+                if (encodingmethod == "ASCII")
                 {
-                    m_offsets[i + 1] = m_offsets[i] + (ulong)bytesList[i].Length;
+                    bytes = Encoding.ASCII.GetBytes(strarray[i]);
+
+                }
+                else if (encodingmethod == "UTF16")
+                {
+                    bytes = Encoding.Unicode.GetBytes(strarray[i]);
+                }
+                else if (encodingmethod == "UTF32")
+                {
+                    bytes = Encoding.UTF32.GetBytes(strarray[i]);
+                }
+                else
+                {
+                    bytes = Encoding.UTF8.GetBytes(strarray[i]);
+                }
+                bytes.CopyTo(m_bytes, idx);
+                idx += bytes.Length;
+
+
+                if(i<(strarray.Length-1))
+                {
+                    m_offsets[i + 1] = m_offsets[i] + (ulong)bytes.Length;
                 }
                    
             }
@@ -200,7 +232,7 @@ namespace TileDB
 
         }
 
-        public string[] UnPackStringArray(int totbytesize)
+        public string[] UnPackStringArray(int totbytesize, string encodingmethod = "UTF8")
         {
             string[] data = new string[m_offsets.Count];
             if(totbytesize > m_bytes.Length)
@@ -233,7 +265,23 @@ namespace TileDB
                 {
                     byte[] bytes = new byte[bytesize];// 
                     System.Array.Copy(m_bytes, indexFrom, bytes, 0, bytesize);
-                    data[i] = Encoding.ASCII.GetString(bytes);
+                    if (encodingmethod == "ASCII")
+                    {
+                        data[i] = Encoding.ASCII.GetString(bytes);
+                    }
+                    else if (encodingmethod == "UTF16")
+                    {
+                        data[i] = Encoding.Unicode.GetString(bytes);
+                    }
+                    else if (encodingmethod == "UTF32")
+                    {
+                        data[i] = Encoding.UTF32.GetString(bytes);
+                    }
+                    else
+                    {
+                        data[i] = Encoding.UTF8.GetString(bytes);
+                    }
+                        
                     indexFrom = totsize;
                 }
                 
