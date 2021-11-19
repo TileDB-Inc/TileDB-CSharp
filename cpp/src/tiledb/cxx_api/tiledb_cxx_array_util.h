@@ -79,7 +79,7 @@ public:
 	/**
 	* @brief export file to a path
 	*/
-	static int export_file_to_path(const std::string& file_uri, const std::string& output_path, const std::shared_ptr<tiledb::Context>& ctx);
+	static int export_file_to_path(const std::string& file_uri, const std::string& output_path, uint64_t buffer_size, const std::shared_ptr<tiledb::Context>& ctx);
 
 	////TODO add more help functions
  

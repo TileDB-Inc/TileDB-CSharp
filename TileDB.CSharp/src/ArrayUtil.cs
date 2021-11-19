@@ -58,8 +58,8 @@ public class ArrayUtil : global::System.IDisposable {
     return ret;
   }
 
-  public static int export_file_to_path(string file_uri, string output_path, Context ctx) {
-    int ret = tiledbcsPINVOKE.ArrayUtil_export_file_to_path(file_uri, output_path, Context.getCPtr(ctx));
+  public static int export_file_to_path(string file_uri, string output_path, ulong buffer_size, Context ctx) {
+    int ret = tiledbcsPINVOKE.ArrayUtil_export_file_to_path(file_uri, output_path, buffer_size, Context.getCPtr(ctx));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

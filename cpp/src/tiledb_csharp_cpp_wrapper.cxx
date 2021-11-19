@@ -24418,12 +24418,13 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArrayUtil_get_tiledb_version() {
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_ArrayUtil_export_file_to_path(char * jarg1, char * jarg2, void * jarg3) {
+SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_ArrayUtil_export_file_to_path(char * jarg1, char * jarg2, unsigned long long jarg3, void * jarg4) {
   int jresult ;
   std::string *arg1 = 0 ;
   std::string *arg2 = 0 ;
-  std::shared_ptr< tiledb::Context > *arg3 = 0 ;
-  std::shared_ptr< tiledb::Context > tempnull3 ;
+  uint64_t arg3 ;
+  std::shared_ptr< tiledb::Context > *arg4 = 0 ;
+  std::shared_ptr< tiledb::Context > tempnull4 ;
   int result;
   
   if (!jarg1) {
@@ -24438,10 +24439,11 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_ArrayUtil_export_file_to_path(char * ja
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = jarg3 ? (std::shared_ptr< tiledb::Context > *)jarg3 : &tempnull3; 
+  arg3 = (uint64_t)jarg3; 
+  arg4 = jarg4 ? (std::shared_ptr< tiledb::Context > *)jarg4 : &tempnull4; 
   {
     try {
-      result = (int)tiledb::ArrayUtil::export_file_to_path((std::string const &)*arg1,(std::string const &)*arg2,(std::shared_ptr< tiledb::Context > const &)*arg3);
+      result = (int)tiledb::ArrayUtil::export_file_to_path((std::string const &)*arg1,(std::string const &)*arg2,arg3,(std::shared_ptr< tiledb::Context > const &)*arg4);
     } catch(const tiledb::TypeError& e) {
       SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
     } catch(const tiledb::SchemaMismatch& e) {
