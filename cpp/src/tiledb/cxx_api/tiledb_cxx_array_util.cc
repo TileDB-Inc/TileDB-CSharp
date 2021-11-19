@@ -27,18 +27,22 @@ int ArrayUtil::export_file_to_path(const std::string& file_uri, const std::strin
     if(buffer_size==0) {
       buffer_size = file_size;
     }
+    if (buffer_size <= 0) {
+      std::cout << "ArrayUtil::export_file_to_path, wrong buffer_size!" << std::endl;
+      return -1;
+    }
 
     std::string output_file = output_path;
     if(output_file.empty()) {
       tiledb::DataType file_name_datatype = tiledb::DataType::TILEDB_STRING_ASCII;
       uint32_t name_size = 0;
-      char original_name[1024] = "";
+      const char* original_name;
       array->get_metadata(METADATA_ORIGINAL_FILE_NAME,&file_name_datatype,&name_size,reinterpret_cast<const void**>(&original_name));
-      output_file = std::string(original_name);
+      output_file = std::string(original_name, name_size);
     }
     
     std::shared_ptr<tiledb::VFS> vfs = std::shared_ptr<tiledb::VFS>(new tiledb::VFS(ctx));
-    tiledb::impl::VFSFilebuf filebuf = tiledb::impl::VFSFilebuf(vfs);
+    tiledb::VFS::filebuf filebuf = tiledb::VFS::filebuf(vfs);
     filebuf.open(output_file, std::ios::out);
     std::ostream os(&filebuf);   
     
@@ -59,10 +63,6 @@ int ArrayUtil::export_file_to_path(const std::string& file_uri, const std::strin
         uint64_t read_size = result_buffer_elements[FILE_ATTRIBUTE_NAME][1];
         os.write((const char*)data_buffer.data(), read_size);
       }
-      offset += buffer_size;
-      subarray[0] = offset;
-      subarray[1] = (file_size > (offset + buffer_size)) ? (offset + buffer_size -1) : (file_size -1);
-      query.set_subarray(subarray);
     }
 
     array->close();
