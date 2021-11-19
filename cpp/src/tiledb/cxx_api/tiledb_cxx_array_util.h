@@ -14,8 +14,7 @@
 */
 
 #include <limits>
-//#include <codecvt>
-
+ 
 #include "tiledb_cxx_array.h"
 #include "tiledb_cxx_array_schema.h"
 #include "tiledb_cxx_attribute.h"
@@ -37,17 +36,6 @@
 #include "tiledb_cxx_utils.h"
 #include "tiledb_cxx_version.h"
 #include "tiledb_cxx_vfs.h"
-
-//#include "tiledb_cxx_column.h"
-
-//#include "pybind11/pybind11.h"
-//#include "pybind11/stl.h"
-//#include "pybind11/functional.h"
-//#include "pybind11/numpy.h"
-
- 
-//#include <arrow/api.h>
-//#include <arrow/python/pyarrow.h>
 
 namespace tiledb {
 
@@ -87,6 +75,11 @@ public:
 	* @return version string
 	*/
 	static std::string get_tiledb_version();
+
+	/**
+	* @brief export file to a path
+	*/
+	static int export_file_to_path(const std::string& file_uri, const std::string& output_path, const std::shared_ptr<tiledb::Context>& ctx);
 
 	////TODO add more help functions
  

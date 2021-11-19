@@ -24418,6 +24418,53 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArrayUtil_get_tiledb_version() {
 }
 
 
+SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_ArrayUtil_export_file_to_path(char * jarg1, char * jarg2, void * jarg3) {
+  int jresult ;
+  std::string *arg1 = 0 ;
+  std::string *arg2 = 0 ;
+  std::shared_ptr< tiledb::Context > *arg3 = 0 ;
+  std::shared_ptr< tiledb::Context > tempnull3 ;
+  int result;
+  
+  if (!jarg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  arg3 = jarg3 ? (std::shared_ptr< tiledb::Context > *)jarg3 : &tempnull3; 
+  {
+    try {
+      result = (int)tiledb::ArrayUtil::export_file_to_path((std::string const &)*arg1,(std::string const &)*arg2,(std::shared_ptr< tiledb::Context > const &)*arg3);
+    } catch(const tiledb::TypeError& e) {
+      SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
+    } catch(const tiledb::SchemaMismatch& e) {
+      SWIG_CSharpSetPendingExceptionSchemaMismatch(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());   
+    } catch(const tiledb::AttributeError& e) {
+      SWIG_CSharpSetPendingExceptionAttributeError(e.what());// SWIG_exception(SWIG_RuntimeError, e.what());
+    } catch(const tiledb::TileDBError& e) {
+      SWIG_CSharpSetPendingExceptionTileDBError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());     
+    } catch(const std::exception& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    } catch(...) {
+      {
+        SWIG_CSharpException(SWIG_UnknownError, ""); return 0; 
+      };
+    }
+  }
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Attribute__SWIG_0(void * jarg1, char * jarg2, int jarg3) {
   void * jresult ;
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
