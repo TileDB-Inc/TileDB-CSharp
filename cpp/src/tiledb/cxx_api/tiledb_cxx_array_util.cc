@@ -16,10 +16,8 @@ int ArrayUtil::export_file_to_path(const std::string& file_uri, const std::strin
   const std::string METADATA_ORIGINAL_FILE_NAME = "original_file_name";
   try {
 
-
     std::shared_ptr<Array> array = std::shared_ptr<Array>(new Array(ctx, file_uri, tiledb::QueryType::TILEDB_READ));
 
-    
     //get file_size from metadata
     uint32_t v_num;
     const void* v_r;
