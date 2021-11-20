@@ -5,7 +5,7 @@
 # setup
 cmake_minimum_required(VERSION 3.16)
 
-set(TILEDB_VERSION "2.3.0" CACHE STRING "TileDB version")
+set(TILEDB_VERSION "2.4.4" CACHE STRING "TileDB version")
 set(TILEDB_GIT_TAG "dev" CACHE STRING "git branch")
 
 project(TileDB-CSharp)
