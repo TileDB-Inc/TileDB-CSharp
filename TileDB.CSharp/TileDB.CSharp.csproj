@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Platforms>x64</Platforms>
+	<PackageId>TileDB.CSharp</PackageId>
+	<Version>2.4.4</Version>
+	<Authors>TileDB</Authors>
+	<Company>TileDB Inc</Company>	  
     <!-- don't compile everything under path by default -->
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -24,29 +28,29 @@
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(OS)' == 'Windows_NT' ">
-    <Content Include="..\dist\Windows\lib\tiledb.dll" CopyToOutputDirectory="PreserveNewest">
+    <Content Include=".\lib\tiledb.dll" CopyToOutputDirectory="PreserveNewest">
       <Link>tiledb.dll</Link>
     </Content>
-    <Content Include="..\dist\Windows\lib\tiledbcs.dll" CopyToOutputDirectory="PreserveNewest">
+    <Content Include=".\lib\tiledbcs.dll" CopyToOutputDirectory="PreserveNewest">
       <Link>tiledbcs.dll</Link>
     </Content>
   </ItemGroup>
   <ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
-    <Content Include="..\dist\Darwin\lib\libtiledb.dylib" CopyToOutputDirectory="PreserveNewest">
+    <Content Include=".\lib\libtiledb.dylib" CopyToOutputDirectory="PreserveNewest">
       <Link>libtiledb.dylib</Link>
     </Content>
-    <Content Include="..\dist\Darwin\lib\tiledbcs.dylib" CopyToOutputDirectory="PreserveNewest">
+    <Content Include=".\lib\tiledbcs.dylib" CopyToOutputDirectory="PreserveNewest">
       <Link>libtiledbcs.dylib</Link>
     </Content>
   </ItemGroup>
   <ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' And Exists('..\dist\Linux\lib\libtiledb.so')">
      <!-- this item is conditional in case we have a system-wide install -->
-     <Content Include="..\dist\Linux\lib\libtiledb.so" CopyToOutputDirectory="PreserveNewest">
+     <Content Include=".\lib\libtiledb.so" CopyToOutputDirectory="PreserveNewest">
       <Link>tiledb.so</Link>
     </Content>
   </ItemGroup>
   <ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">
-    <Content Include="..\dist\Linux\lib\tiledbcs.so" CopyToOutputDirectory="PreserveNewest">
+    <Content Include=".\lib\tiledbcs.so" CopyToOutputDirectory="PreserveNewest">
       <Link>tiledbcs.so</Link>
     </Content>
   </ItemGroup>
