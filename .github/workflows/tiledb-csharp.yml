@@ -84,3 +84,55 @@ jobs:
       run: |
         cd test
         dotnet test
+
+  Windows_Example:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        # Will be checking following versions
+        dotnet: [ '5.0' ] #, '6.0.100' ]
+    steps:
+    # Checks out repository
+    - uses: actions/checkout@v2
+
+    # Following action sets up dotnet and uses the strategy matrix to test on
+    # specific versions
+    - name: Set up dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.dotnet }}
+
+    # Build c++ Wrapper
+    - name: Build c++ Wrapper for TileDB-CSharp
+      run: |
+        $ErrorView = "NormalView"
+        cmake -S cpp -B cpp/build
+        cmake --build cpp/build --target install --config Release
+
+    # DotNet build
+    - name: DotNet build for TileDB-CSharp
+      run: |
+        $ErrorView = "NormalView"
+        cd TileDB.CSharp
+        dotnet build /p:Platform=x64 -c Release
+
+
+    # Build example
+    - name: Build example
+      run: |
+        $ErrorView = "NormalView"
+        cd examples/TileDB.Example
+        dotnet build /p:Platform=x64 -c Release
+
+    # Run example
+    - name: Run example
+      run: |
+        $ErrorView = "NormalView"
+        cd examples/TileDB.Example/bin/x64/Release/net5.0
+        dotnet TileDB.Example.dll
+
+    - name: Run tests
+      run: |
+        $ErrorView = "NormalView"
+        cd test
+        dotnet test
