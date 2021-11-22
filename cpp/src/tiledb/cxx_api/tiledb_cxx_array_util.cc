@@ -43,7 +43,10 @@ int ArrayUtil::export_file_to_path(const std::string& file_uri, const std::strin
     
     std::shared_ptr<tiledb::VFS> vfs = std::shared_ptr<tiledb::VFS>(new tiledb::VFS(ctx));
     tiledb::VFS::filebuf filebuf = tiledb::VFS::filebuf(vfs);
-    filebuf.open(output_file, std::ios::out);
+    if (filebuf.open(output_file, std::ios::out) == nullptr) {
+      std::cout << "ArrayUtil::export_file_to_path, can not open output_path:" << output_path << " for writing!" << std::endl;
+      return -1;
+    }
     std::ostream os(&filebuf);   
     
     uint64_t offset = 0;
@@ -52,16 +55,25 @@ int ArrayUtil::export_file_to_path(const std::string& file_uri, const std::strin
     Query query(ctx, array, tiledb::QueryType::TILEDB_READ);
     query.set_layout(tiledb::LayoutType::TILEDB_ROW_MAJOR)
       .set_subarray(subarray);
-    std::vector<uint8_t> data_buffer;
-    data_buffer.resize(buffer_size);
+    
+    std::vector<uint8_t> data_buffer(buffer_size);
     query.set_buffer(FILE_ATTRIBUTE_NAME, data_buffer);
 
+    int loop_zero_num = 0;
+    uint64_t read_size = 0;
     while (query.query_status() != QueryStatus::TILEDB_COMPLETED) {
       query.submit();
       auto result_buffer_elements = query.result_buffer_elements();
       if (result_buffer_elements.find(FILE_ATTRIBUTE_NAME) != result_buffer_elements.end()) {
-        uint64_t read_size = result_buffer_elements[FILE_ATTRIBUTE_NAME][1];
+        read_size = result_buffer_elements[FILE_ATTRIBUTE_NAME][1];
         os.write((const char*)data_buffer.data(), read_size);
+      }
+
+      if ( read_size == 0 && (++loop_zero_num) > 10) {
+        break;
+      }
+      else {
+        read_size = 0;
       }
     }
 
@@ -69,13 +81,16 @@ int ArrayUtil::export_file_to_path(const std::string& file_uri, const std::strin
     os.flush();
     filebuf.close();
   }
+  catch (tiledb::TileDBError& tdbe) {
+    std::cout << "ArrayUtil::export_file_to_path, caught error:" << tdbe.what() << std::endl;
+  }
   catch (const std::exception& e) {
     std::cout << "ArrayUtil::export_file_to_path, caught error:" << e.what() << std::endl;
-    return -1;
+    return -2;
   }
   catch (...) {
     std::cout << "ArrayUtil::export_file_to_path, caught unknown error!" << std::endl;
-    return -2;
+    return -3;
   }
 
   return 0;
@@ -151,13 +166,17 @@ int ArrayUtil::save_file_from_path(const std::string& file_uri, const std::strin
     array->close();
     filebuf.close();
   }
+  catch (tiledb::TileDBError& tdbe) {
+    std::cout << "ArrayUtil::save_file_from_path, caught error:" << tdbe.what() << std::endl;
+    return -1;
+  }
   catch (const std::exception& e) {
     std::cout << "ArrayUtil::save_file_from_path, caught error:" << e.what() << std::endl;
-    return -1;
+    return -2;
   }
   catch (...) {
     std::cout << "ArrayUtil::save_file_from_path, caught unknown error!" << std::endl;
-    return -2;
+    return -3;
   }
   return 0;
 }
