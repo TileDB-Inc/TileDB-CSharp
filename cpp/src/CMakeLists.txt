@@ -175,6 +175,13 @@ install(
 )
 
 install(
+  IMPORTED_RUNTIME_ARTIFACTS
+    TileDB::tiledb_shared
+  DESTINATION
+    ${CMAKE_INSTALL_LIBDIR}
+)
+
+install(
   TARGETS
     tiledbcs
   ARCHIVE
