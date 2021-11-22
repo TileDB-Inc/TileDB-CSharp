@@ -9,7 +9,7 @@
 
 
   <ItemGroup>
-    <Compile Include="..\ExampleTileDBBufferString.cs" Link="ExampleTileDBBufferString.cs" />
+    <Compile Include="..\ExampleFileApi.cs" Link="ExampleFileApi.cs" />
   </ItemGroup>
 
   <ItemGroup>

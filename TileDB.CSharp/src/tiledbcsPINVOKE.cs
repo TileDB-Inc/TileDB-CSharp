@@ -3697,6 +3697,9 @@ class tiledbcsPINVOKE {
   [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_ArrayUtil_export_file_to_path")]
   public static extern int ArrayUtil_export_file_to_path(string jarg1, string jarg2, ulong jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);
 
+  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_ArrayUtil_save_file_from_path")]
+  public static extern int ArrayUtil_save_file_from_path(string jarg1, string jarg2, string jarg3, string jarg4, global::System.Runtime.InteropServices.HandleRef jarg5);
+
   [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_new_Attribute__SWIG_0")]
   public static extern global::System.IntPtr new_Attribute__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, int jarg3);
 

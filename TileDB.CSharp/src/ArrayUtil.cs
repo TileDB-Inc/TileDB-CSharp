@@ -64,6 +64,12 @@ public class ArrayUtil : global::System.IDisposable {
     return ret;
   }
 
+  public static int save_file_from_path(string file_uri, string input_path, string mime_type, string mime_coding, Context ctx) {
+    int ret = tiledbcsPINVOKE.ArrayUtil_save_file_from_path(file_uri, input_path, mime_type, mime_coding, Context.getCPtr(ctx));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
 }
 
 }

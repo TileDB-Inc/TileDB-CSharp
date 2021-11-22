@@ -24476,6 +24476,67 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_ArrayUtil_export_file_to_path(char * ja
 }
 
 
+SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_ArrayUtil_save_file_from_path(char * jarg1, char * jarg2, char * jarg3, char * jarg4, void * jarg5) {
+  int jresult ;
+  std::string *arg1 = 0 ;
+  std::string *arg2 = 0 ;
+  std::string *arg3 = 0 ;
+  std::string *arg4 = 0 ;
+  std::shared_ptr< tiledb::Context > *arg5 = 0 ;
+  std::shared_ptr< tiledb::Context > tempnull5 ;
+  int result;
+  
+  if (!jarg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  if (!jarg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg3_str(jarg3);
+  arg3 = &arg3_str; 
+  if (!jarg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg4_str(jarg4);
+  arg4 = &arg4_str; 
+  arg5 = jarg5 ? (std::shared_ptr< tiledb::Context > *)jarg5 : &tempnull5; 
+  {
+    try {
+      result = (int)tiledb::ArrayUtil::save_file_from_path((std::string const &)*arg1,(std::string const &)*arg2,(std::string const &)*arg3,(std::string const &)*arg4,(std::shared_ptr< tiledb::Context > const &)*arg5);
+    } catch(const tiledb::TypeError& e) {
+      SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
+    } catch(const tiledb::SchemaMismatch& e) {
+      SWIG_CSharpSetPendingExceptionSchemaMismatch(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());   
+    } catch(const tiledb::AttributeError& e) {
+      SWIG_CSharpSetPendingExceptionAttributeError(e.what());// SWIG_exception(SWIG_RuntimeError, e.what());
+    } catch(const tiledb::TileDBError& e) {
+      SWIG_CSharpSetPendingExceptionTileDBError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());     
+    } catch(const std::exception& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    } catch(...) {
+      {
+        SWIG_CSharpException(SWIG_UnknownError, ""); return 0; 
+      };
+    }
+  }
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_TileDB_new_Attribute__SWIG_0(void * jarg1, char * jarg2, int jarg3) {
   void * jresult ;
   std::shared_ptr< tiledb::Context > *arg1 = 0 ;
