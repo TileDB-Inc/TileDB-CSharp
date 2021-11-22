@@ -33,8 +33,8 @@ int ArrayUtil::export_file_to_path(const std::string& file_uri, const std::strin
     }
 
     std::string output_file = output_path;
-    if(output_file.empty()) {
-      tiledb::DataType file_name_datatype = tiledb::DataType::TILEDB_STRING_ASCII;
+    tiledb::DataType file_name_datatype = tiledb::DataType::TILEDB_STRING_ASCII;
+    if(output_file.empty() && array->has_metadata(METADATA_ORIGINAL_FILE_NAME, file_name_datatype)) {
       uint32_t name_size = 0;
       const char* original_name;
       array->get_metadata(METADATA_ORIGINAL_FILE_NAME,&file_name_datatype,&name_size,reinterpret_cast<const void**>(&original_name));
@@ -49,8 +49,7 @@ int ArrayUtil::export_file_to_path(const std::string& file_uri, const std::strin
     }
     std::ostream os(&filebuf);   
     
-    uint64_t offset = 0;
-    std::array<uint64_t, 2> subarray = { offset, offset + buffer_size - 1 };
+    std::array<uint64_t, 2> subarray = { 0, file_size - 1 };
 
     Query query(ctx, array, tiledb::QueryType::TILEDB_READ);
     query.set_layout(tiledb::LayoutType::TILEDB_ROW_MAJOR)

@@ -36,30 +36,31 @@ namespace TileDB.Example
             {
                 Console.WriteLine("Start to save Sample.png to a tiledb array...");
 
-                SaveFileToTileDBArray();
+                SaveLocalFileToTileDBArray();
 
                 Console.WriteLine("Start to export to Sample_exported.png from a tiledb array...");
-                ExportTileDBArrayToFile();
+                ExportLocalTileDBArrayToFile();
             }
 
             return;
         }
 
         private static String array_uri_ = "test_file_array";
+ 
 
         #region File Array
 
-        private static void SaveFileToTileDBArray()
+        private static void SaveLocalFileToTileDBArray()
         {
             TileDB.Context ctx = new TileDB.Context();
             TileDB.ArrayUtil.save_file_from_path(array_uri_, "Sample.png", "", "", ctx);
         }
-        private static void ExportTileDBArrayToFile()
+        private static void ExportLocalTileDBArrayToFile()
         {
             TileDB.Context ctx = new TileDB.Context();
             TileDB.ArrayUtil.export_file_to_path(array_uri_, "Sample_exported.png", 0, ctx);
         }
-
+ 
 
         #endregion File Array
 
