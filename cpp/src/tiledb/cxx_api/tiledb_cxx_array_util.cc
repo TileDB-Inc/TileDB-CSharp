@@ -34,16 +34,23 @@ int ArrayUtil::export_file_to_path(const std::string& file_uri, const std::strin
 
     std::string output_file = output_path;
     tiledb::DataType file_name_datatype = tiledb::DataType::TILEDB_STRING_ASCII;
-    if(output_file.empty() && array->has_metadata(METADATA_ORIGINAL_FILE_NAME, file_name_datatype)) {
-      uint32_t name_size = 0;
-      const char* original_name;
-      array->get_metadata(METADATA_ORIGINAL_FILE_NAME,&file_name_datatype,&name_size,reinterpret_cast<const void**>(&original_name));
-      output_file = std::string(original_name, name_size);
+    if(output_file.empty()) {
+      if (array->has_metadata(METADATA_ORIGINAL_FILE_NAME, file_name_datatype)) {
+        uint32_t name_size = 0;
+        const char* original_name;
+        array->get_metadata(METADATA_ORIGINAL_FILE_NAME, &file_name_datatype, &name_size, reinterpret_cast<const void**>(&original_name));
+        output_file = std::string(original_name, name_size);
+      }
+      else {
+        std::cout << "ArrayUtil::export_file_to_path, empty output file!" << std::endl;
+        return -1;
+      }
+
     }
     
     std::shared_ptr<tiledb::VFS> vfs = std::shared_ptr<tiledb::VFS>(new tiledb::VFS(ctx));
     tiledb::VFS::filebuf filebuf = tiledb::VFS::filebuf(vfs);
-    if (filebuf.open(output_file, std::ios::out) == nullptr) {
+    if (output_file.empty() || filebuf.open(output_file, std::ios::out) == nullptr) {
       std::cout << "ArrayUtil::export_file_to_path, can not open output_path:" << output_path << " for writing!" << std::endl;
       return -1;
     }
@@ -72,7 +79,7 @@ int ArrayUtil::export_file_to_path(const std::string& file_uri, const std::strin
         break;
       }
       else {
-        read_size = 0;
+        loop_zero_num = 0;
       }
     }
 
@@ -148,8 +155,13 @@ int ArrayUtil::save_file_from_path(const std::string& file_uri, const std::strin
     os.read((char*)contents.data(), nbytes);
       
     query.set_buffer(FILE_ATTRIBUTE_NAME, contents);
-    query.submit();
-    query.finalize();
+    tiledb::QueryStatus query_status = query.submit();
+    if (query_status == tiledb::QueryStatus::TILEDB_COMPLETED) {
+      query.finalize();
+    }
+    else {
+      std::cout << "ArrayUtil::save_file_from_path, query not completed!" << std::endl;
+    }
     
     //save metadata
     array->put_metadata(METADATA_SIZE_KEY, tiledb::DataType::TILEDB_UINT64, 1, &nbytes);
