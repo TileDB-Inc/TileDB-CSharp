@@ -161,6 +161,7 @@ int ArrayUtil::save_file_from_path(const std::string& file_uri, const std::strin
     }
     else {
       std::cout << "ArrayUtil::save_file_from_path, query not completed!" << std::endl;
+      return -1;
     }
     
     //save metadata
