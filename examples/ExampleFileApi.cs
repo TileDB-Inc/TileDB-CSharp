@@ -32,7 +32,7 @@ namespace TileDB.Example
     {
         public static void Main(string[] args)
         {
-            if(System.IO.File.Exists("Sample.png"))
+            if (System.IO.File.Exists("Sample.png"))
             {
                 Console.WriteLine("Start to save Sample.png to a tiledb array...");
 
@@ -40,12 +40,18 @@ namespace TileDB.Example
 
                 Console.WriteLine("Start to export to Sample_exported.png from a tiledb array...");
                 ExportLocalTileDBArrayToFile();
+
+                Console.WriteLine("Start to save Sample.png to s3://tiledb-bin/sample_tdb...");
+                SaveFileToS3TileDBArray();
             }
+
+            ExportS3TileDBArrayToFile();
 
             return;
         }
 
         private static String array_uri_ = "test_file_array";
+        private static String s3_uri_ = "s3://stefan-region-test/image_tdb";
  
 
         #region File Array
@@ -59,6 +65,32 @@ namespace TileDB.Example
         {
             TileDB.Context ctx = new TileDB.Context();
             TileDB.ArrayUtil.export_file_to_path(array_uri_, "Sample_exported.png", 0, ctx);
+        }
+
+        private static void SaveFileToS3TileDBArray()
+        {
+            TileDB.Config cfg = new Config();
+            cfg.set("vfs.s3.region", "us-east-2");
+            TileDB.Context ctx = new TileDB.Context(cfg);
+
+            String s3_uri_to_save = "s3://tiledb-bin/sample_tdb";
+
+            TileDB.VFS vfs = new VFS(ctx);
+            if(vfs.is_dir(s3_uri_to_save))
+            {
+                vfs.remove_dir(s3_uri_to_save);
+            }
+
+            TileDB.ArrayUtil.save_file_from_path(s3_uri_to_save, "Sample.png", "", "", ctx);
+        }
+
+        private static void ExportS3TileDBArrayToFile()
+        {
+            TileDB.Config cfg = new Config();
+            cfg.set("vfs.s3.region", "us-east-2");
+            TileDB.Context ctx = new TileDB.Context(cfg);
+            
+            TileDB.ArrayUtil.export_file_to_path(s3_uri_, "image_exported.tiff", 0, ctx);
         }
  
 
