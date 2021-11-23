@@ -50,21 +50,18 @@ namespace TileDB.Example
             return;
         }
 
-        private static String array_uri_ = "test_file_array";
-        private static String s3_uri_ = "s3://stefan-region-test/image_tdb";
- 
 
         #region File Array
 
         private static void SaveLocalFileToTileDBArray()
         {
             TileDB.Context ctx = new TileDB.Context();
-            TileDB.ArrayUtil.save_file_from_path(array_uri_, "Sample.png", "", "", ctx);
+            TileDB.ArrayUtil.save_file_from_path("test_file_array", "Sample.png", "", "", ctx);
         }
         private static void ExportLocalTileDBArrayToFile()
         {
             TileDB.Context ctx = new TileDB.Context();
-            TileDB.ArrayUtil.export_file_to_path(array_uri_, "Sample_exported.png", 0, ctx);
+            TileDB.ArrayUtil.export_file_to_path("test_file_array", "Sample_exported.png", 0, ctx);
         }
 
         private static void SaveFileToS3TileDBArray()
@@ -90,7 +87,7 @@ namespace TileDB.Example
             cfg.set("vfs.s3.region", "us-east-2");
             TileDB.Context ctx = new TileDB.Context(cfg);
             
-            TileDB.ArrayUtil.export_file_to_path(s3_uri_, "image_exported.tiff", 0, ctx);
+            TileDB.ArrayUtil.export_file_to_path("s3://stefan-region-test/image_tdb", "image_exported.tiff", 0, ctx);
         }
  
 
