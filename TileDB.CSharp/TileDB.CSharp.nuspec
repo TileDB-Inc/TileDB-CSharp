@@ -11,9 +11,9 @@
     <description>CSharp wrapper of TileDB universal data engine</description>
     <releaseNotes>This package is the csharp wrapper of TileDB 2.4.4.</releaseNotes>
     <copyright>$copyright$</copyright>
-    <tags>Native, native</tags>
+    <tags>TileDB, tiledb</tags>
   </metadata>
   <files>
-	<file src="lib\*.*"       target="lib\net5.0"     />
+	<file src="lib\net5.0\**"       target="lib\net5.0"     />
   </files>	
 </package>

@@ -18,13 +18,13 @@
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$(OS)' == 'Windows_NT'">
-    <OutputPath>../dist/Windows/lib</OutputPath>
+    <OutputPath>./lib</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">
-    <OutputPath>../dist/Linux/lib</OutputPath>
+    <OutputPath>.lib</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">
-    <OutputPath>../dist/Darwin/lib</OutputPath>
+    <OutputPath>./lib</OutputPath>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(OS)' == 'Windows_NT' ">
