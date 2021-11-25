@@ -40,13 +40,13 @@
       <Link>libtiledb.dylib</Link>
     </Content>
     <Content Include=".\lib\tiledbcs.dylib" CopyToOutputDirectory="PreserveNewest">
-      <Link>libtiledbcs.dylib</Link>
+      <Link>tiledbcs.dylib</Link>
     </Content>
   </ItemGroup>
-  <ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' And Exists('..\dist\Linux\lib\libtiledb.so')">
+  <ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">
      <!-- this item is conditional in case we have a system-wide install -->
-     <Content Include=".\lib\libtiledb.so" CopyToOutputDirectory="PreserveNewest">
-      <Link>tiledb.so</Link>
+     <Content Include=".\lib\libtiledb.so.2.4" CopyToOutputDirectory="PreserveNewest">
+      <Link>libtiledb.so.2.4</Link>
     </Content>
   </ItemGroup>
   <ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">
