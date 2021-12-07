@@ -660,7 +660,9 @@ class Attribute {
 	  }
 	  else if (datatype == tiledb::DataType::TILEDB_STRING_ASCII)
 	  {
-		  return create<std::string>(ctx, name);
+		  Attribute a(ctx,name,datatype);
+      a.set_cell_val_num(TILEDB_VAR_NUM);
+      return a;
 	  }
 	  else if (datatype == tiledb::DataType::TILEDB_CHAR
 		  || datatype == tiledb::DataType::TILEDB_STRING_UTF8
@@ -741,7 +743,9 @@ class Attribute {
 	  }
 	  else if (datatype == tiledb::DataType::TILEDB_STRING_ASCII)
 	  {
-		  return create<std::string>(ctx, name);
+		  Attribute a(ctx, name,datatype);
+      a.set_cell_val_num(TILEDB_VAR_NUM);
+      return a;
 	  }
 	  else if (datatype == tiledb::DataType::TILEDB_CHAR
 		  || datatype == tiledb::DataType::TILEDB_STRING_UTF8

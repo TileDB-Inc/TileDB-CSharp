@@ -4,14 +4,14 @@
     <id>TileDB.CSharp</id>
     <version>2.4.4</version>
     <title>$title$</title>
-    <authors>TileDB</authors>
+    <authors>TileDB Inc</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/TileDB-Inc/TileDB-CSharp</projectUrl>
     <description>CSharp wrapper of TileDB universal data engine</description>
     <releaseNotes>This package is the csharp wrapper of TileDB 2.4.4.</releaseNotes>
     <copyright>$copyright$</copyright>
-    <tags>TileDB, tiledb</tags>
+    <tags>tiledb</tags>
     <dependencies>
       <group targetFramework=".net5.0" />
     </dependencies>
