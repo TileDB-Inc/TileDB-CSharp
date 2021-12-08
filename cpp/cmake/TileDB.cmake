@@ -8,7 +8,18 @@ message(STATUS "start to set tiledb for version:${TILEDB_VERSION}")
 
 if(${TILEDB_VERSION} MATCHES "^([0-9]+)\\.([0-9]+)\\.([0-9]+)$")
 message(STATUS "start to set TILEDB_DOWNLOAD_URL and TILEDB_DOWNLOAD_SHA1")
-if(${TILEDB_VERSION} STREQUAL "2.5.1")
+if(${TILEDB_VERSION} STREQUAL "2.5.2")
+  if (WIN32) # Windows
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.5.2/tiledb-windows-x86_64-2.5.2-f9c058f.zip")
+    SET(TILEDB_DOWNLOAD_SHA1 "6DA1A3BC5BE2855EDD74CC521E6076A26F60ED19")
+  elseif(APPLE) # OSX
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.5.2/tiledb-macos-x86_64-2.5.2-f9c058f.tar.gz")
+    SET(TILEDB_DOWNLOAD_SHA1 "581168DF22F0F507DF87B8E52CEFD51630A99A70")
+  else() # Linux
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.5.2/tiledb-linux-x86_64-2.5.2-f9c058f.tar.gz")
+    SET(TILEDB_DOWNLOAD_SHA1 "904D28E5480E0AFA04AE772D75AF737AF2ACC5E5")
+  endif()
+elseif(${TILEDB_VERSION} STREQUAL "2.5.1")
   if (WIN32) # Windows
     SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.5.1/tiledb-windows-x86_64-2.5.1-5b65a96.zip")
     SET(TILEDB_DOWNLOAD_SHA1 "D08658D08FAB8DA1C6D21C6C7AF68B02D9D5D9E7")
@@ -18,7 +29,7 @@ if(${TILEDB_VERSION} STREQUAL "2.5.1")
   else() # Linux
     SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.5.1/tiledb-linux-x86_64-2.5.1-5b65a96.tar.gz")
     SET(TILEDB_DOWNLOAD_SHA1 "D276396E0242C64D54479018517AD93206DC9E1B")
-  endif()
+  endif()  
 elseif(${TILEDB_VERSION} STREQUAL "2.4.4")
   if (WIN32) # Windows
     SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.4.4/tiledb-windows-x86_64-2.4.4-7257605.zip")
