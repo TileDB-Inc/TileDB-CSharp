@@ -28,7 +28,7 @@ using System.Linq;
 
 namespace TileDB.Example
 {
-    public class ExampleQueryCondition
+    public class ExampleQueryCondition2
     {
         public static void Main(string[] args)
         {
