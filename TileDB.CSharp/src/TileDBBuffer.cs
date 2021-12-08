@@ -299,12 +299,26 @@ namespace TileDB
 
         public System.UInt64 DataLength
         {
-            get { return (System.UInt64)m_data.Length; }
+            get { return m_data == null ? 0 : (System.UInt64)m_data.Length; }
         }
 
         public System.UInt64 BufferSize
         {
-            get { return m_bytes.Length > 0 ? (System.UInt64)m_bytes.Length : (System.UInt64)m_data.Length; }
+            get 
+            {
+                if (m_bytes != null && m_bytes.Length > 0)
+                {
+                    return (System.UInt64)m_bytes.Length;
+                }
+                else if (m_data != null && m_data.Length > 0)
+                {
+                    return (System.UInt64)m_data.Length;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
         }
 
         public TileDB.VectorUInt64 Offsets
