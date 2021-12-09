@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <Platforms>x64</Platforms>
 	  <PackageId>TileDB.CSharp</PackageId>
-	  <Version>2.4.4</Version>
+	  <Version>2.4.6</Version>
 	  <Authors>TileDB</Authors>
 	  <Company>TileDB Inc</Company>	  
     <!-- don't compile everything under path by default -->
@@ -24,37 +24,6 @@
     <OutputPath>./lib</OutputPath>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$(OS)' == 'Windows_NT'">
-    <Content Include="$(MSBuildThisFileDirectory)\runtimes\win-x64\native\tiledb.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>tiledb.dll</Link>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)\runtimes\win-x64\native\tiledbcs.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>tiledbcs.dll</Link>
-    </Content>    
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(OS)' == 'Unix' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">      
-    <Content Include="$(MSBuildThisFileDirectory)\runtimes\linux-x64\native\libtiledb.so">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>libtiledb.so</Link>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)\runtimes\linux-x64\native\tiledbcs.so">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>tiledbcs.so</Link>
-    </Content> 
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(OS)' == 'Unix' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">       
-    <Content Include="$(MSBuildThisFileDirectory)\runtimes\osx-x64\native\libtiledb.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>libtiledb.dylib</Link>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)\runtimes\osx-x64\native\tiledbcs.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>tiledbcs.dylib</Link>
-    </Content>            
-  </ItemGroup>
+  <Import Project=".\build\TileDB.CSharp.targets" />
  
 </Project>

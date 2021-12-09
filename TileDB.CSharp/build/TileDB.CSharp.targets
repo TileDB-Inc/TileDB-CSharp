@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <!-- 
-    'Grpc_SkipNativeLibsCopy' should not be enabled in normal use.
-    It only exists to support special scenarios where user wants to copy the native libraries
-    to output directory themselves, in a separate build step or script.
-    Only use this flag if you really know what you're doing. It's your responsibility to ensure that matching versions of 
-    the Grpc.Core.dll assembly and the native libraries are used at all times.
+    Native libraries for windows,Linux, and macOS.
   -->
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$(OS)' == 'Windows_NT'">
     <Content Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\tiledb.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>tiledb.dll</Link>
       <Visible>false</Visible>
-      <NuGetPackageId>TileDB.CSharp</NuGetPackageId>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\tiledbcs.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>tiledbcs.dll</Link>
       <Visible>false</Visible>
-      <NuGetPackageId>TileDB.CSharp</NuGetPackageId>
     </Content>    
   </ItemGroup>
 
