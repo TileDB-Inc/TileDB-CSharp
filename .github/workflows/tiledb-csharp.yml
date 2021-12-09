@@ -135,4 +135,6 @@ jobs:
       run: |
         $ErrorView = "NormalView"
         cd test
-        dotnet test
+        dotnet build /p:Platform=x64 -c Release
+        cd bin/x64/Release/net5.0
+        dotnet TileDBTests.dll

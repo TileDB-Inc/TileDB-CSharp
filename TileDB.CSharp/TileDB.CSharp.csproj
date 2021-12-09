@@ -3,55 +3,27 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Platforms>x64</Platforms>
-	<PackageId>TileDB.CSharp</PackageId>
-	<Version>2.4.4</Version>
-	<Authors>TileDB</Authors>
-	<Company>TileDB Inc</Company>	  
+	  <PackageId>TileDB.CSharp</PackageId>
+	  <Version>2.4.6</Version>
+	  <Authors>TileDB</Authors>
+	  <Company>TileDB Inc</Company>	  
     <!-- don't compile everything under path by default -->
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
   </PropertyGroup>
+
 
   <ItemGroup>
     <!-- compile files in src/ -->
     <Compile Include="src\*.cs" />
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$(OS)' == 'Windows_NT'">
-    <OutputPath>./lib</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">
-    <OutputPath>./lib</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">
+  <PropertyGroup>
     <OutputPath>./lib</OutputPath>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(OS)' == 'Windows_NT' ">
-    <Content Include=".\lib\tiledb.dll" CopyToOutputDirectory="PreserveNewest">
-      <Link>tiledb.dll</Link>
-    </Content>
-    <Content Include=".\lib\tiledbcs.dll" CopyToOutputDirectory="PreserveNewest">
-      <Link>tiledbcs.dll</Link>
-    </Content>
-  </ItemGroup>
-  <ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
-    <Content Include=".\lib\libtiledb.dylib" CopyToOutputDirectory="PreserveNewest">
-      <Link>libtiledb.dylib</Link>
-    </Content>
-    <Content Include=".\lib\tiledbcs.dylib" CopyToOutputDirectory="PreserveNewest">
-      <Link>tiledbcs.dylib</Link>
-    </Content>
-  </ItemGroup>
-  <ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">
-     <!-- this item is conditional in case we have a system-wide install -->
-     <Content Include=".\lib\libtiledb.so.2.4" CopyToOutputDirectory="PreserveNewest">
-      <Link>libtiledb.so.2.4</Link>
-    </Content>
-  </ItemGroup>
-  <ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">
-    <Content Include=".\lib\tiledbcs.so" CopyToOutputDirectory="PreserveNewest">
-      <Link>tiledbcs.so</Link>
-    </Content>
-  </ItemGroup>
+  <Import Project=".\build\TileDB.CSharp.targets" />
+ 
 </Project>

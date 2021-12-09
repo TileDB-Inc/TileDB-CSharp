@@ -28,6 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TileDB.CSharp\TileDB.CSharp.csproj" />
   </ItemGroup>
+  <Import Project="..\TileDB.CSharp\build\TileDB.CSharp.targets" />
 
   <ItemGroup>
     <Compile Include="../examples/*.cs" />
