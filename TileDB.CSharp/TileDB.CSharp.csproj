@@ -14,25 +14,47 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-  </ItemGroup>  
 
   <ItemGroup>
     <!-- compile files in src/ -->
     <Compile Include="src\*.cs" />
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$(OS)' == 'Windows_NT'">
-    <OutputPath>./lib</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">
-    <OutputPath>./lib</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">
+  <PropertyGroup>
     <OutputPath>./lib</OutputPath>
   </PropertyGroup>
 
-  <Import Project="build\TileDB.CSharp.targets" />
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$(OS)' == 'Windows_NT'">
+    <Content Include="$(MSBuildThisFileDirectory)\runtimes\win-x64\native\tiledb.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>tiledb.dll</Link>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)\runtimes\win-x64\native\tiledbcs.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>tiledbcs.dll</Link>
+    </Content>    
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(OS)' == 'Unix' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">      
+    <Content Include="$(MSBuildThisFileDirectory)\runtimes\linux-x64\native\libtiledb.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>libtiledb.so</Link>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)\runtimes\linux-x64\native\tiledbcs.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>tiledbcs.so</Link>
+    </Content> 
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(OS)' == 'Unix' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">       
+    <Content Include="$(MSBuildThisFileDirectory)\runtimes\osx-x64\native\libtiledb.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>libtiledb.dylib</Link>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)\runtimes\osx-x64\native\tiledbcs.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>tiledbcs.dylib</Link>
+    </Content>            
+  </ItemGroup>
  
 </Project>
