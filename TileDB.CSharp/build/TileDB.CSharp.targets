@@ -23,9 +23,9 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(OS)' == 'Unix' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">      
-    <Content Include="$(MSBuildThisFileDirectory)..\runtimes\linux-x64\native\tiledb.so">
+    <Content Include="$(MSBuildThisFileDirectory)..\runtimes\linux-x64\native\libtiledb.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>tiledb.so</Link>
+      <Link>libtiledb.so</Link>
       <Visible>false</Visible>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)..\runtimes\linux-x64\native\tiledbcs.so">
