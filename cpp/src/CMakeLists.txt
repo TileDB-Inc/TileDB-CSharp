@@ -181,6 +181,26 @@ install(
     ${CMAKE_INSTALL_LIBDIR}
 )
 
+if(UNIX)
+
+file(
+  GLOB TILDB_SO_FILES
+  ${tiledb_prebuilt_SOURCE_DIR}/lib/*.so.*.*
+)
+
+if(APPLE)
+#no need to copy
+else()
+  foreach(sofile ${TILEDB_SO_FILES})
+  add_custom_command(
+    TARGET foo POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+            ${sofile}
+            ${CMAKE_INSTALL_LIBDIR}/libtiledb.so)
+  endforeach()
+end()
+endif()
+
 install(
   TARGETS
     tiledbcs
