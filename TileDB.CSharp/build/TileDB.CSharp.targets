@@ -36,9 +36,9 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(OS)' == 'Unix' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">       
-    <Content Include="$(MSBuildThisFileDirectory)..\runtimes\osx-x64\native\tiledb.dylib">
+    <Content Include="$(MSBuildThisFileDirectory)..\runtimes\osx-x64\native\libtiledb.dylib">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>tiledb.dylib</Link>
+      <Link>libtiledb.dylib</Link>
       <Visible>false</Visible>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)..\runtimes\osx-x64\native\tiledbcs.dylib">
