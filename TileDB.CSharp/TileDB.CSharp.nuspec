@@ -22,5 +22,11 @@
     <!-- native libraries for windows -->
     <file src="runtimes/win-x64/native/tiledb.dll" target="runtimes/win-x64/native"/>
     <file src="runtimes/win-x64/native/tiledbcs.dll" target="runtimes/win-x64/native"/>
+    <!-- native libraries for macos -->
+    <file src="runtimes/osx-x64/native/libtiledb.dylib" target="runtimes/osx-x64/native"/>
+    <file src="runtimes/osx-x64/native/tiledbcs.dylib" target="runtimes/osx-x64/native"/>    
+    <!-- native libraries for linux -->
+    <file src="runtimes/linux-x64/native/libtiledb.so" target="runtimes/linux-x64/native"/>
+    <file src="runtimes/linux-x64/native/tiledbcs.so" target="runtimes/linux-x64/native"/>      
   </files>	
 </package>
