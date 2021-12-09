@@ -28,8 +28,10 @@ against .NET Core 5 on macOS and Linux; Windows and .NET Foundation are also kno
   
 * NuGet
   
-  The project files support `dotnet pack` for generating a local, single-platform nupkg.
-  We will make a multi-platform NuGet package available soon.
+  The multi-platform(windows,macos and linux) NuGet package is available starting from version 2.4.6. 
+  ```
+  dotnet add package TileDB.CSharp
+  ```
 
 ## Build
 ### Supported Platforms
