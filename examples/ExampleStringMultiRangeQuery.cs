@@ -28,7 +28,7 @@ using System.Linq;
 
 namespace TileDB.Example
 {
-    public class ExampleQueryCondition2
+    public class ExampleStringMultiRangeQuery
     {
         public static void Main(string[] args)
         {
@@ -62,28 +62,22 @@ namespace TileDB.Example
             return;
         }
 
-        private static String array_uri_ = "test_query_condition_array";
+        private static String array_uri_ = "test_query_condition_string_array";
 
         #region Array
         private static void CreateArray()
         {
             TileDB.Context ctx = new TileDB.Context();
             TileDB.Domain dom = new TileDB.Domain(ctx);
-            dom.add_dimension_for_datatype("rows", TileDB.DataType.TILEDB_INT32, "1", "4", "4");
-            dom.add_dimension_for_datatype("cols", TileDB.DataType.TILEDB_INT32, "1", "4", "4");//domain=(,4),tile_extent=4
+            dom.add_dimension_for_datatype("dim1", TileDB.DataType.TILEDB_STRING_ASCII, "", "", "");
+            dom.add_dimension_for_datatype("dim2", TileDB.DataType.TILEDB_INT32, "0", "1000000", "10"); 
 
-
-            TileDB.ArraySchema schema = new TileDB.ArraySchema(ctx, TileDB.ArrayType.TILEDB_DENSE);
-
+            TileDB.ArraySchema schema = new TileDB.ArraySchema(ctx, TileDB.ArrayType.TILEDB_SPARSE);
+            schema.set_capacity(1000);
 
             schema.set_domain(dom);
-            schema.set_order(TileDB.LayoutType.TILEDB_ROW_MAJOR, TileDB.LayoutType.TILEDB_ROW_MAJOR);
-
             TileDB.Attribute attr1 = TileDB.Attribute.create_attribute(ctx, "a1", TileDB.DataType.TILEDB_INT32);
             schema.add_attribute(attr1);
-
-            TileDB.Attribute attr2 = TileDB.Attribute.create_attribute(ctx, "a2", TileDB.DataType.TILEDB_STRING_ASCII);
-            schema.add_attribute(attr2);
  
             //delete array if it already exists
             TileDB.VFS vfs = new TileDB.VFS(ctx);
@@ -101,22 +95,35 @@ namespace TileDB.Example
         {
             TileDB.Context ctx = new TileDB.Context();
 
-            TileDB.TileDBBuffer<int> tdb_int_buffer = new TileDBBuffer<int>();
-            tdb_int_buffer.Init(16, false, false);
-            for(int i=0; i<16; ++i) 
-            {
-                tdb_int_buffer.Data[i] = i+1;
-            }
 
-            string[] strarr = new string[16] 
+
+            string[] strarr = new string[32] 
             {
                 "a","bb","ccc","dd",
                 "eee","f","g","hhh",
                 "i","jjj","kk","l",
-                "m","n","oo","p"
+                "m","n","oo","p",
+                "a","bb","ccc","dd",
+                "eee","f","g","hhh",
+                "i","jjj","kk","l",
+                "m","n","oo","p",
             };
             TileDB.TileDBBuffer<string> tdb_str_buffer = new TileDBBuffer<string>();
             tdb_str_buffer.PackStringArray(strarr);
+
+            TileDB.TileDBBuffer<int> tdb_int_buffer = new TileDBBuffer<int>();
+            tdb_int_buffer.Init(32, false, false);
+            for (int i = 0; i < 32; ++i)
+            {
+                tdb_int_buffer.Data[i] = i + 1;
+            }
+
+            TileDB.TileDBBuffer<int> tdb_a1_buffer = new TileDBBuffer<int>();
+            tdb_a1_buffer.Init(32, false, false);
+            for (int i = 0; i < 32; ++i)
+            {
+                tdb_a1_buffer.Data[i] = i + 1;
+            }
 
 
             TileDB.QueryStatus status = TileDB.QueryStatus.TILEDB_UNINITIALIZED;
@@ -125,12 +132,16 @@ namespace TileDB.Example
                 //open array for write
                 TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.QueryType.TILEDB_WRITE);
                 TileDB.Query query = new TileDB.Query(ctx, array, TileDB.QueryType.TILEDB_WRITE);
-                query.set_layout(TileDB.LayoutType.TILEDB_ROW_MAJOR);
+                query.set_layout(TileDB.LayoutType.TILEDB_UNORDERED);
                 //set int buffer
-                query.set_buffer("a1", tdb_int_buffer.DataIntPtr, tdb_int_buffer.BufferSize, tdb_int_buffer.ElementDataSize);
-                query.set_buffer_with_offsets("a2", tdb_str_buffer.DataIntPtr, tdb_str_buffer.BufferSize, tdb_int_buffer.ElementDataSize, tdb_str_buffer.Offsets);
 
-                status = query.submit();
+                query.set_buffer_with_offsets("dim1", tdb_str_buffer.DataIntPtr, tdb_str_buffer.BufferSize, tdb_int_buffer.ElementDataSize, tdb_str_buffer.Offsets);
+                query.set_buffer("dim2", tdb_int_buffer.DataIntPtr, tdb_int_buffer.BufferSize, tdb_int_buffer.ElementDataSize);
+                query.set_buffer("a1", tdb_a1_buffer.DataIntPtr, tdb_a1_buffer.BufferSize, tdb_a1_buffer.ElementDataSize);
+
+                query.submit();
+                query.finalize();
+                status = query.query_status();
                 array.close();
             }
             catch (TileDB.TileDBError tdbe)
@@ -160,74 +171,69 @@ namespace TileDB.Example
             //open array for read
             TileDB.Array array = new TileDB.Array(ctx, array_uri_, TileDB.QueryType.TILEDB_READ);
 
-            TileDB.VectorInt32 subarray = new TileDB.VectorInt32(new int[4] { 1, 4, 1, 4 });
+     //       TileDB.VectorInt32 subarray = new TileDB.VectorInt32(new int[4] { 1, 4, 1, 4 });
 
             //from the subarray, we know the maximum number of elements is 16(4x4), so we initialize the buffer with length of 6  
-            TileDB.TileDBBuffer<int> tdb_int_buffer = new TileDBBuffer<int>();
-            tdb_int_buffer.Init(16, false, false);
+            TileDB.TileDBBuffer<int> tdb_dim2_buffer = new TileDBBuffer<int>();
+            tdb_dim2_buffer.Init(32, false, false);
+
+            TileDB.TileDBBuffer<int> tdb_a1_buffer = new TileDBBuffer<int>();
+            tdb_a1_buffer.Init(32, false, false);
 
             //Here we initialize the string buffer to have maxium number of string as 16, for each string might have several characters
             //so we use 100 as buffer size for char
             TileDB.TileDBBuffer<string> tdb_str_buffer = new TileDBBuffer<string>();
-            tdb_str_buffer.Init(16, true, false, 100);
+            tdb_str_buffer.Init(32, true, false, 256);
 
 
 
             TileDB.QueryStatus status = TileDB.QueryStatus.TILEDB_UNINITIALIZED;
             TileDB.MapStringVectorUInt64 buffer_elements = new TileDB.MapStringVectorUInt64();
 
-            for (int i=0; i<string_list.Length;++i) 
+            try
             {
+                //query
+                TileDB.Query query = new TileDB.Query(ctx, array, TileDB.QueryType.TILEDB_READ);
 
-                try
-                {
-                    //query
-                    TileDB.Query query = new TileDB.Query(ctx, array, TileDB.QueryType.TILEDB_READ);
-                    query.set_int32_subarray(subarray);
-                    query.set_layout(TileDB.LayoutType.TILEDB_ROW_MAJOR);
-                    query.set_buffer("a1", tdb_int_buffer.DataIntPtr, tdb_int_buffer.BufferSize, tdb_int_buffer.ElementDataSize);
-                    query.set_buffer_with_offsets("a2", tdb_str_buffer.DataIntPtr, tdb_str_buffer.BufferSize, tdb_str_buffer.ElementDataSize, tdb_str_buffer.Offsets);
+                query.set_layout(TileDB.LayoutType.TILEDB_ROW_MAJOR);
 
+                query.set_buffer_with_offsets("dim1", tdb_str_buffer.DataIntPtr, tdb_str_buffer.BufferSize, tdb_str_buffer.ElementDataSize, tdb_str_buffer.Offsets);
+                query.set_buffer("dim2", tdb_dim2_buffer.DataIntPtr, tdb_dim2_buffer.BufferSize, tdb_dim2_buffer.ElementDataSize);
+                query.set_buffer("a1", tdb_a1_buffer.DataIntPtr, tdb_a1_buffer.BufferSize, tdb_a1_buffer.ElementDataSize);
  
-                    TileDB.QueryCondition qc = TileDB.QueryCondition.create_for_datatype(ctx, TileDB.DataType.TILEDB_STRING_ASCII, "a2", string_list[i], TileDB.QueryConditionOperatorType.TILEDB_EQ);
-                    //set combined condition for a1 >=3 and <7, for a2 =="dd"
-                    query.set_condition(qc);
-
-    
-
-                    query.submit();
-                    query.finalize();
-                    buffer_elements = query.result_buffer_elements();
-                    status = query.query_status();
-
-                }
-                catch (TileDB.TileDBError tdbe)
+                for(int i=0;i<string_list.Length; ++i)
                 {
-                    System.Console.WriteLine(tdbe.Message);
-                     
+                    query.add_range(0, string_list[i], string_list[i]); //add range for dimension 0
                 }
-                catch (System.Exception e)
-                {
-                    System.Console.WriteLine(e.Message);
-                    
-                }
-                
  
-                //a1 int result
-                UInt64 result_el_a1_size = buffer_elements["a1"][1];
-                var a1_int = tdb_int_buffer.Data.Take((int)result_el_a1_size);
-
-                // a2 string query result
-                UInt64 result_el_a2_data_length = buffer_elements["a2"][0];
-                UInt64 result_el_a2_buffer_size = buffer_elements["a2"][1];
-                string[] a2_str = tdb_str_buffer.UnPackStringArray((int)result_el_a2_buffer_size,(int)result_el_a2_data_length);
-
-
-                //print out 
-                System.Console.WriteLine("query result a1:{0}, a2:{1}", String.Join(" ", a1_int), String.Join(" ", a2_str));
-
-                
+                query.submit();
+                query.finalize();
+                status = query.query_status();
+                buffer_elements = query.result_buffer_elements();
             }
+            catch (TileDB.TileDBError tdbe)
+            {
+                System.Console.WriteLine(tdbe.Message);
+
+            }
+            catch (System.Exception e)
+            {
+                System.Console.WriteLine(e.Message);
+
+            }
+
+            //a1 int result
+            UInt64 result_el_a1_size = buffer_elements["a1"][1];
+            var a1_int = tdb_a1_buffer.Data.Take((int)result_el_a1_size);
+
+            // a2 string query result
+            UInt64 result_el_dim1_data_length = buffer_elements["dim1"][0];
+            UInt64 result_el_dim1_buffer_size = buffer_elements["dim1"][1];
+            string[] dim1_str = tdb_str_buffer.UnPackStringArray((int)result_el_dim1_buffer_size, (int)result_el_dim1_data_length);
+
+
+            //print out 
+            System.Console.WriteLine("query result a1:{0}, dim1:{1}", String.Join(" ", a1_int), String.Join(" ", dim1_str));
             array.close();
 
 
