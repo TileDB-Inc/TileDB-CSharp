@@ -232,9 +232,17 @@ namespace TileDB
 
         }
 
-        public string[] UnPackStringArray(int totbytesize, string encodingmethod = "UTF8")
+        public string[] UnPackStringArray(int totbytesize, int length = 0, string encodingmethod = "UTF8")
         {
-            string[] data = new string[m_offsets.Count];
+            if (length == 0)
+            {
+                length = m_offsets.Count;
+            }
+            if(length>m_offsets.Count)
+            {
+                length = m_offsets.Count;
+            }
+            string[] data = new string[length];
             if(totbytesize > m_bytes.Length)
             {
                 totbytesize = m_bytes.Length;
@@ -246,17 +254,17 @@ namespace TileDB
 
             int totsize = 0;
             int indexFrom = 0;
-            for(int i=0; i<(m_offsets.Count); ++i)
+            for(int i=0; i<length; ++i)
             {
                 int bytesize = 0;
-                if(i<(m_offsets.Count-1))
+                if(i<(length-1))
                 {
                     bytesize = (int)(m_offsets[i + 1] - m_offsets[i]);
 
                 }
                 else
                 {
-                    bytesize = totbytesize - (int)m_offsets[m_offsets.Count - 1];
+                    bytesize = totbytesize - (int)m_offsets[length - 1];
 
                 }
                 

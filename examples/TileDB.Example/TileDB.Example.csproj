@@ -9,7 +9,7 @@
 
 
   <ItemGroup>
-    <Compile Include="..\ExampleQueryCondition2.cs" Link="ExampleQueryCondition2.cs" />
+    <Compile Include="..\ExampleStringMultiRangeQuery.cs" Link="ExampleStringMultiRangeQuery.cs" />
   </ItemGroup>
 
   <ItemGroup>

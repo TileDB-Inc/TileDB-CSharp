@@ -172,7 +172,9 @@ namespace TileDB.Example
                      
                     query.set_condition(qc);
 
-                    status = query.submit();
+                    query.submit();
+                    query.finalize();
+                    status = query.query_status();
                     buffer_elements = query.result_buffer_elements();
                 }
                 catch (TileDB.TileDBError tdbe)
