@@ -9,6 +9,7 @@ endif()
 # TileDB cxx api library
 ##################################
 set(TILEDB_CXX_API_SOURCES
+  ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/json.h
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_array.h
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_array_schema.h
   ${CMAKE_CURRENT_SOURCE_DIR}/tiledb/cxx_api/tiledb_cxx_array_util.h

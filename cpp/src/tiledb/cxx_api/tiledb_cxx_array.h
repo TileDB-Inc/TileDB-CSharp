@@ -32,6 +32,7 @@
 #ifndef TILEDB_CPP_API_ARRAY_H
 #define TILEDB_CPP_API_ARRAY_H
 
+#include "json.h"
 #include "tiledb_cxx_array_schema.h"
 #include "tiledb_cxx_context.h"
 #include "tiledb_cxx_deleter.h"
@@ -1857,6 +1858,14 @@ class Array {
         c_ctx, array_.get(), key.c_str(), value_type, value_num, value));
   }
 
+  void put_metadata_by_json_str(const std::string& jsonstr) {
+
+  }
+
+  void put_metadata_by_str_vector(const std::string& key, tiledb::DataType valuetype, const std::vector<std::string>& values_str) {
+    
+  }
+
   /**
    * It deletes a metadata key-value item from an open array. The array must
    * be opened in WRITE mode, otherwise the function will error out.
@@ -1899,6 +1908,34 @@ class Array {
     ctx_->handle_error(tiledb_array_get_metadata(
         c_ctx, array_.get(), key.c_str(), &value_type, value_num, value));
     *valuetype = (tiledb::DataType)value_type;
+  }
+
+  /**
+   * It gets a metadata key-value item from an open array. The array must
+   * be opened in READ mode, otherwise the function will error out.
+   *
+   * @param key The key of the metadata item to be retrieved. UTF-8 encodings
+   *     are acceptable.
+   *
+   * @return vector of string, the first element is the datatype, the remaining are values in string format.
+   * @note If the key does not exist, then `value` will be NULL.
+   */
+
+ std::string get_metadata_json_str(const std::string& key) {
+    std::string result;
+
+    tiledb_datatype_t value_type;
+    uint32_t value_num;
+    const void* value;
+    tiledb_ctx_t* c_ctx = ctx_->ptr().get();// 
+    ctx_->handle_error(tiledb_array_get_metadata(
+        c_ctx, array_.get(), key.c_str(), &value_type, &value_num, &value));
+
+    tiledb::DataType datatype = (tiledb::DataType)value_type;
+
+
+
+    return result;
   }
 
   /**
