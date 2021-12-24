@@ -236,9 +236,25 @@ public class Array : global::System.IDisposable {
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public void put_metadata_by_json_str_for_key(string key, string jsonstr) {
+    tiledbcsPINVOKE.Array_put_metadata_by_json_str_for_key(swigCPtr, key, jsonstr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void put_metadata_by_json_str(string jsonstr) {
+    tiledbcsPINVOKE.Array_put_metadata_by_json_str(swigCPtr, jsonstr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
   public void delete_metadata(string key) {
     tiledbcsPINVOKE.Array_delete_metadata(swigCPtr, key);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public string get_metadata_json_str_for_key(string key) {
+    string ret = tiledbcsPINVOKE.Array_get_metadata_json_str_for_key(swigCPtr, key);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
   }
 
   public bool has_metadata(string key, DataType valuetype) {
@@ -249,6 +265,18 @@ public class Array : global::System.IDisposable {
 
   public ulong metadata_num() {
     ulong ret = tiledbcsPINVOKE.Array_metadata_num(swigCPtr);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public string get_metadata_json_str_from_index(ulong index) {
+    string ret = tiledbcsPINVOKE.Array_get_metadata_json_str_from_index(swigCPtr, index);
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public string get_metadata_json_str() {
+    string ret = tiledbcsPINVOKE.Array_get_metadata_json_str(swigCPtr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

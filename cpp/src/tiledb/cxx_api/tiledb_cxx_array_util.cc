@@ -9,6 +9,127 @@ std::string ArrayUtil::get_tiledb_version()
   return std::to_string(t[0]) + "." + std::to_string(t[1]) + "." + std::to_string(t[2]);
 }//std::string ArrayUtil::get_tiledb_version()
 
+std::string ArrayUtil::get_array_schema_json_str(const std::string& uri, const std::shared_ptr<tiledb::Context>& ctx) {
+  std::string result="";
+  try {
+    std::shared_ptr<Array> array = std::shared_ptr<Array>(new Array(ctx, uri, tiledb::QueryType::TILEDB_READ));
+    result = array->schema().to_json_str();
+  }
+   catch (tiledb::TileDBError& tdbe) {
+    std::cout << "ArrayUtil::get_array_schema_json_str, caught error:" << tdbe.what() << std::endl;
+    result ="";
+  }
+  catch (const std::exception& e) {
+    std::cout << "ArrayUtil::get_array_schema_json_str, caught error:" << e.what() << std::endl;
+    result = "";
+  }
+  catch (...) {
+    std::cout << "ArrayUtil::get_array_schema_json_str, caught unknown error!" << std::endl;
+    result = "";
+  } 
+  return result;
+}//std::string ArrayUtil::get_array_schema_json_str(const std::string& uri) 
+    
+std::string ArrayUtil::get_array_metadata_json_str(const std::string& uri, const std::shared_ptr<tiledb::Context>& ctx) {
+  std::string result="";
+  try {
+    std::shared_ptr<Array> array = std::shared_ptr<Array>(new Array(ctx, uri, tiledb::QueryType::TILEDB_READ));
+    result = array->get_metadata_json_str();
+  }
+   catch (tiledb::TileDBError& tdbe) {
+    std::cout << "ArrayUtil::get_array_metadata_json_str, caught error:" << tdbe.what() << std::endl;
+    result ="";
+  }
+  catch (const std::exception& e) {
+    std::cout << "ArrayUtil::get_array_metadata_json_str, caught error:" << e.what() << std::endl;
+    result = "";
+  }
+  catch (...) {
+    std::cout << "ArrayUtil::get_array_metadata_json_str, caught unknown error!" << std::endl;
+    result = "";
+  } 
+  return result;
+}
+
+
+    
+std::string ArrayUtil::get_array_metadata_json_str_for_key(const std::string& uri, const std::string& key, const std::shared_ptr<tiledb::Context>& ctx) {
+  std::string result="";
+  try {
+    std::shared_ptr<Array> array = std::shared_ptr<Array>(new Array(ctx, uri, tiledb::QueryType::TILEDB_READ));
+    result = array->get_metadata_json_str_for_key(key);
+  }
+   catch (tiledb::TileDBError& tdbe) {
+    std::cout << "ArrayUtil::get_array_metadata_json_str_for_key, caught error:" << tdbe.what() << std::endl;
+    result ="";
+  }
+  catch (const std::exception& e) {
+    std::cout << "ArrayUtil::get_array_metadata_json_str_for_key, caught error:" << e.what() << std::endl;
+    result = "";
+  }
+  catch (...) {
+    std::cout << "ArrayUtil::get_array_metadata_json_str_for_key, caught unknown error!" << std::endl;
+    result = "";
+  } 
+  return result;
+}
+
+std::string ArrayUtil::get_array_metadata_json_str_from_index(const std::string& uri, uint64_t index, const std::shared_ptr<tiledb::Context>& ctx) {
+  std::string result="";
+  try {
+    std::shared_ptr<Array> array = std::shared_ptr<Array>(new Array(ctx, uri, tiledb::QueryType::TILEDB_READ));
+    result = array->get_metadata_json_str_from_index(index);
+  }
+   catch (tiledb::TileDBError& tdbe) {
+    std::cout << "ArrayUtil::get_array_metadata_json_str_from_index, caught error:" << tdbe.what() << std::endl;
+    result ="";
+  }
+  catch (const std::exception& e) {
+    std::cout << "ArrayUtil::get_array_metadata_json_str_from_index, caught error:" << e.what() << std::endl;
+    result = "";
+  }
+  catch (...) {
+    std::cout << "ArrayUtil::get_array_metadata_json_str_from_index, caught unknown error!" << std::endl;
+    result = "";
+  } 
+  return result;
+}
+   
+    
+void ArrayUtil::set_array_metadata_by_json_str(const std::string& uri, const std::string& jsonstr, const std::shared_ptr<tiledb::Context>& ctx) {
+  try {
+    std::shared_ptr<Array> array = std::shared_ptr<Array>(new Array(ctx, uri, tiledb::QueryType::TILEDB_WRITE));
+    array->put_metadata_by_json_str(jsonstr);
+  }
+   catch (tiledb::TileDBError& tdbe) {
+    std::cout << "ArrayUtil::set_array_metadata_by_json_str_for_key, caught error:" << tdbe.what() << std::endl;
+  }
+  catch (const std::exception& e) {
+    std::cout << "ArrayUtil::set_array_metadata_by_json_str_for_key, caught error:" << e.what() << std::endl;
+  }
+  catch (...) {
+    std::cout << "ArrayUtil::set_array_metadata_by_json_str_for_key, caught unknown error!" << std::endl;
+  }  
+}
+    
+void ArrayUtil::set_array_metadata_by_json_str_for_key(const std::string& uri, const std::string& key, const std::string& jsonstr, const std::shared_ptr<tiledb::Context>& ctx) {
+  
+  try {
+    std::shared_ptr<Array> array = std::shared_ptr<Array>(new Array(ctx, uri, tiledb::QueryType::TILEDB_WRITE));
+    array->put_metadata_by_json_str_for_key(key,jsonstr);
+  }
+   catch (tiledb::TileDBError& tdbe) {
+    std::cout << "ArrayUtil::set_array_metadata_by_json_str_for_key, caught error:" << tdbe.what() << std::endl;
+  }
+  catch (const std::exception& e) {
+    std::cout << "ArrayUtil::set_array_metadata_by_json_str_for_key, caught error:" << e.what() << std::endl;
+  }
+  catch (...) {
+    std::cout << "ArrayUtil::set_array_metadata_by_json_str_for_key, caught unknown error!" << std::endl;
+  }    
+}
+
+
 int ArrayUtil::export_file_to_path(const std::string& file_uri, const std::string& output_path, uint64_t buffer_size, const std::shared_ptr<tiledb::Context>& ctx)
 {
   const std::string METADATA_SIZE_KEY = "file_size";

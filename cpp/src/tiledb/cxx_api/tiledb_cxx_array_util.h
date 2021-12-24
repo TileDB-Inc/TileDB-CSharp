@@ -14,7 +14,9 @@
 */
 
 #include <limits>
- 
+#include <memory>
+
+#include "json.h" 
 #include "tiledb_cxx_array.h"
 #include "tiledb_cxx_array_schema.h"
 #include "tiledb_cxx_attribute.h"
@@ -75,7 +77,20 @@ public:
 	* @return version string
 	*/
 	static std::string get_tiledb_version();
-
+    
+    static std::string get_array_schema_json_str(const std::string& uri, const std::shared_ptr<tiledb::Context>& ctx);
+    
+    static std::string get_array_metadata_json_str(const std::string& uri, const std::shared_ptr<tiledb::Context>& ctx);
+    
+    static std::string get_array_metadata_json_str_for_key(const std::string& uri, const std::string& key, const std::shared_ptr<tiledb::Context>& ctx);
+    
+    static std::string get_array_metadata_json_str_from_index(const std::string& uri, uint64_t index, const std::shared_ptr<tiledb::Context>& ctx);
+       
+    static void set_array_metadata_by_json_str(const std::string& uri, const std::string& jsonstr, const std::shared_ptr<tiledb::Context>& ctx);
+    
+    static void set_array_metadata_by_json_str_for_key(const std::string& uri, const std::string& key, const std::string& jsonstr, const std::shared_ptr<tiledb::Context>& ctx);
+    
+    
 	/**
 	* @brief export file to a path
 	*/

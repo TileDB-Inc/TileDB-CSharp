@@ -58,6 +58,40 @@ public class ArrayUtil : global::System.IDisposable {
     return ret;
   }
 
+  public static string get_array_schema_json_str(string uri, Context ctx) {
+    string ret = tiledbcsPINVOKE.ArrayUtil_get_array_schema_json_str(uri, Context.getCPtr(ctx));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static string get_array_metadata_json_str(string uri, Context ctx) {
+    string ret = tiledbcsPINVOKE.ArrayUtil_get_array_metadata_json_str(uri, Context.getCPtr(ctx));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static string get_array_metadata_json_str_for_key(string uri, string key, Context ctx) {
+    string ret = tiledbcsPINVOKE.ArrayUtil_get_array_metadata_json_str_for_key(uri, key, Context.getCPtr(ctx));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static string get_array_metadata_json_str_from_index(string uri, ulong index, Context ctx) {
+    string ret = tiledbcsPINVOKE.ArrayUtil_get_array_metadata_json_str_from_index(uri, index, Context.getCPtr(ctx));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static void set_array_metadata_by_json_str(string uri, string jsonstr, Context ctx) {
+    tiledbcsPINVOKE.ArrayUtil_set_array_metadata_by_json_str(uri, jsonstr, Context.getCPtr(ctx));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void set_array_metadata_by_json_str_for_key(string uri, string key, string jsonstr, Context ctx) {
+    tiledbcsPINVOKE.ArrayUtil_set_array_metadata_by_json_str_for_key(uri, key, jsonstr, Context.getCPtr(ctx));
+    if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
   public static int export_file_to_path(string file_uri, string output_path, ulong buffer_size, Context ctx) {
     int ret = tiledbcsPINVOKE.ArrayUtil_export_file_to_path(file_uri, output_path, buffer_size, Context.getCPtr(ctx));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
