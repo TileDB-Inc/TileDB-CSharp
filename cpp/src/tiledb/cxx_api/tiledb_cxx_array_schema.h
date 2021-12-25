@@ -35,6 +35,7 @@
 #ifndef TILEDB_CPP_API_ARRAY_SCHEMA_H
 #define TILEDB_CPP_API_ARRAY_SCHEMA_H
 
+#include "json.h"
 #include "tiledb_cxx_attribute.h"
 #include "tiledb_cxx_domain.h"
 #include "tiledb_cxx_object.h"
@@ -45,6 +46,7 @@
 #include <array>
 #include <memory>
 #include <string>
+#include <sstream>
 #include <map> 
 #include <unordered_map>
 
@@ -785,8 +787,7 @@ public:
 			c_ctx, schema_.get(), attr.ptr().get()));
 
 	}
-
- 
+    
 
 	/** Returns in json string format. */
 	std::string to_json_str() {
@@ -794,12 +795,20 @@ public:
 
 		std::stringstream ss;
 		ss << "{";
+        
+        ss <<"\"array_type\":" << array_type();
 
 		tiledb_domain_t* domain;
 		ctx_->handle_error(tiledb_array_schema_get_domain(
 			c_ctx, schema_.get(), &domain));
-		ss << "\"dimensions\":[";
+
+        
+		
 		Domain cpp_domain(ctx_, domain);
+        ss << ",\"domain_type\":" << cpp_domain.type();
+
+        ss << ",\"dimensions\":[";
+  
 
 		std::vector<std::string> dim_names = cpp_domain.dimension_names();// const std::vector<Dimension> dims = cpp_domain.dimensions();
 
@@ -813,7 +822,8 @@ public:
 			ss << "{";
 			ss << "\"name\":\"" << dim.name() << "\"";
 			ss << ",\"type\":" << dim.type() ;
-			ss << ",\"domain_bound\":\"" << dim.domain_to_str() << "\"";
+			ss << ",\"domain_bound\":" << dim.domain_to_str();
+            ss <<",\"tile_extent\":\"" << dim.tile_extent_to_str() <<"\"";
 			ss << "}";
 		}
 
@@ -839,7 +849,8 @@ public:
 			}
 			ss << "{";
 			ss << "\"name\":\"" << attr.name() << "\"";
-			ss << ",\"dtype\":" << attr.type();
+			ss << ",\"dtype\":" << attr.type() ;
+            ss <<",\"cell_val_num\":" << attr.cell_val_num();
 			ss << "}";
 		}
 		ss << "]";

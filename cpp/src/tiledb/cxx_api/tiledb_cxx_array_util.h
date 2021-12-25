@@ -14,7 +14,9 @@
 */
 
 #include <limits>
- 
+#include <memory>
+
+#include "json.h" 
 #include "tiledb_cxx_array.h"
 #include "tiledb_cxx_array_schema.h"
 #include "tiledb_cxx_attribute.h"
@@ -75,7 +77,73 @@ public:
 	* @return version string
 	*/
 	static std::string get_tiledb_version();
-
+    
+	/**
+	* @brief get array schema json string
+	* 
+	* @param uri
+	* @param ctx
+	* 
+	* @return json string representation of array schema
+	*/
+    static std::string get_array_schema_json_str(const std::string& uri, const std::shared_ptr<tiledb::Context>& ctx);
+    
+	/**
+	* @brief get array metadata json string
+	*
+	* @param uri
+	* @param ctx
+	*
+	* @return json string representation of array metadata
+	*/
+    static std::string get_array_metadata_json_str(const std::string& uri, const std::shared_ptr<tiledb::Context>& ctx);
+    
+	/**
+	* @brief get array metadata json string for a key
+	*
+	* @param uri
+	* @param key
+	* @param ctx
+	*
+	* @return json string representation of array metadata
+	*/
+    static std::string get_array_metadata_json_str_for_key(const std::string& uri, const std::string& key, const std::shared_ptr<tiledb::Context>& ctx);
+    
+	/**
+	* @brief get array metadata json string from an index
+	*
+	* @param uri
+	* @param index
+	* @param ctx
+	*
+	* @return json string representation of array metadata
+	*/
+    static std::string get_array_metadata_json_str_from_index(const std::string& uri, uint64_t index, const std::shared_ptr<tiledb::Context>& ctx);
+       
+	/**
+	* @brief add array metadata from json string
+	*
+	* @param uri
+	* @param jsonstr
+	* @param ctx
+	*
+	* @return json string representation of array metadata
+	*/
+    static void add_array_metadata_by_json_str(const std::string& uri, const std::string& jsonstr, const std::shared_ptr<tiledb::Context>& ctx);
+    
+	/**
+	* @brief add array metadata from json string
+	*
+	* @param uri
+	* @param key
+	* @param jsonstr
+	* @param ctx
+	*
+	* @return json string representation of array metadata
+	*/
+    static void add_array_metadata_by_json_str_for_key(const std::string& uri, const std::string& key, const std::string& jsonstr, const std::shared_ptr<tiledb::Context>& ctx);
+    
+    
 	/**
 	* @brief export file to a path
 	*/
