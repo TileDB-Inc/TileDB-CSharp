@@ -3721,11 +3721,11 @@ class tiledbcsPINVOKE {
   [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_ArrayUtil_get_array_metadata_json_str_from_index")]
   public static extern string ArrayUtil_get_array_metadata_json_str_from_index(string jarg1, ulong jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_ArrayUtil_set_array_metadata_by_json_str")]
-  public static extern void ArrayUtil_set_array_metadata_by_json_str(string jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_ArrayUtil_add_array_metadata_by_json_str")]
+  public static extern void ArrayUtil_add_array_metadata_by_json_str(string jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_ArrayUtil_set_array_metadata_by_json_str_for_key")]
-  public static extern void ArrayUtil_set_array_metadata_by_json_str_for_key(string jarg1, string jarg2, string jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);
+  [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_ArrayUtil_add_array_metadata_by_json_str_for_key")]
+  public static extern void ArrayUtil_add_array_metadata_by_json_str_for_key(string jarg1, string jarg2, string jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);
 
   [global::System.Runtime.InteropServices.DllImport("tiledbcs", EntryPoint="CSharp_TileDB_ArrayUtil_export_file_to_path")]
   public static extern int ArrayUtil_export_file_to_path(string jarg1, string jarg2, ulong jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);

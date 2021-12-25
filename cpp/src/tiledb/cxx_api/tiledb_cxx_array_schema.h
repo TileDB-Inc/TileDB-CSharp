@@ -796,15 +796,19 @@ public:
 		std::stringstream ss;
 		ss << "{";
         
-        ss <<",\"array_type\":" << array_type();
+        ss <<"\"array_type\":" << array_type();
 
 		tiledb_domain_t* domain;
 		ctx_->handle_error(tiledb_array_schema_get_domain(
 			c_ctx, schema_.get(), &domain));
-		ss << ",\"dimensions\":[";
-		Domain cpp_domain(ctx_, domain);
+
         
-        ss <<",\"domain_type\":" << cpp_domain.type();
+		
+		Domain cpp_domain(ctx_, domain);
+        ss << ",\"domain_type\":" << cpp_domain.type();
+
+        ss << ",\"dimensions\":[";
+  
 
 		std::vector<std::string> dim_names = cpp_domain.dimension_names();// const std::vector<Dimension> dims = cpp_domain.dimensions();
 
@@ -845,7 +849,7 @@ public:
 			}
 			ss << "{";
 			ss << "\"name\":\"" << attr.name() << "\"";
-			ss << ",\"dtype\":" << attr.type() << "\"";
+			ss << ",\"dtype\":" << attr.type() ;
             ss <<",\"cell_val_num\":" << attr.cell_val_num();
 			ss << "}";
 		}

@@ -96,7 +96,7 @@ std::string ArrayUtil::get_array_metadata_json_str_from_index(const std::string&
 }
    
     
-void ArrayUtil::set_array_metadata_by_json_str(const std::string& uri, const std::string& jsonstr, const std::shared_ptr<tiledb::Context>& ctx) {
+void ArrayUtil::add_array_metadata_by_json_str(const std::string& uri, const std::string& jsonstr, const std::shared_ptr<tiledb::Context>& ctx) {
   try {
     std::shared_ptr<Array> array = std::shared_ptr<Array>(new Array(ctx, uri, tiledb::QueryType::TILEDB_WRITE));
     array->put_metadata_by_json_str(jsonstr);
@@ -112,7 +112,7 @@ void ArrayUtil::set_array_metadata_by_json_str(const std::string& uri, const std
   }  
 }
     
-void ArrayUtil::set_array_metadata_by_json_str_for_key(const std::string& uri, const std::string& key, const std::string& jsonstr, const std::shared_ptr<tiledb::Context>& ctx) {
+void ArrayUtil::add_array_metadata_by_json_str_for_key(const std::string& uri, const std::string& key, const std::string& jsonstr, const std::shared_ptr<tiledb::Context>& ctx) {
   
   try {
     std::shared_ptr<Array> array = std::shared_ptr<Array>(new Array(ctx, uri, tiledb::QueryType::TILEDB_WRITE));

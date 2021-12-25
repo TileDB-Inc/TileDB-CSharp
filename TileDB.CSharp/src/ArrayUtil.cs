@@ -82,13 +82,13 @@ public class ArrayUtil : global::System.IDisposable {
     return ret;
   }
 
-  public static void set_array_metadata_by_json_str(string uri, string jsonstr, Context ctx) {
-    tiledbcsPINVOKE.ArrayUtil_set_array_metadata_by_json_str(uri, jsonstr, Context.getCPtr(ctx));
+  public static void add_array_metadata_by_json_str(string uri, string jsonstr, Context ctx) {
+    tiledbcsPINVOKE.ArrayUtil_add_array_metadata_by_json_str(uri, jsonstr, Context.getCPtr(ctx));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static void set_array_metadata_by_json_str_for_key(string uri, string key, string jsonstr, Context ctx) {
-    tiledbcsPINVOKE.ArrayUtil_set_array_metadata_by_json_str_for_key(uri, key, jsonstr, Context.getCPtr(ctx));
+  public static void add_array_metadata_by_json_str_for_key(string uri, string key, string jsonstr, Context ctx) {
+    tiledbcsPINVOKE.ArrayUtil_add_array_metadata_by_json_str_for_key(uri, key, jsonstr, Context.getCPtr(ctx));
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 

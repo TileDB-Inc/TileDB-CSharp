@@ -1866,7 +1866,7 @@ class Array {
         if(j.contains("key")) {
           metadata_key = j["key"].get<std::string>();
         }
-        if(j.contains("value_type") && j.contains("values") )  {
+        if(j.contains("value_type") && j.contains("value") )  {
             int intdatatype = j["value_type"].get<int>();
             if(intdatatype>=0 && intdatatype<= (int)tiledb::DataType::TILEDB_DATETIME_AS && metadata_key.size()>0) {
               tiledb_datatype_t value_type = (tiledb_datatype_t)intdatatype;
@@ -1877,7 +1877,7 @@ class Array {
                case DataType::TILEDB_INT8:
               {
                 std::vector<int8_t> buff;
-                for(auto& v: j["values"].items()) {
+                for(auto& v: j["value"].items()) {
                   buff.push_back(v.value().get<int8_t>());
                 }
                 ctx_->handle_error(tiledb_array_put_metadata(
@@ -1887,7 +1887,7 @@ class Array {
              case DataType::TILEDB_UINT8:
             {
                  std::vector<uint8_t> buff;
-                for(auto& v: j["values"].items()) {
+                for(auto& v: j["value"].items()) {
                   buff.push_back(v.value().get<uint8_t>());
                 }
                 ctx_->handle_error(tiledb_array_put_metadata(
@@ -1897,7 +1897,7 @@ class Array {
             case DataType::TILEDB_INT16:
            {
                  std::vector<int16_t> buff;
-                for(auto& v: j["values"].items()) {
+                for(auto& v: j["value"].items()) {
                   buff.push_back(v.value().get<int16_t>());
                 }
                 ctx_->handle_error(tiledb_array_put_metadata(
@@ -1907,7 +1907,7 @@ class Array {
           case DataType::TILEDB_UINT16:
           {
                  std::vector<uint16_t> buff;
-                for(auto& v: j["values"].items()) {
+                for(auto& v: j["value"].items()) {
                   buff.push_back(v.value().get<uint16_t>());
                 }
                 ctx_->handle_error(tiledb_array_put_metadata(
@@ -1917,7 +1917,7 @@ class Array {
          case DataType::TILEDB_INT32:
          {
                   std::vector<int32_t> buff;
-                for(auto& v: j["values"].items()) {
+                for(auto& v: j["value"].items()) {
                   buff.push_back(v.value().get<int32_t>());
                 }
                 ctx_->handle_error(tiledb_array_put_metadata(
@@ -1927,7 +1927,7 @@ class Array {
         case DataType::TILEDB_UINT32:
         {
                  std::vector<uint32_t> buff;
-                for(auto& v: j["values"].items()) {
+                for(auto& v: j["value"].items()) {
                   buff.push_back(v.value().get<uint32_t>());
                 }
                 ctx_->handle_error(tiledb_array_put_metadata(
@@ -1937,7 +1937,7 @@ class Array {
         case DataType::TILEDB_INT64:
         {
                   std::vector<int64_t> buff;
-                for(auto& v: j["values"].items()) {
+                for(auto& v: j["value"].items()) {
                   buff.push_back(v.value().get<int64_t>());
                 }
                 ctx_->handle_error(tiledb_array_put_metadata(
@@ -1947,7 +1947,7 @@ class Array {
         case DataType::TILEDB_UINT64:
         {
                   std::vector<uint64_t> buff;
-                for(auto& v: j["values"].items()) {
+                for(auto& v: j["value"].items()) {
                   buff.push_back(v.value().get<uint64_t>());
                 }
                 ctx_->handle_error(tiledb_array_put_metadata(
@@ -1957,7 +1957,7 @@ class Array {
         case DataType::TILEDB_FLOAT32:
         {
                   std::vector<float> buff;
-                for(auto& v: j["values"].items()) {
+                for(auto& v: j["value"].items()) {
                   buff.push_back(v.value().get<float>());
                 }
                 ctx_->handle_error(tiledb_array_put_metadata(
@@ -1966,9 +1966,9 @@ class Array {
         break;
         case DataType::TILEDB_FLOAT64:
         {
-                   std::vector<int64_t> buff;
-                for(auto& v: j["values"].items()) {
-                  buff.push_back(v.value().get<int64_t>());
+                   std::vector<double> buff;
+                for(auto& v: j["value"].items()) {
+                  buff.push_back(v.value().get<double>());
                 }
                 ctx_->handle_error(tiledb_array_put_metadata(
                   c_ctx, array_.get(), metadata_key.c_str(), value_type, (uint32_t)buff.size(), buff.data()));      
@@ -1989,7 +1989,7 @@ class Array {
         case TILEDB_DATETIME_AS:
         {
                 std::vector<int64_t> buff;
-                for(auto& v: j["values"].items()) {
+                for(auto& v: j["value"].items()) {
                   buff.push_back(v.value().get<int64_t>());
                 }
                 ctx_->handle_error(tiledb_array_put_metadata(
@@ -2003,8 +2003,12 @@ class Array {
       case TILEDB_STRING_UTF32:
       case TILEDB_STRING_UCS2:
       case TILEDB_STRING_UCS4:
-        // Not supported metadata types
-        throw TileDBError("Invalid metadata type");
+      {
+        std::string buff = j["value"].get<std::string>();
+        ctx_->handle_error(tiledb_array_put_metadata(
+          c_ctx, array_.get(), metadata_key.c_str(), value_type, (uint32_t)buff.size(), buff.data()));
+      }
+      break;
       case TILEDB_ANY:
         // Not supported metadata types
         throw TileDBError("Invalid metadata type");
@@ -2120,17 +2124,32 @@ class Array {
     }
     ss <<",\"value_type\":" << value_type;
     ss <<",\"value_num\":" << value_num;
-    
-    ss <<",\"values\":[";
-    
-    for(uint32_t i = 0; i<value_num; ++i ) {
-        if (i>0) {
-            ss <<",";
+
+    if (datatype == TILEDB_STRING_ASCII
+      || datatype == TILEDB_CHAR
+      || datatype == TILEDB_STRING_UTF8
+      || datatype == TILEDB_STRING_UTF16
+      || datatype == TILEDB_STRING_UTF32
+      || datatype == TILEDB_STRING_UCS2
+      || datatype == TILEDB_STRING_UCS4) {
+      ss << ",\"value\":\"";
+      std::string valuestr;
+      valuestr.resize(value_num);
+      std::memcpy((void*)valuestr.data(), value, value_num);
+      ss << valuestr;
+      ss << "\"";
+    }
+    else {
+      ss << ",\"value\":[";
+
+      for (uint32_t i = 0; i < value_num; ++i) {
+        if (i > 0) {
+          ss << ",";
         }
         switch (datatype) {
         case DataType::TILEDB_INT8:
         {
-             ss << ((const int8_t*)value)[i];
+          ss << ((const int8_t*)value)[i];
         }
         break;
         case DataType::TILEDB_UINT8:
@@ -2138,83 +2157,86 @@ class Array {
           ss << ((const uint8_t*)value)[i];
         }
         break;
-      case DataType::TILEDB_INT16:
+        case DataType::TILEDB_INT16:
         {
           ss << ((const int16_t*)value)[i];
         }
         break;
-      case DataType::TILEDB_UINT16:
+        case DataType::TILEDB_UINT16:
         {
           ss << ((const int16_t*)value)[i];
         }
         break;
-      case DataType::TILEDB_INT32:
+        case DataType::TILEDB_INT32:
         {
           ss << ((const int32_t*)value)[i];
         }
         break;
-      case DataType::TILEDB_UINT32:
+        case DataType::TILEDB_UINT32:
         {
           ss << ((const uint32_t*)value)[i];
         }
         break;
-      case DataType::TILEDB_INT64:
+        case DataType::TILEDB_INT64:
         {
           ss << ((const int64_t*)value)[i];
         }
         break;
-      case DataType::TILEDB_UINT64:
+        case DataType::TILEDB_UINT64:
         {
           ss << ((const uint64_t*)value)[i];
         }
         break;
-      case DataType::TILEDB_FLOAT32:
+        case DataType::TILEDB_FLOAT32:
         {
           ss << ((const float*)value)[i];
         }
         break;
-      case DataType::TILEDB_FLOAT64:
+        case DataType::TILEDB_FLOAT64:
         {
           ss << ((const double*)value)[i];
         }
         break;
-      case TILEDB_DATETIME_YEAR:
-      case TILEDB_DATETIME_MONTH:
-      case TILEDB_DATETIME_WEEK:
-      case TILEDB_DATETIME_DAY:
-      case TILEDB_DATETIME_HR:
-      case TILEDB_DATETIME_MIN:
-      case TILEDB_DATETIME_SEC:
-      case TILEDB_DATETIME_MS:
-      case TILEDB_DATETIME_US:
-      case TILEDB_DATETIME_NS:
-      case TILEDB_DATETIME_PS:
-      case TILEDB_DATETIME_FS:
-      case TILEDB_DATETIME_AS:
+        case TILEDB_DATETIME_YEAR:
+        case TILEDB_DATETIME_MONTH:
+        case TILEDB_DATETIME_WEEK:
+        case TILEDB_DATETIME_DAY:
+        case TILEDB_DATETIME_HR:
+        case TILEDB_DATETIME_MIN:
+        case TILEDB_DATETIME_SEC:
+        case TILEDB_DATETIME_MS:
+        case TILEDB_DATETIME_US:
+        case TILEDB_DATETIME_NS:
+        case TILEDB_DATETIME_PS:
+        case TILEDB_DATETIME_FS:
+        case TILEDB_DATETIME_AS:
         {
           ss << ((const int64_t*)value)[i];
         }
         break;
-      case TILEDB_STRING_ASCII:
-      case TILEDB_CHAR:
-      case TILEDB_STRING_UTF8:
-      case TILEDB_STRING_UTF16:
-      case TILEDB_STRING_UTF32:
-      case TILEDB_STRING_UCS2:
-      case TILEDB_STRING_UCS4:
-        // Not supported metadata types
-        throw TileDBError("Invalid metadata type");
-      case TILEDB_ANY:
-        // Not supported metadata types
-        throw TileDBError("Invalid metadata type");
-    }//switch 
+        case TILEDB_STRING_ASCII:
+        case TILEDB_CHAR:
+        case TILEDB_STRING_UTF8:
+        case TILEDB_STRING_UTF16:
+        case TILEDB_STRING_UTF32:
+        case TILEDB_STRING_UCS2:
+        case TILEDB_STRING_UCS4:
+        {
+        }
+        break;
+        case TILEDB_ANY:
+          // Not supported metadata types
+          throw TileDBError("Invalid metadata type");
+        }//switch 
 
 
-        
-    }//for
+      }//for
+
+
+      ss << "]";
+
+    }//esle
     
-    
-    ss <<"]";
     ss <<"}";
     return ss.str();
   }
@@ -2321,103 +2343,122 @@ class Array {
     }
     
     ss <<"\"key\":\"" << key << "\"";
-    
+    ss << ",\"value_type\":" << value_type;
     ss <<",\"value_num\":" << value_num;
-    
-    ss <<",\"values\":[";
-    
-    for(uint32_t i = 0; i<value_num; ++i ) {
-        if (i>0) {
-            ss <<",";
+
+    if (datatype == TILEDB_STRING_ASCII
+      || datatype == TILEDB_CHAR
+      || datatype == TILEDB_STRING_UTF8
+      || datatype == TILEDB_STRING_UTF16
+      || datatype == TILEDB_STRING_UTF32
+      || datatype == TILEDB_STRING_UCS2
+      || datatype == TILEDB_STRING_UCS4) {
+      ss << ",\"value\":\"";
+      std::string valuestr;
+      valuestr.resize(value_num);
+      std::memcpy((void*)valuestr.data(), value, value_num);
+      ss << valuestr;
+      ss << "\"";
+    }
+    else {
+      ss << ",\"value\":[";
+
+      for (uint32_t i = 0; i < value_num; ++i) {
+        if (i > 0) {
+          ss << ",";
         }
         switch (datatype) {
-          case DataType::TILEDB_INT8:
-         {
-             ss << ((const int8_t*)value)[i];
-          }
+        case DataType::TILEDB_INT8:
+        {
+          ss << ((const int8_t*)value)[i];
+        }
         break;
         case DataType::TILEDB_UINT8:
         {
           ss << ((const uint8_t*)value)[i];
         }
         break;
-      case DataType::TILEDB_INT16:
+        case DataType::TILEDB_INT16:
         {
           ss << ((const int16_t*)value)[i];
         }
         break;
-      case DataType::TILEDB_UINT16:
+        case DataType::TILEDB_UINT16:
         {
           ss << ((const int16_t*)value)[i];
         }
         break;
-      case DataType::TILEDB_INT32:
+        case DataType::TILEDB_INT32:
         {
           ss << ((const int32_t*)value)[i];
         }
         break;
-      case DataType::TILEDB_UINT32:
+        case DataType::TILEDB_UINT32:
         {
           ss << ((const uint32_t*)value)[i];
         }
         break;
-      case DataType::TILEDB_INT64:
+        case DataType::TILEDB_INT64:
         {
           ss << ((const int64_t*)value)[i];
         }
         break;
-      case DataType::TILEDB_UINT64:
+        case DataType::TILEDB_UINT64:
         {
           ss << ((const uint64_t*)value)[i];
         }
         break;
-      case DataType::TILEDB_FLOAT32:
+        case DataType::TILEDB_FLOAT32:
         {
           ss << ((const float*)value)[i];
         }
         break;
-      case DataType::TILEDB_FLOAT64:
+        case DataType::TILEDB_FLOAT64:
         {
           ss << ((const double*)value)[i];
         }
         break;
-      case TILEDB_DATETIME_YEAR:
-      case TILEDB_DATETIME_MONTH:
-      case TILEDB_DATETIME_WEEK:
-      case TILEDB_DATETIME_DAY:
-      case TILEDB_DATETIME_HR:
-      case TILEDB_DATETIME_MIN:
-      case TILEDB_DATETIME_SEC:
-      case TILEDB_DATETIME_MS:
-      case TILEDB_DATETIME_US:
-      case TILEDB_DATETIME_NS:
-      case TILEDB_DATETIME_PS:
-      case TILEDB_DATETIME_FS:
-      case TILEDB_DATETIME_AS:
+        case TILEDB_DATETIME_YEAR:
+        case TILEDB_DATETIME_MONTH:
+        case TILEDB_DATETIME_WEEK:
+        case TILEDB_DATETIME_DAY:
+        case TILEDB_DATETIME_HR:
+        case TILEDB_DATETIME_MIN:
+        case TILEDB_DATETIME_SEC:
+        case TILEDB_DATETIME_MS:
+        case TILEDB_DATETIME_US:
+        case TILEDB_DATETIME_NS:
+        case TILEDB_DATETIME_PS:
+        case TILEDB_DATETIME_FS:
+        case TILEDB_DATETIME_AS:
         {
           ss << ((const int64_t*)value)[i];
         }
         break;
-      case TILEDB_STRING_ASCII:
-      case TILEDB_CHAR:
-      case TILEDB_STRING_UTF8:
-      case TILEDB_STRING_UTF16:
-      case TILEDB_STRING_UTF32:
-      case TILEDB_STRING_UCS2:
-      case TILEDB_STRING_UCS4:
-        // Not supported metadata types
-        throw TileDBError("Invalid metadata type");
-      case TILEDB_ANY:
-        // Not supported metadata types
-        throw TileDBError("Invalid metadata type");
-    }//switch 
+        case TILEDB_STRING_ASCII:
+        case TILEDB_CHAR:
+        case TILEDB_STRING_UTF8:
+        case TILEDB_STRING_UTF16:
+        case TILEDB_STRING_UTF32:
+        case TILEDB_STRING_UCS2:
+        case TILEDB_STRING_UCS4:
+        {
+        }
+        break;
+        case TILEDB_ANY:
+          // Not supported metadata types
+          throw TileDBError("Invalid metadata type");
+        }//switch 
 
 
-        
-    }//for
+
+      }//for
+
+
+      ss << "]";
+
+    }//else
     
-    
-    ss <<"]";
     ss <<"}";
     return ss.str();     
       
@@ -2432,7 +2473,8 @@ class Array {
     std::stringstream ss;
     ss <<"{";
     
-    ss <<"\"metadata\":[";
+    ss << "\"metadata_num\":" << num;
+    ss <<",\"metadata\":[";
     
     for(uint64_t i = 0; i<num; ++i) {
       if(i>0) {
@@ -2444,6 +2486,8 @@ class Array {
     ss <<"]";
     
     ss << "}"; 
+
+    return ss.str();
       
   }//std::string get_metadata_json_str()
 

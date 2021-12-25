@@ -24793,7 +24793,7 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArrayUtil_get_array_metadata_json_st
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_ArrayUtil_set_array_metadata_by_json_str(char * jarg1, char * jarg2, void * jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_ArrayUtil_add_array_metadata_by_json_str(char * jarg1, char * jarg2, void * jarg3) {
   std::string *arg1 = 0 ;
   std::string *arg2 = 0 ;
   std::shared_ptr< tiledb::Context > *arg3 = 0 ;
@@ -24814,7 +24814,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_ArrayUtil_set_array_metadata_by_json_s
   arg3 = jarg3 ? (std::shared_ptr< tiledb::Context > *)jarg3 : &tempnull3; 
   {
     try {
-      tiledb::ArrayUtil::set_array_metadata_by_json_str((std::string const &)*arg1,(std::string const &)*arg2,(std::shared_ptr< tiledb::Context > const &)*arg3);
+      tiledb::ArrayUtil::add_array_metadata_by_json_str((std::string const &)*arg1,(std::string const &)*arg2,(std::shared_ptr< tiledb::Context > const &)*arg3);
     } catch(const tiledb::TypeError& e) {
       SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
     } catch(const tiledb::SchemaMismatch& e) {
@@ -24836,7 +24836,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_ArrayUtil_set_array_metadata_by_json_s
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_ArrayUtil_set_array_metadata_by_json_str_for_key(char * jarg1, char * jarg2, char * jarg3, void * jarg4) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_ArrayUtil_add_array_metadata_by_json_str_for_key(char * jarg1, char * jarg2, char * jarg3, void * jarg4) {
   std::string *arg1 = 0 ;
   std::string *arg2 = 0 ;
   std::string *arg3 = 0 ;
@@ -24864,7 +24864,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_ArrayUtil_set_array_metadata_by_json_s
   arg4 = jarg4 ? (std::shared_ptr< tiledb::Context > *)jarg4 : &tempnull4; 
   {
     try {
-      tiledb::ArrayUtil::set_array_metadata_by_json_str_for_key((std::string const &)*arg1,(std::string const &)*arg2,(std::string const &)*arg3,(std::shared_ptr< tiledb::Context > const &)*arg4);
+      tiledb::ArrayUtil::add_array_metadata_by_json_str_for_key((std::string const &)*arg1,(std::string const &)*arg2,(std::string const &)*arg3,(std::shared_ptr< tiledb::Context > const &)*arg4);
     } catch(const tiledb::TypeError& e) {
       SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
     } catch(const tiledb::SchemaMismatch& e) {
