@@ -1,127 +1,21 @@
- 
-// TileDB Core lib helper functions
-namespace TileDB {
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-    public class CoreUtil {
-
-        public static string GetCoreLibVersion() {
-            return ArrayUtil.get_tiledb_version();
-        }
-
-        public static TileDB.Array OpenArray(Context ctx = null, string uri="", TileDB.QueryType querytype = TileDB.QueryType.TILEDB_READ)
-        {
-            if (string.IsNullOrEmpty(uri)) {
-                return null;
-            }
-            try
-            {
-                if(ctx==null)
-                {
-                    ctx = new TileDB.Context();
-                }
-                return new TileDB.Array(ctx, uri, querytype);
-            }
-            catch (TileDB.TileDBError tdbe)
-            {
-                System.Console.WriteLine("caught TileDBError:");
-                System.Console.WriteLine(tdbe.Message);
-            }
-            catch (System.Exception e)
-            {
-                System.Console.WriteLine("caught exception:");
-                System.Console.WriteLine(e.Message);
-            }
-
-            return null;
-        }
-
-        public static Newtonsoft.Json.Linq.JObject GetArraySchemaJson(Context ctx = null, string uri = "")
-        {
-            if (string.IsNullOrEmpty(uri))
+namespace TileDB
+{
+    public static class ArrayExtension
+    {
+        public static Newtonsoft.Json.Linq.JObject GetArraySchemaJson(this TileDB.Array array) {
+            if (array == null)
             {
                 return new Newtonsoft.Json.Linq.JObject();
             }
             try
             {
-                if (ctx == null)
-                {
-                    ctx = new TileDB.Context();
-                }
-                string jsonstr = ArrayUtil.get_array_schema_json_str(ctx,uri);
-                return Newtonsoft.Json.Linq.JObject.Parse(jsonstr);
-
-            }
-            catch (TileDB.TileDBError tdbe)
-            {
-                System.Console.WriteLine("caught TileDBError:");
-                System.Console.WriteLine(tdbe.Message);
-            }
-            catch (Newtonsoft.Json.JsonReaderException je)
-            {
-                System.Console.WriteLine("caught JsonReaderException:");
-                System.Console.WriteLine(je.Message);
-            }
-            catch (System.Exception e)
-            {
-                System.Console.WriteLine("caught exception:");
-                System.Console.WriteLine(e.Message);
-            }
-
-            return new Newtonsoft.Json.Linq.JObject();
-
-        }
-
-        public static Newtonsoft.Json.Linq.JObject GetArrayMetadataJson(Context ctx, string uri)
-        {
-            if (uri == null || uri.Length == 0)
-            {
-                return new Newtonsoft.Json.Linq.JObject();
-            }
-            try
-            {
-                if (ctx == null)
-                {
-                    ctx = new TileDB.Context();
-                }
-
-                string jsonstr = ArrayUtil.get_array_metadata_json_str(ctx, uri);
-                return  Newtonsoft.Json.Linq.JObject.Parse(jsonstr);
-
-            }
-            catch (TileDB.TileDBError tdbe)
-            {
-                System.Console.WriteLine("caught TileDBError:");
-                System.Console.WriteLine(tdbe.Message);
-            }
-            catch (Newtonsoft.Json.JsonReaderException je)
-            {
-                System.Console.WriteLine("caught JsonReaderException:");
-                System.Console.WriteLine(je.Message);
-            }
-            catch (System.Exception e)
-            {
-                System.Console.WriteLine("caught exception:");
-                System.Console.WriteLine(e.Message);
-            }
-
-            return new Newtonsoft.Json.Linq.JObject();
-        }
-
-        public static Newtonsoft.Json.Linq.JObject GetArrayMetadataJsonForKey(Context ctx, string uri, string key)
-        {
-            if (string.IsNullOrEmpty(uri) || string.IsNullOrEmpty(key))
-            {
-                return new Newtonsoft.Json.Linq.JObject();
-            }
-            try
-            {
-
-                if (ctx == null)
-                {
-                    ctx = new TileDB.Context();
-                }
-
-                string jsonstr = ArrayUtil.get_array_metadata_json_str_for_key(ctx, uri, key);
+                string jsonstr = array.schema().to_json_str();
                 return Newtonsoft.Json.Linq.JObject.Parse(jsonstr);
             }
             catch (TileDB.TileDBError tdbe)
@@ -139,25 +33,18 @@ namespace TileDB {
                 System.Console.WriteLine("caught exception:");
                 System.Console.WriteLine(e.Message);
             }
-
             return new Newtonsoft.Json.Linq.JObject();
-
         }
 
-         public static Newtonsoft.Json.Linq.JObject GetArrayMetadataJsonFromIndex(Context ctx, string uri, ulong index)
+        public static Newtonsoft.Json.Linq.JObject GetArrayMetadataJson(this TileDB.Array array)
         {
-            if (uri == null || uri.Length == 0)
+            if (array == null)
             {
                 return new Newtonsoft.Json.Linq.JObject();
             }
             try
             {
-                if (ctx == null)
-                {
-                    ctx = new TileDB.Context();
-                }
-
-                string jsonstr = ArrayUtil.get_array_metadata_json_str_from_index(ctx, uri, index);
+                string jsonstr = array.get_metadata_json_str();
                 return Newtonsoft.Json.Linq.JObject.Parse(jsonstr);
             }
             catch (TileDB.TileDBError tdbe)
@@ -175,26 +62,78 @@ namespace TileDB {
                 System.Console.WriteLine("caught exception:");
                 System.Console.WriteLine(e.Message);
             }
+            return new Newtonsoft.Json.Linq.JObject();
+        }
 
+        public static Newtonsoft.Json.Linq.JObject GetArrayMetadataJsonForKey(this TileDB.Array array, string key)
+        {
+            if (array == null || string.IsNullOrEmpty(key))
+            {
+                return new Newtonsoft.Json.Linq.JObject();
+            }
+            try
+            {
+                string jsonstr = array.get_metadata_json_str_for_key(key);
+                return Newtonsoft.Json.Linq.JObject.Parse(jsonstr);
+            }
+            catch (TileDB.TileDBError tdbe)
+            {
+                System.Console.WriteLine("caught TileDBError:");
+                System.Console.WriteLine(tdbe.Message);
+            }
+            catch (Newtonsoft.Json.JsonReaderException je)
+            {
+                System.Console.WriteLine("caught JsonReaderException:");
+                System.Console.WriteLine(je.Message);
+            }
+            catch (System.Exception e)
+            {
+                System.Console.WriteLine("caught exception:");
+                System.Console.WriteLine(e.Message);
+            }
+            return new Newtonsoft.Json.Linq.JObject();
+        }
+
+        public static Newtonsoft.Json.Linq.JObject GetArrayMetadataJsonFromIndex(this TileDB.Array array, ulong index)
+        {
+            if (array == null)
+            {
+                return new Newtonsoft.Json.Linq.JObject();
+            }
+            try
+            {
+                string jsonstr = array.get_metadata_json_str_from_index(index);
+                return Newtonsoft.Json.Linq.JObject.Parse(jsonstr);
+            }
+            catch (TileDB.TileDBError tdbe)
+            {
+                System.Console.WriteLine("caught TileDBError:");
+                System.Console.WriteLine(tdbe.Message);
+            }
+            catch (Newtonsoft.Json.JsonReaderException je)
+            {
+                System.Console.WriteLine("caught JsonReaderException:");
+                System.Console.WriteLine(je.Message);
+            }
+            catch (System.Exception e)
+            {
+                System.Console.WriteLine("caught exception:");
+                System.Console.WriteLine(e.Message);
+            }
             return new Newtonsoft.Json.Linq.JObject();
         }
 
 
-        public static void AddArrayMetadataByJson(Context ctx, string uri, Newtonsoft.Json.Linq.JObject j)
+        public static void AddArrayMetadataByJson(this TileDB.Array array, Newtonsoft.Json.Linq.JObject j)
         {
-            if (uri == null || uri.Length == 0 || j==null)
+            if (array == null || j == null)
             {
                 return;
             }
             try
             {
-                if (ctx == null)
-                {
-                    ctx = new TileDB.Context();
-                }
-
                 string jsonstr = j.ToString();
-                ArrayUtil.add_array_metadata_by_json_str(ctx, uri, jsonstr);
+                array.put_metadata_by_json_str(jsonstr);
             }
             catch (TileDB.TileDBError tdbe)
             {
@@ -208,23 +147,18 @@ namespace TileDB {
             }
         }
 
-        public static void AddArrayMetadataByJsonForKey(Context ctx, string uri, string key, Newtonsoft.Json.Linq.JObject j)
+        public static void AddArrayMetadataByJsonForKey(this TileDB.Array array, string key, Newtonsoft.Json.Linq.JObject j)
         {
-            if (uri == null || uri.Length == 0 || j==null)
+            //key can be null or empty as long as key is in json object
+            if (array == null || j == null)
             {
                 return;
             }
 
             try
             {
-
-                if (ctx == null)
-                {
-                    ctx = new TileDB.Context();
-                }
-
                 string jsonstr = j.ToString();
-                ArrayUtil.add_array_metadata_by_json_str_for_key(ctx, uri, key, jsonstr);
+                array.put_metadata_by_json_str_for_key(key, jsonstr);
             }
             catch (TileDB.TileDBError tdbe)
             {
@@ -239,18 +173,14 @@ namespace TileDB {
 
         }
 
-        public static void AddArrayMetadataByStringKeyValue(Context ctx, string uri, string key, string value)
+        public static void AddArrayMetadataByStringKeyValue(this TileDB.Array array, string key, string value)
         {
-            if (string.IsNullOrEmpty(uri) || string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value))
+            if (array == null || string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value))
             {
                 return;
             }
             try
             {
-                if (ctx == null)
-                {
-                    ctx = new TileDB.Context();
-                }
 
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 sb.Append("{");
@@ -263,7 +193,8 @@ namespace TileDB {
 
                 sb.Append("}");
 
-                ArrayUtil.add_array_metadata_by_json_str_for_key(ctx, uri, key, sb.ToString());
+                array.put_metadata_by_json_str_for_key(key, sb.ToString());
+
             }
             catch (TileDB.TileDBError tdbe)
             {
@@ -276,18 +207,15 @@ namespace TileDB {
                 System.Console.WriteLine(e.Message);
             }
         }
-        public static void AddArrayMetadataByStringMap(Context ctx, string uri, System.Collections.Generic.Dictionary<string,string> strmap)
+        public static void AddArrayMetadataByStringMap(this TileDB.Array array, System.Collections.Generic.Dictionary<string, string> strmap)
         {
-            if (string.IsNullOrEmpty(uri) || strmap == null || strmap.Count == 0) 
+            if (array == null || strmap == null || strmap.Count == 0)
             {
                 return;
             }
             try
             {
-                if (ctx == null)
-                {
-                    ctx = new TileDB.Context();
-                }
+ 
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 sb.Append("{");
 
@@ -320,7 +248,7 @@ namespace TileDB {
 
                 sb.Append("}");
 
-                ArrayUtil.add_array_metadata_by_json_str(ctx, uri, sb.ToString());
+                array.put_metadata_by_json_str(sb.ToString());
             }
             catch (TileDB.TileDBError tdbe)
             {
@@ -334,7 +262,7 @@ namespace TileDB {
             }
         }
 
-        public static void AddArrayMetadataByList<T>(Context ctx, string uri, string key, System.Collections.Generic.List<T> list) where T: struct
+        public static void AddArrayMetadataByList<T>(this TileDB.Array array, string uri, string key, System.Collections.Generic.List<T> list) where T : struct
         {
             if (string.IsNullOrEmpty(uri) || string.IsNullOrEmpty(key) || list == null || list.Count == 0)
             {
@@ -342,10 +270,6 @@ namespace TileDB {
             }
             try
             {
-                if (ctx == null)
-                {
-                    ctx = new TileDB.Context();
-                }
 
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 sb.Append("{");
@@ -416,7 +340,7 @@ namespace TileDB {
 
                 sb.Append("}");
 
-                ArrayUtil.add_array_metadata_by_json_str_for_key(ctx, uri, key, sb.ToString());
+                array.put_metadata_by_json_str_for_key(key, sb.ToString());
             }
             catch (TileDB.TileDBError tdbe)
             {
@@ -430,61 +354,7 @@ namespace TileDB {
             }
         }
 
-        public static void SaveFileToArray(TileDB.Context ctx, string array_uri, string file, string mime_type, string mime_coding)
-        {
-            try {
-                if (ctx == null)
-                {
-                    TileDB.Config cfg = new TileDB.Config();
-                    ctx = new TileDB.Context(cfg);
-                }
-                TileDB.VFS vfs = new TileDB.VFS(ctx);
-                if (vfs.is_dir(array_uri))
-                {
-                    vfs.remove_dir(array_uri);
-                }
-                TileDB.ArrayUtil.save_file_from_path(ctx, array_uri, file, mime_type, mime_coding);
-            }
-            catch (TileDB.TileDBError tdbe)
-            {
-                System.Console.WriteLine("caught TileDBError:");
-                System.Console.WriteLine(tdbe.Message);
-            }
-            catch (System.Exception e)
-            {
-                System.Console.WriteLine("caught exception:");
-                System.Console.WriteLine(e.Message);
-            }
 
 
-        }
-
-        public static void ExportArrayToFile(TileDB.Context ctx, string array_uri, string file)
-        {
-            try
-            {
-                if (ctx == null)
-                {
-                    TileDB.Config cfg = new TileDB.Config();
-                    ctx = new TileDB.Context(cfg);
-                }
-                TileDB.ArrayUtil.export_file_to_path(ctx, array_uri, file, 0);
-            }
-            catch (TileDB.TileDBError tdbe)
-            {
-                System.Console.WriteLine("caught TileDBError:");
-                System.Console.WriteLine(tdbe.Message);
-            }
-            catch (System.Exception e)
-            {
-                System.Console.WriteLine("caught exception:");
-                System.Console.WriteLine(e.Message);
-            }
-
-
-        }
-
-
-    }//class 
-
-}//namespace
+    }
+}
