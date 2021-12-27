@@ -262,9 +262,9 @@ namespace TileDB
             }
         }
 
-        public static void AddArrayMetadataByList<T>(this TileDB.Array array, string uri, string key, System.Collections.Generic.List<T> list) where T : struct
+        public static void AddArrayMetadataByList<T>(this TileDB.Array array, string key, System.Collections.Generic.List<T> list) where T : struct
         {
-            if (string.IsNullOrEmpty(uri) || string.IsNullOrEmpty(key) || list == null || list.Count == 0)
+            if (array == null || string.IsNullOrEmpty(key) || list == null || list.Count == 0)
             {
                 return;
             }
