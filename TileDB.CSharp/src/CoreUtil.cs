@@ -8,9 +8,9 @@ namespace TileDB {
             return ArrayUtil.get_tiledb_version();
         }
 
-        public static TileDB.Array OpenArray(string uri, TileDB.QueryType querytype = TileDB.QueryType.TILEDB_READ, Context ctx = null)
+        public static TileDB.Array OpenArray(Context ctx = null, string uri="", TileDB.QueryType querytype = TileDB.QueryType.TILEDB_READ)
         {
-            if (uri == null || uri.Length == 0) {
+            if (string.IsNullOrEmpty(uri)) {
                 return null;
             }
             try
@@ -35,9 +35,9 @@ namespace TileDB {
             return null;
         }
 
-        public static Newtonsoft.Json.Linq.JObject GetArraySchemaJson(string uri, Context ctx=null)
+        public static Newtonsoft.Json.Linq.JObject GetArraySchemaJson(Context ctx = null, string uri = "")
         {
-            if (uri == null || uri.Length == 0)
+            if (string.IsNullOrEmpty(uri))
             {
                 return new Newtonsoft.Json.Linq.JObject();
             }
@@ -47,7 +47,7 @@ namespace TileDB {
                 {
                     ctx = new TileDB.Context();
                 }
-                string jsonstr = ArrayUtil.get_array_schema_json_str(uri, ctx);
+                string jsonstr = ArrayUtil.get_array_schema_json_str(ctx,uri);
                 Newtonsoft.Json.Linq.JObject j = Newtonsoft.Json.Linq.JObject.Parse(jsonstr);
                 return j;
 
@@ -73,7 +73,7 @@ namespace TileDB {
 
         }
 
-        public static Newtonsoft.Json.Linq.JObject GetArrayMetadataJson(string uri, Context ctx)
+        public static Newtonsoft.Json.Linq.JObject GetArrayMetadataJson(Context ctx, string uri)
         {
             if (uri == null || uri.Length == 0)
             {
@@ -86,7 +86,7 @@ namespace TileDB {
                     ctx = new TileDB.Context();
                 }
 
-                string jsonstr = ArrayUtil.get_array_metadata_json_str(uri, ctx);
+                string jsonstr = ArrayUtil.get_array_metadata_json_str(ctx, uri);
                 return  Newtonsoft.Json.Linq.JObject.Parse(jsonstr);
 
             }
@@ -109,9 +109,9 @@ namespace TileDB {
             return new Newtonsoft.Json.Linq.JObject();
         }
 
-        public static Newtonsoft.Json.Linq.JObject GetArrayMetadataJsonForKey(string uri, string key, Context ctx)
+        public static Newtonsoft.Json.Linq.JObject GetArrayMetadataJsonForKey(Context ctx, string uri, string key)
         {
-            if (uri == null || uri.Length == 0 || key == null || key.Length==0)
+            if (string.IsNullOrEmpty(uri) || string.IsNullOrEmpty(key))
             {
                 return new Newtonsoft.Json.Linq.JObject();
             }
@@ -123,7 +123,7 @@ namespace TileDB {
                     ctx = new TileDB.Context();
                 }
 
-                string jsonstr = ArrayUtil.get_array_metadata_json_str_for_key(uri, key, ctx);
+                string jsonstr = ArrayUtil.get_array_metadata_json_str_for_key(ctx, uri, key);
                 return Newtonsoft.Json.Linq.JObject.Parse(jsonstr);
             }
             catch (TileDB.TileDBError tdbe)
@@ -146,7 +146,7 @@ namespace TileDB {
 
         }
 
-        public static Newtonsoft.Json.Linq.JObject GetArrayMetadataJsonFromIndex(string uri, ulong index, Context ctx)
+        public static Newtonsoft.Json.Linq.JObject GetArrayMetadataJsonFromIndex(Context ctx, string uri, ulong index)
         {
             if (uri == null || uri.Length == 0)
             {
@@ -159,7 +159,7 @@ namespace TileDB {
                     ctx = new TileDB.Context();
                 }
 
-                string jsonstr = ArrayUtil.get_array_metadata_json_str_from_index(uri, index, ctx);
+                string jsonstr = ArrayUtil.get_array_metadata_json_str_from_index(ctx, uri, index);
                 return Newtonsoft.Json.Linq.JObject.Parse(jsonstr);
             }
             catch (TileDB.TileDBError tdbe)
@@ -181,7 +181,7 @@ namespace TileDB {
             return new Newtonsoft.Json.Linq.JObject();
         }
 
-        public static void AddArrayMetadataByJson(string uri, Newtonsoft.Json.Linq.JObject j, Context ctx)
+        public static void AddArrayMetadataByJson(Context ctx, string uri, Newtonsoft.Json.Linq.JObject j)
         {
             if (uri == null || uri.Length == 0 || j==null)
             {
@@ -195,7 +195,7 @@ namespace TileDB {
                 }
 
                 string jsonstr = j.ToString();
-                ArrayUtil.add_array_metadata_by_json_str(uri, jsonstr, ctx);
+                ArrayUtil.add_array_metadata_by_json_str(ctx, uri, jsonstr);
             }
             catch (TileDB.TileDBError tdbe)
             {
@@ -209,7 +209,7 @@ namespace TileDB {
             }
         }
 
-        public static void AddArrayMetadataByJsonForKey(string uri, string key, Newtonsoft.Json.Linq.JObject j, Context ctx)
+        public static void AddArrayMetadataByJsonForKey(Context ctx, string uri, string key, Newtonsoft.Json.Linq.JObject j)
         {
             if (uri == null || uri.Length == 0 || j==null)
             {
@@ -225,7 +225,7 @@ namespace TileDB {
                 }
 
                 string jsonstr = j.ToString();
-                ArrayUtil.add_array_metadata_by_json_str_for_key(uri, key, jsonstr, ctx);
+                ArrayUtil.add_array_metadata_by_json_str_for_key(ctx, uri, key, jsonstr);
             }
             catch (TileDB.TileDBError tdbe)
             {
@@ -240,9 +240,9 @@ namespace TileDB {
 
         }
 
-        public static void AddArrayMetadataByStringKeyValue(string uri, string key, string value, Context ctx)
+        public static void AddArrayMetadataByStringKeyValue(Context ctx, string uri, string key, string value)
         {
-            if (uri==null || uri.Length == 0 || key == null || key.Length == 0 || value==null || value.Length==0)
+            if (string.IsNullOrEmpty(uri) || string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value))
             {
                 return;
             }
@@ -264,7 +264,7 @@ namespace TileDB {
 
                 sb.Append("}");
 
-                ArrayUtil.add_array_metadata_by_json_str_for_key(uri, key, sb.ToString(), ctx);
+                ArrayUtil.add_array_metadata_by_json_str_for_key(ctx, uri, key, sb.ToString());
             }
             catch (TileDB.TileDBError tdbe)
             {
@@ -277,9 +277,9 @@ namespace TileDB {
                 System.Console.WriteLine(e.Message);
             }
         }
-        public static void AddArrayMetadataByStringMap(string uri, System.Collections.Generic.Dictionary<string,string> strmap, Context ctx)
+        public static void AddArrayMetadataByStringMap(Context ctx, string uri, System.Collections.Generic.Dictionary<string,string> strmap)
         {
-            if (uri == null || uri.Length ==0 || strmap == null || strmap.Count == 0) 
+            if (string.IsNullOrEmpty(uri) || strmap == null || strmap.Count == 0) 
             {
                 return;
             }
@@ -321,7 +321,7 @@ namespace TileDB {
 
                 sb.Append("}");
 
-                ArrayUtil.add_array_metadata_by_json_str(uri, sb.ToString(), ctx);
+                ArrayUtil.add_array_metadata_by_json_str(ctx, uri, sb.ToString());
             }
             catch (TileDB.TileDBError tdbe)
             {
@@ -335,9 +335,9 @@ namespace TileDB {
             }
         }
 
-        public static void AddArrayMetadataByList<T>(string uri, string key, System.Collections.Generic.List<T> list, Context ctx) where T: struct
+        public static void AddArrayMetadataByList<T>(Context ctx, string uri, string key, System.Collections.Generic.List<T> list) where T: struct
         {
-            if (uri==null || uri.Length ==0 || key == null || key.Length == 0 || list == null || list.Count == 0)
+            if (string.IsNullOrEmpty(uri) || string.IsNullOrEmpty(key) || list == null || list.Count == 0)
             {
                 return;
             }
@@ -417,7 +417,7 @@ namespace TileDB {
 
                 sb.Append("}");
 
-                ArrayUtil.add_array_metadata_by_json_str_for_key(uri, key, sb.ToString(), ctx);
+                ArrayUtil.add_array_metadata_by_json_str_for_key(ctx, uri, key, sb.ToString());
             }
             catch (TileDB.TileDBError tdbe)
             {
