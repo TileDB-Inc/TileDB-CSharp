@@ -24,10 +24,10 @@ TileDB.Array.create(array_uri,schema);
 using (var array_write = new TileDB.Array(ctx,array_uri,TileDB.QueryType.TILEDB_WRITE))
 {
     // add int metadata
-    List<int> int_metadata = new List<int>() {1,100};
+    System.Collections.Generic.List<int> int_metadata = new System.Collections.Generic.List<int>() {1,100};
     array_write.AddArrayMetadataByList<int>("int_metadata",int_metadata);
     // add double metadata
-    var double_metadata = new List<double>() {1.0,100.0,1000.0};
+    var double_metadata = new System.Collections.Generic.List<double>() {1.0,100.0,1000.0};
     array_write.AddArrayMetadataByList<double>("double_metadata", double_metadata);
     // add string key value pair 
     array_write.AddArrayMetadataByStringKeyValue("key1","value1");
@@ -46,7 +46,7 @@ System.Console.WriteLine("{0}", metadata_json.ToString());
 //get metadata from key
 var double_metadata_json = array_read.GetArrayMetadataJsonForKey("double_metadata");
 System.Console.WriteLine("{0}", double_metadata_json.ToString());
-var double_list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<double>>(double_metadata_json["value"].ToString());
+var double_list = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<double>>(double_metadata_json["value"].ToString());
 System.Console.WriteLine("type of double_list:{0}, value of double_list:{1}",double_list.GetType(),string.Join(",",double_list));
 
 // get string metadata
