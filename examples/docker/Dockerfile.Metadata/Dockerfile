@@ -4,8 +4,10 @@ RUN cd /home && \
   git clone https://github.com/TileDB-Inc/TileDB-CSharp.git -b bd/ch13349-metadata-example && \
   dotnet publish TileDB-CSharp/examples/TileDB.Metadata/metadata.csproj -c Release -o /app/example_metadata
 
-WORKDIR /app 
-RUN cd /app/example_metadata && \
-  dotnet metadata.dll 
+
+RUN cd /app/example_metadata 
+
+WORKDIR /app/example_metadata
+RUN dotnet metadata.dll 
 
  
