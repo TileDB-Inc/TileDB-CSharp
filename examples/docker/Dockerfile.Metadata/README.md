@@ -5,10 +5,10 @@ This Dockerfile builds example TileDB.Metadata inside the Microsoft dotnet image
 
 ## Building
 
-From *base* of TileDB-CSharp source tree:
+From directory containing TileDB-CSharp:
 
 ```
-docker build -t example_metadata:1.0 - <examples/docker/Dockerfile.Metadata/Dockerfile 
+docker build -t example_metadata:1.0 - < TileDB-CSharp/examples/docker/Dockerfile.Metadata/Dockerfile 
 ```
 
 ## Usage
