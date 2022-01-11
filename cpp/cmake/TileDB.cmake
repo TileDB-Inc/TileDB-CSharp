@@ -8,7 +8,29 @@ message(STATUS "start to set tiledb for version:${TILEDB_VERSION}")
 
 if(${TILEDB_VERSION} MATCHES "^([0-9]+)\\.([0-9]+)\\.([0-9]+)$")
 message(STATUS "start to set TILEDB_DOWNLOAD_URL and TILEDB_DOWNLOAD_SHA1")
-if(${TILEDB_VERSION} STREQUAL "2.5.2")
+if(${TILEDB_VERSION} STREQUAL "2.5.3")
+  if (WIN32) # Windows
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.5.3/tiledb-windows-x86_64-2.5.3-dd6a41b.zip")
+    SET(TILEDB_DOWNLOAD_SHA1 "AE26920E9D7DEDCBAD3C0E5681DECD7A66D3DCF6")
+  elseif(APPLE) # OSX
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.5.3/tiledb-macos-x86_64-2.5.3-dd6a41b.tar.gz")
+    SET(TILEDB_DOWNLOAD_SHA1 "D29E2EE28AE9316FCB6710CA93C9E5D5A6C65795")
+  else() # Linux
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.5.3/tiledb-linux-x86_64-2.5.3-dd6a41b.tar.gz")
+    SET(TILEDB_DOWNLOAD_SHA1 "AC28E99F0E1B445E72E2D2F0D84791CB3F40FF2E")
+  endif()
+elseif(${TILEDB_VERSION} STREQUAL "2.6.0")
+  if (WIN32) # Windows
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.6.0-rc1/tiledb-windows-x86_64-2.6.0-rc1-69c34b7.zip")
+    SET(TILEDB_DOWNLOAD_SHA1 "7A2E3AB30A56DCEF1B5F5AF63B75E49FCBE15369")
+  elseif(APPLE) # OSX
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.6.0-rc1/tiledb-macos-x86_64-2.6.0-rc1-69c34b7.tar.gz")
+    SET(TILEDB_DOWNLOAD_SHA1 "1B250D58875845312A2B3E58B2871DFFBA417C89")
+  else() # Linux
+    SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.6.0-rc1/tiledb-linux-x86_64-2.6.0-rc1-69c34b7.tar.gz")
+    SET(TILEDB_DOWNLOAD_SHA1 "9135820EF53A05FDAB3A37473FC892EB20738942")
+  endif()
+elseif(${TILEDB_VERSION} STREQUAL "2.5.2")
   if (WIN32) # Windows
     SET(TILEDB_DOWNLOAD_URL "https://github.com/TileDB-Inc/TileDB/releases/download/2.5.2/tiledb-windows-x86_64-2.5.2-f9c058f.zip")
     SET(TILEDB_DOWNLOAD_SHA1 "6DA1A3BC5BE2855EDD74CC521E6076A26F60ED19")
