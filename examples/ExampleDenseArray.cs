@@ -38,6 +38,7 @@ namespace TileDB.Example
             CreateDenseSimpleArray();
 
             // Write the dense array
+            Console.WriteLine("Start to write to the array...");
             TileDB.QueryStatus status_write = WriteDenseSimpleArray();
             if (status_write == TileDB.QueryStatus.TILEDB_FAILED)
             {
@@ -60,7 +61,7 @@ namespace TileDB.Example
             }
 
             return;
-        }
+         }
 
         private static String array_uri_ = "test_dense_array";
 
