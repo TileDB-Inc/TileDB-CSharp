@@ -63,7 +63,9 @@ if(BUILD_TYPE STREQUAL "DEBUG")
 endif()
 
 ## relative path
-set(CMAKE_BUILD_RPATH "$\{ORIGIN\}")
+if(NOT APPLE)
+  set(CMAKE_BUILD_RPATH "$\{ORIGIN\}")
+endif()
 
 ######################################
 # Build
