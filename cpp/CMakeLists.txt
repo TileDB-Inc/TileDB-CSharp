@@ -62,7 +62,11 @@ if(BUILD_TYPE STREQUAL "DEBUG")
   add_compile_options(-DDEBUG )
 endif()
 
- 
+## relative path
+if(NOT APPLE)
+  set(CMAKE_BUILD_RPATH "$\{ORIGIN\}")
+endif()
+
 ######################################
 # Build
 ######################################

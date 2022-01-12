@@ -9,7 +9,7 @@ std::string ArrayUtil::get_tiledb_version()
   return std::to_string(t[0]) + "." + std::to_string(t[1]) + "." + std::to_string(t[2]);
 }//std::string ArrayUtil::get_tiledb_version()
 
-std::string ArrayUtil::get_array_schema_json_str(const std::string& uri, const std::shared_ptr<tiledb::Context>& ctx) {
+std::string ArrayUtil::get_array_schema_json_str(const std::shared_ptr<tiledb::Context>& ctx, const std::string& uri) {
   std::string result="";
   try {
     std::shared_ptr<Array> array = std::shared_ptr<Array>(new Array(ctx, uri, tiledb::QueryType::TILEDB_READ));
@@ -30,7 +30,7 @@ std::string ArrayUtil::get_array_schema_json_str(const std::string& uri, const s
   return result;
 }//std::string ArrayUtil::get_array_schema_json_str(const std::string& uri) 
     
-std::string ArrayUtil::get_array_metadata_json_str(const std::string& uri, const std::shared_ptr<tiledb::Context>& ctx) {
+std::string ArrayUtil::get_array_metadata_json_str(const std::shared_ptr<tiledb::Context>& ctx, const std::string& uri) {
   std::string result="";
   try {
     std::shared_ptr<Array> array = std::shared_ptr<Array>(new Array(ctx, uri, tiledb::QueryType::TILEDB_READ));
@@ -53,7 +53,7 @@ std::string ArrayUtil::get_array_metadata_json_str(const std::string& uri, const
 
 
     
-std::string ArrayUtil::get_array_metadata_json_str_for_key(const std::string& uri, const std::string& key, const std::shared_ptr<tiledb::Context>& ctx) {
+std::string ArrayUtil::get_array_metadata_json_str_for_key(const std::shared_ptr<tiledb::Context>& ctx, const std::string& uri, const std::string& key) {
   std::string result="";
   try {
     std::shared_ptr<Array> array = std::shared_ptr<Array>(new Array(ctx, uri, tiledb::QueryType::TILEDB_READ));
@@ -74,7 +74,7 @@ std::string ArrayUtil::get_array_metadata_json_str_for_key(const std::string& ur
   return result;
 }
 
-std::string ArrayUtil::get_array_metadata_json_str_from_index(const std::string& uri, uint64_t index, const std::shared_ptr<tiledb::Context>& ctx) {
+std::string ArrayUtil::get_array_metadata_json_str_from_index(const std::shared_ptr<tiledb::Context>& ctx, const std::string& uri, uint64_t index) {
   std::string result="";
   try {
     std::shared_ptr<Array> array = std::shared_ptr<Array>(new Array(ctx, uri, tiledb::QueryType::TILEDB_READ));
@@ -96,7 +96,7 @@ std::string ArrayUtil::get_array_metadata_json_str_from_index(const std::string&
 }
    
     
-void ArrayUtil::add_array_metadata_by_json_str(const std::string& uri, const std::string& jsonstr, const std::shared_ptr<tiledb::Context>& ctx) {
+void ArrayUtil::add_array_metadata_by_json_str(const std::shared_ptr<tiledb::Context>& ctx, const std::string& uri, const std::string& jsonstr) {
   try {
     std::shared_ptr<Array> array = std::shared_ptr<Array>(new Array(ctx, uri, tiledb::QueryType::TILEDB_WRITE));
     array->put_metadata_by_json_str(jsonstr);
@@ -112,7 +112,7 @@ void ArrayUtil::add_array_metadata_by_json_str(const std::string& uri, const std
   }  
 }
     
-void ArrayUtil::add_array_metadata_by_json_str_for_key(const std::string& uri, const std::string& key, const std::string& jsonstr, const std::shared_ptr<tiledb::Context>& ctx) {
+void ArrayUtil::add_array_metadata_by_json_str_for_key(const std::shared_ptr<tiledb::Context>& ctx, const std::string& uri, const std::string& key, const std::string& jsonstr) {
   
   try {
     std::shared_ptr<Array> array = std::shared_ptr<Array>(new Array(ctx, uri, tiledb::QueryType::TILEDB_WRITE));
@@ -130,7 +130,7 @@ void ArrayUtil::add_array_metadata_by_json_str_for_key(const std::string& uri, c
 }
 
 
-int ArrayUtil::export_file_to_path(const std::string& file_uri, const std::string& output_path, uint64_t buffer_size, const std::shared_ptr<tiledb::Context>& ctx)
+int ArrayUtil::export_file_to_path(const std::shared_ptr<tiledb::Context>& ctx, const std::string& file_uri, const std::string& output_path, uint64_t buffer_size)
 {
   const std::string METADATA_SIZE_KEY = "file_size";
   const std::string FILE_ATTRIBUTE_NAME = "contents";
@@ -223,7 +223,7 @@ int ArrayUtil::export_file_to_path(const std::string& file_uri, const std::strin
   return 0;
 }
  
-int ArrayUtil::save_file_from_path(const std::string& file_uri, const std::string& input_path, const std::string& mime_type, const std::string& mime_encoding, const std::shared_ptr<tiledb::Context>& ctx) {
+int ArrayUtil::save_file_from_path(const std::shared_ptr<tiledb::Context>& ctx, const std::string& file_uri, const std::string& input_path, const std::string& mime_type, const std::string& mime_encoding) {
   const std::string METADATA_SIZE_KEY = "file_size";
   const std::string FILE_DIMENSION_NAME = "position";
   const std::string FILE_ATTRIBUTE_NAME = "contents";

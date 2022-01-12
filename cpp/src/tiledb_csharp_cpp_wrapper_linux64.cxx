@@ -24624,110 +24624,23 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArrayUtil_get_tiledb_version() {
 }
 
 
-SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArrayUtil_get_array_schema_json_str(char * jarg1, void * jarg2) {
+SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArrayUtil_get_array_schema_json_str(void * jarg1, char * jarg2) {
   char * jresult ;
-  std::string *arg1 = 0 ;
-  std::shared_ptr< tiledb::Context > *arg2 = 0 ;
-  std::shared_ptr< tiledb::Context > tempnull2 ;
-  std::string result;
-  
-  if (!jarg1) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
-    return 0;
-  }
-  std::string arg1_str(jarg1);
-  arg1 = &arg1_str; 
-  arg2 = jarg2 ? (std::shared_ptr< tiledb::Context > *)jarg2 : &tempnull2; 
-  {
-    try {
-      result = tiledb::ArrayUtil::get_array_schema_json_str((std::string const &)*arg1,(std::shared_ptr< tiledb::Context > const &)*arg2);
-    } catch(const tiledb::TypeError& e) {
-      SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
-    } catch(const tiledb::SchemaMismatch& e) {
-      SWIG_CSharpSetPendingExceptionSchemaMismatch(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());   
-    } catch(const tiledb::AttributeError& e) {
-      SWIG_CSharpSetPendingExceptionAttributeError(e.what());// SWIG_exception(SWIG_RuntimeError, e.what());
-    } catch(const tiledb::TileDBError& e) {
-      SWIG_CSharpSetPendingExceptionTileDBError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());     
-    } catch(const std::exception& e) {
-      {
-        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
-      };
-    } catch(...) {
-      {
-        SWIG_CSharpException(SWIG_UnknownError, ""); return 0; 
-      };
-    }
-  }
-  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
-  return jresult;
-}
-
-
-SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArrayUtil_get_array_metadata_json_str(char * jarg1, void * jarg2) {
-  char * jresult ;
-  std::string *arg1 = 0 ;
-  std::shared_ptr< tiledb::Context > *arg2 = 0 ;
-  std::shared_ptr< tiledb::Context > tempnull2 ;
-  std::string result;
-  
-  if (!jarg1) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
-    return 0;
-  }
-  std::string arg1_str(jarg1);
-  arg1 = &arg1_str; 
-  arg2 = jarg2 ? (std::shared_ptr< tiledb::Context > *)jarg2 : &tempnull2; 
-  {
-    try {
-      result = tiledb::ArrayUtil::get_array_metadata_json_str((std::string const &)*arg1,(std::shared_ptr< tiledb::Context > const &)*arg2);
-    } catch(const tiledb::TypeError& e) {
-      SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
-    } catch(const tiledb::SchemaMismatch& e) {
-      SWIG_CSharpSetPendingExceptionSchemaMismatch(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());   
-    } catch(const tiledb::AttributeError& e) {
-      SWIG_CSharpSetPendingExceptionAttributeError(e.what());// SWIG_exception(SWIG_RuntimeError, e.what());
-    } catch(const tiledb::TileDBError& e) {
-      SWIG_CSharpSetPendingExceptionTileDBError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());     
-    } catch(const std::exception& e) {
-      {
-        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
-      };
-    } catch(...) {
-      {
-        SWIG_CSharpException(SWIG_UnknownError, ""); return 0; 
-      };
-    }
-  }
-  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
-  return jresult;
-}
-
-
-SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArrayUtil_get_array_metadata_json_str_for_key(char * jarg1, char * jarg2, void * jarg3) {
-  char * jresult ;
-  std::string *arg1 = 0 ;
+  std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
-  std::shared_ptr< tiledb::Context > *arg3 = 0 ;
-  std::shared_ptr< tiledb::Context > tempnull3 ;
+  std::shared_ptr< tiledb::Context > tempnull1 ;
   std::string result;
   
-  if (!jarg1) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
-    return 0;
-  }
-  std::string arg1_str(jarg1);
-  arg1 = &arg1_str; 
+  arg1 = jarg1 ? (std::shared_ptr< tiledb::Context > *)jarg1 : &tempnull1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = jarg3 ? (std::shared_ptr< tiledb::Context > *)jarg3 : &tempnull3; 
   {
     try {
-      result = tiledb::ArrayUtil::get_array_metadata_json_str_for_key((std::string const &)*arg1,(std::string const &)*arg2,(std::shared_ptr< tiledb::Context > const &)*arg3);
+      result = tiledb::ArrayUtil::get_array_schema_json_str((std::shared_ptr< tiledb::Context > const &)*arg1,(std::string const &)*arg2);
     } catch(const tiledb::TypeError& e) {
       SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
     } catch(const tiledb::SchemaMismatch& e) {
@@ -24751,25 +24664,23 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArrayUtil_get_array_metadata_json_st
 }
 
 
-SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArrayUtil_get_array_metadata_json_str_from_index(char * jarg1, unsigned long jarg2, void * jarg3) {
+SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArrayUtil_get_array_metadata_json_str(void * jarg1, char * jarg2) {
   char * jresult ;
-  std::string *arg1 = 0 ;
-  uint64_t arg2 ;
-  std::shared_ptr< tiledb::Context > *arg3 = 0 ;
-  std::shared_ptr< tiledb::Context > tempnull3 ;
+  std::shared_ptr< tiledb::Context > *arg1 = 0 ;
+  std::string *arg2 = 0 ;
+  std::shared_ptr< tiledb::Context > tempnull1 ;
   std::string result;
   
-  if (!jarg1) {
+  arg1 = jarg1 ? (std::shared_ptr< tiledb::Context > *)jarg1 : &tempnull1; 
+  if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
-  std::string arg1_str(jarg1);
-  arg1 = &arg1_str; 
-  arg2 = (uint64_t)jarg2; 
-  arg3 = jarg3 ? (std::shared_ptr< tiledb::Context > *)jarg3 : &tempnull3; 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
   {
     try {
-      result = tiledb::ArrayUtil::get_array_metadata_json_str_from_index((std::string const &)*arg1,arg2,(std::shared_ptr< tiledb::Context > const &)*arg3);
+      result = tiledb::ArrayUtil::get_array_metadata_json_str((std::shared_ptr< tiledb::Context > const &)*arg1,(std::string const &)*arg2);
     } catch(const tiledb::TypeError& e) {
       SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
     } catch(const tiledb::SchemaMismatch& e) {
@@ -24793,62 +24704,102 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArrayUtil_get_array_metadata_json_st
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_ArrayUtil_add_array_metadata_by_json_str(char * jarg1, char * jarg2, void * jarg3) {
-  std::string *arg1 = 0 ;
-  std::string *arg2 = 0 ;
-  std::shared_ptr< tiledb::Context > *arg3 = 0 ;
-  std::shared_ptr< tiledb::Context > tempnull3 ;
-  
-  if (!jarg1) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
-    return ;
-  }
-  std::string arg1_str(jarg1);
-  arg1 = &arg1_str; 
-  if (!jarg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
-    return ;
-  }
-  std::string arg2_str(jarg2);
-  arg2 = &arg2_str; 
-  arg3 = jarg3 ? (std::shared_ptr< tiledb::Context > *)jarg3 : &tempnull3; 
-  {
-    try {
-      tiledb::ArrayUtil::add_array_metadata_by_json_str((std::string const &)*arg1,(std::string const &)*arg2,(std::shared_ptr< tiledb::Context > const &)*arg3);
-    } catch(const tiledb::TypeError& e) {
-      SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
-    } catch(const tiledb::SchemaMismatch& e) {
-      SWIG_CSharpSetPendingExceptionSchemaMismatch(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());   
-    } catch(const tiledb::AttributeError& e) {
-      SWIG_CSharpSetPendingExceptionAttributeError(e.what());// SWIG_exception(SWIG_RuntimeError, e.what());
-    } catch(const tiledb::TileDBError& e) {
-      SWIG_CSharpSetPendingExceptionTileDBError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());     
-    } catch(const std::exception& e) {
-      {
-        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return ; 
-      };
-    } catch(...) {
-      {
-        SWIG_CSharpException(SWIG_UnknownError, ""); return ; 
-      };
-    }
-  }
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_ArrayUtil_add_array_metadata_by_json_str_for_key(char * jarg1, char * jarg2, char * jarg3, void * jarg4) {
-  std::string *arg1 = 0 ;
+SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArrayUtil_get_array_metadata_json_str_for_key(void * jarg1, char * jarg2, char * jarg3) {
+  char * jresult ;
+  std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
   std::string *arg3 = 0 ;
-  std::shared_ptr< tiledb::Context > *arg4 = 0 ;
-  std::shared_ptr< tiledb::Context > tempnull4 ;
+  std::shared_ptr< tiledb::Context > tempnull1 ;
+  std::string result;
   
-  if (!jarg1) {
+  arg1 = jarg1 ? (std::shared_ptr< tiledb::Context > *)jarg1 : &tempnull1; 
+  if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
-    return ;
+    return 0;
   }
-  std::string arg1_str(jarg1);
-  arg1 = &arg1_str; 
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  if (!jarg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg3_str(jarg3);
+  arg3 = &arg3_str; 
+  {
+    try {
+      result = tiledb::ArrayUtil::get_array_metadata_json_str_for_key((std::shared_ptr< tiledb::Context > const &)*arg1,(std::string const &)*arg2,(std::string const &)*arg3);
+    } catch(const tiledb::TypeError& e) {
+      SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
+    } catch(const tiledb::SchemaMismatch& e) {
+      SWIG_CSharpSetPendingExceptionSchemaMismatch(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());   
+    } catch(const tiledb::AttributeError& e) {
+      SWIG_CSharpSetPendingExceptionAttributeError(e.what());// SWIG_exception(SWIG_RuntimeError, e.what());
+    } catch(const tiledb::TileDBError& e) {
+      SWIG_CSharpSetPendingExceptionTileDBError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());     
+    } catch(const std::exception& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    } catch(...) {
+      {
+        SWIG_CSharpException(SWIG_UnknownError, ""); return 0; 
+      };
+    }
+  }
+  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT char * SWIGSTDCALL CSharp_TileDB_ArrayUtil_get_array_metadata_json_str_from_index(void * jarg1, char * jarg2, unsigned long jarg3) {
+  char * jresult ;
+  std::shared_ptr< tiledb::Context > *arg1 = 0 ;
+  std::string *arg2 = 0 ;
+  uint64_t arg3 ;
+  std::shared_ptr< tiledb::Context > tempnull1 ;
+  std::string result;
+  
+  arg1 = jarg1 ? (std::shared_ptr< tiledb::Context > *)jarg1 : &tempnull1; 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  arg3 = (uint64_t)jarg3; 
+  {
+    try {
+      result = tiledb::ArrayUtil::get_array_metadata_json_str_from_index((std::shared_ptr< tiledb::Context > const &)*arg1,(std::string const &)*arg2,arg3);
+    } catch(const tiledb::TypeError& e) {
+      SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
+    } catch(const tiledb::SchemaMismatch& e) {
+      SWIG_CSharpSetPendingExceptionSchemaMismatch(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());   
+    } catch(const tiledb::AttributeError& e) {
+      SWIG_CSharpSetPendingExceptionAttributeError(e.what());// SWIG_exception(SWIG_RuntimeError, e.what());
+    } catch(const tiledb::TileDBError& e) {
+      SWIG_CSharpSetPendingExceptionTileDBError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());     
+    } catch(const std::exception& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    } catch(...) {
+      {
+        SWIG_CSharpException(SWIG_UnknownError, ""); return 0; 
+      };
+    }
+  }
+  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_ArrayUtil_add_array_metadata_by_json_str(void * jarg1, char * jarg2, char * jarg3) {
+  std::shared_ptr< tiledb::Context > *arg1 = 0 ;
+  std::string *arg2 = 0 ;
+  std::string *arg3 = 0 ;
+  std::shared_ptr< tiledb::Context > tempnull1 ;
+  
+  arg1 = jarg1 ? (std::shared_ptr< tiledb::Context > *)jarg1 : &tempnull1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
@@ -24861,10 +24812,9 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_ArrayUtil_add_array_metadata_by_json_s
   }
   std::string arg3_str(jarg3);
   arg3 = &arg3_str; 
-  arg4 = jarg4 ? (std::shared_ptr< tiledb::Context > *)jarg4 : &tempnull4; 
   {
     try {
-      tiledb::ArrayUtil::add_array_metadata_by_json_str_for_key((std::string const &)*arg1,(std::string const &)*arg2,(std::string const &)*arg3,(std::shared_ptr< tiledb::Context > const &)*arg4);
+      tiledb::ArrayUtil::add_array_metadata_by_json_str((std::shared_ptr< tiledb::Context > const &)*arg1,(std::string const &)*arg2,(std::string const &)*arg3);
     } catch(const tiledb::TypeError& e) {
       SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
     } catch(const tiledb::SchemaMismatch& e) {
@@ -24886,32 +24836,82 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_ArrayUtil_add_array_metadata_by_json_s
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_ArrayUtil_export_file_to_path(char * jarg1, char * jarg2, unsigned long jarg3, void * jarg4) {
-  int jresult ;
-  std::string *arg1 = 0 ;
+SWIGEXPORT void SWIGSTDCALL CSharp_TileDB_ArrayUtil_add_array_metadata_by_json_str_for_key(void * jarg1, char * jarg2, char * jarg3, char * jarg4) {
+  std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
-  uint64_t arg3 ;
-  std::shared_ptr< tiledb::Context > *arg4 = 0 ;
-  std::shared_ptr< tiledb::Context > tempnull4 ;
+  std::string *arg3 = 0 ;
+  std::string *arg4 = 0 ;
+  std::shared_ptr< tiledb::Context > tempnull1 ;
+  
+  arg1 = jarg1 ? (std::shared_ptr< tiledb::Context > *)jarg1 : &tempnull1; 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return ;
+  }
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  if (!jarg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return ;
+  }
+  std::string arg3_str(jarg3);
+  arg3 = &arg3_str; 
+  if (!jarg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return ;
+  }
+  std::string arg4_str(jarg4);
+  arg4 = &arg4_str; 
+  {
+    try {
+      tiledb::ArrayUtil::add_array_metadata_by_json_str_for_key((std::shared_ptr< tiledb::Context > const &)*arg1,(std::string const &)*arg2,(std::string const &)*arg3,(std::string const &)*arg4);
+    } catch(const tiledb::TypeError& e) {
+      SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
+    } catch(const tiledb::SchemaMismatch& e) {
+      SWIG_CSharpSetPendingExceptionSchemaMismatch(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());   
+    } catch(const tiledb::AttributeError& e) {
+      SWIG_CSharpSetPendingExceptionAttributeError(e.what());// SWIG_exception(SWIG_RuntimeError, e.what());
+    } catch(const tiledb::TileDBError& e) {
+      SWIG_CSharpSetPendingExceptionTileDBError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());     
+    } catch(const std::exception& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return ; 
+      };
+    } catch(...) {
+      {
+        SWIG_CSharpException(SWIG_UnknownError, ""); return ; 
+      };
+    }
+  }
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_ArrayUtil_export_file_to_path(void * jarg1, char * jarg2, char * jarg3, unsigned long jarg4) {
+  int jresult ;
+  std::shared_ptr< tiledb::Context > *arg1 = 0 ;
+  std::string *arg2 = 0 ;
+  std::string *arg3 = 0 ;
+  uint64_t arg4 ;
+  std::shared_ptr< tiledb::Context > tempnull1 ;
   int result;
   
-  if (!jarg1) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
-    return 0;
-  }
-  std::string arg1_str(jarg1);
-  arg1 = &arg1_str; 
+  arg1 = jarg1 ? (std::shared_ptr< tiledb::Context > *)jarg1 : &tempnull1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
   }
   std::string arg2_str(jarg2);
   arg2 = &arg2_str; 
-  arg3 = (uint64_t)jarg3; 
-  arg4 = jarg4 ? (std::shared_ptr< tiledb::Context > *)jarg4 : &tempnull4; 
+  if (!jarg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg3_str(jarg3);
+  arg3 = &arg3_str; 
+  arg4 = (uint64_t)jarg4; 
   {
     try {
-      result = (int)tiledb::ArrayUtil::export_file_to_path((std::string const &)*arg1,(std::string const &)*arg2,arg3,(std::shared_ptr< tiledb::Context > const &)*arg4);
+      result = (int)tiledb::ArrayUtil::export_file_to_path((std::shared_ptr< tiledb::Context > const &)*arg1,(std::string const &)*arg2,(std::string const &)*arg3,arg4);
     } catch(const tiledb::TypeError& e) {
       SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
     } catch(const tiledb::SchemaMismatch& e) {
@@ -24935,22 +24935,17 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_ArrayUtil_export_file_to_path(char * ja
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_ArrayUtil_save_file_from_path(char * jarg1, char * jarg2, char * jarg3, char * jarg4, void * jarg5) {
+SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_ArrayUtil_save_file_from_path(void * jarg1, char * jarg2, char * jarg3, char * jarg4, char * jarg5) {
   int jresult ;
-  std::string *arg1 = 0 ;
+  std::shared_ptr< tiledb::Context > *arg1 = 0 ;
   std::string *arg2 = 0 ;
   std::string *arg3 = 0 ;
   std::string *arg4 = 0 ;
-  std::shared_ptr< tiledb::Context > *arg5 = 0 ;
-  std::shared_ptr< tiledb::Context > tempnull5 ;
+  std::string *arg5 = 0 ;
+  std::shared_ptr< tiledb::Context > tempnull1 ;
   int result;
   
-  if (!jarg1) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
-    return 0;
-  }
-  std::string arg1_str(jarg1);
-  arg1 = &arg1_str; 
+  arg1 = jarg1 ? (std::shared_ptr< tiledb::Context > *)jarg1 : &tempnull1; 
   if (!jarg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
@@ -24969,10 +24964,15 @@ SWIGEXPORT int SWIGSTDCALL CSharp_TileDB_ArrayUtil_save_file_from_path(char * ja
   }
   std::string arg4_str(jarg4);
   arg4 = &arg4_str; 
-  arg5 = jarg5 ? (std::shared_ptr< tiledb::Context > *)jarg5 : &tempnull5; 
+  if (!jarg5) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg5_str(jarg5);
+  arg5 = &arg5_str; 
   {
     try {
-      result = (int)tiledb::ArrayUtil::save_file_from_path((std::string const &)*arg1,(std::string const &)*arg2,(std::string const &)*arg3,(std::string const &)*arg4,(std::shared_ptr< tiledb::Context > const &)*arg5);
+      result = (int)tiledb::ArrayUtil::save_file_from_path((std::shared_ptr< tiledb::Context > const &)*arg1,(std::string const &)*arg2,(std::string const &)*arg3,(std::string const &)*arg4,(std::string const &)*arg5);
     } catch(const tiledb::TypeError& e) {
       SWIG_CSharpSetPendingExceptionTypeError(e.what());//SWIG_exception(SWIG_RuntimeError, e.what());  
     } catch(const tiledb::SchemaMismatch& e) {

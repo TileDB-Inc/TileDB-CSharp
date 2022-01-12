@@ -58,48 +58,48 @@ public class ArrayUtil : global::System.IDisposable {
     return ret;
   }
 
-  public static string get_array_schema_json_str(string uri, Context ctx) {
-    string ret = tiledbcsPINVOKE.ArrayUtil_get_array_schema_json_str(uri, Context.getCPtr(ctx));
+  public static string get_array_schema_json_str(Context ctx, string uri) {
+    string ret = tiledbcsPINVOKE.ArrayUtil_get_array_schema_json_str(Context.getCPtr(ctx), uri);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static string get_array_metadata_json_str(string uri, Context ctx) {
-    string ret = tiledbcsPINVOKE.ArrayUtil_get_array_metadata_json_str(uri, Context.getCPtr(ctx));
+  public static string get_array_metadata_json_str(Context ctx, string uri) {
+    string ret = tiledbcsPINVOKE.ArrayUtil_get_array_metadata_json_str(Context.getCPtr(ctx), uri);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static string get_array_metadata_json_str_for_key(string uri, string key, Context ctx) {
-    string ret = tiledbcsPINVOKE.ArrayUtil_get_array_metadata_json_str_for_key(uri, key, Context.getCPtr(ctx));
+  public static string get_array_metadata_json_str_for_key(Context ctx, string uri, string key) {
+    string ret = tiledbcsPINVOKE.ArrayUtil_get_array_metadata_json_str_for_key(Context.getCPtr(ctx), uri, key);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static string get_array_metadata_json_str_from_index(string uri, ulong index, Context ctx) {
-    string ret = tiledbcsPINVOKE.ArrayUtil_get_array_metadata_json_str_from_index(uri, index, Context.getCPtr(ctx));
+  public static string get_array_metadata_json_str_from_index(Context ctx, string uri, ulong index) {
+    string ret = tiledbcsPINVOKE.ArrayUtil_get_array_metadata_json_str_from_index(Context.getCPtr(ctx), uri, index);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static void add_array_metadata_by_json_str(string uri, string jsonstr, Context ctx) {
-    tiledbcsPINVOKE.ArrayUtil_add_array_metadata_by_json_str(uri, jsonstr, Context.getCPtr(ctx));
+  public static void add_array_metadata_by_json_str(Context ctx, string uri, string jsonstr) {
+    tiledbcsPINVOKE.ArrayUtil_add_array_metadata_by_json_str(Context.getCPtr(ctx), uri, jsonstr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static void add_array_metadata_by_json_str_for_key(string uri, string key, string jsonstr, Context ctx) {
-    tiledbcsPINVOKE.ArrayUtil_add_array_metadata_by_json_str_for_key(uri, key, jsonstr, Context.getCPtr(ctx));
+  public static void add_array_metadata_by_json_str_for_key(Context ctx, string uri, string key, string jsonstr) {
+    tiledbcsPINVOKE.ArrayUtil_add_array_metadata_by_json_str_for_key(Context.getCPtr(ctx), uri, key, jsonstr);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static int export_file_to_path(string file_uri, string output_path, ulong buffer_size, Context ctx) {
-    int ret = tiledbcsPINVOKE.ArrayUtil_export_file_to_path(file_uri, output_path, buffer_size, Context.getCPtr(ctx));
+  public static int export_file_to_path(Context ctx, string file_uri, string output_path, ulong buffer_size) {
+    int ret = tiledbcsPINVOKE.ArrayUtil_export_file_to_path(Context.getCPtr(ctx), file_uri, output_path, buffer_size);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static int save_file_from_path(string file_uri, string input_path, string mime_type, string mime_coding, Context ctx) {
-    int ret = tiledbcsPINVOKE.ArrayUtil_save_file_from_path(file_uri, input_path, mime_type, mime_coding, Context.getCPtr(ctx));
+  public static int save_file_from_path(Context ctx, string file_uri, string input_path, string mime_type, string mime_coding) {
+    int ret = tiledbcsPINVOKE.ArrayUtil_save_file_from_path(Context.getCPtr(ctx), file_uri, input_path, mime_type, mime_coding);
     if (tiledbcsPINVOKE.SWIGPendingException.Pending) throw tiledbcsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

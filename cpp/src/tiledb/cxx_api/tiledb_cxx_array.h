@@ -2317,7 +2317,6 @@ class Array {
     std::stringstream ss;
     ss <<"{";
     
-    std::string key;
     const char* key_c;
     uint32_t key_len;
     tiledb_datatype_t value_type;
@@ -2334,8 +2333,7 @@ class Array {
         &value_num,
         &value));
 
-    key.resize(key_len);
-    std::memcpy((void*)key.data(), key_c, key_len);
+    std::string key(key_c,key_len);
     tiledb::DataType datatype = (tiledb::DataType)value_type;
     
     if(value_num == 0) {

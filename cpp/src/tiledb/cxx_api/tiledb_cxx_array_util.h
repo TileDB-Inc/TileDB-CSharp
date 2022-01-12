@@ -81,78 +81,78 @@ public:
 	/**
 	* @brief get array schema json string
 	* 
-	* @param uri
 	* @param ctx
+	* @param uri
 	* 
 	* @return json string representation of array schema
 	*/
-    static std::string get_array_schema_json_str(const std::string& uri, const std::shared_ptr<tiledb::Context>& ctx);
+    static std::string get_array_schema_json_str(const std::shared_ptr<tiledb::Context>& ctx, const std::string& uri);
     
 	/**
 	* @brief get array metadata json string
 	*
-	* @param uri
 	* @param ctx
+	* @param uri
 	*
 	* @return json string representation of array metadata
 	*/
-    static std::string get_array_metadata_json_str(const std::string& uri, const std::shared_ptr<tiledb::Context>& ctx);
+    static std::string get_array_metadata_json_str(const std::shared_ptr<tiledb::Context>& ctx, const std::string& uri);
     
 	/**
 	* @brief get array metadata json string for a key
 	*
+	* @param ctx
 	* @param uri
 	* @param key
-	* @param ctx
 	*
 	* @return json string representation of array metadata
 	*/
-    static std::string get_array_metadata_json_str_for_key(const std::string& uri, const std::string& key, const std::shared_ptr<tiledb::Context>& ctx);
+    static std::string get_array_metadata_json_str_for_key(const std::shared_ptr<tiledb::Context>& ctx, const std::string& uri, const std::string& key);
     
 	/**
 	* @brief get array metadata json string from an index
 	*
+	* @param ctx
 	* @param uri
 	* @param index
-	* @param ctx
 	*
 	* @return json string representation of array metadata
 	*/
-    static std::string get_array_metadata_json_str_from_index(const std::string& uri, uint64_t index, const std::shared_ptr<tiledb::Context>& ctx);
+    static std::string get_array_metadata_json_str_from_index(const std::shared_ptr<tiledb::Context>& ctx, const std::string& uri, uint64_t index);
        
 	/**
 	* @brief add array metadata from json string
 	*
+	* @param ctx
 	* @param uri
 	* @param jsonstr
-	* @param ctx
 	*
 	* @return json string representation of array metadata
 	*/
-    static void add_array_metadata_by_json_str(const std::string& uri, const std::string& jsonstr, const std::shared_ptr<tiledb::Context>& ctx);
+    static void add_array_metadata_by_json_str(const std::shared_ptr<tiledb::Context>& ctx, const std::string& uri, const std::string& jsonstr);
     
 	/**
 	* @brief add array metadata from json string
 	*
+	* @param ctx
 	* @param uri
 	* @param key
 	* @param jsonstr
-	* @param ctx
 	*
 	* @return json string representation of array metadata
 	*/
-    static void add_array_metadata_by_json_str_for_key(const std::string& uri, const std::string& key, const std::string& jsonstr, const std::shared_ptr<tiledb::Context>& ctx);
+    static void add_array_metadata_by_json_str_for_key(const std::shared_ptr<tiledb::Context>& ctx, const std::string& uri, const std::string& key, const std::string& jsonstr);
     
     
 	/**
 	* @brief export file to a path
 	*/
-	static int export_file_to_path(const std::string& file_uri, const std::string& output_path, uint64_t buffer_size, const std::shared_ptr<tiledb::Context>& ctx);
+	static int export_file_to_path(const std::shared_ptr<tiledb::Context>& ctx, const std::string& file_uri, const std::string& output_path, uint64_t buffer_size);
 
 	/**
 	* @brief save file from path
 	*/
-	static int save_file_from_path(const std::string& file_uri, const std::string& input_path, const std::string& mime_type, const std::string& mime_coding, const std::shared_ptr<tiledb::Context>& ctx);
+	static int save_file_from_path(const std::shared_ptr<tiledb::Context>& ctx, const std::string& file_uri, const std::string& input_path, const std::string& mime_type, const std::string& mime_coding);
 	////TODO add more help functions
  
 

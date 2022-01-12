@@ -119,8 +119,6 @@ target_link_libraries(tiledbcs
   PUBLIC
     pthread
     TileDB::tiledb_shared
-#    -l:libarrow.so.200
-#    -l:libarrow_python.so.200
 )
 
 endif()
@@ -148,11 +146,7 @@ set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS}
   target_link_libraries(tiledbcs
   TileDB::tiledb_shared
   )
-#  target_link_libraries(pytiledb
-#    PUBLIC
-#      arrow
-#      arrow_python
-#  )
+ 
 
 endif()
 
@@ -189,17 +183,17 @@ if(UNIX AND NOT APPLE)
     ${tiledb_prebuilt_SOURCE_DIR}/lib/*.so.*
   )
 
-  foreach(sofile ${TILDB_SO_LIBFILES})
-   if(NOT APPLE)
-     message(STATUS "after build, will rename ${sofile} to ${CMAKE_INSTALL_LIBDIR}/libtiledb.so")
-     add_custom_target(
-      renameso
-      COMMAND ${CMAKE_COMMAND} -E copy
-            ${sofile}
-            ${CMAKE_INSTALL_LIBDIR}/libtiledb.so)
-
-    endif()
-  endforeach()
+#  foreach(sofile ${TILDB_SO_LIBFILES})
+#   if(NOT APPLE)
+#     message(STATUS "after build, will rename ${sofile} to ${CMAKE_INSTALL_LIBDIR}/libtiledb.so")
+#     add_custom_target(
+#      renameso
+#      COMMAND ${CMAKE_COMMAND} -E copy
+#            ${sofile}
+#            ${CMAKE_INSTALL_LIBDIR}/libtiledb.so)
+#
+#    endif()
+#  endforeach()
  
 endif()
 
