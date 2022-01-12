@@ -62,7 +62,9 @@ if(BUILD_TYPE STREQUAL "DEBUG")
   add_compile_options(-DDEBUG )
 endif()
 
- 
+## relative path
+set(CMAKE_BUILD_RPATH "$\{ORIGIN\}")
+
 ######################################
 # Build
 ######################################
