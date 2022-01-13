@@ -29,6 +29,6 @@
     <OutputPath>./lib</OutputPath>
   </PropertyGroup>
 
-  <Import Project=".\build\TileDB.CSharp.targets" />
+  <Import Project="TileDB.CSharp.targets" />
  
 </Project>
