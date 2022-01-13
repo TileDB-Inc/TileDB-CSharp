@@ -4,12 +4,12 @@
     Native libraries for windows,Linux, and macOS.
   -->
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$(OS)' == 'Windows_NT'">
-    <Content Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\tiledb.dll">
+    <Content Include="$(MSBuildThisFileDirectory)\runtimes\win-x64\native\tiledb.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>tiledb.dll</Link>
       <Visible>false</Visible>
     </Content>
-    <Content Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\tiledbcs.dll">
+    <Content Include="$(MSBuildThisFileDirectory)\runtimes\win-x64\native\tiledbcs.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>tiledbcs.dll</Link>
       <Visible>false</Visible>
@@ -17,12 +17,12 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(OS)' == 'Unix' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">      
-    <Content Include="$(MSBuildThisFileDirectory)..\runtimes\linux-x64\native\libtiledb.so.2.4">
+    <Content Include="$(MSBuildThisFileDirectory)\runtimes\linux-x64\native\libtiledb.so.2.5">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>libtiledb.so.2.5</Link>
       <Visible>false</Visible>
     </Content>
-    <Content Include="$(MSBuildThisFileDirectory)..\runtimes\linux-x64\native\tiledbcs.so">
+    <Content Include="$(MSBuildThisFileDirectory)\runtimes\linux-x64\native\tiledbcs.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>tiledbcs.so</Link>
       <Visible>false</Visible>
@@ -30,12 +30,12 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(OS)' == 'Unix' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">       
-    <Content Include="$(MSBuildThisFileDirectory)..\runtimes\osx-x64\native\libtiledb.dylib">
+    <Content Include="$(MSBuildThisFileDirectory)\runtimes\osx-x64\native\libtiledb.dylib">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>libtiledb.dylib</Link>
       <Visible>false</Visible>
     </Content>
-    <Content Include="$(MSBuildThisFileDirectory)..\runtimes\osx-x64\native\tiledbcs.dylib">
+    <Content Include="$(MSBuildThisFileDirectory)\runtimes\osx-x64\native\tiledbcs.dylib">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>tiledbcs.dylib</Link>
       <Visible>false</Visible>
