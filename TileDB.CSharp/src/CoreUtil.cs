@@ -48,9 +48,7 @@ namespace TileDB {
                     ctx = new TileDB.Context();
                 }
                 string jsonstr = ArrayUtil.get_array_schema_json_str(ctx,uri);
-                Newtonsoft.Json.Linq.JObject j = Newtonsoft.Json.Linq.JObject.Parse(jsonstr);
-                return j;
-
+                return Newtonsoft.Json.Linq.JObject.Parse(jsonstr);
 
             }
             catch (TileDB.TileDBError tdbe)
@@ -146,7 +144,7 @@ namespace TileDB {
 
         }
 
-        public static Newtonsoft.Json.Linq.JObject GetArrayMetadataJsonFromIndex(Context ctx, string uri, ulong index)
+         public static Newtonsoft.Json.Linq.JObject GetArrayMetadataJsonFromIndex(Context ctx, string uri, ulong index)
         {
             if (uri == null || uri.Length == 0)
             {
@@ -180,6 +178,7 @@ namespace TileDB {
 
             return new Newtonsoft.Json.Linq.JObject();
         }
+
 
         public static void AddArrayMetadataByJson(Context ctx, string uri, Newtonsoft.Json.Linq.JObject j)
         {
@@ -431,7 +430,59 @@ namespace TileDB {
             }
         }
 
+        public static void SaveFileToArray(TileDB.Context ctx, string array_uri, string file, string mime_type, string mime_coding)
+        {
+            try {
+                if (ctx == null)
+                {
+                    TileDB.Config cfg = new TileDB.Config();
+                    ctx = new TileDB.Context(cfg);
+                }
+                TileDB.VFS vfs = new TileDB.VFS(ctx);
+                if (vfs.is_dir(array_uri))
+                {
+                    vfs.remove_dir(array_uri);
+                }
+                TileDB.ArrayUtil.save_file_from_path(ctx, array_uri, file, mime_type, mime_coding);
+            }
+            catch (TileDB.TileDBError tdbe)
+            {
+                System.Console.WriteLine("caught TileDBError:");
+                System.Console.WriteLine(tdbe.Message);
+            }
+            catch (System.Exception e)
+            {
+                System.Console.WriteLine("caught exception:");
+                System.Console.WriteLine(e.Message);
+            }
 
+
+        }
+
+        public static void ExportArrayToFile(TileDB.Context ctx, string array_uri, string file)
+        {
+            try
+            {
+                if (ctx == null)
+                {
+                    TileDB.Config cfg = new TileDB.Config();
+                    ctx = new TileDB.Context(cfg);
+                }
+                TileDB.ArrayUtil.export_file_to_path(ctx, array_uri, file, 0);
+            }
+            catch (TileDB.TileDBError tdbe)
+            {
+                System.Console.WriteLine("caught TileDBError:");
+                System.Console.WriteLine(tdbe.Message);
+            }
+            catch (System.Exception e)
+            {
+                System.Console.WriteLine("caught exception:");
+                System.Console.WriteLine(e.Message);
+            }
+
+
+        }
 
 
     }//class 
