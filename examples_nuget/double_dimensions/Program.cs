@@ -14,10 +14,14 @@ namespace TileDB.CSharp.Benchmark
             double row_start = -8.08;
             double row_end = 5.96;
             double col_start = -5.32;
-            double col_end = 5.27;
+            double col_end = 5.28;
 
             num_results = ReadArray(row_start, row_end, col_start, col_end);
             System.Console.WriteLine("row:[{0},{1}],col:[{2},{3}],num_results:{4}", row_start, row_end, col_start, col_end, num_results);
+
+            col_end = 5.27;
+            num_results = ReadArray(row_start, row_end, col_start, col_end);
+            System.Console.WriteLine("row:[{0},{1}],col:[{2},{3}],num_results:{4}", row_start, row_end, col_start, col_end, num_results);           
  
 
         }
@@ -33,7 +37,7 @@ namespace TileDB.CSharp.Benchmark
             var schema = new TileDB.ArraySchema(ctx, TileDB.ArrayType.TILEDB_SPARSE);
             schema.set_domain(dom);
             //add attribute
-            var attr1 = TileDB.Attribute.create_attribute(ctx, "a1", TileDB.DataType.TILEDB_INT32);
+            var attr1 = TileDB.Attribute.create_attribute(ctx, "a", TileDB.DataType.TILEDB_INT32);
             schema.add_attribute(attr1);
             string array_uri = "test_doubledimensions_array";
             var vfs = new TileDB.VFS(ctx);
