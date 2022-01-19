@@ -47,6 +47,28 @@ jobs:
         cd test
         dotnet test
 
+  Linux_New:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Will be checking following versions
+        dotnet: [ '6.0.101' ]
+    steps:
+    # Checks out repository
+    - uses: actions/checkout@v2
+
+    # Following action sets up dotnet and uses the strategy matrix to test on
+    # specific versions
+    - name: Set up dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.dotnet }}
+
+    - name: Run tests
+      run: |
+        cd TileDB-CSharp
+        dotnet test TileDB-CSharp-Test/TileDB-CSharp-Test.csproj
+
   Macos_Example:
     runs-on: macos-latest
     strategy:
