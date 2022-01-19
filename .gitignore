@@ -39,3 +39,16 @@ TileDB.CSharp/benchmark/bin
 examples/TileDB.Example/bin/
 examples/TileDB.Example/obj/
 dist
+
+TileDB-CSharp/TileDB-CSharp/obj
+TileDB-CSharp/TileDB-CSharp/bin
+TileDB-CSharp/TileDB-CSharp-Examples/obj
+TileDB-CSharp/TileDB-CSharp-Examples/bin
+TileDB-CSharp/TileDB-CSharp-Test/obj
+TileDB-CSharp/TileDB-CSharp-Test/bin
+
+.idea
+
+TileDB-CSharp.sln.DotSettings.user
+
+
