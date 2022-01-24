@@ -31,13 +31,9 @@
 *.out
 *.app
 
-TileDB-CSharp/obj
-TileDB-CSharp/bin
-TileDB-CSharp-Examples/obj
-TileDB-CSharp-Examples/bin
-TileDB-CSharp-Test/obj
-TileDB-CSharp-Test/bin
-
+**/bin
+**/obj
+  
 .idea
 
 TileDB-CSharp.sln.DotSettings.user
