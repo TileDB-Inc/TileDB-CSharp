@@ -9,11 +9,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  Linux_Example:
-    runs-on: ubuntu-latest
+  Build_Test_All:
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         # Will be checking following versions
+        os: [ ubuntu-latest, macos-10.15, windows-latest ]
         dotnet: [ '6.0.101' ]
     steps:
     # Checks out repository
@@ -28,98 +29,32 @@ jobs:
 
     # DotNet build
     - name: DotNet build for TileDB-CSharp
-      run: ./.github/scripts/dotnet_build_all.sh
+      shell: pwsh
+      run: |
+        $ErrorView = "NormalView"
+        cd sources/TileDB-CSharp
+        dotnet build /p:Platform=x64 -c Release
 
     # Build example
     - name: Build example
-      run: ./.github/scripts/build_example.sh
+      shell: pwsh
+      run: |
+        $ErrorView = "NormalView"
+        dotnet build /p:Platform=x64 -c Release examples/TileDB-CSharp-Example
 
     # Run example
     - name: Run example
-      run: ./.github/scripts/run_example_linux.sh
+      shell: pwsh
+      run: |
+        $ErrorView = "NormalView"
+        dotnet run --project examples/TileDB-CSharp-Example --framework net5.0
+        dotnet run --project examples/TileDB-CSharp-Example --framework net6.0
 
     - name: Run tests
-      run: |
-        cd TileDB-CSharp-Test
-        dotnet test TileDB-CSharp-Test.csproj
-
-  Macos_Example:
-    runs-on: macos-latest
-    strategy:
-      matrix:
-        # Will be checking following versions
-        dotnet: [ '6.0.101' ]
-    steps:
-    # Checks out repository
-    - uses: actions/checkout@v2
-
-    # Following action sets up dotnet and uses the strategy matrix to test on
-    # specific versions
-    - name: Set up dotnet
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: ${{ matrix.dotnet }}
-
-    # DotNet build
-    - name: DotNet build for TileDB-CSharp
-      run: ./.github/scripts/dotnet_build_all.sh
-
-    # Build example
-    - name: Build example
-      run: ./.github/scripts/build_example.sh
-
-    # Run example
-    - name: Run example
-      run: ./.github/scripts/run_example_mac.sh
-
-    - name: Run tests
-      run: |
-        cd TileDB-CSharp-Test
-        dotnet test TileDB-CSharp-Test.csproj
-
-  Windows_Example:
-    runs-on: windows-latest
-    strategy:
-      matrix:
-        # Will be checking following versions
-        dotnet: [ '6.0.101' ]
-    steps:
-    # Checks out repository
-    - uses: actions/checkout@v2
-
-    # Following action sets up dotnet and uses the strategy matrix to test on
-    # specific versions
-    - name: Set up dotnet
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: ${{ matrix.dotnet }}
-
-    # DotNet build
-    - name: DotNet build for TileDB-CSharp
+      shell: pwsh
       run: |
         $ErrorView = "NormalView"
-        cd TileDB-CSharp
+        cd tests/
         dotnet build /p:Platform=x64 -c Release
-
-
-    # Build example
-    - name: Build example
-      run: |
-        $ErrorView = "NormalView"
-        cd TileDB-CSharp-Examples
-        dotnet build /p:Platform=x64 -c Release
-
-    # Run example
-    - name: Run example
-      run: |
-        $ErrorView = "NormalView"
-        cd TileDB-CSharp-Examples/bin/x64/Release/net6.0
-        dotnet TileDB-CSharp-Examples.dll
-
-    - name: Run tests
-      run: |
-        $ErrorView = "NormalView"
-        cd TileDB-CSharp-Test
-        dotnet build /p:Platform=x64 -c Release
-        cd bin/x64/Release/net6.0
-        dotnet TileDB-CSharp-Test.dll
+        dotnet run --project TileDB-CSharp-Test --framework net5.0
+        dotnet run --project TileDB-CSharp-Test --framework net6.0
