@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileDB-CSharp", "sources\Ti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileDB-CSharp-Test", "tests\TileDB-CSharp-Test\TileDB-CSharp-Test.csproj", "{C770B213-685E-4845-BA62-96092A3AF27F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileDB-CSharp-Examples", "examples\TileDB-CSharp-Examples\TileDB-CSharp-Examples.csproj", "{3F1C263E-AE13-4E74-945A-D8B30D2BC4EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileDB-CSharp-Example", "examples\TileDB-CSharp-Example\TileDB-CSharp-Example.csproj", "{3F1C263E-AE13-4E74-945A-D8B30D2BC4EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
