@@ -1,2 +1,2 @@
 set -e -x
-dotnet run -p examples/TileDB-CSharp-Examples
+dotnet run --project examples/TileDB-CSharp-Examples
