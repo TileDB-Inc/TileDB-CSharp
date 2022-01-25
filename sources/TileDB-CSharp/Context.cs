@@ -7,7 +7,7 @@ namespace TileDB_CSharp
         public Context()
         {
         }
-        
+
         public void Dispose()
         {
 
