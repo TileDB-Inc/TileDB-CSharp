@@ -469,7 +469,7 @@ namespace TileDB.Interop
 
         [DllImport(LibDllImport.Path, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
-        public static extern int tiledb_ctx_get_stats(tiledb_ctx_t* ctx, [NativeTypeName("char **")] out IntPtr stats_json);
+        public static extern int tiledb_ctx_get_stats(tiledb_ctx_t* ctx, [NativeTypeName("char **")] sbyte** stats_json);
 
         [DllImport(LibDllImport.Path, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
