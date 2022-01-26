@@ -10,5 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\sources\TileDB-CSharp\TileDB-CSharp.csproj" />
   </ItemGroup>
+
+  <Import Project="..\..\sources\TileDB-CSharp\TileDB-CSharp.targets" />
   
 </Project>
