@@ -22,13 +22,13 @@
 
             TileDB.Config config2 = new TileDB.Config();
             config2.load_from_file("temp.cfg");
-            string memory_budget2 = config2.get("sm.memory_budget");
+            string? memory_budget2 = config2.get("sm.memory_budget");
             System.Console.WriteLine("memory_budget2:{0}", memory_budget2);
 
 
             TileDB.Context ctx = new TileDB.Context(config);
             ctx.set_tag("key1", "value1");
-            string stats = ctx.stats();
+            string? stats = ctx.stats();
             System.Console.WriteLine("stats:{0}", stats);
 
 

@@ -42,13 +42,40 @@ namespace TileDB
 
         public string? stats()
         {
-             
+            string? result = "";
             TileDB.Interop.tiledb_ctx_t* p = handle_;
 
-            IntPtr str_intptr = IntPtr.Zero;
-            int status = TileDB.Interop.Methods.tiledb_ctx_get_stats(p, out str_intptr);
 
-            return status !=0 ? "" : System.Runtime.InteropServices.Marshal.PtrToStringAnsi(str_intptr); 
+
+            //  use IntPtr
+            //    IntPtr str_intptr = IntPtr.Zero;
+            //    int status = TileDB.Interop.Methods.tiledb_ctx_get_stats(p, out str_intptr);
+            //   return status != 0 ? "" : System.Runtime.InteropServices.Marshal.PtrToStringAnsi(str_intptr);
+
+            int max_num_chars = 1024;
+            sbyte** pp_str = (sbyte**)System.Runtime.InteropServices.Marshal.AllocHGlobal(IntPtr.Size).ToPointer();
+            pp_str[0] = (sbyte*)System.Runtime.InteropServices.Marshal.AllocHGlobal(max_num_chars).ToPointer();
+            try
+            {
+
+
+                int status = TileDB.Interop.Methods.tiledb_ctx_get_stats(p, pp_str);
+                if(status ==0)
+                {
+                    result = new string(pp_str[0]);
+                }
+
+            }
+            finally
+            {
+                if(pp_str != null)
+                {
+                    System.Runtime.InteropServices.Marshal.FreeHGlobal((IntPtr)(pp_str[0]));
+                    System.Runtime.InteropServices.Marshal.FreeHGlobal((IntPtr)(pp_str));
+                }
+            }
+
+            return result;
         }
 
         public Config config()
