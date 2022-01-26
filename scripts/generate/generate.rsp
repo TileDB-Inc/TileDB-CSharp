@@ -1,0 +1,11 @@
+
+--config
+compatible-codegen
+unix-types
+generate-helper-types
+--methodClassName
+libtiledb
+--namespace
+TileDB.Interop
+--prefixStrip
+tiledb_
