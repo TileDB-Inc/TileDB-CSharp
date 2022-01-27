@@ -1,7 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TileDB_CSharp;
+using TileDB;
 
-namespace TileDB_CSharp_Test
+namespace TileDB.CSharp.Test
 {
     [TestClass]
     public class ContextTest
@@ -13,6 +13,36 @@ namespace TileDB_CSharp_Test
             {
                 Assert.AreNotEqual(null, ctx);
             }
+        }
+
+        [TestMethod]
+        public void ConfigReadWrite() 
+        {
+            TileDB.Config config = new TileDB.Config();
+ 
+            // Set values
+            config.set("sm.memory_budget", "512000000");
+            config.set("vfs.s3.connect_timeout_ms", "5000");
+            config.set("vfs.s3.endpoint_override", "localhost:8888");
+
+            // Get values
+            Assert.AreEqual<string>(config.get("sm.memory_budget"), "512000000");
+            Assert.AreEqual<string>(config.get("vfs.s3.connect_timeout_ms"), "5000");
+            Assert.AreEqual<string>(config.get("vfs.s3.endpoint_override"), "localhost:8888");
+
+            config.save_to_file("temp.cfg");
+
+            TileDB.Config config2 = new TileDB.Config();
+            config2.load_from_file("temp.cfg");
+
+            // Get values from config2
+            Assert.AreEqual<string>(config2.get("sm.memory_budget"), "512000000");
+            Assert.AreEqual<string>(config2.get("vfs.s3.connect_timeout_ms"), "5000");
+            Assert.AreEqual<string>(config2.get("vfs.s3.endpoint_override"), "localhost:8888");
+
+            TileDB.Context ctx = new TileDB.Context(config);
+
+            Assert.AreNotEqual(null, ctx);
         }
     }
 }
