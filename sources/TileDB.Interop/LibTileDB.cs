@@ -355,7 +355,7 @@ namespace TileDB.Interop
 
         [DllImport(LibDllImport.Path, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
-        public static extern int tiledb_error_message(tiledb_error_t* err, [NativeTypeName("const char **")] out IntPtr errmsg);
+        public static extern int tiledb_error_message(tiledb_error_t* err, [NativeTypeName("const char **")] sbyte** errmsg);
 
         [DllImport(LibDllImport.Path, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void tiledb_error_free(tiledb_error_t** err);
@@ -415,23 +415,23 @@ namespace TileDB.Interop
 
         [DllImport(LibDllImport.Path, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
-        public static extern int tiledb_config_set(tiledb_config_t* config, [NativeTypeName("const char *")][MarshalAs(UnmanagedType.LPStr)] string param1, [NativeTypeName("const char *")][MarshalAs(UnmanagedType.LPStr)] string value, tiledb_error_t** error);
+        public static extern int tiledb_config_set(tiledb_config_t* config, [NativeTypeName("const char *")] sbyte* param1, [NativeTypeName("const char *")] sbyte* value, tiledb_error_t** error);
 
         [DllImport(LibDllImport.Path, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
-        public static extern int tiledb_config_get(tiledb_config_t* config, [NativeTypeName("const char *")][MarshalAs(UnmanagedType.LPStr)] string param1, [NativeTypeName("const char **")]out IntPtr value, tiledb_error_t** error);
+        public static extern int tiledb_config_get(tiledb_config_t* config, [NativeTypeName("const char *")] sbyte* param1, [NativeTypeName("const char **")] sbyte** value, tiledb_error_t** error);
 
         [DllImport(LibDllImport.Path, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
-        public static extern int tiledb_config_load_from_file(tiledb_config_t* config, [NativeTypeName("const char *")][MarshalAs(UnmanagedType.LPStr)] string filename, tiledb_error_t** error);
+        public static extern int tiledb_config_load_from_file(tiledb_config_t* config, [NativeTypeName("const char *")] sbyte* filename, tiledb_error_t** error);
 
         [DllImport(LibDllImport.Path, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
-        public static extern int tiledb_config_unset(tiledb_config_t* config, [NativeTypeName("const char *")][MarshalAs(UnmanagedType.LPStr)] string param1, tiledb_error_t** error);
+        public static extern int tiledb_config_unset(tiledb_config_t* config, [NativeTypeName("const char *")] sbyte* param1, tiledb_error_t** error);
 
         [DllImport(LibDllImport.Path, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
-        public static extern int tiledb_config_save_to_file(tiledb_config_t* config, [NativeTypeName("const char *")][MarshalAs(UnmanagedType.LPStr)] string filename, tiledb_error_t** error);
+        public static extern int tiledb_config_save_to_file(tiledb_config_t* config, [NativeTypeName("const char *")] sbyte* filename, tiledb_error_t** error);
 
         [DllImport(LibDllImport.Path, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
@@ -489,7 +489,7 @@ namespace TileDB.Interop
 
         [DllImport(LibDllImport.Path, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
-        public static extern int tiledb_ctx_set_tag(tiledb_ctx_t* ctx, [NativeTypeName("const char *")][MarshalAs(UnmanagedType.LPStr)] string key, [NativeTypeName("const char *")][MarshalAs(UnmanagedType.LPStr)] string value);
+        public static extern int tiledb_ctx_set_tag(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* key, [NativeTypeName("const char *")] sbyte* value);
 
         [DllImport(LibDllImport.Path, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]

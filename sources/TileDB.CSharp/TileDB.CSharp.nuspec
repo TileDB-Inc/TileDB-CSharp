@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package >
   <metadata>
-    <id>TileDB.CSharpTmp</id>
+    <id>TileDB.CSharp</id>
     <version>2.6.0</version>
     <title>$title$</title>
     <authors>TileDB Inc</authors>
