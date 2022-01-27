@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>TileDB.CSharp.Examples</RootNamespace>
+    <TargetFrameworks>net5.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\sources\TileDB.CSharp\TileDB.CSharp.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\..\sources\TileDB.CSharp\TileDB.CSharp.targets" />
+  
+</Project>

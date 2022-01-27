@@ -6,7 +6,7 @@ namespace TileDB.Interop
 #if __OSX__
         public const string Path = "libtiledb.dylib";
 #elif __LINUX__
-        public const string Path = "libtiledb.so.2.5";
+        public const string Path = "libtiledb.so.2.6";
 #else
         public const string Path = "tiledb.dll";
 #endif

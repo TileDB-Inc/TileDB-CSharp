@@ -7,13 +7,13 @@ ClangSharpPInvokeGenerator -I $TILEDB_DIR/include/ --config generate-helper-type
 
 ## Generated on windows(copy tiledb_export.h to tiledb/sm/c_api):
 ```
+dotnet tool install --global ClangSharpPInvokeGenerator --version 13.0.0-beta1
 cd tildb/sm/c_api
-ClangSharpPInvokeGenerator -n TileDB  -f tiledb.h  -c generate-helper-types --methodClassName
-libtiledb  -o temp.cs
+ClangSharpPInvokeGenerator -n TileDB.Interop  -f tiledb.h  -c generate-helper-types --methodClassName
+libtiledb  -o LibTileDB.cs
 ```
 
 ## Replacements in LibTileDB.cs
 
-1. [DllImport("libtiledb", --> [DllImport(LibDllImport.Path, CharSet = CharSet.Ansi,
-2. [NativeTypeName("const char *")] sbyte* --> [NativeTypeName("const char *")][MarshalAs(UnmanagedType.LPStr)] string
-3. [NativeTypeName("const char **")] sbyte** --> [NativeTypeName("const char **")] out IntPtr
+1. [DllImport("libtiledb", --> [DllImport(LibDllImport.Path, 
+ 
