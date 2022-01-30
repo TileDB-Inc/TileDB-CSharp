@@ -21,10 +21,10 @@ namespace TileDB
             {
                 handle_.Dispose();
             }
- 
+
+            System.GC.SuppressFinalize(this);
+
         }
-
-
 
         internal TileDB.Interop.ConfigHandle Handle
         {
@@ -60,6 +60,7 @@ namespace TileDB
                 return string.Empty;
             }
             TileDB.Interop.MarshaledString ms_param = new Interop.MarshaledString(param);
+            
             TileDB.Interop.MarshaledStringOut ms_results = new Interop.MarshaledStringOut(512);
             IntPtr str_intptr = System.IntPtr.Zero;
             TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
