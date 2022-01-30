@@ -24,7 +24,9 @@ namespace TileDB
             {
                 handle_.Dispose();
             }
- 
+
+            System.GC.SuppressFinalize(this);
+
         }
 
         internal TileDB.Interop.ContextHandle Handle 
@@ -123,7 +125,7 @@ namespace TileDB
             );
 
  
-        protected void handle_error(int rc) 
+        internal void handle_error(int rc) 
         {
             if (rc == 0) 
             {
