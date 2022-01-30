@@ -39,15 +39,15 @@ namespace TileDB.CSharp.Test
                 Assert.AreEqual(max_chunk_size, filterlist.max_chunk_size());
 
                 TileDB.Filter filter0 = filterlist.filter(0);
-    //            Assert.AreEqual(TileDB.FilterType.TILEDB_FILTER_GZIP, filter0.filter_type());
-    //            Assert.AreEqual(gzip_compression_level, filter0.get_option<int>(TileDB.FilterOption.TILEDB_COMPRESSION_LEVEL));
+                Assert.AreEqual(TileDB.FilterType.TILEDB_FILTER_GZIP, filter0.filter_type());
+                Assert.AreEqual(gzip_compression_level, filter0.get_option<int>(TileDB.FilterOption.TILEDB_COMPRESSION_LEVEL));
 
-    //            TileDB.Filter filter1 = filterlist.filter(1);
-    //            Assert.AreEqual(TileDB.FilterType.TILEDB_FILTER_BITSHUFFLE, filter1.filter_type());
+                TileDB.Filter filter1 = filterlist.filter(1);
+                Assert.AreEqual(TileDB.FilterType.TILEDB_FILTER_BITSHUFFLE, filter1.filter_type());
 
-    //            TileDB.Filter filter2 = filterlist.filter(2);
-    //            Assert.AreEqual(TileDB.FilterType.TILEDB_FILTER_POSITIVE_DELTA, filter2.filter_type());
-    //            Assert.AreEqual(positive_delta_max_window, filter2.get_option<UInt32>(TileDB.FilterOption.TILEDB_POSITIVE_DELTA_MAX_WINDOW));
+                TileDB.Filter filter2 = filterlist.filter(2);
+                Assert.AreEqual(TileDB.FilterType.TILEDB_FILTER_POSITIVE_DELTA, filter2.filter_type());
+                Assert.AreEqual(positive_delta_max_window, filter2.get_option<UInt32>(TileDB.FilterOption.TILEDB_POSITIVE_DELTA_MAX_WINDOW));
 
 
             }

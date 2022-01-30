@@ -84,10 +84,8 @@ namespace TileDB
                 throw new System.InvalidOperationException("FilterList.filter, invalid handle!");
             }
 
-            TileDB.Interop.FilterHandle filter_handle = new TileDB.Interop.FilterHandle(TileDB.Interop.tiledb_filter_type_t.TILEDB_FILTER_NONE);
-         //   TileDB.Interop.tiledb_filter_t* p = (TileDB.Interop.tiledb_filter_t*)filter_handle;
-           
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_filter_list_get_filter_from_index(ctx_.Handle, handle_, filter_index, filter_handle));
+            TileDB.Interop.FilterHandle filter_handle;
+            ctx_.handle_error(TileDB.Interop.Methods.tiledb_filter_list_get_filter_from_index(ctx_.Handle, handle_, filter_index, out filter_handle));
 
             return new Filter(ctx_, filter_handle);
         }
