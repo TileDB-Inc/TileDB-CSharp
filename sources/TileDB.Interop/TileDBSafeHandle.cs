@@ -102,6 +102,19 @@ namespace TileDB.Interop
         // Constructor for a Handle
         //   - calls native allocator
         //   - exception on failure
+        public FilterHandle() : base(IntPtr.Zero, ownsHandle: true)
+        {
+            var h = stackalloc tiledb_filter_t*[1];
+            ContextHandle hcontext = new ContextHandle();
+            int status = TileDB.Interop.Methods.tiledb_filter_alloc(hcontext, TileDB.Interop.tiledb_filter_type_t.TILEDB_FILTER_NONE, h);
+
+            if (h[0] == (void*)0)
+            {
+                throw new Exception("Failed to allocate!");
+            }
+            SetHandle(h[0]);
+        }
+
         public FilterHandle(tiledb_filter_type_t filter_type) : base(IntPtr.Zero, ownsHandle: true)
         {
             var h = stackalloc tiledb_filter_t*[1];
@@ -147,12 +160,6 @@ namespace TileDB.Interop
         public override bool IsInvalid => this.handle == IntPtr.Zero;
         public static implicit operator IntPtr(FilterHandle h) => h.handle;
         public static implicit operator tiledb_filter_t*(FilterHandle h) => (tiledb_filter_t*)h.handle;
-        public static implicit operator tiledb_filter_t**(FilterHandle h)
-        {
-            tiledb_filter_t* p = (tiledb_filter_t*)h.handle;
-            return &p; 
-        }
-
         public static implicit operator FilterHandle(tiledb_ctx_t* value) => new FilterHandle((IntPtr)value);
     }//public unsafe partial class FilterHandle
 
