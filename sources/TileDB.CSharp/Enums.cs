@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace TileDB
 {
+    public enum Status
+    {
+        TILEDB_OOM = -2,
+        TILEDB_ERR = -1,
+        TILEDB_OK = 0
+    }
+
     public enum ObjectType
     {
         TILEDB_INVALID = TileDB.Interop.tiledb_object_t.TILEDB_INVALID,

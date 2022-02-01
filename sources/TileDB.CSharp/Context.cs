@@ -14,7 +14,7 @@ namespace TileDB
 
         public Context(Config config)
         {
-            handle_ = new TileDB.Interop.ContextHandle();
+            handle_ = new TileDB.Interop.ContextHandle(config.Handle);
             config_ = config;
         }
 
@@ -127,7 +127,7 @@ namespace TileDB
  
         internal void handle_error(int rc) 
         {
-            if (rc == 0) 
+            if (rc == (int)Status.TILEDB_OK) 
             {
                 return;
             }
