@@ -13,6 +13,21 @@ namespace TileDB.CSharp.Test
             {
                 Assert.AreNotEqual(null, ctx);
             }
+
+            TileDB.Config config = new TileDB.Config();
+
+            // Set values
+            config.set("sm.memory_budget", "512000000");
+            config.set("vfs.s3.connect_timeout_ms", "5000");
+            config.set("vfs.s3.endpoint_override", "localhost:8888");
+            using (var ctx = new Context(config)) 
+            {
+                // Get values
+                Assert.AreEqual<string>(ctx.config().get("sm.memory_budget"), "512000000");
+                Assert.AreEqual<string>(ctx.config().get("vfs.s3.connect_timeout_ms"), "5000");
+                Assert.AreEqual<string>(ctx.config().get("vfs.s3.endpoint_override"), "localhost:8888");
+            }
+
         }
 
         [TestMethod]
