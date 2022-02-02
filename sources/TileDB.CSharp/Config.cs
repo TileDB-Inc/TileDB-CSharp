@@ -46,9 +46,12 @@ namespace TileDB
             TileDB.Interop.MarshaledString ms_value = new Interop.MarshaledString(value);
             TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
             TileDB.Interop.tiledb_error_t* p_tiledb_error = &tiledb_error;
-            TileDB.Interop.Methods.tiledb_config_set(handle_, ms_param, ms_value, &p_tiledb_error);
+            int status = TileDB.Interop.Methods.tiledb_config_set(handle_, ms_param, ms_value, &p_tiledb_error);
             TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
-
+            if (status != (int)Status.TILEDB_OK)
+            {
+                System.Console.WriteLine("Config.get, got error code:{0}!", status);
+            }
             return;
         }
 
@@ -60,14 +63,19 @@ namespace TileDB
                 return string.Empty;
             }
             TileDB.Interop.MarshaledString ms_param = new Interop.MarshaledString(param);
+            TileDB.Interop.MarshaledString ms_result = new Interop.MarshaledString();
             
-            TileDB.Interop.MarshaledStringOut ms_results = new Interop.MarshaledStringOut(512);
             IntPtr str_intptr = System.IntPtr.Zero;
             TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
             TileDB.Interop.tiledb_error_t* p_tiledb_error = &tiledb_error;
-            int status = TileDB.Interop.Methods.tiledb_config_get(handle_, ms_param, ms_results, &p_tiledb_error);
+            sbyte** p_result = &ms_result.Value;
+            int status = TileDB.Interop.Methods.tiledb_config_get(handle_, ms_param, p_result, &p_tiledb_error);
             TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
-            return status == 0 ? ms_results.ToString() : "";
+            if (status != (int)Status.TILEDB_OK) 
+            {
+                System.Console.WriteLine("Config.get, got error code:{0}!", status);
+            }
+            return status == 0 ? ms_result.ToString() : "";
         }
 
         public void load_from_file(string filename)
@@ -84,8 +92,13 @@ namespace TileDB
             TileDB.Interop.MarshaledString ms_filename = new Interop.MarshaledString(filename);
             TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
             TileDB.Interop.tiledb_error_t* p_tiledb_error = &tiledb_error;
-            TileDB.Interop.Methods.tiledb_config_load_from_file(handle_, ms_filename, &p_tiledb_error);
+            int status = TileDB.Interop.Methods.tiledb_config_load_from_file(handle_, ms_filename, &p_tiledb_error);
             TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
+
+            if (status != (int)Status.TILEDB_OK) 
+            {
+                System.Console.WriteLine("Config.load_from_file, got error code:{0}!", status);
+            }
 
             return ;
         }
@@ -104,9 +117,12 @@ namespace TileDB
             TileDB.Interop.MarshaledString ms_filename = new Interop.MarshaledString(filename);
             TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
             TileDB.Interop.tiledb_error_t* p_tiledb_error = &tiledb_error;
-            TileDB.Interop.Methods.tiledb_config_save_to_file(handle_, ms_filename, &p_tiledb_error);
+            int status = TileDB.Interop.Methods.tiledb_config_save_to_file(handle_, ms_filename, &p_tiledb_error);
             TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
-
+            if (status != (int)Status.TILEDB_OK)
+            {
+                System.Console.WriteLine("Config.save_to_file, got error code:{0}!", status);
+            }
             return;
         }
 

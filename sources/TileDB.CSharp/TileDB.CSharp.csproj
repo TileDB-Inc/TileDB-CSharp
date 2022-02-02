@@ -9,7 +9,7 @@
   </PropertyGroup>
 
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64' and '$(OS)' == 'Windows_NT'">
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
     <DefineConstants>__WINDOWS__</DefineConstants>
   </PropertyGroup>
 
@@ -30,7 +30,7 @@
     <Compile Include="..\TileDB.Interop\LibDllImport.cs" Link="LibDllImport.cs" />
     <Compile Include="..\TileDB.Interop\LibTileDB.cs" Link="LibTileDB.cs" />
     <Compile Include="..\TileDB.Interop\MarshaledString.cs" Link="MarshaledString.cs" />
-    <Compile Include="..\TileDB.Interop\MarshaledStringOut.cs" Link="MarshaledStringOut.cs" />
+    <Compile Include="..\TileDB.Interop\SpanExtensions.cs" Link="SpanExtensions.cs" />
     <Compile Include="..\TileDB.Interop\NativeTypeNameAttribute.cs" Link="NativeTypeNameAttribute.cs" />
     <Compile Include="..\TileDB.Interop\TileDBSafeHandle.cs" Link="TileDBSafeHandle.cs" />
   </ItemGroup>
