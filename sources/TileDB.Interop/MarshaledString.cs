@@ -8,6 +8,7 @@ namespace TileDB.Interop
 {
     public unsafe struct MarshaledString : IDisposable
     {
+   
         public MarshaledString(string input)
         {
             int length;
@@ -35,7 +36,7 @@ namespace TileDB.Interop
 
         public int Length { get; private set; }
 
-        public sbyte* Value { get; private set; }
+        public sbyte* Value;
 
         public void Dispose()
         {
@@ -51,6 +52,12 @@ namespace TileDB.Interop
 
         public override string ToString()
         {
+            if(Length<=0) 
+            {
+                var span_out = new ReadOnlySpan<byte>(Value, Int32.MaxValue);
+                return span_out.Slice(0, span_out.IndexOf((byte)'\0')).AsString();
+            }
+
             var span = new ReadOnlySpan<byte>(Value, Length);
             if (span.IsEmpty) 
             {
@@ -63,7 +70,7 @@ namespace TileDB.Interop
                     return System.Text.Encoding.ASCII.GetString(p, span.Length);
                 }
             }
-            //return span.AsString();
+             
         }
     }
 }

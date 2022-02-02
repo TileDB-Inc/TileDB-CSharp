@@ -53,7 +53,7 @@ namespace TileDB
         TILEDB_NOT = TileDB.Interop.tiledb_query_condition_combination_op_t.TILEDB_NOT,
     }
 
-    public enum tiledb_filesystem_t
+    public enum FilesysemType
     {
         TILEDB_HDFS = TileDB.Interop.tiledb_filesystem_t.TILEDB_HDFS,
         TILEDB_S3 = TileDB.Interop.tiledb_filesystem_t.TILEDB_S3,
@@ -62,7 +62,7 @@ namespace TileDB
         TILEDB_MEMFS = TileDB.Interop.tiledb_filesystem_t.TILEDB_MEMFS,
     }
 
-    public enum tiledb_datatype_t
+    public enum DataType
     {
         TILEDB_INT32 = TileDB.Interop.tiledb_datatype_t.TILEDB_INT32,
         TILEDB_INT64 = TileDB.Interop.tiledb_datatype_t.TILEDB_INT64,
