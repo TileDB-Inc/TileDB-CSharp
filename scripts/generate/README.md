@@ -16,4 +16,4 @@ libtiledb  -o LibTileDB.cs
 ## Replacements in LibTileDB.cs
 
 1. [DllImport("libtiledb", --> [DllImport(LibDllImport.Path, 
- 
+2. Comment all  *_dump functions, 
