@@ -50,7 +50,8 @@ namespace TileDB
             TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
             if (status != (int)Status.TILEDB_OK)
             {
-                System.Console.WriteLine("Config.get, got error code:{0}!", status);
+                string message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknow error with code:" + status.ToString());
+                throw new TileDB.ErrorException("Config.set,caught exception:" + message);
             }
             return;
         }
@@ -73,7 +74,8 @@ namespace TileDB
             TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
             if (status != (int)Status.TILEDB_OK) 
             {
-                System.Console.WriteLine("Config.get, got error code:{0}!", status);
+                string message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknow error with code:" + status.ToString());
+                throw new TileDB.ErrorException("Config.get,caught exception:" + message);
             }
             return status == 0 ? ms_result.ToString() : "";
         }
@@ -97,7 +99,8 @@ namespace TileDB
 
             if (status != (int)Status.TILEDB_OK) 
             {
-                System.Console.WriteLine("Config.load_from_file, got error code:{0}!", status);
+                string message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknow error with code:" + status.ToString());
+                throw new TileDB.ErrorException("Config.load_from_file,caught exception:" + message);
             }
 
             return ;
@@ -121,7 +124,8 @@ namespace TileDB
             TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
             if (status != (int)Status.TILEDB_OK)
             {
-                System.Console.WriteLine("Config.save_to_file, got error code:{0}!", status);
+                string message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknow error with code:" + status.ToString());
+                throw new TileDB.ErrorException("Config.save_to_file,caught exception:" + message);
             }
             return;
         }

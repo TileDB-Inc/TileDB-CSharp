@@ -16,5 +16,17 @@ namespace TileDB
         public int Code { get; set; }
         public string Message {get; set;}
     }
+
+    public class ErrorException: System.Exception 
+    {
+
+        public ErrorException():base() 
+        {
+        }
+
+        public ErrorException(string message): base(message) {
+ 
+        }
+    }
  
 }
