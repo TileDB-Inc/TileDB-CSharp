@@ -78,12 +78,14 @@ namespace TileDB
                 }
                 else
                 {
-                    System.Console.WriteLine("Context.last_error, got error code:{0}!", status);
+                    string message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknow error with code:" + status.ToString());
+                    throw new TileDB.ErrorException("Context.last_error,caught exception:" + message);
                 }
             }
             else
             {
-                System.Console.WriteLine("Context.last_error, got error code:{0}!", status);
+                string message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknow error with code:" + status.ToString());
+                throw new TileDB.ErrorException("Context.last_error,caught exception:" + message);
             }
             TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
             
@@ -147,12 +149,14 @@ namespace TileDB
                 }
                 else
                 {
-                    System.Console.WriteLine("Context.handle_error, got error code:{0}", status);
+                    string ex_message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknow error with code:" + status.ToString());
+                    throw new TileDB.ErrorException("Context.handle_error,caught exception:" + ex_message);
                 }
             }
             else
             {
-                System.Console.WriteLine("Context.handle_error, got error code:{0}", status);
+                string ex_message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknow error with code:" + status.ToString());
+                throw new TileDB.ErrorException("Context.handle_error,caught exception:" + ex_message);
             }
             TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
 
