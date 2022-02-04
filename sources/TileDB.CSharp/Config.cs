@@ -47,10 +47,6 @@ namespace TileDB
             {
                 throw new System.ArgumentException("Config.set, param or value is null or empty!");
             }
-            if (handle_.IsInvalid)
-            {
-                throw new System.InvalidOperationException("Config.set, invalid handle!");
-            }
 
             TileDB.Interop.MarshaledString ms_param = new Interop.MarshaledString(param);
             TileDB.Interop.MarshaledString ms_value = new Interop.MarshaledString(value);
@@ -72,10 +68,7 @@ namespace TileDB
             {
                 throw new System.ArgumentException("Config.get, param or value is null or empty!");
             }
-            if (handle_.IsInvalid)
-            {
-                throw new System.InvalidOperationException("Config.get, invalid handle!");
-            }
+ 
             TileDB.Interop.MarshaledString ms_param = new Interop.MarshaledString(param);
             TileDB.Interop.MarshaledStringOut ms_result = new Interop.MarshaledStringOut();
             
@@ -102,10 +95,6 @@ namespace TileDB
             {
                 throw new System.ArgumentException("Config.load_from_file, filename is null or empty!");
             }
-            if (handle_.IsInvalid)
-            {
-                throw new System.InvalidOperationException("Config.load_from_file, invalid handle!");
-            }
 
             TileDB.Interop.MarshaledString ms_filename = new Interop.MarshaledString(filename);
             TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
@@ -127,10 +116,6 @@ namespace TileDB
             if (string.IsNullOrEmpty(filename))
             {
                 throw new System.ArgumentException("Config.save_to_file, filename is null or empty!");
-            }
-            if (handle_.IsInvalid)
-            {
-                throw new System.InvalidOperationException("Config.save_to_file, invalid handle!");
             }
 
             TileDB.Interop.MarshaledString ms_filename = new Interop.MarshaledString(filename);

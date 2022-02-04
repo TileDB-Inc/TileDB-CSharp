@@ -47,12 +47,7 @@ namespace TileDB
 
 
         public string stats()
-        {
-            if (handle_.IsInvalid)
-            {
-                throw new System.InvalidOperationException("Context.stats, invalid handle!");
-            }
-            
+        {    
             TileDB.Interop.MarshaledStringOut result_out = new Interop.MarshaledStringOut();
             fixed (sbyte** p_result = &result_out.Value) 
             {
@@ -69,11 +64,6 @@ namespace TileDB
 
         public string last_error()
         {
-            if (handle_.IsInvalid)
-            {
-                throw new System.InvalidOperationException("Context.last_error, invalid handle!");
-            }
-
             StringBuilder sb_result = new StringBuilder();
              
             TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
@@ -110,10 +100,6 @@ namespace TileDB
 
         public void cancel_tasks()
         {
-            if (handle_.IsInvalid)
-            {
-                throw new System.InvalidOperationException("Context.cancel_taasks, invalid handle!");
-            }
             handle_error(TileDB.Interop.Methods.tiledb_ctx_cancel_tasks(handle_));
         }
 
@@ -122,10 +108,6 @@ namespace TileDB
             if(string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value)) 
             {
                 throw new System.ArgumentException("Context.set_tag, key or value is null or empty!");
-            }
-            if (handle_.IsInvalid) 
-            {
-                throw new System.InvalidOperationException("Context.set_tag, invalid handle!");
             }
  
             TileDB.Interop.MarshaledString ms_key = new Interop.MarshaledString(key);
