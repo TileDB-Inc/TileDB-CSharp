@@ -23,12 +23,13 @@ namespace TileDB.Interop
         public void Dispose()
         {
             Dispose(true);
+            System.GC.SuppressFinalize(this);
         }
         protected virtual void Dispose(bool disposing) 
         {
             if (Value != null) 
             {
-                LibC.free(Value);//Marshal.FreeCoTaskMem(new IntPtr(Value));
+                LibC.free(Value); 
             }
             Value = null;
         }
