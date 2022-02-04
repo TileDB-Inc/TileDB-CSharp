@@ -74,7 +74,7 @@ namespace TileDB
                 throw new System.InvalidOperationException("Context.last_error, invalid handle!");
             }
 
-            string result = "";
+            StringBuilder sb_result = new StringBuilder();
              
             TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
             TileDB.Interop.tiledb_error_t* p_tiledb_error = &tiledb_error;
@@ -90,22 +90,22 @@ namespace TileDB
                 
                 if(status == (int)Status.TILEDB_OK)
                 {
-                    result = str_out; 
+                    sb_result.Append(str_out);
                 }
                 else
                 {
                     string message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknown error with code:" + status.ToString());
-                    throw new TileDB.ErrorException("Context.last_error,caught exception:" + message);
+                    sb_result.Append(" Context.last_error,caught exception:" + message);
                 }
             }
             else
             {
                 string message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknown error with code:" + status.ToString());
-                throw new TileDB.ErrorException("Context.last_error,caught exception:" + message);
+                sb_result.Append(" Context.last_error,caught exception:" + message);
             }
             TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
             
-            return result;
+            return sb_result.ToString();
         }
 
         public void cancel_tasks()
