@@ -48,10 +48,9 @@ namespace TileDB
 
         public string stats()
         {
-            string result = "";
-            if (handle_.IsInvalid) 
+            if (handle_.IsInvalid)
             {
-                return result;
+                throw new System.InvalidOperationException("Context.stats, invalid handle!");
             }
             
             TileDB.Interop.MarshaledStringOut result_out = new Interop.MarshaledStringOut();
@@ -70,11 +69,12 @@ namespace TileDB
 
         public string last_error()
         {
-            string result = "";
-            if (handle_.IsInvalid) 
+            if (handle_.IsInvalid)
             {
-                return result;
+                throw new System.InvalidOperationException("Context.last_error, invalid handle!");
             }
+
+            string result = "";
              
             TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
             TileDB.Interop.tiledb_error_t* p_tiledb_error = &tiledb_error;
@@ -94,13 +94,13 @@ namespace TileDB
                 }
                 else
                 {
-                    string message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknow error with code:" + status.ToString());
+                    string message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknown error with code:" + status.ToString());
                     throw new TileDB.ErrorException("Context.last_error,caught exception:" + message);
                 }
             }
             else
             {
-                string message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknow error with code:" + status.ToString());
+                string message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknown error with code:" + status.ToString());
                 throw new TileDB.ErrorException("Context.last_error,caught exception:" + message);
             }
             TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
@@ -110,9 +110,9 @@ namespace TileDB
 
         public void cancel_tasks()
         {
-            if (handle_.IsInvalid) 
+            if (handle_.IsInvalid)
             {
-                return ;
+                throw new System.InvalidOperationException("Context.cancel_taasks, invalid handle!");
             }
             handle_error(TileDB.Interop.Methods.tiledb_ctx_cancel_tasks(handle_));
         }
@@ -150,7 +150,8 @@ namespace TileDB
             {
                 return;
             }
-            string message = "";
+
+            StringBuilder sb_message = new StringBuilder();
             TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
             TileDB.Interop.tiledb_error_t* p_tiledb_error = &tiledb_error;
             int status = TileDB.Interop.Methods.tiledb_ctx_get_last_error(handle_, &p_tiledb_error);
@@ -164,24 +165,24 @@ namespace TileDB
               
                 if (status == (int)Status.TILEDB_OK)
                 {
-                    message = str_out;
+                    sb_message.Append(str_out);
                 }
                 else
                 {
-                    string ex_message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknow error with code:" + status.ToString());
-                    throw new TileDB.ErrorException("Context.handle_error,caught exception:" + ex_message);
+                    string ex_message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknown error with code:" + status.ToString());
+                    sb_message.Append(" Context.handle_error,caught exception:" + ex_message);
                 }
             }
             else
             {
-                string ex_message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknow error with code:" + status.ToString());
-                throw new TileDB.ErrorException("Context.handle_error,caught exception:" + ex_message);
+                string ex_message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknown error with code:" + status.ToString());
+                sb_message.Append(" Context.handle_error,caught exception:" + ex_message);
             }
             TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
 
-            ErrorEventArgs args = new ErrorEventArgs(rc, message);
+            //fire event
+            ErrorEventArgs args = new ErrorEventArgs(rc, sb_message.ToString());
             OnError(args);
-
         }
 
         protected void OnError(ErrorEventArgs e) 
