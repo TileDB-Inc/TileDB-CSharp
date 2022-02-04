@@ -9,6 +9,7 @@ namespace TileDB
     public unsafe class Config : IDisposable
     {
         private TileDB.Interop.ConfigHandle handle_;
+        private bool disposed_ = false;
     
         public Config()
         {
@@ -17,12 +18,21 @@ namespace TileDB
 
         public void Dispose()
         {
-            if (!handle_.IsInvalid)
-            {
-                handle_.Dispose();
-            }
-
+            Dispose(true);
             System.GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing) 
+        {
+            
+            if (!disposed_) {
+                if (disposing && (!handle_.IsInvalid)) 
+                {
+                    handle_.Dispose();
+                }
+
+                disposed_ = true;
+            }
 
         }
 
@@ -64,20 +74,24 @@ namespace TileDB
                 return string.Empty;
             }
             TileDB.Interop.MarshaledString ms_param = new Interop.MarshaledString(param);
-            TileDB.Interop.MarshaledString ms_result = new Interop.MarshaledString();
+            TileDB.Interop.MarshaledStringOut ms_result = new Interop.MarshaledStringOut();
             
             IntPtr str_intptr = System.IntPtr.Zero;
             TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
             TileDB.Interop.tiledb_error_t* p_tiledb_error = &tiledb_error;
-            sbyte** p_result = &ms_result.Value;
-            int status = TileDB.Interop.Methods.tiledb_config_get(handle_, ms_param, p_result, &p_tiledb_error);
+            int status = 0;
+            fixed (sbyte** p_result = &ms_result.Value) 
+            {
+                status = TileDB.Interop.Methods.tiledb_config_get(handle_, ms_param, p_result, &p_tiledb_error);
+            }
+            
             TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
             if (status != (int)Status.TILEDB_OK) 
             {
                 string message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknow error with code:" + status.ToString());
                 throw new TileDB.ErrorException("Config.get,caught exception:" + message);
             }
-            return status == 0 ? ms_result.ToString() : "";
+            return status == 0 ? ms_result: "";
         }
 
         public void load_from_file(string filename)

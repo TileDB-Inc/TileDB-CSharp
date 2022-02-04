@@ -6,6 +6,7 @@ namespace TileDB
     {
         private TileDB.Interop.ContextHandle handle_;
         private TileDB.Config config_;
+        private bool disposed_ = false;
         public Context()
         {
             handle_ = new TileDB.Interop.ContextHandle();
@@ -20,13 +21,22 @@ namespace TileDB
 
         public void Dispose()
         {
-            if (!handle_.IsInvalid)
-            {
-                handle_.Dispose();
-            }
-
+            Dispose(true);
             System.GC.SuppressFinalize(this);
 
+        }
+
+        protected virtual void Dispose(bool disposing) 
+        {
+            if (!disposed_) 
+            {
+                if (disposing && !handle_.IsInvalid) 
+                {
+                    handle_.Dispose();
+                }
+
+                disposed_ = true;
+            }
         }
 
         internal TileDB.Interop.ContextHandle Handle 
@@ -44,10 +54,13 @@ namespace TileDB
                 return result;
             }
             
-            TileDB.Interop.MarshaledString result_out = new Interop.MarshaledString();
-            sbyte** p_result = &result_out.Value;
-            handle_error(TileDB.Interop.Methods.tiledb_ctx_get_stats(handle_, p_result));
-            return result_out.ToString();
+            TileDB.Interop.MarshaledStringOut result_out = new Interop.MarshaledStringOut();
+            fixed (sbyte** p_result = &result_out.Value) 
+            {
+                handle_error(TileDB.Interop.Methods.tiledb_ctx_get_stats(handle_, p_result));
+            }
+            
+            return result_out;
         }
 
         public Config config()
@@ -68,13 +81,16 @@ namespace TileDB
             int status = TileDB.Interop.Methods.tiledb_ctx_get_last_error(handle_, &p_tiledb_error);
             if(status == (int)Status.TILEDB_OK)
             {
-                TileDB.Interop.MarshaledString str_out = new Interop.MarshaledString();
+                TileDB.Interop.MarshaledStringOut str_out = new Interop.MarshaledStringOut();
 
-                sbyte** p_str = &str_out.Value;
-                status = TileDB.Interop.Methods.tiledb_error_message(p_tiledb_error, p_str);
+                fixed(sbyte** p_str = &str_out.Value) 
+                {
+                    status = TileDB.Interop.Methods.tiledb_error_message(p_tiledb_error, p_str);
+                }
+                
                 if(status == (int)Status.TILEDB_OK)
                 {
-                    result = str_out.ToString(); 
+                    result = str_out; 
                 }
                 else
                 {
@@ -140,12 +156,15 @@ namespace TileDB
             int status = TileDB.Interop.Methods.tiledb_ctx_get_last_error(handle_, &p_tiledb_error);
             if (status == (int)Status.TILEDB_OK)
             {
-                TileDB.Interop.MarshaledString str_out = new Interop.MarshaledString();
-                sbyte** p_str = &str_out.Value;
-                status = TileDB.Interop.Methods.tiledb_error_message(p_tiledb_error, p_str);
+                TileDB.Interop.MarshaledStringOut str_out = new Interop.MarshaledStringOut();
+                fixed(sbyte** p_str = &str_out.Value) 
+                {
+                    status = TileDB.Interop.Methods.tiledb_error_message(p_tiledb_error, p_str);
+                }
+              
                 if (status == (int)Status.TILEDB_OK)
                 {
-                    message = str_out.ToString();
+                    message = str_out;
                 }
                 else
                 {
