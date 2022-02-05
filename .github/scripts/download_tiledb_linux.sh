@@ -1,2 +1,2 @@
-curl --location -o tiledb.tar.gz https://github.com/TileDB-Inc/TileDB/releases/download/2.6.2/tiledb-linux-x86_64-2.6.2-bf10e49.tar.gz \
-&& sudo tar -C /usr/local -xf tiledb.tar.gz && cp /usr/local/lib/libtiledb.so.2.6 ./sources/TileDB.CSharp/runtimes/linux-x64/native/
+sudo curl --location -o tiledb.tar.gz https://github.com/TileDB-Inc/TileDB/releases/download/2.6.2/tiledb-linux-x86_64-2.6.2-bf10e49.tar.gz \
+&& sudo tar -C /usr/local -xf tiledb.tar.gz && sudo cp /usr/local/lib/libtiledb.so.2.6 ./sources/TileDB.CSharp/runtimes/linux-x64/native/
