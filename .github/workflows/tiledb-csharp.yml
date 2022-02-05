@@ -9,13 +9,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  Build_Test_All:
-    runs-on: ${{ matrix.os }}
+  Linux_Test:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         # Will be checking following versions
-        os: [ ubuntu-latest, macos-10.15, windows-latest ]
-        dotnet: [ '6.0.101' ]
+        dotnet: ['5.0.201']
     steps:
     # Checks out repository
     - uses: actions/checkout@v2
@@ -27,34 +26,96 @@ jobs:
       with:
         dotnet-version: ${{ matrix.dotnet }}
 
+    # Download tiledb
+    - name: Downlaod tiledb
+      run: ./.github/scripts/download_tiledb_linux.sh
+
     # DotNet build
     - name: DotNet build for TileDB-CSharp
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
-        cd sources/TileDB-CSharp
+        cd sources/TileDB.CSharp
         dotnet build /p:Platform=x64 -c Release
 
-    # Build example
+    # DotNet test
     - name: Build example
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
-        dotnet build /p:Platform=x64 -c Release examples/TileDB-CSharp-Example
+        cd tests/TileDB.CSharp.Test
+        dotnet test -c Release
 
-    # Run example
-    - name: Run example
+  MacOS_Test:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        # Will be checking following versions
+        dotnet: ['5.0.201']
+    steps:
+    # Checks out repository
+    - uses: actions/checkout@v2
+
+    # Following action sets up dotnet and uses the strategy matrix to test on
+    # specific versions
+    - name: Set up dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.dotnet }}
+
+    # Download tiledb
+    - name: Downlaod tiledb
+      run: ./.github/scripts/download_tiledb_macos.sh
+
+    # DotNet build
+    - name: DotNet build for TileDB-CSharp
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
-        dotnet run --project examples/TileDB-CSharp-Example --framework net5.0
-        dotnet run --project examples/TileDB-CSharp-Example --framework net6.0
-
-    - name: Run tests
-      shell: pwsh
-      run: |
-        $ErrorView = "NormalView"
-        cd tests/
+        cd sources/TileDB.CSharp
         dotnet build /p:Platform=x64 -c Release
-        dotnet run --project TileDB-CSharp-Test --framework net5.0
-        dotnet run --project TileDB-CSharp-Test --framework net6.0
+
+    # DotNet test
+    - name: Build example
+      shell: pwsh
+      run: |
+        $ErrorView = "NormalView"
+        cd tests/TileDB.CSharp.Test
+        dotnet test -c Release        
+
+  Windows_Test:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        # Will be checking following versions
+        dotnet: ['5.0']
+    steps:
+    # Checks out repository
+    - uses: actions/checkout@v2
+
+    # Following action sets up dotnet and uses the strategy matrix to test on
+    # specific versions
+    - name: Set up dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.dotnet }}
+
+    # Download tiledb
+    - name: Downlaod tiledb
+      run: ./.github/scripts/download_tiledb_windows.sh
+
+    # DotNet build
+    - name: DotNet build for TileDB-CSharp
+      shell: pwsh
+      run: |
+        $ErrorView = "NormalView"
+        cd sources/TileDB.CSharp
+        dotnet build /p:Platform=x64 -c Release
+
+    # DotNet test
+    - name: Build example
+      shell: pwsh
+      run: |
+        $ErrorView = "NormalView"
+        cd tests/TileDB.CSharp.Test
+        dotnet test -c Release    
