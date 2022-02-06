@@ -1,1 +1,19 @@
 TileDB-CSharp
+
+# Build 
+## Download or build tiledb core library
+```
+cd cpp 
+cmake .
+cmake --build . --target install 
+```
+## Build TileDB.CSharp 
+```
+cd sources/TileDB.CSharp
+dotnet build /p:Platform=x64 -c Release
+```
+## Test TileDB.CSharp
+```
+cd tests/TileDB.CSharp.Test
+dotnet test -c Release
+```
