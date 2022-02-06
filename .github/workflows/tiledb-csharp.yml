@@ -102,7 +102,11 @@ jobs:
 
     # Download tiledb
     - name: Download tiledb
-      run: ./.github/scripts/install_tiledb.sh
+      run: |
+        $ErrorView = "NormalView"
+        cd cpp
+        cmake .
+        cmake --build . --target install 
 
     # DotNet build
     - name: Dotnet build for TileDB.CSharp
