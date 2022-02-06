@@ -9,10 +9,6 @@ namespace TileDB.CSharp.Test
         [TestMethod]
         public void NewContextIsValid()
         {
-            using (var ctx = new Context())
-            {
-                Assert.AreNotEqual(null, ctx);
-            }
 
             TileDB.Config config = new TileDB.Config();
 
@@ -55,9 +51,6 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual<string>(config2.get("vfs.s3.connect_timeout_ms"), "5000");
             Assert.AreEqual<string>(config2.get("vfs.s3.endpoint_override"), "localhost:8888");
 
-            TileDB.Context ctx = new TileDB.Context(config);
-
-            Assert.AreNotEqual(null, ctx);
         }
     }
 }
