@@ -27,11 +27,14 @@ jobs:
         dotnet-version: ${{ matrix.dotnet }}
 
     # Download tiledb
-    - name: Downlaod tiledb
-      run: ./.github/scripts/download_tiledb_linux.sh
-
+    - name: Download tiledb
+      run: |
+        $ErrorView = "NormalView"
+        cd cpp
+        cmake .
+        cmake --build . --target install 
     # DotNet build
-    - name: DotNet build for TileDB-CSharp
+    - name: Dotnet build for TileDB-CSharp
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
@@ -39,7 +42,7 @@ jobs:
         dotnet build /p:Platform=x64 -c Release
 
     # DotNet test
-    - name: Build example
+    - name: Test TileDB.CSharp 
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
@@ -64,11 +67,15 @@ jobs:
         dotnet-version: ${{ matrix.dotnet }}
 
     # Download tiledb
-    - name: Downlaod tiledb
-      run: ./.github/scripts/download_tiledb_macos.sh
+    - name: Download tiledb
+      run: |
+        $ErrorView = "NormalView"
+        cd cpp
+        cmake .
+        cmake --build . --target install 
 
     # DotNet build
-    - name: DotNet build for TileDB-CSharp
+    - name: Dotnet build for TileDB.CSharp
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
@@ -76,7 +83,7 @@ jobs:
         dotnet build /p:Platform=x64 -c Release
 
     # DotNet test
-    - name: Build example
+    - name: Test TileDB.CSharp
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
@@ -101,11 +108,15 @@ jobs:
         dotnet-version: ${{ matrix.dotnet }}
 
     # Download tiledb
-    - name: Downlaod tiledb
-      run: ./.github/scripts/download_tiledb_windows.sh
+    - name: Download tiledb
+      run: |
+        $ErrorView = "NormalView"
+        cd cpp
+        cmake .
+        cmake --build . --target install 
 
     # DotNet build
-    - name: DotNet build for TileDB-CSharp
+    - name: Dotnet build for TileDB.CSharp
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
@@ -113,7 +124,7 @@ jobs:
         dotnet build /p:Platform=x64 -c Release
 
     # DotNet test
-    - name: Build example
+    - name: Test TileDB.CSharp
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
