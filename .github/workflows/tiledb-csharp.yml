@@ -28,11 +28,8 @@ jobs:
 
     # Download tiledb
     - name: Download tiledb
-      run: |
-        $ErrorView = "NormalView"
-        cd cpp
-        cmake .
-        cmake --build . --target install 
+      run: ./.github/scripts/install_tiledb.sh
+
     # DotNet build
     - name: Dotnet build for TileDB-CSharp
       shell: pwsh
@@ -68,11 +65,7 @@ jobs:
 
     # Download tiledb
     - name: Download tiledb
-      run: |
-        $ErrorView = "NormalView"
-        cd cpp
-        cmake .
-        cmake --build . --target install 
+      run: ./.github/scripts/install_tiledb.sh
 
     # DotNet build
     - name: Dotnet build for TileDB.CSharp
@@ -109,11 +102,7 @@ jobs:
 
     # Download tiledb
     - name: Download tiledb
-      run: |
-        $ErrorView = "NormalView"
-        cd cpp
-        cmake .
-        cmake --build . --target install 
+      run: ./.github/scripts/install_tiledb.sh
 
     # DotNet build
     - name: Dotnet build for TileDB.CSharp
