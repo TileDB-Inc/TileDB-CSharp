@@ -1,2 +1,0 @@
-curl -o tiledb.zip https://github.com/TileDB-Inc/TileDB/releases/download/2.6.2/tiledb-windows-x86_64-2.6.2-bf10e49.zip \
-&& Expand-Archive tiledb.zip -DestinationPath .\temp && Copy-Item .\temp\bin\tiledb.dll .\sources\TileDB.CSharp\runtimes\win-x64\native\
