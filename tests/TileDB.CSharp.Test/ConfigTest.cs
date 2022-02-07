@@ -9,7 +9,7 @@ namespace TileDB.CSharp.Test
     public class ConfigTest
     {
         [TestMethod]
-        public void Set() {
+        public void ConfigSet() {
             TileDB.Config config = new TileDB.Config();
             config.set("sm.tile_cache_size", "10");
             string val = config.get("sm.tile_cache_size");
@@ -17,7 +17,7 @@ namespace TileDB.CSharp.Test
         }
 
         [TestMethod]
-        public void Get() {
+        public void ConfigGet() {
             TileDB.Config config = new TileDB.Config();
             string val = config.get("sm.tile_cache_size");
             Assert.AreEqual<string>(val, "10000000");
@@ -26,7 +26,7 @@ namespace TileDB.CSharp.Test
         }
 
         [TestMethod]
-        public void UnSet() {
+        public void ConfigUnSet() {
             TileDB.Config config = new TileDB.Config();
             config.set("sm.tile_cache_size", "10");
             string val = config.get("sm.tile_cache_size");
@@ -37,7 +37,7 @@ namespace TileDB.CSharp.Test
         }
 
         [TestMethod]
-        public void File() {
+        public void ConfigFromFile() {
             TileDB.Config config = new TileDB.Config();
             config.set("sm.tile_cache_size", "10");
             string val = config.get("sm.tile_cache_size");
@@ -56,7 +56,7 @@ namespace TileDB.CSharp.Test
         }
 
         [TestMethod]
-        public void Compare() {
+        public void ConfigCompare() {
             TileDB.Config config = new TileDB.Config();
             config.set("sm.tile_cache_size", "10");
             string val = config.get("sm.tile_cache_size");
@@ -76,8 +76,8 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual<string>(val3, "11");
 
             bool cmp3 = config.cmp(ref config3);
-            Assert.AreEqual<bool>(cmp3, false);            
-        }        
+            Assert.AreEqual<bool>(cmp3, false);
+        }
 
         [TestMethod]
         public void ConfigIterator() {
