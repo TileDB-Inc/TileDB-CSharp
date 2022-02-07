@@ -41,6 +41,25 @@ namespace TileDB
             get { return handle_; }
         }
 
+        internal string get_last_error(TileDB.Interop.tiledb_error_t *p_tiledb_error, int status)
+        {
+            StringBuilder sb_result = new StringBuilder();
+            if (Enum.IsDefined(typeof(TileDB.Status), status))
+            {
+                sb_result.Append( "Status: " + (TileDB.Status)status).ToString();
+                TileDB.Interop.MarshaledStringOut str_out = new Interop.MarshaledStringOut();
+                fixed(sbyte** p_str = &str_out.Value) 
+                {
+                    TileDB.Interop.Methods.tiledb_error_message(p_tiledb_error, p_str);
+                }
+                sb_result.Append(", Message: " + str_out);                    
+            } else {
+                sb_result.Append("Unknown error with code: " + status.ToString());
+            }
+            
+            return sb_result.ToString();
+        }
+
         public void set(string param, string value)
         {
             if (string.IsNullOrEmpty(param) || string.IsNullOrEmpty(value))
@@ -51,15 +70,16 @@ namespace TileDB
             TileDB.Interop.MarshaledString ms_param = new Interop.MarshaledString(param);
             TileDB.Interop.MarshaledString ms_value = new Interop.MarshaledString(value);
             TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
+
             TileDB.Interop.tiledb_error_t* p_tiledb_error = &tiledb_error;
             int status = TileDB.Interop.Methods.tiledb_config_set(handle_, ms_param, ms_value, &p_tiledb_error);
-            TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
             if (status != (int)Status.TILEDB_OK)
             {
-                string message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknown error with code:" + status.ToString());
-                throw new TileDB.ErrorException("Config.set,caught exception:" + message);
+                string err_message = get_last_error(p_tiledb_error, status);
+                TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
+                throw new TileDB.ErrorException("Config.set, caught exception:" + err_message);
             }
-            return;
+            TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
         }
 
         public string get(string param)
@@ -79,14 +99,35 @@ namespace TileDB
             {
                 status = TileDB.Interop.Methods.tiledb_config_get(handle_, ms_param, p_result, &p_tiledb_error);
             }
-            
-            TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
-            if (status != (int)Status.TILEDB_OK) 
+            if (status != (int)Status.TILEDB_OK)
             {
-                string message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknown error with code:" + status.ToString());
-                throw new TileDB.ErrorException("Config.get,caught exception:" + message);
+                string err_message = get_last_error(p_tiledb_error, status);
+                TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
+                throw new TileDB.ErrorException("Config.get, caught exception:" + err_message);
             }
-            return status == 0 ? ms_result: "";
+            TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
+            return ms_result;
+        }
+
+        public void unset(string param)
+        {
+            if (string.IsNullOrEmpty(param))
+            {
+                throw new System.ArgumentException("Config.set, param is null or empty!");
+            }
+
+            TileDB.Interop.MarshaledString ms_param = new Interop.MarshaledString(param);
+            TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
+
+            TileDB.Interop.tiledb_error_t* p_tiledb_error = &tiledb_error;
+            int status = TileDB.Interop.Methods.tiledb_config_unset(handle_, ms_param, &p_tiledb_error);
+            if (status != (int)Status.TILEDB_OK)
+            {
+                string err_message = get_last_error(p_tiledb_error, status);
+                TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
+                throw new TileDB.ErrorException("Config.unset, caught exception:" + err_message);
+            }
+            TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
         }
 
         public void load_from_file(string filename)
@@ -98,17 +139,16 @@ namespace TileDB
 
             TileDB.Interop.MarshaledString ms_filename = new Interop.MarshaledString(filename);
             TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
+
             TileDB.Interop.tiledb_error_t* p_tiledb_error = &tiledb_error;
             int status = TileDB.Interop.Methods.tiledb_config_load_from_file(handle_, ms_filename, &p_tiledb_error);
-            TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
-
-            if (status != (int)Status.TILEDB_OK) 
+            if (status != (int)Status.TILEDB_OK)
             {
-                string message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknown error with code:" + status.ToString());
-                throw new TileDB.ErrorException("Config.load_from_file,caught exception:" + message);
+                string err_message = get_last_error(p_tiledb_error, status);
+                TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
+                throw new TileDB.ErrorException("Config.load_from_file, caught exception:" + err_message);
             }
-
-            return ;
+            TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
         }
 
         public void save_to_file(string filename)
@@ -120,17 +160,28 @@ namespace TileDB
 
             TileDB.Interop.MarshaledString ms_filename = new Interop.MarshaledString(filename);
             TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
+
             TileDB.Interop.tiledb_error_t* p_tiledb_error = &tiledb_error;
             int status = TileDB.Interop.Methods.tiledb_config_save_to_file(handle_, ms_filename, &p_tiledb_error);
-            TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
             if (status != (int)Status.TILEDB_OK)
             {
-                string message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknown error with code:" + status.ToString());
-                throw new TileDB.ErrorException("Config.save_to_file,caught exception:" + message);
+                string err_message = get_last_error(p_tiledb_error, status);
+                TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
+                throw new TileDB.ErrorException("Config.save_to_file, caught exception:" + err_message);
             }
-            return;
+            TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
         }
 
+        public ConfigIterator iterate(string prefix)
+        {
+            return new ConfigIterator(handle_, prefix);
+        }
 
+        public bool cmp(ref Config other)
+        {
+            byte equal;
+            TileDB.Interop.Methods.tiledb_config_compare(handle_, other.handle_, &equal);
+            return equal == 1;
+        }
     }
 }

@@ -45,6 +45,49 @@ namespace TileDB.Interop
     }//public unsafe partial class ConfigHandle
 
 
+    public unsafe partial class ConfigIteratorHandle : SafeHandle
+    {
+        // Constructor for a Handle
+        //   - calls native allocator
+        //   - exception on failure
+ 
+        public ConfigIteratorHandle(ConfigHandle hconfig, string prefix) : base(IntPtr.Zero, ownsHandle: true)
+        {
+            var h = stackalloc tiledb_config_iter_t*[1];
+            var e = stackalloc tiledb_error_t*[1];
+            TileDB.Interop.MarshaledString ms_prefix = new Interop.MarshaledString(prefix);
+            int status = TileDB.Interop.Methods.tiledb_config_iter_alloc(hconfig, ms_prefix, h, e);
+            
+            if (h[0] == (void*)0)
+            {
+                throw new Exception("Failed to allocate!");
+            }
+            SetHandle(h[0]);
+        }
+
+        // Deallocator: call native free with CER guarantees from SafeHTha andle
+        override protected bool ReleaseHandle()
+        {
+            // Free the native object
+            tiledb_config_iter_t* p = (tiledb_config_iter_t*)handle;
+            TileDB.Interop.Methods.tiledb_config_iter_free(&p);
+            // Invalidate the contained pointer
+            SetHandle(IntPtr.Zero);
+
+            return true;
+        }
+
+        // Conversions, getters, operators
+        public UInt64 get() { return (UInt64)this.handle; }
+        private protected void SetHandle(tiledb_config_iter_t* h) { SetHandle((IntPtr)h); }
+        private protected ConfigIteratorHandle(IntPtr value) : base(value, ownsHandle: false) { }
+        public override bool IsInvalid => this.handle == IntPtr.Zero;
+        public static implicit operator IntPtr(ConfigIteratorHandle h) => h.handle;
+        public static implicit operator tiledb_config_iter_t*(ConfigIteratorHandle h) => (tiledb_config_iter_t*)h.handle;
+        public static implicit operator ConfigIteratorHandle(tiledb_config_t* value) => new ConfigIteratorHandle((IntPtr)value);
+    }//public unsafe partial class ConfigHandle
+
+
     public unsafe partial class ContextHandle : SafeHandle
     {
         // Constructor for a Handle
@@ -96,6 +139,7 @@ namespace TileDB.Interop
         public static implicit operator tiledb_ctx_t*(ContextHandle h) => (tiledb_ctx_t*)h.handle;
         public static implicit operator ContextHandle(tiledb_ctx_t* value) => new ContextHandle((IntPtr)value);
     }//public unsafe partial class ContextHandle
+
 
     public unsafe partial class FilterHandle : SafeHandle
     {

@@ -33,9 +33,11 @@
 
 **/bin
 **/obj
-  
+**/lib
+
+**/libtiledb.*
+
 .idea
+.vscode
 
 TileDB-CSharp.sln.DotSettings.user
-
-
