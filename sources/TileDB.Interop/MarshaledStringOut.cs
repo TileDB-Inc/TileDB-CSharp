@@ -9,10 +9,10 @@ namespace TileDB.Interop
         public unsafe struct handle_t {};
         [DllImport(LibDllImport.LibCPath)]
         public unsafe static extern void free(void* p);
-    
+
     }
 
-    public unsafe class MarshaledStringOut : IDisposable
+    public unsafe class MarshaledStringOut
     {
         public sbyte* Value;
         public MarshaledStringOut()
@@ -20,26 +20,28 @@ namespace TileDB.Interop
             Value = null;
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            System.GC.SuppressFinalize(this);
-        }
-        protected virtual void Dispose(bool disposing) 
-        {
-            if (Value != null) 
-            {
-                LibC.free(Value); 
-            }
-            Value = null;
-        }
+        // We currently cannot free libtiledb-owned string returned through
+        // char** out-pointer.
+        //public void Dispose()
+        //{
+        //    Dispose(true);
+        //    System.GC.SuppressFinalize(this);
+        //}
+        //protected virtual void Dispose(bool disposing)
+        //{
+        //    if (Value != null)
+        //    {
+        //        LibC.free(Value);
+        //    }
+        //    Value = null;
+        //}
 
-        ~MarshaledStringOut()
-        {
-            Dispose(false);
-        }
+        //~MarshaledStringOut()
+        //{
+        //    Dispose(false);
+        //}
 
-        public static implicit operator string(MarshaledStringOut s) 
+        public static implicit operator string(MarshaledStringOut s)
         {
             if (s.Value == null) {
                 return string.Empty;
