@@ -27,15 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\TileDB.Interop\LibDllImport.cs" Link="LibDllImport.cs" />
-    <Compile Include="..\TileDB.Interop\LibTileDB.cs" Link="LibTileDB.cs" />
-    <Compile Include="..\TileDB.Interop\MarshaledString.cs" Link="MarshaledString.cs" />
-	  <Compile Include="..\TileDB.Interop\MarshaledStringOut.cs" Link="MarshaledStringOut.cs" />
-    <Compile Include="..\TileDB.Interop\SpanExtensions.cs" Link="SpanExtensions.cs" />
-    <Compile Include="..\TileDB.Interop\NativeTypeNameAttribute.cs" Link="NativeTypeNameAttribute.cs" />
-    <Compile Include="..\TileDB.Interop\TileDBSafeHandle.cs" Link="TileDBSafeHandle.cs" />
+    <ProjectReference Include="..\TileDB.Interop\TileDB.Interop.csproj" />
   </ItemGroup>
-
 
   <PropertyGroup>
     <OutputPath>./lib</OutputPath>
