@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TileDB
 {
+    // TODO Not sure why this is not automatically wrapped
     public enum Status
     {
         TILEDB_OOM = -2,
@@ -13,7 +14,7 @@ namespace TileDB
         TILEDB_OK = 0
     }
 
-    public enum ObjectType
+    public enum ObjectType : uint
     {
         TILEDB_INVALID = TileDB.Interop.tiledb_object_t.TILEDB_INVALID,
         TILEDB_GROUP = TileDB.Interop.tiledb_object_t.TILEDB_GROUP,
@@ -21,13 +22,13 @@ namespace TileDB
     }
 
 
-    public enum QueryType
+    public enum QueryType : uint
     {
         TILEDB_READ = TileDB.Interop.tiledb_query_type_t.TILEDB_READ,
         TILEDB_WRITE = TileDB.Interop.tiledb_query_type_t.TILEDB_WRITE,
     }
 
-    public enum QueryStatus
+    public enum QueryStatus : uint
     {
         TILEDB_FAILED = TileDB.Interop.tiledb_query_status_t.TILEDB_FAILED,
         TILEDB_COMPLETED = TileDB.Interop.tiledb_query_status_t.TILEDB_COMPLETED,
@@ -36,7 +37,7 @@ namespace TileDB
         TILEDB_UNINITIALIZED = TileDB.Interop.tiledb_query_status_t.TILEDB_UNINITIALIZED,
     }
 
-    public enum QueryConditionOperatorType
+    public enum QueryConditionOperatorType : uint
     {
         TILEDB_LT = TileDB.Interop.tiledb_query_condition_op_t.TILEDB_LT,
         TILEDB_LE = TileDB.Interop.tiledb_query_condition_op_t.TILEDB_LE,
@@ -46,14 +47,14 @@ namespace TileDB
         TILEDB_NE = TileDB.Interop.tiledb_query_condition_op_t.TILEDB_NE,
     }
 
-    public enum QueryConditionCombinationOperatorType
+    public enum QueryConditionCombinationOperatorType : uint
     {
         TILEDB_AND = TileDB.Interop.tiledb_query_condition_combination_op_t.TILEDB_AND,
         TILEDB_OR = TileDB.Interop.tiledb_query_condition_combination_op_t.TILEDB_OR,
         TILEDB_NOT = TileDB.Interop.tiledb_query_condition_combination_op_t.TILEDB_NOT,
     }
 
-    public enum FilesysemType
+    public enum FilesysemType : uint
     {
         TILEDB_HDFS = TileDB.Interop.tiledb_filesystem_t.TILEDB_HDFS,
         TILEDB_S3 = TileDB.Interop.tiledb_filesystem_t.TILEDB_S3,
@@ -62,7 +63,7 @@ namespace TileDB
         TILEDB_MEMFS = TileDB.Interop.tiledb_filesystem_t.TILEDB_MEMFS,
     }
 
-    public enum DataType
+    public enum DataType : uint
     {
         TILEDB_INT32 = TileDB.Interop.tiledb_datatype_t.TILEDB_INT32,
         TILEDB_INT64 = TileDB.Interop.tiledb_datatype_t.TILEDB_INT64,
@@ -106,13 +107,13 @@ namespace TileDB
         TILEDB_TIME_AS = TileDB.Interop.tiledb_datatype_t.TILEDB_TIME_AS,
     }
 
-    public enum ArrayType
+    public enum ArrayType : uint
     {
         TILEDB_DENSE = TileDB.Interop.tiledb_array_type_t.TILEDB_DENSE,
         TILEDB_SPARSE = TileDB.Interop.tiledb_array_type_t.TILEDB_SPARSE,
     }
 
-    public enum LayoutType
+    public enum LayoutType : uint
     {
         TILEDB_ROW_MAJOR = TileDB.Interop.tiledb_layout_t.TILEDB_ROW_MAJOR,
         TILEDB_COL_MAJOR = TileDB.Interop.tiledb_layout_t.TILEDB_COL_MAJOR,
@@ -121,7 +122,7 @@ namespace TileDB
         TILEDB_HILBERT = TileDB.Interop.tiledb_layout_t.TILEDB_HILBERT,
     }
 
-    public enum FilterType
+    public enum FilterType : uint
     {
         TILEDB_FILTER_NONE = TileDB.Interop.tiledb_filter_type_t.TILEDB_FILTER_NONE,
         TILEDB_FILTER_GZIP = TileDB.Interop.tiledb_filter_type_t.TILEDB_FILTER_GZIP,
@@ -138,26 +139,26 @@ namespace TileDB
         TILEDB_FILTER_CHECKSUM_SHA256 = TileDB.Interop.tiledb_filter_type_t.TILEDB_FILTER_CHECKSUM_SHA256,
     }
 
-    public enum FilterOption
+    public enum FilterOption : uint
     {
         TILEDB_COMPRESSION_LEVEL = TileDB.Interop.tiledb_filter_option_t.TILEDB_COMPRESSION_LEVEL,
         TILEDB_BIT_WIDTH_MAX_WINDOW = TileDB.Interop.tiledb_filter_option_t.TILEDB_BIT_WIDTH_MAX_WINDOW,
         TILEDB_POSITIVE_DELTA_MAX_WINDOW = TileDB.Interop.tiledb_filter_option_t.TILEDB_POSITIVE_DELTA_MAX_WINDOW,
     }
 
-    public enum EncryptionType
+    public enum EncryptionType : uint
     {
         TILEDB_NO_ENCRYPTION = TileDB.Interop.tiledb_encryption_type_t.TILEDB_NO_ENCRYPTION,
         TILEDB_AES_256_GCM = TileDB.Interop.tiledb_encryption_type_t.TILEDB_AES_256_GCM,
     }
 
-    public enum WalkOrderType
+    public enum WalkOrderType : uint
     {
         TILEDB_PREORDER = TileDB.Interop.tiledb_walk_order_t.TILEDB_PREORDER,
         TILEDB_POSTORDER = TileDB.Interop.tiledb_walk_order_t.TILEDB_POSTORDER,
     }
 
-    public enum VFSMode
+    public enum VFSMode : uint
     {
         TILEDB_VFS_READ = TileDB.Interop.tiledb_vfs_mode_t.TILEDB_VFS_READ,
         TILEDB_VFS_WRITE = TileDB.Interop.tiledb_vfs_mode_t.TILEDB_VFS_WRITE,
