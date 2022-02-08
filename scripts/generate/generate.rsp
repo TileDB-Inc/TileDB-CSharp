@@ -1,11 +1,11 @@
-
 --config
-compatible-codegen
+latest-codegen
 unix-types
+multi-file
 generate-helper-types
 --methodClassName
-libtiledb
+Methods
 --namespace
 TileDB.Interop
---prefixStrip
-tiledb_
+--output
+sources/TileDB.Interop
