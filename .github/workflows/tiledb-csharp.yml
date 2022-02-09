@@ -90,7 +90,7 @@ jobs:
     strategy:
       matrix:
         # Will be checking following versions
-        dotnet: ['5.0','6.0']
+        dotnet: ['5.0'] # TMP disabled ,'6.0']
     steps:
     # Checks out repository
     - uses: actions/checkout@v2
