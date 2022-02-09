@@ -47,43 +47,43 @@ jobs:
         $ErrorView = "NormalView"
         dotnet test -c Release tests/TileDB.CSharp.Test --framework net"${{ matrix.dotnet-version }}"
 
-  MacOS_Test:
-    runs-on: macos-latest
-    strategy:
-      matrix:
-        # Will be checking following versions
-        dotnet: ['5.0','6.0']
-    steps:
-    # Checks out repository
-    - uses: actions/checkout@v2
+  #MacOS_Test:
+  #  runs-on: macos-latest
+  #  strategy:
+  #    matrix:
+  #      # Will be checking following versions
+  #      dotnet: ['5.0','6.0']
+  #  steps:
+  #  # Checks out repository
+  #  - uses: actions/checkout@v2
 
-    # Following action sets up dotnet and uses the strategy matrix to test on
-    # specific versions
-    - name: Set up dotnet
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: ${{ matrix.dotnet }}
+  #  # Following action sets up dotnet and uses the strategy matrix to test on
+  #  # specific versions
+  #  - name: Set up dotnet
+  #    uses: actions/setup-dotnet@v1
+  #    with:
+  #      dotnet-version: ${{ matrix.dotnet }}
 
-    - name: Display dotnet version
-      run: dotnet --version
+  #  - name: Display dotnet version
+  #    run: dotnet --version
 
-    # Download tiledb
-    - name: Download tiledb
-      run: ./.github/scripts/install_tiledb.sh
+  #  # Download tiledb
+  #  - name: Download tiledb
+  #    run: ./.github/scripts/install_tiledb.sh
 
-    # DotNet build
-    - name: Dotnet build for TileDB.CSharp
-      shell: pwsh
-      run: |
-        $ErrorView = "NormalView"
-        dotnet build /p:Platform=x64 -c Release sources/TileDB.CSharp
+  #  # DotNet build
+  #  - name: Dotnet build for TileDB.CSharp
+  #    shell: pwsh
+  #    run: |
+  #      $ErrorView = "NormalView"
+  #      dotnet build /p:Platform=x64 -c Release sources/TileDB.CSharp
 
-    # DotNet test
-    - name: Test TileDB.CSharp
-      shell: pwsh
-      run: |
-        $ErrorView = "NormalView"
-        dotnet test -c Release tests/TileDB.CSharp.Test --framework net"${{ matrix.dotnet-version }}"
+  #  # DotNet test
+  #  - name: Test TileDB.CSharp
+  #    shell: pwsh
+  #    run: |
+  #      $ErrorView = "NormalView"
+  #      dotnet test -c Release tests/TileDB.CSharp.Test --framework net"${{ matrix.dotnet-version }}"
 
   Windows_Test:
     runs-on: windows-latest
