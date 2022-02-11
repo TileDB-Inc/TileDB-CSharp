@@ -12,19 +12,7 @@ namespace TileDB
         private TileDB.Interop.FilterHandle handle_;
         private Context ctx_;
         private bool disposed_ = false;
-
-
-        internal Filter()
-        {
-            ctx_ = new Context();
-            handle_ = new TileDB.Interop.FilterHandle(ctx_.Handle, TileDB.Interop.tiledb_filter_type_t.TILEDB_FILTER_NONE);
-        }
-
-        public Filter(FilterType filter_type)
-        {
-            ctx_ = new Context();
-            handle_ = new TileDB.Interop.FilterHandle(ctx_.Handle, (TileDB.Interop.tiledb_filter_type_t)(filter_type));
-        }
+ 
 
         public Filter(Context ctx, FilterType filter_type)
         {
@@ -65,19 +53,29 @@ namespace TileDB
             get { return handle_; }
         }
 
+        /// <summary>
+        /// Get filter type.
+        /// </summary>
+        /// <returns></returns>
         public FilterType filter_type()
         {
-            TileDB.Interop.tiledb_filter_type_t tiledb_filter_type= TileDB.Interop.tiledb_filter_type_t.TILEDB_FILTER_NONE;
+            var tiledb_filter_type= TileDB.Interop.tiledb_filter_type_t.TILEDB_FILTER_NONE;
             ctx_.handle_error(TileDB.Interop.Methods.tiledb_filter_get_type(ctx_.Handle, handle_, &tiledb_filter_type));
             return (FilterType)tiledb_filter_type;
         }
 
+        /// <summary>
+        /// Check filter option.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="filter_option"></param>
+        /// <exception cref="System.NotSupportedException"></exception>
         protected void check_filter_option<T>(FilterOption filter_option) 
         {
             //check for filter option 
-            bool is_compression_level = filter_option == FilterOption.TILEDB_COMPRESSION_LEVEL && typeof(T) == typeof(System.Int32);
-            bool is_bid_width_max_window = filter_option == FilterOption.TILEDB_BIT_WIDTH_MAX_WINDOW && typeof(T) == typeof(System.UInt32);
-            bool is_positive_delta_max_window = filter_option == FilterOption.TILEDB_POSITIVE_DELTA_MAX_WINDOW && typeof(T) == typeof(System.UInt32);
+            var is_compression_level = filter_option == FilterOption.TILEDB_COMPRESSION_LEVEL && typeof(T) == typeof(int);
+            var is_bid_width_max_window = filter_option == FilterOption.TILEDB_BIT_WIDTH_MAX_WINDOW && typeof(T) == typeof(uint);
+            var is_positive_delta_max_window = filter_option == FilterOption.TILEDB_POSITIVE_DELTA_MAX_WINDOW && typeof(T) == typeof(uint);
 
             if (is_compression_level || is_bid_width_max_window || is_positive_delta_max_window)
             {
@@ -86,28 +84,40 @@ namespace TileDB
             throw new System.NotSupportedException("Filter, type:" + typeof(T).ToString() + " is not supported for filter option:" + filter_option.ToString());
         }
 
+        /// <summary>
+        /// Set filter option.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="filter_option"></param>
+        /// <param name="value"></param>
         public void set_option<T>(FilterOption filter_option, T value) where T: struct 
         {
             //check for filter option 
             check_filter_option<T>(filter_option);
 
-            TileDB.Interop.tiledb_filter_option_t tiledb_filter_option = (TileDB.Interop.tiledb_filter_option_t)filter_option;
-            T[] data = new T[1] { value };
-            System.Runtime.InteropServices.GCHandle dataGCHandle = System.Runtime.InteropServices.GCHandle.Alloc(data, System.Runtime.InteropServices.GCHandleType.Pinned);
+            var tiledb_filter_option = (TileDB.Interop.tiledb_filter_option_t)filter_option;
+            var data = new T[1] { value };
+            var dataGCHandle = System.Runtime.InteropServices.GCHandle.Alloc(data, System.Runtime.InteropServices.GCHandleType.Pinned);
             ctx_.handle_error(TileDB.Interop.Methods.tiledb_filter_set_option(ctx_.Handle, handle_, tiledb_filter_option, (void*)dataGCHandle.AddrOfPinnedObject()));
             dataGCHandle.Free();
         }
 
+        /// <summary>
+        /// Get filter option.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="filter_option"></param>
+        /// <returns></returns>
         public T get_option<T>(FilterOption filter_option) where T: struct
         {
             //check for filter option 
             check_filter_option<T>(filter_option);
        
             T result;
-            TileDB.Interop.tiledb_filter_option_t tiledb_filter_option = (TileDB.Interop.tiledb_filter_option_t)filter_option;
+            var tiledb_filter_option = (TileDB.Interop.tiledb_filter_option_t)filter_option;
 
-            T[] data = new T[1];
-            System.Runtime.InteropServices.GCHandle dataGCHandle = System.Runtime.InteropServices.GCHandle.Alloc(data, System.Runtime.InteropServices.GCHandleType.Pinned);
+            var data = new T[1];
+            var dataGCHandle = System.Runtime.InteropServices.GCHandle.Alloc(data, System.Runtime.InteropServices.GCHandleType.Pinned);
             ctx_.handle_error(TileDB.Interop.Methods.tiledb_filter_get_option(ctx_.Handle, handle_, tiledb_filter_option, (void*)dataGCHandle.AddrOfPinnedObject()));
             result = data[0];
             dataGCHandle.Free();

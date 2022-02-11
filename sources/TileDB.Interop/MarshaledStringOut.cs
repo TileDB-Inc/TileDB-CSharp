@@ -48,7 +48,7 @@ namespace TileDB.Interop
             }
             else
             {
-                var span = new ReadOnlySpan<byte>(s.Value, Int32.MaxValue);
+                var span = new ReadOnlySpan<byte>(s.Value, int.MaxValue);
                 return span.Slice(0, span.IndexOf((byte)'\0')).AsString();
             }
         }

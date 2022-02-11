@@ -45,11 +45,11 @@ namespace TileDB
 
         internal string get_last_error(TileDB.Interop.tiledb_error_t *p_tiledb_error, int status)
         {
-            StringBuilder sb_result = new StringBuilder();
+            var sb_result = new StringBuilder();
             if (Enum.IsDefined(typeof(TileDB.Status), status))
             {
                 sb_result.Append( "Status: " + (TileDB.Status)status).ToString();
-                TileDB.Interop.MarshaledStringOut str_out = new Interop.MarshaledStringOut();
+                var str_out = new Interop.MarshaledStringOut();
                 fixed(sbyte** p_str = &str_out.Value) 
                 {
                     TileDB.Interop.Methods.tiledb_error_message(p_tiledb_error, p_str);
@@ -64,10 +64,10 @@ namespace TileDB
 
         public Tuple<string, string> here()
         {
-            TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
-            TileDB.Interop.tiledb_error_t* p_tiledb_error = &tiledb_error;
-            TileDB.Interop.MarshaledStringOut s_param = new Interop.MarshaledStringOut();
-            TileDB.Interop.MarshaledStringOut s_value = new Interop.MarshaledStringOut();
+            var tiledb_error = new TileDB.Interop.tiledb_error_t();
+            var p_tiledb_error = &tiledb_error;
+            var s_param = new Interop.MarshaledStringOut();
+            var s_value = new Interop.MarshaledStringOut();
             int status;
             fixed(sbyte** param_str = &s_param.Value, value_str = &s_value.Value)
             {
@@ -76,7 +76,7 @@ namespace TileDB
 
             if (status != (int)Status.TILEDB_OK)
             {
-                string err_message = get_last_error(p_tiledb_error, status);
+                var err_message = get_last_error(p_tiledb_error, status);
                 TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
                 throw new TileDB.ErrorException("Config.set, caught exception:" + err_message);
             }
@@ -87,12 +87,12 @@ namespace TileDB
 
         public void next()
         {
-            TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
-            TileDB.Interop.tiledb_error_t* p_tiledb_error = &tiledb_error;
-            int status = TileDB.Interop.Methods.tiledb_config_iter_next(handle_, &p_tiledb_error);
+            var tiledb_error = new TileDB.Interop.tiledb_error_t();
+            var p_tiledb_error = &tiledb_error;
+            var status = TileDB.Interop.Methods.tiledb_config_iter_next(handle_, &p_tiledb_error);
             if (status != (int)Status.TILEDB_OK)
             {
-                string err_message = get_last_error(p_tiledb_error, status);
+                var err_message = get_last_error(p_tiledb_error, status);
                 TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
                 throw new TileDB.ErrorException("ConfigIterator.next, caught exception:" + err_message);
             }
@@ -101,13 +101,13 @@ namespace TileDB
 
         public bool done() 
         {
-            TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
-            TileDB.Interop.tiledb_error_t* p_tiledb_error = &tiledb_error;
-            Int32 c_done;
-            int status = TileDB.Interop.Methods.tiledb_config_iter_done(handle_, &c_done, &p_tiledb_error);
+            var tiledb_error = new TileDB.Interop.tiledb_error_t();
+            var p_tiledb_error = &tiledb_error;
+            int c_done;
+            var status = TileDB.Interop.Methods.tiledb_config_iter_done(handle_, &c_done, &p_tiledb_error);
             if (status != (int)Status.TILEDB_OK)
             {
-                string err_message = get_last_error(p_tiledb_error, status);
+                var err_message = get_last_error(p_tiledb_error, status);
                 TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
                 throw new TileDB.ErrorException("ConfigIterator.done, caught exception:" + err_message);
             }
@@ -117,13 +117,13 @@ namespace TileDB
 
         public void reset(string prefix)
         {
-            TileDB.Interop.tiledb_error_t tiledb_error = new TileDB.Interop.tiledb_error_t();
-            TileDB.Interop.tiledb_error_t* p_tiledb_error = &tiledb_error;
-            TileDB.Interop.MarshaledString ms_prefix = new Interop.MarshaledString(prefix);
-            int status = TileDB.Interop.Methods.tiledb_config_iter_reset(hconfig_, handle_, ms_prefix, &p_tiledb_error);
+            var tiledb_error = new TileDB.Interop.tiledb_error_t();
+            var p_tiledb_error = &tiledb_error;
+            var ms_prefix = new Interop.MarshaledString(prefix);
+            var status = TileDB.Interop.Methods.tiledb_config_iter_reset(hconfig_, handle_, ms_prefix, &p_tiledb_error);
             if (status != (int)Status.TILEDB_OK)
             {
-                string err_message = get_last_error(p_tiledb_error, status);
+                var err_message = get_last_error(p_tiledb_error, status);
                 TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
                 throw new TileDB.ErrorException("Config.reset, caught exception:" + err_message);
             }
