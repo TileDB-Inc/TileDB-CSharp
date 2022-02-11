@@ -12,16 +12,18 @@ namespace TileDB
         private Context ctx_;
         private bool disposed_ = false;
 
-        public FilterList() 
-        {
-            ctx_ = new TileDB.Context();
-            handle_ = new TileDB.Interop.FilterListHandle(ctx_.Handle);
-        }
+ 
 
         public FilterList(Context ctx) 
         {
             ctx_ = ctx;
             handle_ = new TileDB.Interop.FilterListHandle(ctx_.Handle);
+        }
+
+        internal FilterList(Context ctx, TileDB.Interop.FilterListHandle handle) 
+        {
+            ctx_ = ctx;
+            handle_ = handle;
         }
 
         public void Dispose()
@@ -45,31 +47,58 @@ namespace TileDB
 
         }
 
+        internal Interop.FilterListHandle Handle
+        {
+            get { return handle_; }
+        }
+
+        /// <summary>
+        /// Add a filter.
+        /// </summary>
+        /// <param name="filter"></param>
         public void add_filter(Filter filter)
         {
             ctx_.handle_error(TileDB.Interop.Methods.tiledb_filter_list_add_filter(ctx_.Handle, handle_, filter.Handle));
         }
 
-        public void set_max_chunk_size(UInt32 max_chunk_size) 
+        /// <summary>
+        /// Set maximum chunk size.
+        /// </summary>
+        /// <param name="max_chunk_size"></param>
+        public void set_max_chunk_size(uint max_chunk_size) 
         {
             ctx_.handle_error(TileDB.Interop.Methods.tiledb_filter_list_set_max_chunk_size(ctx_.Handle,handle_,max_chunk_size));
         }
 
-        public UInt32 max_chunk_size()
+        /// <summary>
+        /// Get maximum chunk size.
+        /// </summary>
+        /// <returns></returns>
+        public uint max_chunk_size()
         {
-            UInt32 result = 0;
+            uint result = 0;
             ctx_.handle_error(TileDB.Interop.Methods.tiledb_filter_list_get_max_chunk_size(ctx_.Handle, handle_,&result));
             return result;
         }
 
-        public UInt32 nfilters()
+        /// <summary>
+        /// Get number of filter.
+        /// </summary>
+        /// <returns></returns>
+        public uint nfilters()
         {
-            UInt32 result = 0;
+            uint result = 0;
             ctx_.handle_error(TileDB.Interop.Methods.tiledb_filter_list_get_nfilters(ctx_.Handle, handle_, &result));
             return result;
         }
 
-        public Filter filter(UInt32 filter_index) 
+        /// <summary>
+        /// Get filter from index.
+        /// </summary>
+        /// <param name="filter_index"></param>
+        /// <returns></returns>
+        /// <exception cref="TileDB.ErrorException"></exception>
+        public Filter filter(uint filter_index) 
         {
             TileDB.Interop.tiledb_filter_t* filter_p = null;
             ctx_.handle_error(TileDB.Interop.Methods.tiledb_filter_list_get_filter_from_index(ctx_.Handle, handle_, filter_index, &filter_p));

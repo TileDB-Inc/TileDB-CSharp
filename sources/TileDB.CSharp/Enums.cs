@@ -165,4 +165,163 @@ namespace TileDB
         TILEDB_VFS_APPEND = TileDB.Interop.tiledb_vfs_mode_t.TILEDB_VFS_APPEND,
     }
 
+    public enum Constants : uint {
+        TILEDB_VAR_NUM = uint.MaxValue,
+    }
+
+    public static class EnumUtil 
+    {
+        public static TileDB.Interop.tiledb_datatype_t to_tiledb_datatype(System.Type t)
+        {
+            var tiledb_datatype = TileDB.Interop.tiledb_datatype_t.TILEDB_ANY;
+
+            if (t == typeof(int))
+            {
+                tiledb_datatype = TileDB.Interop.tiledb_datatype_t.TILEDB_INT32;
+            }
+            else if (t == typeof(long))
+            {
+                tiledb_datatype = TileDB.Interop.tiledb_datatype_t.TILEDB_INT64;
+            }
+            else if (t == typeof(float))
+            {
+                tiledb_datatype = TileDB.Interop.tiledb_datatype_t.TILEDB_FLOAT32;
+            }
+            else if (t == typeof(double))
+            {
+                tiledb_datatype = TileDB.Interop.tiledb_datatype_t.TILEDB_FLOAT64;
+            }
+            else if (t == typeof(byte))
+            {
+                tiledb_datatype = TileDB.Interop.tiledb_datatype_t.TILEDB_CHAR;
+            }
+            else if (t == typeof(short))
+            {
+                tiledb_datatype = TileDB.Interop.tiledb_datatype_t.TILEDB_INT16;
+            }
+            else if (t == typeof(ushort))
+            {
+                tiledb_datatype = TileDB.Interop.tiledb_datatype_t.TILEDB_UINT16;
+            }
+            else if (t == typeof(uint))
+            {
+                tiledb_datatype = TileDB.Interop.tiledb_datatype_t.TILEDB_UINT32;
+            }
+            else if (t == typeof(ulong))
+            {
+                tiledb_datatype = TileDB.Interop.tiledb_datatype_t.TILEDB_UINT64;
+            }
+            else if (t == typeof(string))
+            {
+                tiledb_datatype = TileDB.Interop.tiledb_datatype_t.TILEDB_STRING_ASCII;
+            }
+            else
+            {
+                tiledb_datatype = TileDB.Interop.tiledb_datatype_t.TILEDB_ANY;
+            }
+
+            return tiledb_datatype;
+        }
+
+        public static DataType to_DataType(System.Type t) 
+        {
+            var tiledb_datatype = to_tiledb_datatype(t);
+            return (DataType)tiledb_datatype;
+        }
+
+        public static System.Type to_Type(TileDB.Interop.tiledb_datatype_t tiledb_datatype)
+        {
+            switch (tiledb_datatype)
+            {
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_ANY:
+                    return typeof(sbyte);
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_CHAR:
+                    return typeof(sbyte);
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_DATETIME_AS:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_DATETIME_DAY:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_DATETIME_FS:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_DATETIME_HR:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_DATETIME_MIN:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_DATETIME_MONTH:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_DATETIME_MS:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_DATETIME_NS:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_DATETIME_PS:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_DATETIME_SEC:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_DATETIME_US:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_DATETIME_WEEK:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_DATETIME_YEAR:
+                    return typeof(Int64);
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_FLOAT32:
+                    return typeof(float);
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_FLOAT64:
+                    return typeof(double);
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_INT16:
+                    return typeof(short);
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_INT32:
+                    return typeof(int);
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_INT64:
+                    return typeof(long);
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_INT8:
+                    return typeof(sbyte);
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_STRING_ASCII:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_STRING_UCS2:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_STRING_UCS4:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_STRING_UTF16:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_STRING_UTF32:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_STRING_UTF8:
+                    return typeof(sbyte);
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_TIME_AS:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_TIME_FS:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_TIME_HR:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_TIME_MIN:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_TIME_MS:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_TIME_NS:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_TIME_PS:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_TIME_SEC:
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_TIME_US:
+                    return typeof(Int64);
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_UINT16:
+                    return typeof(ushort);
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_UINT32:
+                    return typeof(uint);
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_UINT64:
+                    return typeof(ulong);
+                case TileDB.Interop.tiledb_datatype_t.TILEDB_UINT8:
+                    return typeof(sbyte);
+                default:
+                    return typeof(byte);
+            }
+        }
+
+        public static System.Type to_Type(TileDB.DataType datatype)
+        {
+            var tiledb_datatype = (TileDB.Interop.tiledb_datatype_t)datatype;
+            return to_Type(tiledb_datatype);
+        }
+
+        public static bool is_string_type(TileDB.Interop.tiledb_datatype_t tiledb_datatype)
+        {
+            return tiledb_datatype == TileDB.Interop.tiledb_datatype_t.TILEDB_STRING_ASCII
+                || tiledb_datatype == TileDB.Interop.tiledb_datatype_t.TILEDB_STRING_UCS2
+                || tiledb_datatype == TileDB.Interop.tiledb_datatype_t.TILEDB_STRING_UCS4
+                || tiledb_datatype == TileDB.Interop.tiledb_datatype_t.TILEDB_STRING_UTF16
+                || tiledb_datatype == TileDB.Interop.tiledb_datatype_t.TILEDB_STRING_UTF32
+                || tiledb_datatype == TileDB.Interop.tiledb_datatype_t.TILEDB_STRING_UTF8;
+
+        }
+
+        public static bool is_string_type(TileDB.DataType datatype)
+        {
+            return datatype == TileDB.DataType.TILEDB_STRING_ASCII
+                || datatype == TileDB.DataType.TILEDB_STRING_UCS2
+                || datatype == TileDB.DataType.TILEDB_STRING_UCS4
+                || datatype == TileDB.DataType.TILEDB_STRING_UTF16
+                || datatype == TileDB.DataType.TILEDB_STRING_UTF32
+                || datatype == TileDB.DataType.TILEDB_STRING_UTF8;
+        }
+
+
+
+    }//class
+
 }

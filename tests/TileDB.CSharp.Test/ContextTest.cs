@@ -10,7 +10,7 @@ namespace TileDB.CSharp.Test
         public void NewContextIsValid()
         {
 
-            TileDB.Config config = new TileDB.Config();
+            var config = new Config();
 
             // Set values
             config.set("sm.memory_budget", "512000000");
@@ -29,7 +29,7 @@ namespace TileDB.CSharp.Test
         [TestMethod]
         public void ConfigReadWrite() 
         {
-            TileDB.Config config = new TileDB.Config();
+            var config = new Config();
  
             // Set values
             config.set("sm.memory_budget", "512000000");
@@ -43,7 +43,7 @@ namespace TileDB.CSharp.Test
 
             config.save_to_file("temp.cfg");
 
-            TileDB.Config config2 = new TileDB.Config();
+            var config2 = new Config();
             config2.load_from_file("temp.cfg");
 
             // Get values from config2
