@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace TileDB.Interop
 {
     /// <summary>Defines the base type of a struct as it was in the native signature.</summary>
-    [AttributeUsage(AttributeTargets.Struct, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Struct)]
     [Conditional("DEBUG")]
     internal sealed partial class NativeInheritanceAttribute : Attribute
     {

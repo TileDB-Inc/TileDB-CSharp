@@ -1,5 +1,5 @@
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TileDB;
 
 namespace TileDB.CSharp.Test
 {
@@ -9,42 +9,42 @@ namespace TileDB.CSharp.Test
         [TestMethod]
         public void TestDomain() {
             // Test context with config
-            var context = TileDB.Context.GetDefault();
+            var context = Context.GetDefault();
 
             // Test creating domain
             var domain = new Domain(context);
 
             // Test create dimension
             uint bound_lower=1, bound_upper=10, extent = 5;
-            var dimension = Dimension.create(context, "testuint", bound_lower, bound_upper, extent);
+            var dimension = Dimension.Create(context, "testuint", bound_lower, bound_upper, extent);
 
             Assert.AreEqual(false, domain.has_dimension("testuint"));
             domain.add_dimension(dimension);
             Assert.AreEqual(true, domain.has_dimension("testuint"));
-            Assert.AreEqual(DataType.TILEDB_UINT32, domain.type());
-            Assert.AreEqual<uint>(1, domain.ndim());
+            Assert.AreEqual(DataType.TILEDB_UINT32, domain.Type());
+            Assert.AreEqual<uint>(1, domain.NDim());
 
             // Test create another dimension
             int bound_lower2=1, bound_upper2=10, extent2 = 5;
-            var dimension2 = Dimension.create(context, "testint", bound_lower2, bound_upper2, extent2);
+            var dimension2 = Dimension.Create(context, "testint", bound_lower2, bound_upper2, extent2);
             domain.add_dimension(dimension2);
             Assert.AreEqual(true, domain.has_dimension("testint"));
-            Assert.ThrowsException<System.Exception>(() => domain.type()); 
+            Assert.ThrowsException<Exception>(() => domain.Type()); 
             //Assert.AreEqual(DataType.TILEDB_ANY, domain.type());
-            Assert.AreEqual<uint>(2, domain.ndim());
+            Assert.AreEqual<uint>(2, domain.NDim());
 
-            var dim1 = domain.dimension(0);
-            Assert.AreEqual(DataType.TILEDB_UINT32, dim1.type());
-            var dim2 = domain.dimension(1);
-            Assert.AreEqual(DataType.TILEDB_INT32, dim2.type());
+            var dim1 = domain.Dimension(0);
+            Assert.AreEqual(DataType.TILEDB_UINT32, dim1.Type());
+            var dim2 = domain.Dimension(1);
+            Assert.AreEqual(DataType.TILEDB_INT32, dim2.Type());
 
-            dim1 = domain.dimension("testuint");
-            Assert.AreEqual(DataType.TILEDB_UINT32, dim1.type());
-            Assert.AreEqual<string>("testuint", dim1.name());
+            dim1 = domain.Dimension("testuint");
+            Assert.AreEqual(DataType.TILEDB_UINT32, dim1.Type());
+            Assert.AreEqual<string>("testuint", dim1.Name());
 
-            dim2 = domain.dimension("testint");
-            Assert.AreEqual(DataType.TILEDB_INT32, dim2.type());
-            Assert.AreEqual<string>("testint", dim2.name());
+            dim2 = domain.Dimension("testint");
+            Assert.AreEqual(DataType.TILEDB_INT32, dim2.Type());
+            Assert.AreEqual<string>("testint", dim2.Name());
         }
     }
 

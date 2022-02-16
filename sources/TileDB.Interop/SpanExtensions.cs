@@ -2,7 +2,6 @@
 //https://github.com/dotnet/ClangSharp/blob/67c1e5243b9d58f2b28f10e3f9a82f7537fd9d88/sources/ClangSharp.Interop/Internals/SpanExtensions.cs
 
 using System;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace TileDB.Interop 

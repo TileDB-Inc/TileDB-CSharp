@@ -8,7 +8,7 @@ namespace TileDB.CSharp.Test
         [TestMethod]
         public void FillValue()
         {
-            var ctx = TileDB.Context.GetDefault();
+            var ctx = Context.GetDefault();
             var attr = new Attribute(ctx, "a", DataType.TILEDB_INT32);
             var fill_value = 100;
             attr.set_fill_value(fill_value);
@@ -20,12 +20,12 @@ namespace TileDB.CSharp.Test
         public void TestFullAttribute()
         {
     
-            var context = TileDB.Context.GetDefault();
+            var context = Context.GetDefault();
 
             const string attrName = "a";
             using var attribute =  new Attribute(context, attrName, DataType.TILEDB_INT32);
-            Assert.AreEqual(attrName, attribute.name());
-            Assert.AreEqual(DataType.TILEDB_INT32, attribute.type());
+            Assert.AreEqual(attrName, attribute.Name());
+            Assert.AreEqual(DataType.TILEDB_INT32, attribute.Type());
 
             // Set and get compressor
             var gzipFilter = new Filter(context, FilterType.TILEDB_FILTER_GZIP);
@@ -35,8 +35,8 @@ namespace TileDB.CSharp.Test
             attribute.set_filter_list(filter_list);
 
             var filterListReturn = attribute.filter_list();
-            Assert.AreEqual(filter_list.nfilters(), filterListReturn.nfilters());
-            var filterReturn = filterListReturn.filter(0);
+            Assert.AreEqual(filter_list.NFilters(), filterListReturn.NFilters());
+            var filterReturn = filterListReturn.Filter(0);
             var filterTypeReturn = filterReturn.filter_type();
             Assert.AreEqual(FilterType.TILEDB_FILTER_GZIP, filterTypeReturn);
             var filterOption = gzipFilter.get_option<int>(FilterOption.TILEDB_COMPRESSION_LEVEL);
@@ -58,16 +58,16 @@ namespace TileDB.CSharp.Test
         public void TestNullableAttribute()
         {
             
-            var context = TileDB.Context.GetDefault();
+            var context = Context.GetDefault();
 
             const string attrName = "a";
             using var attribute = new Attribute(context, attrName, DataType.TILEDB_INT32);
-            Assert.AreEqual(attrName, attribute.name());
+            Assert.AreEqual(attrName, attribute.Name());
 
             attribute.set_nullable(true);
 
-            Assert.AreEqual(true, attribute.nullable());
-            Assert.AreEqual(DataType.TILEDB_INT32, attribute.type());
+            Assert.AreEqual(true, attribute.Nullable());
+            Assert.AreEqual(DataType.TILEDB_INT32, attribute.Type());
 
             // Set and get compressor
             var gzipFilter = new Filter(context, FilterType.TILEDB_FILTER_GZIP);
@@ -77,8 +77,8 @@ namespace TileDB.CSharp.Test
             attribute.set_filter_list(filter_list);
 
             var filterListReturn = attribute.filter_list();
-            Assert.AreEqual(filter_list.nfilters(), filterListReturn.nfilters());
-            var filterReturn = filterListReturn.filter(0);
+            Assert.AreEqual(filter_list.NFilters(), filterListReturn.NFilters());
+            var filterReturn = filterListReturn.Filter(0);
             var filterTypeReturn = filterReturn.filter_type();
             Assert.AreEqual(FilterType.TILEDB_FILTER_GZIP, filterTypeReturn);
             var filterOption = gzipFilter.get_option<int>(FilterOption.TILEDB_COMPRESSION_LEVEL);
@@ -101,12 +101,12 @@ namespace TileDB.CSharp.Test
         public void TestStringAttribute()
         {
             
-            var context = TileDB.Context.GetDefault();
+            var context = Context.GetDefault();
 
             const string attrName = "a";
             using var attribute = new Attribute(context, attrName, DataType.TILEDB_STRING_ASCII);
-            Assert.AreEqual<string>(attrName, attribute.name());
-            Assert.AreEqual(DataType.TILEDB_STRING_ASCII, attribute.type());
+            Assert.AreEqual<string>(attrName, attribute.Name());
+            Assert.AreEqual(DataType.TILEDB_STRING_ASCII, attribute.Type());
 
             attribute.set_fill_value("test_fill");
             var fill_value = attribute.fill_value();

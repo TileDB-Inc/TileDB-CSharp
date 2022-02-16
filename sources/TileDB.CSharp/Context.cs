@@ -1,75 +1,70 @@
 ﻿using System;
 using System.Text;
-namespace TileDB
+using TileDB.Interop;
+
+namespace TileDB.CSharp
 {
-    public unsafe class Context : IDisposable
+    public sealed unsafe class Context : IDisposable
     {
-        private TileDB.Interop.ContextHandle handle_;
-        private TileDB.Config config_;
-        private bool disposed_ = false;
+        private readonly ContextHandle _handle;
+        private readonly Config _config;
+        private bool _disposed;
 
         public Context()
         {
-            handle_ = new TileDB.Interop.ContextHandle();
-            config_ = new Config();
+            _handle = new ContextHandle();
+            _config = new Config();
         }
 
         public Context(Config config)
         {
-            handle_ = new TileDB.Interop.ContextHandle(config.Handle);
-            config_ = config;
+            _handle = new ContextHandle(config.Handle);
+            _config = config;
         }
 
         public void Dispose()
         {
             Dispose(true);
-            System.GC.SuppressFinalize(this);
-
         }
 
-        protected virtual void Dispose(bool disposing) 
+        private void Dispose(bool disposing)
         {
-            if (!disposed_) 
+            if (_disposed) return;
+            if (disposing && !_handle.IsInvalid) 
             {
-                if (disposing && !handle_.IsInvalid) 
-                {
-                    handle_.Dispose();
-                }
-
-                disposed_ = true;
+                _handle.Dispose();
             }
+
+            _disposed = true;
         }
 
-        internal TileDB.Interop.ContextHandle Handle 
-        {
-            get { return handle_; }
-        }
+        internal ContextHandle Handle => _handle;
 
 
-        private static Context? default_ = null;
+        private static Context? _default;
         /// <summary>
         /// Get default context.
         /// </summary>
         /// <returns></returns>
         public static Context GetDefault() 
         {
-            if (default_ == null)
+            if (_default == null)
             {
-                default_ = new Context(new Config());
+                _default = new Context(new Config());
             }
-            return default_;
+            return _default;
         }
 
         /// <summary>
         /// Get statistic string.
         /// </summary>
         /// <returns></returns>
-        public string stats()
+        public string Stats()
         {    
-            var result_out = new Interop.MarshaledStringOut();
+            var result_out = new MarshaledStringOut();
             fixed (sbyte** p_result = &result_out.Value) 
             {
-                handle_error(TileDB.Interop.Methods.tiledb_ctx_get_stats(handle_, p_result));
+                handle_error(Methods.tiledb_ctx_get_stats(_handle, p_result));
             }
             
             return result_out;
@@ -80,9 +75,9 @@ namespace TileDB
         /// </summary>
         /// <returns></returns>
 
-        public Config config()
+        public Config Config()
         {
-            return config_;
+            return _config;
         }
 
         /// <summary>
@@ -93,16 +88,16 @@ namespace TileDB
         {
             var sb_result = new StringBuilder();
              
-            var tiledb_error = new TileDB.Interop.tiledb_error_t();
+            var tiledb_error = new tiledb_error_t();
             var p_tiledb_error = &tiledb_error;
-            var status = TileDB.Interop.Methods.tiledb_ctx_get_last_error(handle_, &p_tiledb_error);
+            var status = Methods.tiledb_ctx_get_last_error(_handle, &p_tiledb_error);
             if(status == (int)Status.TILEDB_OK)
             {
-                var str_out = new Interop.MarshaledStringOut();
+                var str_out = new MarshaledStringOut();
 
                 fixed(sbyte** p_str = &str_out.Value) 
                 {
-                    status = TileDB.Interop.Methods.tiledb_error_message(p_tiledb_error, p_str);
+                    status = Methods.tiledb_error_message(p_tiledb_error, p_str);
                 }
                 
                 if(status == (int)Status.TILEDB_OK)
@@ -111,16 +106,16 @@ namespace TileDB
                 }
                 else
                 {
-                    var message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknown error with code:" + status.ToString());
+                    var message = Enum.IsDefined(typeof(Status), status) ? ((Status)status).ToString() : ("Unknown error with code:" + status);
                     sb_result.Append(" Context.last_error,caught exception:" + message);
                 }
             }
             else
             {
-                var message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknown error with code:" + status.ToString());
+                var message = Enum.IsDefined(typeof(Status), status) ? ((Status)status).ToString() : ("Unknown error with code:" + status);
                 sb_result.Append(" Context.last_error,caught exception:" + message);
             }
-            TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
+            Methods.tiledb_error_free(&p_tiledb_error);
             
             return sb_result.ToString();
         }
@@ -130,7 +125,7 @@ namespace TileDB
         /// </summary>
         public void cancel_tasks()
         {
-            handle_error(TileDB.Interop.Methods.tiledb_ctx_cancel_tasks(handle_));
+            handle_error(Methods.tiledb_ctx_cancel_tasks(_handle));
         }
 
         /// <summary>
@@ -143,24 +138,22 @@ namespace TileDB
         {
             if(string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value)) 
             {
-                throw new System.ArgumentException("Context.set_tag, key or value is null or empty!");
+                throw new ArgumentException("Context.set_tag, key or value is null or empty!");
             }
  
-            var ms_key = new Interop.MarshaledString(key);
-            var ms_value = new Interop.MarshaledString(value);
-            handle_error(TileDB.Interop.Methods.tiledb_ctx_set_tag(handle_, ms_key, ms_value));
+            var ms_key = new MarshaledString(key);
+            var ms_value = new MarshaledString(value);
+            handle_error(Methods.tiledb_ctx_set_tag(_handle, ms_key, ms_value));
         }
 
         #region error
         /// <summary>
         /// Default event handler is just printing
         /// </summary>
-        public event EventHandler<ErrorEventArgs> ErrorHappened = new EventHandler<ErrorEventArgs>(
-            (o,e) => {
-                string error_msg = string.Format("Error! Code:{0},Message:{1}", e.Code, e.Message);
-                throw new System.Exception(error_msg);
-            }
-            );
+        public event EventHandler<ErrorEventArgs> ErrorHappened = (_,e) => {
+            var error_msg = $"Error! Code:{e.Code},Message:{e.Message}";
+            throw new Exception(error_msg);
+        };
 
  
         internal void handle_error(int rc) 
@@ -171,15 +164,15 @@ namespace TileDB
             }
 
             var sb_message = new StringBuilder();
-            var tiledb_error = new TileDB.Interop.tiledb_error_t();
+            var tiledb_error = new tiledb_error_t();
             var p_tiledb_error = &tiledb_error;
-            var status = TileDB.Interop.Methods.tiledb_ctx_get_last_error(handle_, &p_tiledb_error);
+            var status = Methods.tiledb_ctx_get_last_error(_handle, &p_tiledb_error);
             if (status == (int)Status.TILEDB_OK)
             {
-                var str_out = new Interop.MarshaledStringOut();
+                var str_out = new MarshaledStringOut();
                 fixed(sbyte** p_str = &str_out.Value) 
                 {
-                    status = TileDB.Interop.Methods.tiledb_error_message(p_tiledb_error, p_str);
+                    status = Methods.tiledb_error_message(p_tiledb_error, p_str);
                 }
               
                 if (status == (int)Status.TILEDB_OK)
@@ -188,29 +181,26 @@ namespace TileDB
                 }
                 else
                 {
-                    var ex_message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknown error with code:" + status.ToString());
+                    var ex_message = Enum.IsDefined(typeof(Status), status) ? ((Status)status).ToString() : ("Unknown error with code:" + status);
                     sb_message.Append(" Context.handle_error,caught exception:" + ex_message);
                 }
             }
             else
             {
-                var ex_message = Enum.IsDefined(typeof(TileDB.Status), status) ? ((TileDB.Status)status).ToString() : ("Unknown error with code:" + status.ToString());
+                var ex_message = Enum.IsDefined(typeof(Status), status) ? ((Status)status).ToString() : ("Unknown error with code:" + status);
                 sb_message.Append(" Context.handle_error,caught exception:" + ex_message);
             }
-            TileDB.Interop.Methods.tiledb_error_free(&p_tiledb_error);
+            Methods.tiledb_error_free(&p_tiledb_error);
 
             //fire event
             var args = new ErrorEventArgs(rc, sb_message.ToString());
             OnError(args);
         }
 
-        protected void OnError(ErrorEventArgs e) 
+        private void OnError(ErrorEventArgs e) 
         {
             var handler = ErrorHappened;
-            if (handler != null) 
-            {
-                handler(this, e); //fire the event
-            }
+            handler(this, e); //fire the event
         }
 
         #endregion error

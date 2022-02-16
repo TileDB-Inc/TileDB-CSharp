@@ -1,69 +1,60 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
+using TileDB.Interop;
 
-namespace TileDB
+namespace TileDB.CSharp
 {
-    public unsafe class Dimension : IDisposable
+    public sealed unsafe class Dimension : IDisposable
     {
-        private TileDB.Interop.DimensionHandle handle_;
-        private Context ctx_;
-        private bool disposed_ = false;
+        private readonly DimensionHandle _handle;
+        private readonly Context _ctx;
+        private bool _disposed;
 
-        internal Dimension(Context ctx, TileDB.Interop.DimensionHandle handle) 
+        internal Dimension(Context ctx, DimensionHandle handle) 
         {
-            ctx_ = ctx;
-            handle_ = handle;
+            _ctx = ctx;
+            _handle = handle;
         }
 
         public void Dispose()
         {
             Dispose(true);
-            System.GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
-
-            if (!disposed_)
+            if (_disposed) return;
+            if (disposing && (!_handle.IsInvalid))
             {
-                if (disposing && (!handle_.IsInvalid))
-                {
-                    handle_.Dispose();
-                }
-
-                disposed_ = true;
+                _handle.Dispose();
             }
 
+            _disposed = true;
         }
 
-        internal TileDB.Interop.DimensionHandle Handle
-        {
-            get { return handle_; }
-
-        }
+        internal DimensionHandle Handle => _handle;
 
         #region
 
         /// <summary>
         /// Set filter list.
         /// </summary>
-        /// <param name="filterlist"></param>
-        public void set_filter_list(FilterList filterlist)
+        /// <param name="filterList"></param>
+        public void set_filter_list(FilterList filterList)
         {
 
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_dimension_set_filter_list(ctx_.Handle, handle_, filterlist.Handle));
+            _ctx.handle_error(Methods.tiledb_dimension_set_filter_list(_ctx.Handle, _handle, filterList.Handle));
         }
 
         /// <summary>
         /// Set cell value number.
         /// </summary>
-        /// <param name="cell_val_num"></param>
-        public void set_cell_val_num(uint cell_val_num)
+        /// <param name="cellValNum"></param>
+        public void set_cell_val_num(uint cellValNum)
         {
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_dimension_set_cell_val_num(ctx_.Handle, handle_, cell_val_num));
+            _ctx.handle_error(Methods.tiledb_dimension_set_cell_val_num(_ctx.Handle, _handle, cellValNum));
         }
 
         /// <summary>
@@ -72,9 +63,9 @@ namespace TileDB
         /// <returns></returns>
         public FilterList filter_list()
         {
-            TileDB.Interop.tiledb_filter_list_t* filter_list_p;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_dimension_get_filter_list(ctx_.Handle, handle_, &filter_list_p));
-            return new FilterList(ctx_, filter_list_p);
+            tiledb_filter_list_t* filter_list_p;
+            _ctx.handle_error(Methods.tiledb_dimension_get_filter_list(_ctx.Handle, _handle, &filter_list_p));
+            return new FilterList(_ctx, filter_list_p);
         }
 
         /// <summary>
@@ -84,7 +75,7 @@ namespace TileDB
         public uint cell_val_num()
         {
             uint cell_value_num = 0;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_dimension_get_cell_val_num(ctx_.Handle, handle_, &cell_value_num));
+            _ctx.handle_error(Methods.tiledb_dimension_get_cell_val_num(_ctx.Handle, _handle, &cell_value_num));
             return cell_value_num;
         }
 
@@ -92,12 +83,12 @@ namespace TileDB
         /// Get name of the dimension.
         /// </summary>
         /// <returns></returns>
-        public string name()
+        public string Name()
         {
-            var ms_name = new TileDB.Interop.MarshaledStringOut();
+            var ms_name = new MarshaledStringOut();
             fixed (sbyte** p_result = &ms_name.Value) 
             {
-                ctx_.handle_error(TileDB.Interop.Methods.tiledb_dimension_get_name(ctx_.Handle, handle_, p_result));
+                _ctx.handle_error(Methods.tiledb_dimension_get_name(_ctx.Handle, _handle, p_result));
             }
             
             return ms_name;
@@ -107,14 +98,14 @@ namespace TileDB
         /// Get type of the dimension.
         /// </summary>
         /// <returns></returns>
-        public TileDB.DataType type()
+        public DataType Type()
         {
 
-            var tiledb_datatype = TileDB.Interop.tiledb_datatype_t.TILEDB_ANY;
+            var tiledb_datatype = tiledb_datatype_t.TILEDB_ANY;
 
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_dimension_get_type(ctx_.Handle, handle_, &tiledb_datatype));
+            _ctx.handle_error(Methods.tiledb_dimension_get_type(_ctx.Handle, _handle, &tiledb_datatype));
 
-            return (TileDB.DataType)tiledb_datatype;
+            return (DataType)tiledb_datatype;
         }
 
         /// <summary>
@@ -122,19 +113,16 @@ namespace TileDB
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        protected byte[] get_domain<T>() where T: struct 
+        private byte[] get_domain<T>() where T: struct
         {
-            unsafe
-            {
-                void* value_p;
-                var temp = default(T);
-                var size = (ulong)(2* System.Runtime.InteropServices.Marshal.SizeOf(temp));
+            void* value_p;
+            var temp = default(T);
+            var size = (ulong)(2* Marshal.SizeOf(temp));
 
-                ctx_.handle_error(TileDB.Interop.Methods.tiledb_dimension_get_domain(ctx_.Handle, handle_, &value_p));
+            _ctx.handle_error(Methods.tiledb_dimension_get_domain(_ctx.Handle, _handle, &value_p));
 
-                var fill_span = new ReadOnlySpan<byte>(value_p, (int)size);
-                return fill_span.ToArray();
-            }
+            var fill_span = new ReadOnlySpan<byte>(value_p, (int)size);
+            return fill_span.ToArray();
         }
 
         /// <summary>
@@ -142,11 +130,11 @@ namespace TileDB
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T[] domain<T>() where T : struct
+        public T[] Domain<T>() where T : struct
         {
             var fill_bytes = get_domain<T>();
-            System.Span<byte> byteSpan = fill_bytes;
-            var span = System.Runtime.InteropServices.MemoryMarshal.Cast<byte, T>(byteSpan);
+            Span<byte> byteSpan = fill_bytes;
+            var span = MemoryMarshal.Cast<byte, T>(byteSpan);
             return span.ToArray();
         }
 
@@ -155,19 +143,16 @@ namespace TileDB
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        protected byte[] get_tile_extent<T>() where T : struct
+        private byte[] get_tile_extent<T>() where T : struct
         {
-            unsafe
-            {
-                void* value_p;
-                var temp = default(T);
-                var size = (ulong)(System.Runtime.InteropServices.Marshal.SizeOf(temp));
+            void* value_p;
+            var temp = default(T);
+            var size = (ulong)(Marshal.SizeOf(temp));
 
-                ctx_.handle_error(TileDB.Interop.Methods.tiledb_dimension_get_tile_extent(ctx_.Handle, handle_, &value_p));
+            _ctx.handle_error(Methods.tiledb_dimension_get_tile_extent(_ctx.Handle, _handle, &value_p));
 
-                var fill_span = new ReadOnlySpan<byte>(value_p, (int)size);
-                return fill_span.ToArray();
-            }
+            var fill_span = new ReadOnlySpan<byte>(value_p, (int)size);
+            return fill_span.ToArray();
         }
 
         /// <summary>
@@ -178,8 +163,8 @@ namespace TileDB
         public T tile_extent<T>() where T : struct
         {
             var fill_bytes = get_tile_extent<T>();
-            System.Span<byte> byteSpan = fill_bytes;
-            var span = System.Runtime.InteropServices.MemoryMarshal.Cast<byte, T>(byteSpan);
+            Span<byte> byteSpan = fill_bytes;
+            var span = MemoryMarshal.Cast<byte, T>(byteSpan);
             return span.ToArray()[0];
         }
         #endregion
@@ -192,56 +177,56 @@ namespace TileDB
         {
             var sb = new StringBuilder();
 
-            var datatype = type();
+            var datatype = Type();
             var t = EnumUtil.to_Type(datatype);
             switch (System.Type.GetTypeCode(t))
             {
-                case System.TypeCode.Int16:
+                case TypeCode.Int16:
                     {
                         var extent = tile_extent<short>();
                         sb.Append(extent.ToString());
                     }
                     break;
-                case System.TypeCode.Int32:
+                case TypeCode.Int32:
                     {
                         var extent = tile_extent<int>();
                         sb.Append(extent.ToString());
                     }
                     break;
-                case System.TypeCode.Int64:
+                case TypeCode.Int64:
                     {
                         var extent = tile_extent<long>();
                         sb.Append(extent.ToString());
                     }
                     break;
-                case System.TypeCode.UInt16:
+                case TypeCode.UInt16:
                     {
                         var extent = tile_extent<ushort>();
                         sb.Append(extent.ToString());
                     }
                     break;
-                case System.TypeCode.UInt32:
+                case TypeCode.UInt32:
                     {
                         var extent = tile_extent<uint>();
                         sb.Append(extent.ToString());
                     }
                     break;
-                case System.TypeCode.UInt64:
+                case TypeCode.UInt64:
                     {
                         var extent = tile_extent<ulong>();
                         sb.Append(extent.ToString());
                     }
                     break;
-                case System.TypeCode.Single:
+                case TypeCode.Single:
                     {
                         var extent = tile_extent<float>();
-                        sb.Append(extent.ToString());
+                        sb.Append(extent.ToString(CultureInfo.InvariantCulture));
                     }
                     break;
-                case System.TypeCode.Double:
+                case TypeCode.Double:
                     {
                         var extent = tile_extent<double>();
-                        sb.Append(extent.ToString());
+                        sb.Append(extent.ToString(CultureInfo.InvariantCulture));
                     }
                     break;
                 default:
@@ -263,79 +248,79 @@ namespace TileDB
         {
             var sb = new StringBuilder();
 
-            var datatype = type();
+            var datatype = Type();
             var t = EnumUtil.to_Type(datatype);
             switch (System.Type.GetTypeCode(t))
             {
-                case System.TypeCode.Int16:
+                case TypeCode.Int16:
                     {
-                        var domain = domain<short>();
-                        if (domain != null && domain.Length >= 2)
+                        var domain = Domain<short>();
+                        if (domain.Length >= 2)
                         {
-                            sb.Append(domain[0].ToString() + "," + domain[1].ToString());
+                            sb.Append(domain[0] + "," + domain[1]);
                         }
                     }
                     break;
-                case System.TypeCode.Int32:
+                case TypeCode.Int32:
                     {
-                        var domain = domain<int>();
-                        if (domain != null && domain.Length >= 2)
+                        var domain = Domain<int>();
+                        if (domain.Length >= 2)
                         {
-                            sb.Append(domain[0].ToString() + "," + domain[1].ToString());
+                            sb.Append(domain[0] + "," + domain[1]);
                         }
                     }
                     break;
-                case System.TypeCode.Int64:
+                case TypeCode.Int64:
                     {
-                        var domain = domain<long>();
-                        if (domain != null && domain.Length >= 2)
+                        var domain = Domain<long>();
+                        if (domain.Length >= 2)
                         {
-                            sb.Append(domain[0].ToString() + "," + domain[1].ToString());
+                            sb.Append(domain[0] + "," + domain[1]);
                         }
                     }
                     break;
-                case System.TypeCode.UInt16:
+                case TypeCode.UInt16:
                     {
-                        var domain = domain<ushort>();
-                        if (domain != null && domain.Length >= 2)
+                        var domain = Domain<ushort>();
+                        if (domain.Length >= 2)
                         {
-                            sb.Append(domain[0].ToString() + "," + domain[1].ToString());
+                            sb.Append(domain[0] + "," + domain[1]);
                         }
                     }
                     break;
-                case System.TypeCode.UInt32:
+                case TypeCode.UInt32:
                     {
-                        var domain = domain<uint>();
-                        if (domain != null && domain.Length >= 2)
+                        var domain = Domain<uint>();
+                        if (domain.Length >= 2)
                         {
-                            sb.Append(domain[0].ToString() + "," + domain[1].ToString());
+                            sb.Append(domain[0] + "," + domain[1]);
                         }
                     }
                     break;
-                case System.TypeCode.UInt64:
+                case TypeCode.UInt64:
                     {
-                        var domain = domain<ulong>();
-                        if (domain != null && domain.Length >= 2)
+                        var domain = Domain<ulong>();
+                        if (domain.Length >= 2)
                         {
-                            sb.Append(domain[0].ToString() + "," + domain[1].ToString());
+                            sb.Append(domain[0] + "," + domain[1]);
                         }
                     }
                     break;
-                case System.TypeCode.Single:
+                case TypeCode.Single:
                     {
-                        var domain = domain<float>();
-                        if (domain != null && domain.Length >= 2)
+                        var domain = Domain<float>();
+                        if (domain.Length >= 2)
                         {
-                            sb.Append(domain[0].ToString() + "," + domain[1].ToString());
+                            sb.Append(domain[0] + "," + domain[1]);
                         }
                     }
                     break;
-                case System.TypeCode.Double:
+                case TypeCode.Double:
                     {
-                        var domain = domain<double>();
-                        if (domain != null && domain.Length >= 2)
+                        var domain = Domain<double>();
+                        if (domain.Length >= 2)
                         {
-                            sb.Append(domain[0].ToString() + "," + domain[1].ToString());
+                            sb.Append(domain[0] + "," + domain[1]);
                         }
                     }
                     break;
@@ -354,39 +339,38 @@ namespace TileDB
 
 
         /// <summary>
-        /// Create a dimenson.
+        /// Create a Dimension
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="ctx"></param>
         /// <param name="name"></param>
-        /// <param name="bound_lower"></param>
-        /// <param name="bound_upper"></param>
+        /// <param name="boundLower"></param>
+        /// <param name="boundUpper"></param>
         /// <param name="extent"></param>
         /// <returns></returns>
         /// <exception cref="System.NotSupportedException"></exception>
 
-        public static Dimension create<T>(Context ctx, string name, T bound_lower, T bound_upper, T extent)
+        public static Dimension Create<T>(Context ctx, string name, T boundLower, T boundUpper, T extent)
         {
-            var t = typeof(T);
             var tiledb_datatype = EnumUtil.to_tiledb_datatype(typeof(T));
 
-            if (tiledb_datatype == TileDB.Interop.tiledb_datatype_t.TILEDB_ANY) {
-                throw new System.NotSupportedException("Dimension.create, not supported datatype");
+            if (tiledb_datatype == tiledb_datatype_t.TILEDB_ANY) {
+                throw new NotSupportedException("Dimension.create, not supported datatype");
             }
 
-            if (tiledb_datatype == TileDB.Interop.tiledb_datatype_t.TILEDB_STRING_ASCII)
+            if (tiledb_datatype == tiledb_datatype_t.TILEDB_STRING_ASCII)
             {
-                var str_dim_handle = new TileDB.Interop.DimensionHandle(ctx.Handle, name, tiledb_datatype, null, null);
+                var str_dim_handle = new DimensionHandle(ctx.Handle, name, tiledb_datatype, null, null);
                 return new Dimension(ctx, str_dim_handle);
             }
 
-            var data = new T[2] { bound_lower, bound_upper};
+            var data = new[] { boundLower, boundUpper};
      
-            var dataGCHandle = System.Runtime.InteropServices.GCHandle.Alloc(data, System.Runtime.InteropServices.GCHandleType.Pinned);
-            var extent_dataGCHandle = System.Runtime.InteropServices.GCHandle.Alloc(extent, System.Runtime.InteropServices.GCHandleType.Pinned);
-            var handle = new TileDB.Interop.DimensionHandle(ctx.Handle, name, tiledb_datatype, (void*)dataGCHandle.AddrOfPinnedObject(), (void*)extent_dataGCHandle.AddrOfPinnedObject());
-            dataGCHandle.Free();
-            extent_dataGCHandle.Free();
+            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
+            var extent_dataGcHandle = GCHandle.Alloc(extent, GCHandleType.Pinned);
+            var handle = new DimensionHandle(ctx.Handle, name, tiledb_datatype, (void*)dataGcHandle.AddrOfPinnedObject(), (void*)extent_dataGcHandle.AddrOfPinnedObject());
+            dataGcHandle.Free();
+            extent_dataGcHandle.Free();
             return new Dimension(ctx,handle);
         }
 
@@ -401,18 +385,17 @@ namespace TileDB
         /// <returns></returns>
         /// <exception cref="System.NotSupportedException"></exception>
         /// <exception cref="System.ArgumentException"></exception>
-        public static Dimension create<T>(Context ctx, string name, T[] bound, T extent) 
+        public static Dimension Create<T>(Context ctx, string name, T[] bound, T extent) 
         {
-            var t = typeof(T);
             var tiledb_datatype = EnumUtil.to_tiledb_datatype(typeof(T));
-            if (tiledb_datatype == TileDB.Interop.tiledb_datatype_t.TILEDB_STRING_ASCII) 
+            if (tiledb_datatype == tiledb_datatype_t.TILEDB_STRING_ASCII) 
             {
-                throw new System.NotSupportedException("Dimension.create, use create_string for string dimensions");
+                throw new NotSupportedException("Dimension.create, use create_string for string dimensions");
             }
             if (bound.Length < 2) {
-                throw new System.ArgumentException("Dimension.create, length of bound array is less than 2!");
+                throw new ArgumentException("Dimension.create, length of bound array is less than 2!");
             }
-            return create(ctx, name, bound[0], bound[1], extent);
+            return Create(ctx, name, bound[0], bound[1], extent);
         }
 
         /// <summary>
@@ -423,7 +406,7 @@ namespace TileDB
         /// <returns></returns>
         public static Dimension create_string(Context ctx, string name) 
         {
-            return create<string>(ctx, name, "", "", "");
+            return Create<string>(ctx, name, "", "", "");
         }
     }//class
 

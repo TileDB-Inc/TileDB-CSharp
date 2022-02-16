@@ -4,9 +4,9 @@ using System.Diagnostics;
 namespace TileDB.Interop
 {
     /// <summary>Defines the type of a member as it was used in the native signature.</summary>
-    [System.AttributeUsage(System.AttributeTargets.Struct | System.AttributeTargets.Enum | System.AttributeTargets.Property | System.AttributeTargets.Field | System.AttributeTargets.Parameter | System.AttributeTargets.ReturnValue, AllowMultiple = false, Inherited = true)]
-    [System.Diagnostics.Conditional("DEBUG")]
-    internal sealed partial class NativeTypeNameAttribute : System.Attribute
+    [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Enum | AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.ReturnValue)]
+    [Conditional("DEBUG")]
+    internal sealed partial class NativeTypeNameAttribute : Attribute
     {
         private readonly string _name;
 

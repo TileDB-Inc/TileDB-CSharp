@@ -57,14 +57,12 @@ namespace TileDB.Interop
             {
                 return string.Empty;
             }
-            else 
+
+            fixed (byte* p = span) 
             {
-                fixed (byte* p = span) 
-                {
-                    return System.Text.Encoding.ASCII.GetString(p, span.Length);
-                }
+                return Encoding.ASCII.GetString(p, span.Length);
             }
-             
+
         }
     }
 }

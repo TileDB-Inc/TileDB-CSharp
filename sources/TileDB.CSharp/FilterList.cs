@@ -1,56 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TileDB.Interop;
 
-namespace TileDB
+namespace TileDB.CSharp
 {
-    public unsafe class FilterList : IDisposable
+    public sealed unsafe class FilterList : IDisposable
     {
-        private TileDB.Interop.FilterListHandle handle_;
-        private Context ctx_;
-        private bool disposed_ = false;
+        private readonly FilterListHandle _handle;
+        private readonly Context _ctx;
+        private bool _disposed;
 
  
 
         public FilterList(Context ctx) 
         {
-            ctx_ = ctx;
-            handle_ = new TileDB.Interop.FilterListHandle(ctx_.Handle);
+            _ctx = ctx;
+            _handle = new FilterListHandle(_ctx.Handle);
         }
 
-        internal FilterList(Context ctx, TileDB.Interop.FilterListHandle handle) 
+        internal FilterList(Context ctx, FilterListHandle handle) 
         {
-            ctx_ = ctx;
-            handle_ = handle;
+            _ctx = ctx;
+            _handle = handle;
         }
 
         public void Dispose()
         {
             Dispose(true);
-            System.GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
-
-            if (!disposed_)
+            if (_disposed) return;
+            if (disposing && (!_handle.IsInvalid))
             {
-                if (disposing && (!handle_.IsInvalid))
-                {
-                    handle_.Dispose();
-                }
-
-                disposed_ = true;
+                _handle.Dispose();
             }
 
+            _disposed = true;
         }
 
-        internal Interop.FilterListHandle Handle
-        {
-            get { return handle_; }
-        }
+        internal FilterListHandle Handle => _handle;
 
         /// <summary>
         /// Add a filter.
@@ -58,16 +47,16 @@ namespace TileDB
         /// <param name="filter"></param>
         public void add_filter(Filter filter)
         {
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_filter_list_add_filter(ctx_.Handle, handle_, filter.Handle));
+            _ctx.handle_error(Methods.tiledb_filter_list_add_filter(_ctx.Handle, _handle, filter.Handle));
         }
 
         /// <summary>
         /// Set maximum chunk size.
         /// </summary>
-        /// <param name="max_chunk_size"></param>
-        public void set_max_chunk_size(uint max_chunk_size) 
+        /// <param name="maxChunkSize"></param>
+        public void set_max_chunk_size(uint maxChunkSize) 
         {
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_filter_list_set_max_chunk_size(ctx_.Handle,handle_,max_chunk_size));
+            _ctx.handle_error(Methods.tiledb_filter_list_set_max_chunk_size(_ctx.Handle,_handle,maxChunkSize));
         }
 
         /// <summary>
@@ -77,7 +66,7 @@ namespace TileDB
         public uint max_chunk_size()
         {
             uint result = 0;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_filter_list_get_max_chunk_size(ctx_.Handle, handle_,&result));
+            _ctx.handle_error(Methods.tiledb_filter_list_get_max_chunk_size(_ctx.Handle, _handle,&result));
             return result;
         }
 
@@ -85,29 +74,29 @@ namespace TileDB
         /// Get number of filter.
         /// </summary>
         /// <returns></returns>
-        public uint nfilters()
+        public uint NFilters()
         {
             uint result = 0;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_filter_list_get_nfilters(ctx_.Handle, handle_, &result));
+            _ctx.handle_error(Methods.tiledb_filter_list_get_nfilters(_ctx.Handle, _handle, &result));
             return result;
         }
 
         /// <summary>
         /// Get filter from index.
         /// </summary>
-        /// <param name="filter_index"></param>
+        /// <param name="filterIndex"></param>
         /// <returns></returns>
-        /// <exception cref="TileDB.ErrorException"></exception>
-        public Filter filter(uint filter_index) 
+        /// <exception cref="ErrorException"></exception>
+        public Filter Filter(uint filterIndex) 
         {
-            TileDB.Interop.tiledb_filter_t* filter_p = null;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_filter_list_get_filter_from_index(ctx_.Handle, handle_, filter_index, &filter_p));
+            tiledb_filter_t* filter_p = null;
+            _ctx.handle_error(Methods.tiledb_filter_list_get_filter_from_index(_ctx.Handle, _handle, filterIndex, &filter_p));
 
             if (filter_p == null) {
-                throw new TileDB.ErrorException("Filter.filter, filter pointer is null");
+                throw new ErrorException("FilterList.filter, filter pointer is null");
             }
 
-            return new TileDB.Filter(ctx_, filter_p);
+            return new Filter(_ctx, filter_p);
         }
 
     }

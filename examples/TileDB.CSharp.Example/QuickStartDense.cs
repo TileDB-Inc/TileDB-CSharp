@@ -1,5 +1,6 @@
-﻿using TileDB;
-namespace TileDB_CSharp_Examples
+﻿using System;
+
+namespace TileDB.CSharp.Examples
 {
     class QuickStartDense
     {
@@ -15,7 +16,7 @@ namespace TileDB_CSharp_Examples
 
             attribute.set_fill_value("testfill");
             var fill_value = attribute.fill_value();
-            System.Console.WriteLine(fill_value);
+            Console.WriteLine(fill_value);
 
 
 

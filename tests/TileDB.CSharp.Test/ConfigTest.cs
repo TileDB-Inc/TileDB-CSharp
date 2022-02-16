@@ -1,7 +1,6 @@
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TileDB;
 using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TileDB.CSharp.Test
 {
@@ -11,36 +10,36 @@ namespace TileDB.CSharp.Test
         [TestMethod]
         public void ConfigSet() {
             var config = new Config();
-            config.set("sm.tile_cache_size", "10");
-            var val = config.get("sm.tile_cache_size");
+            config.Set("sm.tile_cache_size", "10");
+            var val = config.Get("sm.tile_cache_size");
             Assert.AreEqual<string>(val, "10");
         }
 
         [TestMethod]
         public void ConfigGet() {
             var config = new Config();
-            var val = config.get("sm.tile_cache_size");
+            var val = config.Get("sm.tile_cache_size");
             Assert.AreEqual<string>(val, "10000000");
-            val = config.get("sm.does_not_exists");
+            val = config.Get("sm.does_not_exists");
             Assert.AreEqual<string>(val, "");
         }
 
         [TestMethod]
         public void ConfigUnSet() {
             var config = new Config();
-            config.set("sm.tile_cache_size", "10");
-            var val = config.get("sm.tile_cache_size");
+            config.Set("sm.tile_cache_size", "10");
+            var val = config.Get("sm.tile_cache_size");
             Assert.AreEqual<string>(val, "10");
-            config.unset("sm.tile_cache_size");
-            val = config.get("sm.tile_cache_size");
+            config.Unset("sm.tile_cache_size");
+            val = config.Get("sm.tile_cache_size");
             Assert.AreEqual<string>(val, "10000000");
         }
 
         [TestMethod]
         public void ConfigFromFile() {
             var config = new Config();
-            config.set("sm.tile_cache_size", "10");
-            var val = config.get("sm.tile_cache_size");
+            config.Set("sm.tile_cache_size", "10");
+            var val = config.Get("sm.tile_cache_size");
             Assert.AreEqual<string>(val, "10");
 
             // Create temporary path for testing configuration writing/reading
@@ -51,31 +50,31 @@ namespace TileDB.CSharp.Test
             var config2 = new Config();
             config2.load_from_file(tmpPath);
 
-            val = config2.get("sm.tile_cache_size");
+            val = config2.Get("sm.tile_cache_size");
             Assert.AreEqual<string>(val, "10");
         }
 
         [TestMethod]
         public void ConfigCompare() {
             var config = new Config();
-            config.set("sm.tile_cache_size", "10");
-            var val = config.get("sm.tile_cache_size");
+            config.Set("sm.tile_cache_size", "10");
+            var val = config.Get("sm.tile_cache_size");
             Assert.AreEqual<string>(val, "10");
 
             var config2 = new Config();
-            config2.set("sm.tile_cache_size", "10");
-            var val2 = config.get("sm.tile_cache_size");
+            config2.Set("sm.tile_cache_size", "10");
+            var val2 = config.Get("sm.tile_cache_size");
             Assert.AreEqual<string>(val2, "10");
 
-            var cmp2 = config.cmp(ref config2);
+            var cmp2 = config.Cmp(ref config2);
             Assert.AreEqual(cmp2, true);
 
             var config3 = new Config();
-            config3.set("sm.tile_cache_size", "11");
-            var val3 = config3.get("sm.tile_cache_size");
+            config3.Set("sm.tile_cache_size", "11");
+            var val3 = config3.Get("sm.tile_cache_size");
             Assert.AreEqual<string>(val3, "11");
 
-            var cmp3 = config.cmp(ref config3);
+            var cmp3 = config.Cmp(ref config3);
             Assert.AreEqual(cmp3, false);
         }
 
@@ -84,12 +83,12 @@ namespace TileDB.CSharp.Test
             var config = new Config();
 
             // Iterate the configuration
-            var iter = config.iterate("vfs.s3.");
+            var iter = config.Iterate("vfs.s3.");
 
-            while (!iter.done()) {
+            while (!iter.Done()) {
 
                 // Get current param, value from iterator
-                var config_entry_pair = iter.here();
+                var config_entry_pair = iter.Here();
 
                 switch (config_entry_pair.Item1) {
                     case "aws_access_key_id":
@@ -192,7 +191,7 @@ namespace TileDB.CSharp.Test
                         Assert.AreEqual<string>(config_entry_pair.Item2, "true");
                         break;
                 }
-                iter.next();
+                iter.Next();
             }
         }
     }
