@@ -1,14 +1,13 @@
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace TileDB.Interop
 {
-    public unsafe partial class LibC
+    public unsafe class LibC
     {
-        public unsafe struct handle_t {};
+        public struct handle_t {}
         [DllImport(LibDllImport.LibCPath)]
-        public unsafe static extern void free(void* p);
+        public static extern void free(void* p);
 
     }
 
@@ -46,11 +45,9 @@ namespace TileDB.Interop
             if (s.Value == null) {
                 return string.Empty;
             }
-            else
-            {
-                var span = new ReadOnlySpan<byte>(s.Value, int.MaxValue);
-                return span.Slice(0, span.IndexOf((byte)'\0')).AsString();
-            }
+
+            var span = new ReadOnlySpan<byte>(s.Value, int.MaxValue);
+            return span.Slice(0, span.IndexOf((byte)'\0')).AsString();
         }
 
 

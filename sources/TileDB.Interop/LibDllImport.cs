@@ -1,5 +1,4 @@
-﻿using System;
-namespace TileDB.Interop
+﻿namespace TileDB.Interop
 {
     internal class LibDllImport
     {

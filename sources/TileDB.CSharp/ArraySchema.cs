@@ -1,62 +1,56 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TileDB.Interop;
 
-namespace TileDB
+namespace TileDB.CSharp
 {
-    public unsafe class ArraySchema : IDisposable
+    public sealed unsafe class ArraySchema : IDisposable
     {
-        private TileDB.Interop.ArraySchemaHandle handle_;
-        private Context ctx_;
-        private bool disposed_ = false;
+        private readonly ArraySchemaHandle _handle;
+        private readonly Context _ctx;
+        private bool _disposed;
 
-        public ArraySchema(Context ctx, ArrayType array_type) 
+        public ArraySchema(Context ctx, ArrayType arrayType) 
         {
-            ctx_ = ctx;
-            TileDB.Interop.tiledb_array_type_t tiledb_array_type = (TileDB.Interop.tiledb_array_type_t)array_type;
-            handle_ = new TileDB.Interop.ArraySchemaHandle(ctx_.Handle, tiledb_array_type);
+            _ctx = ctx;
+            var tiledb_array_type = (tiledb_array_type_t)arrayType;
+            _handle = new ArraySchemaHandle(_ctx.Handle, tiledb_array_type);
         }
 
-        public ArraySchema(Context ctx, string uri)
+        private ArraySchema(Context ctx, string uri)
         {
-            ctx_ = ctx;
-            TileDB.Interop.tiledb_array_schema_t* array_schema_p;
-            var ms_uri = new TileDB.Interop.MarshaledString(uri);
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_load(ctx_.Handle, ms_uri, &array_schema_p));
-            handle_ = array_schema_p;
+            _ctx = ctx;
+            tiledb_array_schema_t* array_schema_p;
+            var ms_uri = new MarshaledString(uri);
+            _ctx.handle_error(Methods.tiledb_array_schema_load(_ctx.Handle, ms_uri, &array_schema_p));
+            _handle = array_schema_p;
 
         }
 
         
-        internal ArraySchema(Context ctx, TileDB.Interop.ArraySchemaHandle handle) 
+        internal ArraySchema(Context ctx, ArraySchemaHandle handle) 
         {
-            ctx_ = ctx;
-            handle_ = handle;
+            _ctx = ctx;
+            _handle = handle;
         }
 
         public void Dispose()
         {
             Dispose(true);
-            System.GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
-
-            if (!disposed_)
+            if (_disposed) return;
+            if (disposing && (!_handle.IsInvalid))
             {
-                if (disposing && (!handle_.IsInvalid))
-                {
-                    handle_.Dispose();
-                }
-
-                disposed_ = true;
+                _handle.Dispose();
             }
 
+            _disposed = true;
         }
+
+        internal ArraySchemaHandle Handle => _handle;
 
 
         #region capi functions
@@ -67,26 +61,26 @@ namespace TileDB
         /// <param name="attr"></param>
         public void add_attribute(Attribute attr)
         {
-            ctx_.handle_error(Methods.tiledb_array_schema_add_attribute(ctx_.Handle, handle_, attr.Handle));
+            _ctx.handle_error(Methods.tiledb_array_schema_add_attribute(_ctx.Handle, _handle, attr.Handle));
         }
 
         public void add_attributes(params Attribute[] attrs)
         {
-            for (int idx = 0; idx < attrs.Length; idx++)
+            foreach (var t in attrs)
             {
-                ctx_.handle_error(Methods.tiledb_array_schema_add_attribute(ctx_.Handle, handle_, attrs[idx].Handle));
+                _ctx.handle_error(Methods.tiledb_array_schema_add_attribute(_ctx.Handle, _handle, t.Handle));
             }
         }
 
         /// <summary>
         /// Set if duplicate is allowed or not
         /// </summary>
-        /// <param name="allows_dups"></param>
-        public void set_allows_dups(bool allows_dups)
+        /// <param name="allowsDups"></param>
+        public void set_allows_dups(bool allowsDups)
         {
 
-            var int_allow_dups = allows_dups ? 1 : 0;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_set_allows_dups(ctx_.Handle, handle_, int_allow_dups));
+            var int_allow_dups = allowsDups ? 1 : 0;
+            _ctx.handle_error(Methods.tiledb_array_schema_set_allows_dups(_ctx.Handle, _handle, int_allow_dups));
         }
 
         /// <summary>
@@ -95,19 +89,19 @@ namespace TileDB
         /// <returns></returns>
         public bool allows_dups()
         {
-            var int_allows_dups = 0;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_get_allows_dups(ctx_.Handle, handle_, &int_allows_dups));
-            return int_allows_dups > 0;
+            var allowDups = 0;
+            _ctx.handle_error(Methods.tiledb_array_schema_get_allows_dups(_ctx.Handle, _handle, &allowDups));
+            return allowDups > 0;
         }
 
         /// <summary>
         /// Set domain.
+        /// </summary>
         /// <param name="domain"></param>
         public void set_domain(Domain domain)
         {
 
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_set_domain(ctx_.Handle, handle_, domain.Handle));
-            return;
+            _ctx.handle_error(Methods.tiledb_array_schema_set_domain(_ctx.Handle, _handle, domain.Handle));
         }
 
         /// <summary>
@@ -116,48 +110,46 @@ namespace TileDB
         /// <param name="capacity"></param>
         public void set_capacity(ulong capacity)
         {
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_set_capacity(ctx_.Handle, handle_, capacity));
-            return;
+            _ctx.handle_error(Methods.tiledb_array_schema_set_capacity(_ctx.Handle, _handle, capacity));
         }
 
         /// <summary>
         /// Set cell order.
         /// </summary>
-        /// <param name="layouttype"></param>
-        public void set_cell_order(LayoutType layouttype)
+        /// <param name="layoutType"></param>
+        public void set_cell_order(LayoutType layoutType)
         {
-            var tiledb_layout = (TileDB.Interop.tiledb_layout_t)layouttype;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_set_cell_order(ctx_.Handle, handle_, tiledb_layout));
-            return;
+            var tiledb_layout = (tiledb_layout_t)layoutType;
+            _ctx.handle_error(Methods.tiledb_array_schema_set_cell_order(_ctx.Handle, _handle, tiledb_layout));
         }
 
         /// <summary>
         /// Set tile order.
         /// </summary>
-        /// <param name="layouttype"></param>
-        public void set_tile_order(LayoutType layouttype)
+        /// <param name="layoutType"></param>
+        public void set_tile_order(LayoutType layoutType)
         {
-            var tiledb_layout = (TileDB.Interop.tiledb_layout_t)layouttype;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_set_tile_order(ctx_.Handle, handle_, tiledb_layout));
-            return;
+            var tiledb_layout = (tiledb_layout_t)layoutType;
+            _ctx.handle_error(Methods.tiledb_array_schema_set_tile_order(_ctx.Handle, _handle, tiledb_layout));
         }
 
         /// <summary>
         /// Set coordinates filter list.
         /// </summary>
-        /// <param name="filter_list"></param>
-        public void set_coords_filter_list(FilterList filter_list)
+        /// <param name="filterList"></param>
+        public void set_coords_filter_list(FilterList filterList)
         {
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_set_coords_filter_list(ctx_.Handle, handle_, filter_list.Handle));
+            _ctx.handle_error(Methods.tiledb_array_schema_set_coords_filter_list(_ctx.Handle, _handle, filterList.Handle));
 
         }
 
         /// <summary>
         /// Set offsets filter list.
-        /// <param name="filter_list"></param>
-        public void set_offsets_filter_list(FilterList filter_list)
+        /// </summary>
+        /// <param name="filterList"></param>
+        public void set_offsets_filter_list(FilterList filterList)
         {
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_set_offsets_filter_list(ctx_.Handle, handle_, filter_list.Handle));
+            _ctx.handle_error(Methods.tiledb_array_schema_set_offsets_filter_list(_ctx.Handle, _handle, filterList.Handle));
 
         }
 
@@ -165,9 +157,9 @@ namespace TileDB
         /// Check if it is valid or not.
         /// </summary>
         /// <returns></returns>
-        public void check()
+        public void Check()
         {
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_check(ctx_.Handle, handle_));
+            _ctx.handle_error(Methods.tiledb_array_schema_check(_ctx.Handle, _handle));
 
         }
 
@@ -179,19 +171,20 @@ namespace TileDB
         /// <returns></returns>
         public ArrayType array_type()
         {
-            TileDB.Interop.tiledb_array_type_t tiledb_array_type;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_get_array_type(ctx_.Handle, handle_, &tiledb_array_type));
+            tiledb_array_type_t tiledb_array_type;
+            _ctx.handle_error(Methods.tiledb_array_schema_get_array_type(_ctx.Handle, _handle, &tiledb_array_type));
 
             return (ArrayType)tiledb_array_type;
         }
 
         /// <summary>
         /// Get capacity.
+        /// </summary>
         /// <returns></returns>
-        public ulong capacity()
+        public ulong Capacity()
         {
             ulong capacity;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_get_capacity(ctx_.Handle, handle_, &capacity));
+            _ctx.handle_error(Methods.tiledb_array_schema_get_capacity(_ctx.Handle, _handle, &capacity));
             
             return capacity;
         }
@@ -202,8 +195,8 @@ namespace TileDB
         /// <returns></returns>
         public LayoutType cell_order()
         {
-            TileDB.Interop.tiledb_layout_t  tiledb_layout;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_get_cell_order(ctx_.Handle, handle_, &tiledb_layout));
+            tiledb_layout_t  tiledb_layout;
+            _ctx.handle_error(Methods.tiledb_array_schema_get_cell_order(_ctx.Handle, _handle, &tiledb_layout));
             return (LayoutType)tiledb_layout;
         }
 
@@ -214,9 +207,9 @@ namespace TileDB
         public FilterList coords_filter_list()
         {
 
-            TileDB.Interop.tiledb_filter_list_t* filter_list_p;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_get_coords_filter_list(ctx_.Handle, handle_, &filter_list_p));
-            return new FilterList(ctx_, filter_list_p);
+            tiledb_filter_list_t* filter_list_p;
+            _ctx.handle_error(Methods.tiledb_array_schema_get_coords_filter_list(_ctx.Handle, _handle, &filter_list_p));
+            return new FilterList(_ctx, filter_list_p);
         }
 
         /// <summary>
@@ -225,21 +218,21 @@ namespace TileDB
         /// <returns></returns>
         public FilterList offsets_filter_list()
         {
-            TileDB.Interop.tiledb_filter_list_t* filter_list_p;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_get_offsets_filter_list(ctx_.Handle, handle_, &filter_list_p));
-            return new FilterList(ctx_, filter_list_p);
+            tiledb_filter_list_t* filter_list_p;
+            _ctx.handle_error(Methods.tiledb_array_schema_get_offsets_filter_list(_ctx.Handle, _handle, &filter_list_p));
+            return new FilterList(_ctx, filter_list_p);
         }
 
         /// <summary>
         /// Get domain.
         /// </summary>
         /// <returns></returns>
-        public Domain domain()
+        public Domain Domain()
         {
-            TileDB.Interop.tiledb_domain_t* domain_p = null;  
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_get_domain(ctx_.Handle, handle_, &domain_p));
+            tiledb_domain_t* domain_p = null;  
+            _ctx.handle_error(Methods.tiledb_array_schema_get_domain(_ctx.Handle, _handle, &domain_p));
 
-            return new Domain(ctx_,domain_p);
+            return new Domain(_ctx,domain_p);
         }
 
         /// <summary>
@@ -248,8 +241,8 @@ namespace TileDB
         /// <returns></returns>
         public LayoutType tile_order()
         {
-            TileDB.Interop.tiledb_layout_t tiledb_layout;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_get_tile_order(ctx_.Handle, handle_, &tiledb_layout));
+            tiledb_layout_t tiledb_layout;
+            _ctx.handle_error(Methods.tiledb_array_schema_get_tile_order(_ctx.Handle, _handle, &tiledb_layout));
             return (LayoutType)tiledb_layout;
         }
 
@@ -260,7 +253,7 @@ namespace TileDB
         public uint attribute_num()
         {
             uint num = 0;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_get_attribute_num(ctx_.Handle, handle_, &num));
+            _ctx.handle_error(Methods.tiledb_array_schema_get_attribute_num(_ctx.Handle, _handle, &num));
             return num;
         }
 
@@ -271,12 +264,12 @@ namespace TileDB
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        public Attribute attribute(uint i)
+        public Attribute Attribute(uint i)
         {
-            TileDB.Interop.tiledb_attribute_t* attribute_p;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_get_attribute_from_index(ctx_.Handle, handle_, i, &attribute_p));
+            tiledb_attribute_t* attribute_p;
+            _ctx.handle_error(Methods.tiledb_array_schema_get_attribute_from_index(_ctx.Handle, _handle, i, &attribute_p));
 
-            return new Attribute(ctx_, attribute_p);
+            return new Attribute(_ctx, attribute_p);
         }
 
         /// <summary>
@@ -284,13 +277,13 @@ namespace TileDB
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Attribute attribute(string name)
+        public Attribute Attribute(string name)
         {
-            TileDB.Interop.tiledb_attribute_t* attribute_p;
-            var ms_name = new TileDB.Interop.MarshaledString(name);
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_get_attribute_from_name(ctx_.Handle, handle_, ms_name, &attribute_p));
+            tiledb_attribute_t* attribute_p;
+            var ms_name = new MarshaledString(name);
+            _ctx.handle_error(Methods.tiledb_array_schema_get_attribute_from_name(_ctx.Handle, _handle, ms_name, &attribute_p));
 
-            return new Attribute(ctx_, attribute_p);
+            return new Attribute(_ctx, attribute_p);
         }
 
         /// <summary>
@@ -301,9 +294,9 @@ namespace TileDB
         public bool has_attribute(string name)
         {
             var has_attr = 0;
-            var ms_name = new TileDB.Interop.MarshaledString(name);
+            var ms_name = new MarshaledString(name);
 
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_array_schema_has_attribute(ctx_.Handle, handle_, ms_name, &has_attr));
+            _ctx.handle_error(Methods.tiledb_array_schema_has_attribute(_ctx.Handle, _handle, ms_name, &has_attr));
             return has_attr>0;
         }
 
@@ -316,7 +309,7 @@ namespace TileDB
         /// <param name="uri"></param>
         /// <returns></returns>
 
-        public static ArraySchema load(Context ctx, string uri)
+        public static ArraySchema Load(Context ctx, string uri)
         {
             return new ArraySchema(ctx, uri);
         }
@@ -328,14 +321,14 @@ namespace TileDB
         /// Get attributes dictionary.
         /// </summary>
         /// <returns></returns>
-        public SortedDictionary<string, Attribute> attributes()
+        public SortedDictionary<string, Attribute> Attributes()
         {
             var ret = new SortedDictionary<string, Attribute>();
             var attribute_num = this.attribute_num();
             for (uint i = 0; i < attribute_num; ++i)
             {
-                var attr = attribute(i);
-                ret.Add(attr.name(),attr);
+                var attr = Attribute(i);
+                ret.Add(attr.Name(),attr);
             }
             return ret;
         }
@@ -344,15 +337,15 @@ namespace TileDB
         /// Get dimension dictionary.
         /// </summary>
         /// <returns></returns>
-        public SortedDictionary<string, Dimension> dimensions()
+        public SortedDictionary<string, Dimension> Dimensions()
         {
             var ret = new SortedDictionary<string, Dimension>();
-            var domain = this.domain();
-            var ndim = domain.ndim();
+            var domain = this.Domain();
+            var ndim = domain.NDim();
             for (uint i = 0; i < ndim; ++i)
             {
-                var dim = domain.dimension(i);
-                ret.Add(dim.name(), dim);
+                var dim = domain.Dimension(i);
+                ret.Add(dim.Name(), dim);
             }
             return ret;
         }

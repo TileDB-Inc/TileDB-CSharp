@@ -1,5 +1,5 @@
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TileDB;
 
 namespace TileDB.CSharp.Test
 {
@@ -9,12 +9,11 @@ namespace TileDB.CSharp.Test
 		[TestMethod]
 		public void TestArraySchema()
 		{
-			
-			var context = TileDB.Context.GetDefault();
+			var context = Context.GetDefault();
 
-			var bound = new int[] { 1, 10 };
+			var bound = new[] { 1, 10 };
 			const int extent = 5;
-			var dimension = Dimension.create(context, "test", bound, extent);
+			var dimension = Dimension.Create(context, "test", bound, extent);
 			Assert.IsNotNull(dimension);
 
 			var domain = new Domain(context);
@@ -34,24 +33,24 @@ namespace TileDB.CSharp.Test
 
 			Assert.AreEqual((uint)1, array_schema.attribute_num());
 
-			var attribute_from_index = array_schema.attribute(0);
-			Assert.AreEqual("a1", attribute_from_index.name());
+			var attribute_from_index = array_schema.Attribute(0);
+			Assert.AreEqual("a1", attribute_from_index.Name());
 
-			var attribute_from_name = array_schema.attribute("a1");
-			Assert.AreEqual("a1", attribute_from_name.name());
+			var attribute_from_name = array_schema.Attribute("a1");
+			Assert.AreEqual("a1", attribute_from_name.Name());
 
 			Assert.IsTrue(array_schema.has_attribute("a1"));
 
 			array_schema.set_capacity(100);
-			Assert.AreEqual((ulong)100, array_schema.capacity());
+			Assert.AreEqual((ulong)100, array_schema.Capacity());
 
 			array_schema.set_domain(domain);
 
-			var d = array_schema.domain();
+			var d = array_schema.Domain();
 			Assert.IsNotNull(d);
 
-			Assert.AreEqual((ulong)1, d.ndim());
-			Assert.AreEqual(DataType.TILEDB_INT32, d.type());
+			Assert.AreEqual((ulong)1, d.NDim());
+			Assert.AreEqual(DataType.TILEDB_INT32, d.Type());
 
 			array_schema.set_cell_order(LayoutType.TILEDB_GLOBAL_ORDER);
 			Assert.AreEqual(LayoutType.TILEDB_GLOBAL_ORDER, array_schema.cell_order());
@@ -68,16 +67,16 @@ namespace TileDB.CSharp.Test
 			array_schema.set_coords_filter_list(filter_list);
 			var filter_list_return = array_schema.coords_filter_list();
 
-			var filter0 = filter_list_return.filter(0);
+			var filter0 = filter_list_return.Filter(0);
 			Assert.AreEqual(FilterType.TILEDB_FILTER_BZIP2, filter0.filter_type());
 
 			array_schema.set_offsets_filter_list(filter_list);
 			filter_list_return = array_schema.offsets_filter_list();
 
-			filter0 = filter_list_return.filter(0);
+			filter0 = filter_list_return.Filter(0);
 			Assert.AreEqual(FilterType.TILEDB_FILTER_BZIP2, filter0.filter_type());
 
-			array_schema.check();
+			array_schema.Check();
 		}
 
 		[TestMethod]
@@ -86,16 +85,16 @@ namespace TileDB.CSharp.Test
 			var config = new Config();
 			var context = new Context(config);
 
-			var d1 = Dimension.create(context, "d1", new int[] { 0, 100 }, 5);
+			var d1 = Dimension.Create(context, "d1", new[] { 0, 100 }, 5);
 			Assert.IsNotNull(d1);
 
-			var d2 = Dimension.create(context, "d2", new int[] { 0, 200 }, 5);
+			var d2 = Dimension.Create(context, "d2", new[] { 0, 200 }, 5);
 			Assert.IsNotNull(d1);
 
 			var domain = new Domain(context);
 			Assert.IsNotNull(domain);
 
-			domain.add_dimensions(new Dimension[] { d1, d2 });
+			domain.add_dimensions(d1, d2);
 
 			var array_schema = new ArraySchema(context, ArrayType.TILEDB_SPARSE);
 			Assert.IsNotNull(array_schema);
@@ -103,13 +102,13 @@ namespace TileDB.CSharp.Test
 			var a1 = new Attribute(context, "a1", DataType.TILEDB_INT32);
 			Assert.IsNotNull(a1);
 
-			array_schema.add_attributes(new Attribute[] { a1 });
+			array_schema.add_attributes(a1);
 
 			array_schema.set_domain(domain);
 
 			array_schema.set_cell_order(LayoutType.TILEDB_HILBERT);
 			array_schema.set_capacity(2);
-			array_schema.check();
+			array_schema.Check();
 		}
 
 		[TestMethod]
@@ -118,16 +117,16 @@ namespace TileDB.CSharp.Test
 			var config = new Config();
 			var context = new Context(config);
 
-			var d1 = Dimension.create(context, "d1", new int[] { 0, 100 }, 5);
+			var d1 = Dimension.Create(context, "d1", new[] { 0, 100 }, 5);
 			Assert.IsNotNull(d1);
 
-			var d2 = Dimension.create(context, "d2", new int[] { 0, 200 }, 5);
+			var d2 = Dimension.Create(context, "d2", new[] { 0, 200 }, 5);
 			Assert.IsNotNull(d1);
 
 			var domain = new Domain(context);
 			Assert.IsNotNull(domain);
 
-			domain.add_dimensions(new Dimension[] { d1, d2 });
+			domain.add_dimensions(d1, d2);
 
 			var array_schema = new ArraySchema(context, ArrayType.TILEDB_DENSE);
 			Assert.IsNotNull(array_schema);
@@ -135,15 +134,15 @@ namespace TileDB.CSharp.Test
 			var a1 = new Attribute(context, "a1", DataType.TILEDB_INT32);
 			Assert.IsNotNull(a1);
 
-			array_schema.add_attributes(new Attribute[] { a1 });
+			array_schema.add_attributes(a1);
 
 			array_schema.set_domain(domain);
 
 			
-			Assert.ThrowsException<System.Exception>(()=>array_schema.set_cell_order(LayoutType.TILEDB_HILBERT));
-			Assert.ThrowsException<System.Exception>(()=>array_schema.set_tile_order(LayoutType.TILEDB_HILBERT));
+			Assert.ThrowsException<Exception>(()=>array_schema.set_cell_order(LayoutType.TILEDB_HILBERT));
+			Assert.ThrowsException<Exception>(()=>array_schema.set_tile_order(LayoutType.TILEDB_HILBERT));
 			array_schema.set_capacity(2);
-			array_schema.check();
+			array_schema.Check();
 		}
 
 		[TestMethod]
@@ -152,16 +151,16 @@ namespace TileDB.CSharp.Test
 			var config = new Config();
 			var context = new Context(config);
 
-			var d1 = Dimension.create(context, "d1", new int[] { -50, 50 }, 5);
+			var d1 = Dimension.Create(context, "d1", new[] { -50, 50 }, 5);
 			Assert.IsNotNull(d1);
 
-			var d2 = Dimension.create(context, "d2", new int[] { -100, 100 }, 5);
+			var d2 = Dimension.Create(context, "d2", new[] { -100, 100 }, 5);
 			Assert.IsNotNull(d1);
 
 			var domain = new Domain(context);
 			Assert.IsNotNull(domain);
 
-			domain.add_dimensions(new Dimension[] { d1, d2 });
+			domain.add_dimensions(d1, d2);
 
 			var array_schema = new ArraySchema(context, ArrayType.TILEDB_SPARSE);
 			Assert.IsNotNull(array_schema);
@@ -169,13 +168,13 @@ namespace TileDB.CSharp.Test
 			var a1 = new Attribute(context, "a1", DataType.TILEDB_INT32);
 			Assert.IsNotNull(a1);
 
-			array_schema.add_attributes(new Attribute[] { a1 });
+			array_schema.add_attributes(a1);
 
 			array_schema.set_domain(domain);
 
 			array_schema.set_cell_order(LayoutType.TILEDB_HILBERT);
 			array_schema.set_capacity(2);
-			array_schema.check();
+			array_schema.Check();
 		}
 
 		[TestMethod]
@@ -184,16 +183,16 @@ namespace TileDB.CSharp.Test
 			var config = new Config();
 			var context = new Context(config);
 
-			var d1 = Dimension.create(context, "d1", new float[] { 0.0f, 1.0f }, 0.01f);
+			var d1 = Dimension.Create(context, "d1", new[] { 0.0f, 1.0f }, 0.01f);
 			Assert.IsNotNull(d1);
 
-			var d2 = Dimension.create(context, "d2", new float[] { 0.0f, 2.0f }, 0.01f);
+			var d2 = Dimension.Create(context, "d2", new[] { 0.0f, 2.0f }, 0.01f);
 			Assert.IsNotNull(d1);
 
 			var domain = new Domain(context);
 			Assert.IsNotNull(domain);
 
-			domain.add_dimensions(new Dimension[] { d1, d2 });
+			domain.add_dimensions(d1, d2);
 
 			var array_schema = new ArraySchema(context, ArrayType.TILEDB_SPARSE);
 			Assert.IsNotNull(array_schema);
@@ -201,13 +200,13 @@ namespace TileDB.CSharp.Test
 			var a1 = new Attribute(context, "a1", DataType.TILEDB_INT32);
 			Assert.IsNotNull(a1);
 
-			array_schema.add_attributes(new Attribute[] { a1 });
+			array_schema.add_attributes(a1);
 
 			array_schema.set_domain(domain);
 
 			array_schema.set_cell_order(LayoutType.TILEDB_HILBERT);
 			array_schema.set_capacity(2);
-			array_schema.check();
+			array_schema.Check();
 		}
 
 		[TestMethod]
@@ -225,7 +224,7 @@ namespace TileDB.CSharp.Test
 			var domain = new Domain(context);
 			Assert.IsNotNull(domain);
 			
-			domain.add_dimensions(new Dimension[] { d1, d2 });
+			domain.add_dimensions(d1, d2);
 			
 			var array_schema = new ArraySchema(context, ArrayType.TILEDB_SPARSE);
 			Assert.IsNotNull(array_schema);
@@ -233,13 +232,13 @@ namespace TileDB.CSharp.Test
 			var a1 = new Attribute(context, "a1", DataType.TILEDB_INT32);
 			Assert.IsNotNull(a1);
 			
-			array_schema.add_attributes(new Attribute[] { a1 });
+			array_schema.add_attributes(a1);
 			
 			array_schema.set_domain(domain);
 			
 			array_schema.set_cell_order(LayoutType.TILEDB_HILBERT);
 			array_schema.set_capacity(2);
-			array_schema.check();			
+			array_schema.Check();			
 		}
 	}
 }//namespace

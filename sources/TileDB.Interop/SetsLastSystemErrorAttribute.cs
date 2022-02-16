@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 namespace TileDB.Interop
 {
     /// <summary>Specifies that the given method sets the last system error and it can be retrieved via <see cref="Marshal.GetLastSystemError" />.</summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Method)]
     [Conditional("DEBUG")]
-    internal sealed partial class SetsLastSystemErrorAttribute : Attribute
+    internal sealed class SetsLastSystemErrorAttribute : Attribute
     {
         /// <summary>Initializes a new instance of the <see cref="SetsLastSystemErrorAttribute" /> class.</summary>
         public SetsLastSystemErrorAttribute()

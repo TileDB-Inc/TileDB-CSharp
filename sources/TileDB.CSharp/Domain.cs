@@ -1,77 +1,66 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TileDB.Interop;
 
-namespace TileDB
+namespace TileDB.CSharp
 {
-    public unsafe class Domain : IDisposable 
+    public sealed unsafe class Domain : IDisposable 
     {
-        private TileDB.Interop.DomainHandle handle_;
-        private Context ctx_;
-        private bool disposed_ = false;
+        private readonly DomainHandle _handle;
+        private readonly Context _ctx;
+        private bool _disposed;
 
 
         public Domain(Context ctx) 
         {
-            ctx_ = ctx;
-            handle_ = new TileDB.Interop.DomainHandle(ctx_.Handle);
+            _ctx = ctx;
+            _handle = new DomainHandle(_ctx.Handle);
         }
 
-        internal Domain(Context ctx, TileDB.Interop.DomainHandle handle) 
+        internal Domain(Context ctx, DomainHandle handle) 
         {
-            ctx_ = ctx;
-            handle_ = handle;
+            _ctx = ctx;
+            _handle = handle;
         }
 
         public void Dispose()
         {
             Dispose(true);
-            System.GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
-
-            if (!disposed_)
+            if (_disposed) return;
+            if (disposing && (!_handle.IsInvalid))
             {
-                if (disposing && (!handle_.IsInvalid))
-                {
-                    handle_.Dispose();
-                }
-
-                disposed_ = true;
+                _handle.Dispose();
             }
 
+            _disposed = true;
         }
 
-        internal TileDB.Interop.DomainHandle Handle
-        {
-            get { return handle_; }
-        }
+        internal DomainHandle Handle => _handle;
 
         #region capi functions
 
         /// <summary>
-        /// Get type of homogenous dimensions. Will throw exception for heterogenous dimensions.
+        /// Get type of homogenous dimensions. Will throw exception for heterogeneous dimensions.
         /// </summary>
         /// <returns></returns>
-        public TileDB.DataType type()
+        public DataType Type()
         {
-            var tiledb_datatype = TileDB.Interop.tiledb_datatype_t.TILEDB_ANY;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_domain_get_type(ctx_.Handle, handle_, &tiledb_datatype));
-            return (TileDB.DataType)tiledb_datatype;
+            var tiledb_datatype = tiledb_datatype_t.TILEDB_ANY;
+            _ctx.handle_error(Methods.tiledb_domain_get_type(_ctx.Handle, _handle, &tiledb_datatype));
+            return (DataType)tiledb_datatype;
         }
 
         /// <summary>
         /// Get number of dimensions.
         /// </summary>
         /// <returns></returns>
-        public uint ndim()
+        public uint NDim()
         { 
             uint ndim = 0;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_domain_get_ndim(ctx_.Handle, handle_, &ndim));
+            _ctx.handle_error(Methods.tiledb_domain_get_ndim(_ctx.Handle, _handle, &ndim));
             return ndim;
         }
 
@@ -81,11 +70,7 @@ namespace TileDB
         /// <param name="d"></param>
         public void add_dimension(Dimension d)
         {
-            //        [DllImport(LibDllImport.Path, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-            //        [return: NativeTypeName("int32_t")]
-            //        public static extern int tiledb_domain_add_dimension(tiledb_ctx_t* ctx, tiledb_domain_t* domain, tiledb_dimension_t* dim);
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_domain_add_dimension(ctx_.Handle, handle_, d.Handle));
-            return;
+            _ctx.handle_error(Methods.tiledb_domain_add_dimension(_ctx.Handle, _handle, d.Handle));
         }
 
         /// <summary>
@@ -94,31 +79,28 @@ namespace TileDB
         /// <param name="d"></param>
         public void add_dimensions(params Dimension[] d)
         {
-            for (int idx = 0; idx < d.Length; idx++)
+            foreach (var t in d)
             {
-                add_dimension(d[idx]);
+                add_dimension(t);
             }
         }
-
- 
-
 
         /// <summary>
         /// Get a dimension from index.
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public Dimension dimension(uint index)
+        public Dimension Dimension(uint index)
         {
-            TileDB.Interop.tiledb_dimension_t* dimension_p = null;
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_domain_get_dimension_from_index(ctx_.Handle, handle_, index, &dimension_p));
+            tiledb_dimension_t* dimension_p = null;
+            _ctx.handle_error(Methods.tiledb_domain_get_dimension_from_index(_ctx.Handle, _handle, index, &dimension_p));
 
             if (dimension_p == null)
             {
-                throw new TileDB.ErrorException("Dimension.dimension_from_index, dimension pointer is null");
+                throw new ErrorException("Dimension.dimension_from_index, dimension pointer is null");
             }
 
-            return new Dimension(ctx_, dimension_p);
+            return new Dimension(_ctx, dimension_p);
         }
 
         /// <summary>
@@ -126,18 +108,18 @@ namespace TileDB
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Dimension dimension(string name)
+        public Dimension Dimension(string name)
         {
-            TileDB.Interop.tiledb_dimension_t* dimension_p = null;
-            var ms_name = new TileDB.Interop.MarshaledString(name);
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_domain_get_dimension_from_name(ctx_.Handle, handle_, ms_name, &dimension_p));
+            tiledb_dimension_t* dimension_p = null;
+            var ms_name = new MarshaledString(name);
+            _ctx.handle_error(Methods.tiledb_domain_get_dimension_from_name(_ctx.Handle, _handle, ms_name, &dimension_p));
 
             if (dimension_p == null)
             {
-                throw new TileDB.ErrorException("Dimension.dimension_from_name, dimension pointer is null");
+                throw new ErrorException("Dimension.dimension_from_name, dimension pointer is null");
             }
 
-            return new Dimension(ctx_, dimension_p);
+            return new Dimension(_ctx, dimension_p);
         }
 
         /// <summary>
@@ -148,15 +130,11 @@ namespace TileDB
         public bool has_dimension(string name)
         {
             var has_dim = 0;
-            var ms_name = new TileDB.Interop.MarshaledString(name);
-            ctx_.handle_error(TileDB.Interop.Methods.tiledb_domain_has_dimension(ctx_.Handle, handle_, ms_name, &has_dim));
+            var ms_name = new MarshaledString(name);
+            _ctx.handle_error(Methods.tiledb_domain_has_dimension(_ctx.Handle, _handle, ms_name, &has_dim));
             return has_dim > 0;
         }
 
         #endregion capi functions
-
-    
-  
-
     }//class
 }//namespace
