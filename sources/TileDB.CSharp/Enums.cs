@@ -162,9 +162,11 @@ namespace TileDB.CSharp
         TILEDB_VFS_APPEND = tiledb_vfs_mode_t.TILEDB_VFS_APPEND,
     }
 
-    public enum Constants : uint {
+   public enum Constants : uint {
         TILEDB_VAR_NUM = uint.MaxValue,
     }
+
+
 
     public static class EnumUtil 
     {
@@ -190,7 +192,11 @@ namespace TileDB.CSharp
             }
             else if (t == typeof(byte))
             {
-                tiledb_datatype = tiledb_datatype_t.TILEDB_CHAR;
+                tiledb_datatype = tiledb_datatype_t.TILEDB_UINT8;
+            }
+            else if (t == typeof(sbyte))
+            {
+                tiledb_datatype = tiledb_datatype_t.TILEDB_INT8;
             }
             else if (t == typeof(short))
             {
@@ -284,7 +290,7 @@ namespace TileDB.CSharp
                 case tiledb_datatype_t.TILEDB_UINT64:
                     return typeof(ulong);
                 case tiledb_datatype_t.TILEDB_UINT8:
-                    return typeof(sbyte);
+                    return typeof(byte);
                 default:
                     return typeof(byte);
             }
