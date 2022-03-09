@@ -349,6 +349,47 @@ namespace TileDB.CSharp
             }
             return ret;
         }
+
+        /// <summary>
+        /// Test if an attribute or dimenision is nullable.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool IsNullable(string name)
+        {
+            if (has_attribute(name))
+            {
+                var attr = Attribute(name);
+                return attr.Nullable();
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Test if an attribute or dimension is variable length.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool IsVarSize(string name)
+        {
+            if (string.Equals(name, "coords"))
+            {
+                return false;
+            }
+            if (has_attribute(name))
+            {
+                var attr = Attribute(name);
+                return attr.cell_val_num() == (uint)Constants.TILEDB_VAR_NUM;
+            }
+            else if (Domain().has_dimension(name))
+            {
+                var dim = Domain().Dimension(name);
+                return dim.cell_val_num() == (uint)Constants.TILEDB_VAR_NUM;
+            }
+
+            return false;
+        }
+
  
 
     

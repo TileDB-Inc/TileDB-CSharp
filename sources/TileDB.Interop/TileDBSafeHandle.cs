@@ -430,5 +430,86 @@ namespace TileDB.Interop
     }//public unsafe partial class ArrayHandle
 
 
+    public unsafe class QueryHandle : SafeHandle
+    {
+        // Constructor for a Handle
+        //   - calls native allocator
+        //   - exception on failure
+        public QueryHandle(ContextHandle contextHandle, ArrayHandle arrayHandle, tiledb_query_type_t queryType) : base(IntPtr.Zero, ownsHandle: true)
+        {
+            var h = stackalloc tiledb_query_t*[1];
+
+            Methods.tiledb_query_alloc(contextHandle, arrayHandle, queryType, h);
+
+            if (h[0] == (void*)0)
+            {
+                throw new Exception("Failed to allocate!");
+            }
+            SetHandle(h[0]);
+        }
+
+        // Deallocator: call native free with CER guarantees from SafeHandle
+        override protected bool ReleaseHandle()
+        {
+            // Free the native object
+            var p = (tiledb_query_t*)handle;
+            Methods.tiledb_query_free(&p);
+            // Invalidate the contained pointer
+            SetHandle(IntPtr.Zero);
+
+            return true;
+        }
+
+        // Conversions, getters, operators
+        public ulong Get() { return (ulong)handle; }
+        private protected void SetHandle(tiledb_query_t* h) { SetHandle((IntPtr)h); }
+        private protected QueryHandle(IntPtr value) : base(value, ownsHandle: false) { }
+        public override bool IsInvalid => handle == IntPtr.Zero;
+        public static implicit operator IntPtr(QueryHandle h) => h.handle;
+        public static implicit operator tiledb_query_t*(QueryHandle h) => (tiledb_query_t*)h.handle;
+        public static implicit operator QueryHandle(tiledb_query_t* value) => new QueryHandle((IntPtr)value);
+    }//public unsafe partial class QueryHandle
+
+
+    public unsafe class QueryConditionHandle : SafeHandle
+    {
+        // Constructor for a Handle
+        //   - calls native allocator
+        //   - exception on failure
+        public QueryConditionHandle(ContextHandle contextHandle) : base(IntPtr.Zero, ownsHandle: true)
+        {
+            var h = stackalloc tiledb_query_condition_t*[1];
+
+            Methods.tiledb_query_condition_alloc(contextHandle, h);
+
+            if (h[0] == (void*)0)
+            {
+                throw new Exception("Failed to allocate!");
+            }
+            SetHandle(h[0]);
+        }
+
+        // Deallocator: call native free with CER guarantees from SafeHandle
+        override protected bool ReleaseHandle()
+        {
+            // Free the native object
+            var p = (tiledb_query_condition_t*)handle;
+            Methods.tiledb_query_condition_free(&p);
+            // Invalidate the contained pointer
+            SetHandle(IntPtr.Zero);
+
+            return true;
+        }
+
+        // Conversions, getters, operators
+        public ulong Get() { return (ulong)handle; }
+        private protected void SetHandle(tiledb_query_condition_t* h) { SetHandle((IntPtr)h); }
+        private protected QueryConditionHandle(IntPtr value) : base(value, ownsHandle: false) { }
+        public override bool IsInvalid => handle == IntPtr.Zero;
+        public static implicit operator IntPtr(QueryConditionHandle h) => h.handle;
+        public static implicit operator tiledb_query_condition_t*(QueryConditionHandle h) => (tiledb_query_condition_t*)h.handle;
+        public static implicit operator QueryConditionHandle(tiledb_query_condition_t* value) => new QueryConditionHandle((IntPtr)value);
+    }//public unsafe partial class QueryConditionHandle
+
 
 }//namespace

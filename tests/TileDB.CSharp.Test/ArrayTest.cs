@@ -26,8 +26,8 @@ namespace TileDB.CSharp.Test
             Assert.IsNotNull(array_schema);
 
             array.Create(array_schema);
-
-            Assert.AreEqual("file://" + tmpArrayPath, array.Uri());
+            
+            Assert.AreEqual(("file://" + tmpArrayPath).Replace('\\', '/').Replace("///","//"), array.Uri().Replace("///","//"));
 
             array.Open(QueryType.TILEDB_READ);
 
@@ -79,7 +79,7 @@ namespace TileDB.CSharp.Test
 
             array.Create(array_schema);
 
-            Assert.AreEqual("file://" + tmpArrayPath, array.Uri());
+            Assert.AreEqual(("file://" + tmpArrayPath).Replace('\\','/').Replace("///","//"), array.Uri().Replace("///","//"));
 
             array.Open(QueryType.TILEDB_READ);
 
@@ -129,7 +129,6 @@ namespace TileDB.CSharp.Test
             const short extent = 5;
             var dimension = Dimension.Create(context, "dim1", bound, extent);
             Assert.IsNotNull(dimension);
-
             var domain = new Domain(context);
             Assert.IsNotNull(domain);
 

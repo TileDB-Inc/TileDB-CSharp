@@ -16,7 +16,6 @@ namespace TileDB.CSharp.Test
             {
                 Directory.Delete(tmpArrayPath, true);
             }
-
             createArrayMetadataArray(tmpArrayPath);
             writeArrayMetadata(tmpArrayPath);
             readArrayMetadata(tmpArrayPath);
@@ -42,7 +41,6 @@ namespace TileDB.CSharp.Test
 
             var array_schema = new ArraySchema(context, ArrayType.TILEDB_SPARSE);
             Assert.IsNotNull(array_schema);
-
             var a1 = new Attribute(context, "a1", DataType.TILEDB_UINT32);
             Assert.IsNotNull(a1);
 
@@ -114,7 +112,6 @@ namespace TileDB.CSharp.Test
             CollectionAssert.AreEqual(new string[]{"key1", "key2", "key3", "key4", "key5"}, keys);
 
             var arrayMetadata = array.metadata_from_index<float>(3);
-
             Assert.AreEqual("key4",  arrayMetadata.Key);
             Assert.AreEqual((uint)4,  arrayMetadata.KeyLen);
             Assert.AreEqual(Interop.tiledb_datatype_t.TILEDB_FLOAT32,  arrayMetadata.Datatype);
@@ -138,7 +135,6 @@ namespace TileDB.CSharp.Test
             array.delete_metadata("key3");
             array.delete_metadata("key4");
             array.delete_metadata("key5");
-
             array.Close();
         }
     }
