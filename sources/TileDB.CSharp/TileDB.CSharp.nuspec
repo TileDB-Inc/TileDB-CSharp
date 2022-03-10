@@ -9,12 +9,13 @@
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/TileDB-Inc/TileDB-CSharp</projectUrl>
     <description>CSharp wrapper of TileDB universal data engine</description>
-    <releaseNotes>This package is the csharp wrapper of TileDB 2.6.0 with extra bug fixes.</releaseNotes>
+    <releaseNotes>This package is the csharp wrapper of TileDB 2.6.0.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>tiledb</tags>
   </metadata>
   <files>
     <!-- binding libraries -->
+     <file src="lib\net5.0\TileDB.Interop.dll"       target="lib\net5.0"     />
 	  <file src="lib\net5.0\TileDB.CSharp.dll"       target="lib\net5.0"     />
     <!-- native libraries for windows -->
     <file src="runtimes/win-x64/native/tiledb.dll" target="runtimes/win-x64/native"/>
