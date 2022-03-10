@@ -10,8 +10,8 @@ namespace TileDB.CSharp
     public class ResultSize
     {
         public ulong DataBytesSize = 0;
-        public ulong OffsetsBytesSize = 0;
-        public ulong ValidityBytesSize = 0;
+        public ulong? OffsetsBytesSize = null;
+        public ulong?  ValidityBytesSize = null;
 
         /// <summary>
         /// Constructor.
@@ -19,7 +19,7 @@ namespace TileDB.CSharp
         /// <param name="dataSize"></param>
         /// <param name="offsetsSize"></param>
         /// <param name="validitySize"></param>
-        public ResultSize(ulong dataSize, ulong offsetsSize, ulong validitySize)
+        public ResultSize(ulong dataSize, ulong? offsetsSize = null, ulong? validitySize = null)
         {
             DataBytesSize = dataSize;
             OffsetsBytesSize = offsetsSize;
@@ -32,7 +32,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public bool IsVarSize()
         {
-            return OffsetsBytesSize > 0;
+            return OffsetsBytesSize.HasValue;
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public bool IsNullable()
         {
-            return ValidityBytesSize > 0;
+            return ValidityBytesSize.HasValue;
         }
 
         /// <summary>
@@ -61,7 +61,8 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public ulong OffsetsSize()
         {
-            return OffsetsBytesSize/Methods.tiledb_datatype_size(tiledb_datatype_t.TILEDB_UINT64);
+
+            return OffsetsBytesSize.HasValue ?  OffsetsBytesSize.Value/Methods.tiledb_datatype_size(tiledb_datatype_t.TILEDB_UINT64) : 0;
         }
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public ulong ValiditySize()
         {
-            return ValidityBytesSize / Methods.tiledb_datatype_size(tiledb_datatype_t.TILEDB_UINT8);
+            return ValidityBytesSize.HasValue ? ValidityBytesSize.Value / Methods.tiledb_datatype_size(tiledb_datatype_t.TILEDB_UINT8) : 0;
         }
         
     }
@@ -125,7 +126,7 @@ namespace TileDB.CSharp
         {
             _ctx = ctx;
             _array = array;
-            _handle = new QueryHandle(ctx.Handle, array.Handle, (tiledb_query_type_t)array.query_type());
+            _handle = new QueryHandle(ctx.Handle, array.Handle, (tiledb_query_type_t)array.QueryType());
         }
 
         internal Query(Context ctx, Array array, QueryHandle handle)
@@ -174,7 +175,7 @@ namespace TileDB.CSharp
         /// Set config.
         /// </summary>
         /// <param name="config"></param>
-        public void set_config(Config config)
+        public void SetConfig(Config config)
         {
             _ctx.handle_error(Methods.tiledb_query_set_config(_ctx.Handle, _handle, config.Handle));
         }
@@ -370,7 +371,7 @@ namespace TileDB.CSharp
         /// Returns the query type (read or write).
         /// </summary>
         /// <returns></returns>
-        public QueryType query_type()
+        public QueryType QueryType()
         {
             tiledb_query_type_t query_type;
             _ctx.handle_error(Methods.tiledb_query_get_type(_ctx.Handle, _handle, &query_type));
@@ -805,13 +806,13 @@ namespace TileDB.CSharp
 
         private DataType GetDataType(string name)
         {
-            bool is_attr = _array.Schema().has_attribute(name);
-            bool is_dim = _array.Schema().Domain().has_dimension(name);
-            if (_array.Schema().has_attribute(name))
+            bool is_attr = _array.Schema().HasAttribute(name);
+            bool is_dim = _array.Schema().Domain().HasDimension(name);
+            if (_array.Schema().HasAttribute(name))
             {
                 return _array.Schema().Attribute(name).Type();
             }
-            else if (_array.Schema().Domain().has_dimension(name))
+            else if (_array.Schema().Domain().HasDimension(name))
             {
                 return _array.Schema().Domain().Dimension(name).Type();
             }

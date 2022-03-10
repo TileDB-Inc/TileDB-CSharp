@@ -84,7 +84,7 @@ namespace TileDB.CSharp
         /// Get last error message.
         /// </summary>
         /// <returns></returns>
-        public string last_error()
+        public string LastError()
         {
             var sb_result = new StringBuilder();
              
@@ -123,7 +123,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// Cancel tasks.
         /// </summary>
-        public void cancel_tasks()
+        public void CancelTasks()
         {
             handle_error(Methods.tiledb_ctx_cancel_tasks(_handle));
         }
@@ -134,7 +134,7 @@ namespace TileDB.CSharp
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <exception cref="System.ArgumentException"></exception>
-        public void set_tag(string key, string value)
+        public void SetTag(string key, string value)
         {
             if(string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value)) 
             {

@@ -37,19 +37,19 @@ namespace TileDB.CSharp.Test
             var domain = new Domain(context);
             Assert.IsNotNull(domain);
 
-            domain.add_dimensions(rowDim, colDim);
+            domain.AddDimensions(rowDim, colDim);
 
             var array_schema = new ArraySchema(context, ArrayType.TILEDB_SPARSE);
             Assert.IsNotNull(array_schema);
             var a1 = new Attribute(context, "a1", DataType.TILEDB_UINT32);
             Assert.IsNotNull(a1);
 
-            array_schema.set_cell_order(LayoutType.TILEDB_ROW_MAJOR);
-            array_schema.set_tile_order(LayoutType.TILEDB_ROW_MAJOR);
+            array_schema.SetCellOrder(LayoutType.TILEDB_ROW_MAJOR);
+            array_schema.SetTileOrder(LayoutType.TILEDB_ROW_MAJOR);
 
-            array_schema.add_attribute(a1);
+            array_schema.AddAttribute(a1);
 
-            array_schema.set_domain(domain);
+            array_schema.SetDomain(domain);
 
             array_schema.Check();
 
@@ -68,15 +68,15 @@ namespace TileDB.CSharp.Test
 
             array.Open(QueryType.TILEDB_WRITE);
 
-            array.put_metadata<int>("key1", new int[] { 25 });
+            array.PutMetadata<int>("key1", new int[] { 25 });
 
-            array.put_metadata<int>("key2", new int[] { 25, 26, 27, 28 });
+            array.PutMetadata<int>("key2", new int[] { 25, 26, 27, 28 });
 
-            array.put_metadata<float>("key3", new float[] { 25.1f });
+            array.PutMetadata<float>("key3", new float[] { 25.1f });
 
-            array.put_metadata<float>("key4", new float[] { 25.1f, 26.2f, 27.3f, 28.4f });
+            array.PutMetadata<float>("key4", new float[] { 25.1f, 26.2f, 27.3f, 28.4f });
 
-            array.put_metadata("key5", "This is TileDB array metadata");
+            array.PutMetadata("key5", "This is TileDB array metadata");
 
             array.Close();
         }
@@ -105,10 +105,10 @@ namespace TileDB.CSharp.Test
             var s = array.Metadata("key5");
             Assert.AreEqual("This is TileDB array metadata", s);
 
-            var num = array.metadata_num();
+            var num = array.MetadataNum();
             Assert.AreEqual((ulong)5,  num);
 
-            var keys = array.metadata_keys();
+            var keys = array.MetadataKeys();
             CollectionAssert.AreEqual(new string[]{"key1", "key2", "key3", "key4", "key5"}, keys);
 
             var arrayMetadata = array.metadata_from_index<float>(3);
@@ -130,11 +130,11 @@ namespace TileDB.CSharp.Test
 
             array.Open(QueryType.TILEDB_WRITE);
 
-            array.delete_metadata("key1");
-            array.delete_metadata("key2");
-            array.delete_metadata("key3");
-            array.delete_metadata("key4");
-            array.delete_metadata("key5");
+            array.DeleteMetadata("key1");
+            array.DeleteMetadata("key2");
+            array.DeleteMetadata("key3");
+            array.DeleteMetadata("key4");
+            array.DeleteMetadata("key5");
             array.Close();
         }
     }

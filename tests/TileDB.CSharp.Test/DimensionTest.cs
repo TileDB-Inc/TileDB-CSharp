@@ -15,7 +15,7 @@ namespace TileDB.CSharp.Test
 
             Assert.AreEqual("test", dimension.Name());
             Assert.AreEqual(DataType.TILEDB_INT32, dimension.Type());
-            Assert.AreEqual(extent, dimension.tile_extent<int>());
+            Assert.AreEqual(extent, dimension.TileExtent<int>());
             var dim_domain = dimension.Domain<int>();
             Assert.AreEqual(1, dim_domain[0]);
             Assert.AreEqual(10, dim_domain[1]);

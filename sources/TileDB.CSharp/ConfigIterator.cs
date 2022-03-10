@@ -34,7 +34,7 @@ namespace TileDB.CSharp
 
         internal ConfigIteratorHandle Handle => _handle;
 
-        private string get_last_error(tiledb_error_t *pTiledbError, int status)
+        private string GetLastError(tiledb_error_t *pTiledbError, int status)
         {
             var sb_result = new StringBuilder();
             if (Enum.IsDefined(typeof(Status), status))
@@ -67,7 +67,7 @@ namespace TileDB.CSharp
 
             if (status != (int)Status.TILEDB_OK)
             {
-                var err_message = get_last_error(p_tiledb_error, status);
+                var err_message = GetLastError(p_tiledb_error, status);
                 Methods.tiledb_error_free(&p_tiledb_error);
                 throw new ErrorException("Config.set, caught exception:" + err_message);
             }
@@ -83,7 +83,7 @@ namespace TileDB.CSharp
             var status = Methods.tiledb_config_iter_next(_handle, &p_tiledb_error);
             if (status != (int)Status.TILEDB_OK)
             {
-                var err_message = get_last_error(p_tiledb_error, status);
+                var err_message = GetLastError(p_tiledb_error, status);
                 Methods.tiledb_error_free(&p_tiledb_error);
                 throw new ErrorException("ConfigIterator.next, caught exception:" + err_message);
             }
@@ -98,7 +98,7 @@ namespace TileDB.CSharp
             var status = Methods.tiledb_config_iter_done(_handle, &c_done, &p_tiledb_error);
             if (status != (int)Status.TILEDB_OK)
             {
-                var err_message = get_last_error(p_tiledb_error, status);
+                var err_message = GetLastError(p_tiledb_error, status);
                 Methods.tiledb_error_free(&p_tiledb_error);
                 throw new ErrorException("ConfigIterator.done, caught exception:" + err_message);
             }
@@ -114,7 +114,7 @@ namespace TileDB.CSharp
             var status = Methods.tiledb_config_iter_reset(_hConfig, _handle, ms_prefix, &p_tiledb_error);
             if (status != (int)Status.TILEDB_OK)
             {
-                var err_message = get_last_error(p_tiledb_error, status);
+                var err_message = GetLastError(p_tiledb_error, status);
                 Methods.tiledb_error_free(&p_tiledb_error);
                 throw new ErrorException("Config.reset, caught exception:" + err_message);
             }

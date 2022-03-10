@@ -42,7 +42,7 @@ namespace TileDB.CSharp
         /// Set filter list.
         /// </summary>
         /// <param name="filterList"></param>
-        public void set_filter_list(FilterList filterList)
+        public void SetFilterList(FilterList filterList)
         {
 
             _ctx.handle_error(Methods.tiledb_dimension_set_filter_list(_ctx.Handle, _handle, filterList.Handle));
@@ -52,7 +52,7 @@ namespace TileDB.CSharp
         /// Set cell value number.
         /// </summary>
         /// <param name="cellValNum"></param>
-        public void set_cell_val_num(uint cellValNum)
+        public void SetCellValNum(uint cellValNum)
         {
             _ctx.handle_error(Methods.tiledb_dimension_set_cell_val_num(_ctx.Handle, _handle, cellValNum));
         }
@@ -61,7 +61,7 @@ namespace TileDB.CSharp
         /// Get filter list.
         /// </summary>
         /// <returns></returns>
-        public FilterList filter_list()
+        public FilterList FilterList()
         {
             tiledb_filter_list_t* filter_list_p;
             _ctx.handle_error(Methods.tiledb_dimension_get_filter_list(_ctx.Handle, _handle, &filter_list_p));
@@ -72,7 +72,7 @@ namespace TileDB.CSharp
         /// Get cell value number.
         /// </summary>
         /// <returns></returns>
-        public uint cell_val_num()
+        public uint CellValNum()
         {
             uint cell_value_num = 0;
             _ctx.handle_error(Methods.tiledb_dimension_get_cell_val_num(_ctx.Handle, _handle, &cell_value_num));
@@ -160,7 +160,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T tile_extent<T>() where T : struct
+        public T TileExtent<T>() where T : struct
         {
             var fill_bytes = get_tile_extent<T>();
             Span<byte> byteSpan = fill_bytes;
@@ -173,7 +173,7 @@ namespace TileDB.CSharp
         /// Get string of tile extent.
         /// </summary>
         /// <returns></returns>
-        public string tile_extent_to_str()
+        public string TileExtentToStr()
         {
             var sb = new StringBuilder();
 
@@ -183,49 +183,49 @@ namespace TileDB.CSharp
             {
                 case TypeCode.Int16:
                     {
-                        var extent = tile_extent<short>();
+                        var extent = TileExtent<short>();
                         sb.Append(extent.ToString());
                     }
                     break;
                 case TypeCode.Int32:
                     {
-                        var extent = tile_extent<int>();
+                        var extent = TileExtent<int>();
                         sb.Append(extent.ToString());
                     }
                     break;
                 case TypeCode.Int64:
                     {
-                        var extent = tile_extent<long>();
+                        var extent = TileExtent<long>();
                         sb.Append(extent.ToString());
                     }
                     break;
                 case TypeCode.UInt16:
                     {
-                        var extent = tile_extent<ushort>();
+                        var extent = TileExtent<ushort>();
                         sb.Append(extent.ToString());
                     }
                     break;
                 case TypeCode.UInt32:
                     {
-                        var extent = tile_extent<uint>();
+                        var extent = TileExtent<uint>();
                         sb.Append(extent.ToString());
                     }
                     break;
                 case TypeCode.UInt64:
                     {
-                        var extent = tile_extent<ulong>();
+                        var extent = TileExtent<ulong>();
                         sb.Append(extent.ToString());
                     }
                     break;
                 case TypeCode.Single:
                     {
-                        var extent = tile_extent<float>();
+                        var extent = TileExtent<float>();
                         sb.Append(extent.ToString(CultureInfo.InvariantCulture));
                     }
                     break;
                 case TypeCode.Double:
                     {
-                        var extent = tile_extent<double>();
+                        var extent = TileExtent<double>();
                         sb.Append(extent.ToString(CultureInfo.InvariantCulture));
                     }
                     break;
@@ -244,7 +244,7 @@ namespace TileDB.CSharp
         /// Get string of domain.
         /// </summary>
         /// <returns></returns>
-        public string domain_to_str()
+        public string DomainToStr()
         {
             var sb = new StringBuilder();
 
@@ -404,7 +404,7 @@ namespace TileDB.CSharp
         /// <param name="ctx"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static Dimension create_string(Context ctx, string name) 
+        public static Dimension CreateString(Context ctx, string name) 
         {
             return Create<string>(ctx, name, "", "", "");
         }

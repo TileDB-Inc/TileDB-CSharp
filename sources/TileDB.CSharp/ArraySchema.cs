@@ -59,12 +59,12 @@ namespace TileDB.CSharp
         /// Add an attribute.
         /// </summary>
         /// <param name="attr"></param>
-        public void add_attribute(Attribute attr)
+        public void AddAttribute(Attribute attr)
         {
             _ctx.handle_error(Methods.tiledb_array_schema_add_attribute(_ctx.Handle, _handle, attr.Handle));
         }
 
-        public void add_attributes(params Attribute[] attrs)
+        public void AddAttributes(params Attribute[] attrs)
         {
             foreach (var t in attrs)
             {
@@ -76,7 +76,7 @@ namespace TileDB.CSharp
         /// Set if duplicate is allowed or not
         /// </summary>
         /// <param name="allowsDups"></param>
-        public void set_allows_dups(bool allowsDups)
+        public void SetAllowsDups(bool allowsDups)
         {
 
             var int_allow_dups = allowsDups ? 1 : 0;
@@ -87,7 +87,7 @@ namespace TileDB.CSharp
         /// Get if duplicate is allowed or not.
         /// </summary>
         /// <returns></returns>
-        public bool allows_dups()
+        public bool AllowsDups()
         {
             var allowDups = 0;
             _ctx.handle_error(Methods.tiledb_array_schema_get_allows_dups(_ctx.Handle, _handle, &allowDups));
@@ -98,7 +98,7 @@ namespace TileDB.CSharp
         /// Set domain.
         /// </summary>
         /// <param name="domain"></param>
-        public void set_domain(Domain domain)
+        public void SetDomain(Domain domain)
         {
 
             _ctx.handle_error(Methods.tiledb_array_schema_set_domain(_ctx.Handle, _handle, domain.Handle));
@@ -108,7 +108,7 @@ namespace TileDB.CSharp
         /// Set capacity.
         /// </summary>
         /// <param name="capacity"></param>
-        public void set_capacity(ulong capacity)
+        public void SetCapacity(ulong capacity)
         {
             _ctx.handle_error(Methods.tiledb_array_schema_set_capacity(_ctx.Handle, _handle, capacity));
         }
@@ -117,7 +117,7 @@ namespace TileDB.CSharp
         /// Set cell order.
         /// </summary>
         /// <param name="layoutType"></param>
-        public void set_cell_order(LayoutType layoutType)
+        public void SetCellOrder(LayoutType layoutType)
         {
             var tiledb_layout = (tiledb_layout_t)layoutType;
             _ctx.handle_error(Methods.tiledb_array_schema_set_cell_order(_ctx.Handle, _handle, tiledb_layout));
@@ -127,7 +127,7 @@ namespace TileDB.CSharp
         /// Set tile order.
         /// </summary>
         /// <param name="layoutType"></param>
-        public void set_tile_order(LayoutType layoutType)
+        public void SetTileOrder(LayoutType layoutType)
         {
             var tiledb_layout = (tiledb_layout_t)layoutType;
             _ctx.handle_error(Methods.tiledb_array_schema_set_tile_order(_ctx.Handle, _handle, tiledb_layout));
@@ -137,7 +137,7 @@ namespace TileDB.CSharp
         /// Set coordinates filter list.
         /// </summary>
         /// <param name="filterList"></param>
-        public void set_coords_filter_list(FilterList filterList)
+        public void SetCoordsFilterList(FilterList filterList)
         {
             _ctx.handle_error(Methods.tiledb_array_schema_set_coords_filter_list(_ctx.Handle, _handle, filterList.Handle));
 
@@ -147,7 +147,7 @@ namespace TileDB.CSharp
         /// Set offsets filter list.
         /// </summary>
         /// <param name="filterList"></param>
-        public void set_offsets_filter_list(FilterList filterList)
+        public void SetOffsetsFilterList(FilterList filterList)
         {
             _ctx.handle_error(Methods.tiledb_array_schema_set_offsets_filter_list(_ctx.Handle, _handle, filterList.Handle));
 
@@ -169,7 +169,7 @@ namespace TileDB.CSharp
         /// Get ArrayType.
         /// </summary>
         /// <returns></returns>
-        public ArrayType array_type()
+        public ArrayType ArrayType()
         {
             tiledb_array_type_t tiledb_array_type;
             _ctx.handle_error(Methods.tiledb_array_schema_get_array_type(_ctx.Handle, _handle, &tiledb_array_type));
@@ -193,7 +193,7 @@ namespace TileDB.CSharp
         /// Get cell order.
         /// </summary>
         /// <returns></returns>
-        public LayoutType cell_order()
+        public LayoutType CellOrder()
         {
             tiledb_layout_t  tiledb_layout;
             _ctx.handle_error(Methods.tiledb_array_schema_get_cell_order(_ctx.Handle, _handle, &tiledb_layout));
@@ -204,7 +204,7 @@ namespace TileDB.CSharp
         /// Get coordinates filter list.
         /// </summary>
         /// <returns></returns>
-        public FilterList coords_filter_list()
+        public FilterList CoordsFilterList()
         {
 
             tiledb_filter_list_t* filter_list_p;
@@ -216,7 +216,7 @@ namespace TileDB.CSharp
         /// Get offsets filter list.
         /// </summary>
         /// <returns></returns>
-        public FilterList offsets_filter_list()
+        public FilterList OffsetsFilterList()
         {
             tiledb_filter_list_t* filter_list_p;
             _ctx.handle_error(Methods.tiledb_array_schema_get_offsets_filter_list(_ctx.Handle, _handle, &filter_list_p));
@@ -239,7 +239,7 @@ namespace TileDB.CSharp
         /// Get tile order.
         /// </summary>
         /// <returns></returns>
-        public LayoutType tile_order()
+        public LayoutType TileOrder()
         {
             tiledb_layout_t tiledb_layout;
             _ctx.handle_error(Methods.tiledb_array_schema_get_tile_order(_ctx.Handle, _handle, &tiledb_layout));
@@ -250,7 +250,7 @@ namespace TileDB.CSharp
         /// Get number of attributes.
         /// </summary>
         /// <returns></returns>
-        public uint attribute_num()
+        public uint AttributeNum()
         {
             uint num = 0;
             _ctx.handle_error(Methods.tiledb_array_schema_get_attribute_num(_ctx.Handle, _handle, &num));
@@ -291,7 +291,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public bool has_attribute(string name)
+        public bool HasAttribute(string name)
         {
             var has_attr = 0;
             var ms_name = new MarshaledString(name);
@@ -324,7 +324,7 @@ namespace TileDB.CSharp
         public SortedDictionary<string, Attribute> Attributes()
         {
             var ret = new SortedDictionary<string, Attribute>();
-            var attribute_num = this.attribute_num();
+            var attribute_num = this.AttributeNum();
             for (uint i = 0; i < attribute_num; ++i)
             {
                 var attr = Attribute(i);
@@ -357,7 +357,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public bool IsNullable(string name)
         {
-            if (has_attribute(name))
+            if (HasAttribute(name))
             {
                 var attr = Attribute(name);
                 return attr.Nullable();
@@ -376,15 +376,15 @@ namespace TileDB.CSharp
             {
                 return false;
             }
-            if (has_attribute(name))
+            if (HasAttribute(name))
             {
                 var attr = Attribute(name);
-                return attr.cell_val_num() == (uint)Constants.TILEDB_VAR_NUM;
+                return attr.CellValNum() == (uint)Constants.TILEDB_VAR_NUM;
             }
-            else if (Domain().has_dimension(name))
+            else if (Domain().HasDimension(name))
             {
                 var dim = Domain().Dimension(name);
-                return dim.cell_val_num() == (uint)Constants.TILEDB_VAR_NUM;
+                return dim.CellValNum() == (uint)Constants.TILEDB_VAR_NUM;
             }
 
             return false;

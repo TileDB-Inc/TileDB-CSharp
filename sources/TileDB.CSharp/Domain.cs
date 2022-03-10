@@ -68,7 +68,7 @@ namespace TileDB.CSharp
         /// Add a dimension.
         /// </summary>
         /// <param name="d"></param>
-        public void add_dimension(Dimension d)
+        public void AddDimension(Dimension d)
         {
             _ctx.handle_error(Methods.tiledb_domain_add_dimension(_ctx.Handle, _handle, d.Handle));
         }
@@ -77,11 +77,11 @@ namespace TileDB.CSharp
         /// Add dimensions.
         /// </summary>
         /// <param name="d"></param>
-        public void add_dimensions(params Dimension[] d)
+        public void AddDimensions(params Dimension[] d)
         {
             foreach (var t in d)
             {
-                add_dimension(t);
+                AddDimension(t);
             }
         }
 
@@ -127,7 +127,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public bool has_dimension(string name)
+        public bool HasDimension(string name)
         {
             var has_dim = 0;
             var ms_name = new MarshaledString(name);

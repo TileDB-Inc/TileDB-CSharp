@@ -36,26 +36,26 @@ namespace TileDB.CSharp.Test
             array.Close();
 
             var unixTimestamp = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-            array.set_open_timestamp_start((ulong)(unixTimestamp / 1000000));
+            array.SetOpenTimestampStart((ulong)(unixTimestamp / 1000000));
 
             array.Open(QueryType.TILEDB_READ);
 
             array_schema = array.Schema();
             Assert.IsNotNull(array_schema);
 
-            Assert.AreEqual(LayoutType.TILEDB_ROW_MAJOR, array_schema.tile_order());
+            Assert.AreEqual(LayoutType.TILEDB_ROW_MAJOR, array_schema.TileOrder());
 
-            Assert.AreEqual(QueryType.TILEDB_READ, array.query_type());
+            Assert.AreEqual(QueryType.TILEDB_READ, array.QueryType());
 
-            (_, _, bool isEmpty) = array.non_empty_domain<short>("dim1");
+            (_, _, bool isEmpty) = array.NonEmptyDomain<short>("dim1");
             Assert.IsTrue(isEmpty);
 
-            (_, _, isEmpty) = array.non_empty_domain<short>(0);
+            (_, _, isEmpty) = array.NonEmptyDomain<short>(0);
             Assert.IsTrue(isEmpty);
 
             array.Close();
 
-            var array_schema_loaded = Array.load_array_schema(context, tmpArrayPath);
+            var array_schema_loaded = Array.LoadArraySchema(context, tmpArrayPath);
             Assert.IsNotNull(array_schema_loaded);
         }
 
@@ -88,38 +88,38 @@ namespace TileDB.CSharp.Test
             array.Close();
 
             var unixTimestamp = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-            array.set_open_timestamp_start((ulong)(unixTimestamp / 1000000));
+            array.SetOpenTimestampStart((ulong)(unixTimestamp / 1000000));
 
             array.Open(QueryType.TILEDB_READ);
 
             array_schema = array.Schema();
             Assert.IsNotNull(array_schema);
 
-            Assert.AreEqual(LayoutType.TILEDB_ROW_MAJOR, array_schema.tile_order());
+            Assert.AreEqual(LayoutType.TILEDB_ROW_MAJOR, array_schema.TileOrder());
 
-            Assert.AreEqual(QueryType.TILEDB_READ, array.query_type());
+            Assert.AreEqual(QueryType.TILEDB_READ, array.QueryType());
 
-            (_, _, bool isEmpty) = array.non_empty_domain<short>("dim1");
+            (_, _, bool isEmpty) = array.NonEmptyDomain<short>("dim1");
             Assert.IsTrue(isEmpty);
 
-            (_, _, isEmpty) = array.non_empty_domain<short>(0);
+            (_, _, isEmpty) = array.NonEmptyDomain<short>(0);
             Assert.IsTrue(isEmpty);
 
-            Assert.ThrowsException<ArgumentException>(()=>array.non_empty_domain<short>("dim2"));
-            Assert.ThrowsException<ArgumentException>(()=>array.non_empty_domain<short>(1));
+            Assert.ThrowsException<ArgumentException>(()=>array.NonEmptyDomain<short>("dim2"));
+            Assert.ThrowsException<ArgumentException>(()=>array.NonEmptyDomain<short>(1));
             
-            (_, _, isEmpty) = array.non_empty_domain<float>("dim2");
+            (_, _, isEmpty) = array.NonEmptyDomain<float>("dim2");
             Assert.IsTrue(isEmpty);
 
-            (_, _, isEmpty) = array.non_empty_domain<float>(1);
+            (_, _, isEmpty) = array.NonEmptyDomain<float>(1);
             Assert.IsTrue(isEmpty);
 
-            (_, isEmpty) = array.non_empty_domain();
+            (_, isEmpty) = array.NonEmptyDomain();
             Assert.IsTrue(isEmpty);
             
             array.Close();
 
-            var array_schema_loaded = Array.load_array_schema(context, tmpArrayPath);
+            var array_schema_loaded = Array.LoadArraySchema(context, tmpArrayPath);
             Assert.IsNotNull(array_schema_loaded);
         }
 
@@ -132,7 +132,7 @@ namespace TileDB.CSharp.Test
             var domain = new Domain(context);
             Assert.IsNotNull(domain);
 
-            domain.add_dimension(dimension);
+            domain.AddDimension(dimension);
 
             var array_schema = new ArraySchema(context, ArrayType.TILEDB_DENSE);
             Assert.IsNotNull(array_schema);
@@ -143,11 +143,11 @@ namespace TileDB.CSharp.Test
             var a2 = new Attribute(context, "a2", DataType.TILEDB_STRING_ASCII);
             Assert.IsNotNull(a2);
 
-            a2.set_cell_val_num((uint)Constants.TILEDB_VAR_NUM);
+            a2.SetCellValNum((uint)Constants.TILEDB_VAR_NUM);
 
-            array_schema.add_attributes(a1, a2);
+            array_schema.AddAttributes(a1, a2);
 
-            array_schema.set_domain(domain);
+            array_schema.SetDomain(domain);
 
             array_schema.Check();
 
@@ -169,7 +169,7 @@ namespace TileDB.CSharp.Test
             var domain = new Domain(context);
             Assert.IsNotNull(domain);
 
-            domain.add_dimensions(dim1, dim2);
+            domain.AddDimensions(dim1, dim2);
 
             var array_schema = new ArraySchema(context, ArrayType.TILEDB_SPARSE);
             Assert.IsNotNull(array_schema);
@@ -180,11 +180,11 @@ namespace TileDB.CSharp.Test
             var a2 = new Attribute(context, "a2", DataType.TILEDB_STRING_ASCII);
             Assert.IsNotNull(a2);
 
-            a2.set_cell_val_num((uint)Constants.TILEDB_VAR_NUM);
+            a2.SetCellValNum((uint)Constants.TILEDB_VAR_NUM);
 
-            array_schema.add_attributes(a1, a2);
+            array_schema.AddAttributes(a1, a2);
 
-            array_schema.set_domain(domain);
+            array_schema.SetDomain(domain);
 
             array_schema.Check();
 

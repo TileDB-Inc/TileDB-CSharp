@@ -45,7 +45,7 @@ namespace TileDB.CSharp
         /// Add a filter.
         /// </summary>
         /// <param name="filter"></param>
-        public void add_filter(Filter filter)
+        public void AddFilter(Filter filter)
         {
             _ctx.handle_error(Methods.tiledb_filter_list_add_filter(_ctx.Handle, _handle, filter.Handle));
         }
@@ -54,7 +54,7 @@ namespace TileDB.CSharp
         /// Set maximum chunk size.
         /// </summary>
         /// <param name="maxChunkSize"></param>
-        public void set_max_chunk_size(uint maxChunkSize) 
+        public void SetMaxChunkSize(uint maxChunkSize) 
         {
             _ctx.handle_error(Methods.tiledb_filter_list_set_max_chunk_size(_ctx.Handle,_handle,maxChunkSize));
         }
@@ -63,7 +63,7 @@ namespace TileDB.CSharp
         /// Get maximum chunk size.
         /// </summary>
         /// <returns></returns>
-        public uint max_chunk_size()
+        public uint MaxChunkSize()
         {
             uint result = 0;
             _ctx.handle_error(Methods.tiledb_filter_list_get_max_chunk_size(_ctx.Handle, _handle,&result));

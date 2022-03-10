@@ -44,7 +44,7 @@ namespace TileDB.CSharp
         /// <param name="pTileDBError"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        private string get_last_error(tiledb_error_t *pTileDBError, int status)
+        private string GetLastError(tiledb_error_t *pTileDBError, int status)
         {
             var sb_result = new StringBuilder();
             if (Enum.IsDefined(typeof(Status), status))
@@ -85,7 +85,7 @@ namespace TileDB.CSharp
             var status = Methods.tiledb_config_set(_handle, ms_param, ms_value, &p_tiledb_error);
             if (status != (int)Status.TILEDB_OK)
             {
-                var err_message = get_last_error(p_tiledb_error, status);
+                var err_message = GetLastError(p_tiledb_error, status);
                 Methods.tiledb_error_free(&p_tiledb_error);
                 throw new ErrorException("Config.set, caught exception:" + err_message);
             }
@@ -116,7 +116,7 @@ namespace TileDB.CSharp
                 var status = Methods.tiledb_config_get(_handle, ms_param, p_result, &p_tiledb_error);
                 if (status != (int)Status.TILEDB_OK)
                 {
-                    var err_message = get_last_error(p_tiledb_error, status);
+                    var err_message = GetLastError(p_tiledb_error, status);
                     Methods.tiledb_error_free(&p_tiledb_error);
                     throw new ErrorException("Config.get, caught exception:" + err_message);
                 }
@@ -146,7 +146,7 @@ namespace TileDB.CSharp
             var status = Methods.tiledb_config_unset(_handle, ms_param, &p_tiledb_error);
             if (status != (int)Status.TILEDB_OK)
             {
-                var err_message = get_last_error(p_tiledb_error, status);
+                var err_message = GetLastError(p_tiledb_error, status);
                 Methods.tiledb_error_free(&p_tiledb_error);
                 throw new ErrorException("Config.unset, caught exception:" + err_message);
             }
@@ -159,7 +159,7 @@ namespace TileDB.CSharp
         /// <param name="filename"></param>
         /// <exception cref="System.ArgumentException"></exception>
         /// <exception cref="ErrorException"></exception>
-        public void load_from_file(string filename)
+        public void LoadFromFile(string filename)
         {
             if (string.IsNullOrEmpty(filename) )
             {
@@ -173,7 +173,7 @@ namespace TileDB.CSharp
             var status = Methods.tiledb_config_load_from_file(_handle, ms_filename, &p_tiledb_error);
             if (status != (int)Status.TILEDB_OK)
             {
-                var err_message = get_last_error(p_tiledb_error, status);
+                var err_message = GetLastError(p_tiledb_error, status);
                 Methods.tiledb_error_free(&p_tiledb_error);
                 throw new ErrorException("Config.load_from_file, caught exception:" + err_message);
             }
@@ -186,7 +186,7 @@ namespace TileDB.CSharp
         /// <param name="filename"></param>
         /// <exception cref="System.ArgumentException"></exception>
         /// <exception cref="ErrorException"></exception>
-        public void save_to_file(string filename)
+        public void SaveToFile(string filename)
         {
             if (string.IsNullOrEmpty(filename))
             {
@@ -200,7 +200,7 @@ namespace TileDB.CSharp
             var status = Methods.tiledb_config_save_to_file(_handle, ms_filename, &p_tiledb_error);
             if (status != (int)Status.TILEDB_OK)
             {
-                var err_message = get_last_error(p_tiledb_error, status);
+                var err_message = GetLastError(p_tiledb_error, status);
                 Methods.tiledb_error_free(&p_tiledb_error);
                 throw new ErrorException("Config.save_to_file, caught exception:" + err_message);
             }

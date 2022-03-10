@@ -19,7 +19,7 @@ namespace TileDB.CSharp
             _handle = new AttributeHandle(_ctx.Handle, name, tiledb_datatype);
             if (EnumUtil.is_string_type(dataType))
             {
-                set_cell_val_num((uint)Constants.TILEDB_VAR_NUM);
+                SetCellValNum((uint)Constants.TILEDB_VAR_NUM);
             }
         }
 
@@ -52,7 +52,7 @@ namespace TileDB.CSharp
         /// Set nullable.
         /// </summary>
         /// <param name="nullable"></param>
-        public void set_nullable(bool nullable)
+        public void SetNullable(bool nullable)
         {
             var int8_nullable = nullable ? (byte)1 : (byte)0;
             _ctx.handle_error(Methods.tiledb_attribute_set_nullable(_ctx.Handle, _handle, int8_nullable));
@@ -62,7 +62,7 @@ namespace TileDB.CSharp
         /// Set filter list.
         /// </summary>
         /// <param name="filterList"></param>
-        public void set_filter_list(FilterList filterList)
+        public void SetFilterList(FilterList filterList)
         {
             _ctx.handle_error(Methods.tiledb_attribute_set_filter_list(_ctx.Handle, _handle, filterList.Handle));
 
@@ -72,7 +72,7 @@ namespace TileDB.CSharp
         /// Set cell value number.
         /// </summary>
         /// <param name="cellValNum"></param>
-        public void set_cell_val_num(uint cellValNum)
+        public void SetCellValNum(uint cellValNum)
         {
             _ctx.handle_error(Methods.tiledb_attribute_set_cell_val_num(_ctx.Handle, _handle, cellValNum));
         }
@@ -118,7 +118,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// Get filter list of the attribute.
         /// </summary>
-        public FilterList filter_list()
+        public FilterList FilterList()
         {
             tiledb_filter_list_t* filter_list_p;
             _ctx.handle_error(Methods.tiledb_attribute_get_filter_list(_ctx.Handle, _handle, &filter_list_p));
@@ -130,7 +130,7 @@ namespace TileDB.CSharp
         /// Get cell value number.
         /// </summary>
         /// <returns></returns>
-        public uint cell_val_num()
+        public uint CellValNum()
         {
             uint cell_val_num = 0;
             _ctx.handle_error(Methods.tiledb_attribute_get_cell_val_num(_ctx.Handle, _handle, &cell_val_num));
@@ -141,7 +141,7 @@ namespace TileDB.CSharp
         /// Get cell size.
         /// </summary>
         /// <returns></returns>
-        public ulong cell_size()
+        public ulong CellSize()
         {
 
             ulong cell_size = 0;
@@ -155,17 +155,17 @@ namespace TileDB.CSharp
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="data"></param>
-        private void set_fill_value<T>(T[] data) where T: struct
+        private void SetFillValue<T>(T[] data) where T: struct
         {
             if (data.Length == 0) {
-                throw new ArgumentException("Attribute.set_fill_value, data is empty!");
+                throw new ArgumentException("Attribute.SetFillValue, data is empty!");
             }
 
-            var cell_val_num = this.cell_val_num();
+            var cell_val_num = this.CellValNum();
          
             if (cell_val_num != (uint)Constants.TILEDB_VAR_NUM && cell_val_num != data.Length)
             {
-                throw new ArgumentException("Attribute.set_fill_value_nullable, data length is not equal to cell_val_num!");
+                throw new ArgumentException("Attribute.SetFillValue_nullable, data length is not equal to cell_val_num!");
             }
 
             ulong size;
@@ -195,23 +195,23 @@ namespace TileDB.CSharp
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
-        public void set_fill_value<T>(T value) where T: struct
+        public void SetFillValue<T>(T value) where T: struct
         {
-            var cell_val_num = this.cell_val_num();
+            var cell_val_num = this.CellValNum();
             var data = cell_val_num == (uint)Constants.TILEDB_VAR_NUM
                 ? new[] { value }
                 : Enumerable.Repeat(value, (int)cell_val_num).ToArray();
-            set_fill_value(data);
+            SetFillValue(data);
         }
 
         /// <summary>
         /// Set string fill value.
         /// </summary>
         /// <param name="value"></param>
-        public void set_fill_value(string value)
+        public void SetFillValue(string value)
         {
             var str_bytes = Encoding.ASCII.GetBytes(value);
-            set_fill_value(str_bytes);
+            SetFillValue(str_bytes);
         }
  
 
@@ -234,7 +234,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T[] fill_value<T>() where T: struct
+        public T[] FillValue<T>() where T: struct
         {
             var fill_bytes = get_fill_value();
             var span = MemoryMarshal.Cast<byte, T>(fill_bytes);
@@ -246,12 +246,12 @@ namespace TileDB.CSharp
         /// </summary>
         /// <returns></returns>
         /// <exception cref="System.NotSupportedException"></exception>
-        public string fill_value() 
+        public string FillValue() 
         {
             var datatype = Type();
             if (!EnumUtil.is_string_type(datatype))
             {
-                throw new NotSupportedException("Attribute.fill_value, please use fill_value<T> for non-string attribute!");
+                throw new NotSupportedException("Attribute.FillValue, please use FillValue<T> for non-string attribute!");
             }
             var fill_bytes = get_fill_value();
             return Encoding.ASCII.GetString(fill_bytes);
@@ -263,17 +263,17 @@ namespace TileDB.CSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="data"></param>
         /// <param name="valid"></param>
-        private void set_fill_value_nullable<T>(T[] data, bool valid) where T: struct
+        private void SetFillValueNullable<T>(T[] data, bool valid) where T: struct
         {
             if (data.Length == 0)
             {
-                throw new ArgumentException("Attribute.set_fill_value_nullable, data is empty!");
+                throw new ArgumentException("Attribute.SetFillValueNullable, data is empty!");
             }
            
-            var cell_val_num = this.cell_val_num();
+            var cell_val_num = this.CellValNum();
             if (cell_val_num != (uint)Constants.TILEDB_VAR_NUM && cell_val_num != data.Length) 
             {
-                throw new ArgumentException("Attribute.set_fill_value_nullable, data length is not equal to cell_val_num!");
+                throw new ArgumentException("Attribute.SetFillValueNullable, data length is not equal to cell_val_num!");
             }
 
             ulong size;
@@ -305,11 +305,11 @@ namespace TileDB.CSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
         /// <param name="valid"></param>
-        public void set_fill_value_nullable<T>(T value, bool valid) where T: struct
+        public void SetFillValueNullable<T>(T value, bool valid) where T: struct
         {
-            var cell_val_num = this.cell_val_num();
+            var cell_val_num = this.CellValNum();
             var data = cell_val_num == (uint)Constants.TILEDB_VAR_NUM ? new[] { value } : Enumerable.Repeat(value, (int)cell_val_num).ToArray();
-            set_fill_value_nullable(data, valid);
+            SetFillValueNullable(data, valid);
         }
 
         /// <summary>
@@ -317,10 +317,10 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="value"></param>
         /// <param name="valid"></param>
-        public void set_fill_value_nullable(string value, bool valid)
+        public void SetFillValueNullable(string value, bool valid)
         {
             var str_bytes = Encoding.ASCII.GetBytes(value);
-            set_fill_value_nullable(str_bytes, valid);
+            SetFillValueNullable(str_bytes, valid);
         }
 
         /// <summary>
@@ -344,7 +344,7 @@ namespace TileDB.CSharp
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
 
-        public Tuple<T[],bool> fill_value_nullable<T>() where T : struct
+        public Tuple<T[],bool> FillValueNullable<T>() where T : struct
         {
 
             var fill_value = get_fill_value_nullable();
@@ -358,12 +358,12 @@ namespace TileDB.CSharp
         /// </summary>
         /// <returns></returns>
         /// <exception cref="System.NotSupportedException"></exception>
-        public string fill_value_nullable()
+        public string FillValueNullable()
         {
             var datatype = Type();
             if (!EnumUtil.is_string_type(datatype))
             {
-                throw new NotSupportedException("Attribute.fill_value_nullable, please use fill_value<T> for non-string attribute!");
+                throw new NotSupportedException("Attribute.FillValueNullable, please use fill_value<T> for non-string attribute!");
             }
             var(fill_bytes,_) = get_fill_value_nullable();
             return Encoding.ASCII.GetString(fill_bytes);

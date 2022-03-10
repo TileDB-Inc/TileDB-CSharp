@@ -45,10 +45,10 @@ namespace TileDB.CSharp.Test
             // Create temporary path for testing configuration writing/reading
             var tmpPath = Path.Join( Path.GetTempPath(), "tmp.cfg");
 
-            config.save_to_file(tmpPath);
+            config.SaveToFile(tmpPath);
 
             var config2 = new Config();
-            config2.load_from_file(tmpPath);
+            config2.LoadFromFile(tmpPath);
 
             val = config2.Get("sm.tile_cache_size");
             Assert.AreEqual<string>(val, "10");
