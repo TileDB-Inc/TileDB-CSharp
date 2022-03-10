@@ -316,15 +316,15 @@ namespace TileDB.CSharp
             return (LayoutType)layout;
         }
 
-        //TODO 
+         
         ///// <summary>
         ///// Sets the query condition to be applied on a read.
         ///// </summary>
         ///// <param name="condition"></param>
-        //public void set_condition(QueryCondition condition)
-        //{
-        //    _ctx.handle_error(Methods.tiledb_query_set_condition(_ctx.Handle, _handle, condition.Handle));
-        //}
+        public void set_condition(QueryCondition condition)
+        {
+            _ctx.handle_error(Methods.tiledb_query_set_condition(_ctx.Handle, _handle, condition.Handle));
+        }
 
         /// <summary>
         /// Flushes all internal state of a query object and finalizes the query, only applicable to global layout writes.

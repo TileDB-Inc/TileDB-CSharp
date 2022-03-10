@@ -8,9 +8,8 @@ namespace TileDB.CSharp.Examples
         static void Main(string[] args)
         {
 
-    
- 
 
+ 
         }
     }
 }
