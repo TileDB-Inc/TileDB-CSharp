@@ -23,7 +23,7 @@ namespace TileDB.CSharp.Test
             var domain = new Domain(context);
             Assert.IsNotNull(domain);
             
-            domain.add_dimension(dimension);
+            domain.AddDimension(dimension);
             
             var array_schema = new ArraySchema(context, ArrayType.TILEDB_DENSE);
             Assert.IsNotNull(array_schema);
@@ -34,11 +34,11 @@ namespace TileDB.CSharp.Test
             var a2 = new Attribute(context, "a2", DataType.TILEDB_FLOAT32);
             Assert.IsNotNull(a2);
 
-            a2.set_cell_val_num((uint)Constants.TILEDB_VAR_NUM);
+            a2.SetCellValNum((uint)Constants.TILEDB_VAR_NUM);
 
-            array_schema.add_attributes(a1, a2);
+            array_schema.AddAttributes(a1, a2);
 
-            array_schema.set_domain(domain);
+            array_schema.SetDomain(domain);
 
             array_schema.Check();
             
@@ -145,8 +145,8 @@ namespace TileDB.CSharp.Test
             var domain = new Domain(context);
             Assert.IsNotNull(domain);
 
-            domain.add_dimension(dim1);
-            domain.add_dimension(dim2);
+            domain.AddDimension(dim1);
+            domain.AddDimension(dim2);
 
             var array_schema = new ArraySchema(context, ArrayType.TILEDB_SPARSE);
             Assert.IsNotNull(array_schema);
@@ -154,9 +154,9 @@ namespace TileDB.CSharp.Test
             var attr = new Attribute(context, "a", DataType.TILEDB_INT32);
             Assert.IsNotNull(attr);
 
-            array_schema.add_attribute(attr);
+            array_schema.AddAttribute(attr);
 
-            array_schema.set_domain(domain);
+            array_schema.SetDomain(domain);
 
             array_schema.Check();
 
@@ -170,61 +170,63 @@ namespace TileDB.CSharp.Test
             Array.Create(context, tmpArrayPath, array_schema);
 
             //Write array
-            var array_write = new Array(context, tmpArrayPath);
-            Assert.IsNotNull(array_write);
-
-            array_write.Open(QueryType.TILEDB_WRITE);
-
-            var query_write = new Query(context, array_write);
-
             var dim1_data_buffer = new int[3] { 1, 2, 3 };
-  
             var dim2_data_buffer = new int[3] { 1, 3, 4 };
-
             var attr_data_buffer = new int[3] { 1, 2, 3 };
- 
-            query_write.set_layout(LayoutType.TILEDB_UNORDERED);
 
-            query_write.set_data_buffer<int>("rows", dim1_data_buffer);
-            query_write.set_data_buffer<int>("cols", dim2_data_buffer);
-            query_write.set_data_buffer<int>("a", attr_data_buffer);
+            using (var array_write = new Array(context, tmpArrayPath))
+            {
+                Assert.IsNotNull(array_write);
 
-            query_write.submit();
+                array_write.Open(QueryType.TILEDB_WRITE);
 
-            var status = query_write.status();
+                var query_write = new Query(context, array_write);
 
-            Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status);
+                query_write.set_layout(LayoutType.TILEDB_UNORDERED);
 
-            array_write.Close();
+                query_write.set_data_buffer<int>("rows", dim1_data_buffer);
+                query_write.set_data_buffer<int>("cols", dim2_data_buffer);
+                query_write.set_data_buffer<int>("a", attr_data_buffer);
+
+                query_write.submit();
+
+                var status = query_write.status();
+
+                Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status);
+
+                array_write.Close();
+            }//array_write
+
 
             //Read array
-            var array_read = new Array(context, tmpArrayPath);
-            Assert.IsNotNull(array_read);
-
-            array_read.Open(QueryType.TILEDB_READ);
-
-            var query_read = new Query(context, array_read);
-
-            query_read.set_layout(LayoutType.TILEDB_ROW_MAJOR);
-
             var dim1_data_buffer_read = new int[3];
-    
-            query_read.set_data_buffer<int>("rows", dim1_data_buffer_read);
-
             var dim2_data_buffer_read = new int[3];
-  
-            query_read.set_data_buffer<int>("cols", dim2_data_buffer_read);
-
             var attr_data_buffer_read = new int[3];
-  
-            query_read.set_data_buffer<int>("a", attr_data_buffer_read);
 
-            query_read.submit();
-            var status_read = query_read.status();
+            using (var array_read = new Array(context, tmpArrayPath))
+            {
+                Assert.IsNotNull(array_read);
 
-            Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status_read);
+                array_read.Open(QueryType.TILEDB_READ);
 
-            array_read.Close();
+                var query_read = new Query(context, array_read);
+
+                query_read.set_layout(LayoutType.TILEDB_ROW_MAJOR);
+
+                query_read.set_data_buffer<int>("rows", dim1_data_buffer_read);
+
+                query_read.set_data_buffer<int>("cols", dim2_data_buffer_read);
+
+                query_read.set_data_buffer<int>("a", attr_data_buffer_read);
+
+                query_read.submit();
+                var status_read = query_read.status();
+
+                Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status_read);
+
+                array_read.Close();
+            }
+
 
             CollectionAssert.AreEqual(dim1_data_buffer, dim1_data_buffer_read);
 
@@ -252,31 +254,31 @@ namespace TileDB.CSharp.Test
             var domain = new Domain(context);
             Assert.IsNotNull(domain);
 
-            domain.add_dimension(dim1);
-            domain.add_dimension(dim2);
+            domain.AddDimension(dim1);
+            domain.AddDimension(dim2);
 
             var array_schema = new ArraySchema(context, ArrayType.TILEDB_DENSE);
             Assert.IsNotNull(array_schema);
 
             var attr1 = new Attribute(context, "a1", DataType.TILEDB_INT32);
             Assert.IsNotNull(attr1);
-            attr1.set_nullable(true);
-            array_schema.add_attribute(attr1);
+            attr1.SetNullable(true);
+            array_schema.AddAttribute(attr1);
 
             var attr2 = new Attribute(context, "a2", DataType.TILEDB_INT32);
             Assert.IsNotNull(attr2);
-            attr2.set_nullable(true);
-            attr2.set_cell_val_num((uint)Constants.TILEDB_VAR_NUM);
-            array_schema.add_attribute(attr2);
+            attr2.SetNullable(true);
+            attr2.SetCellValNum((uint)Constants.TILEDB_VAR_NUM);
+            array_schema.AddAttribute(attr2);
 
             var attr3 = new Attribute(context, "a3", DataType.TILEDB_STRING_ASCII);
             Assert.IsNotNull(attr3);
-            attr3.set_nullable(true);
-            array_schema.add_attribute(attr3);
+            attr3.SetNullable(true);
+            array_schema.AddAttribute(attr3);
 
-            array_schema.set_domain(domain);
-            array_schema.set_tile_order(LayoutType.TILEDB_ROW_MAJOR);
-            array_schema.set_cell_order(LayoutType.TILEDB_ROW_MAJOR);
+            array_schema.SetDomain(domain);
+            array_schema.SetTileOrder(LayoutType.TILEDB_ROW_MAJOR);
+            array_schema.SetCellOrder(LayoutType.TILEDB_ROW_MAJOR);
 
             array_schema.Check();
 
@@ -290,14 +292,6 @@ namespace TileDB.CSharp.Test
             Array.Create(context, tmpArrayPath, array_schema);
 
             // Write array
-            var array_write = new Array(context, tmpArrayPath);
-            Assert.IsNotNull(array_write);
-
-            array_write.Open(QueryType.TILEDB_WRITE);
-
-            var query_write = new Query(context, array_write);
-            query_write.set_layout(LayoutType.TILEDB_ROW_MAJOR);
-
             int[] a1_data = new int[4] { 100, 200, 300, 400 };
             int[] a2_data = new int[8] { 10, 10, 20, 30, 30, 30, 40, 40 };
             ulong[] a2_el_off = new ulong[4] { 0, 2, 3, 6 };
@@ -319,35 +313,37 @@ namespace TileDB.CSharp.Test
             byte[] a2_validity = new byte[4] { 0, 1, 1, 0 };
             byte[] a3_validity = new byte[4] { 1, 0, 0, 1 };
 
-            query_write.set_data_buffer<int>("a1", a1_data);
-            query_write.set_validity_buffer("a1", a1_validity);
+            using (var array_write = new Array(context, tmpArrayPath))
+            {
+                Assert.IsNotNull(array_write);
 
-            query_write.set_data_buffer<int>("a2", a2_data);
-            query_write.set_offsets_buffer("a2", a2_off);
-            query_write.set_validity_buffer("a2", a2_validity);
+                array_write.Open(QueryType.TILEDB_WRITE);
 
-            query_write.set_data_buffer<byte>("a3", a3_data);
-            query_write.set_offsets_buffer("a3", a3_off);
-            query_write.set_validity_buffer("a3", a3_validity);
+                var query_write = new Query(context, array_write);
+                query_write.set_layout(LayoutType.TILEDB_ROW_MAJOR);
 
-            query_write.submit();
+                query_write.set_data_buffer<int>("a1", a1_data);
+                query_write.set_validity_buffer("a1", a1_validity);
 
-            var status = query_write.status();
+                query_write.set_data_buffer<int>("a2", a2_data);
+                query_write.set_offsets_buffer("a2", a2_off);
+                query_write.set_validity_buffer("a2", a2_validity);
 
-            Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status);
+                query_write.set_data_buffer<byte>("a3", a3_data);
+                query_write.set_offsets_buffer("a3", a3_off);
+                query_write.set_validity_buffer("a3", a3_validity);
 
-            array_write.Close();
+                query_write.submit();
+
+                var status = query_write.status();
+
+                Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status);
+
+                array_write.Close();
+            }
+
 
             // Read array
-            var array_read = new Array(context, tmpArrayPath);
-            Assert.IsNotNull(array_read);
-
-            array_read.Open(QueryType.TILEDB_READ);
-
-            var query_read = new Query(context, array_read);
-
-            query_read.set_layout(LayoutType.TILEDB_ROW_MAJOR);
-
             int[] a1_data_read = new int[4];
             byte[] a1_validity_read = new byte[4];
 
@@ -360,25 +356,36 @@ namespace TileDB.CSharp.Test
             byte[] a3_validity_read = new byte[4];
 
             var subarray = new int[4] { 1, 2, 1, 2 };
-            query_read.set_subarray<int>(subarray);
 
-            query_read.set_data_buffer<int>("a1", a1_data_read);
-            query_read.set_validity_buffer("a1", a1_validity_read);
+            using (var array_read = new Array(context, tmpArrayPath))
+            {
+                Assert.IsNotNull(array_read);
 
-            query_read.set_data_buffer<int>("a2", a2_data_read);
-            query_read.set_offsets_buffer("a2", a2_off_read);
-            query_read.set_validity_buffer("a2", a2_validity_read);
+                array_read.Open(QueryType.TILEDB_READ);
 
-            query_read.set_data_buffer<byte>("a3", a3_data_read);
-            query_read.set_offsets_buffer("a3", a3_off_read);
-            query_read.set_validity_buffer("a3", a3_validity_read);
+                var query_read = new Query(context, array_read);
 
-            query_read.submit();
-            var status_read = query_read.status();
+                query_read.set_layout(LayoutType.TILEDB_ROW_MAJOR);
+                query_read.set_subarray<int>(subarray);
 
-            Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status_read);
+                query_read.set_data_buffer<int>("a1", a1_data_read);
+                query_read.set_validity_buffer("a1", a1_validity_read);
 
-            array_read.Close();
+                query_read.set_data_buffer<int>("a2", a2_data_read);
+                query_read.set_offsets_buffer("a2", a2_off_read);
+                query_read.set_validity_buffer("a2", a2_validity_read);
+
+                query_read.set_data_buffer<byte>("a3", a3_data_read);
+                query_read.set_offsets_buffer("a3", a3_off_read);
+                query_read.set_validity_buffer("a3", a3_validity_read);
+
+                query_read.submit();
+                var status_read = query_read.status();
+
+                Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status_read);
+
+                array_read.Close();
+            }
 
             CollectionAssert.AreEqual(a1_data, a1_data_read);
             CollectionAssert.AreEqual(a1_validity, a1_validity_read);

@@ -90,7 +90,7 @@ namespace TileDB.CSharp
         /// Set open timestamp start, sets the subsequent Open call to use the start_timestamp of the passed value.
         /// </summary>
         /// <param name="timestampStart"></param>
-        public void set_open_timestamp_start(ulong timestampStart)
+        public void SetOpenTimestampStart(ulong timestampStart)
         {
             _ctx.handle_error(Methods.tiledb_array_set_open_timestamp_start(_ctx.Handle, _handle, timestampStart));
         }
@@ -99,7 +99,7 @@ namespace TileDB.CSharp
         /// Set open timestamp end.
         /// </summary>
         /// <param name="timestampEnd"></param>
-        public void set_open_timestamp_end(ulong timestampEnd)
+        public void SetOpenTimestampEnd(ulong timestampEnd)
         {
             _ctx.handle_error(Methods.tiledb_array_set_open_timestamp_end(_ctx.Handle, _handle, timestampEnd));
         }
@@ -108,7 +108,7 @@ namespace TileDB.CSharp
         /// Get open timestamp start.
         /// </summary>
         /// <returns></returns>
-        public ulong open_timestamp_start()
+        public ulong OpenTimestampStart()
         {
             ulong timestamp;
             _ctx.handle_error(Methods.tiledb_array_get_open_timestamp_start(_ctx.Handle, _handle, &timestamp));
@@ -119,7 +119,7 @@ namespace TileDB.CSharp
         /// Get timestamp end.
         /// </summary>
         /// <returns></returns>
-        public ulong open_timestamp_end()
+        public ulong OpenTimestampEnd()
         {
             ulong timestamp;
             _ctx.handle_error(Methods.tiledb_array_get_open_timestamp_end(_ctx.Handle, _handle, &timestamp));
@@ -147,7 +147,7 @@ namespace TileDB.CSharp
         /// Tes if the array is open or not.
         /// </summary>
         /// <returns></returns>
-        public bool is_open()
+        public bool IsOpen()
         {
             int int_open;
             _ctx.handle_error(Methods.tiledb_array_is_open(_ctx.Handle, _handle, &int_open));
@@ -158,7 +158,7 @@ namespace TileDB.CSharp
         /// Set config.
         /// </summary>
         /// <param name="config"></param>
-        public void set_config(Config config)
+        public void SetConfig(Config config)
         {
             _ctx.handle_error(Methods.tiledb_array_set_config(_ctx.Handle, _handle, config.Handle));
         }
@@ -199,7 +199,7 @@ namespace TileDB.CSharp
         /// Get query type.
         /// </summary>
         /// <returns></returns>
-        public QueryType query_type()
+        public QueryType QueryType()
         {
             tiledb_query_type_t tiledb_query_type;
             _ctx.handle_error(Methods.tiledb_array_get_query_type(_ctx.Handle, _handle, &tiledb_query_type));
@@ -252,7 +252,7 @@ namespace TileDB.CSharp
             ctx.handle_error(Methods.tiledb_array_vacuum(ctx.Handle, ms_uri, config.Handle));
         }
 
-        public (NonEmptyDomain, bool) non_empty_domain()
+        public (NonEmptyDomain, bool) NonEmptyDomain()
         {
             NonEmptyDomain nonEmptyDomain = new();
 
@@ -273,7 +273,7 @@ namespace TileDB.CSharp
                 {
                     case TypeCode.Int16:
                         {
-                            (short data0, short data1, bool isEmpty) = non_empty_domain<short>(i);
+                            (short data0, short data1, bool isEmpty) = NonEmptyDomain<short>(i);
                             if (isEmpty == false)
                             {
                                 isEmptyDomain = false;
@@ -284,7 +284,7 @@ namespace TileDB.CSharp
                         break;
                     case TypeCode.Int32:
                         {
-                            (int data0, int data1, bool isEmpty) = non_empty_domain<int>(i);
+                            (int data0, int data1, bool isEmpty) = NonEmptyDomain<int>(i);
                             if (isEmpty == false)
                             {
                                 isEmptyDomain = false;
@@ -295,7 +295,7 @@ namespace TileDB.CSharp
                         break;
                     case TypeCode.Int64:
                         {
-                            (long data0, long data1, bool isEmpty) = non_empty_domain<long>(i);
+                            (long data0, long data1, bool isEmpty) = NonEmptyDomain<long>(i);
                             if (isEmpty == false)
                             {
                                 isEmptyDomain = false;
@@ -306,7 +306,7 @@ namespace TileDB.CSharp
                         break;
                     case TypeCode.UInt16:
                         {
-                            (ushort data0, ushort data1, bool isEmpty) = non_empty_domain<ushort>(i);
+                            (ushort data0, ushort data1, bool isEmpty) = NonEmptyDomain<ushort>(i);
                             if (isEmpty == false)
                             {
                                 isEmptyDomain = false;
@@ -317,7 +317,7 @@ namespace TileDB.CSharp
                         break;
                     case TypeCode.UInt32:
                         {
-                            (uint data0, uint data1, bool isEmpty) = non_empty_domain<uint>(i);
+                            (uint data0, uint data1, bool isEmpty) = NonEmptyDomain<uint>(i);
                             if (isEmpty == false)
                             {
                                 isEmptyDomain = false;
@@ -328,7 +328,7 @@ namespace TileDB.CSharp
                         break;
                     case TypeCode.UInt64:
                         {
-                            (ulong data0, ulong data1, bool isEmpty) = non_empty_domain<ulong>(i);
+                            (ulong data0, ulong data1, bool isEmpty) = NonEmptyDomain<ulong>(i);
                             if (isEmpty == false)
                             {
                                 isEmptyDomain = false;
@@ -339,7 +339,7 @@ namespace TileDB.CSharp
                         break;
                     case TypeCode.Single:
                         {
-                            (float data0, float data1, bool isEmpty) = non_empty_domain<float>(i);
+                            (float data0, float data1, bool isEmpty) = NonEmptyDomain<float>(i);
                             if (isEmpty == false)
                             {
                                 isEmptyDomain = false;
@@ -350,7 +350,7 @@ namespace TileDB.CSharp
                         break;
                     case TypeCode.Double:
                         {
-                            (double data0, double data1, bool isEmpty) = non_empty_domain<double>(i);
+                            (double data0, double data1, bool isEmpty) = NonEmptyDomain<double>(i);
                             if (isEmpty == false)
                             {
                                 isEmptyDomain = false;
@@ -361,7 +361,7 @@ namespace TileDB.CSharp
                         break;
                     case TypeCode.String:
                     {
-                        (string data0, string data1, bool isEmpty) = non_empty_domain_var(i);
+                        (string data0, string data1, bool isEmpty) = NonEmptyDomainVar(i);
                         if (isEmpty == false)
                         {
                             isEmptyDomain = false;
@@ -387,12 +387,12 @@ namespace TileDB.CSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="index"></param>
         /// <returns></returns>
-        public (T, T, bool) non_empty_domain<T>(uint index) where T : struct
+        public (T, T, bool) NonEmptyDomain<T>(uint index) where T : struct
         {
             var datatype = EnumUtil.to_DataType(typeof(T));
             if (datatype != Schema().Domain().Dimension(index).Type())
             {
-                throw new ArgumentException("Array.non_empty_domain, not valid datatype!");
+                throw new ArgumentException("Array.NonEmptyDomain, not valid datatype!");
             }
 
             var data = new[] { default(T), default(T) };
@@ -417,12 +417,12 @@ namespace TileDB.CSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="name"></param>
         /// <returns></returns>
-        public (T, T, bool) non_empty_domain<T>(string name) where T : struct
+        public (T, T, bool) NonEmptyDomain<T>(string name) where T : struct
         {
             var datatype = EnumUtil.to_DataType(typeof(T));
             if (datatype != Schema().Domain().Dimension(name).Type())
             {
-                throw new ArgumentException("Array.non_empty_domain, not valid datatype!");
+                throw new ArgumentException("Array.NonEmptyDomain, not valid datatype!");
             }
 
             var ms_name = new MarshaledString(name);
@@ -445,12 +445,12 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public (string, string, bool) non_empty_domain_var(uint index)
+        public (string, string, bool) NonEmptyDomainVar(uint index)
         {
             var dim = Schema().Domain().Dimension(index);
             if(!EnumUtil.is_string_type(dim.Type()))
             {
-                throw new ErrorException("Array.non_empty_domain_var, not string dimension for index:" + index);
+                throw new ErrorException("Array.NonEmptyDomainVar, not string dimension for index:" + index);
             }
             ulong start_size;
             ulong end_size;
@@ -480,12 +480,12 @@ namespace TileDB.CSharp
             return (Encoding.ASCII.GetString(start),Encoding.ASCII.GetString(end), false);
         }
 
-        public (string, string, bool) non_empty_domain_var(string name)
+        public (string, string, bool) NonEmptyDomainVar(string name)
         {
             var dim = Schema().Domain().Dimension(name);
             if (!EnumUtil.is_string_type(dim.Type()))
             {
-                throw new ErrorException("Array.non_empty_domain_var, not string dimension for name:" + name);
+                throw new ErrorException("Array.NonEmptyDomainVar, not string dimension for name:" + name);
             }
             ulong start_size;
             ulong end_size;
@@ -540,7 +540,7 @@ namespace TileDB.CSharp
         /// <param name="ctx"></param>
         /// <param name="uri"></param>
         /// <returns></returns>
-        public static EncryptionType encryption_type(Context ctx, string uri)
+        public static EncryptionType EncryptionType(Context ctx, string uri)
         {
             var ms_uri = new MarshaledString(uri);
             tiledb_encryption_type_t tiledb_encryption_type;
@@ -554,16 +554,16 @@ namespace TileDB.CSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <param name="data"></param>
-        public void put_metadata<T>(string key, T[] data) where T: struct
+        public void PutMetadata<T>(string key, T[] data) where T: struct
         {
             if (string.IsNullOrEmpty(key) || data == null || data.Length == 0)
             {
-                throw new ArgumentException("Array.put_metadata, null or empty key-value!");
+                throw new ArgumentException("Array.PutMetadata, null or empty key-value!");
             }
             var tiledb_datatype = EnumUtil.to_tiledb_datatype(typeof(T));
             if (tiledb_datatype == tiledb_datatype_t.TILEDB_ANY)
             {
-                throw new ArgumentException("Array.put_metadata, not supported datatype!");
+                throw new ArgumentException("Array.PutMetadata, not supported datatype!");
             }
             var val_num = (uint)data.Length;
             var ms_key = new MarshaledString(key);
@@ -584,11 +584,11 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        public void put_metadata(string key, string value)
+        public void PutMetadata(string key, string value)
         {
             if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value))
             {
-                throw new ArgumentException("Array.put_metadata, null or empty key-value!");
+                throw new ArgumentException("Array.PutMetadata, null or empty key-value!");
             }
             var tiledb_datatype = tiledb_datatype_t.TILEDB_STRING_ASCII;
             var data = Encoding.ASCII.GetBytes(value);
@@ -610,7 +610,7 @@ namespace TileDB.CSharp
         /// Delete metadata.
         /// </summary>
         /// <param name="key"></param>
-        public void delete_metadata(string key)
+        public void DeleteMetadata(string key)
         {
             var ms_key = new MarshaledString(key);
             _ctx.handle_error(Methods.tiledb_array_delete_metadata(_ctx.Handle, _handle, ms_key));
@@ -658,7 +658,7 @@ namespace TileDB.CSharp
         /// Get number of metadata.
         /// </summary>
         /// <returns></returns>
-        public ulong metadata_num()
+        public ulong MetadataNum()
         {
             ulong num;
             _ctx.handle_error(Methods.tiledb_array_get_metadata_num(_ctx.Handle, _handle, &num));
@@ -706,9 +706,9 @@ namespace TileDB.CSharp
         /// Get metadata keys.
         /// </summary>
         /// <returns></returns>
-        public string[] metadata_keys()
+        public string[] MetadataKeys()
         {
-            var num = metadata_num();
+            var num = MetadataNum();
             var ret = new string[(int)num];
             for (ulong i = 0; i < num; ++i)
             {
@@ -723,7 +723,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public Tuple<bool, DataType> has_metadata(string key)
+        public Tuple<bool, DataType> HasMetadata(string key)
         {
             var ms_key = new MarshaledString(key);
             tiledb_datatype_t tiledb_datatype;
@@ -739,7 +739,7 @@ namespace TileDB.CSharp
         /// <param name="ctx"></param>
         /// <param name="uri"></param>
         /// <param name="config"></param>
-        public static void consolidate_metadata(Context ctx, string uri, Config config)
+        public static void ConsolidateMetadata(Context ctx, string uri, Config config)
         {
             var ms_uri = new MarshaledString(uri);
             ctx.handle_error(Methods.tiledb_array_consolidate_metadata(ctx.Handle, ms_uri, config.Handle));
@@ -749,7 +749,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="ctx"></param>
         /// <param name="path"></param>
-        public static ArraySchema load_array_schema(Context ctx, string path)
+        public static ArraySchema LoadArraySchema(Context ctx, string path)
         {
             var ms_path = new MarshaledString(path);
             tiledb_array_schema_t* tiledb_array_schema_p;

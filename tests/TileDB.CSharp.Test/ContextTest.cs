@@ -40,10 +40,10 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual<string>(config.Get("vfs.s3.connect_timeout_ms"), "5000");
             Assert.AreEqual<string>(config.Get("vfs.s3.endpoint_override"), "localhost:8888");
 
-            config.save_to_file("temp.cfg");
+            config.SaveToFile("temp.cfg");
 
             var config2 = new Config();
-            config2.load_from_file("temp.cfg");
+            config2.LoadFromFile("temp.cfg");
 
             // Get values from config2
             Assert.AreEqual<string>(config2.Get("sm.memory_budget"), "512000000");

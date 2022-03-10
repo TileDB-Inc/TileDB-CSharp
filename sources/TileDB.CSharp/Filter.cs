@@ -47,7 +47,7 @@ namespace TileDB.CSharp
         /// Get filter type.
         /// </summary>
         /// <returns></returns>
-        public FilterType filter_type()
+        public FilterType FilterType()
         {
             var tiledb_filter_type= tiledb_filter_type_t.TILEDB_FILTER_NONE;
             _ctx.handle_error(Methods.tiledb_filter_get_type(_ctx.Handle, _handle, &tiledb_filter_type));
@@ -80,7 +80,7 @@ namespace TileDB.CSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="filterOption"></param>
         /// <param name="value"></param>
-        public void set_option<T>(FilterOption filterOption, T value) where T: struct 
+        public void SetOption<T>(FilterOption filterOption, T value) where T: struct 
         {
             //check for filter option 
             check_filter_option<T>(filterOption);
@@ -98,7 +98,7 @@ namespace TileDB.CSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="filterOption"></param>
         /// <returns></returns>
-        public T get_option<T>(FilterOption filterOption) where T: struct
+        public T GetOption<T>(FilterOption filterOption) where T: struct
         {
             //check for filter option 
             check_filter_option<T>(filterOption);

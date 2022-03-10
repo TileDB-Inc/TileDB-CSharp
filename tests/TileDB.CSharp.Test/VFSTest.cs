@@ -13,15 +13,15 @@ namespace TileDB.CSharp.Test
             using (var vfs = new VFS(ctx)) 
             {
                 string dirname = "tempdir";
-                if(vfs.is_dir(dirname)) 
+                if(vfs.IsDir(dirname)) 
                 {
-                    vfs.remove_dir(dirname);
+                    vfs.RemoveDir(dirname);
                 }
 
-                vfs.create_dir(dirname);
-                Assert.IsTrue(vfs.is_dir(dirname));
+                vfs.CreateDir(dirname);
+                Assert.IsTrue(vfs.IsDir(dirname));
 
-                vfs.remove_dir(dirname);
+                vfs.RemoveDir(dirname);
             }
         }
     }

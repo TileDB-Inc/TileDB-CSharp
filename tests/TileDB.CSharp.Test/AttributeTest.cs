@@ -11,8 +11,8 @@ namespace TileDB.CSharp.Test
             var ctx = Context.GetDefault();
             var attr = new Attribute(ctx, "a", DataType.TILEDB_INT32);
             var fill_value = 100;
-            attr.set_fill_value(fill_value);
-            var value_size = attr.fill_value<int>();
+            attr.SetFillValue(fill_value);
+            var value_size = attr.FillValue<int>();
             Assert.AreEqual(fill_value, value_size[0]);
         }
 
@@ -29,28 +29,28 @@ namespace TileDB.CSharp.Test
 
             // Set and get compressor
             var gzipFilter = new Filter(context, FilterType.TILEDB_FILTER_GZIP);
-            gzipFilter.set_option(FilterOption.TILEDB_COMPRESSION_LEVEL, 5);
+            gzipFilter.SetOption(FilterOption.TILEDB_COMPRESSION_LEVEL, 5);
             var filter_list = new FilterList(context);
-            filter_list.add_filter(gzipFilter);
-            attribute.set_filter_list(filter_list);
+            filter_list.AddFilter(gzipFilter);
+            attribute.SetFilterList(filter_list);
 
-            var filterListReturn = attribute.filter_list();
+            var filterListReturn = attribute.FilterList();
             Assert.AreEqual(filter_list.NFilters(), filterListReturn.NFilters());
             var filterReturn = filterListReturn.Filter(0);
-            var filterTypeReturn = filterReturn.filter_type();
+            var filterTypeReturn = filterReturn.FilterType();
             Assert.AreEqual(FilterType.TILEDB_FILTER_GZIP, filterTypeReturn);
-            var filterOption = gzipFilter.get_option<int>(FilterOption.TILEDB_COMPRESSION_LEVEL);
+            var filterOption = gzipFilter.GetOption<int>(FilterOption.TILEDB_COMPRESSION_LEVEL);
             Assert.AreEqual(5, filterOption);
 
-            attribute.set_cell_val_num(10);
-            var cell_size = attribute.cell_size();
+            attribute.SetCellValNum(10);
+            var cell_size = attribute.CellSize();
             Assert.AreEqual<ulong>(40, cell_size);
 
-            var cell_val_num = attribute.cell_val_num();
+            var cell_val_num = attribute.CellValNum();
             Assert.AreEqual<ulong>(10, cell_val_num);
 
-            attribute.set_fill_value(12);
-            var value_size = attribute.fill_value<int>();
+            attribute.SetFillValue(12);
+            var value_size = attribute.FillValue<int>();
             Assert.AreEqual(12, value_size[0]);
         }
 
@@ -64,35 +64,35 @@ namespace TileDB.CSharp.Test
             using var attribute = new Attribute(context, attrName, DataType.TILEDB_INT32);
             Assert.AreEqual(attrName, attribute.Name());
 
-            attribute.set_nullable(true);
+            attribute.SetNullable(true);
 
             Assert.AreEqual(true, attribute.Nullable());
             Assert.AreEqual(DataType.TILEDB_INT32, attribute.Type());
 
             // Set and get compressor
             var gzipFilter = new Filter(context, FilterType.TILEDB_FILTER_GZIP);
-            gzipFilter.set_option( FilterOption.TILEDB_COMPRESSION_LEVEL, 5);
+            gzipFilter.SetOption( FilterOption.TILEDB_COMPRESSION_LEVEL, 5);
             var filter_list = new FilterList(context);
-            filter_list.add_filter(gzipFilter);
-            attribute.set_filter_list(filter_list);
+            filter_list.AddFilter(gzipFilter);
+            attribute.SetFilterList(filter_list);
 
-            var filterListReturn = attribute.filter_list();
+            var filterListReturn = attribute.FilterList();
             Assert.AreEqual(filter_list.NFilters(), filterListReturn.NFilters());
             var filterReturn = filterListReturn.Filter(0);
-            var filterTypeReturn = filterReturn.filter_type();
+            var filterTypeReturn = filterReturn.FilterType();
             Assert.AreEqual(FilterType.TILEDB_FILTER_GZIP, filterTypeReturn);
-            var filterOption = gzipFilter.get_option<int>(FilterOption.TILEDB_COMPRESSION_LEVEL);
+            var filterOption = gzipFilter.GetOption<int>(FilterOption.TILEDB_COMPRESSION_LEVEL);
             Assert.AreEqual(5, filterOption);
 
-            attribute.set_cell_val_num(10);
-            var cell_size = attribute.cell_size();
+            attribute.SetCellValNum(10);
+            var cell_size = attribute.CellSize();
             Assert.AreEqual<ulong>(40, cell_size);
 
-            var cell_val_num = attribute.cell_val_num();
+            var cell_val_num = attribute.CellValNum();
             Assert.AreEqual<ulong>(10, cell_val_num);
 
-            attribute.set_fill_value_nullable(12, true);
-            var fill_value = attribute.fill_value_nullable<int>();
+            attribute.SetFillValueNullable(12, true);
+            var fill_value = attribute.FillValueNullable<int>();
             Assert.AreEqual(12, fill_value.Item1[0]);
             Assert.AreEqual(true, fill_value.Item2);
         }  
@@ -108,8 +108,8 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual<string>(attrName, attribute.Name());
             Assert.AreEqual(DataType.TILEDB_STRING_ASCII, attribute.Type());
 
-            attribute.set_fill_value("test_fill");
-            var fill_value = attribute.fill_value();
+            attribute.SetFillValue("test_fill");
+            var fill_value = attribute.FillValue();
             Assert.AreEqual<string>("test_fill", fill_value);
         }//TestStringAttribute
     }

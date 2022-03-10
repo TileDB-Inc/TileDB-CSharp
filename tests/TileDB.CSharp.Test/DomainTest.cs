@@ -18,17 +18,17 @@ namespace TileDB.CSharp.Test
             uint bound_lower=1, bound_upper=10, extent = 5;
             var dimension = Dimension.Create(context, "testuint", bound_lower, bound_upper, extent);
 
-            Assert.AreEqual(false, domain.has_dimension("testuint"));
-            domain.add_dimension(dimension);
-            Assert.AreEqual(true, domain.has_dimension("testuint"));
+            Assert.AreEqual(false, domain.HasDimension("testuint"));
+            domain.AddDimension(dimension);
+            Assert.AreEqual(true, domain.HasDimension("testuint"));
             Assert.AreEqual(DataType.TILEDB_UINT32, domain.Type());
             Assert.AreEqual<uint>(1, domain.NDim());
 
             // Test create another dimension
             int bound_lower2=1, bound_upper2=10, extent2 = 5;
             var dimension2 = Dimension.Create(context, "testint", bound_lower2, bound_upper2, extent2);
-            domain.add_dimension(dimension2);
-            Assert.AreEqual(true, domain.has_dimension("testint"));
+            domain.AddDimension(dimension2);
+            Assert.AreEqual(true, domain.HasDimension("testint"));
             Assert.ThrowsException<Exception>(() => domain.Type()); 
             //Assert.AreEqual(DataType.TILEDB_ANY, domain.type());
             Assert.AreEqual<uint>(2, domain.NDim());

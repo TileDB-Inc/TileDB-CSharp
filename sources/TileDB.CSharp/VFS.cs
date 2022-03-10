@@ -65,7 +65,7 @@ namespace TileDB.CSharp
         /// Create bucket.
         /// </summary>
         /// <param name="uri"></param>
-        public void create_bucket(string uri) {
+        public void CreateBucket(string uri) {
             TileDB.Interop.MarshaledString ms_uri = new TileDB.Interop.MarshaledString(uri);
             ctx_.handle_error(TileDB.Interop.Methods.tiledb_vfs_create_bucket(ctx_.Handle, handle_, ms_uri));
         }
@@ -74,7 +74,7 @@ namespace TileDB.CSharp
         /// Remove bucket.
         /// </summary>
         /// <param name="uri"></param>
-        public void remove_bucket(string uri) {
+        public void RemoveBucket(string uri) {
             TileDB.Interop.MarshaledString ms_uri = new TileDB.Interop.MarshaledString(uri);
             ctx_.handle_error(TileDB.Interop.Methods.tiledb_vfs_remove_bucket(ctx_.Handle, handle_, ms_uri));
         }
@@ -83,7 +83,7 @@ namespace TileDB.CSharp
         /// Empty bucket.
         /// </summary>
         /// <param name="uri"></param>
-        public void empty_bucket(string uri)
+        public void EmptyBucket(string uri)
         {
             TileDB.Interop.MarshaledString ms_uri = new TileDB.Interop.MarshaledString(uri);
             ctx_.handle_error(TileDB.Interop.Methods.tiledb_vfs_empty_bucket(ctx_.Handle, handle_, ms_uri));
@@ -94,7 +94,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="uri"></param>
         /// <returns></returns>
-        public bool is_empty_bucket(string uri) {
+        public bool IsEmptyBucket(string uri) {
             TileDB.Interop.MarshaledString ms_uri = new TileDB.Interop.MarshaledString(uri);
             int is_empty = 0;
             ctx_.handle_error(TileDB.Interop.Methods.tiledb_vfs_is_empty_bucket(ctx_.Handle, handle_, ms_uri, &is_empty));
@@ -106,7 +106,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="uri"></param>
         /// <returns></returns>
-        public bool is_bucket(string uri) {
+        public bool IsBucket(string uri) {
             TileDB.Interop.MarshaledString ms_uri = new TileDB.Interop.MarshaledString(uri);
             int is_bucket = 0;
             ctx_.handle_error(TileDB.Interop.Methods.tiledb_vfs_is_bucket(ctx_.Handle, handle_, ms_uri, &is_bucket));
@@ -117,7 +117,7 @@ namespace TileDB.CSharp
         /// Create directory.
         /// </summary>
         /// <param name="uri"></param>
-        public void create_dir(string uri)
+        public void CreateDir(string uri)
         {
             TileDB.Interop.MarshaledString ms_uri = new TileDB.Interop.MarshaledString(uri);
             ctx_.handle_error(TileDB.Interop.Methods.tiledb_vfs_create_dir(ctx_.Handle, handle_, ms_uri));
@@ -128,7 +128,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="uri"></param>
         /// <returns></returns>
-        public bool is_dir(string uri)
+        public bool IsDir(string uri)
         {
             TileDB.Interop.MarshaledString ms_uri = new TileDB.Interop.MarshaledString(uri);
             int is_dir = 0;
@@ -140,7 +140,7 @@ namespace TileDB.CSharp
         /// Remove a directory.
         /// </summary>
         /// <param name="uri"></param>
-        public void remove_dir(string uri)
+        public void RemoveDir(string uri)
         {
             TileDB.Interop.MarshaledString ms_uri = new TileDB.Interop.MarshaledString(uri);
             ctx_.handle_error(TileDB.Interop.Methods.tiledb_vfs_remove_dir(ctx_.Handle, handle_, ms_uri));
@@ -151,7 +151,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="uri"></param>
         /// <returns></returns>
-        public bool is_file(string uri)
+        public bool IsFile(string uri)
         {
             TileDB.Interop.MarshaledString ms_uri = new TileDB.Interop.MarshaledString(uri);
             int is_file = 0;
@@ -163,7 +163,7 @@ namespace TileDB.CSharp
         /// Remove a file.
         /// </summary>
         /// <param name="uri"></param>
-        public void remove_file(string uri)
+        public void RemoveFile(string uri)
         {
             TileDB.Interop.MarshaledString ms_uri = new TileDB.Interop.MarshaledString(uri);
             ctx_.handle_error(TileDB.Interop.Methods.tiledb_vfs_remove_file(ctx_.Handle, handle_, ms_uri));
@@ -174,7 +174,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="uri"></param>
         /// <returns></returns>
-        public UInt64 dir_size(string uri)
+        public UInt64 DirSize(string uri)
         {
             TileDB.Interop.MarshaledString ms_uri = new TileDB.Interop.MarshaledString(uri);
             UInt64 size = 0;
@@ -187,7 +187,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="uri"></param>
         /// <returns></returns>
-        public UInt64 file_size(string uri)
+        public UInt64 FileSize(string uri)
         {
             TileDB.Interop.MarshaledString ms_uri = new TileDB.Interop.MarshaledString(uri);
             UInt64 size = 0;
@@ -200,7 +200,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="old_uri"></param>
         /// <param name="new_uri"></param>
-        public void move_file(string old_uri, string new_uri) 
+        public void MoveFile(string old_uri, string new_uri) 
         {
             TileDB.Interop.MarshaledString ms_old_uri = new TileDB.Interop.MarshaledString(old_uri);
             TileDB.Interop.MarshaledString ms_new_uri = new TileDB.Interop.MarshaledString(new_uri);
@@ -212,7 +212,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="old_uri"></param>
         /// <param name="new_uri"></param>
-        public void move_dir(string old_uri, string new_uri)
+        public void MoveDir(string old_uri, string new_uri)
         {
             TileDB.Interop.MarshaledString ms_old_uri = new TileDB.Interop.MarshaledString(old_uri);
             TileDB.Interop.MarshaledString ms_new_uri = new TileDB.Interop.MarshaledString(new_uri);
@@ -224,7 +224,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="old_uri"></param>
         /// <param name="new_uri"></param>
-        public void copy_file(string old_uri, string new_uri)
+        public void CopyFile(string old_uri, string new_uri)
         {
             TileDB.Interop.MarshaledString ms_old_uri = new TileDB.Interop.MarshaledString(old_uri);
             TileDB.Interop.MarshaledString ms_new_uri = new TileDB.Interop.MarshaledString(new_uri);
@@ -236,7 +236,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="old_uri"></param>
         /// <param name="new_uri"></param>
-        public void copy_dir(string old_uri, string new_uri)
+        public void CopyDir(string old_uri, string new_uri)
         {
             TileDB.Interop.MarshaledString ms_old_uri = new TileDB.Interop.MarshaledString(old_uri);
             TileDB.Interop.MarshaledString ms_new_uri = new TileDB.Interop.MarshaledString(new_uri);
@@ -247,7 +247,7 @@ namespace TileDB.CSharp
         /// Touch a file.
         /// </summary>
         /// <param name="uri"></param>
-        public void touch(string uri)
+        public void Touch(string uri)
         {
             TileDB.Interop.MarshaledString ms_uri = new TileDB.Interop.MarshaledString(uri);
             ctx_.handle_error(TileDB.Interop.Methods.tiledb_vfs_touch(ctx_.Handle, handle_, ms_uri));
