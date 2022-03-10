@@ -221,6 +221,47 @@ namespace TileDB.Interop
         public static implicit operator FilterListHandle(tiledb_filter_list_t* value) => new FilterListHandle((IntPtr)value);
     }//public unsafe partial class FilterListHandle
 
+    public unsafe partial class VFSHandle : SafeHandle
+    {
+        // Constructor for a Handle
+        //   - calls native allocator
+        //   - exception on failure
+
+        public VFSHandle(ContextHandle hcontext, ConfigHandle hconfig) : base(IntPtr.Zero, ownsHandle: true)
+        {
+            var h = stackalloc tiledb_vfs_t*[1];
+
+            int status = TileDB.Interop.Methods.tiledb_vfs_alloc(hcontext, hconfig, h);
+
+            if (h[0] == (void*)0)
+            {
+                throw new Exception("Failed to allocate!");
+            }
+            SetHandle(h[0]);
+        }
+
+        // Deallocator: call native free with CER guarantees from SafeHandle
+        override protected bool ReleaseHandle()
+        {
+            // Free the native object
+            tiledb_vfs_t* p = (tiledb_vfs_t*)handle;
+            TileDB.Interop.Methods.tiledb_vfs_free(&p);
+            // Invalidate the contained pointer
+            SetHandle(IntPtr.Zero);
+
+            return true;
+        }
+
+        // Conversions, getters, operators
+        public UInt64 get() { return (UInt64)this.handle; }
+        private protected void SetHandle(tiledb_vfs_t* h) { SetHandle((IntPtr)h); }
+        private protected VFSHandle(IntPtr value) : base(value, ownsHandle: false) { }
+        public override bool IsInvalid => this.handle == IntPtr.Zero;
+        public static implicit operator IntPtr(VFSHandle h) => h.handle;
+        public static implicit operator tiledb_vfs_t*(VFSHandle h) => (tiledb_vfs_t*)h.handle;
+        public static implicit operator VFSHandle(tiledb_vfs_t* value) => new VFSHandle((IntPtr)value);
+    }//public unsafe partial class VFSHandle
+
  
     public unsafe class AttributeHandle : SafeHandle
     {
