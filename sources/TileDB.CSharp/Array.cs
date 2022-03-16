@@ -12,7 +12,7 @@ namespace TileDB.CSharp
     {
         public string Key;
         public uint KeyLen;
-        public tiledb_datatype_t Datatype;
+        public DataType Datatype;
         public uint ValueNum;
         public Span<T> Value;
     }
@@ -267,7 +267,7 @@ namespace TileDB.CSharp
             {
                 var dim = Schema().Domain().Dimension(i);
                 var dimName = dim.Name();
-                var dimType = EnumUtil.to_Type(dim.Type());
+                var dimType = EnumUtil.DataTypeToType(dim.Type());
 
                 switch (Type.GetTypeCode(dimType))
                 {
@@ -389,7 +389,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public (T, T, bool) NonEmptyDomain<T>(uint index) where T : struct
         {
-            var datatype = EnumUtil.to_DataType(typeof(T));
+            var datatype = EnumUtil.TypeToDataType(typeof(T));
             if (datatype != Schema().Domain().Dimension(index).Type())
             {
                 throw new ArgumentException("Array.NonEmptyDomain, not valid datatype!");
@@ -419,7 +419,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public (T, T, bool) NonEmptyDomain<T>(string name) where T : struct
         {
-            var datatype = EnumUtil.to_DataType(typeof(T));
+            var datatype = EnumUtil.TypeToDataType(typeof(T));
             if (datatype != Schema().Domain().Dimension(name).Type())
             {
                 throw new ArgumentException("Array.NonEmptyDomain, not valid datatype!");
@@ -448,7 +448,7 @@ namespace TileDB.CSharp
         public (string, string, bool) NonEmptyDomainVar(uint index)
         {
             var dim = Schema().Domain().Dimension(index);
-            if(!EnumUtil.is_string_type(dim.Type()))
+            if(!EnumUtil.IsStringType(dim.Type()))
             {
                 throw new ErrorException("Array.NonEmptyDomainVar, not string dimension for index:" + index);
             }
@@ -483,7 +483,7 @@ namespace TileDB.CSharp
         public (string, string, bool) NonEmptyDomainVar(string name)
         {
             var dim = Schema().Domain().Dimension(name);
-            if (!EnumUtil.is_string_type(dim.Type()))
+            if (!EnumUtil.IsStringType(dim.Type()))
             {
                 throw new ErrorException("Array.NonEmptyDomainVar, not string dimension for name:" + name);
             }
@@ -549,7 +549,7 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Put metadata.
+        /// Put metadata array.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
@@ -577,6 +577,18 @@ namespace TileDB.CSharp
             {
                 dataGcHandle.Free();
             }
+        }
+
+        /// <summary>
+        /// Put a sigle value metadata.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="v"></param>
+        public void PutMetadata<T>(string key, T v) where T : struct
+        {
+            T[] data = new T[1] { v };
+            PutMetadata<T>(key, data);
         }
 
         /// <summary>
@@ -624,7 +636,7 @@ namespace TileDB.CSharp
             uint value_num = 0;
             _ctx.handle_error(Methods.tiledb_array_get_metadata(_ctx.Handle, _handle, ms_key, &datatype, &value_num,
                 &value_p));
-            var size = (int)(value_num * EnumUtil.tiledb_datatype_size(datatype));
+            var size = (int)(value_num * EnumUtil.TileDBDataTypeSize(datatype));
             var fill_span = new ReadOnlySpan<byte>(value_p, size);
             return (datatype, value_num, fill_span.ToArray());
         }
@@ -635,12 +647,13 @@ namespace TileDB.CSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public (tiledb_datatype_t, uint, T[]) Metadata<T>(string key) where T : struct
+        public (DataType, uint, T[]) Metadata<T>(string key) where T : struct
         {
             var (dataType, valueNum, value) = get_metadata(key);
             Span<byte> valueSpan = value;
+
             var span = MemoryMarshal.Cast<byte, T>(valueSpan);
-            return (dataType, valueNum, span.ToArray());
+            return ((DataType)dataType, valueNum, span.ToArray());
         }
 
         /// <summary>
@@ -677,7 +690,7 @@ namespace TileDB.CSharp
                 _ctx.handle_error(Methods.tiledb_array_get_metadata_from_index(_ctx.Handle, _handle, index, p_key,
                     &key_len, &dataType, &valueNum, &value_p));
             }
-            var size = (int)(valueNum * EnumUtil.tiledb_datatype_size(dataType));
+            var size = (int)(valueNum * EnumUtil.TileDBDataTypeSize(dataType));
             var fill_span = new ReadOnlySpan<byte>(value_p, size);
             return (dataType, valueNum, ms_key, fill_span.ToArray());
         }
@@ -688,7 +701,7 @@ namespace TileDB.CSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ArrayMetadata<T> metadata_from_index<T>(ulong index) where T : struct
+        public ArrayMetadata<T> MetadataFromIndex<T>(ulong index) where T : struct
         {
             var (dataType, valueNum, key, value) = get_metadata_from_index(index);
             Span<byte> valueSpan = value;
@@ -696,7 +709,7 @@ namespace TileDB.CSharp
             {
                 Key = key,
                 KeyLen = (uint)key.Length,
-                Datatype = dataType,
+                Datatype = (DataType)dataType,
                 ValueNum = valueNum,
                 Value = MemoryMarshal.Cast<byte, T>(valueSpan)
             };

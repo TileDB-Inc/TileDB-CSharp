@@ -17,7 +17,7 @@ namespace TileDB.CSharp
             _ctx = ctx;
             var tiledb_datatype = (tiledb_datatype_t)(dataType);
             _handle = new AttributeHandle(_ctx.Handle, name, tiledb_datatype);
-            if (EnumUtil.is_string_type(dataType))
+            if (EnumUtil.IsStringType(dataType))
             {
                 SetCellValNum((uint)Constants.TILEDB_VAR_NUM);
             }
@@ -249,7 +249,7 @@ namespace TileDB.CSharp
         public string FillValue() 
         {
             var datatype = Type();
-            if (!EnumUtil.is_string_type(datatype))
+            if (!EnumUtil.IsStringType(datatype))
             {
                 throw new NotSupportedException("Attribute.FillValue, please use FillValue<T> for non-string attribute!");
             }
@@ -361,7 +361,7 @@ namespace TileDB.CSharp
         public string FillValueNullable()
         {
             var datatype = Type();
-            if (!EnumUtil.is_string_type(datatype))
+            if (!EnumUtil.IsStringType(datatype))
             {
                 throw new NotSupportedException("Attribute.FillValueNullable, please use fill_value<T> for non-string attribute!");
             }
@@ -380,7 +380,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public static Attribute Create<T>(Context ctx, string name) 
         {
-            var datatype = EnumUtil.to_DataType(typeof(T));
+            var datatype = EnumUtil.TypeToDataType(typeof(T));
             return new Attribute(ctx, name, datatype); 
         }
 

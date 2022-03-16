@@ -27,8 +27,8 @@ namespace TileDB.CSharp.Test
             var domain = new Domain(context);
             Assert.IsNotNull(domain);
 
-            domain.add_dimension(dimension1);
-            domain.add_dimension(dimension2);
+            domain.AddDimension(dimension1);
+            domain.AddDimension(dimension2);
 
             var array_schema = new ArraySchema(context, ArrayType.TILEDB_DENSE);
             Assert.IsNotNull(array_schema);
@@ -37,9 +37,9 @@ namespace TileDB.CSharp.Test
             var attr1 = new Attribute(context, "a1", DataType.TILEDB_INT32);
             Assert.IsNotNull(attr1);
 
-            array_schema.add_attribute(attr1);
+            array_schema.AddAttribute(attr1);
 
-            array_schema.set_domain(domain);
+            array_schema.SetDomain(domain);
 
             array_schema.Check();
 
@@ -61,10 +61,10 @@ namespace TileDB.CSharp.Test
             var query_write = new Query(context, array_write);
 
             var attr1_data_buffer = new int[16] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
-            query_write.set_data_buffer<int>("a1", attr1_data_buffer);
-            query_write.submit();
+            query_write.SetDataBuffer<int>("a1", attr1_data_buffer);
+            query_write.Submit();
 
-            var status = query_write.status();
+            var status = query_write.Status();
 
             Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status);
 
@@ -77,22 +77,22 @@ namespace TileDB.CSharp.Test
 
             var query_read = new Query(context, array_read);
 
-            query_read.set_layout(LayoutType.TILEDB_ROW_MAJOR);
+            query_read.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
 
             int[] subarray = new int[4] { 1, 4, 1, 4 };
-            query_read.set_subarray<int>(subarray);
+            query_read.SetSubarray<int>(subarray);
 
             QueryCondition qc1 = QueryCondition.Create<int>(context, "a1", 3, QueryConditionOperatorType.TILEDB_GT);
             QueryCondition qc2 = QueryCondition.Create<int>(context, "a1", 7, QueryConditionOperatorType.TILEDB_LT);
             var qc = qc1.Combine(qc2, QueryConditionCombinationOperatorType.TILEDB_AND);
 
-            query_read.set_condition(qc);
+            query_read.SetCondition(qc);
 
             var attr_data_buffer_read = new int[16];
-            query_read.set_data_buffer<int>("a1", attr_data_buffer_read);
+            query_read.SetDataBuffer<int>("a1", attr_data_buffer_read);
 
-            query_read.submit();
-            var status_read = query_read.status();
+            query_read.Submit();
+            var status_read = query_read.Status();
 
             Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status_read);
 
