@@ -58,29 +58,29 @@ namespace TileDB.CSharp.Test
 
             var query = new Query(context, array);
             
-            query.set_subarray(new sbyte[]{0, 1});
+            query.SetSubarray(new sbyte[]{0, 1});
             
-            query.set_layout(LayoutType.TILEDB_ROW_MAJOR);
+            query.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
 
             var a1_data_buffer = new int[2] { 1, 2 };  
      
-            query.set_data_buffer<int>("a1", a1_data_buffer);
+            query.SetDataBuffer<int>("a1", a1_data_buffer);
 
             var a2_data_buffer = new float[5] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f };
   
-            query.set_data_buffer<float>("a2", a2_data_buffer );
+            query.SetDataBuffer<float>("a2", a2_data_buffer );
 
             var a2_offset_buffer = new UInt64[2] { 0, 3 };  
   
-            query.set_offsets_buffer("a2", a2_offset_buffer);
+            query.SetOffsetsBuffer("a2", a2_offset_buffer);
             
-            query.submit();
+            query.Submit();
 
-            var status = query.status();
+            var status = query.Status();
             
             Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status);
 
-            query.finalize();
+            query.FinalizeQuery();
 
             array.Close();
 
@@ -92,28 +92,28 @@ namespace TileDB.CSharp.Test
 
             var query_read = new Query(context, array_read);
 
-            query_read.set_subarray(new sbyte[] { 0, 1 });
+            query_read.SetSubarray(new sbyte[] { 0, 1 });
 
-            query_read.set_layout(LayoutType.TILEDB_ROW_MAJOR);
+            query_read.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
 
             var a1_data_buffer_read = new int[2];
     
-            query_read.set_data_buffer<int>("a1", a1_data_buffer_read);
+            query_read.SetDataBuffer<int>("a1", a1_data_buffer_read);
 
             var a2_data_buffer_read = new float[5];
 
-            query_read.set_data_buffer<float>("a2", a2_data_buffer_read);
+            query_read.SetDataBuffer<float>("a2", a2_data_buffer_read);
 
             var a2_offset_buffer_read = new UInt64[2];
       
-            query_read.set_offsets_buffer("a2", a2_offset_buffer_read);
+            query_read.SetOffsetsBuffer("a2", a2_offset_buffer_read);
 
-            query_read.submit();
-            var status_read = query_read.status();
+            query_read.Submit();
+            var status_read = query_read.Status();
 
             Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status_read);
 
-            query_read.finalize();
+            query_read.FinalizeQuery();
 
             array_read.Close();
 
@@ -182,15 +182,15 @@ namespace TileDB.CSharp.Test
 
                 var query_write = new Query(context, array_write);
 
-                query_write.set_layout(LayoutType.TILEDB_UNORDERED);
+                query_write.SetLayout(LayoutType.TILEDB_UNORDERED);
 
-                query_write.set_data_buffer<int>("rows", dim1_data_buffer);
-                query_write.set_data_buffer<int>("cols", dim2_data_buffer);
-                query_write.set_data_buffer<int>("a", attr_data_buffer);
+                query_write.SetDataBuffer<int>("rows", dim1_data_buffer);
+                query_write.SetDataBuffer<int>("cols", dim2_data_buffer);
+                query_write.SetDataBuffer<int>("a", attr_data_buffer);
 
-                query_write.submit();
+                query_write.Submit();
 
-                var status = query_write.status();
+                var status = query_write.Status();
 
                 Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status);
 
@@ -211,16 +211,16 @@ namespace TileDB.CSharp.Test
 
                 var query_read = new Query(context, array_read);
 
-                query_read.set_layout(LayoutType.TILEDB_ROW_MAJOR);
+                query_read.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
 
-                query_read.set_data_buffer<int>("rows", dim1_data_buffer_read);
+                query_read.SetDataBuffer<int>("rows", dim1_data_buffer_read);
 
-                query_read.set_data_buffer<int>("cols", dim2_data_buffer_read);
+                query_read.SetDataBuffer<int>("cols", dim2_data_buffer_read);
 
-                query_read.set_data_buffer<int>("a", attr_data_buffer_read);
+                query_read.SetDataBuffer<int>("a", attr_data_buffer_read);
 
-                query_read.submit();
-                var status_read = query_read.status();
+                query_read.Submit();
+                var status_read = query_read.Status();
 
                 Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status_read);
 
@@ -298,7 +298,7 @@ namespace TileDB.CSharp.Test
             ulong[] a2_off = new ulong[4];
             for (int i = 0; i < a2_el_off.Length; ++i)
             {
-                a2_off[i] = a2_el_off[i] * EnumUtil.datatype_size(DataType.TILEDB_INT32);
+                a2_off[i] = a2_el_off[i] * EnumUtil.DataTypeSize(DataType.TILEDB_INT32);
             }
 
             byte[] a3_data = new byte[9] { Convert.ToByte('a'), Convert.ToByte('b'), Convert.ToByte('c'), Convert.ToByte('d'), Convert.ToByte('e'), Convert.ToByte('w'), Convert.ToByte('x'), Convert.ToByte('y'), Convert.ToByte('z') };
@@ -306,7 +306,7 @@ namespace TileDB.CSharp.Test
             ulong[] a3_off = new ulong[4];
             for (int i = 0; i < a3_el_off.Length; ++i)
             {
-                a3_off[i] = a3_el_off[i] * EnumUtil.datatype_size(DataType.TILEDB_CHAR);
+                a3_off[i] = a3_el_off[i] * EnumUtil.DataTypeSize(DataType.TILEDB_CHAR);
             }
 
             byte[] a1_validity = new byte[4] { 1, 0, 0, 1 };
@@ -320,22 +320,22 @@ namespace TileDB.CSharp.Test
                 array_write.Open(QueryType.TILEDB_WRITE);
 
                 var query_write = new Query(context, array_write);
-                query_write.set_layout(LayoutType.TILEDB_ROW_MAJOR);
+                query_write.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
 
-                query_write.set_data_buffer<int>("a1", a1_data);
-                query_write.set_validity_buffer("a1", a1_validity);
+                query_write.SetDataBuffer<int>("a1", a1_data);
+                query_write.SetValidityBuffer("a1", a1_validity);
 
-                query_write.set_data_buffer<int>("a2", a2_data);
-                query_write.set_offsets_buffer("a2", a2_off);
-                query_write.set_validity_buffer("a2", a2_validity);
+                query_write.SetDataBuffer<int>("a2", a2_data);
+                query_write.SetOffsetsBuffer("a2", a2_off);
+                query_write.SetValidityBuffer("a2", a2_validity);
 
-                query_write.set_data_buffer<byte>("a3", a3_data);
-                query_write.set_offsets_buffer("a3", a3_off);
-                query_write.set_validity_buffer("a3", a3_validity);
+                query_write.SetDataBuffer<byte>("a3", a3_data);
+                query_write.SetOffsetsBuffer("a3", a3_off);
+                query_write.SetValidityBuffer("a3", a3_validity);
 
-                query_write.submit();
+                query_write.Submit();
 
-                var status = query_write.status();
+                var status = query_write.Status();
 
                 Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status);
 
@@ -365,22 +365,22 @@ namespace TileDB.CSharp.Test
 
                 var query_read = new Query(context, array_read);
 
-                query_read.set_layout(LayoutType.TILEDB_ROW_MAJOR);
-                query_read.set_subarray<int>(subarray);
+                query_read.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
+                query_read.SetSubarray<int>(subarray);
 
-                query_read.set_data_buffer<int>("a1", a1_data_read);
-                query_read.set_validity_buffer("a1", a1_validity_read);
+                query_read.SetDataBuffer<int>("a1", a1_data_read);
+                query_read.SetValidityBuffer("a1", a1_validity_read);
 
-                query_read.set_data_buffer<int>("a2", a2_data_read);
-                query_read.set_offsets_buffer("a2", a2_off_read);
-                query_read.set_validity_buffer("a2", a2_validity_read);
+                query_read.SetDataBuffer<int>("a2", a2_data_read);
+                query_read.SetOffsetsBuffer("a2", a2_off_read);
+                query_read.SetValidityBuffer("a2", a2_validity_read);
 
-                query_read.set_data_buffer<byte>("a3", a3_data_read);
-                query_read.set_offsets_buffer("a3", a3_off_read);
-                query_read.set_validity_buffer("a3", a3_validity_read);
+                query_read.SetDataBuffer<byte>("a3", a3_data_read);
+                query_read.SetOffsetsBuffer("a3", a3_off_read);
+                query_read.SetValidityBuffer("a3", a3_validity_read);
 
-                query_read.submit();
-                var status_read = query_read.status();
+                query_read.Submit();
+                var status_read = query_read.Status();
 
                 Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status_read);
 

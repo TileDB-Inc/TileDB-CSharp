@@ -161,7 +161,7 @@ namespace TileDB.CSharp
         /// Get statistic string.
         /// </summary>
         /// <returns></returns>
-        public string stats()
+        public string Stats()
         {
             var result_out = new MarshaledStringOut();
             fixed (sbyte** p_result = &result_out.Value)
@@ -184,7 +184,7 @@ namespace TileDB.CSharp
         /// Get config.
         /// </summary>
         /// <returns></returns>
-        public Config config()
+        public Config Config()
         {
             return _ctx.Config();
         }
@@ -194,18 +194,18 @@ namespace TileDB.CSharp
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="subarray"></param>
-        public void set_subarray<T>(T[] data) where T : struct
+        public void SetSubarray<T>(T[] data) where T : struct
         {
             var dim_datatype = _array.Schema().Domain().Type();
-            if (EnumUtil.to_DataType(typeof(T)) != dim_datatype)
+            if (EnumUtil.TypeToDataType(typeof(T)) != dim_datatype)
             {
-                throw new System.ArgumentException("Query.set_subarray, datatype mismatch!");
+                throw new System.ArgumentException("Query.SetSubarray, datatype mismatch!");
             }
 
             var expected_size = _array.Schema().Domain().NDim() * 2;
             if (data == null || expected_size != data.Length)
             {
-                throw new System.ArgumentException("Query.set_subarray, the length of data is not equal to num_dims*2!");
+                throw new System.ArgumentException("Query.SetSubarray, the length of data is not equal to num_dims*2!");
             }
 
             ulong size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
@@ -232,14 +232,14 @@ namespace TileDB.CSharp
         /// <param name="name"></param>
         /// <param name="data"></param>
         /// <param name="size"></param>
-        public void set_data_buffer<T>(string name, T[] data) where T : struct
+        public void SetDataBuffer<T>(string name, T[] data) where T : struct
         {
             // check datatype
             CheckDataType<T>(GetDataType(name));
 
             if (data == null || data.Length == 0)
             {
-                throw new System.ArgumentException("Query.set_data_buffer, buffer is null or empty!");
+                throw new System.ArgumentException("Query.SetDataBuffer, buffer is null or empty!");
             }
             var ms_name = new MarshaledString(name);
             ulong size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
@@ -256,7 +256,7 @@ namespace TileDB.CSharp
         /// <param name="name"></param>
         /// <param name="data"></param>
         /// <param name="size"></param>
-        public void set_offsets_buffer(string name, UInt64[] data)
+        public void SetOffsetsBuffer(string name, UInt64[] data)
         {
             if (data == null || data.Length == 0)
             {
@@ -279,7 +279,7 @@ namespace TileDB.CSharp
         /// <param name="name"></param>
         /// <param name="data"></param>
         /// <param name="size"></param>
-        public void set_validity_buffer(string name, byte[] data)
+        public void SetValidityBuffer(string name, byte[] data)
         {
             if (data == null || data.Length == 0)
             {
@@ -301,7 +301,7 @@ namespace TileDB.CSharp
         /// Sets the layout of the cells to be written or read.
         /// </summary>
         /// <param name="layouttype"></param>
-        public void set_layout(LayoutType layouttype)
+        public void SetLayout(LayoutType layouttype)
         {
             _ctx.handle_error(Methods.tiledb_query_set_layout(_ctx.Handle, _handle, (tiledb_layout_t)layouttype));
         }
@@ -310,7 +310,7 @@ namespace TileDB.CSharp
         /// Sets the layout of the cells to be written or read.
         /// </summary>
         /// <returns></returns>
-        public LayoutType query_layout()
+        public LayoutType QueryLayout()
         {
             tiledb_layout_t layout;
             _ctx.handle_error(Methods.tiledb_query_get_layout(_ctx.Handle, _handle, &layout));
@@ -322,7 +322,7 @@ namespace TileDB.CSharp
         ///// Sets the query condition to be applied on a read.
         ///// </summary>
         ///// <param name="condition"></param>
-        public void set_condition(QueryCondition condition)
+        public void SetCondition(QueryCondition condition)
         {
             _ctx.handle_error(Methods.tiledb_query_set_condition(_ctx.Handle, _handle, condition.Handle));
         }
@@ -330,7 +330,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// Flushes all internal state of a query object and finalizes the query, only applicable to global layout writes.
         /// </summary>
-        public void finalize()
+        public void FinalizeQuery()
         {
             _ctx.handle_error(Methods.tiledb_query_finalize(_ctx.Handle, _handle));
         }
@@ -339,7 +339,7 @@ namespace TileDB.CSharp
         /// Submits the query. Call will block until query is complete.
         /// </summary>
         /// <returns></returns>
-        public QueryStatus submit()
+        public QueryStatus Submit()
         {
             _ctx.handle_error(Methods.tiledb_query_submit(_ctx.Handle, _handle));
             return QueryStatus.TILEDB_COMPLETED;
@@ -349,7 +349,7 @@ namespace TileDB.CSharp
         /// Returns `true` if the query has results. Applicable only to read; false for write queries.
         /// </summary>
         /// <returns></returns>
-        public bool has_results()
+        public bool HasResults()
         {
             int ret;
             _ctx.handle_error(Methods.tiledb_query_has_results(_ctx.Handle, _handle, &ret));
@@ -360,7 +360,7 @@ namespace TileDB.CSharp
         /// Returns the query status.
         /// </summary>
         /// <returns></returns>
-        public QueryStatus status()
+        public QueryStatus Status()
         {
             tiledb_query_status_t query_status;
             _ctx.handle_error(Methods.tiledb_query_get_status(_ctx.Handle, _handle, &query_status));
@@ -382,7 +382,7 @@ namespace TileDB.CSharp
         /// Returns the array of the query.
         /// </summary>
         /// <returns></returns>
-        public Array array()
+        public Array Array()
         {
             return _array;
         }
@@ -395,7 +395,7 @@ namespace TileDB.CSharp
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <param name="stride"></param>
-        public void add_range<T>(UInt32 index, T start, T end, T stride) where T : struct
+        public void AddRange<T>(UInt32 index, T start, T end, T stride) where T : struct
         {
             T[] startData = new T[1] { start };
             T[] endData = new T[1] { end };
@@ -424,7 +424,7 @@ namespace TileDB.CSharp
         /// <param name="index"></param>
         /// <param name="start"></param>
         /// <param name="end"></param>
-        public void add_range(UInt32 index, string start, string end)
+        public void AddRange(UInt32 index, string start, string end)
         {
 
             byte[] startData = Encoding.ASCII.GetBytes(start);
@@ -454,7 +454,7 @@ namespace TileDB.CSharp
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <param name="stride"></param>
-        public void add_range<T>(string name, T start, T end, T stride) where T : struct
+        public void AddRange<T>(string name, T start, T end, T stride) where T : struct
         {
             var ms_name = new MarshaledString(name);
             T[] startData = new T[1] { start };
@@ -478,7 +478,7 @@ namespace TileDB.CSharp
             }
         }
 
-        public void add_range(string name, string start, string end)
+        public void AddRange(string name, string start, string end)
         {
             var ms_name = new MarshaledString(name);
             byte[] startData = Encoding.ASCII.GetBytes(start);
@@ -505,7 +505,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public UInt64 range_num(UInt32 index)
+        public UInt64 RangeNum(UInt32 index)
         {
             UInt64 range_num;
             _ctx.handle_error(Methods.tiledb_query_get_range_num(_ctx.Handle, _handle, index, &range_num));
@@ -517,7 +517,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public UInt64 range_num_from_name(string name)
+        public UInt64 RangeNumFromName(string name)
         {
             UInt64 range_num;
             var ms_name = new MarshaledString(name);
@@ -530,7 +530,7 @@ namespace TileDB.CSharp
             void* start_p;
             void* end_p;
             void* stride_p;
-            ulong size = EnumUtil.datatype_size(EnumUtil.to_DataType(typeof(T)));
+            ulong size = EnumUtil.DataTypeSize(EnumUtil.TypeToDataType(typeof(T)));
             _ctx.handle_error(Methods.tiledb_query_get_range(_ctx.Handle, _handle, dim_idx, range_idx, &start_p, &end_p, &stride_p));
 
             var start_span = new ReadOnlySpan<byte>(start_p, (int)size);
@@ -546,7 +546,7 @@ namespace TileDB.CSharp
         /// <param name="dim_idx"></param>
         /// <param name="range_idx"></param>
         /// <returns></returns>
-        public System.Tuple<T, T, T> range<T>(UInt32 dim_idx, UInt32 range_idx) where T : struct
+        public System.Tuple<T, T, T> Range<T>(UInt32 dim_idx, UInt32 range_idx) where T : struct
         {
             var (start_bytes, end_bytes, stride_bytes) = get_range<T>(dim_idx, range_idx);
             var start_span = MemoryMarshal.Cast<byte, T>(start_bytes);
@@ -562,7 +562,7 @@ namespace TileDB.CSharp
             void* start_p;
             void* end_p;
             void* stride_p;
-            ulong size = EnumUtil.datatype_size(EnumUtil.to_DataType(typeof(T)));
+            ulong size = EnumUtil.DataTypeSize(EnumUtil.TypeToDataType(typeof(T)));
             _ctx.handle_error(Methods.tiledb_query_get_range_from_name(_ctx.Handle, _handle, ms_name, range_idx, &start_p, &end_p, &stride_p));
 
             var start_span = new ReadOnlySpan<byte>(start_p, (int)size);
@@ -578,7 +578,7 @@ namespace TileDB.CSharp
         /// <param name="name"></param>
         /// <param name="range_idx"></param>
         /// <returns></returns>
-        public System.Tuple<T, T, T> range<T>(string dim_name, UInt32 range_idx) where T : struct
+        public System.Tuple<T, T, T> Range<T>(string dim_name, UInt32 range_idx) where T : struct
         {
             var (start_bytes, end_bytes, stride_bytes) = get_range<T>(dim_name, range_idx);
             var start_span = MemoryMarshal.Cast<byte, T>(start_bytes);
@@ -595,7 +595,7 @@ namespace TileDB.CSharp
         /// <param name="dim_idx"></param>
         /// <param name="range_idx"></param>
         /// <returns></returns>
-        public System.Tuple<string, string> range_var(UInt32 dim_idx, UInt32 range_idx)
+        public System.Tuple<string, string> RangeVar(UInt32 dim_idx, UInt32 range_idx)
         {
 
             UInt64 start_size = 0;
@@ -624,7 +624,7 @@ namespace TileDB.CSharp
 
         }
 
-        public System.Tuple<string, string> range_var(string dim_name, UInt32 range_idx)
+        public System.Tuple<string, string> RangeVar(string dim_name, UInt32 range_idx)
         {
             var ms_name = new MarshaledString(dim_name);
             UInt64 start_size = 0;
@@ -754,7 +754,7 @@ namespace TileDB.CSharp
         /// Returns the number of written fragments. Applicable only to WRITE queries.
         /// </summary>
         /// <returns></returns>
-        public uint fragment_num()
+        public uint FragmentNum()
         {
             uint num;
             _ctx.handle_error(Methods.tiledb_query_get_fragment_num(_ctx.Handle, _handle, &num));
@@ -766,7 +766,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="idx"></param>
         /// <returns></returns>
-        public string fragment_uri(ulong idx)
+        public string FragmentUri(ulong idx)
         {
             var ms_result = new MarshaledStringOut();
             fixed (sbyte** p_result = &ms_result.Value)
@@ -781,7 +781,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="idx"></param>
         /// <returns></returns>
-        public System.Tuple<UInt64, UInt64> fragment_timestamp_range(ulong idx)
+        public System.Tuple<UInt64, UInt64> FragmentTimestampRange(ulong idx)
         {
             ulong t1 = 0;
             ulong t2 = 0;
@@ -795,7 +795,7 @@ namespace TileDB.CSharp
 
         private void CheckDataType<T>(DataType dataType) 
         {
-            if (EnumUtil.to_DataType(typeof(T)) != dataType)
+            if (EnumUtil.TypeToDataType(typeof(T)) != dataType)
             {
                 if(!(dataType== DataType.TILEDB_STRING_ASCII && (typeof(T)==typeof(byte) || typeof(T) == typeof(sbyte) || typeof(T) == typeof(string) ))) {
                     throw new System.ArgumentException("T " + typeof(T).Name + " doesnot match " + dataType.ToString());

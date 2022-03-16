@@ -111,10 +111,10 @@ namespace TileDB.CSharp.Test
             var keys = array.MetadataKeys();
             CollectionAssert.AreEqual(new string[]{"key1", "key2", "key3", "key4", "key5"}, keys);
 
-            var arrayMetadata = array.metadata_from_index<float>(3);
+            var arrayMetadata = array.MetadataFromIndex<float>(3);
             Assert.AreEqual("key4",  arrayMetadata.Key);
             Assert.AreEqual((uint)4,  arrayMetadata.KeyLen);
-            Assert.AreEqual(Interop.tiledb_datatype_t.TILEDB_FLOAT32,  arrayMetadata.Datatype);
+            Assert.AreEqual(DataType.TILEDB_FLOAT32,  arrayMetadata.Datatype);
             Assert.AreEqual((uint)4,  arrayMetadata.ValueNum);
             Assert.AreEqual((int)4,  arrayMetadata.Value.Length);
 

@@ -178,7 +178,7 @@ namespace TileDB.CSharp
             var sb = new StringBuilder();
 
             var datatype = Type();
-            var t = EnumUtil.to_Type(datatype);
+            var t = EnumUtil.DataTypeToType(datatype);
             switch (System.Type.GetTypeCode(t))
             {
                 case TypeCode.Int16:
@@ -249,7 +249,7 @@ namespace TileDB.CSharp
             var sb = new StringBuilder();
 
             var datatype = Type();
-            var t = EnumUtil.to_Type(datatype);
+            var t = EnumUtil.DataTypeToType(datatype);
             switch (System.Type.GetTypeCode(t))
             {
                 case TypeCode.Int16:
