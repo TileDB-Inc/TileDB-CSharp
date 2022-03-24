@@ -8,14 +8,7 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
-    public ref struct ArrayMetadata<T>
-    {
-        public string Key;
-        public uint KeyLen;
-        public DataType Datatype;
-        public uint ValueNum;
-        public Span<T> Value;
-    }
+
 
     public class NonEmptyDomain
     {
@@ -49,6 +42,8 @@ namespace TileDB.CSharp
         private readonly string _uri;
         private bool _disposed;
 
+        private ArrayMetadata _metadata;
+
 
         public Array(Context ctx, string uri)
         {
@@ -56,6 +51,8 @@ namespace TileDB.CSharp
             _uri = uri;
             var ms_uri = new MarshaledString(_uri);
             _handle = new ArrayHandle(_ctx.Handle, ms_uri);
+            _disposed = false;
+            _metadata = new ArrayMetadata(this);
         }
 
         internal Array(Context ctx, ArrayHandle handle)
@@ -63,6 +60,8 @@ namespace TileDB.CSharp
             _ctx = ctx;
             _handle = handle;
             _uri = Uri();
+            _disposed = false;
+            _metadata = new ArrayMetadata(this);
         }
 
         public void Dispose()
@@ -84,6 +83,24 @@ namespace TileDB.CSharp
 
         internal ArrayHandle Handle => _handle;
 
+
+        /// <summary>
+        /// Get context.
+        /// </summary>
+        /// <returns></returns>
+        public Context Context()
+        {
+            return _ctx;
+        }
+
+        /// <summary>
+        /// Get metadata.
+        /// </summary>
+        /// <returns></returns>
+        public ArrayMetadata Metadata()
+        {
+            return _metadata;
+        }
 
         #region capi functions
         /// <summary>
@@ -556,27 +573,7 @@ namespace TileDB.CSharp
         /// <param name="data"></param>
         public void PutMetadata<T>(string key, T[] data) where T: struct
         {
-            if (string.IsNullOrEmpty(key) || data == null || data.Length == 0)
-            {
-                throw new ArgumentException("Array.PutMetadata, null or empty key-value!");
-            }
-            var tiledb_datatype = EnumUtil.to_tiledb_datatype(typeof(T));
-            if (tiledb_datatype == tiledb_datatype_t.TILEDB_ANY)
-            {
-                throw new ArgumentException("Array.PutMetadata, not supported datatype!");
-            }
-            var val_num = (uint)data.Length;
-            var ms_key = new MarshaledString(key);
-            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            try
-            {
-                _ctx.handle_error(Methods.tiledb_array_put_metadata(_ctx.Handle, _handle, ms_key, tiledb_datatype, val_num,
-                    (void*)dataGcHandle.AddrOfPinnedObject()));
-            }
-            finally
-            {
-                dataGcHandle.Free();
-            }
+            _metadata.PutMetadata<T>(key, data);
         }
 
         /// <summary>
@@ -587,8 +584,7 @@ namespace TileDB.CSharp
         /// <param name="v"></param>
         public void PutMetadata<T>(string key, T v) where T : struct
         {
-            T[] data = new T[1] { v };
-            PutMetadata<T>(key, data);
+            _metadata.PutMetadata<T>(key, v); 
         }
 
         /// <summary>
@@ -598,24 +594,7 @@ namespace TileDB.CSharp
         /// <param name="value"></param>
         public void PutMetadata(string key, string value)
         {
-            if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value))
-            {
-                throw new ArgumentException("Array.PutMetadata, null or empty key-value!");
-            }
-            var tiledb_datatype = tiledb_datatype_t.TILEDB_STRING_ASCII;
-            var data = Encoding.ASCII.GetBytes(value);
-            var val_num = (uint)data.Length;
-            var ms_key = new MarshaledString(key);
-            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            try
-            {
-                _ctx.handle_error(Methods.tiledb_array_put_metadata(_ctx.Handle, _handle, ms_key, tiledb_datatype, val_num,
-                    (void*)dataGcHandle.AddrOfPinnedObject()));
-            }
-            finally
-            {
-                dataGcHandle.Free();
-            }
+            _metadata.PutMetadata(key, value); 
         }
 
         /// <summary>
@@ -624,22 +603,10 @@ namespace TileDB.CSharp
         /// <param name="key"></param>
         public void DeleteMetadata(string key)
         {
-            var ms_key = new MarshaledString(key);
-            _ctx.handle_error(Methods.tiledb_array_delete_metadata(_ctx.Handle, _handle, ms_key));
+            _metadata.DeleteMetadata(key); 
         }
 
-        private (tiledb_datatype_t, uint, byte[]) get_metadata(string key)
-        {
-            void* value_p;
-            var ms_key = new MarshaledString(key);
-            var datatype = tiledb_datatype_t.TILEDB_ANY;
-            uint value_num = 0;
-            _ctx.handle_error(Methods.tiledb_array_get_metadata(_ctx.Handle, _handle, ms_key, &datatype, &value_num,
-                &value_p));
-            var size = (int)(value_num * EnumUtil.TileDBDataTypeSize(datatype));
-            var fill_span = new ReadOnlySpan<byte>(value_p, size);
-            return (datatype, value_num, fill_span.ToArray());
-        }
+ 
 
         /// <summary>
         /// Get metadata list.
@@ -647,13 +614,9 @@ namespace TileDB.CSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public (DataType, uint, T[]) Metadata<T>(string key) where T : struct
+        public (string key,T[] data, DataType data_type, uint value_num) Metadata<T>(string key) where T : struct
         {
-            var (dataType, valueNum, value) = get_metadata(key);
-            Span<byte> valueSpan = value;
-
-            var span = MemoryMarshal.Cast<byte, T>(valueSpan);
-            return ((DataType)dataType, valueNum, span.ToArray());
+            return _metadata.Metadata<T>(key); 
         }
 
         /// <summary>
@@ -663,8 +626,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public string Metadata(string key)
         {
-            var (_, _, byte_array) = get_metadata(key);
-            return Encoding.ASCII.GetString(byte_array);
+            return _metadata.Metadata(key); 
         }
 
         /// <summary>
@@ -673,46 +635,19 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public ulong MetadataNum()
         {
-            ulong num;
-            _ctx.handle_error(Methods.tiledb_array_get_metadata_num(_ctx.Handle, _handle, &num));
-            return num;
+            return _metadata.MetadataNum(); 
         }
 
-        private (tiledb_datatype_t, uint, string, byte[]) get_metadata_from_index(ulong index)
-        {
-            void* value_p;
-            var ms_key = new MarshaledStringOut();
-            var dataType = tiledb_datatype_t.TILEDB_ANY;
-            uint valueNum = 0;
-            fixed (sbyte** p_key = &ms_key.Value)
-            {
-                uint key_len;
-                _ctx.handle_error(Methods.tiledb_array_get_metadata_from_index(_ctx.Handle, _handle, index, p_key,
-                    &key_len, &dataType, &valueNum, &value_p));
-            }
-            var size = (int)(valueNum * EnumUtil.TileDBDataTypeSize(dataType));
-            var fill_span = new ReadOnlySpan<byte>(value_p, size);
-            return (dataType, valueNum, ms_key, fill_span.ToArray());
-        }
-
+ 
         /// <summary>
         /// Get metadata from index.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ArrayMetadata<T> MetadataFromIndex<T>(ulong index) where T : struct
+        public (string key, T[] data, DataType datatype, uint value_num) MetadataFromIndex<T>(ulong index) where T : struct
         {
-            var (dataType, valueNum, key, value) = get_metadata_from_index(index);
-            Span<byte> valueSpan = value;
-            return new ArrayMetadata<T>()
-            {
-                Key = key,
-                KeyLen = (uint)key.Length,
-                Datatype = (DataType)dataType,
-                ValueNum = valueNum,
-                Value = MemoryMarshal.Cast<byte, T>(valueSpan)
-            };
+            return _metadata.MetadataFromIndex<T>(index);
         }
 
         /// <summary>
@@ -721,14 +656,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public string[] MetadataKeys()
         {
-            var num = MetadataNum();
-            var ret = new string[(int)num];
-            for (ulong i = 0; i < num; ++i)
-            {
-                var (_, _, key, _) = get_metadata_from_index(i);
-                ret[i] = key;
-            }
-            return ret;
+            return _metadata.MetadataKeys(); 
         }
 
         /// <summary>
@@ -736,14 +664,9 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public Tuple<bool, DataType> HasMetadata(string key)
+        public (bool has_key, DataType datatype) HasMetadata(string key)
         {
-            var ms_key = new MarshaledString(key);
-            tiledb_datatype_t tiledb_datatype;
-            var has_key = 0;
-            _ctx.handle_error(Methods.tiledb_array_has_metadata_key(_ctx.Handle, _handle, ms_key, &tiledb_datatype, &has_key));
-
-            return new Tuple<bool,DataType>(has_key>0 , (DataType)tiledb_datatype);
+            return _metadata.HasMetadata(key); 
         }
 
         /// <summary>
@@ -754,8 +677,7 @@ namespace TileDB.CSharp
         /// <param name="config"></param>
         public static void ConsolidateMetadata(Context ctx, string uri, Config config)
         {
-            var ms_uri = new MarshaledString(uri);
-            ctx.handle_error(Methods.tiledb_array_consolidate_metadata(ctx.Handle, ms_uri, config.Handle));
+            ArrayMetadata.ConsolidateMetadata(ctx, uri, config);
         }
         /// <summary>
         /// Vacuum the array.
