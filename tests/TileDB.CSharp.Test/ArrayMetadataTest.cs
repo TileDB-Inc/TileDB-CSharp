@@ -90,16 +90,16 @@ namespace TileDB.CSharp.Test
 
             array.Open(QueryType.TILEDB_READ);
 
-            var (_, _, v1) = array.Metadata<int>("key1");
+            var (_, v1, _, _) = array.Metadata<int>("key1");
             CollectionAssert.AreEqual(new int[]{ 25 }, v1);
 
-            var (_, _, v2) = array.Metadata<int>("key2");
+            var (_, v2, _, _) = array.Metadata<int>("key2");
             CollectionAssert.AreEqual(new int[]{ 25, 26, 27, 28 }, v2);
 
-            var (_, _, v3) = array.Metadata<float>("key3");
+            var (_, v3,  _, _) = array.Metadata<float>("key3");
             CollectionAssert.AreEqual(new float[]{ 25.1f }, v3);
 
-            var (_, _, v4) = array.Metadata<float>("key4");
+            var (_, v4, _, _) = array.Metadata<float>("key4");
             CollectionAssert.AreEqual(new float[]{ 25.1f, 26.2f, 27.3f, 28.4f }, v4);
 
             var s = array.Metadata("key5");
@@ -112,11 +112,11 @@ namespace TileDB.CSharp.Test
             CollectionAssert.AreEqual(new string[]{"key1", "key2", "key3", "key4", "key5"}, keys);
 
             var arrayMetadata = array.MetadataFromIndex<float>(3);
-            Assert.AreEqual("key4",  arrayMetadata.Key);
-            Assert.AreEqual((uint)4,  arrayMetadata.KeyLen);
-            Assert.AreEqual(DataType.TILEDB_FLOAT32,  arrayMetadata.Datatype);
-            Assert.AreEqual((uint)4,  arrayMetadata.ValueNum);
-            Assert.AreEqual((int)4,  arrayMetadata.Value.Length);
+            Assert.AreEqual("key4",  arrayMetadata.key);
+            Assert.AreEqual((int)4,  arrayMetadata.key.Length);
+            Assert.AreEqual(DataType.TILEDB_FLOAT32,  arrayMetadata.datatype);
+            Assert.AreEqual((uint)4,  arrayMetadata.value_num);
+            Assert.AreEqual((int)4,  arrayMetadata.data.Length);
 
             array.Close();
         }
