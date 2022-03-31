@@ -138,7 +138,39 @@ namespace TileDB.CSharp {
 
         #endregion Metadata
 
-        #region  String buffer
+        #region  Buffer
+
+        /// <summary>
+        /// Convert element offsets to byte offsets.
+        /// </summary>
+        /// <param name="element_offsets"></param>
+        /// <returns></returns>
+        public static ulong[] ElementOffsetsToByteOffsets(ulong[] element_offsets, DataType dataType)
+        {
+            ulong[] ret = new ulong[element_offsets.Length];
+            for (var i = 0; i < element_offsets.Length; ++i)
+            {
+                ret[i] = element_offsets[i] * EnumUtil.DataTypeSize(dataType);
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// Convert byte offsets to element offsets
+        /// </summary>
+        /// <param name="offsets"></param>
+        /// <returns></returns>
+        public static ulong[] ByteOffsetsToElementOffsets(ulong[] offsets, DataType dataType)
+        {
+            ulong[] ret = new ulong[offsets.Length];
+            for (var i = 0; i < offsets.Length; ++i)
+            {
+                ret[i] = offsets[i] / EnumUtil.DataTypeSize(dataType);
+            }
+            return ret;
+        }
+
+
         /// <summary>
         /// Pack string array.
         /// </summary>
@@ -284,7 +316,7 @@ namespace TileDB.CSharp {
             return result;
         }
 
-        #endregion String buffer
+        #endregion Buffer
 
 
 

@@ -126,6 +126,8 @@ namespace TileDB.CSharp
 
         #endregion Properties
 
+ 
+
     }//class TileDBBuffer
 
     public class TileDBStringBuffer : TileDBBuffer<byte>

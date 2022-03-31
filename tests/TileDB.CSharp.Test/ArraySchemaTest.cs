@@ -80,6 +80,35 @@ namespace TileDB.CSharp.Test
 		}
 
 		[TestMethod]
+		public void TestArraySchemaInt32Simple()
+        {
+			var context = Context.GetDefault();
+			var domain = new Domain(context);
+			Assert.IsNotNull(domain);
+
+			var dim_rows = Dimension.Create(context, "rows", new[] { 0, 4 }, 4);
+			Assert.IsNotNull(dim_rows);
+			domain.AddDimension(dim_rows);
+
+			var dim_cols = Dimension.Create(context, "cols", new[] { 0, 4 }, 4);
+			Assert.IsNotNull(dim_cols);
+			domain.AddDimension(dim_cols);
+
+			var array_schema = new ArraySchema(context, ArrayType.TILEDB_DENSE);
+			Assert.IsNotNull(array_schema);
+
+			var attr1 = new Attribute(context, "a", DataType.TILEDB_INT32);
+			Assert.IsNotNull(attr1);
+
+			array_schema.AddAttribute(attr1);
+
+			array_schema.SetDomain(domain);
+
+			array_schema.Check();
+
+		}
+
+		[TestMethod]
 		public void TestArraySchemaInt32Hilbert()
 		{
 			var config = new Config();
