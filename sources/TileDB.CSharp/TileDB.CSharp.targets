@@ -12,9 +12,9 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(OS)' == 'Unix' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">      
-    <Content Include="$(MSBuildThisFileDirectory)\runtimes\linux-x64\native\libtiledb.so.2.6">
+    <Content Include="$(MSBuildThisFileDirectory)\runtimes\linux-x64\native\libtiledb.so.2.8">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>libtiledb.so.2.6</Link>
+      <Link>libtiledb.so.2.8</Link>
       <Visible>false</Visible>
     </Content>
   </ItemGroup>

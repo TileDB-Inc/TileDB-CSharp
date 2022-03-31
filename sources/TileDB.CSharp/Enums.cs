@@ -102,6 +102,7 @@ namespace TileDB.CSharp
         TILEDB_TIME_PS = tiledb_datatype_t.TILEDB_TIME_PS,
         TILEDB_TIME_FS = tiledb_datatype_t.TILEDB_TIME_FS,
         TILEDB_TIME_AS = tiledb_datatype_t.TILEDB_TIME_AS,
+        TILEDB_BLOB = tiledb_datatype_t.TILEDB_BLOB
     }
 
     public enum ArrayType : uint
@@ -627,6 +628,8 @@ namespace TileDB.CSharp
                 case tiledb_datatype_t.TILEDB_UINT64:
                     return typeof(ulong);
                 case tiledb_datatype_t.TILEDB_UINT8:
+                    return typeof(byte);
+                case tiledb_datatype_t.TILEDB_BLOB:
                     return typeof(byte);
                 default:
                     return typeof(byte);
