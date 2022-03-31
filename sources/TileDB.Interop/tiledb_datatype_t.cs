@@ -43,5 +43,6 @@ namespace TileDB.Interop
         TILEDB_TIME_PS = 37,
         TILEDB_TIME_FS = 38,
         TILEDB_TIME_AS = 39,
+        TILEDB_BLOB = 40,
     }
 }

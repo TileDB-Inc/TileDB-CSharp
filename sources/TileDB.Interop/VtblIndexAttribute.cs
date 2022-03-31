@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace TileDB.Interop
 {
     /// <summary>Defines the vtbl index of a method as it was in the native signature.</summary>
-    [AttributeUsage(AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     [Conditional("DEBUG")]
     internal sealed partial class VtblIndexAttribute : Attribute
     {
