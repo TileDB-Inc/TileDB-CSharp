@@ -1,1 +1,0 @@
-This directory is for windows native libraries.
