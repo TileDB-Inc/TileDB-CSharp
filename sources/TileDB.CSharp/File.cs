@@ -117,10 +117,10 @@ namespace TileDB.CSharp
                     var query_read = new Query(ctx, array_read);
                     query_read.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
 
-                    var file_size_metadata = array_read.Metadata<ulong>(Constants.METADATA_SIZE_KEY);
-                    ulong file_size = file_size_metadata.data[0];
+                    var file_size_metadata = array_read.GetMetadata<ulong>(Constants.METADATA_SIZE_KEY);
+                    ulong file_size = (ulong)file_size_metadata.Length;
 
-                    var orig_file_name = array_read.Metadata(Constants.METADATA_ORIGINAL_FILE_NAME);
+                    var orig_file_name = array_read.GetMetadata(Constants.METADATA_ORIGINAL_FILE_NAME);
 
                     ulong[] subarray = new ulong[2] { 0, file_size - 1 };
                     query_read.SetSubarray<ulong>(subarray);

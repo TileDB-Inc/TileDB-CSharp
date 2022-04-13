@@ -614,9 +614,9 @@ namespace TileDB.CSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public (string key,T[] data, DataType data_type, uint value_num) Metadata<T>(string key) where T : struct
+        public T[] GetMetadata<T>(string key) where T : struct
         {
-            return _metadata.Metadata<T>(key); 
+            return _metadata.GetMetadata<T>(key); 
         }
 
         /// <summary>
@@ -624,9 +624,9 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public string Metadata(string key)
+        public string GetMetadata(string key)
         {
-            return _metadata.Metadata(key); 
+            return _metadata.GetMetadata(key); 
         }
 
         /// <summary>
@@ -645,9 +645,9 @@ namespace TileDB.CSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="index"></param>
         /// <returns></returns>
-        public (string key, T[] data, DataType datatype, uint value_num) MetadataFromIndex<T>(ulong index) where T : struct
+        public (string key, T[] data) GetMetadataFromIndex<T>(ulong index) where T : struct
         {
-            return _metadata.MetadataFromIndex<T>(index);
+            return _metadata.GetMetadataFromIndex<T>(index);
         }
 
         /// <summary>
