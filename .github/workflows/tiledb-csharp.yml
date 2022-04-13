@@ -126,3 +126,41 @@ jobs:
       run: |
         $ErrorView = "NormalView"
         dotnet test -c Release tests/TileDB.CSharp.Test --framework net"${{ matrix.dotnet-version }}"
+
+  Release:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Will be checking following versions
+        dotnet: ['5.0']
+    steps:
+    # Checks out repository
+    - uses: actions/checkout@v2
+
+    # Following action sets up dotnet and uses the strategy matrix to test on
+    # specific versions
+    - name: Set up dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.dotnet }}
+
+    - name: Display dotnet version
+      run: dotnet --version
+
+    # Download tiledb
+    - name: Download tiledb
+      run: ./.github/scripts/download_tiledb.sh
+
+    # DotNet build
+    - name: Dotnet build for TileDB.CSharp
+      shell: pwsh
+      run: |
+        $ErrorView = "NormalView"
+        dotnet build /p:Platform=x64 -c Release sources/TileDB.CSharp  
+
+    # DotNet pack
+    - name: Dotnet pack for TileDB.CSharp
+      shell: pwsh
+      run: |
+        $ErrorView = "NormalView"
+        dotnet pack ./sources/TileDB.CSharp/TileDB.CSharp.csproj /p:NuspecFile=TileDB.CSharp.nuspec -c Release         
