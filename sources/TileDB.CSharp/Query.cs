@@ -75,7 +75,18 @@ namespace TileDB.CSharp
         }
         
     }
-   
+
+    public class QueryEventArgs : EventArgs
+    {
+        public QueryEventArgs(int status, string message)
+        {
+            Status = status;
+            Message = message;
+        }
+        public int Status { get; set; }
+        public string Message { get; set; }
+    }
+
     internal class BufferHandle
     {
         public GCHandle DataHandle;
@@ -114,6 +125,9 @@ namespace TileDB.CSharp
         private Dictionary<string, BufferHandle> _dataBufferHandles = new Dictionary<string, BufferHandle>();
         private Dictionary<string, BufferHandle> _offsetsBufferHandles = new Dictionary<string, BufferHandle>();
         private Dictionary<string, BufferHandle> _validityBufferHandles = new Dictionary<string, BufferHandle>();
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void QueryCallbackDelegate(IntPtr ptr);
 
         public Query(Context ctx, Array array, QueryType queryType)
         {
@@ -344,6 +358,42 @@ namespace TileDB.CSharp
             _ctx.handle_error(Methods.tiledb_query_submit(_ctx.Handle, _handle));
             return QueryStatus.TILEDB_COMPLETED;
         }
+
+
+        /// <summary>
+        /// Callback function on query completed.
+        /// </summary>
+        /// <param name="ptr"></param>
+        private void QueryCallback(IntPtr ptr)
+        {
+            //fire event
+            var args = new QueryEventArgs((int)QueryStatus.TILEDB_COMPLETED, "query completed");
+            OnQueryCompleted(args);
+        }
+
+        private void OnQueryCompleted(QueryEventArgs args)
+        {
+            var handler = QueryCompleted;
+            if (handler != null)
+            {
+                handler(this, args); //fire the event
+            }
+            
+        }
+
+        /// <summary>
+        /// Submits the query asynchronously.
+        /// </summary>
+        public void SubmitAsync()
+        {
+            QueryCallbackDelegate  callback = new QueryCallbackDelegate(QueryCallback);
+            _ctx.handle_error(Methods.tiledb_query_submit_async(_ctx.Handle, _handle, (delegate* unmanaged[Cdecl]< void *, void > )Marshal.GetFunctionPointerForDelegate<QueryCallbackDelegate>(callback), null));
+        }
+
+        /// <summary>
+        /// Default event handler is empty
+        /// </summary>
+        public event EventHandler<QueryEventArgs>? QueryCompleted;
 
         /// <summary>
         /// Returns `true` if the query has results. Applicable only to read; false for write queries.
