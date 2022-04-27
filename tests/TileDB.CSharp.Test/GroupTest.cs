@@ -12,6 +12,7 @@ namespace TileDB.CSharp.Test
         {
             var ctx = Context.GetDefault();
             string temp_dir = GetTempDir();
+            RemoveTempDir(temp_dir);
             CreateTempDir(temp_dir);
             string group1_uri = System.IO.Path.Combine(temp_dir, "group1");
             Group.Create(ctx, group1_uri);
@@ -30,35 +31,30 @@ namespace TileDB.CSharp.Test
             // Close and reopen in WRITE mode
             group.Close();
             group.Open(QueryType.TILEDB_WRITE);
-            
+
             group.PutMetadata<int>("key", v);
             group.Close();
 
             group.Open(QueryType.TILEDB_READ);
             var data = group.GetMetadata<int>("key");
-     
+
             Assert.AreEqual<int>(5, data[0]);
 
             group.Close();
-
-            // Clean up
-            RemoveTempDir(temp_dir);
-
         }
 
         [TestMethod]
-        public void TestGroupMember() 
+        public void TestGroupMember()
         {
             var ctx = Context.GetDefault();
             string temp_dir = GetTempDir();
+            RemoveTempDir(temp_dir);
             CreateTempDir(temp_dir);
 
             string array1_uri = System.IO.Path.Combine(temp_dir, "array1");
-            string array2_uri = System.IO.Path.Combine(temp_dir, "array2");
-            string array3_uri = System.IO.Path.Combine(temp_dir, "array3");
             CreateArray(array1_uri);
+            string array2_uri = System.IO.Path.Combine(temp_dir, "array2");
             CreateArray(array2_uri);
-            CreateArray(array3_uri);
 
             string group1_uri = System.IO.Path.Combine(temp_dir, "group1");
             Group.Create(ctx, group1_uri);
@@ -69,44 +65,28 @@ namespace TileDB.CSharp.Test
             var group1 = new Group(ctx, group1_uri);
             group1.Open(QueryType.TILEDB_WRITE);
 
+            group1.AddMember(array1_uri, false);
+            group1.Close();
+
             var group2 = new Group(ctx, group2_uri);
             group2.Open(QueryType.TILEDB_WRITE);
-
-            group1.AddMember(array1_uri, false);
-            group1.AddMember(array2_uri, false);
-            group1.AddMember(array2_uri, false);
-
-            group2.AddMember(array3_uri, false);
-
-            group1.Close();
+            group2.AddMember(array2_uri, false);
             group2.Close();
 
             //Reopen in read mode
             group1.Open(QueryType.TILEDB_READ);
-            group1.Open(QueryType.TILEDB_READ);
-
-            Assert.AreEqual<ulong>(2, group1.MemberCount());
-            Assert.AreEqual<ulong>(1, group2.MemberCount());
-
+            Assert.AreEqual<ulong>(1, group1.MemberCount());
             group1.Close();
-            group2.Close();
 
             //Reopen in write mode
             group1.Open(QueryType.TILEDB_WRITE);
-            group1.Open(QueryType.TILEDB_WRITE);
-
-            group1.RemoveMember(array2_uri);
-            group2.RemoveMember(array3_uri);
-
-            Assert.AreEqual<ulong>(1, group1.MemberCount());
-            Assert.AreEqual<ulong>(0, group2.MemberCount());
-
+            group1.RemoveMember(array1_uri);
             group1.Close();
-            group2.Close();
 
-            // Clean up
-            RemoveTempDir(temp_dir);
-
+            //Reopen in read mode
+            group1.Open(QueryType.TILEDB_READ);
+            Assert.AreEqual<ulong>(0, group1.MemberCount());
+            group1.Close();
         }
 
         private string GetTempDir()
