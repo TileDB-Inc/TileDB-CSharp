@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         # Will be checking following versions
-        dotnet: ['5.0','6.0']
+        dotnet: ['5.0']
     steps:
     # Checks out repository
     - uses: actions/checkout@v2
@@ -45,14 +45,14 @@ jobs:
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
-        dotnet test -c Release tests/TileDB.CSharp.Test --framework net"${{ matrix.dotnet-version }}"
+        dotnet test -c Release tests/TileDB.CSharp.Test --framework net5.0
 
   #MacOS_Test:
   #  runs-on: macos-latest
   #  strategy:
   #    matrix:
   #      # Will be checking following versions
-  #      dotnet: ['5.0','6.0']
+  #      dotnet: ['5.0']
   #  steps:
   #  # Checks out repository
   #  - uses: actions/checkout@v2
@@ -90,7 +90,7 @@ jobs:
     strategy:
       matrix:
         # Will be checking following versions
-        dotnet: ['5.0'] # TMP disabled ,'6.0']
+        dotnet: ['5.0']
     steps:
     # Checks out repository
     - uses: actions/checkout@v2
@@ -125,7 +125,7 @@ jobs:
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
-        dotnet test -c Release tests/TileDB.CSharp.Test --framework net"${{ matrix.dotnet-version }}"
+        dotnet test -c Release tests/TileDB.CSharp.Test --framework net5.0
 
   Release:
     runs-on: ubuntu-latest

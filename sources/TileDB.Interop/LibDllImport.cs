@@ -6,7 +6,7 @@
         public const string Path = "libtiledb.dylib";
         public const string LibCPath = "libc.dylib";
 #elif __LINUX__
-        public const string Path = "libtiledb.so.2.8";
+        public const string Path = "libtiledb.so.2.9";
         public const string LibCPath = "libc.so";
 #else
         public const string Path = "tiledb.dll";

@@ -2,26 +2,26 @@
 <package >
   <metadata>
     <id>TileDB.CSharp</id>
-    <version>2.8.1</version>
+    <version>5.0.0</version>
     <title>$title$</title>
     <authors>TileDB Inc</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/TileDB-Inc/TileDB-CSharp</projectUrl>
     <description>CSharp wrapper of TileDB universal data engine</description>
-    <releaseNotes>This package is the csharp wrapper of TileDB 2.8.1.</releaseNotes>
+    <releaseNotes>This package is the csharp wrapper of TileDB 2.9.1.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>tiledb</tags>
   </metadata>
   <files>
     <!-- binding libraries -->
-     <file src="lib\net5.0\TileDB.Interop.dll"       target="lib\net5.0"     />
-	  <file src="lib\net5.0\TileDB.CSharp.dll"       target="lib\net5.0"     />
+    <file src="lib\net5.0\TileDB.Interop.dll" target="lib\net5.0"     />
+	  <file src="lib\net5.0\TileDB.CSharp.dll" target="lib\net5.0"     />
     <!-- native libraries for windows -->
     <file src="runtimes/win-x64/native/tiledb.dll" target="runtimes/win-x64/native"/>
     <!-- native libraries for macos -->
     <file src="runtimes/osx-x64/native/libtiledb.dylib" target="runtimes/osx-x64/native"/> 
     <!-- native libraries for linux -->
-    <file src="runtimes/linux-x64/native/libtiledb.so.2.8" target="runtimes/linux-x64/native"/>   
+    <file src="runtimes/linux-x64/native/libtiledb.so.2.9" target="runtimes/linux-x64/native"/>   
   </files>	
 </package>

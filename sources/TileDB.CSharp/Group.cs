@@ -215,11 +215,13 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="uri"></param>
         /// <param name="relative"></param>
-        public void AddMember(string uri, bool relative)
+        public void AddMember(string uri, bool relative, string name)
         {
             var ms_uri = new MarshaledString(uri);
+            var ms_name = new MarshaledString(uri);
             byte byte_relative = relative ? (byte)1 : (byte)0;
-            _ctx.handle_error(Methods.tiledb_group_add_member(_ctx.Handle,_handle,ms_uri,byte_relative));
+            _ctx.handle_error(Methods.tiledb_group_add_member(
+                _ctx.Handle, _handle, ms_uri, byte_relative, ms_name));
         }
  
         /// <summary>
@@ -250,16 +252,21 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        (string member, ObjectType object_type) MemberByIndex(ulong index) 
+        (string uri, ObjectType object_type, string name) MemberByIndex(ulong index) 
         {
-            var ms_result = new MarshaledStringOut();
+            var ms_uri = new MarshaledStringOut();
+            var ms_name = new MarshaledStringOut();
             tiledb_object_t tiledb_objecttype;
-            fixed (sbyte** p_result = &ms_result.Value)
+            fixed (sbyte** p_uri = &ms_uri.Value)
             {
-                _ctx.handle_error(Methods.tiledb_group_get_member_by_index(_ctx.Handle, _handle,index, p_result, &tiledb_objecttype));
+                fixed (sbyte** p_name = &ms_name.Value)
+                {
+                    _ctx.handle_error(Methods.tiledb_group_get_member_by_index(
+                        _ctx.Handle, _handle, index, p_uri, &tiledb_objecttype, p_name));
+                }
             }
 
-            return (ms_result, (ObjectType)tiledb_objecttype);
+            return (ms_uri, (ObjectType)tiledb_objecttype, ms_name);
         }
 
         /// <summary>
@@ -308,7 +315,7 @@ namespace TileDB.CSharp
         public string Dump(bool recursive)
         {
             var ms_result = new MarshaledStringOut();
-            int int_recursive = recursive ? 1 : 0;
+            byte int_recursive = (byte)(recursive ? 1 : 0);
             fixed (sbyte** p_result = &ms_result.Value)
             {
                 _ctx.handle_error(Methods.tiledb_group_dump_str(_ctx.Handle, _handle, p_result, int_recursive));

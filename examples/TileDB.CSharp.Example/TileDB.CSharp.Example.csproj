@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(OS)' == 'Unix' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
-    <Content Include="..\..\sources\TileDB.CSharp\runtimes\linux-x64\native\libtiledb.so.2.8" Link="libtiledb.so.2.8">
+    <Content Include="..\..\sources\TileDB.CSharp\runtimes\linux-x64\native\libtiledb.so.2.9" Link="libtiledb.so.2.9">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>  
   </ItemGroup>

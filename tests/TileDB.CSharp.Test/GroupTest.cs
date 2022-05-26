@@ -8,7 +8,7 @@ namespace TileDB.CSharp.Test
     public class GroupTest
     {
         [TestMethod]
-        void TestGroupMetadata()
+        public void TestGroupMetadata()
         {
             var ctx = Context.GetDefault();
             string temp_dir = GetTempDir();
@@ -42,7 +42,6 @@ namespace TileDB.CSharp.Test
 
             group.Close();
         }
-
         [TestMethod]
         public void TestGroupMember()
         {
@@ -64,18 +63,19 @@ namespace TileDB.CSharp.Test
 
             var group1 = new Group(ctx, group1_uri);
             group1.Open(QueryType.TILEDB_WRITE);
-
-            group1.AddMember(array1_uri, false);
+            
+            group1.AddMember(array1_uri, false, "array1");
+            group1.AddMember(array2_uri, false, "array2");
             group1.Close();
 
             var group2 = new Group(ctx, group2_uri);
             group2.Open(QueryType.TILEDB_WRITE);
-            group2.AddMember(array2_uri, false);
+            group2.AddMember(array2_uri, false, "array2");
             group2.Close();
 
             //Reopen in read mode
             group1.Open(QueryType.TILEDB_READ);
-            Assert.AreEqual<ulong>(1, group1.MemberCount());
+            Assert.AreEqual<ulong>(2, group1.MemberCount());
             group1.Close();
 
             //Reopen in write mode
@@ -85,10 +85,9 @@ namespace TileDB.CSharp.Test
 
             //Reopen in read mode
             group1.Open(QueryType.TILEDB_READ);
-            Assert.AreEqual<ulong>(0, group1.MemberCount());
+            Assert.AreEqual<ulong>(1, group1.MemberCount());
             group1.Close();
         }
-
         private string GetTempDir()
         {
             return System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "tiledb_test");
@@ -118,7 +117,6 @@ namespace TileDB.CSharp.Test
             }
 
         }
-
         private void CreateArray(string uri)
         {
             string tmpArrayPath = uri;
