@@ -18,3 +18,7 @@ dotnet build /p:Platform=x64 -c Release
 cd tests/TileDB.CSharp.Test
 dotnet test -c Release
 ```
+# Old version
+
+The SWIG-based 2.x version of this codebase is available in the
+[archive](https://github.com/TileDB-Inc/TileDB-CSharp/tree/archive) branch.
