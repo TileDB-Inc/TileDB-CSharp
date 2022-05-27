@@ -15,8 +15,8 @@
   </metadata>
   <files>
     <!-- binding libraries -->
-    <file src="lib\net5.0\TileDB.Interop.dll" target="lib\net5.0"     />
-	  <file src="lib\net5.0\TileDB.CSharp.dll" target="lib\net5.0"     />
+    <file src="lib\net5.0\TileDB.Interop.dll" target="lib\net5.0"/>
+    <file src="lib\net5.0\TileDB.CSharp.dll" target="lib\net5.0"/>
     <!-- native libraries for windows -->
     <file src="runtimes/win-x64/native/tiledb.dll" target="runtimes/win-x64/native"/>
     <!-- native libraries for macos -->
