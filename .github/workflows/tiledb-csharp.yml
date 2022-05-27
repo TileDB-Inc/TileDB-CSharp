@@ -41,7 +41,7 @@ jobs:
         dotnet build /p:Platform=x64 -c Release sources/TileDB.CSharp
 
     # DotNet test
-    - name: Test TileDB.CSharp 
+    - name: Test TileDB.CSharp
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
@@ -111,7 +111,7 @@ jobs:
         $ErrorView = "NormalView"
         cd cpp
         cmake .
-        cmake --build . --target install 
+        cmake --build . --target install
 
     # DotNet build
     - name: Dotnet build for TileDB.CSharp
@@ -156,11 +156,16 @@ jobs:
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
-        dotnet build /p:Platform=x64 -c Release sources/TileDB.CSharp  
+        dotnet build /p:Platform=x64 -c Release sources/TileDB.CSharp
 
     # DotNet pack
     - name: Dotnet pack for TileDB.CSharp
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
-        dotnet pack ./sources/TileDB.CSharp/TileDB.CSharp.csproj /p:NuspecFile=TileDB.CSharp.nuspec -c Release         
+        dotnet pack ./sources/TileDB.CSharp/TileDB.CSharp.csproj /p:NuspecFile=TileDB.CSharp.nuspec -c Release
+    - name: Archive nuget artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Nuget package
+        path: sources/TileDB.CSharp/lib/TileDB.CSharp.5.0.0.nupkg
