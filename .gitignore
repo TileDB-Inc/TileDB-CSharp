@@ -47,3 +47,5 @@ build
 TileDBConfig.cmake
 TileDbTargets*.cmake
 tiledb.pc
+
+.vs

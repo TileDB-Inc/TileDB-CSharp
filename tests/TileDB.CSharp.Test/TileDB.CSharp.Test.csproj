@@ -1,15 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <RootNamespace>TileDB.CSharp.Test</RootNamespace>
     <TargetFrameworks>net5.0</TargetFrameworks>
     <Nullable>enable</Nullable>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
-
-
   <ItemGroup Condition="'$(OS)' == 'Windows_NT'">
     <Content Include="..\..\sources\TileDB.CSharp\runtimes\win-x64\native\tiledb.dll" Link="tiledb.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -26,20 +21,14 @@
     <Content Include="..\..\sources\TileDB.CSharp\runtimes\osx-x64\native\libtiledb.dylib" Link="libtiledb.dylib">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>    
-  </ItemGroup>	
- 
-
+  </ItemGroup>	  
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.7" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.7" />
     <PackageReference Include="coverlet.collector" Version="3.1.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\sources\TileDB.CSharp\TileDB.CSharp.csproj" />
   </ItemGroup>
-
-  
-
 </Project>
