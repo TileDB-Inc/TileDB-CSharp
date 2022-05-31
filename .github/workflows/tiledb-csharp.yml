@@ -151,6 +151,13 @@ jobs:
     - name: Download tiledb
       run: ./.github/scripts/download_tiledb.sh
 
+    # Download tiledb
+    - name: Copy tiledb lib
+      shell: pwsh
+      run: |
+        $ErrorView = "NormalView"
+        cp sources/TileDB.CSharp/runtimes/linux-x64/native/libtiledb.so.2.9 sources/TileDB.CSharp/runtimes/linux-x64/native/libtiledb.so
+
     # DotNet build
     - name: Dotnet build for TileDB.CSharp
       shell: pwsh

@@ -5,10 +5,9 @@ namespace TileDB.Interop
 {
     public unsafe class LibC
     {
-        public struct handle_t {}
-        [DllImport(LibDllImport.LibCPath)]
-        public static extern void free(void* p);
-
+        // public struct handle_t {}
+        // [DllImport(LibDllImport.LibCPath)]
+        // public static extern void free(void* p);
     }
 
     public unsafe class MarshaledStringOut
@@ -49,9 +48,6 @@ namespace TileDB.Interop
             var span = new ReadOnlySpan<byte>(s.Value, int.MaxValue);
             return span.Slice(0, span.IndexOf((byte)'\0')).AsString();
         }
-
-
-
     }
 
 }//namespace
