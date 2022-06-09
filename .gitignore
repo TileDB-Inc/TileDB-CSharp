@@ -49,3 +49,5 @@ TileDbTargets*.cmake
 tiledb.pc
 
 .vs
+
+.DS_Store

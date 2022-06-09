@@ -26,6 +26,6 @@
     <!-- native libraries for macos -->
     <file src="runtimes/osx-x64/native/libtiledb.dylib" target="runtimes/osx-x64/native"/>
     <!-- native libraries for linux -->
-    <file src="runtimes/linux-x64/native/libtiledb.so.2.9" target="runtimes/linux-x64/native/libtiledb.so"/>
+    <file src="runtimes/linux-x64/native/libtiledb.so" target="runtimes/linux-x64/native"/>
   </files>
 </package>

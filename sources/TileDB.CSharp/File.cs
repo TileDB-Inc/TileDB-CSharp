@@ -1,172 +1,119 @@
 using System;
-using System.Text;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Text;
+using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
-    public class File
+    public sealed unsafe class File
     {
-
-        #region File Helper Functions
-        /// <summary>
-        /// Save a local file to a tiledb array.
-        /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="array_uri"></param>
-        /// <param name="file"></param>
-        /// <param name="mime_type"></param>
-        /// <param name="mime_coding"></param>
-        public static void SaveFileToArray(Context ctx, string array_uri, string file, string mime_type, string mime_coding)
+        private readonly Context _ctx;
+        
+        public File(Context ctx)
         {
-            try
+            _ctx = ctx;
+        }
+        
+        public ArraySchema SchemaCreate(string uri)
+        {
+            var ms_uri = new MarshaledString(uri);
+            tiledb_array_schema_t* array_schema_p;
+            _ctx.handle_error(Methods.tiledb_filestore_schema_create(_ctx.Handle, ms_uri, &array_schema_p));
+            if (array_schema_p == null)
             {
-                if (ctx == null)
-                {
-                    ctx = Context.GetDefault();
-                }
-                VFS vfs = new VFS(ctx);
-                if (vfs.IsDir(array_uri))
-                {
-                    vfs.RemoveDir(array_uri);
-                }
-
-                byte[] contents = System.IO.File.ReadAllBytes(file);
-                ulong nbytes = (ulong)contents.Length;
-
-
-                ulong tile_extent = 1024;
-                if (nbytes > ((ulong)1024 * (ulong)1024 * (ulong)1024 * (ulong)10))
-                {
-                    tile_extent = (ulong)1024 * (ulong)1024 * (ulong)100;
-                }
-                else if (nbytes > ((ulong)1024 * 1024 * 100))
-                {
-                    tile_extent = (ulong)1024 * (ulong)1024;
-                }
-                else if (nbytes > ((ulong)1024 * (ulong)1024))
-                {
-                    tile_extent = (ulong)1024 * (ulong)256;
-                }
-                var array_schema = new ArraySchema(ctx, ArrayType.TILEDB_DENSE);
-
-                ulong[] dim_bound = new ulong[] { 0, ulong.MaxValue - tile_extent - 2 };
-                var dim = Dimension.Create<ulong>(ctx, Constants.FILE_DIMENSION_NAME, dim_bound, tile_extent);
-                var domain = new Domain(ctx);
-                domain.AddDimension(dim);
-                array_schema.SetDomain(domain);
-
-                var attr = new Attribute(ctx, "contents", DataType.TILEDB_UINT8);
-                attr.SetCellValNum(1);
-                array_schema.AddAttribute(attr);
-
-                // create the array
-                Array.Create(ctx, array_uri, array_schema);
-
-                using (var array_write = new Array(ctx, array_uri))
-                {
-                    array_write.Open(QueryType.TILEDB_WRITE);
-
-                    var query_write = new Query(ctx, array_write);
-                    query_write.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
-
-                    var subarray = new ulong[2] { 0, nbytes - 1 };
-                    query_write.SetSubarray<ulong>(subarray);
-
-                    query_write.SetDataBuffer<byte>(Constants.FILE_ATTRIBUTE_NAME, contents);
-
-                    query_write.Submit();
-                    query_write.FinalizeQuery();
-
-                    //save metadata
-                    array_write.PutMetadata<ulong>(Constants.METADATA_SIZE_KEY, nbytes);
-                    array_write.PutMetadata(Constants.METADATA_ORIGINAL_FILE_NAME, file);
-                    string mimetype = string.IsNullOrEmpty(mime_type) ? "None" : mime_type;
-                    array_write.PutMetadata(Constants.FILE_METADATA_MIME_TYPE_KEY, mimetype);
-                    string mimeencoding = string.IsNullOrEmpty(mime_coding) ? "None" : mime_coding;
-                    array_write.PutMetadata(Constants.FILE_METADATA_MIME_ENCODING_KEY, mimeencoding);
-
-                    array_write.Close();
-                }
+                throw new ErrorException("Array.schema, schema pointer is null");
             }
-            catch (System.Exception e)
-            {
-                System.Console.WriteLine("CoreUtil.SaveFileToArray, caught exception:");
-                System.Console.WriteLine(e.Message);
-            }
-
-
+            return new ArraySchema(_ctx,array_schema_p);
+        }
+        
+        public void URIImport(string arrayURI, string fileURI, MIMEType mimeType)
+        {
+            var ms_arrayURI = new MarshaledString(arrayURI);
+            var ms_fileURI = new MarshaledString(fileURI);
+            var tiledb_mime_type = (tiledb_mime_type_t)mimeType;
+            _ctx.handle_error(Methods.tiledb_filestore_uri_import(_ctx.Handle, ms_arrayURI, ms_fileURI, tiledb_mime_type));
+        }
+        
+        public void URIExport(string fileURI, string arrayURI)
+        {
+            var ms_fileURI = new MarshaledString(fileURI);
+            var ms_arrayURI = new MarshaledString(arrayURI);
+            _ctx.handle_error(Methods.tiledb_filestore_uri_export(_ctx.Handle, ms_fileURI, ms_arrayURI));
         }
 
-        /// <summary>
-        /// Export a file array to a local file.
-        /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="array_uri"></param>
-        /// <param name="file"></param>
-        public static void ExportArrayToFile(Context ctx, string array_uri, string file)
+        public void BufferImport<T>(string arrayURI, T value, ulong size, MIMEType mimeType) where T: struct
         {
-            try
-            {
-                if (ctx == null)
-                {
-                    ctx = Context.GetDefault();
-                }
-                using (var array_read = new Array(ctx, array_uri))
-                {
-                    array_read.Open(QueryType.TILEDB_READ);
-                    var query_read = new Query(ctx, array_read);
-                    query_read.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
-
-                    var file_size_metadata = array_read.GetMetadata<ulong>(Constants.METADATA_SIZE_KEY);
-                    ulong file_size = (ulong)file_size_metadata.Length;
-
-                    var orig_file_name = array_read.GetMetadata(Constants.METADATA_ORIGINAL_FILE_NAME);
-
-                    ulong[] subarray = new ulong[2] { 0, file_size - 1 };
-                    query_read.SetSubarray<ulong>(subarray);
-
-                    byte[] data_buffer = new byte[file_size];
-                    query_read.SetDataBuffer<byte>(Constants.FILE_ATTRIBUTE_NAME, data_buffer);
-
-                    System.IO.BinaryWriter bw = new System.IO.BinaryWriter(System.IO.File.Open(file, System.IO.FileMode.OpenOrCreate));
-
-                    int loop_zero_sum = 0;
-                    while (query_read.Status() != QueryStatus.TILEDB_COMPLETED)
-                    {
-                        query_read.Submit();
-
-                        var result_buffer_elements = query_read.EstResultSize(Constants.FILE_ATTRIBUTE_NAME);
-                        ulong read_size = result_buffer_elements.DataBytesSize;
-
-                        if (read_size > 0)
-                        {
-                            bw.Write(data_buffer, 0, (int)read_size);
-                        }
-
-                        ++loop_zero_sum;
-                        if (read_size == 0 && loop_zero_sum > 10)
-                        {
-
-                            break;
-                        }
-                        else
-                        {
-                            loop_zero_sum = 0;
-                        }
-
-                    }
-
-                    array_read.Close();
-                }
-
-            }
-            catch (System.Exception e)
-            {
-                System.Console.WriteLine("CoreUtil.ExportArrayToFile, caught exception:");
-                System.Console.WriteLine(e.Message);
-            }
+            var ms_arrayURI = new MarshaledString(arrayURI);
+            var data = new[] { value };
+            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
+            var tiledb_mime_type = (tiledb_mime_type_t)mimeType;
+            _ctx.handle_error(Methods.tiledb_filestore_buffer_import(
+                _ctx.Handle, 
+                ms_arrayURI, 
+                (void*)dataGcHandle.AddrOfPinnedObject(),
+                size,
+                tiledb_mime_type));
         }
-        #endregion File Helper Functions
+        
+        public T BufferExport<T>(string arrayURI, ulong offset, ulong size) where T: struct
+        {
+            var ms_arrayURI = new MarshaledString(arrayURI);
+            var data = new T[1];
+            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
+            _ctx.handle_error(Methods.tiledb_filestore_buffer_export(
+                _ctx.Handle, 
+                ms_arrayURI, 
+                offset,
+                (void*)dataGcHandle.AddrOfPinnedObject(),
+                size));
+            
+            var result = data[0];
+            dataGcHandle.Free();
 
+            return result;
+        }
+        
+        public ulong Size(string arrayURI)
+        {
+            var ms_arrayURI = new MarshaledString(arrayURI);
+            ulong size;
+            _ctx.handle_error(Methods.tiledb_filestore_size(
+                _ctx.Handle, 
+                ms_arrayURI,
+                &size));
+
+            return size;
+        }
+        
+        public string MIMETypeToStr(MIMEType mimeType)
+        {
+            var tiledb_mime_type = (tiledb_mime_type_t)mimeType;
+            var ms_result = new MarshaledStringOut();
+            fixed (sbyte** p_result = &ms_result.Value)
+            {
+                Methods.tiledb_mime_type_to_str(tiledb_mime_type, p_result);
+            }
+            
+            return ms_result;
+        }
+        
+        public MIMEType MIMETypeFromStr(string str)
+        {
+            tiledb_mime_type_t mimeType;
+            var ms_str = new MarshaledString(str);
+            
+            unsafe
+            {
+                int status = TileDB.Interop.Methods.tiledb_mime_type_from_str(ms_str, &mimeType); 
+                if (status != (int)Status.TILEDB_OK)
+                {
+                    throw new System.ArgumentException("MIMETypeFromStr, Invalid string:" + str);
+                }
+            }
+            return (MIMEType)mimeType;
+        }
     }
 }
