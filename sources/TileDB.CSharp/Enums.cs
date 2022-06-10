@@ -162,6 +162,13 @@ namespace TileDB.CSharp
         TILEDB_VFS_WRITE = tiledb_vfs_mode_t.TILEDB_VFS_WRITE,
         TILEDB_VFS_APPEND = tiledb_vfs_mode_t.TILEDB_VFS_APPEND,
     }
+    
+    public enum MIMEType : uint
+    {
+        TILEDB_MIME_PDF = tiledb_mime_type_t.TILEDB_MIME_PDF,
+        TILEDB_MIME_TIFF = tiledb_mime_type_t.TILEDB_MIME_TIFF,
+        TILEDB_MIME_AUTODETECT = tiledb_mime_type_t.TILEDB_MIME_AUTODETECT,
+    }
 
    public class Constants {
         public const uint TILEDB_VAR_NUM = uint.MaxValue;
