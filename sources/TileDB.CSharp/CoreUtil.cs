@@ -318,8 +318,6 @@ namespace TileDB.CSharp {
 
         #endregion Buffer
 
-
-
     }//class 
 
 }//namespace

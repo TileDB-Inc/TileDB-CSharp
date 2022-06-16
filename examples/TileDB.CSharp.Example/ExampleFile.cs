@@ -40,8 +40,8 @@ namespace TileDB.CSharp.Examples
         {
             var config = new Config();
             config.Set("rest.server_address", host);
-            config.Set("rest.token", username);
-            config.Set("rest.token", password);
+            config.Set("rest.username", username);
+            config.Set("rest.password", password);
             _ctx = new Context(config);
             _nameSpace = nameSpace;
         }
