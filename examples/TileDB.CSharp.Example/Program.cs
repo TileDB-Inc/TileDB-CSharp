@@ -8,10 +8,14 @@ namespace TileDB.CSharp.Examples
         static void Main(string[] args)
         {
             Console.WriteLine("TileDB Core Version: {0}", CoreUtil.GetCoreLibVersion());
-            
+
             ExampleQuery.Run();
-            // ExampleFile.RunLocal();
-            // ExampleFile.RunCloud();
+
+            //ExampleFile.RunLocal();
+            //ExampleFile.RunCloud();
+
+            //ExampleGroup.RunLocal();
+            //ExampleGroup.RunCloud();
         }
     }
 }

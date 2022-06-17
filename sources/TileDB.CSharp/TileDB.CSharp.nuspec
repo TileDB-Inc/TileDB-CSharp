@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>TileDB.CSharp</id>
-    <version>5.0.2</version>
+    <version>5.0.3</version>
     <title>$title$</title>
     <authors>TileDB Inc</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -13,8 +13,7 @@
     <copyright>$copyright$</copyright>
     <tags>tiledb</tags>
     <dependencies>
-      <group targetFramework="net5.0">]
-       </group>
+      <group targetFramework="net5.0"></group>
     </dependencies>
   </metadata>
   <files>

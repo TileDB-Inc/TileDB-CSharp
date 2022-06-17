@@ -40,37 +40,22 @@ namespace TileDB.CSharp.Examples
         {
             var config = new Config();
             config.Set("rest.server_address", host);
-            config.Set("rest.token", username);
-            config.Set("rest.token", password);
+            config.Set("rest.username", username);
+            config.Set("rest.password", password);
             _ctx = new Context(config);
             _nameSpace = nameSpace;
         }
 
         public void SaveFileToArray(string pathOrBucket, string arrayName, string fileToSave)
         {
-            string uriToCreate;
-            string uriToAccess;
-
             var arrayURI = string.Join("/", new List<string>(new string[] {pathOrBucket, arrayName}));
             if (_nameSpace == String.Empty)
             {
-                uriToCreate = arrayURI;
-                uriToAccess = arrayURI;
+                FileStoreUtil.SaveFileToArray(_ctx, arrayURI, fileToSave);
+                return;
             }
-            else
-            {
-                uriToCreate = string.Format("tiledb://{0}/{1}", _nameSpace, arrayURI);
-                uriToAccess = string.Format("tiledb://{0}/{1}", _nameSpace, arrayName);
-            }
-            
-            File f = new File(_ctx);
-            var arraySchema = f.SchemaCreate(fileToSave);
-            Array.Create(_ctx, uriToCreate, arraySchema);
-            f.URIImport(
-                uriToAccess,
-                fileToSave,
-                MIMEType.TILEDB_MIME_AUTODETECT
-            );
+
+            FileStoreUtil.SaveFileToCloudArray(_ctx, _nameSpace, arrayURI, fileToSave);
         }
 
         public void ExportArrayToFile(string fileToExport, string arrayName, string pathOrBucket="")
@@ -85,13 +70,9 @@ namespace TileDB.CSharp.Examples
                 uriToAccess = string.Format("tiledb://{0}/{1}", _nameSpace, arrayName);
             }
 
-            File f = new File(_ctx);
-            f.URIExport(
-                fileToExport,
-                uriToAccess
-            );
+            FileStoreUtil.ExportArrayToFile(_ctx, fileToExport, uriToAccess);
         }
-        
+
         public static void RunLocal()
         {
             var localFile = "local_file";
@@ -109,13 +90,12 @@ namespace TileDB.CSharp.Examples
             var localFile = "local_file";
             var bucket = "bucket";
             var cloudArrayName = "cloud_array_name";
-            var nameSpace = "userNameOrOrgName";
             var localOutputFileFromCloud = "local_out";
-            
+
             var exampleFile = new ExampleFile(
-                "https://api.tiledb.com",
+                "http://localhost:8181",
                 "token",
-                nameSpace
+                "userNameOrOrganization"
             );
             exampleFile.SaveFileToArray(bucket, cloudArrayName, localFile);
             exampleFile.ExportArrayToFile(localOutputFileFromCloud, cloudArrayName);
