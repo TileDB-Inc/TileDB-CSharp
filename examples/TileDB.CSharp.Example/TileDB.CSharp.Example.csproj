@@ -2,7 +2,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <RootNamespace>TileDB.CSharp.Examples</RootNamespace>
-    <Version>5.0.2</Version>
+    <Version>5.0.3</Version>
     <TargetFrameworks>net5.0</TargetFrameworks>
     <Nullable>enable</Nullable>
   </PropertyGroup>

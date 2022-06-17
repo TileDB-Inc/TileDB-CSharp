@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace TileDB.CSharp
 {
-    internal class FileStoreUtil
+    public class FileStoreUtil
     {
         public static void SaveFileToArray(Context ctx, string array_uri, string file)
         {
+            if (string.IsNullOrEmpty(array_uri) || string.IsNullOrEmpty(file))
+            {
+                return;
+            }
+
             if (ctx == null)
             {
                 Config cfg = new Config();
                 ctx = new Context(cfg);
-            }
-            VFS vfs = new VFS(ctx);
-            if (vfs.IsDir(array_uri))
-            {
-                vfs.RemoveDir(array_uri);
             }
 
             File f = new File(ctx);
@@ -31,8 +31,39 @@ namespace TileDB.CSharp
             );
         }
 
+        public static void SaveFileToCloudArray(Context ctx, string name_space, string array_uri, string file)
+        {
+            if (string.IsNullOrEmpty(name_space) || string.IsNullOrEmpty(array_uri) || string.IsNullOrEmpty(file))
+            {
+                return;
+            }
+
+            if (ctx == null)
+            {
+                Config cfg = new Config();
+                ctx = new Context(cfg);
+            }
+
+            var array_name = array_uri.Split('/').Last();
+            var uri_create = string.Format("tiledb://{0}/{1}", name_space, array_uri);
+            var uri_write = string.Format("tiledb://{0}/{1}", name_space, array_name);
+
+            File f = new File(ctx);
+            var arraySchema = f.SchemaCreate(file);
+            Array.Create(ctx, uri_create, arraySchema);
+            f.URIImport(
+                uri_write,
+                file,
+                MIMEType.TILEDB_MIME_AUTODETECT
+            );
+        }
+
         public static void ExportArrayToFile(Context ctx, string file, string array_uri)
         {
+            if (string.IsNullOrEmpty(array_uri) || string.IsNullOrEmpty(file))
+            {
+                return;
+            }
             if (ctx == null)
             {
                 Config cfg = new Config();
