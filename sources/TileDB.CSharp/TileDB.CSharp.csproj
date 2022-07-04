@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>TileDB.CSharp</RootNamespace>
-    <Version>5.0.4</Version>
+    <Version>5.1.0</Version>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <TargetFrameworks>net5.0</TargetFrameworks>
