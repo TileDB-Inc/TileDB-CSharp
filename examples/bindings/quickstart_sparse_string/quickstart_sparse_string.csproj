@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <Version>5.1.0</Version>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(OS)' == 'Windows_NT'">
+    <Content Include="..\..\..\sources\TileDB.CSharp\runtimes\win-x64\native\tiledb.dll" Link="tiledb.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(OS)' == 'Unix' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
+    <Content Include="..\..\..\sources\TileDB.CSharp\runtimes\linux-x64\native\libtiledb.so.2.10" Link="libtiledb.so.2.10">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(OS)' == 'Unix' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
+    <Content Include="..\..\..\sources\TileDB.CSharp\runtimes\osx-x64\native\libtiledb.dylib" Link="libtiledb.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\sources\TileDB.CSharp\TileDB.CSharp.csproj" />
+  </ItemGroup>
+
+</Project>
