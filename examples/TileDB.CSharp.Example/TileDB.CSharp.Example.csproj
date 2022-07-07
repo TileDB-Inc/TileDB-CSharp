@@ -2,7 +2,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <RootNamespace>TileDB.CSharp.Examples</RootNamespace>
-    <Version>5.0.3</Version>
+    <Version>5.1.0</Version>
     <TargetFrameworks>net5.0</TargetFrameworks>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -12,15 +12,15 @@
     </Content>
   </ItemGroup>
   <ItemGroup Condition=" '$(OS)' == 'Unix' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
-    <Content Include="..\..\sources\TileDB.CSharp\runtimes\linux-x64\native\libtiledb.so.2.9" Link="libtiledb.so.2.9">
+    <Content Include="..\..\sources\TileDB.CSharp\runtimes\linux-x64\native\libtiledb.so.2.10" Link="libtiledb.so.2.10">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>  
+    </Content>
   </ItemGroup>
   <ItemGroup Condition=" '$(OS)' == 'Unix' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
     <Content Include="..\..\sources\TileDB.CSharp\runtimes\osx-x64\native\libtiledb.dylib" Link="libtiledb.dylib">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>    
-  </ItemGroup>	  
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\sources\TileDB.CSharp\TileDB.CSharp.csproj" />
   </ItemGroup>

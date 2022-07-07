@@ -41,7 +41,7 @@ jobs:
         dotnet build /p:Platform=x64 -c Release sources/TileDB.CSharp
 
     # DotNet test
-    - name: Test TileDB.CSharp 
+    - name: Test TileDB.CSharp
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
@@ -111,7 +111,7 @@ jobs:
         $ErrorView = "NormalView"
         cd cpp
         cmake .
-        cmake --build . --target install 
+        cmake --build . --target install
 
     # DotNet build
     - name: Dotnet build for TileDB.CSharp
@@ -156,18 +156,18 @@ jobs:
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
-        cp sources/TileDB.CSharp/runtimes/linux-x64/native/libtiledb.so.2.9 sources/TileDB.CSharp/runtimes/linux-x64/native/libtiledb.so
+        cp sources/TileDB.CSharp/runtimes/linux-x64/native/libtiledb.so.2.10 sources/TileDB.CSharp/runtimes/linux-x64/native/libtiledb.so
 
     # DotNet build
     - name: Dotnet build for TileDB.CSharp
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
-        dotnet build /p:Platform=x64 -c Release sources/TileDB.CSharp  
+        dotnet build /p:Platform=x64 -c Release sources/TileDB.CSharp
 
     # DotNet pack
     - name: Dotnet pack for TileDB.CSharp
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
-        dotnet pack ./sources/TileDB.CSharp/TileDB.CSharp.csproj /p:NuspecFile=TileDB.CSharp.nuspec -c Release         
+        dotnet pack ./sources/TileDB.CSharp/TileDB.CSharp.csproj /p:NuspecFile=TileDB.CSharp.nuspec -c Release
