@@ -35,7 +35,6 @@ namespace quickstart_sparse_string
             var rows_name = (sbyte*)Marshal.StringToHGlobalAnsi("rows");
             var cols_name = (sbyte*)Marshal.StringToHGlobalAnsi("cols");
 
-            IntPtr r = Marshal.StringToHGlobalAnsi("rows");
             Methods.tiledb_dimension_alloc(ctx, rows_name, tiledb_datatype_t.TILEDB_STRING_ASCII,
                 null, null, d1
             );
