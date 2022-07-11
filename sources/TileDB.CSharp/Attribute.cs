@@ -169,11 +169,13 @@ namespace TileDB.CSharp
             }
 
             ulong size;
-            if (cell_val_num == (uint)Constants.TILEDB_VAR_NUM) {
-                size = (ulong)(data.Length* Marshal.SizeOf(data[0]));          
+            ulong scale = data[0] is bool ? sizeof(bool) : (ulong)Marshal.SizeOf(data[0]);
+            if (cell_val_num == (uint)Constants.TILEDB_VAR_NUM)
+            {
+                size = (ulong)data.Length * scale;
             } else
             {
-                size = cell_val_num * (ulong)(Marshal.SizeOf(data[0]));
+                size = cell_val_num * scale;
             }
 
             var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);

@@ -115,6 +115,22 @@ namespace TileDB.CSharp.Test
         }//TestStringAttribute
 
         [TestMethod]
+        public void TestBoolAttribute()
+        {
+            var context = Context.GetDefault();
+
+            const string attrName = "a";
+            using var attribute = new Attribute(context, attrName, DataType.TILEDB_BOOL);
+            Assert.AreEqual<string>(attrName, attribute.Name());
+            Assert.AreEqual(DataType.TILEDB_BOOL, attribute.Type());
+
+            bool fill_value = true;
+            attribute.SetFillValue(fill_value);
+            var value_size = attribute.FillValue<bool>();
+            Assert.AreEqual(true, value_size[0]);
+        }
+
+        [TestMethod]
         public void TestVarLengthAttribute() 
         {
             createVarLengthAttributeArray();
