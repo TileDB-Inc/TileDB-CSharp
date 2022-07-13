@@ -169,13 +169,11 @@ namespace TileDB.CSharp
             }
 
             ulong size;
-            ulong scale = data[0] is bool ? sizeof(bool) : (ulong)Marshal.SizeOf(data[0]);
-            if (cell_val_num == (uint)Constants.TILEDB_VAR_NUM)
-            {
-                size = (ulong)data.Length * scale;
+            if (cell_val_num == (uint)Constants.TILEDB_VAR_NUM) {
+                size = (ulong)(data.Length* Marshal.SizeOf(data[0]));
             } else
             {
-                size = cell_val_num * scale;
+                size = cell_val_num * (ulong)(Marshal.SizeOf(data[0]));
             }
 
             var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
@@ -200,10 +198,29 @@ namespace TileDB.CSharp
         public void SetFillValue<T>(T value) where T: struct
         {
             var cell_val_num = this.CellValNum();
-            var data = cell_val_num == (uint)Constants.TILEDB_VAR_NUM
-                ? new[] { value }
-                : Enumerable.Repeat(value, (int)cell_val_num).ToArray();
-            SetFillValue(data);
+            switch (value)
+            {
+                case bool v: SetFillValue(v);
+                    break;
+                default:
+                {
+                    var data = cell_val_num == (uint)Constants.TILEDB_VAR_NUM
+                        ? new[] { value }
+                        : Enumerable.Repeat(value, (int)cell_val_num).ToArray();
+                    SetFillValue(data);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Set boolean fill value.
+        /// </summary>
+        /// <param name="value"></param>
+        private void SetFillValue(bool value)
+        {
+            var bool_byte = Convert.ToByte(value);
+            SetFillValue<byte>(bool_byte);
         }
 
         /// <summary>
@@ -238,6 +255,10 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public T[] FillValue<T>() where T: struct
         {
+            if (typeof(T) == typeof(char))
+            {
+                throw new NotSupportedException("Attribute.FillValue, please use FillValue<byte> for TILEDB_CHAR attributes!");
+            }
             var fill_bytes = get_fill_value();
             var span = MemoryMarshal.Cast<byte, T>(fill_bytes);
             return span.ToArray();

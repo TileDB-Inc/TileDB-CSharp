@@ -644,7 +644,7 @@ namespace TileDB.CSharp
                 case tiledb_datatype_t.TILEDB_BLOB:
                     return typeof(byte);
                 case tiledb_datatype_t.TILEDB_BOOL:
-                    return typeof(bool);
+                    return typeof(byte);
                 default:
                     return typeof(byte);
             }
