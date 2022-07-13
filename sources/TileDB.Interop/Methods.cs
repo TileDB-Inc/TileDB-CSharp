@@ -1460,6 +1460,14 @@ namespace TileDB.Interop
 
         [DllImport(LibDllImport.Path, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        public static extern int tiledb_group_consolidate_metadata(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* group_uri, tiledb_config_t* config);
+
+        [DllImport(LibDllImport.Path, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("int32_t")]
+        public static extern int tiledb_group_vacuum_metadata(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* group_uri, tiledb_config_t* config);
+
+        [DllImport(LibDllImport.Path, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("int32_t")]
         public static extern int tiledb_filestore_schema_create(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* uri, tiledb_array_schema_t** array_schema);
 
         [DllImport(LibDllImport.Path, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
