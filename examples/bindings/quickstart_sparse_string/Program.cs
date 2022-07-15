@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using TileDB.Interop;
 
-namespace quickstart_sparse_string
+namespace QuickstartSparseString
 {
     class Program
     {
@@ -46,8 +46,6 @@ namespace quickstart_sparse_string
             Methods.tiledb_dimension_alloc(ctx, cols_name, tiledb_datatype_t.TILEDB_INT32,
                 domain_handle.AddrOfPinnedObject().ToPointer(), extent_handle.AddrOfPinnedObject().ToPointer(), d2
             );
-            domain_handle.Free();
-            extent_handle.Free();
             CheckError(ctx);
 
             // Creating domain
@@ -85,17 +83,19 @@ namespace quickstart_sparse_string
 
             var arr_name = Marshal.StringToHGlobalAnsi("quickstart-sparse-string");
             Methods.tiledb_array_create(ctx, (sbyte*)arr_name, array_schema);
-            Marshal.FreeHGlobal(arr_name);
             CheckError(ctx);
 
-            Marshal.FreeHGlobal((IntPtr)attr_name);
-            Marshal.FreeHGlobal((IntPtr)rows_name);
-            Marshal.FreeHGlobal((IntPtr)cols_name);
             Methods.tiledb_dimension_free(d1);
             Methods.tiledb_dimension_free(d2);
             Methods.tiledb_attribute_free(&a1);
             Methods.tiledb_domain_free(&domain);
             Methods.tiledb_array_schema_free(&array_schema);
+            Marshal.FreeHGlobal(arr_name);
+            Marshal.FreeHGlobal((IntPtr)attr_name);
+            Marshal.FreeHGlobal((IntPtr)rows_name);
+            Marshal.FreeHGlobal((IntPtr)cols_name);
+            domain_handle.Free();
+            extent_handle.Free();
         }
 
         static unsafe void WriteArray(tiledb_ctx_t* ctx, tiledb_array_t* array)
@@ -134,46 +134,46 @@ namespace quickstart_sparse_string
             Methods.tiledb_query_set_data_buffer(ctx, query, attr_name, 
                 data_handle.AddrOfPinnedObject().ToPointer(), (ulong*)data_size_handle.AddrOfPinnedObject()
             );
-            data_handle.Free();
-            data_size_handle.Free();
             CheckError(ctx);
 
-            data_handle = GCHandle.Alloc(data_rows, GCHandleType.Pinned);
-            data_size_handle = GCHandle.Alloc(data_rows_size, GCHandleType.Pinned);
+            var data_rows_handle = GCHandle.Alloc(data_rows, GCHandleType.Pinned);
+            var data_rows_size_handle = GCHandle.Alloc(data_rows_size, GCHandleType.Pinned);
             Methods.tiledb_query_set_data_buffer(ctx, query, rows_name,
-                data_handle.AddrOfPinnedObject().ToPointer(), (ulong*)data_size_handle.AddrOfPinnedObject()
+                data_rows_handle.AddrOfPinnedObject().ToPointer(), (ulong*)data_rows_size_handle.AddrOfPinnedObject()
             );
-            data_handle.Free();
-            data_size_handle.Free();
             CheckError(ctx);
 
-            data_handle = GCHandle.Alloc(data_rows_offsets, GCHandleType.Pinned);
-            data_size_handle = GCHandle.Alloc(data_rows_offsets_size, GCHandleType.Pinned);
+            var data_rows_offsets_handle = GCHandle.Alloc(data_rows_offsets, GCHandleType.Pinned);
+            var data_rows_offsets_size_handle = GCHandle.Alloc(data_rows_offsets_size, GCHandleType.Pinned);
             Methods.tiledb_query_set_offsets_buffer(ctx, query, rows_name,
-                (ulong*)data_handle.AddrOfPinnedObject(), (ulong*)data_size_handle.AddrOfPinnedObject()
+                (ulong*)data_rows_offsets_handle.AddrOfPinnedObject(), (ulong*)data_rows_offsets_size_handle.AddrOfPinnedObject()
             );
-            data_handle.Free();
-            data_size_handle.Free();
             CheckError(ctx);
 
-            data_handle = GCHandle.Alloc(data_cols_coords, GCHandleType.Pinned);
-            data_size_handle = GCHandle.Alloc(data_cols_coords_size, GCHandleType.Pinned);
+            var data_cols_handle = GCHandle.Alloc(data_cols_coords, GCHandleType.Pinned);
+            var data_cols_size_handle = GCHandle.Alloc(data_cols_coords_size, GCHandleType.Pinned);
             Methods.tiledb_query_set_data_buffer(ctx, query, cols_name,
-                data_handle.AddrOfPinnedObject().ToPointer(), (ulong*)data_size_handle.AddrOfPinnedObject()
+                data_cols_handle.AddrOfPinnedObject().ToPointer(), (ulong*)data_cols_size_handle.AddrOfPinnedObject()
             );
-            data_handle.Free();
-            data_size_handle.Free();
             CheckError(ctx);
 
             Methods.tiledb_query_submit(ctx, query);
             CheckError(ctx);
 
-            Marshal.FreeHGlobal((IntPtr)attr_name);
-            Marshal.FreeHGlobal((IntPtr)rows_name);
-            Marshal.FreeHGlobal((IntPtr)cols_name);
             Methods.tiledb_array_close(ctx, array);
             CheckError(ctx);
             Methods.tiledb_query_free(&query);
+            Marshal.FreeHGlobal((IntPtr)attr_name);
+            Marshal.FreeHGlobal((IntPtr)rows_name);
+            Marshal.FreeHGlobal((IntPtr)cols_name);
+            data_handle.Free();
+            data_size_handle.Free();
+            data_rows_handle.Free();
+            data_rows_size_handle.Free();
+            data_rows_offsets_handle.Free();
+            data_rows_offsets_size_handle.Free();
+            data_cols_handle.Free();
+            data_cols_size_handle.Free();
         }
 
         static unsafe void ReadArray(tiledb_ctx_t* ctx, tiledb_array_t* array)
