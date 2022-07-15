@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>TileDB.CSharp</id>
-    <version>5.1.0</version>
+    <version>5.1.1</version>
     <title>$title$</title>
     <authors>TileDB Inc</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/TileDB-Inc/TileDB-CSharp</projectUrl>
     <description>CSharp wrapper of TileDB universal data engine</description>
-    <releaseNotes>This package is the csharp wrapper of TileDB 2.10.1.</releaseNotes>
+    <releaseNotes>This package is the csharp wrapper of TileDB 2.10.2.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>tiledb</tags>
     <dependencies>
