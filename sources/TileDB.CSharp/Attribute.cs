@@ -186,9 +186,8 @@ namespace TileDB.CSharp
             {
                 dataGcHandle.Free();
             }
-            
-        }
 
+        }
 
         /// <summary>
         /// Set fill value by a scalar value.
@@ -197,33 +196,19 @@ namespace TileDB.CSharp
         /// <param name="value"></param>
         public void SetFillValue<T>(T value) where T: struct
         {
-            var cell_val_num = this.CellValNum();
-            switch (value)
+            if (typeof(T) == typeof(bool))
             {
-                case bool v: SetFillValue(v);
-                    break;
-                default:
-                {
-                    var data = cell_val_num == (uint)Constants.TILEDB_VAR_NUM
-                        ? new[] { value }
-                        : Enumerable.Repeat(value, (int)cell_val_num).ToArray();
-                    SetFillValue(data);
-                    break;
-                }
+                SetFillValue<byte>(Convert.ToByte(value));
+                return;
             }
+
+            var cell_val_num = this.CellValNum();
+            var data = cell_val_num == (uint)Constants.TILEDB_VAR_NUM
+                ? new[] { value }
+                : Enumerable.Repeat(value, (int)cell_val_num).ToArray();
+            SetFillValue(data);
         }
 
-        /// <summary>
-        /// Set boolean fill value.
-        /// </summary>
-        /// <param name="value"></param>
-        private void SetFillValue(bool value)
-        {
-            var bool_byte = Convert.ToByte(value);
-            SetFillValue<byte>(bool_byte);
-        }
-
-        /// <summary>
         /// Set string fill value.
         /// </summary>
         /// <param name="value"></param>
