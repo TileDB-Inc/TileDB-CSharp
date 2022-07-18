@@ -2,7 +2,7 @@ name: TileDB-CSharp
 
 on:
   push:
-    tags: [ v* ]
+    tags: [ '*' ]
     branches: [ main ]
   pull_request:
     branches: [ main ]
@@ -39,52 +39,48 @@ jobs:
       run: |
         $ErrorView = "NormalView"
         dotnet build /p:Platform=x64 -c Release sources/TileDB.CSharp
-
     # DotNet test
     - name: Test TileDB.CSharp
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
-        dotnet test -c Release tests/TileDB.CSharp.Test --framework net5.0
+        dotnet test -c Release tests/TileDB.CSharp.Test
+  MacOS_Test:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        # Will be checking following versions
+        dotnet: ['5.0']
+    steps:
+    # Checks out repository
+    - uses: actions/checkout@v2
 
-  #MacOS_Test:
-  #  runs-on: macos-latest
-  #  strategy:
-  #    matrix:
-  #      # Will be checking following versions
-  #      dotnet: ['5.0']
-  #  steps:
-  #  # Checks out repository
-  #  - uses: actions/checkout@v2
+    # Following action sets up dotnet and uses the strategy matrix to test on
+    # specific versions
+    - name: Set up dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.dotnet }}
 
-  #  # Following action sets up dotnet and uses the strategy matrix to test on
-  #  # specific versions
-  #  - name: Set up dotnet
-  #    uses: actions/setup-dotnet@v1
-  #    with:
-  #      dotnet-version: ${{ matrix.dotnet }}
+    - name: Display dotnet version
+      run: |
+        dotnet --version
+    # Download tiledb
+    - name: Download tiledb
+      run: ./.github/scripts/install_tiledb.sh
 
-  #  - name: Display dotnet version
-  #    run: dotnet --version
-
-  #  # Download tiledb
-  #  - name: Download tiledb
-  #    run: ./.github/scripts/install_tiledb.sh
-
-  #  # DotNet build
-  #  - name: Dotnet build for TileDB.CSharp
-  #    shell: pwsh
-  #    run: |
-  #      $ErrorView = "NormalView"
-  #      dotnet build /p:Platform=x64 -c Release sources/TileDB.CSharp
-
-  #  # DotNet test
-  #  - name: Test TileDB.CSharp
-  #    shell: pwsh
-  #    run: |
-  #      $ErrorView = "NormalView"
-  #      dotnet test -c Release tests/TileDB.CSharp.Test --framework net"${{ matrix.dotnet-version }}"
-
+    # DotNet build
+    - name: Dotnet build for TileDB.CSharp
+      shell: pwsh
+      run: |
+        $ErrorView = "NormalView"
+        dotnet build /p:Platform=x64 -c Release sources/TileDB.CSharp
+    # DotNet test
+    - name: Test TileDB.CSharp
+      shell: pwsh
+      run: |
+        $ErrorView = "NormalView"
+        dotnet test -c Release tests/TileDB.CSharp.Test
   Windows_Test:
     runs-on: windows-latest
     strategy:
@@ -112,22 +108,21 @@ jobs:
         cd cpp
         cmake .
         cmake --build . --target install
-
     # DotNet build
     - name: Dotnet build for TileDB.CSharp
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
         dotnet build /p:Platform=x64 -c Release sources/TileDB.CSharp
-
     # DotNet test
     - name: Test TileDB.CSharp
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
-        dotnet test -c Release tests/TileDB.CSharp.Test --framework net5.0
-
+        dotnet test -c Release tests/TileDB.CSharp.Test
   Release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [Linux_Test, MacOS_Test, Windows_Test]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -157,17 +152,28 @@ jobs:
       run: |
         $ErrorView = "NormalView"
         cp sources/TileDB.CSharp/runtimes/linux-x64/native/libtiledb.so.2.10 sources/TileDB.CSharp/runtimes/linux-x64/native/libtiledb.so
-
     # DotNet build
     - name: Dotnet build for TileDB.CSharp
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
         dotnet build /p:Platform=x64 -c Release sources/TileDB.CSharp
-
     # DotNet pack
     - name: Dotnet pack for TileDB.CSharp
       shell: pwsh
       run: |
         $ErrorView = "NormalView"
         dotnet pack ./sources/TileDB.CSharp/TileDB.CSharp.csproj /p:NuspecFile=TileDB.CSharp.nuspec -c Release
+
+    - name: Create Release
+      id: create_release
+      uses: softprops/action-gh-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        files: sources/TileDB.CSharp/lib/*.nupkg
+        tag_name: ${{ github.ref_name }}
+        name: ${{ github.ref_name }}
+        body: ${{ steps.github_release.outputs.changelog }}
+        draft: false
+        prerelease: false
