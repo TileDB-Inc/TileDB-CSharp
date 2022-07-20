@@ -2,7 +2,7 @@ name: Nightly-Build
 
 on:
   schedule:
-    - cron: "0 5 * * *"
+    - cron: "15 2 * * *"
   workflow_dispatch:
 
 jobs:
@@ -10,17 +10,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-22.04, ubuntu-latest, macos-latest, windows-latest]
         include:
+          - os: ubuntu-22.04
+            HOST: linux
+            BOOTSTRAP: ../bootstrap --enable-s3 --enable-serialization
           - os: ubuntu-latest
             HOST: linux
-            BOOTSTRAP: ../bootstrap
+            BOOTSTRAP: ../bootstrap --enable-s3 --enable-serialization
           - os: macos-latest
             HOST: osx
-            BOOTSTRAP: ../bootstrap
+            BOOTSTRAP: ../bootstrap --enable-s3 --enable-serialization
           - os: windows-latest
             HOST: win
-            BOOTSTRAP: ../bootstrap.ps1
+            BOOTSTRAP: ../bootstrap.ps1 -EnableS3 -EnableSerialization
         tag: [release-2.10, release-2.11, dev]
         dotnet: ['5.0']
     runs-on: ${{ matrix.os }}
