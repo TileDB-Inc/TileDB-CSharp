@@ -1,26 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <Nullable>enable</Nullable>
     <OutputType>Exe</OutputType>
     <RootNamespace>TileDB.CSharp.Examples</RootNamespace>
-    <Version>5.1.1</Version>
     <TargetFrameworks>net5.0</TargetFrameworks>
-    <Nullable>enable</Nullable>
+    <Version>5.1.1</Version>
   </PropertyGroup>
-  <ItemGroup Condition="'$(OS)' == 'Windows_NT'">
-    <Content Include="..\..\sources\TileDB.CSharp\runtimes\win-x64\native\tiledb.dll" Link="tiledb.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup Condition=" '$(OS)' == 'Unix' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
-    <Content Include="..\..\sources\TileDB.CSharp\runtimes\linux-x64\native\libtiledb.so.2.10" Link="libtiledb.so.2.10">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup Condition=" '$(OS)' == 'Unix' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
-    <Content Include="..\..\sources\TileDB.CSharp\runtimes\osx-x64\native\libtiledb.dylib" Link="libtiledb.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\sources\TileDB.CSharp\TileDB.CSharp.csproj" />
   </ItemGroup>

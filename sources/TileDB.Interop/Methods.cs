@@ -4,6 +4,8 @@ namespace TileDB.Interop
 {
     public static unsafe partial class Methods
     {
+        static Methods() => LibDllImport.Initialize();
+
         [DllImport(LibDllImport.Path, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
         public static extern int tiledb_query_type_to_str(tiledb_query_type_t query_type, [NativeTypeName("const char **")] sbyte** str);

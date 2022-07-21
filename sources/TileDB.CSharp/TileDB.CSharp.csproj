@@ -1,12 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <RootNamespace>TileDB.CSharp</RootNamespace>
-    <Version>5.1.1</Version>
-    <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <Nullable>enable</Nullable>
+    <RootNamespace>TileDB.CSharp</RootNamespace>
     <TargetFrameworks>net5.0</TargetFrameworks>
-	  <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <Version>5.1.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,5 +22,4 @@
   </PropertyGroup>
 
   <Import Project="TileDB.CSharp.targets" />
-
 </Project>
