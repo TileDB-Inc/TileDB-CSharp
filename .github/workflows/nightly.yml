@@ -1,0 +1,85 @@
+name: Nightly-Build
+
+on:
+  schedule:
+    - cron: "15 2 * * *"
+  workflow_dispatch:
+
+jobs:
+  Build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - os: ubuntu-22.04
+            HOST: linux
+            BOOTSTRAP: ../bootstrap --enable-s3 --enable-serialization
+          - os: ubuntu-latest
+            HOST: linux
+            BOOTSTRAP: ../bootstrap --enable-s3 --enable-serialization
+          - os: macos-latest
+            HOST: osx
+            BOOTSTRAP: ../bootstrap --enable-s3 --enable-serialization
+          - os: windows-latest
+            HOST: win
+            BOOTSTRAP: ../bootstrap.ps1 -EnableS3 -EnableSerialization
+        tag: [release-2.10, release-2.11, dev]
+        dotnet: ['5.0']
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout TileDB-CSharp
+        uses: actions/checkout@v3
+        with:
+          path: tiledb-csharp
+
+      - name: Checkout TileDB
+        uses: actions/checkout@v3
+        with:
+          repository: TileDB-Inc/TileDB
+          ref: ${{ matrix.tag }}
+          path: tiledb
+
+      - name: Set up dotnet
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ matrix.dotnet }}
+
+      - name: Build TileDB
+        run: |
+          mkdir -p tiledb/build
+          cd tiledb/build
+          ${{ matrix.BOOTSTRAP }}
+          cmake --build . --config Release
+          cmake --build . --config Release --target install-tiledb
+          cd ../../
+          cp -r tiledb/dist/lib/* tiledb-csharp/sources/TileDB.CSharp/runtimes/${{ matrix.HOST }}-x64/native/
+
+      - name: Copy Windows tiledb.dll
+        if: matrix.HOST == 'win'
+        run: |
+          cp tiledb/dist/bin/tiledb.dll tiledb-csharp/sources/TileDB.CSharp/runtimes/${{ matrix.HOST }}-x64/native/
+
+      - name: Build TileDB-CSharp
+        run: |
+          dotnet build tiledb-csharp/sources/TileDB.CSharp/TileDB.CSharp.csproj /p:Platform=x64 -c Release
+
+      - name: Test TileDB-CSharp
+        run: |
+          dotnet test tiledb-csharp/tests/TileDB.CSharp.Test/TileDB.CSharp.Test.csproj -c Release
+
+  Create-Issue:
+    needs: Build
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout TileDB-CSharp
+        uses: actions/checkout@v3
+
+      - name: Create issue for failed build
+        uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          filename: .github/workflows/nightly-issue-template.md
