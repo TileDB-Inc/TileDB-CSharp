@@ -400,5 +400,85 @@ namespace TileDB.CSharp.Test
 
         }// public void TestNullableAttributeArrayQuery
 
+        [TestMethod]
+        public void TestBoolAttributeArrayQuery()
+        {
+            // Create array
+            var context = Context.GetDefault();
+            Assert.IsNotNull(context);
+
+            var dim1 = Dimension.Create<int>(context, "rows", new [] { 1, 2 }, 2);
+            var dim2 = Dimension.Create<int>(context, "cols", new [] { 1, 2 }, 2);
+            var domain = new Domain(context);
+            domain.AddDimensions(dim1, dim2);
+
+            var a1 = new Attribute(context, "a1", DataType.TILEDB_BOOL);
+
+            var array_schema = new ArraySchema(context, ArrayType.TILEDB_DENSE);
+            array_schema.AddAttribute(a1);
+            array_schema.SetDomain(domain);
+            array_schema.Check();
+
+            var tmpArrayPath = Path.Join( Path.GetTempPath(), "tiledb_test_bool_array");
+            if (Directory.Exists(tmpArrayPath))
+            {
+                Directory.Delete(tmpArrayPath, true);
+            }
+
+            // Write to array
+            var array_write = new Array(context, tmpArrayPath);
+            Assert.IsNotNull(array_write);
+            array_write.Create(array_schema);
+            array_write.Open(QueryType.TILEDB_WRITE);
+
+            var query_write = new Query(context, array_write);
+            query_write.SetSubarray(new [] {1, 2, 1, 2});
+            query_write.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
+
+            var a1_data = new bool[] { false, true, true, false };
+            query_write.SetDataBuffer<bool>("a1", a1_data);
+
+            query_write.Submit();
+            var status = query_write.Status();
+            Assert.AreEqual(status, QueryStatus.TILEDB_COMPLETED);
+            query_write.FinalizeQuery();
+            array_write.Close();
+
+            // Read from array into bool[]
+            var array_read = new Array(context, tmpArrayPath);
+            Assert.IsNotNull(array_read);
+            array_read.Open(QueryType.TILEDB_READ);
+
+            var query_read = new Query(context, array_read);
+            query_read.SetSubarray(new [] {1, 2, 1, 2});
+            query_read.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
+
+            var a1_data_read = new bool[4];
+            query_read.SetDataBuffer<bool>("a1", a1_data_read);
+
+            query_read.Submit();
+            status = query_read.Status();
+            Assert.AreEqual(status, QueryStatus.TILEDB_COMPLETED);
+            CollectionAssert.AreEqual(a1_data, a1_data_read);
+
+            query_read.FinalizeQuery();
+
+            // Read from array into byte[]
+            query_read = new Query(context, array_read);
+            query_read.SetSubarray(new [] {1, 2, 1, 2});
+            query_read.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
+
+            var a1_data_read_bytes = new byte[4];
+            query_read.SetDataBuffer<byte>("a1", a1_data_read_bytes);
+
+            query_read.Submit();
+            status = query_read.Status();
+            Assert.AreEqual(status, QueryStatus.TILEDB_COMPLETED);
+            CollectionAssert.AreEqual(a1_data, System.Array.ConvertAll(a1_data_read_bytes, b => b == 1 ? true : false));
+
+            query_read.FinalizeQuery();
+            array_read.Close();
+        }
+
     }//class
 }
