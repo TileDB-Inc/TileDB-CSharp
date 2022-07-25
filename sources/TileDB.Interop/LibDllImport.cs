@@ -6,8 +6,6 @@ namespace TileDB.Interop
 {
     internal class LibDllImport
     {
-        public const string Path = "tiledb";
-
         static LibDllImport()
         {
             NativeLibrary.SetDllImportResolver(Assembly.GetExecutingAssembly(), Resolver);
@@ -19,32 +17,53 @@ namespace TileDB.Interop
         {
             IntPtr libHandle = IntPtr.Zero;
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            if (!NativeLibrary.TryLoad(libName, assembly, searchPath, out libHandle))
             {
-                libName += ".dll";
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                libName += ".dylib";
-            }
-            else
-            {
-                libName += ".so";
+                if (libName.Equals("libc"))
+                {
+                    TryResolveLibC(assembly, searchPath, out libHandle);
+                }
+                else if (libName.Equals("tiledb"))
+                {
+                    TryResolveTileDB(assembly, searchPath, out libHandle);
+                }
             }
 
-            if (!NativeLibrary.TryLoad(libName, assembly, searchPath, out libHandle))
+            if (libHandle == IntPtr.Zero)
             {
                 throw new DllNotFoundException($"Error: Unable to load dll: {libName}");
             }
-
             return libHandle;
         }
-// #if __OSX__
-//         public const string LibCPath = "libc.dylib";
-// #elif __LINUX__
-//         public const string LibCPath = "libc.so";
-// #else
-//         public const string LibCPath = "msvcrt.dll";
-// #endif
+
+       private static bool TryResolveTileDB(Assembly assembly, DllImportSearchPath? searchPath, out IntPtr libHandle)
+       {
+           if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+           {
+               return NativeLibrary.TryLoad("libtiledb.dll", assembly, searchPath, out libHandle);
+           }
+
+           if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+           {
+               return NativeLibrary.TryLoad("libtiledb.dylib", assembly, searchPath, out libHandle);
+           }
+
+           return NativeLibrary.TryLoad("libtiledb.so", assembly, searchPath, out libHandle);
+       }
+
+        private static bool TryResolveLibC(Assembly assembly, DllImportSearchPath? searchPath, out IntPtr libHandle)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return NativeLibrary.TryLoad("msvcrt.dll", assembly, searchPath, out libHandle);
+            }
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                return NativeLibrary.TryLoad("libSystem.dylib", assembly, searchPath, out libHandle);
+            }
+
+            return NativeLibrary.TryLoad("libc.so.6", assembly, searchPath, out libHandle);
+        }
     }
 }
