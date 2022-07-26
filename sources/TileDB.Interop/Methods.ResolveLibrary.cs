@@ -4,14 +4,12 @@ using System.Runtime.InteropServices;
 
 namespace TileDB.Interop
 {
-    internal class LibDllImport
+    public static partial class Methods
     {
-        static LibDllImport()
+        static Methods()
         {
             NativeLibrary.SetDllImportResolver(Assembly.GetExecutingAssembly(), Resolver);
         }
-
-        public static void Initialize() { }
 
         private static IntPtr Resolver(string libName, Assembly assembly, DllImportSearchPath? searchPath)
         {
@@ -23,7 +21,7 @@ namespace TileDB.Interop
                 {
                     TryResolveLibC(assembly, searchPath, out libHandle);
                 }
-                else if (libName.Equals("tiledb"))
+                else if (libName.Equals("libtiledb"))
                 {
                     TryResolveTileDB(assembly, searchPath, out libHandle);
                 }
@@ -40,7 +38,7 @@ namespace TileDB.Interop
        {
            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
            {
-               return NativeLibrary.TryLoad("libtiledb.dll", assembly, searchPath, out libHandle);
+               return NativeLibrary.TryLoad("tiledb.dll", assembly, searchPath, out libHandle);
            }
 
            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
