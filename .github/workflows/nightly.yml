@@ -72,7 +72,7 @@ jobs:
       - name: Run examples
         shell: bash
         run: |
-          find examples/ -name *.csproj -execdir dotnet run --framework net5.0 \;
+          find examples/ -name *.csproj -execdir dotnet run --framework net${{ matrix.dotnet }} \;
 
   Create-Issue:
     needs: Build
