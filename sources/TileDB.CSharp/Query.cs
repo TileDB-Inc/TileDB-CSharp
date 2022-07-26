@@ -255,6 +255,13 @@ namespace TileDB.CSharp
             {
                 throw new System.ArgumentException("Query.SetDataBuffer, buffer is null or empty!");
             }
+
+            if (typeof(T) == typeof(bool) && QueryType() == CSharp.QueryType.TILEDB_WRITE)
+            {
+                SetDataBuffer<byte>(name, System.Array.ConvertAll(data as bool[], d => d ? (byte)1 : (byte)0));
+                return;
+            }
+
             var ms_name = new MarshaledString(name);
             ulong size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
             AddDataBufferHandle(name, GCHandle.Alloc(data, GCHandleType.Pinned), size);
@@ -331,7 +338,6 @@ namespace TileDB.CSharp
             return (LayoutType)layout;
         }
 
-         
         ///// <summary>
         ///// Sets the query condition to be applied on a read.
         ///// </summary>
@@ -358,7 +364,6 @@ namespace TileDB.CSharp
             _ctx.handle_error(Methods.tiledb_query_submit(_ctx.Handle, _handle));
             return QueryStatus.TILEDB_COMPLETED;
         }
-
 
         /// <summary>
         /// Callback function on query completed.
@@ -847,7 +852,9 @@ namespace TileDB.CSharp
         {
             if (EnumUtil.TypeToDataType(typeof(T)) != dataType)
             {
-                if(!(dataType== DataType.TILEDB_STRING_ASCII && (typeof(T)==typeof(byte) || typeof(T) == typeof(sbyte) || typeof(T) == typeof(string) ))) {
+                if(!(dataType== DataType.TILEDB_STRING_ASCII && (typeof(T)==typeof(byte) || typeof(T) == typeof(sbyte) || typeof(T) == typeof(string)) )
+                   && !(dataType == DataType.TILEDB_BOOL && typeof(T) == typeof(byte)) )
+                {
                     throw new System.ArgumentException("T " + typeof(T).Name + " doesnot match " + dataType.ToString());
                 }
                 

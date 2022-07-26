@@ -102,7 +102,8 @@ namespace TileDB.CSharp
         TILEDB_TIME_PS = tiledb_datatype_t.TILEDB_TIME_PS,
         TILEDB_TIME_FS = tiledb_datatype_t.TILEDB_TIME_FS,
         TILEDB_TIME_AS = tiledb_datatype_t.TILEDB_TIME_AS,
-        TILEDB_BLOB = tiledb_datatype_t.TILEDB_BLOB
+        TILEDB_BLOB = tiledb_datatype_t.TILEDB_BLOB,
+        TILEDB_BOOL = tiledb_datatype_t.TILEDB_BOOL,
     }
 
     public enum ArrayType : uint
@@ -563,6 +564,10 @@ namespace TileDB.CSharp
             {
                 tiledb_datatype = tiledb_datatype_t.TILEDB_STRING_ASCII;
             }
+            else if (t == typeof(bool))
+            {
+                tiledb_datatype = tiledb_datatype_t.TILEDB_BOOL;
+            }
             else
             {
                 tiledb_datatype = tiledb_datatype_t.TILEDB_ANY;
@@ -637,6 +642,8 @@ namespace TileDB.CSharp
                 case tiledb_datatype_t.TILEDB_UINT8:
                     return typeof(byte);
                 case tiledb_datatype_t.TILEDB_BLOB:
+                    return typeof(byte);
+                case tiledb_datatype_t.TILEDB_BOOL:
                     return typeof(byte);
                 default:
                     return typeof(byte);

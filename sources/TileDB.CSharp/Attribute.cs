@@ -170,7 +170,7 @@ namespace TileDB.CSharp
 
             ulong size;
             if (cell_val_num == (uint)Constants.TILEDB_VAR_NUM) {
-                size = (ulong)(data.Length* Marshal.SizeOf(data[0]));          
+                size = (ulong)(data.Length* Marshal.SizeOf(data[0]));
             } else
             {
                 size = cell_val_num * (ulong)(Marshal.SizeOf(data[0]));
@@ -186,9 +186,8 @@ namespace TileDB.CSharp
             {
                 dataGcHandle.Free();
             }
-            
-        }
 
+        }
 
         /// <summary>
         /// Set fill value by a scalar value.
@@ -197,6 +196,12 @@ namespace TileDB.CSharp
         /// <param name="value"></param>
         public void SetFillValue<T>(T value) where T: struct
         {
+            if (typeof(T) == typeof(bool))
+            {
+                SetFillValue<byte>(Convert.ToByte(value));
+                return;
+            }
+
             var cell_val_num = this.CellValNum();
             var data = cell_val_num == (uint)Constants.TILEDB_VAR_NUM
                 ? new[] { value }
@@ -204,7 +209,6 @@ namespace TileDB.CSharp
             SetFillValue(data);
         }
 
-        /// <summary>
         /// Set string fill value.
         /// </summary>
         /// <param name="value"></param>
@@ -236,6 +240,10 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public T[] FillValue<T>() where T: struct
         {
+            if (typeof(T) == typeof(char))
+            {
+                throw new NotSupportedException("Attribute.FillValue, please use FillValue<byte> for TILEDB_CHAR attributes!");
+            }
             var fill_bytes = get_fill_value();
             var span = MemoryMarshal.Cast<byte, T>(fill_bytes);
             return span.ToArray();
