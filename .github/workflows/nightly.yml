@@ -69,6 +69,11 @@ jobs:
         run: |
           dotnet test tiledb-csharp/tests/TileDB.CSharp.Test/TileDB.CSharp.Test.csproj -c Release
 
+      - name: Run examples
+        shell: bash
+        run: |
+          find examples/ -name *.csproj -execdir dotnet run --framework net5.0 \;
+
   Create-Issue:
     needs: Build
     if: failure()
