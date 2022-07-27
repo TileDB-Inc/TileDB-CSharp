@@ -107,9 +107,9 @@ source ~/.zshrc
 
 Build `libClangSharp`
 
-ClangSharp provides a helper library, `libClangSharp`, that exposes additional functionality that is not available in `libClang`
+ClangSharp provides a helper library, `libClangSharp`, that exposes additional functionality that is not available in `libClang`
 
-Building this requires [CMake 3.13 or later](https://cmake.org/download/) as well as a version of MSVC or Clang that supports C++ 17.
+Building this requires [CMake 3.13 or later](https://cmake.org/download/) as well as a version of MSVC or Clang that supports C++ 17.
 
 Get `clang`
 
@@ -162,8 +162,6 @@ csgen -I $TILEDB_DIR/include/ -I ~/workspace/tiledb/clang+llvm-14.0.0-x86_64-lin
 In `~/workspace/tiledb/TileDB-CSharp-tmp/sources/TileDB.Interop/Methods.cs` do 
 
 ```bash
-- [DllImport("libtiledb", --> [DllImport(LibDllImport.Path
 - Comment all *_dump functions
 - Remove duplicate signatures From `MethodsExperimental.cs` (currently all signatures are duplicated)
-```
 ```
