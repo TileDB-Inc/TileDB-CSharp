@@ -38,7 +38,8 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet }}
 
-      - run: dotnet --info
+      - name: Display .NET versions
+        run: dotnet --info
 
       # DotNet build
       - name: Dotnet build for TileDB.CSharp
@@ -61,7 +62,7 @@ jobs:
     strategy:
       matrix:
         # Will be checking following versions
-        dotnet: ['5.0', '6.0']
+        dotnet: ['5.0']
     steps:
       # Checks out repository
       - uses: actions/checkout@v3
@@ -73,8 +74,8 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet }}
 
-      - name: Display dotnet version
-        run: dotnet --version
+      - name: Display dotnet versions
+        run: dotnet --info
 
       # Download tiledb
       - name: Download tiledb
@@ -116,13 +117,19 @@ jobs:
         with:
           name: TileDB NuGet Package
 
+      # GitHub runners come with several versions of .NET preinstalled; Remove them to target version
+      - name: Remove existing .NET versions
+        shell: bash
+        run: |
+          rm -rf $DOTNET_ROOT
+
       - name: Set up dotnet
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: ${{ matrix.dotnet }}
 
-      - name: Display dotnet version
-        run: dotnet --version
+      - name: Display dotnet versions
+        run: dotnet --info
 
       - name: Setup NuGet
         uses: nuget/setup-nuget@v1
