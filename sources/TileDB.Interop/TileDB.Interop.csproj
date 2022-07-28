@@ -2,7 +2,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <TargetFrameworks>net5.0</TargetFrameworks>
+    <RollForward>Major</RollForward>
+    <TargetFramework>net5.0</TargetFramework>
     <Version>5.1.1</Version>
   </PropertyGroup>
 </Project>

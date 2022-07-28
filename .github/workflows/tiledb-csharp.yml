@@ -13,13 +13,23 @@ jobs:
     strategy:
       matrix:
         # Will be checking following versions
-        dotnet: ['5.0']
+        dotnet: ['5.0', '6.0']
         # Repeat this test for each os
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       # Checks out repository
       - uses: actions/checkout@v3
+
+      # Install tiledb
+      - name: Install tiledb
+        shell: bash
+        run: ./.github/scripts/install_tiledb.sh
+
+      - name: Remove existing .NET versions
+        shell: bash
+        run: |
+          rm -rf $DOTNET_ROOT
 
       # Following action sets up dotnet and uses the strategy matrix to test on
       # specific versions
@@ -28,13 +38,7 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet }}
 
-      - name: Display dotnet version
-        run: dotnet --version
-
-      # Install tiledb
-      - name: Install tiledb
-        shell: bash
-        run: ./.github/scripts/install_tiledb.sh
+      - run: dotnet --info
 
       # DotNet build
       - name: Dotnet build for TileDB.CSharp
@@ -49,7 +53,7 @@ jobs:
       - name: Run examples
         shell: bash
         run: |
-          find examples/ -name *.csproj -execdir dotnet run --framework net${{ matrix.dotnet }} \;
+          find examples/ -name *.csproj -execdir dotnet run \;
 
   Stage-Release-Candidate:
     needs: Run-Tests
@@ -57,7 +61,7 @@ jobs:
     strategy:
       matrix:
         # Will be checking following versions
-        dotnet: ['5.0']
+        dotnet: ['5.0', '6.0']
     steps:
       # Checks out repository
       - uses: actions/checkout@v3
@@ -101,7 +105,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        dotnet: ['5.0']
+        dotnet: ['5.0', '6.0']
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout TileDB-CSharp repository
