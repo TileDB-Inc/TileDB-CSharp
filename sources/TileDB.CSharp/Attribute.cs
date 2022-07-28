@@ -6,13 +6,13 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
-    public sealed unsafe class Attribute : IDisposable 
+    public sealed unsafe class Attribute : IDisposable
     {
         private readonly AttributeHandle _handle;
         private readonly Context _ctx;
         private bool _disposed;
 
-        public Attribute(Context ctx, string name, DataType dataType) 
+        public Attribute(Context ctx, string name, DataType dataType)
         {
             _ctx = ctx;
             var tiledb_datatype = (tiledb_datatype_t)(dataType);
@@ -23,7 +23,7 @@ namespace TileDB.CSharp
             }
         }
 
-        internal Attribute(Context ctx, AttributeHandle handle) 
+        internal Attribute(Context ctx, AttributeHandle handle)
         {
             _ctx = ctx;
             _handle = handle;
@@ -84,7 +84,7 @@ namespace TileDB.CSharp
         public string Name()
         {
             var ms_result = new MarshaledStringOut();
-            fixed (sbyte** p_result = &ms_result.Value) 
+            fixed (sbyte** p_result = &ms_result.Value)
             {
                 _ctx.handle_error(Methods.tiledb_attribute_get_name(_ctx.Handle, _handle, p_result));
             }
@@ -149,7 +149,7 @@ namespace TileDB.CSharp
             return cell_size;
         }
 
- 
+
         /// <summary>
         /// Set fill value by an array.
         /// </summary>
@@ -162,7 +162,7 @@ namespace TileDB.CSharp
             }
 
             var cell_val_num = this.CellValNum();
-         
+
             if (cell_val_num != (uint)Constants.TILEDB_VAR_NUM && cell_val_num != data.Length)
             {
                 throw new ArgumentException("Attribute.SetFillValue_nullable, data length is not equal to cell_val_num!");
@@ -209,6 +209,7 @@ namespace TileDB.CSharp
             SetFillValue(data);
         }
 
+        /// <summary>
         /// Set string fill value.
         /// </summary>
         /// <param name="value"></param>
@@ -217,7 +218,6 @@ namespace TileDB.CSharp
             var str_bytes = Encoding.ASCII.GetBytes(value);
             SetFillValue(str_bytes);
         }
- 
 
         /// <summary>
         /// Get fill value bytes array.
@@ -254,7 +254,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <returns></returns>
         /// <exception cref="System.NotSupportedException"></exception>
-        public string FillValue() 
+        public string FillValue()
         {
             var datatype = Type();
             if (!EnumUtil.IsStringType(datatype))
@@ -277,9 +277,9 @@ namespace TileDB.CSharp
             {
                 throw new ArgumentException("Attribute.SetFillValueNullable, data is empty!");
             }
-           
+
             var cell_val_num = this.CellValNum();
-            if (cell_val_num != (uint)Constants.TILEDB_VAR_NUM && cell_val_num != data.Length) 
+            if (cell_val_num != (uint)Constants.TILEDB_VAR_NUM && cell_val_num != data.Length)
             {
                 throw new ArgumentException("Attribute.SetFillValueNullable, data length is not equal to cell_val_num!");
             }
@@ -293,9 +293,9 @@ namespace TileDB.CSharp
             {
                 size = cell_val_num * (ulong)(Marshal.SizeOf(data[0]));
             }
-           
+
             var validity = valid ? (byte)1 : (byte)0;
-           
+
             var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
             try
             {
@@ -386,10 +386,10 @@ namespace TileDB.CSharp
         /// <param name="ctx"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static Attribute Create<T>(Context ctx, string name) 
+        public static Attribute Create<T>(Context ctx, string name)
         {
             var datatype = EnumUtil.TypeToDataType(typeof(T));
-            return new Attribute(ctx, name, datatype); 
+            return new Attribute(ctx, name, datatype);
         }
 
     }
