@@ -46,6 +46,11 @@ jobs:
         run: |
           dotnet test -c Release tests/TileDB.CSharp.Test
 
+      - name: Run examples
+        shell: bash
+        run: |
+          find examples/ -name *.csproj -execdir dotnet run --framework net${{ matrix.dotnet }} \;
+
   Stage-Release-Candidate:
     needs: Run-Tests
     runs-on: ubuntu-latest
