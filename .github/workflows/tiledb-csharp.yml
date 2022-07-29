@@ -81,10 +81,6 @@ jobs:
       - name: Download tiledb
         run: ./.github/scripts/download_tiledb.sh
 
-      - name: Copy tiledb lib
-        run: |
-          cp sources/TileDB.CSharp/runtimes/linux-x64/native/libtiledb.so.2.10 sources/TileDB.CSharp/runtimes/linux-x64/native/libtiledb.so
-
       # DotNet build
       - name: Dotnet build for TileDB.CSharp
         run: |
