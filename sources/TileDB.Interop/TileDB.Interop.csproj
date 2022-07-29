@@ -3,6 +3,6 @@
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <TargetFrameworks>net5.0</TargetFrameworks>
-    <Version>5.1.1</Version>
+    <Version>5.2.0</Version>
   </PropertyGroup>
 </Project>
