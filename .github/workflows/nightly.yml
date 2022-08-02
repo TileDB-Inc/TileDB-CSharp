@@ -25,7 +25,7 @@ jobs:
             HOST: win
             BOOTSTRAP: ../bootstrap.ps1 -EnableS3 -EnableSerialization
         tag: [release-2.10, release-2.11, dev]
-        dotnet: ['5.0']
+        dotnet: ['5.0', '6.0']
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -41,10 +41,19 @@ jobs:
           ref: ${{ matrix.tag }}
           path: tiledb
 
+      # GitHub runners come with several versions of .NET preinstalled; Remove them to target version
+      - name: Remove existing .NET versions
+        shell: bash
+        run: |
+          rm -rf $DOTNET_ROOT
+
       - name: Set up dotnet
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: ${{ matrix.dotnet }}
+
+      - name: Display dotnet versions
+        run: dotnet --info
 
       - name: Build TileDB
         run: |
@@ -72,7 +81,7 @@ jobs:
       - name: Run examples
         shell: bash
         run: |
-          find tiledb-csharp/examples/ -name *.csproj -execdir dotnet run --framework net${{ matrix.dotnet }} \;
+          find tiledb-csharp/examples/ -name *.csproj -execdir dotnet run \;
 
   Create-Issue:
     needs: Build
