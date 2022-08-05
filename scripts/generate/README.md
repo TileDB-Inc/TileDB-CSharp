@@ -81,9 +81,9 @@ source ~/.zshrc
 Install specific version of TileDB in `/usr/local`
 
 ```bash
-git clone https://github.com/TileDB-Inc/TileDB.git -b 2.10.3
-mv TileDB TileDB_2.10.3
-cd TileDB_2.10.3
+git clone https://github.com/TileDB-Inc/TileDB.git -b 2.10.4
+mv TileDB TileDB_2.10.4
+cd TileDB_2.10.4
 mkdir build && cd build
 #cmake 3.22.2
 cmake -DTILEDB_VERBOSE=OFF -DTILEDB_S3=ON -DTILEDB_SERIALIZATION=ON -DTILEDB_AZURE=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr/local ..

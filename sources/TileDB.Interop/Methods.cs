@@ -1365,6 +1365,10 @@ namespace TileDB.Interop
 
         [DllImport("libtiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        public static extern int tiledb_query_get_relevant_fragment_num(tiledb_ctx_t* ctx, [NativeTypeName("const tiledb_query_t *")] tiledb_query_t* query, [NativeTypeName("uint64_t *")] ulong* relevant_fragment_num);
+
+        [DllImport("libtiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("int32_t")]
         public static extern int tiledb_query_get_status_details(tiledb_ctx_t* ctx, tiledb_query_t* query, tiledb_query_status_details_t* status);
 
         [DllImport("libtiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
