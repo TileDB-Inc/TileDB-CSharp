@@ -1,5 +1,5 @@
 set -e -x
-TAG=2.11.0-rc1
+TAG=2.11.0
 ID=34e5dbc
 
 RELEASE=x86_64-$TAG-$ID
