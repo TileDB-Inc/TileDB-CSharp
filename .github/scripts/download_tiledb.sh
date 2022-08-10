@@ -1,6 +1,6 @@
 set -e -x
-TAG=2.10.3
-ID=7a5d1cd
+TAG=2.11.0
+ID=34e5dbc
 
 RELEASE=x86_64-$TAG-$ID
 wget https://github.com/TileDB-Inc/TileDB/releases/download/$TAG/tiledb-windows-$RELEASE.zip
@@ -10,7 +10,7 @@ cp ./tiledb-windows/bin/tiledb.dll ./sources/TileDB.CSharp/runtimes/win-x64/nati
 wget https://github.com/TileDB-Inc/TileDB/releases/download/$TAG/tiledb-linux-$RELEASE.tar.gz
 mkdir tiledb-linux
 tar xvfz tiledb-linux-$RELEASE.tar.gz --directory tiledb-linux
-cp ./tiledb-linux/lib/libtiledb.so.${TAG%.*} ./sources/TileDB.CSharp/runtimes/linux-x64/native/
+cp ./tiledb-linux/lib/libtiledb.so* ./sources/TileDB.CSharp/runtimes/linux-x64/native/
 
 wget https://github.com/TileDB-Inc/TileDB/releases/download/$TAG/tiledb-macos-$RELEASE.tar.gz
 mkdir tiledb-macos
