@@ -50,6 +50,28 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual(bidWidthMaxWindow, filter.GetOption<uint>(FilterOption.TILEDB_BIT_WIDTH_MAX_WINDOW));
         }
 
+        [TestMethod]
+        public void NewDictionaryFilterIsValid()
+        {
+            var ctx = Context.GetDefault();
+            using var filter = new Filter(ctx, FilterType.TILEDB_FILTER_DICTIONARY);
+            Assert.AreEqual(FilterType.TILEDB_FILTER_DICTIONARY, filter.FilterType());
 
+            const int compressionLevel = 4;
+            filter.SetOption(FilterOption.TILEDB_COMPRESSION_LEVEL, compressionLevel);
+            Assert.AreEqual(compressionLevel, filter.GetOption<int>(FilterOption.TILEDB_COMPRESSION_LEVEL));
+        }
+
+        [TestMethod]
+        public void NewFloatScalingFilterIsValid()
+        {
+            var ctx = Context.GetDefault();
+            using var filter = new Filter(ctx, FilterType.TILEDB_FILTER_SCALE_FLOAT);
+            Assert.AreEqual(FilterType.TILEDB_FILTER_SCALE_FLOAT, filter.FilterType());
+
+            const int scaleFloatFactor = 4;
+            filter.SetOption(FilterOption.TILEDB_SCALE_FLOAT_FACTOR, scaleFloatFactor);
+            Assert.AreEqual(scaleFloatFactor, filter.GetOption<int>(FilterOption.TILEDB_SCALE_FLOAT_FACTOR));
+        }
     }
 }

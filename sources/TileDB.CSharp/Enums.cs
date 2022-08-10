@@ -136,6 +136,8 @@ namespace TileDB.CSharp
         TILEDB_FILTER_POSITIVE_DELTA = tiledb_filter_type_t.TILEDB_FILTER_POSITIVE_DELTA,
         TILEDB_FILTER_CHECKSUM_MD5 = tiledb_filter_type_t.TILEDB_FILTER_CHECKSUM_MD5,
         TILEDB_FILTER_CHECKSUM_SHA256 = tiledb_filter_type_t.TILEDB_FILTER_CHECKSUM_SHA256,
+        TILEDB_FILTER_DICTIONARY = tiledb_filter_type_t.TILEDB_FILTER_DICTIONARY,
+        TILEDB_FILTER_SCALE_FLOAT = tiledb_filter_type_t.TILEDB_FILTER_SCALE_FLOAT,
     }
 
     public enum FilterOption : uint
@@ -143,6 +145,9 @@ namespace TileDB.CSharp
         TILEDB_COMPRESSION_LEVEL = tiledb_filter_option_t.TILEDB_COMPRESSION_LEVEL,
         TILEDB_BIT_WIDTH_MAX_WINDOW = tiledb_filter_option_t.TILEDB_BIT_WIDTH_MAX_WINDOW,
         TILEDB_POSITIVE_DELTA_MAX_WINDOW = tiledb_filter_option_t.TILEDB_POSITIVE_DELTA_MAX_WINDOW,
+        TILEDB_SCALE_FLOAT_BYTEWIDTH = tiledb_filter_option_t.TILEDB_SCALE_FLOAT_BYTEWIDTH,
+        TILEDB_SCALE_FLOAT_FACTOR = tiledb_filter_option_t.TILEDB_SCALE_FLOAT_FACTOR,
+        TILEDB_SCALE_FLOAT_OFFSET = tiledb_filter_option_t.TILEDB_SCALE_FLOAT_OFFSET,
     }
 
     public enum EncryptionType : uint
@@ -163,7 +168,7 @@ namespace TileDB.CSharp
         TILEDB_VFS_WRITE = tiledb_vfs_mode_t.TILEDB_VFS_WRITE,
         TILEDB_VFS_APPEND = tiledb_vfs_mode_t.TILEDB_VFS_APPEND,
     }
-    
+
     public enum MIMEType : uint
     {
         TILEDB_MIME_PDF = tiledb_mime_type_t.TILEDB_MIME_PDF,
@@ -187,7 +192,7 @@ namespace TileDB.CSharp
 
 
 
-    public static unsafe class EnumUtil 
+    public static unsafe class EnumUtil
     {
         /// <summary>
         /// Get string of QueryType.
@@ -217,7 +222,7 @@ namespace TileDB.CSharp
             unsafe
             {
                 int status = TileDB.Interop.Methods.tiledb_query_type_from_str(ms_str, &tiledb_query_type);
-                if (status != (int)Status.TILEDB_OK) 
+                if (status != (int)Status.TILEDB_OK)
                 {
                     throw new System.ArgumentException("EnumUtil.QueryTypeFromStr, Invalid string:" + str);
                 }
@@ -299,7 +304,7 @@ namespace TileDB.CSharp
             var ms_str = new MarshaledString(str);
             unsafe
             {
-                int status = TileDB.Interop.Methods.tiledb_datatype_from_str(ms_str, &tiledb_datatype); 
+                int status = TileDB.Interop.Methods.tiledb_datatype_from_str(ms_str, &tiledb_datatype);
                 if (status != (int)Status.TILEDB_OK)
                 {
                     throw new System.ArgumentException("EnumUtil.DataTypeFromStr, Invalid string:" + str);
@@ -576,7 +581,7 @@ namespace TileDB.CSharp
             return tiledb_datatype;
         }
 
-        public static DataType TypeToDataType(Type t) 
+        public static DataType TypeToDataType(Type t)
         {
             var tiledb_datatype = to_tiledb_datatype(t);
             return (DataType)tiledb_datatype;
@@ -683,7 +688,7 @@ namespace TileDB.CSharp
             return Methods.tiledb_datatype_size(tiledbDatatype);
         }
 
-        public static ulong DataTypeSize(DataType datatype) 
+        public static ulong DataTypeSize(DataType datatype)
         {
             var tiledb_datatype = (tiledb_datatype_t)datatype;
             return Methods.tiledb_datatype_size(tiledb_datatype);

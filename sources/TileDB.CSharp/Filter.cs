@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using TileDB.Interop;
 
@@ -10,7 +11,7 @@ namespace TileDB.CSharp
         private readonly FilterHandle _handle;
         private readonly Context _ctx;
         private bool _disposed;
- 
+
 
         public Filter(Context ctx, FilterType filterType)
         {
@@ -55,34 +56,38 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Check filter option.
+        /// Check expected type for filter option matches type of T
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="filterOption"></param>
-        /// <exception cref="System.NotSupportedException"></exception>
-        private void check_filter_option<T>(FilterOption filterOption) 
+        /// <typeparam name="T">Type of filter option value</typeparam>
+        /// <param name="filterOption">Filter option to run type check against</param>
+        /// <exception cref="System.NotSupportedException">Filter option does not support values of type T</exception>
+        private void check_filter_option<T>(FilterOption filterOption)
         {
-            //check for filter option 
-            var is_compression_level = filterOption == FilterOption.TILEDB_COMPRESSION_LEVEL && typeof(T) == typeof(int);
-            var is_bid_width_max_window = filterOption == FilterOption.TILEDB_BIT_WIDTH_MAX_WINDOW && typeof(T) == typeof(uint);
-            var is_positive_delta_max_window = filterOption == FilterOption.TILEDB_POSITIVE_DELTA_MAX_WINDOW && typeof(T) == typeof(uint);
+            //check for filter option
+            var filters = new List<bool> {
+                filterOption == FilterOption.TILEDB_COMPRESSION_LEVEL && typeof(T) == typeof(int),
+                filterOption == FilterOption.TILEDB_BIT_WIDTH_MAX_WINDOW && typeof(T) == typeof(uint),
+                filterOption == FilterOption.TILEDB_POSITIVE_DELTA_MAX_WINDOW && typeof(T) == typeof(uint),
+                filterOption == FilterOption.TILEDB_SCALE_FLOAT_BYTEWIDTH && typeof(T) == typeof(int),
+                filterOption == FilterOption.TILEDB_SCALE_FLOAT_FACTOR && typeof(T) == typeof(int),
+                filterOption == FilterOption.TILEDB_SCALE_FLOAT_OFFSET && typeof(T) == typeof(int),
+            };
 
-            if (is_compression_level || is_bid_width_max_window || is_positive_delta_max_window)
+            if (!filters.Contains(true))
             {
-                return;
+                throw new NotSupportedException("Filter, type:" + typeof(T) + " is not supported for filter option:" + filterOption);
             }
-            throw new NotSupportedException("Filter, type:" + typeof(T) + " is not supported for filter option:" + filterOption);
         }
 
         /// <summary>
         /// Set filter option.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="filterOption"></param>
-        /// <param name="value"></param>
-        public void SetOption<T>(FilterOption filterOption, T value) where T: struct 
+        /// <typeparam name="T">Type of option value we intend to set</typeparam>
+        /// <param name="filterOption">Filter option to set</param>
+        /// <param name="value">Filter option value</param>
+        public void SetOption<T>(FilterOption filterOption, T value) where T: struct
         {
-            //check for filter option 
+            //check for filter option
             check_filter_option<T>(filterOption);
 
             var tiledb_filter_option = (tiledb_filter_option_t)filterOption;
@@ -95,12 +100,11 @@ namespace TileDB.CSharp
         /// <summary>
         /// Get filter option.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="filterOption"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">Type of option value we intend to get</typeparam>
+        /// <param name="filterOption">Filter option to get</param>
         public T GetOption<T>(FilterOption filterOption) where T: struct
         {
-            //check for filter option 
+            //check for filter option
             check_filter_option<T>(filterOption);
 
             var tiledb_filter_option = (tiledb_filter_option_t)filterOption;
