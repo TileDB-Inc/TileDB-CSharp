@@ -69,9 +69,17 @@ namespace TileDB.CSharp.Test
             using var filter = new Filter(ctx, FilterType.TILEDB_FILTER_SCALE_FLOAT);
             Assert.AreEqual(FilterType.TILEDB_FILTER_SCALE_FLOAT, filter.FilterType());
 
-            const int scaleFloatFactor = 4;
-            filter.SetOption(FilterOption.TILEDB_SCALE_FLOAT_FACTOR, scaleFloatFactor);
-            Assert.AreEqual(scaleFloatFactor, filter.GetOption<int>(FilterOption.TILEDB_SCALE_FLOAT_FACTOR));
+            const double scale = 4.0;
+            filter.SetOption(FilterOption.TILEDB_SCALE_FLOAT_FACTOR, scale);
+            Assert.AreEqual(scale, filter.GetOption<double>(FilterOption.TILEDB_SCALE_FLOAT_FACTOR));
+
+            const double offset = 1.0;
+            filter.SetOption(FilterOption.TILEDB_SCALE_FLOAT_OFFSET, offset);
+            Assert.AreEqual(offset, filter.GetOption<double>(FilterOption.TILEDB_SCALE_FLOAT_OFFSET));
+
+            const ulong byteWidth = 4;
+            filter.SetOption(FilterOption.TILEDB_SCALE_FLOAT_BYTEWIDTH, byteWidth);
+            Assert.AreEqual(byteWidth, filter.GetOption<ulong>(FilterOption.TILEDB_SCALE_FLOAT_BYTEWIDTH));
         }
     }
 }

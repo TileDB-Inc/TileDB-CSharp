@@ -68,9 +68,9 @@ namespace TileDB.CSharp
                 filterOption == FilterOption.TILEDB_COMPRESSION_LEVEL && typeof(T) == typeof(int),
                 filterOption == FilterOption.TILEDB_BIT_WIDTH_MAX_WINDOW && typeof(T) == typeof(uint),
                 filterOption == FilterOption.TILEDB_POSITIVE_DELTA_MAX_WINDOW && typeof(T) == typeof(uint),
-                filterOption == FilterOption.TILEDB_SCALE_FLOAT_BYTEWIDTH && typeof(T) == typeof(int),
-                filterOption == FilterOption.TILEDB_SCALE_FLOAT_FACTOR && typeof(T) == typeof(int),
-                filterOption == FilterOption.TILEDB_SCALE_FLOAT_OFFSET && typeof(T) == typeof(int),
+                filterOption == FilterOption.TILEDB_SCALE_FLOAT_BYTEWIDTH && typeof(T) == typeof(ulong),
+                filterOption == FilterOption.TILEDB_SCALE_FLOAT_FACTOR && typeof(T) == typeof(double),
+                filterOption == FilterOption.TILEDB_SCALE_FLOAT_OFFSET && typeof(T) == typeof(double),
             };
 
             if (!filters.Contains(true))
