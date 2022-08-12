@@ -73,7 +73,7 @@ namespace TileDB.CSharp
         {
             return ValidityBytesSize.HasValue ? ValidityBytesSize.Value / Methods.tiledb_datatype_size(tiledb_datatype_t.TILEDB_UINT8) : 0;
         }
-        
+
     }
 
     public class QueryEventArgs : EventArgs
@@ -112,7 +112,7 @@ namespace TileDB.CSharp
             }
         }
     }
- 
+
 
     public sealed unsafe class Query : IDisposable
     {
@@ -204,7 +204,7 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="subarray"></param>
@@ -236,9 +236,6 @@ namespace TileDB.CSharp
 
         }
 
-
-
-
         /// <summary>
         /// Sets the data for a fixed/var-sized attribute/dimension.
         /// </summary>
@@ -256,9 +253,9 @@ namespace TileDB.CSharp
                 throw new System.ArgumentException("Query.SetDataBuffer, buffer is null or empty!");
             }
 
-            if (typeof(T) == typeof(bool) && QueryType() == CSharp.QueryType.TILEDB_WRITE)
+            if (data is bool[] boolData && QueryType() == CSharp.QueryType.TILEDB_WRITE)
             {
-                SetDataBuffer<byte>(name, System.Array.ConvertAll(data as bool[], d => d ? (byte)1 : (byte)0));
+                SetDataBuffer<byte>(name, System.Array.ConvertAll(boolData as bool[], d => d ? (byte)1 : (byte)0));
                 return;
             }
 
@@ -268,7 +265,6 @@ namespace TileDB.CSharp
             _ctx.handle_error(Methods.tiledb_query_set_data_buffer(_ctx.Handle, _handle, ms_name,
                 _dataBufferHandles[name].DataHandle.AddrOfPinnedObject().ToPointer(),
                 (ulong*)_dataBufferHandles[name].SizeHandle.AddrOfPinnedObject().ToPointer()));
-
         }
 
         /// <summary>
@@ -289,9 +285,8 @@ namespace TileDB.CSharp
             AddOffsetsBufferHandle(name, handle, size);
 
             _ctx.handle_error(Methods.tiledb_query_set_offsets_buffer(_ctx.Handle, _handle, ms_name,
-                (ulong*)_offsetsBufferHandles[name].DataHandle.AddrOfPinnedObject().ToPointer(), 
+                (ulong*)_offsetsBufferHandles[name].DataHandle.AddrOfPinnedObject().ToPointer(),
                 (ulong*)_offsetsBufferHandles[name].SizeHandle.AddrOfPinnedObject().ToPointer()));
-
         }
 
         /// <summary>
@@ -313,11 +308,8 @@ namespace TileDB.CSharp
             _ctx.handle_error(Methods.tiledb_query_set_validity_buffer(_ctx.Handle, _handle, ms_name,
                 (byte*)_validityBufferHandles[name].DataHandle.AddrOfPinnedObject().ToPointer(),
                 (ulong*)_validityBufferHandles[name].SizeHandle.AddrOfPinnedObject().ToPointer()));
-
         }
 
-
- 
         /// <summary>
         /// Sets the layout of the cells to be written or read.
         /// </summary>
@@ -383,7 +375,7 @@ namespace TileDB.CSharp
             {
                 handler(this, args); //fire the event
             }
-            
+
         }
 
         /// <summary>
@@ -443,14 +435,71 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Adds a 1D range along a subarray dimension name, specified by its name, in the form (start, end, stride).
+        /// Adds a 1D range along a subarray dimension index, in the form (start, end).
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="index"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <param name="stride"></param>
-        public void AddRange<T>(UInt32 index, T start, T end, T stride) where T : struct
+        /// <typeparam name="T">Dimension range type</typeparam>
+        /// <param name="index">Index of dimension to add range</param>
+        /// <param name="start">Dimension range start</param>
+        /// <param name="end">Dimension range end</param>
+        public void AddRange<T>(UInt32 index, T start, T end) where T : struct
+        {
+            T[] startData = new T[1] { start };
+            T[] endData = new T[1] { end };
+            var startDataGcHandle = GCHandle.Alloc(startData, GCHandleType.Pinned);
+            var endDataGcHandle = GCHandle.Alloc(endData, GCHandleType.Pinned);
+            try
+            {
+                _ctx.handle_error(Methods.tiledb_query_add_range(_ctx.Handle, _handle, index,
+                    (void*)startDataGcHandle.AddrOfPinnedObject(),
+                    (void*)endDataGcHandle.AddrOfPinnedObject(),
+                    null
+                ));
+            }
+            finally
+            {
+                startDataGcHandle.Free();
+                endDataGcHandle.Free();
+            }
+        }
+
+        /// <summary>
+        /// Adds a 1D range along a subarray dimension name, specified by its name, in the form (start, end).
+        /// </summary>
+        /// <typeparam name="T">Dimension range type</typeparam>
+        /// <param name="name">Name of dimension to add range</param>
+        /// <param name="start">Dimension range start</param>
+        /// <param name="end">Dimension range end</param>
+        public void AddRange<T>(string name, T start, T end) where T : struct
+        {
+            var ms_name = new MarshaledString(name);
+            T[] startData = new T[1] { start };
+            T[] endData = new T[1] { end };
+            var startDataGcHandle = GCHandle.Alloc(startData, GCHandleType.Pinned);
+            var endDataGcHandle = GCHandle.Alloc(endData, GCHandleType.Pinned);
+            try
+            {
+                _ctx.handle_error(Methods.tiledb_query_add_range_by_name(_ctx.Handle, _handle, ms_name,
+                    (void*)startDataGcHandle.AddrOfPinnedObject(),
+                    (void*)endDataGcHandle.AddrOfPinnedObject(),
+                    null
+                ));
+            }
+            finally
+            {
+                startDataGcHandle.Free();
+                endDataGcHandle.Free();
+            }
+        }
+
+        /// <summary>
+        /// Adds a 1D range along a subarray dimension index, in the form (start, end, stride).
+        /// </summary>
+        /// <typeparam name="T">Dimension range type</typeparam>
+        /// <param name="index">Index of dimension to add range</param>
+        /// <param name="start">Dimension range start</param>
+        /// <param name="end">Dimension range end</param>
+        /// <param name="stride">Stride between dimension range values</param>
+        private void AddRange<T>(UInt32 index, T start, T end, T stride) where T : struct
         {
             T[] startData = new T[1] { start };
             T[] endData = new T[1] { end };
@@ -463,7 +512,8 @@ namespace TileDB.CSharp
                 _ctx.handle_error(Methods.tiledb_query_add_range(_ctx.Handle, _handle, index,
                     (void*)startDataGcHandle.AddrOfPinnedObject(),
                     (void*)endDataGcHandle.AddrOfPinnedObject(),
-                    (void*)strideDataGcHandle.AddrOfPinnedObject()));
+                    (void*)strideDataGcHandle.AddrOfPinnedObject()
+                ));
             }
             finally
             {
@@ -474,42 +524,14 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Adds a 1D string range along a subarray dimension index, in the form (start, end).
-        /// </summary>
-        /// <param name="index"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        public void AddRange(UInt32 index, string start, string end)
-        {
-
-            byte[] startData = Encoding.ASCII.GetBytes(start);
-            byte[] endData = Encoding.ASCII.GetBytes(end);
-            var startDataGcHandle = GCHandle.Alloc(startData, GCHandleType.Pinned);
-            var endDataGcHandle = GCHandle.Alloc(endData, GCHandleType.Pinned);
-            try
-            {
-                _ctx.handle_error(Methods.tiledb_query_add_range_var(_ctx.Handle, _handle, index,
-                    (void*)startDataGcHandle.AddrOfPinnedObject(), (ulong)startData.Length,
-                    (void*)endDataGcHandle.AddrOfPinnedObject(), (ulong)endData.Length));
-
-            }
-            finally
-            {
-                startDataGcHandle.Free();
-                endDataGcHandle.Free();
-
-            }
-        }
-
-        /// <summary>
         /// Adds a 1D range along a subarray dimension name, specified by its name, in the form(start, end, stride).
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="name"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <param name="stride"></param>
-        public void AddRange<T>(string name, T start, T end, T stride) where T : struct
+        /// <typeparam name="T">Dimension range type</typeparam>
+        /// <param name="name">Name of dimension</param>
+        /// <param name="start">Dimension range start</param>
+        /// <param name="end">Dimension range end</param>
+        /// <param name="stride">Stride between dimension range values</param>
+        private void AddRange<T>(string name, T start, T end, T stride) where T : struct
         {
             var ms_name = new MarshaledString(name);
             T[] startData = new T[1] { start };
@@ -533,6 +555,37 @@ namespace TileDB.CSharp
             }
         }
 
+        /// <summary>
+        /// Adds a 1D string range along a subarray dimension index, in the form (start, end).
+        /// </summary>
+        /// <param name="index">Index of dimension to add range</param>
+        /// <param name="start">Dimension range start</param>
+        /// <param name="end">Dimension range end</param>
+        public void AddRange(UInt32 index, string start, string end)
+        {
+            byte[] startData = Encoding.ASCII.GetBytes(start);
+            byte[] endData = Encoding.ASCII.GetBytes(end);
+            var startDataGcHandle = GCHandle.Alloc(startData, GCHandleType.Pinned);
+            var endDataGcHandle = GCHandle.Alloc(endData, GCHandleType.Pinned);
+            try
+            {
+                _ctx.handle_error(Methods.tiledb_query_add_range_var(_ctx.Handle, _handle, index,
+                    (void*)startDataGcHandle.AddrOfPinnedObject(), (ulong)startData.Length,
+                    (void*)endDataGcHandle.AddrOfPinnedObject(), (ulong)endData.Length));
+            }
+            finally
+            {
+                startDataGcHandle.Free();
+                endDataGcHandle.Free();
+            }
+        }
+
+        /// <summary>
+        /// Adds a 1D string range along a subarray dimension name, in the form (start, end).
+        /// </summary>
+        /// <param name="name">Name of dimension to add range</param>
+        /// <param name="start">Dimension range start</param>
+        /// <param name="end">Dimension range end</param>
         public void AddRange(string name, string start, string end)
         {
             var ms_name = new MarshaledString(name);
@@ -545,13 +598,11 @@ namespace TileDB.CSharp
                 _ctx.handle_error(Methods.tiledb_query_add_range_var_by_name(_ctx.Handle, _handle, ms_name,
                     (void*)startDataGcHandle.AddrOfPinnedObject(), (ulong)startData.Length,
                     (void*)endDataGcHandle.AddrOfPinnedObject(), (ulong)endData.Length));
-
             }
             finally
             {
                 startDataGcHandle.Free();
                 endDataGcHandle.Free();
-
             }
         }
 
@@ -643,7 +694,7 @@ namespace TileDB.CSharp
             return new Tuple<T, T, T>(start_span.ToArray()[0], end_span.ToArray()[0], stride_span.ToArray()[0]);
         }
 
- 
+
         /// <summary>
         /// Retrieves a range for a given variable length string dimension index and range id.
         /// </summary>
@@ -848,7 +899,7 @@ namespace TileDB.CSharp
         #endregion capi functions
 
 
-        private void CheckDataType<T>(DataType dataType) 
+        private void CheckDataType<T>(DataType dataType)
         {
             if (EnumUtil.TypeToDataType(typeof(T)) != dataType)
             {
@@ -857,7 +908,7 @@ namespace TileDB.CSharp
                 {
                     throw new System.ArgumentException("T " + typeof(T).Name + " doesnot match " + dataType.ToString());
                 }
-                
+
             }
         }
 
@@ -890,7 +941,7 @@ namespace TileDB.CSharp
         /// </summary>
         private void FreeAllBufferHandles()
         {
-            foreach (var bh in _dataBufferHandles) 
+            foreach (var bh in _dataBufferHandles)
             {
                 bh.Value.Free();
             }
@@ -908,7 +959,7 @@ namespace TileDB.CSharp
         }
 
 
-      
+
         /// <summary>
         /// Add data buffer handle.
         /// </summary>
@@ -947,14 +998,14 @@ namespace TileDB.CSharp
         /// <param name="size"></param>
         private void AddValidityBufferHandle(string name, GCHandle handle, ulong size)
         {
-            if (_validityBufferHandles.ContainsKey(name)) 
+            if (_validityBufferHandles.ContainsKey(name))
             {
                 _validityBufferHandles[name].Free();
             }
             _validityBufferHandles[name] = new BufferHandle(handle, size);
         }
 
- 
+
         #endregion buffers
 
     }//class
