@@ -20,7 +20,7 @@ namespace TileDB.CSharp {
                 TileDB.Interop.Methods.tiledb_version(&major, &minor, &rev);
             }
 
-            return new Version(major, minor, rev);   
+            return new Version(major, minor, rev);
         }
 
         #region Metadata
@@ -50,7 +50,7 @@ namespace TileDB.CSharp {
                     array.PutMetadata(key, value);
                     array.Close();
                 }
-                 
+
             }
             catch (System.Exception e)
             {
@@ -68,7 +68,7 @@ namespace TileDB.CSharp {
         [Obsolete("Will be deprecated. Please use Metadata class.", false)]
         public static void AddArrayMetadataByStringMap(Context ctx, string uri, System.Collections.Generic.Dictionary<string,string> strmap)
         {
-            if (string.IsNullOrEmpty(uri) || strmap == null || strmap.Count == 0) 
+            if (string.IsNullOrEmpty(uri) || strmap == null || strmap.Count == 0)
             {
                 return;
             }
@@ -87,8 +87,8 @@ namespace TileDB.CSharp {
                         array.PutMetadata(item.Key, item.Value);
                     }
                     array.Close();
-                } 
-            } 
+                }
+            }
             catch (System.Exception e)
             {
                 System.Console.WriteLine("caught exception:");
@@ -124,10 +124,10 @@ namespace TileDB.CSharp {
 
                     T[] data = list.ToArray();
                     array.PutMetadata<T>(key, data);
- 
+
                     array.Close();
                 }
-                 
+
             }
             catch (System.Exception e)
             {
@@ -183,7 +183,7 @@ namespace TileDB.CSharp {
             {
                 return (new byte[0], new ulong[0]);
             }
- 
+
             int totsize = 0;
             for (int i = 0; i < strarray.Length; ++i)
             {
@@ -247,7 +247,7 @@ namespace TileDB.CSharp {
 
 
         /// <summary>
-        /// Unpack string array. 
+        /// Unpack string array.
         /// </summary>
         /// <param name="data"></param>
         /// <param name="offsets"></param>
@@ -255,14 +255,14 @@ namespace TileDB.CSharp {
         /// <param name="encodingmethod"></param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentException"></exception>
-        public static List<string> UnPackStringArray(byte[] data, ulong[] offsets, byte[]? validities = null, string encodingmethod = "ASCII") 
+        public static List<string> UnPackStringArray(byte[] data, ulong[] offsets, byte[]? validities = null, string encodingmethod = "ASCII")
         {
             List<string> result = new List<string>();
             int tot_bytes_size = data.Length;
             int length = offsets.Length;
 
             bool is_nullable = (validities != null);
-            if (is_nullable && (validities.Length != offsets.Length))
+            if (is_nullable && (validities?.Length != offsets.Length))
             {
                 throw new System.ArgumentException("CoreUtil.UnpackStringArray, the lengths of offsets and validities are not equal!");
             }
@@ -271,7 +271,7 @@ namespace TileDB.CSharp {
             int indexFrom = 0;
             for (int i = 0; i < length; ++i)
             {
-                if (is_nullable && validities[i] == 0)
+                if (is_nullable && validities?[i] == 0)
                 {
                     continue;
                 }
@@ -289,7 +289,7 @@ namespace TileDB.CSharp {
                 totsize += bytesize;
                 if (totsize <= tot_bytes_size && bytesize > 0)
                 {
-                    byte[] bytes = new byte[bytesize];// 
+                    byte[] bytes = new byte[bytesize];
                     System.Array.Copy(data, indexFrom, bytes, 0, bytesize);
                     if (encodingmethod == "ASCII")
                     {
@@ -318,6 +318,6 @@ namespace TileDB.CSharp {
 
         #endregion Buffer
 
-    }//class 
+    }//class
 
 }//namespace

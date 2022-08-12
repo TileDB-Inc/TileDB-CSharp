@@ -106,7 +106,7 @@ namespace TileDB.CSharp.Examples
             query_read.SetDataBuffer<int>("rows", dim1_data_buffer_read);
             query_read.SetDataBuffer<int>("cols", dim2_data_buffer_read);
             query_read.SetDataBuffer<int>("a", attr_data_buffer_read);
-            query_read.QueryCompleted += OnReadCompleted;
+            query_read.QueryCompleted += OnReadCompleted!;
             query_read.SubmitAsync();
         }
 

@@ -26,10 +26,10 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 
-namespace TileDB.CSharp 
+namespace TileDB.CSharp
 {
     [Obsolete("Will be deprecated, Please use helper functions in CoreUtil.",false)]
-    public class TileDBBuffer<T> where T: struct  
+    public class TileDBBuffer<T> where T: struct
     {
         #region Fields
 
@@ -69,7 +69,7 @@ namespace TileDB.CSharp
             _dataGCHandle = System.Runtime.InteropServices.GCHandle.Alloc(_data, System.Runtime.InteropServices.GCHandleType.Pinned);
             _intptr = _dataGCHandle.AddrOfPinnedObject();
         }
-        
+
         public TileDBBuffer(T[] data, ulong[]? offsets = null, byte[]? validities = null)
         {
             _data = data;
@@ -102,7 +102,7 @@ namespace TileDB.CSharp
 
 
         #region Properties
- 
+
 
         public System.UInt64 DataSize
         {
@@ -126,12 +126,15 @@ namespace TileDB.CSharp
 
         #endregion Properties
 
- 
+
 
     }//class TileDBBuffer
 
+#pragma warning disable 612, 618
     public class TileDBStringBuffer : TileDBBuffer<byte>
     {
+#pragma warning restore 612, 618
+
         #region Fields
 
         #endregion Fields
@@ -160,4 +163,4 @@ namespace TileDB.CSharp
     }
 
 
-}//namespace 
+}//namespace
