@@ -24,7 +24,7 @@ jobs:
           - os: windows-latest
             HOST: win
             BOOTSTRAP: ../bootstrap.ps1 -EnableS3 -EnableSerialization
-        tag: [release-2.10, release-2.11, dev]
+        tag: [release-2.11, dev]
         dotnet: ['5.0', '6.0']
     runs-on: ${{ matrix.os }}
 
