@@ -5,7 +5,6 @@ namespace TileDB.CSharp.Test
     [TestClass]
     public class FilterTest
     {
-
         [TestMethod]
         public void NewBitShuffleFilterIsValid()
         {
@@ -65,6 +64,11 @@ namespace TileDB.CSharp.Test
         [TestMethod]
         public void NewFloatScalingFilterIsValid()
         {
+            if (!TestUtil.VersionMinimum(2, 11))
+            {
+                return;
+            }
+
             var ctx = Context.GetDefault();
             using var filter = new Filter(ctx, FilterType.TILEDB_FILTER_SCALE_FLOAT);
             Assert.AreEqual(FilterType.TILEDB_FILTER_SCALE_FLOAT, filter.FilterType());
