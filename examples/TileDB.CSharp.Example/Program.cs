@@ -10,6 +10,7 @@ namespace TileDB.CSharp.Examples
             Console.WriteLine("TileDB Core Version: {0}", CoreUtil.GetCoreLibVersion());
 
             ExampleQuery.Run();
+            // ExampleIncompleteQuery.Run();
 
             //ExampleFile.RunLocal();
             //ExampleFile.RunCloud();
