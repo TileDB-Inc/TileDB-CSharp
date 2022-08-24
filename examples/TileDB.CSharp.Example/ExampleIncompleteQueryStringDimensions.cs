@@ -35,14 +35,11 @@ namespace TileDB.CSharp.Examples
             var ctx = Context.GetDefault();
 
             var rowsData = Encoding.ASCII.GetBytes("abbcccddddeeeee");
-            var colsData = Encoding.ASCII.GetBytes("fgghhhiiiijjjjj");
+            var colsData = Encoding.ASCII.GetBytes("jjjjjiiiihhhggf");
 
-            // In this case the offsets happen to be the same
-            // TODO: Flip colsData so they are different
             var rowsOffsets = new ulong[] { 0, 1, 3, 6, 10 };
-            var colsOffsets = new ulong[] { 0, 1, 3, 6, 10 };
+            var colsOffsets = new ulong[] { 0, 5, 9, 12, 14 };
 
-            // Write a1 attribute with values 1-100
             int[] attrData = Enumerable.Range(1, 5).ToArray();
 
             using (var arrayWrite = new Array(ctx, arrayName))
@@ -105,26 +102,24 @@ namespace TileDB.CSharp.Examples
                     List<string> rowsData = new();
                     for (int i = 0; i < rowOffsetElements; i++)
                     {
-                        string result;
                         // Final offset value should be handled differently
                         // + We consume the rest of the data buffer beginning at index rowsReadOffsets[i]
                         int cellSize = i == rowOffsetElements - 1 ?
                             rowDataElements - (int)rowsReadOffsets[i]
                             : (int)rowsReadOffsets[i + 1] - (int)rowsReadOffsets[i];
 
-                        result = new(Encoding.ASCII.GetChars(rowsRead, (int)rowsReadOffsets[i], cellSize));
+                        string result = new(Encoding.ASCII.GetChars(rowsRead, (int)rowsReadOffsets[i], cellSize));
                         rowsData.Add(result);
                     }
 
                     List<string> colsData = new();
                     for (int i = 0; i < colOffsetElements; i++)
                     {
-                        string result;
                         int cellSize = i == colOffsetElements - 1 ?
                             colDataElements - (int)colsReadOffsets[i]
                             : (int)colsReadOffsets[i + 1] - (int)colsReadOffsets[i];
 
-                        result = new(Encoding.ASCII.GetChars(colsRead, (int)colsReadOffsets[i], cellSize));
+                        string result = new(Encoding.ASCII.GetChars(colsRead, (int)colsReadOffsets[i], cellSize));
                         colsData.Add(result);
                     }
 
