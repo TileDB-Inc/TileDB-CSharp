@@ -1,6 +1,6 @@
 set -e -x
-TAG=2.11.0
-ID=34e5dbc
+TAG=2.11.1
+ID=15a1161
 
 RELEASE=x86_64-$TAG-$ID
 wget https://github.com/TileDB-Inc/TileDB/releases/download/$TAG/tiledb-windows-$RELEASE.zip
