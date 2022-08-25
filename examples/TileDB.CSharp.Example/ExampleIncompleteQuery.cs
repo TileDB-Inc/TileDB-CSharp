@@ -7,7 +7,7 @@ namespace TileDB.CSharp.Examples
 {
     public class ExampleIncompleteQuery
     {
-        static string arrayName = "csharp-test-array";
+        static string arrayName = "sparse-incomplete-query";
 
         static void CreateArray()
         {
@@ -84,7 +84,7 @@ namespace TileDB.CSharp.Examples
             {
                 arrayRead.Open(QueryType.TILEDB_READ);
                 var queryRead = new Query(ctx, arrayRead);
-                queryRead.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
+                queryRead.SetLayout(LayoutType.TILEDB_UNORDERED);
                 queryRead.SetSubarray(new[] { 1, 100, 1, 100 });
 
                 queryRead.SetDataBuffer<int>("rows", rowsRead);

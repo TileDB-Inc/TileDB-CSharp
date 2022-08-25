@@ -937,6 +937,44 @@ namespace TileDB.CSharp
         #region buffers
 
         /// <summary>
+        /// Returns the number of elements read into result buffers from a read query.
+        ///
+        /// Dictionary key: Name of buffer used in call to SetDataBuffer, SetOffsetBuffer, or SetValidityBuffer
+        /// Tuple Item1: Number of elements read by the query
+        /// Tuple Item2: Number of offset elements read by the query
+        /// Tuple Item3: Number of validity bytes read by the query
+        ///
+        /// If the buffer is not variable-sized, Tuple.Item2 will be set to null
+        /// If the buffer is not nullable, Tuple.Item3 will be set to null
+        /// </summary>
+        /// <returns>Dictionary mapping buffer name to number of results</returns>
+        public Dictionary<string, Tuple<ulong, ulong?, ulong?>> ResultBufferElements()
+        {
+            var buffers = new Dictionary<string, Tuple<ulong, ulong?, ulong?>>();
+            foreach (var key in _dataBufferHandles.Keys)
+            {
+                ulong? offsetNum = null;
+                ulong? validityNum = null;
+
+                ulong typeSize = EnumUtil.TileDBDataTypeSize((tiledb_datatype_t)GetDataType(key));
+                ulong dataNum = (ulong)_dataBufferHandles[key].SizeHandle.Target! / typeSize;
+
+                if (_offsetsBufferHandles.ContainsKey(key))
+                {
+                    offsetNum = (ulong)_offsetsBufferHandles[key].SizeHandle.Target! / sizeof(ulong);
+                }
+                if (_validityBufferHandles.ContainsKey(key))
+                {
+                    validityNum = (ulong)_validityBufferHandles[key].SizeHandle.Target!;
+                }
+
+                buffers.Add(key, new(dataNum, offsetNum, validityNum));
+            }
+
+            return buffers;
+        }
+
+        /// <summary>
         /// Free all handles.
         /// </summary>
         private void FreeAllBufferHandles()
@@ -955,7 +993,6 @@ namespace TileDB.CSharp
             {
                 bh.Value.Free();
             }
-
         }
 
 

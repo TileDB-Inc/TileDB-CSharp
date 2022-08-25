@@ -11,6 +11,7 @@ namespace TileDB.CSharp.Examples
 
             ExampleQuery.Run();
             // ExampleIncompleteQuery.Run();
+            // ExampleIncompleteQueryStringDimensions.Run();
 
             //ExampleFile.RunLocal();
             //ExampleFile.RunCloud();
