@@ -5,5 +5,7 @@ namespace TileDB.Interop
     {
         TILEDB_READ = 0,
         TILEDB_WRITE = 1,
+        TILEDB_DELETE = 2,
+        TILEDB_MODIFY_EXCLUSIVE = 3,
     }
 }
