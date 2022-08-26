@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 
 namespace TileDB.CSharp.Test
 {
@@ -31,6 +32,89 @@ namespace TileDB.CSharp.Test
             }
 
             return true;
+        }
+
+        public static void CreateTestArray(ArraySchema schema, LayoutType layout, string arrayName)
+        {
+            var ctx = Context.GetDefault();
+
+            if (Directory.Exists(arrayName))
+            {
+                Directory.Delete(arrayName, true);
+            }
+
+            Array.Create(ctx, arrayName, schema);
+
+            // Write to array
+            using var array = new Array(ctx, arrayName);
+            array.Open(QueryType.TILEDB_WRITE);
+            using var writeQuery = new Query(ctx, array, QueryType.TILEDB_WRITE);
+            writeQuery.SetLayout(layout);
+            int[]? attrData = null;
+            int[]? rowData = null;
+            int[]? colData = null;
+            attrData = Enumerable.Range(1, 16).ToArray();
+            switch (schema.ArrayType())
+            {
+                case ArrayType.TILEDB_DENSE:
+                {
+                    writeQuery.SetSubarray(new[] {1, 4, 1, 4});
+                    break;
+                }
+                case ArrayType.TILEDB_SPARSE:
+                {
+                    rowData = new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 };
+                    colData = new[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 };
+                    writeQuery.SetDataBuffer("rows", rowData);
+                    writeQuery.SetDataBuffer("cols", colData);
+                    break;
+                }
+            }
+            writeQuery.SetDataBuffer("a1", attrData!);
+            writeQuery.Submit();
+            Console.WriteLine($"Write status: {writeQuery.Status()}");
+            writeQuery.FinalizeQuery();
+            array.Close();
+        }
+
+        public static void ReadTestArray(ArraySchema schema, LayoutType layout, string arrayName)
+        {
+            var ctx = Context.GetDefault();
+            var arrayType = schema.ArrayType();
+            var array = new Array(ctx, arrayName);
+            array.Open(QueryType.TILEDB_READ);
+
+            int[] rowRead = new int[16];
+            int[] colRead = new int[16];
+            int[] attrRead = new int[16];
+            var readQuery = new Query(ctx, array, QueryType.TILEDB_READ);
+            readQuery.SetLayout(arrayType == ArrayType.TILEDB_DENSE ?
+                LayoutType.TILEDB_ROW_MAJOR : LayoutType.TILEDB_UNORDERED);
+            // readQuery.SetLayout(LayoutType.TILEDB_UNORDERED);
+            switch (arrayType)
+            {
+                case ArrayType.TILEDB_DENSE:
+                {
+                    // readQuery.SetSubarray(new[] { 1, 4, 1, 4 });
+                    readQuery.AddRange("rows", 1, 4);
+                    readQuery.AddRange("cols", 1, 4);
+                    break;
+                }
+                case ArrayType.TILEDB_SPARSE:
+                {
+                    // readQuery.SetSubarray(new[] { 1, 4, 1, 4 });
+                    readQuery.AddRange("rows", 1, 4);
+                    readQuery.AddRange("cols", 1, 4);
+                    break;
+                }
+            }
+            readQuery.SetDataBuffer("rows", rowRead);
+            readQuery.SetDataBuffer("cols", colRead);
+            readQuery.SetDataBuffer("a1", attrRead);
+            readQuery.Submit();
+            Console.WriteLine($"Read status: {readQuery.Status()}");
+            Console.WriteLine(string.Join(", ", attrRead));
+            array.Close();
         }
 
         /// <summary>
