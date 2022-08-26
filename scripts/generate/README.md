@@ -154,7 +154,7 @@ sudo ldconfig
 
 ```bash
 cd ~/workspace/tiledb/TileDB-CSharp-tmp
-csgen -I $TILEDB_DIR/include/ -I ~/workspace/tiledb/clang+llvm-14.0.0-x86_64-linux-gnu-ubuntu-18.04/lib/clang/14.0.0/include/ --file $TILEDB_DIR/include/tiledb/tiledb.h $TILEDB_DIR/include/tiledb/tiledb_experimental.h @scripts/generate/generate.rsp -l libtiledb
+csgen -I $TILEDB_DIR/include/ -I ~/workspace/tiledb/clang+llvm-14.0.0-x86_64-linux-gnu-ubuntu-18.04/lib/clang/14.0.0/include/ --file $TILEDB_DIR/include/tiledb/tiledb.h $TILEDB_DIR/include/tiledb/tiledb_experimental.h $(find $TILEDB_DIR/include/tiledb/api/c_api/ -name *api_external*.h)  @scripts/generate/generate.rsp -l libtiledb
 ```
 
 `~/workspace/tiledb/TileDB-CSharp-tmp/sources/TileDB.Interop/Methods.cs` should be updated
