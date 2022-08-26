@@ -9,15 +9,15 @@ namespace TileDB.CSharp
         private readonly Context _ctx;
         private bool _disposed;
 
- 
 
-        public FilterList(Context ctx) 
+
+        public FilterList(Context ctx)
         {
             _ctx = ctx;
             _handle = new FilterListHandle(_ctx.Handle);
         }
 
-        internal FilterList(Context ctx, FilterListHandle handle) 
+        internal FilterList(Context ctx, FilterListHandle handle)
         {
             _ctx = ctx;
             _handle = handle;
@@ -54,7 +54,7 @@ namespace TileDB.CSharp
         /// Set maximum chunk size.
         /// </summary>
         /// <param name="maxChunkSize"></param>
-        public void SetMaxChunkSize(uint maxChunkSize) 
+        public void SetMaxChunkSize(uint maxChunkSize)
         {
             _ctx.handle_error(Methods.tiledb_filter_list_set_max_chunk_size(_ctx.Handle,_handle,maxChunkSize));
         }
@@ -87,9 +87,9 @@ namespace TileDB.CSharp
         /// <param name="filterIndex"></param>
         /// <returns></returns>
         /// <exception cref="ErrorException"></exception>
-        public Filter Filter(uint filterIndex) 
+        public Filter Filter(uint filterIndex)
         {
-            tiledb_filter_t* filter_p = null;
+            tiledb_filter_handle_t* filter_p = null;
             _ctx.handle_error(Methods.tiledb_filter_list_get_filter_from_index(_ctx.Handle, _handle, filterIndex, &filter_p));
 
             if (filter_p == null) {

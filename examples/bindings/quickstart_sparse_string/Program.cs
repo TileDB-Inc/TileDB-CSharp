@@ -8,7 +8,7 @@ namespace QuickstartSparseString
 {
     class Program
     {
-        static unsafe void CheckError(tiledb_ctx_t* ctx)
+        static unsafe void CheckError(tiledb_ctx_handle_t* ctx)
         {
             var err = stackalloc tiledb_error_t*[1];
             Methods.tiledb_ctx_get_last_error(ctx, err);
@@ -21,8 +21,8 @@ namespace QuickstartSparseString
                 Marshal.FreeHGlobal((IntPtr)err_out);
             }
         }
-        
-        static unsafe void CreateArray(tiledb_ctx_t* ctx)
+
+        static unsafe void CreateArray(tiledb_ctx_handle_t* ctx)
         {
             // Creating dimensions
             var d1 = stackalloc tiledb_dimension_t*[1];
@@ -30,7 +30,7 @@ namespace QuickstartSparseString
 
             Int32[] dim_domain = { 1, 4 };
             Int32 dim_extent = 4;
-            
+
             var attr_name = (sbyte*)Marshal.StringToHGlobalAnsi("a1");
             var rows_name = (sbyte*)Marshal.StringToHGlobalAnsi("rows");
             var cols_name = (sbyte*)Marshal.StringToHGlobalAnsi("cols");
@@ -98,7 +98,7 @@ namespace QuickstartSparseString
             extent_handle.Free();
         }
 
-        static unsafe void WriteArray(tiledb_ctx_t* ctx, tiledb_array_t* array)
+        static unsafe void WriteArray(tiledb_ctx_handle_t* ctx, tiledb_array_t* array)
         {
             // Open array for writing
             Methods.tiledb_array_open(ctx, array, tiledb_query_type_t.TILEDB_WRITE);
@@ -120,18 +120,18 @@ namespace QuickstartSparseString
             var attr_name = (sbyte*)Marshal.StringToHGlobalAnsi("a1");
             var rows_name = (sbyte*)Marshal.StringToHGlobalAnsi("rows");
             var cols_name = (sbyte*)Marshal.StringToHGlobalAnsi("cols");
-            
+
             // Create write query
             tiledb_query_t* query;
             Methods.tiledb_query_alloc(ctx, array, tiledb_query_type_t.TILEDB_WRITE, &query);
             CheckError(ctx);
-            
+
             Methods.tiledb_query_set_layout(ctx, query, tiledb_layout_t.TILEDB_UNORDERED);
             CheckError(ctx);
 
             var data_handle = GCHandle.Alloc(data, GCHandleType.Pinned);
             var data_size_handle = GCHandle.Alloc(data_size, GCHandleType.Pinned);
-            Methods.tiledb_query_set_data_buffer(ctx, query, attr_name, 
+            Methods.tiledb_query_set_data_buffer(ctx, query, attr_name,
                 data_handle.AddrOfPinnedObject().ToPointer(), (ulong*)data_size_handle.AddrOfPinnedObject()
             );
             CheckError(ctx);
@@ -176,7 +176,7 @@ namespace QuickstartSparseString
             data_cols_size_handle.Free();
         }
 
-        static unsafe void ReadArray(tiledb_ctx_t* ctx, tiledb_array_t* array)
+        static unsafe void ReadArray(tiledb_ctx_handle_t* ctx, tiledb_array_t* array)
         {
             Methods.tiledb_array_open(ctx, array, tiledb_query_type_t.TILEDB_READ);
             CheckError(ctx);
@@ -299,7 +299,7 @@ namespace QuickstartSparseString
                 Console.WriteLine($"TileDB Version: {major}.{minor}.{rev}");
 
                 // Create context
-                tiledb_ctx_t* ctx;
+                tiledb_ctx_handle_t* ctx;
                 Methods.tiledb_ctx_alloc(null, &ctx);
                 CheckError(ctx);
 
@@ -311,7 +311,7 @@ namespace QuickstartSparseString
                 {
                     Directory.Delete(new string(arr_name), recursive: true);
                 }
-                
+
                 CreateArray(ctx);
 
                 // Allocate array for read / write

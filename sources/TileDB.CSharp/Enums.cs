@@ -23,6 +23,8 @@ namespace TileDB.CSharp
     {
         TILEDB_READ = tiledb_query_type_t.TILEDB_READ,
         TILEDB_WRITE = tiledb_query_type_t.TILEDB_WRITE,
+        TILEDB_DELETE = tiledb_query_type_t.TILEDB_DELETE,
+        TILEDB_MODIFY_EXCLUSIVE = tiledb_query_type_t.TILEDB_MODIFY_EXCLUSIVE,
     }
 
     public enum QueryStatus : uint
@@ -138,6 +140,7 @@ namespace TileDB.CSharp
         TILEDB_FILTER_CHECKSUM_SHA256 = tiledb_filter_type_t.TILEDB_FILTER_CHECKSUM_SHA256,
         TILEDB_FILTER_DICTIONARY = tiledb_filter_type_t.TILEDB_FILTER_DICTIONARY,
         TILEDB_FILTER_SCALE_FLOAT = tiledb_filter_type_t.TILEDB_FILTER_SCALE_FLOAT,
+        TILEDB_FILTER_XOR = tiledb_filter_type_t.TILEDB_FILTER_XOR,
     }
 
     public enum FilterOption : uint

@@ -18,5 +18,6 @@ namespace TileDB.Interop
         TILEDB_FILTER_CHECKSUM_SHA256 = 13,
         TILEDB_FILTER_DICTIONARY = 14,
         TILEDB_FILTER_SCALE_FLOAT = 15,
+        TILEDB_FILTER_XOR = 16,
     }
 }

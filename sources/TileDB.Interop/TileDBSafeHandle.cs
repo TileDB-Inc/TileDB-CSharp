@@ -94,7 +94,7 @@ namespace TileDB.Interop
         //   - exception on failure
         public ContextHandle() : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_ctx_t*[1];
+            var h = stackalloc tiledb_ctx_handle_t*[1];
             var hconfig = new ConfigHandle();
             Methods.tiledb_ctx_alloc(hconfig, h);
 
@@ -107,7 +107,7 @@ namespace TileDB.Interop
 
         public ContextHandle(ConfigHandle hconfig) : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_ctx_t*[1];
+            var h = stackalloc tiledb_ctx_handle_t*[1];
             Methods.tiledb_ctx_alloc(hconfig, h);
 
             if (h[0] == (void*)0)
@@ -121,7 +121,7 @@ namespace TileDB.Interop
         override protected bool ReleaseHandle()
         {
             // Free the native object
-            var p = (tiledb_ctx_t*)handle;
+            var p = (tiledb_ctx_handle_t*)handle;
             Methods.tiledb_ctx_free(&p);
             // Invalidate the contained pointer
             SetHandle(IntPtr.Zero);
@@ -131,12 +131,12 @@ namespace TileDB.Interop
 
         // Conversions, getters, operators
         public ulong Get() { return (ulong)handle; }
-        private protected void SetHandle(tiledb_ctx_t* h) { SetHandle((IntPtr)h); }
+        private protected void SetHandle(tiledb_ctx_handle_t* h) { SetHandle((IntPtr)h); }
         private protected ContextHandle(IntPtr value) : base(value, ownsHandle: false) { }
         public override bool IsInvalid => handle == IntPtr.Zero;
         public static implicit operator IntPtr(ContextHandle h) => h.handle;
-        public static implicit operator tiledb_ctx_t*(ContextHandle h) => (tiledb_ctx_t*)h.handle;
-        public static implicit operator ContextHandle(tiledb_ctx_t* value) => new ContextHandle((IntPtr)value);
+        public static implicit operator tiledb_ctx_handle_t*(ContextHandle h) => (tiledb_ctx_handle_t*)h.handle;
+        public static implicit operator ContextHandle(tiledb_ctx_handle_t* value) => new ContextHandle((IntPtr)value);
     }//public unsafe partial class ContextHandle
 
     public unsafe class FilterHandle : SafeHandle
@@ -147,7 +147,7 @@ namespace TileDB.Interop
 
         public FilterHandle(ContextHandle hcontext, tiledb_filter_type_t filterType) : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_filter_t*[1];
+            var h = stackalloc tiledb_filter_handle_t*[1];
 
             Methods.tiledb_filter_alloc(hcontext, filterType, h);
 
@@ -162,7 +162,7 @@ namespace TileDB.Interop
         override protected bool ReleaseHandle()
         {
             // Free the native object
-            var p = (tiledb_filter_t*)handle;
+            var p = (tiledb_filter_handle_t*)handle;
             Methods.tiledb_filter_free(&p);
             // Invalidate the contained pointer
             SetHandle(IntPtr.Zero);
@@ -172,12 +172,12 @@ namespace TileDB.Interop
 
         // Conversions, getters, operators
         public ulong Get() { return (ulong)handle; }
-        private protected void SetHandle(tiledb_filter_t* h) { SetHandle((IntPtr)h); }
+        private protected void SetHandle(tiledb_filter_handle_t* h) { SetHandle((IntPtr)h); }
         private protected FilterHandle(IntPtr value) : base(value, ownsHandle: false) { }
         public override bool IsInvalid => handle == IntPtr.Zero;
         public static implicit operator IntPtr(FilterHandle h) => h.handle;
-        public static implicit operator tiledb_filter_t*(FilterHandle h) => (tiledb_filter_t*)h.handle;
-        public static implicit operator FilterHandle(tiledb_filter_t* value) => new FilterHandle((IntPtr)value);
+        public static implicit operator tiledb_filter_handle_t*(FilterHandle h) => (tiledb_filter_handle_t*)h.handle;
+        public static implicit operator FilterHandle(tiledb_filter_handle_t* value) => new FilterHandle((IntPtr)value);
     }//public unsafe partial class FilterHandle
 
 
