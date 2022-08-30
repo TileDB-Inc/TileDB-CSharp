@@ -60,6 +60,13 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Drop an attribute from ArraySchemaEvolution.
+        /// Calls DropAttribute(string) using Name property of attr
+        /// </summary>
+        /// <param name="attr">Fully constructed attribute to drop</param>
+        public void DropAttribute(Attribute attr) => DropAttribute(attr.Name());
+
+        /// <summary>
         /// Set timestamp range for ArraySchemaEvolution
         /// </summary>
         /// <param name="high">High value of timestamp range</param>

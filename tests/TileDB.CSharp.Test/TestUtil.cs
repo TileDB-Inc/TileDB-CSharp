@@ -69,12 +69,21 @@ namespace TileDB.CSharp.Test
             var context = Context.GetDefault();
             using Array array = new Array(context, arrayUri);
             array.Open(QueryType.TILEDB_WRITE);
+            PrintLocalSchema(array.Schema());
+            array.Close();
+        }
 
-            foreach (var pair in array.Schema().Dimensions())
+        /// <summary>
+        /// Print schema of a local TileDB array
+        /// </summary>
+        /// <param name="schema"></param>
+        public static void PrintLocalSchema(ArraySchema schema)
+        {
+            foreach (var pair in schema.Dimensions())
             {
                 Console.WriteLine($"Dimension: {pair.Key}; Data type: {pair.Value.Type()}");
             }
-            foreach (var pair in array.Schema().Attributes())
+            foreach (var pair in schema.Attributes())
             {
                 Console.WriteLine($"Attribute: {pair.Key}; Data type: {pair.Value.Type()}; " +
                                   $"Nullable: {pair.Value.Nullable()};");

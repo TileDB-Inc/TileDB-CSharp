@@ -246,6 +246,17 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Apply an ArraySchemaEvolution to the schema of an array
+        /// </summary>
+        /// <param name="ctx">Current TileDB Context</param>
+        /// <param name="schemaEvolution">Fully constructed ArraySchemaEvolution to apply</param>
+        public void Evolve(Context ctx, ArraySchemaEvolution schemaEvolution)
+        {
+            var msUri = new MarshaledString(_uri);
+            _ctx.handle_error(Methods.tiledb_array_evolve(ctx.Handle, msUri, schemaEvolution.Handle));
+        }
+
+        /// <summary>
         /// Consolidate an array.
         /// </summary>
         /// <param name="ctx"></param>
@@ -584,7 +595,7 @@ namespace TileDB.CSharp
         /// <param name="v"></param>
         public void PutMetadata<T>(string key, T v) where T : struct
         {
-            _metadata.PutMetadata<T>(key, v); 
+            _metadata.PutMetadata<T>(key, v);
         }
 
         /// <summary>
@@ -594,7 +605,7 @@ namespace TileDB.CSharp
         /// <param name="value"></param>
         public void PutMetadata(string key, string value)
         {
-            _metadata.PutMetadata(key, value); 
+            _metadata.PutMetadata(key, value);
         }
 
         /// <summary>
@@ -603,10 +614,10 @@ namespace TileDB.CSharp
         /// <param name="key"></param>
         public void DeleteMetadata(string key)
         {
-            _metadata.DeleteMetadata(key); 
+            _metadata.DeleteMetadata(key);
         }
 
- 
+
 
         /// <summary>
         /// Get metadata list.
@@ -616,7 +627,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public T[] GetMetadata<T>(string key) where T : struct
         {
-            return _metadata.GetMetadata<T>(key); 
+            return _metadata.GetMetadata<T>(key);
         }
 
         /// <summary>
@@ -626,7 +637,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public string GetMetadata(string key)
         {
-            return _metadata.GetMetadata(key); 
+            return _metadata.GetMetadata(key);
         }
 
         /// <summary>
@@ -635,10 +646,10 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public ulong MetadataNum()
         {
-            return _metadata.MetadataNum(); 
+            return _metadata.MetadataNum();
         }
 
- 
+
         /// <summary>
         /// Get metadata from index.
         /// </summary>
@@ -656,7 +667,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public string[] MetadataKeys()
         {
-            return _metadata.MetadataKeys(); 
+            return _metadata.MetadataKeys();
         }
 
         /// <summary>
@@ -666,7 +677,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public (bool has_key, DataType datatype) HasMetadata(string key)
         {
-            return _metadata.HasMetadata(key); 
+            return _metadata.HasMetadata(key);
         }
 
         /// <summary>
@@ -679,8 +690,9 @@ namespace TileDB.CSharp
         {
             ArrayMetadata.ConsolidateMetadata(ctx, uri, config);
         }
+
         /// <summary>
-        /// Vacuum the array.
+        /// Load array schema at a given path
         /// </summary>
         /// <param name="ctx"></param>
         /// <param name="path"></param>
@@ -691,6 +703,7 @@ namespace TileDB.CSharp
             ctx.handle_error(Methods.tiledb_array_schema_load(ctx.Handle, ms_path, &tiledb_array_schema_p));
             return new ArraySchema(ctx, tiledb_array_schema_p);
         }
+
         #endregion capi functions
 
     }//class
