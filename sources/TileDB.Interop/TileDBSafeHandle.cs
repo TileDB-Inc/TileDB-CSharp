@@ -9,13 +9,13 @@ namespace TileDB.Interop
         // Constructor for a Handle
         //   - calls native allocator
         //   - exception on failure
- 
+
         public ConfigHandle() : base(IntPtr.Zero, ownsHandle: true)
         {
             var h = stackalloc tiledb_config_t*[1];
             var e = stackalloc tiledb_error_t*[1];
             Methods.tiledb_config_alloc(h, e);
-            
+
             if (h[0] == (void*)0)
             {
                 throw new Exception("Failed to allocate!");
@@ -96,7 +96,7 @@ namespace TileDB.Interop
         {
             var h = stackalloc tiledb_ctx_t*[1];
             var hconfig = new ConfigHandle();
-            Methods.tiledb_ctx_alloc(hconfig, h); 
+            Methods.tiledb_ctx_alloc(hconfig, h);
 
             if (h[0] == (void*)0)
             {
@@ -144,11 +144,11 @@ namespace TileDB.Interop
         // Constructor for a Handle
         //   - calls native allocator
         //   - exception on failure
- 
+
         public FilterHandle(ContextHandle hcontext, tiledb_filter_type_t filterType) : base(IntPtr.Zero, ownsHandle: true)
         {
             var h = stackalloc tiledb_filter_t*[1];
- 
+
             Methods.tiledb_filter_alloc(hcontext, filterType, h);
 
             if (h[0] == (void*)0)
@@ -262,7 +262,7 @@ namespace TileDB.Interop
         public static implicit operator VFSHandle(tiledb_vfs_t* value) => new VFSHandle((IntPtr)value);
     }//public unsafe partial class VFSHandle
 
- 
+
     public unsafe class AttributeHandle : SafeHandle
     {
         // Constructor for a Handle
@@ -470,6 +470,43 @@ namespace TileDB.Interop
         public static implicit operator ArrayHandle(tiledb_array_t* value) => new ArrayHandle((IntPtr)value);
     }//public unsafe partial class ArrayHandle
 
+    public unsafe class ArraySchemaEvolutionHandle : SafeHandle
+    {
+        // Constructor for a Handle
+        //   - calls native allocator
+        //   - exception on failure
+        public ArraySchemaEvolutionHandle(ContextHandle contextHandle) : base(IntPtr.Zero, ownsHandle: true)
+        {
+            var h = stackalloc tiledb_array_schema_evolution_t*[1];
+            Methods.tiledb_array_schema_evolution_alloc(contextHandle, h);
+
+            if (h[0] == (void*)0)
+            {
+                throw new Exception("Failed to allocate ArraySchemaEvolutionHandle!");
+            }
+            SetHandle(h[0]);
+        }
+
+        // Deallocator: call native free with CER guarantees from SafeHandle
+        protected override bool ReleaseHandle()
+        {
+            var p = (tiledb_array_schema_evolution_t*)handle;
+            Methods.tiledb_array_schema_evolution_free(&p);
+            SetHandle(IntPtr.Zero);
+            return true;
+        }
+
+        // Conversions, getters, operators
+        public ulong Get() => (ulong)handle;
+        private protected void SetHandle(tiledb_array_schema_evolution_t* h) => SetHandle((IntPtr)h);
+        private protected ArraySchemaEvolutionHandle(IntPtr value) : base(value, ownsHandle: false) { }
+        public override bool IsInvalid => handle == IntPtr.Zero;
+        public static implicit operator IntPtr(ArraySchemaEvolutionHandle h) => h.handle;
+        public static implicit operator tiledb_array_schema_evolution_t*(ArraySchemaEvolutionHandle h) =>
+            (tiledb_array_schema_evolution_t*)h.handle;
+        public static implicit operator ArraySchemaEvolutionHandle(tiledb_array_schema_evolution_t* value) =>
+            new ArraySchemaEvolutionHandle((IntPtr)value);
+    }//public unsafe class ArraySchemaEvolutionHandle
 
     public unsafe class QueryHandle : SafeHandle
     {
