@@ -1,6 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using Microsoft.VisualBasic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TileDB.CSharp.Test
 {
@@ -34,6 +38,7 @@ namespace TileDB.CSharp.Test
             return true;
         }
 
+        // TODO: Depreciate and remove this function
         public static void CreateTestArray(ArraySchema schema, LayoutType layout, string arrayName)
         {
             var ctx = Context.GetDefault();
@@ -49,20 +54,29 @@ namespace TileDB.CSharp.Test
             using var array = new Array(ctx, arrayName);
             array.Open(QueryType.TILEDB_WRITE);
             using var writeQuery = new Query(ctx, array, QueryType.TILEDB_WRITE);
-            writeQuery.SetLayout(layout);
-            int[]? attrData = null;
+            int[] attrData = Enumerable.Range(1, 16).ToArray();
             int[]? rowData = null;
             int[]? colData = null;
-            attrData = Enumerable.Range(1, 16).ToArray();
             switch (schema.ArrayType())
             {
                 case ArrayType.TILEDB_DENSE:
                 {
+                    writeQuery.SetLayout(layout);
                     writeQuery.SetSubarray(new[] {1, 4, 1, 4});
                     break;
                 }
                 case ArrayType.TILEDB_SPARSE:
                 {
+                    // Only write to sparse array using unordered or global order
+                    if (layout is LayoutType.TILEDB_UNORDERED or LayoutType.TILEDB_GLOBAL_ORDER)
+                    {
+                        writeQuery.SetLayout(layout);
+                    }
+                    else
+                    {
+                        writeQuery.SetLayout(LayoutType.TILEDB_UNORDERED);
+                    }
+
                     rowData = new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 };
                     colData = new[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 };
                     writeQuery.SetDataBuffer("rows", rowData);
@@ -70,51 +84,120 @@ namespace TileDB.CSharp.Test
                     break;
                 }
             }
-            writeQuery.SetDataBuffer("a1", attrData!);
+            writeQuery.SetDataBuffer("a1", attrData);
             writeQuery.Submit();
             Console.WriteLine($"Write status: {writeQuery.Status()}");
-            writeQuery.FinalizeQuery();
+            if (layout == LayoutType.TILEDB_GLOBAL_ORDER)
+            {
+                writeQuery.FinalizeQuery();
+            }
             array.Close();
         }
 
-        public static void ReadTestArray(ArraySchema schema, LayoutType layout, string arrayName)
+        public static Query WriteArray(Array array, LayoutType layout, Dictionary<string, dynamic> buffers,
+            (ulong, ulong)? timestampRange = null, Context? ctx = null, Dictionary<string, ulong[]>? offsets = null)
         {
-            var ctx = Context.GetDefault();
-            var arrayType = schema.ArrayType();
-            var array = new Array(ctx, arrayName);
-            array.Open(QueryType.TILEDB_READ);
-
-            int[] rowRead = new int[16];
-            int[] colRead = new int[16];
-            int[] attrRead = new int[16];
-            var readQuery = new Query(ctx, array, QueryType.TILEDB_READ);
-            readQuery.SetLayout(arrayType == ArrayType.TILEDB_DENSE ?
-                LayoutType.TILEDB_ROW_MAJOR : LayoutType.TILEDB_UNORDERED);
-            // readQuery.SetLayout(LayoutType.TILEDB_UNORDERED);
-            switch (arrayType)
+            if (timestampRange != null)
             {
-                case ArrayType.TILEDB_DENSE:
+                array.SetOpenTimestampStart(timestampRange.Value.Item1);
+                array.SetOpenTimestampEnd(timestampRange.Value.Item2);
+            }
+            array.Open(QueryType.TILEDB_WRITE);
+
+            // Use context if provided; Else get default context
+            var context = ctx ?? Context.GetDefault();
+
+            var writeQuery = new Query(context, array, QueryType.TILEDB_WRITE);
+            // Sparse arrays can't write using row major; Can read using row-major, but not preferred for performance
+            if (array.Schema().ArrayType() == ArrayType.TILEDB_SPARSE && layout == LayoutType.TILEDB_ROW_MAJOR)
+            {
+                writeQuery.SetLayout(LayoutType.TILEDB_UNORDERED);
+            }
+            else
+            {
+                writeQuery.SetLayout(layout);
+            }
+            foreach (var buffer in buffers)
+            {
+                if (buffer.Value is byte[])
                 {
-                    // readQuery.SetSubarray(new[] { 1, 4, 1, 4 });
-                    readQuery.AddRange("rows", 1, 4);
-                    readQuery.AddRange("cols", 1, 4);
-                    break;
+                    writeQuery.SetDataBuffer<byte>(buffer.Key, buffer.Value);
+                    writeQuery.SetOffsetsBuffer(buffer.Key, offsets![buffer.Key]);
                 }
-                case ArrayType.TILEDB_SPARSE:
+                else
                 {
-                    // readQuery.SetSubarray(new[] { 1, 4, 1, 4 });
-                    readQuery.AddRange("rows", 1, 4);
-                    readQuery.AddRange("cols", 1, 4);
-                    break;
+                    writeQuery.SetDataBuffer(buffer.Key, buffer.Value);
                 }
             }
-            readQuery.SetDataBuffer("rows", rowRead);
-            readQuery.SetDataBuffer("cols", colRead);
-            readQuery.SetDataBuffer("a1", attrRead);
-            readQuery.Submit();
-            Console.WriteLine($"Read status: {readQuery.Status()}");
-            Console.WriteLine(string.Join(", ", attrRead));
+            writeQuery.Submit();
+            Console.WriteLine($"Write query status: {writeQuery.Status()}");
+            if (layout == LayoutType.TILEDB_GLOBAL_ORDER)
+            {
+                writeQuery.FinalizeQuery();
+            }
+
             array.Close();
+
+            Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, writeQuery.Status());
+            // Return write query for context
+            return writeQuery;
+        }
+
+        public static Query ReadArray(Array array, LayoutType layout,
+            Dictionary<string, dynamic> buffers, (ulong, ulong)? timestampRange = null, Context? ctx = null)
+        {
+            if (timestampRange != null)
+            {
+                array.SetOpenTimestampStart(timestampRange.Value.Item1);
+                array.SetOpenTimestampEnd(timestampRange.Value.Item2);
+            }
+
+            array.Open(QueryType.TILEDB_READ);
+
+            // Use context if provided; Else get default context
+            var context = ctx ?? Context.GetDefault();
+
+            var readQuery = new Query(context, array, QueryType.TILEDB_READ);
+            readQuery.SetLayout(layout);
+            foreach (var buffer in buffers)
+            {
+                if (buffer.Key.Contains("Offset"))
+                {
+                    readQuery.SetOffsetsBuffer(buffer.Key.Split("Offset")[0], buffer.Value);
+                }
+                else
+                {
+                    readQuery.SetDataBuffer(buffer.Key, buffer.Value);
+                }
+            }
+
+            readQuery.Submit();
+            Console.WriteLine($"Read query status: {readQuery.Status()}");
+
+            array.Close();
+
+            Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, readQuery.Status());
+            return readQuery;
+        }
+
+        public static void PrintBuffer<T>(IEnumerable<T> buffer) => Console.WriteLine(string.Join(", ", buffer));
+
+        public static void CompareBuffers(Dictionary<string, dynamic> expected, Dictionary<string, dynamic> actual, bool dups)
+        {
+            foreach (var buffer in expected)
+            {
+                Console.WriteLine($"Expected {buffer.Key}: {string.Join(", ", buffer.Value)}" +
+                                  $"\n  Actual {buffer.Key}: {string.Join(", ", actual[buffer.Key])}");
+                if (dups)
+                {
+                    CollectionAssert.AreEquivalent(buffer.Value, actual[buffer.Key]);
+                }
+                else
+                {
+                    CollectionAssert.AreEqual(buffer.Value, actual[buffer.Key]);
+                }
+            }
+            Console.WriteLine();
         }
 
         /// <summary>

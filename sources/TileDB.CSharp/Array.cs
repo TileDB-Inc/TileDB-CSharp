@@ -105,26 +105,32 @@ namespace TileDB.CSharp
         #region capi functions
         /// <summary>
         /// Set open timestamp start, sets the subsequent Open call to use the start_timestamp of the passed value.
+        ///
+        /// Default value is 0. This is an inclusive-bound.
         /// </summary>
-        /// <param name="timestampStart"></param>
+        /// <param name="timestampStart">Epoch time in milliseconds</param>
         public void SetOpenTimestampStart(ulong timestampStart)
         {
             _ctx.handle_error(Methods.tiledb_array_set_open_timestamp_start(_ctx.Handle, _handle, timestampStart));
         }
 
         /// <summary>
-        /// Set open timestamp end.
+        /// Set open timestamp end, sets the subsequent Open call to use the end_timestamp of the passed value.
+        ///
+        /// Default value is ulong.MaxValue. This is an inclusive-bound.
         /// </summary>
-        /// <param name="timestampEnd"></param>
+        /// <param name="timestampEnd">Epoch time in milliseconds</param>
         public void SetOpenTimestampEnd(ulong timestampEnd)
         {
             _ctx.handle_error(Methods.tiledb_array_set_open_timestamp_end(_ctx.Handle, _handle, timestampEnd));
         }
 
         /// <summary>
-        /// Get open timestamp start.
+        /// Get inclusive-bound open timestamp start.
+        ///
+        /// An array must be opened after calling SetOpenTimestampStart to retrieve an updated value
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Epoch time in milliseconds of opened array timestamp start</returns>
         public ulong OpenTimestampStart()
         {
             ulong timestamp;
@@ -133,9 +139,11 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get timestamp end.
+        /// Get inclusive-bound open timestamp end.
+        ///
+        /// An array must be opened after calling SetOpenTimestampEnd to retrieve an updated value
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Epoch time in milliseconds of opened array timestamp end</returns>
         public ulong OpenTimestampEnd()
         {
             ulong timestamp;
@@ -161,7 +169,7 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Tes if the array is open or not.
+        /// Test if the array is open or not.
         /// </summary>
         /// <returns></returns>
         public bool IsOpen()
