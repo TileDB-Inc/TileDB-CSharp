@@ -10,14 +10,14 @@ namespace TileDB.CSharp.Examples
             Console.WriteLine("TileDB Core Version: {0}", CoreUtil.GetCoreLibVersion());
 
             ExampleQuery.Run();
-            // ExampleIncompleteQuery.Run();
-            // ExampleIncompleteQueryStringDimensions.Run();
+            ExampleIncompleteQuery.Run();
+            ExampleIncompleteQueryStringDimensions.Run();
 
-            //ExampleFile.RunLocal();
-            //ExampleFile.RunCloud();
+            ExampleFile.RunLocal();
+            // ExampleFile.RunCloud("tiledb_api_token", "tiledb_namespace", "cloud_array_name", "s3://bucket/prefix/");
 
-            //ExampleGroup.RunLocal();
-            //ExampleGroup.RunCloud();
+            ExampleGroup.RunLocal();
+            // ExampleGroup.RunCloud("tiledb_api_token", "tiledb_namespace", "s3://bucket/prefix");
         }
     }
 }

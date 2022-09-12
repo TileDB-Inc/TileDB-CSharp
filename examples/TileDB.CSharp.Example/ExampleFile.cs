@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace TileDB.CSharp.Examples
 {
@@ -7,14 +8,14 @@ namespace TileDB.CSharp.Examples
     {
         private Context _ctx;
         private string _nameSpace;
-        
+
         // Local access
         public ExampleFile()
         {
             _ctx = Context.GetDefault();
             _nameSpace = String.Empty;
         }
-        
+
         // S3 access
         public ExampleFile(string key, string secret)
         {
@@ -24,7 +25,7 @@ namespace TileDB.CSharp.Examples
             _ctx = new Context(config);
             _nameSpace = String.Empty;
         }
-        
+
         // TileDB Cloud access with token
         public ExampleFile(string host, string token, string nameSpace)
         {
@@ -49,8 +50,21 @@ namespace TileDB.CSharp.Examples
         public void SaveFileToArray(string pathOrBucket, string arrayName, string fileToSave)
         {
             var arrayURI = string.Join("/", new List<string>(new string[] {pathOrBucket, arrayName}));
+
+            // If no fileToSave exists, create one with some text data
+            if (!System.IO.File.Exists(fileToSave))
+            {
+                System.IO.File.WriteAllText(fileToSave, "Some text data");
+            }
+
             if (_nameSpace == String.Empty)
             {
+                // If exported array exists, recreate it
+                if (Directory.Exists(arrayURI))
+                {
+                    Directory.Delete(arrayURI, true);
+                }
+
                 FileStoreUtil.SaveFileToArray(_ctx, arrayURI, fileToSave);
                 return;
             }
@@ -80,24 +94,33 @@ namespace TileDB.CSharp.Examples
             var localArrayName = "array_name";
             var localOutputFile = "local_out_file";
 
+            if (!Directory.Exists(localPath))
+            {
+                Directory.CreateDirectory(localPath);
+            }
+
             var exampleFile = new ExampleFile();
+            // Import localFile to new TileDB Array
             exampleFile.SaveFileToArray(localPath, localArrayName, localFile);
+            // Export TileDB Array to new localOutputFile
             exampleFile.ExportArrayToFile(localOutputFile, localArrayName, localPath);
         }
 
-        public static void RunCloud()
+        public static void RunCloud(string token, string nameSpace, string cloudArrayName, string s3Bucket,
+            string host = "https://api.tiledb.com")
         {
+            // Local file to import to new TileDB Cloud Array
             var localFile = "local_file";
-            var bucket = "bucket";
-            var cloudArrayName = "cloud_array_name";
-            var localOutputFileFromCloud = "local_out";
+            // Local file to store exported TileDB Cloud Array
+            var localOutputFileFromCloud = "local_out_cloud_file";
 
-            var exampleFile = new ExampleFile(
-                "http://localhost:8181",
-                "token",
-                "userNameOrOrganization"
-            );
-            exampleFile.SaveFileToArray(bucket, cloudArrayName, localFile);
+            // Convert a local file to new TileDB Cloud Array
+            // + Creates TileDB Array: tiledb://<nameSpace>/<cloudArrayName>
+            // + Stored on S3: <s3bucket>/<cloudArrayName>
+            var exampleFile = new ExampleFile(host, token, nameSpace);
+            // Import localFile to new TileDB Cloud Array
+            exampleFile.SaveFileToArray(s3Bucket, cloudArrayName, localFile);
+            // Export TileDB Cloud Array to new local file
             exampleFile.ExportArrayToFile(localOutputFileFromCloud, cloudArrayName);
         }
     }
