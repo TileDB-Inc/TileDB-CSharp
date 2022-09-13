@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace TileDB.CSharp.Examples
 {
@@ -7,14 +8,14 @@ namespace TileDB.CSharp.Examples
     {
         private Context _ctx;
         private string _nameSpace;
-        
+
         // Local access
         public ExampleGroup()
         {
             _ctx = Context.GetDefault();
             _nameSpace = String.Empty;
         }
-        
+
         // S3 access
         public ExampleGroup(string key, string secret)
         {
@@ -24,7 +25,7 @@ namespace TileDB.CSharp.Examples
             _ctx = new Context(config);
             _nameSpace = String.Empty;
         }
-        
+
         // TileDB Cloud access with token
         public ExampleGroup(string host, string token, string nameSpace)
         {
@@ -53,7 +54,16 @@ namespace TileDB.CSharp.Examples
 
             if (_nameSpace == String.Empty)
             {
+                if (Directory.Exists(groupURI1))
+                {
+                    Directory.Delete(groupURI1, true);
+                }
                 Group.Create(_ctx, groupURI1);
+
+                if (Directory.Exists(groupURI2))
+                {
+                    Directory.Delete(groupURI2, true);
+                }
                 Group.Create(_ctx, groupURI2);
                 return;
             }
@@ -87,7 +97,11 @@ namespace TileDB.CSharp.Examples
 
         public static void RunLocal()
         {
-            var localGroupPath = "localPath";
+            var localGroupPath = "local_path";
+            if (!Directory.Exists(localGroupPath))
+            {
+                Directory.CreateDirectory(localGroupPath);
+            }
             var localGroupName1 = "group1";
             var localGroupName2 = "group2";
 
@@ -96,17 +110,13 @@ namespace TileDB.CSharp.Examples
             exampleGroup.NestGroup(localGroupPath, localGroupName1, localGroupName2);
         }
 
-        public static void RunCloud()
+        public static void RunCloud(string token, string nameSpace, string s3BucketPrefix,
+            string host = "https://api.tiledb.com")
         {
-            var s3BucketPrefix = "s3://bucket/prefix";
             var cloudGroupName1 = "cloud_group1";
             var cloudGroupName2 = "cloud_group2";
 
-            var exampleGroup = new ExampleGroup(
-                "http://localhost:8181",
-                "token",
-                ""
-            );
+            var exampleGroup = new ExampleGroup(host, token, nameSpace);
             exampleGroup.CreateGroups(s3BucketPrefix, cloudGroupName1, cloudGroupName2);
             exampleGroup.NestGroup(s3BucketPrefix, cloudGroupName1, cloudGroupName2);
         }

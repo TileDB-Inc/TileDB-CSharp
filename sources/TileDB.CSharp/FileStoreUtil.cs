@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TileDB.CSharp
 {
-    public class FileStoreUtil
+    public static class FileStoreUtil
     {
         public static void SaveFileToArray(Context ctx, string array_uri, string file)
         {
