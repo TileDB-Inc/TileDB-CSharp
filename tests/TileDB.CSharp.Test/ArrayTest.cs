@@ -12,7 +12,7 @@ namespace TileDB.CSharp.Test
         {
             var context = Context.GetDefault();
 
-            var tmpArrayPath = Path.Join( Path.GetTempPath(), "dense_array_test");
+            var tmpArrayPath = CoreUtil.MakeTestPath("dense_array_test");
 
             if (Directory.Exists(tmpArrayPath))
             {
@@ -26,7 +26,7 @@ namespace TileDB.CSharp.Test
             Assert.IsNotNull(array_schema);
 
             array.Create(array_schema);
-            
+
             Assert.AreEqual(("file://" + tmpArrayPath).Replace('\\', '/').Replace("///","//"), array.Uri().Replace("///","//"));
 
             array.Open(QueryType.TILEDB_READ);
@@ -64,7 +64,7 @@ namespace TileDB.CSharp.Test
         {
             var context = Context.GetDefault();
 
-            var tmpArrayPath = Path.Join( Path.GetTempPath(), "sparse_array_test");
+            var tmpArrayPath = CoreUtil.MakeTestPath("sparse_array_test");
 
             if (Directory.Exists(tmpArrayPath))
             {
@@ -107,7 +107,7 @@ namespace TileDB.CSharp.Test
 
             Assert.ThrowsException<ArgumentException>(()=>array.NonEmptyDomain<short>("dim2"));
             Assert.ThrowsException<ArgumentException>(()=>array.NonEmptyDomain<short>(1));
-            
+
             (_, _, isEmpty) = array.NonEmptyDomain<float>("dim2");
             Assert.IsTrue(isEmpty);
 
@@ -116,7 +116,7 @@ namespace TileDB.CSharp.Test
 
             (_, isEmpty) = array.NonEmptyDomain();
             Assert.IsTrue(isEmpty);
-            
+
             array.Close();
 
             var array_schema_loaded = Array.LoadArraySchema(context, tmpArrayPath);

@@ -1,8 +1,5 @@
-using System;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TileDB.CSharp;
-using System.Runtime.InteropServices;
 namespace TileDB.CSharp.Test
 {
     [TestClass]
@@ -43,7 +40,7 @@ namespace TileDB.CSharp.Test
 
             array_schema.Check();
 
-            var tmpArrayPath = Path.Join(Path.GetTempPath(), "tiledb_test_sparse_array");
+            var tmpArrayPath = CoreUtil.MakeTestPath("tiledb_test_sparse_array");
 
             if (Directory.Exists(tmpArrayPath))
             {

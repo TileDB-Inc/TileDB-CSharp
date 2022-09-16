@@ -7,7 +7,6 @@ namespace TileDB.CSharp.Test
     {
         [TestMethod]
         public void TestDimension() {
-            
             var context = Context.GetDefault();
 
             int bound_lower=1, bound_upper=10, extent = 5;
@@ -24,14 +23,11 @@ namespace TileDB.CSharp.Test
         [TestMethod]
         public void TestStringDimension()
         {
-            
             var context = Context.GetDefault();
 
             var dimension = Dimension.Create<string>(context, "strdim", "", "", "");
             Assert.AreEqual<string>("strdim", dimension.Name());
             Assert.AreEqual(DataType.TILEDB_STRING_ASCII, dimension.Type());
         }
-
     }
-
 }//namespace

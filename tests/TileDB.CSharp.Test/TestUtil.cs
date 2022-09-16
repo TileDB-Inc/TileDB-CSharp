@@ -3,7 +3,7 @@ using System.IO;
 
 namespace TileDB.CSharp.Test
 {
-    public class TestUtil
+    public static class TestUtil
     {
         /// <summary>
         /// Guard running new test cases against previous versions
@@ -34,13 +34,6 @@ namespace TileDB.CSharp.Test
         }
 
         /// <summary>
-        /// Normalizes temp directory for all tests
-        /// </summary>
-        /// <param name="arrayName">Name of array to create temp path</param>
-        /// <returns>A full path to a local temp directory using provided arrayName</returns>
-        public static string GetTempPath(string arrayName) => Path.Join(Path.Join(Path.GetTempPath(), "tiledb-test"), arrayName);
-
-        /// <summary>
         /// Create a new array with a given name and schema
         /// </summary>
         /// <param name="ctx">Current TileDB Context</param>
@@ -52,10 +45,10 @@ namespace TileDB.CSharp.Test
             {
                 Directory.Delete(name, true);
             }
-            else if (!Directory.Exists(GetTempPath("")))
+            else if (!Directory.Exists(CoreUtil.MakeTestPath("")))
             {
                 // Create `/tmp/tiledb-tests` if it does not exist
-                Directory.CreateDirectory(GetTempPath(""));
+                Directory.CreateDirectory(CoreUtil.MakeTestPath(""));
             }
             Array.Create(ctx, name, schema);
         }

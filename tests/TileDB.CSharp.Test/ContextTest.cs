@@ -8,28 +8,26 @@ namespace TileDB.CSharp.Test
         [TestMethod]
         public void NewContextIsValid()
         {
-
             var config = new Config();
 
             // Set values
             config.Set("sm.memory_budget", "512000000");
             config.Set("vfs.s3.connect_timeout_ms", "5000");
             config.Set("vfs.s3.endpoint_override", "localhost:8888");
-            using (var ctx = new Context(config)) 
+            using (var ctx = new Context(config))
             {
                 // Get values
                 Assert.AreEqual<string>(ctx.Config().Get("sm.memory_budget"), "512000000");
                 Assert.AreEqual<string>(ctx.Config().Get("vfs.s3.connect_timeout_ms"), "5000");
                 Assert.AreEqual<string>(ctx.Config().Get("vfs.s3.endpoint_override"), "localhost:8888");
             }
-
         }
 
         [TestMethod]
-        public void ConfigReadWrite() 
+        public void ConfigReadWrite()
         {
             var config = new Config();
- 
+
             // Set values
             config.Set("sm.memory_budget", "512000000");
             config.Set("vfs.s3.connect_timeout_ms", "5000");
@@ -40,16 +38,16 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual<string>(config.Get("vfs.s3.connect_timeout_ms"), "5000");
             Assert.AreEqual<string>(config.Get("vfs.s3.endpoint_override"), "localhost:8888");
 
-            config.SaveToFile("temp.cfg");
+            var tempConfigPath = CoreUtil.MakeTestPath("temp.cfg");
+            config.SaveToFile(tempConfigPath);
 
             var config2 = new Config();
-            config2.LoadFromFile("temp.cfg");
+            config2.LoadFromFile(tempConfigPath);
 
             // Get values from config2
             Assert.AreEqual<string>(config2.Get("sm.memory_budget"), "512000000");
             Assert.AreEqual<string>(config2.Get("vfs.s3.connect_timeout_ms"), "5000");
             Assert.AreEqual<string>(config2.Get("vfs.s3.endpoint_override"), "localhost:8888");
-
         }
     }
 }
