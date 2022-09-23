@@ -15,11 +15,70 @@ namespace TileDB.CSharp.Test
     [TestClass]
     public class DeletesTest
     {
-        [TestInitialize]
-        public void InitTests()
+        private static void InitTest(Context ctx, string arrayName, LayoutType layout, bool duplicates)
         {
-            // Console.WriteLine(Assembly.GetAssembly(typeof(TileDB.CSharp.Array))!.FullName);
-            // Console.WriteLine($"TileDB Core version: {TileDB.CSharp.CoreUtil.GetCoreLibVersion()}");
+            Console.WriteLine(Assembly.GetAssembly(typeof(TileDB.CSharp.Array))!.FullName);
+            Console.WriteLine($"TileDB Core version: {TileDB.CSharp.CoreUtil.GetCoreLibVersion()}");
+            if (!TestUtil.VersionMinimum(2, 12))
+            {
+                return;
+            }
+
+            var rows = Dimension.Create(ctx, "rows", new[] { 1, 4 }, 4);
+            var cols = Dimension.Create(ctx, "cols", new[] { 1, 4 }, 4);
+            var domain = new Domain(ctx);
+            domain.AddDimensions(rows, cols);
+            // Deletes are only supported for sparse arrays
+            var arrayType = ArrayType.TILEDB_SPARSE;
+            var schema = new ArraySchema(ctx, arrayType);
+            schema.SetDomain(domain);
+            schema.AddAttribute(new Attribute(ctx, "a1", DataType.TILEDB_INT32));
+            schema.SetAllowsDups(duplicates);
+            schema.Check();
+            var array = new Array(ctx, arrayName);
+
+            TestUtil.CreateTestArray(schema, layout, arrayName);
+            var readBuffers = new Dictionary<string, dynamic>
+                { {"rows", new int[16]}, {"cols", new int[16]}, {"a1", new int[16]} };
+            TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx);
+            var expectedData = new Dictionary<string, dynamic>()
+            {
+                { "a1", Enumerable.Range(1, 16).ToArray() },
+                { "rows", new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 } },
+                { "cols", new[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 } },
+            };
+            TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
+
+        }
+
+        private void DeleteFour(Context ctx, Array array, LayoutType layout, bool duplicates)
+        {
+            // Delete multiple cells at once
+            array.Open(QueryType.TILEDB_DELETE);
+            var deleteQuery = new Query(ctx, array, QueryType.TILEDB_DELETE);
+            var queryCondition = new QueryCondition(ctx);
+            queryCondition.Init("cols", 2, QueryConditionOperatorType.TILEDB_EQ);
+            deleteQuery.SetCondition(queryCondition);
+            deleteQuery.Submit();
+            Assert.AreEqual(deleteQuery.Status(), QueryStatus.TILEDB_COMPLETED);
+            Console.WriteLine($"Delete multiple cells status: {deleteQuery.Status()}");
+            array.Close();
+
+            // Check for expected values
+            var readBuffers = new Dictionary<string, dynamic>()
+                { { "rows", new int[16] }, { "cols", new int[16] }, { "a1", new int[16] } };
+            var readQuery = TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx);
+            var expectedData = new Dictionary<string, dynamic>()
+            {
+                { "a1", new[] { 1, 3, 4, 5, 7, 8, 9, 11, 12, 13, 15, 16, 0, 0, 0, 0 } },
+                { "rows", new[] { 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 0, 0, 0, 0 } },
+                { "cols", new[] { 1, 3, 4, 1, 3, 4, 1, 3, 4, 1, 3, 4, 0, 0, 0, 0 } },
+            };
+
+            array.Open(QueryType.TILEDB_READ);
+            Assert.AreEqual(12UL, readQuery.ResultBufferElements()["a1"].Item1);
+            array.Close();
+            TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
         }
 
         // Params for all tests are (layout, legacy, duplicates)
@@ -38,59 +97,14 @@ namespace TileDB.CSharp.Test
         [DataTestMethod]
         public void MultipleCells(LayoutType layout, bool legacy, bool duplicates)
         {
-            if (!TestUtil.VersionMinimum(2, 12))
-            {
-                return;
-            }
             string arrayName = "deletes-multiple-cells";
-
             var ctx = Context.GetDefault();
             ctx.Config().Set("sm.query.sparse_global_order.reader", legacy ? "legacy" : "refactored");
             ctx.Config().Set("sm.query.sparse_unordered_with_dups.reader", legacy ? "legacy" : "refactored");
-
-            var rows = Dimension.Create(ctx, "rows", new[] { 1, 4 }, 4);
-            var cols = Dimension.Create(ctx, "cols", new[] { 1, 4 }, 4);
-            var domain = new Domain(ctx);
-            domain.AddDimensions(rows, cols);
-            // Deletes are only supported for sparse arrays
-            var arrayType = ArrayType.TILEDB_SPARSE;
-            var schema = new ArraySchema(ctx, arrayType);
-            schema.SetDomain(domain);
-            schema.AddAttribute(new Attribute(ctx, "a1", DataType.TILEDB_INT32));
-            schema.SetAllowsDups(duplicates);
-            schema.Check();
+            InitTest(ctx, arrayName, layout, duplicates);
             var array = new Array(ctx, arrayName);
-            TestUtil.CreateTestArray(schema, layout, arrayName);
-            var readBuffers = new Dictionary<string, dynamic>
-                { {"rows", new int[16]}, {"cols", new int[16]}, {"a1", new int[16]} };
-            TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx);
-            var expectedData = new Dictionary<string, dynamic>()
-            {
-                { "a1", Enumerable.Range(1, 16).ToArray() },
-                { "rows", new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 } },
-                { "cols", new[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 } },
-            };
-            TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
 
-            // Delete multiple cells at once
-            array.Open(QueryType.TILEDB_DELETE);
-            var deleteQuery = new Query(ctx, array, QueryType.TILEDB_DELETE);
-            var queryCondition = new QueryCondition(ctx);
-            queryCondition.Init("cols", 2, QueryConditionOperatorType.TILEDB_EQ);
-            deleteQuery.SetCondition(queryCondition);
-            deleteQuery.Submit();
-            Assert.AreEqual(deleteQuery.Status(), QueryStatus.TILEDB_COMPLETED);
-            Console.WriteLine($"Delete multiple cells status: {deleteQuery.Status()}");
-            array.Close();
-
-            // Check for expected values
-            readBuffers = new()
-                { { "rows", new int[16] }, { "cols", new int[16] }, { "a1", new int[16] } };
-            TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx);
-            expectedData["a1"] = new[] { 1, 3, 4, 5, 7, 8, 9, 11, 12, 13, 15, 16, 0, 0, 0, 0};
-            expectedData["rows"] = new[] { 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 0, 0, 0, 0 };
-            expectedData["cols"] = new[] { 1, 3, 4, 1, 3, 4, 1, 3, 4, 1, 3, 4, 0, 0, 0, 0 };
-            TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
+            DeleteFour(ctx, array, layout, duplicates);
         }
 
         [DataRow(LayoutType.TILEDB_UNORDERED, true, true)]
@@ -108,40 +122,12 @@ namespace TileDB.CSharp.Test
         [DataTestMethod]
         public void SingleCell(LayoutType layout, bool legacy, bool duplicates)
         {
-            if (!TestUtil.VersionMinimum(2, 12))
-            {
-                return;
-            }
             string arrayName = "deletes-single-cell";
-
             var ctx = Context.GetDefault();
             ctx.Config().Set("sm.query.sparse_global_order.reader", legacy ? "legacy" : "refactored");
             ctx.Config().Set("sm.query.sparse_unordered_with_dups.reader", legacy ? "legacy" : "refactored");
-
-            var rows = Dimension.Create(ctx, "rows", new[] { 1, 4 }, 4);
-            var cols = Dimension.Create(ctx, "cols", new[] { 1, 4 }, 4);
-            var domain = new Domain(ctx);
-            domain.AddDimensions(rows, cols);
-            var arrayType = ArrayType.TILEDB_SPARSE;
-            var schema = new ArraySchema(ctx, arrayType);
-            schema.SetDomain(domain);
-            schema.AddAttribute(new Attribute(ctx, "a1", DataType.TILEDB_INT32));
-            schema.SetAllowsDups(duplicates);
-            schema.Check();
+            InitTest(ctx, arrayName, layout, duplicates);
             var array = new Array(ctx, arrayName);
-            TestUtil.CreateTestArray(schema, layout, arrayName);
-            var readBuffers = new Dictionary<string, dynamic>
-                { { "rows", new int[16] }, { "cols", new int[16] }, { "a1", new int[16] } };
-            TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx);
-
-            var expectedData = new Dictionary<string, dynamic>()
-            {
-                { "a1", Enumerable.Range(1, 16).ToArray() },
-                { "rows", new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 } },
-                { "cols", new[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 } },
-            };
-            TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
-
 
             // Delete one cell
             array.Open(QueryType.TILEDB_DELETE);
@@ -158,13 +144,19 @@ namespace TileDB.CSharp.Test
             Console.WriteLine($"Delete single cells status: {deleteQuery.Status()}");
 
             // Check for expected values
-            readBuffers = new()
+            var readBuffers = new Dictionary<string, dynamic>()
                 { { "rows", new int[16] }, { "cols", new int[16] }, { "a1", new int[16] } };
-            TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx);
+            var readQuery = TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx);
 
-            expectedData["a1"] = new[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0 };
-            expectedData["rows"] = new[] { 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 0 };
-            expectedData["cols"] = new[] { 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 0 };
+            array.Open(QueryType.TILEDB_READ);
+            Assert.AreEqual(15UL, readQuery.ResultBufferElements()["a1"].Item1);
+            array.Close();
+            var expectedData = new Dictionary<string, dynamic>()
+            {
+                { "a1", new[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0 } },
+                { "rows", new[] { 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 0 } },
+                { "cols", new[] { 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 0 } },
+            };
             TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
         }
 
@@ -183,62 +175,19 @@ namespace TileDB.CSharp.Test
         [DataTestMethod]
         public void VaryingCells(LayoutType layout, bool legacy, bool duplicates)
         {
-            if (!TestUtil.VersionMinimum(2, 12))
-            {
-                return;
-            }
             string arrayName = "deletes-varying-cells";
-
             var ctx = Context.GetDefault();
             ctx.Config().Set("sm.query.sparse_global_order.reader", legacy ? "legacy" : "refactored");
             ctx.Config().Set("sm.query.sparse_unordered_with_dups.reader", legacy ? "legacy" : "refactored");
-
-            var rows = Dimension.Create(ctx, "rows", new[] { 1, 4 }, 4);
-            var cols = Dimension.Create(ctx, "cols", new[] { 1, 4 }, 4);
-            var domain = new Domain(ctx);
-            domain.AddDimensions(rows, cols);
-            var arrayType = ArrayType.TILEDB_SPARSE;
-            var schema = new ArraySchema(ctx, arrayType);
-            schema.SetDomain(domain);
-            schema.AddAttribute(new Attribute(ctx, "a1", DataType.TILEDB_INT32));
-            schema.SetAllowsDups(duplicates);
-            schema.Check();
+            InitTest(ctx, arrayName, layout, duplicates);
             var array = new Array(ctx, arrayName);
-            TestUtil.CreateTestArray(schema, layout, arrayName);
-            var readBuffers = new Dictionary<string, dynamic>
-                { { "rows", new int[16] }, { "cols", new int[16] }, { "a1", new int[16] } };
-            TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx);
-            var expectedData = new Dictionary<string, dynamic>()
-            {
-                { "a1", Enumerable.Range(1, 16).ToArray() },
-                { "rows", new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 } },
-                { "cols", new[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 } },
-            };
-            TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
 
-            // Delete 4 cells at once
-            array.Open(QueryType.TILEDB_DELETE);
-            var deleteQuery = new Query(ctx, array, QueryType.TILEDB_DELETE);
-            var colsCondition = new QueryCondition(ctx);
-            colsCondition.Init("cols", 2, QueryConditionOperatorType.TILEDB_EQ);
-            deleteQuery.SetCondition(colsCondition);
-            deleteQuery.Submit();
-            Assert.AreEqual(deleteQuery.Status(), QueryStatus.TILEDB_COMPLETED);
-            Console.WriteLine($"Delete 4 cells status: {deleteQuery.Status()}");
-            array.Close();
-            readBuffers = new()
-                { { "rows", new int[16] }, { "cols", new int[16] }, { "a1", new int[16] } };
-            TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx);
-
-            expectedData["a1"] = new[] { 1, 3, 4, 5, 7, 8, 9, 11, 12, 13, 15, 16, 0, 0, 0, 0 };
-            expectedData["cols"] = new[] { 1, 3, 4, 1, 3, 4, 1, 3, 4, 1, 3, 4, 0, 0, 0, 0 };
-            expectedData["rows"] = new[] { 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 0, 0, 0, 0 };
-            TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
+            DeleteFour(ctx, array, layout, duplicates);
 
             // Delete 1 cell
             array.Open(QueryType.TILEDB_DELETE);
-            deleteQuery = new Query(ctx, array, QueryType.TILEDB_DELETE);
-            colsCondition = new QueryCondition(ctx);
+            var deleteQuery = new Query(ctx, array, QueryType.TILEDB_DELETE);
+            var colsCondition = new QueryCondition(ctx);
             colsCondition.Init("cols", 1, QueryConditionOperatorType.TILEDB_EQ);
             var rowsCondition = new QueryCondition(ctx);
             rowsCondition.Init("rows", 1, QueryConditionOperatorType.TILEDB_EQ);
@@ -248,12 +197,15 @@ namespace TileDB.CSharp.Test
             array.Close();
             Assert.AreEqual(deleteQuery.Status(), QueryStatus.TILEDB_COMPLETED);
             Console.WriteLine($"Delete 1 cells status: {deleteQuery.Status()}");
-            readBuffers = new()
+            var readBuffers = new Dictionary<string, dynamic>
                 { { "rows", new int[16] }, { "cols", new int[16] }, { "a1", new int[16] } };
             TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx);
-            expectedData["a1"] = new[] { 3, 4, 5, 7, 8, 9, 11, 12, 13, 15, 16, 0, 0, 0, 0, 0 };
-            expectedData["cols"] = new[] { 3, 4, 1, 3, 4, 1, 3, 4, 1, 3, 4, 0, 0, 0, 0, 0 };
-            expectedData["rows"] = new[] { 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 0, 0, 0, 0, 0 };
+            var expectedData = new Dictionary<string, dynamic>()
+            {
+                { "a1", new[] { 3, 4, 5, 7, 8, 9, 11, 12, 13, 15, 16, 0, 0, 0, 0, 0 } },
+                { "rows", new[] { 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 0, 0, 0, 0, 0 } },
+                { "cols", new[] { 3, 4, 1, 3, 4, 1, 3, 4, 1, 3, 4, 0, 0, 0, 0, 0 } },
+            };
             TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
 
             // Delete 6 cells
@@ -297,38 +249,12 @@ namespace TileDB.CSharp.Test
         [DataTestMethod]
         public void MultipleFragments(LayoutType layout, bool legacy, bool duplicates)
         {
-            if (!TestUtil.VersionMinimum(2, 12))
-            {
-                return;
-            }
             string arrayName = "deletes-multiple-fragments";
-
             var ctx = Context.GetDefault();
             ctx.Config().Set("sm.query.sparse_global_order.reader", legacy ? "legacy" : "refactored");
             ctx.Config().Set("sm.query.sparse_unordered_with_dups.reader", legacy ? "legacy" : "refactored");
-
-            var rows = Dimension.Create(ctx, "rows", new[] { 1, 4 }, 4);
-            var cols = Dimension.Create(ctx, "cols", new[] { 1, 4 }, 4);
-            var domain = new Domain(ctx);
-            domain.AddDimensions(rows, cols);
-            var arrayType = ArrayType.TILEDB_SPARSE;
-            var schema = new ArraySchema(ctx, arrayType);
-            schema.SetDomain(domain);
-            schema.AddAttribute(new Attribute(ctx, "a1", DataType.TILEDB_INT32));
-            schema.SetAllowsDups(duplicates);
-            schema.Check();
+            InitTest(ctx, arrayName, layout, duplicates);
             var array = new Array(ctx, arrayName);
-            TestUtil.CreateTestArray(schema, layout, arrayName);
-            var readBuffers = new Dictionary<string, dynamic>
-                { { "rows", new int[16] }, { "cols", new int[16] }, { "a1", new int[16] } };
-            TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx);
-            var expectedData = new Dictionary<string, dynamic>()
-            {
-                { "a1", Enumerable.Range(1, 16).ToArray() },
-                { "rows", new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 } },
-                { "cols", new[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 } },
-            };
-            TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
 
             // Delete single cell
             array.Open(QueryType.TILEDB_DELETE);
@@ -343,45 +269,38 @@ namespace TileDB.CSharp.Test
             array.Close();
             Assert.AreEqual(deleteQuery.Status(), QueryStatus.TILEDB_COMPLETED);
 
-            readBuffers = new()
-                { { "rows", new int[16] }, { "cols", new int[16] }, { "a1", new int[16] } };
+            int bufferSize = 16;
+            var readBuffers = new Dictionary<string, dynamic>
+                { { "rows", new int[bufferSize] }, { "cols", new int[bufferSize] }, { "a1", new int[bufferSize] } };
             var readQuery = TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx);
             array.Open(QueryType.TILEDB_READ);
             Assert.AreEqual(15UL, readQuery.ResultBufferElements()["a1"].Item1);
             array.Close();
-            expectedData["a1"] = new[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0 };
-            expectedData["rows"] = new[] { 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 0 };
-            expectedData["cols"] = new[] { 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 0 };
+            var expectedData = new Dictionary<string, dynamic>()
+            {
+                { "a1", new[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0 } },
+                { "rows", new[] { 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 0 } },
+                { "cols", new[] { 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 0 } },
+            };
             TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
 
             // Re-add; If duplicates are enabled result buffer size will grow
+            bufferSize = duplicates ? ++bufferSize : bufferSize;
             var writeQuery = TestUtil.WriteArray(array, layout, new()
                 { {"rows", new[] {1}}, {"cols", new[] {1}}, {"a1", new[] {17}} }, ctx: ctx);
             Assert.AreEqual(writeQuery.Status(), QueryStatus.TILEDB_COMPLETED);
+            readBuffers = new()
+                { { "rows", new int[bufferSize] }, { "cols", new int[bufferSize] }, { "a1", new int[bufferSize] } };
 
             // Scale buffers to fit extra value if duplicates enabled
             if (duplicates)
             {
-                readBuffers = new()
-                    { { "rows", new int[17] }, { "cols", new int[17] }, { "a1", new int[17] } };
-
-                if (layout == LayoutType.TILEDB_UNORDERED)
-                {
-                    expectedData["a1"] = new[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 0 };
-                    expectedData["rows"] = new[] { 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 1, 0 };
-                    expectedData["cols"] = new[] { 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 0 };
-                }
-                else
-                {
-                    expectedData["a1"] = new[] { 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0 };
-                    expectedData["rows"] = new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 0 };
-                    expectedData["cols"] = new[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 0 };
-                }
+                expectedData["a1"] = new[] { 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0 };
+                expectedData["rows"] = new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 0 };
+                expectedData["cols"] = new[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 0 };
             }
             else
             {
-                readBuffers = new()
-                    { { "rows", new int[16] }, { "cols", new int[16] }, { "a1", new int[16] } };
                 expectedData["a1"] = new[] { 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
                 expectedData["rows"] = new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 };
                 expectedData["cols"] = new[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 };
@@ -416,7 +335,8 @@ namespace TileDB.CSharp.Test
                 return;
             }
             string arrayName = "deletes-schema-evolution";
-
+            Console.WriteLine(Assembly.GetAssembly(typeof(TileDB.CSharp.Array))!.FullName);
+            Console.WriteLine($"TileDB Core version: {TileDB.CSharp.CoreUtil.GetCoreLibVersion()}");
             var ctx = Context.GetDefault();
             ctx.Config().Set("sm.query.sparse_global_order.reader", legacy ? "legacy" : "refactored");
             ctx.Config().Set("sm.query.sparse_unordered_with_dups.reader", legacy ? "legacy" : "refactored");
@@ -742,41 +662,14 @@ namespace TileDB.CSharp.Test
         [DataTestMethod]
         public void SameFragment(LayoutType layout, bool legacy, bool duplicates)
         {
-            if (!TestUtil.VersionMinimum(2, 12))
-            {
-                return;
-            }
             string arrayName = "deletes-same-fragment";
-
             var ctx = Context.GetDefault();
             ctx.Config().Set("sm.query.sparse_global_order.reader", legacy ? "legacy" : "refactored");
             ctx.Config().Set("sm.query.sparse_unordered_with_dups.reader", legacy ? "legacy" : "refactored");
-
-            var rows = Dimension.Create(ctx, "rows", new[] { 1, 4 }, 4);
-            var cols = Dimension.Create(ctx, "cols", new[] { 1, 4 }, 4);
-            var domain = new Domain(ctx);
-            domain.AddDimensions(rows, cols);
-            var arrayType = ArrayType.TILEDB_SPARSE;
-            var schema = new ArraySchema(ctx, arrayType);
-            schema.SetDomain(domain);
-            schema.AddAttribute(new Attribute(ctx, "a1", DataType.TILEDB_INT32));
-            schema.SetAllowsDups(duplicates);
-            schema.Check();
             var array = new Array(ctx, arrayName);
-            TestUtil.CreateTestArray(schema, layout, arrayName);
-
+            InitTest(ctx, arrayName, layout, duplicates);
             // For tests with duplicates we will increment bufferSize with write queries
             int bufferSize = 16;
-            var readBuffers = new Dictionary<string, dynamic>()
-                { { "rows", new int[bufferSize] }, { "cols", new int[bufferSize] }, { "a1", new int[bufferSize] } };
-            TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx);
-            var expectedData = new Dictionary<string, dynamic>()
-            {
-                { "a1", new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 } },
-                { "rows", new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 } },
-                { "cols", new[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 } },
-            };
-            TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
 
             // Write a value to the array, creating a second fragment; Get fragment timestamp from writeQuery
             bufferSize = duplicates ? ++bufferSize : bufferSize;
@@ -786,31 +679,28 @@ namespace TileDB.CSharp.Test
             var writeTime = writeQuery.FragmentTimestampRange(0);
             Console.WriteLine($"Second fragment timestamp range: {writeTime}");
             // Apply same write operation to local array used to check expected attribute values
-            readBuffers = new()
+            var readBuffers = new Dictionary<string, dynamic>()
                 { { "rows", new int[bufferSize] }, { "cols", new int[bufferSize] }, { "a1", new int[bufferSize] } };
             TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx);
-            expectedData["a1"][0] = 17; // If dups are disabled, we can just overwrite the first attr value
+
+            var expectedData = new Dictionary<string, dynamic>();
             if (duplicates)
             {
-                if (layout == LayoutType.TILEDB_UNORDERED)
+                expectedData = new()
                 {
-                    expectedData = new Dictionary<string, dynamic>()
-                    {
-                        { "a1", new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 } },
-                        { "rows", new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 1 } },
-                        { "cols", new[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1 } },
-                    };
-                }
-                else
+                    { "a1", new[] { 1, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 } },
+                    { "rows", new[] { 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 } },
+                    { "cols", new[] { 1, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 } },
+                };
+            }
+            else
+            {
+                expectedData = new()
                 {
-                    expectedData = new Dictionary<string, dynamic>()
-                    {
-                        { "a1", new[] { 1, 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 } },
-                        { "rows", new[] { 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 } },
-                        { "cols", new[] { 1, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 } },
-                    };
-                }
-
+                    { "a1", new[] { 17, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16} },
+                    { "rows", new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 } },
+                    { "cols", new[] {1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 } },
+                };
             }
             TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
 
@@ -936,7 +826,6 @@ namespace TileDB.CSharp.Test
             expectedData["a0"] = new[] { 1, 2, 3, 4, 5, 6 };
             expectedData["cols"] = new[] { 1, 2, 3, 4, 5, 6 };
             TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
-            Thread.Sleep(700);
         }
 
         [DataRow(LayoutType.TILEDB_UNORDERED, true, true)]
