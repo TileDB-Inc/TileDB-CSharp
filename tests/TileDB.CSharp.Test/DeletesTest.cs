@@ -745,7 +745,6 @@ namespace TileDB.CSharp.Test
             TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
         }
 
-        // Intermittent failure across all tests below
         [DataRow(LayoutType.TILEDB_UNORDERED, true, true)]
         [DataRow(LayoutType.TILEDB_UNORDERED, true, false)]
         [DataRow(LayoutType.TILEDB_UNORDERED, false, true)]
@@ -802,8 +801,10 @@ namespace TileDB.CSharp.Test
                 { "cols", new[] { 1, 2, 3, 0, 0, 0 } },
             };
             TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
+            var writeTime = writeQuery.FragmentTimestampRange(0);
 
             // Delete[4]
+            array.SetOpenTimestampEnd(writeTime.Item2+10);
             array.Open(QueryType.TILEDB_DELETE);
             var deleteQuery = new Query(ctx, array, QueryType.TILEDB_DELETE);
             var attrCondition = new QueryCondition(ctx);
@@ -815,6 +816,9 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual(deleteQuery.Status(), QueryStatus.TILEDB_COMPLETED);
 
             // Write { 4, 5, 6 }
+            // Ensure that the write is performed with a unique timestamp
+            // + If the previous DELETE happens at the same timestamp of this WRITE the DELETE will win
+            array.SetOpenTimestampEnd(writeTime.Item2+20);
             writeQuery = TestUtil.WriteArray(array, layout, new()
                 { {"cols", new[] { 4, 5, 6 }}, {"a0", new[] { 4, 5, 6 }} }, ctx: ctx);
             Console.WriteLine($"Write query status: {writeQuery.Status()}");
