@@ -1377,7 +1377,7 @@ namespace TileDB.Interop
 
         [DllImport("libtiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
-        public static extern int tiledb_query_get_status_details(tiledb_ctx_t* ctx, tiledb_query_t* query, tiledb_query_status_details_t* status);
+        public static extern int tiledb_query_get_status_details(tiledb_ctx_t* ctx, tiledb_query_t* query, [NativeTypeName("tiledb_query_status_details_t *")] tiledb_experimental_query_status_details_t* status);
 
         [DllImport("libtiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
