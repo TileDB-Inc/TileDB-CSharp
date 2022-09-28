@@ -45,11 +45,6 @@ namespace TileDB.CSharp.Test
             {
                 Directory.Delete(name, true);
             }
-            else if (!Directory.Exists(CoreUtil.MakeTestPath("")))
-            {
-                // Create `/tmp/tiledb-tests` if it does not exist
-                Directory.CreateDirectory(CoreUtil.MakeTestPath(""));
-            }
             Array.Create(ctx, name, schema);
         }
 
