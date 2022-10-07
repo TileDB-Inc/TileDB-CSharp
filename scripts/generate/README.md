@@ -7,7 +7,7 @@ export DYLD_LIBRARY_PATH=/path/to/libclang/runtimes/osx-x64/native/
 export TILEDB_DIR=/path/to/TileDB/dist
 
 dotnet tool restore
-dotnet ClangSharpPInvokeGenerator -I /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include  -I $TILEDB_DIR/include/ --file $TILEDB_DIR/include/tiledb/tiledb.h $TILEDB_DIR/include/tiledb/tiledb_experimental.h @scripts/generate/generate.rsp -l tiledb
+dotnet ClangSharpPInvokeGenerator -I /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -I $TILEDB_DIR/include/ --file $TILEDB_DIR/include/tiledb/tiledb.h $TILEDB_DIR/include/tiledb/tiledb_experimental.h @scripts/generate/generate.rsp
 ```
 
 ## Generated on windows (copy tiledb_export.h to tiledb/sm/c_api):
@@ -15,12 +15,8 @@ dotnet ClangSharpPInvokeGenerator -I /Library/Developer/CommandLineTools/SDKs/Ma
 ```
 dotnet tool restore
 cd tildb/sm/c_api
-dotnet ClangSharpPInvokeGenerator -n TileDB.Interop  -f tiledb.h tiledb_experimental.h -c latest-codegen unix-types multi-file generate-helper-types --methodClassName Methods -l tiledb --output sources/TileDB.Interop
+dotnet ClangSharpPInvokeGenerator -n TileDB.Interop -f tiledb.h tiledb_experimental.h @scripts/generate/generate.rsp
 ```
-
-## Replacements in LibTileDB.cs
-
-1. Comment all  *_dump functions,
 
 # Generator Installation
 
