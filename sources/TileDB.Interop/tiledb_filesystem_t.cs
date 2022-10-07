@@ -1,7 +1,6 @@
 namespace TileDB.Interop
 {
-    [NativeTypeName("unsigned int")]
-    public enum tiledb_filesystem_t : uint
+    public enum tiledb_filesystem_t
     {
         TILEDB_HDFS = 0,
         TILEDB_S3 = 1,

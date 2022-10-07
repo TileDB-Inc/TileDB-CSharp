@@ -1,13 +1,10 @@
+using System;
 using System.Runtime.InteropServices;
 
 namespace TileDB.Interop
 {
     public static unsafe partial class Methods
     {
-        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, EntryPoint = "_Z13tiledb_statusi", ExactSpelling = true)]
-        [return: NativeTypeName("capi_status_t")]
-        public static extern int tiledb_status([NativeTypeName("capi_return_t")] int x);
-
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
         public static extern int tiledb_query_type_to_str(tiledb_query_type_t query_type, [NativeTypeName("const char **")] sbyte** str);
@@ -106,6 +103,7 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("const char *")]
+        [Obsolete]
         public static extern sbyte* tiledb_coords();
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -275,6 +273,7 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_group_create(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* group_uri);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -366,10 +365,6 @@ namespace TileDB.Interop
         [return: NativeTypeName("int32_t")]
         public static extern int tiledb_attribute_get_cell_size(tiledb_ctx_t* ctx, [NativeTypeName("const tiledb_attribute_t *")] tiledb_attribute_t* attr, [NativeTypeName("uint64_t *")] ulong* cell_size);
 
-        // [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        // [return: NativeTypeName("int32_t")]
-        // public static extern int tiledb_attribute_dump(tiledb_ctx_t* ctx, [NativeTypeName("const tiledb_attribute_t *")] tiledb_attribute_t* attr, [NativeTypeName("FILE *")] _IO_FILE* @out);
-
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
         public static extern int tiledb_attribute_set_fill_value(tiledb_ctx_t* ctx, tiledb_attribute_t* attr, [NativeTypeName("const void *")] void* value, [NativeTypeName("uint64_t")] ulong size);
@@ -417,10 +412,6 @@ namespace TileDB.Interop
         [return: NativeTypeName("int32_t")]
         public static extern int tiledb_domain_has_dimension(tiledb_ctx_t* ctx, [NativeTypeName("const tiledb_domain_t *")] tiledb_domain_t* domain, [NativeTypeName("const char *")] sbyte* name, [NativeTypeName("int32_t *")] int* has_dim);
 
-        // [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        // [return: NativeTypeName("int32_t")]
-        // public static extern int tiledb_domain_dump(tiledb_ctx_t* ctx, [NativeTypeName("const tiledb_domain_t *")] tiledb_domain_t* domain, [NativeTypeName("FILE *")] _IO_FILE* @out);
-
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
         public static extern int tiledb_dimension_alloc(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* name, tiledb_datatype_t type, [NativeTypeName("const void *")] void* dim_domain, [NativeTypeName("const void *")] void* tile_extent, tiledb_dimension_t** dim);
@@ -459,10 +450,6 @@ namespace TileDB.Interop
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
         public static extern int tiledb_dimension_get_tile_extent(tiledb_ctx_t* ctx, [NativeTypeName("const tiledb_dimension_t *")] tiledb_dimension_t* dim, [NativeTypeName("const void **")] void** tile_extent);
-
-        // [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        // [return: NativeTypeName("int32_t")]
-        // public static extern int tiledb_dimension_dump(tiledb_ctx_t* ctx, [NativeTypeName("const tiledb_dimension_t *")] tiledb_dimension_t* dim, [NativeTypeName("FILE *")] _IO_FILE* @out);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
@@ -525,6 +512,7 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_array_schema_load_with_key(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* array_uri, tiledb_encryption_type_t encryption_type, [NativeTypeName("const void *")] void* encryption_key, [NativeTypeName("uint32_t")] uint key_length, tiledb_array_schema_t** array_schema);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -575,10 +563,6 @@ namespace TileDB.Interop
         [return: NativeTypeName("int32_t")]
         public static extern int tiledb_array_schema_has_attribute(tiledb_ctx_t* ctx, [NativeTypeName("const tiledb_array_schema_t *")] tiledb_array_schema_t* array_schema, [NativeTypeName("const char *")] sbyte* name, [NativeTypeName("int32_t *")] int* has_attr);
 
-        // [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        // [return: NativeTypeName("int32_t")]
-        // public static extern int tiledb_array_schema_dump(tiledb_ctx_t* ctx, [NativeTypeName("const tiledb_array_schema_t *")] tiledb_array_schema_t* array_schema, [NativeTypeName("FILE *")] _IO_FILE* @out);
-
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
         public static extern int tiledb_query_alloc(tiledb_ctx_t* ctx, tiledb_array_t* array, tiledb_query_type_t query_type, tiledb_query_t** query);
@@ -597,6 +581,7 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_set_subarray(tiledb_ctx_t* ctx, tiledb_query_t* query, [NativeTypeName("const void *")] void* subarray);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -605,18 +590,22 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_set_buffer(tiledb_ctx_t* ctx, tiledb_query_t* query, [NativeTypeName("const char *")] sbyte* name, void* buffer, [NativeTypeName("uint64_t *")] ulong* buffer_size);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_set_buffer_var(tiledb_ctx_t* ctx, tiledb_query_t* query, [NativeTypeName("const char *")] sbyte* name, [NativeTypeName("uint64_t *")] ulong* buffer_off, [NativeTypeName("uint64_t *")] ulong* buffer_off_size, void* buffer_val, [NativeTypeName("uint64_t *")] ulong* buffer_val_size);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_set_buffer_nullable(tiledb_ctx_t* ctx, tiledb_query_t* query, [NativeTypeName("const char *")] sbyte* name, void* buffer, [NativeTypeName("uint64_t *")] ulong* buffer_size, [NativeTypeName("uint8_t *")] byte* buffer_validity_bytemap, [NativeTypeName("uint64_t *")] ulong* buffer_validity_bytemap_size);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_set_buffer_var_nullable(tiledb_ctx_t* ctx, tiledb_query_t* query, [NativeTypeName("const char *")] sbyte* name, [NativeTypeName("uint64_t *")] ulong* buffer_off, [NativeTypeName("uint64_t *")] ulong* buffer_off_size, void* buffer_val, [NativeTypeName("uint64_t *")] ulong* buffer_val_size, [NativeTypeName("uint8_t *")] byte* buffer_validity_bytemap, [NativeTypeName("uint64_t *")] ulong* buffer_validity_bytemap_size);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -633,18 +622,22 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_get_buffer(tiledb_ctx_t* ctx, tiledb_query_t* query, [NativeTypeName("const char *")] sbyte* name, void** buffer, [NativeTypeName("uint64_t **")] ulong** buffer_size);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_get_buffer_var(tiledb_ctx_t* ctx, tiledb_query_t* query, [NativeTypeName("const char *")] sbyte* name, [NativeTypeName("uint64_t **")] ulong** buffer_off, [NativeTypeName("uint64_t **")] ulong** buffer_off_size, void** buffer_val, [NativeTypeName("uint64_t **")] ulong** buffer_val_size);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_get_buffer_nullable(tiledb_ctx_t* ctx, tiledb_query_t* query, [NativeTypeName("const char *")] sbyte* name, void** buffer, [NativeTypeName("uint64_t **")] ulong** buffer_size, [NativeTypeName("uint8_t **")] byte** buffer_validity_bytemap, [NativeTypeName("uint64_t **")] ulong** buffer_validity_bytemap_size);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_get_buffer_var_nullable(tiledb_ctx_t* ctx, tiledb_query_t* query, [NativeTypeName("const char *")] sbyte* name, [NativeTypeName("uint64_t **")] ulong** buffer_off, [NativeTypeName("uint64_t **")] ulong** buffer_off_size, void** buffer_val, [NativeTypeName("uint64_t **")] ulong** buffer_val_size, [NativeTypeName("uint8_t **")] byte** buffer_validity_bytemap, [NativeTypeName("uint64_t **")] ulong** buffer_validity_bytemap_size);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -704,50 +697,62 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_add_range(tiledb_ctx_t* ctx, tiledb_query_t* query, [NativeTypeName("uint32_t")] uint dim_idx, [NativeTypeName("const void *")] void* start, [NativeTypeName("const void *")] void* end, [NativeTypeName("const void *")] void* stride);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_add_range_by_name(tiledb_ctx_t* ctx, tiledb_query_t* query, [NativeTypeName("const char *")] sbyte* dim_name, [NativeTypeName("const void *")] void* start, [NativeTypeName("const void *")] void* end, [NativeTypeName("const void *")] void* stride);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_add_range_var(tiledb_ctx_t* ctx, tiledb_query_t* query, [NativeTypeName("uint32_t")] uint dim_idx, [NativeTypeName("const void *")] void* start, [NativeTypeName("uint64_t")] ulong start_size, [NativeTypeName("const void *")] void* end, [NativeTypeName("uint64_t")] ulong end_size);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_add_range_var_by_name(tiledb_ctx_t* ctx, tiledb_query_t* query, [NativeTypeName("const char *")] sbyte* dim_name, [NativeTypeName("const void *")] void* start, [NativeTypeName("uint64_t")] ulong start_size, [NativeTypeName("const void *")] void* end, [NativeTypeName("uint64_t")] ulong end_size);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_get_range_num(tiledb_ctx_t* ctx, [NativeTypeName("const tiledb_query_t *")] tiledb_query_t* query, [NativeTypeName("uint32_t")] uint dim_idx, [NativeTypeName("uint64_t *")] ulong* range_num);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_get_range_num_from_name(tiledb_ctx_t* ctx, [NativeTypeName("const tiledb_query_t *")] tiledb_query_t* query, [NativeTypeName("const char *")] sbyte* dim_name, [NativeTypeName("uint64_t *")] ulong* range_num);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_get_range(tiledb_ctx_t* ctx, [NativeTypeName("const tiledb_query_t *")] tiledb_query_t* query, [NativeTypeName("uint32_t")] uint dim_idx, [NativeTypeName("uint64_t")] ulong range_idx, [NativeTypeName("const void **")] void** start, [NativeTypeName("const void **")] void** end, [NativeTypeName("const void **")] void** stride);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_get_range_from_name(tiledb_ctx_t* ctx, [NativeTypeName("const tiledb_query_t *")] tiledb_query_t* query, [NativeTypeName("const char *")] sbyte* dim_name, [NativeTypeName("uint64_t")] ulong range_idx, [NativeTypeName("const void **")] void** start, [NativeTypeName("const void **")] void** end, [NativeTypeName("const void **")] void** stride);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_get_range_var_size(tiledb_ctx_t* ctx, [NativeTypeName("const tiledb_query_t *")] tiledb_query_t* query, [NativeTypeName("uint32_t")] uint dim_idx, [NativeTypeName("uint64_t")] ulong range_idx, [NativeTypeName("uint64_t *")] ulong* start_size, [NativeTypeName("uint64_t *")] ulong* end_size);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_get_range_var_size_from_name(tiledb_ctx_t* ctx, [NativeTypeName("const tiledb_query_t *")] tiledb_query_t* query, [NativeTypeName("const char *")] sbyte* dim_name, [NativeTypeName("uint64_t")] ulong range_idx, [NativeTypeName("uint64_t *")] ulong* start_size, [NativeTypeName("uint64_t *")] ulong* end_size);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_get_range_var(tiledb_ctx_t* ctx, [NativeTypeName("const tiledb_query_t *")] tiledb_query_t* query, [NativeTypeName("uint32_t")] uint dim_idx, [NativeTypeName("uint64_t")] ulong range_idx, void* start, void* end);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_get_range_var_from_name(tiledb_ctx_t* ctx, [NativeTypeName("const tiledb_query_t *")] tiledb_query_t* query, [NativeTypeName("const char *")] sbyte* dim_name, [NativeTypeName("uint64_t")] ulong range_idx, void* start, void* end);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -890,14 +895,17 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_array_open_at(tiledb_ctx_t* ctx, tiledb_array_t* array, tiledb_query_type_t query_type, [NativeTypeName("uint64_t")] ulong timestamp);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_array_open_with_key(tiledb_ctx_t* ctx, tiledb_array_t* array, tiledb_query_type_t query_type, tiledb_encryption_type_t encryption_type, [NativeTypeName("const void *")] void* encryption_key, [NativeTypeName("uint32_t")] uint key_length);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_array_open_at_with_key(tiledb_ctx_t* ctx, tiledb_array_t* array, tiledb_query_type_t query_type, tiledb_encryption_type_t encryption_type, [NativeTypeName("const void *")] void* encryption_key, [NativeTypeName("uint32_t")] uint key_length, [NativeTypeName("uint64_t")] ulong timestamp);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -910,10 +918,12 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_array_reopen_at(tiledb_ctx_t* ctx, tiledb_array_t* array, [NativeTypeName("uint64_t")] ulong timestamp);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_array_get_timestamp(tiledb_ctx_t* ctx, tiledb_array_t* array, [NativeTypeName("uint64_t *")] ulong* timestamp);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -945,6 +955,7 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_array_create_with_key(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* array_uri, [NativeTypeName("const tiledb_array_schema_t *")] tiledb_array_schema_t* array_schema, tiledb_encryption_type_t encryption_type, [NativeTypeName("const void *")] void* encryption_key, [NativeTypeName("uint32_t")] uint key_length);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -953,6 +964,7 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_array_consolidate_with_key(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* array_uri, tiledb_encryption_type_t encryption_type, [NativeTypeName("const void *")] void* encryption_key, [NativeTypeName("uint32_t")] uint key_length, tiledb_config_t* config);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -1021,10 +1033,12 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_array_consolidate_metadata(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* array_uri, tiledb_config_t* config);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_array_consolidate_metadata_with_key(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* array_uri, tiledb_encryption_type_t encryption_type, [NativeTypeName("const void *")] void* encryption_key, [NativeTypeName("uint32_t")] uint key_length, tiledb_config_t* config);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -1173,17 +1187,9 @@ namespace TileDB.Interop
         [return: NativeTypeName("int32_t")]
         public static extern int tiledb_stats_reset();
 
-        // [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        // [return: NativeTypeName("int32_t")]
-        // public static extern int tiledb_stats_dump([NativeTypeName("FILE *")] _IO_FILE* @out);
-
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
         public static extern int tiledb_stats_dump_str([NativeTypeName("char **")] sbyte** @out);
-
-        // [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        // [return: NativeTypeName("int32_t")]
-        // public static extern int tiledb_stats_raw_dump([NativeTypeName("FILE *")] _IO_FILE* @out);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
@@ -1214,6 +1220,7 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_fragment_info_load_with_key(tiledb_ctx_t* ctx, tiledb_fragment_info_t* fragment_info, tiledb_encryption_type_t encryption_type, [NativeTypeName("const void *")] void* encryption_key, [NativeTypeName("uint32_t")] uint key_length);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -1328,10 +1335,6 @@ namespace TileDB.Interop
         [return: NativeTypeName("int32_t")]
         public static extern int tiledb_fragment_info_get_array_schema_name(tiledb_ctx_t* ctx, tiledb_fragment_info_t* fragment_info, [NativeTypeName("uint32_t")] uint fid, [NativeTypeName("const char **")] sbyte** schema_name);
 
-        // [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        // [return: NativeTypeName("int32_t")]
-        // public static extern int tiledb_fragment_info_dump(tiledb_ctx_t* ctx, [NativeTypeName("const tiledb_fragment_info_t *")] tiledb_fragment_info_t* fragment_info, [NativeTypeName("FILE *")] _IO_FILE* @out);
-
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
         public static extern int tiledb_array_schema_evolution_alloc(tiledb_ctx_t* ctx, tiledb_array_schema_evolution_t** array_schema_evolution);
@@ -1369,6 +1372,7 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
+        [Obsolete]
         public static extern int tiledb_query_add_point_ranges(tiledb_ctx_t* ctx, tiledb_query_t* query, [NativeTypeName("uint32_t")] uint dim_idx, [NativeTypeName("const void *")] void* start, [NativeTypeName("uint64_t")] ulong count);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -1377,7 +1381,7 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
-        public static extern int tiledb_query_get_status_details(tiledb_ctx_t* ctx, tiledb_query_t* query, [NativeTypeName("tiledb_query_status_details_t *")] tiledb_experimental_query_status_details_t* status);
+        public static extern int tiledb_query_get_status_details(tiledb_ctx_t* ctx, tiledb_query_t* query, tiledb_query_status_details_t* status);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
@@ -1492,15 +1496,15 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
-        public static extern int tiledb_filestore_buffer_import(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* filestore_array_uri, void* buf, [NativeTypeName("size_t")] ulong size, tiledb_mime_type_t mime_type);
+        public static extern int tiledb_filestore_buffer_import(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* filestore_array_uri, void* buf, [NativeTypeName("size_t")] nuint size, tiledb_mime_type_t mime_type);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
-        public static extern int tiledb_filestore_buffer_export(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* filestore_array_uri, [NativeTypeName("size_t")] ulong offset, void* buf, [NativeTypeName("size_t")] ulong size);
+        public static extern int tiledb_filestore_buffer_export(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* filestore_array_uri, [NativeTypeName("size_t")] nuint offset, void* buf, [NativeTypeName("size_t")] nuint size);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
-        public static extern int tiledb_filestore_size(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* filestore_array_uri, [NativeTypeName("size_t *")] ulong* size);
+        public static extern int tiledb_filestore_size(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* filestore_array_uri, [NativeTypeName("size_t *")] nuint* size);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
