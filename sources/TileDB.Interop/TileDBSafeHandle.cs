@@ -12,15 +12,15 @@ namespace TileDB.Interop
 
         public ConfigHandle() : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_config_t*[1];
-            var e = stackalloc tiledb_error_t*[1];
-            Methods.tiledb_config_alloc(h, e);
+            tiledb_config_t* config;
+            tiledb_error_t* error;
+            Methods.tiledb_config_alloc(&config, &error);
 
-            if (h[0] == (void*)0)
+            if (config == null)
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(h[0]);
+            SetHandle(config);
         }
 
         // Deallocator: call native free with CER guarantees from SafeHandle
@@ -53,16 +53,16 @@ namespace TileDB.Interop
 
         public ConfigIteratorHandle(ConfigHandle hconfig, string prefix) : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_config_iter_t*[1];
-            var e = stackalloc tiledb_error_t*[1];
+            tiledb_config_iter_t* config_iter;
+            tiledb_error_t* error;
             var ms_prefix = new MarshaledString(prefix);
-            Methods.tiledb_config_iter_alloc(hconfig, ms_prefix, h, e);
+            Methods.tiledb_config_iter_alloc(hconfig, ms_prefix, &config_iter, &error);
 
-            if (h[0] == (void*)0)
+            if (config_iter == null)
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(h[0]);
+            SetHandle(config_iter);
         }
 
         // Deallocator: call native free with CER guarantees from SafeHTha andle
@@ -94,27 +94,27 @@ namespace TileDB.Interop
         //   - exception on failure
         public ContextHandle() : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_ctx_t*[1];
+            tiledb_ctx_t* context;
             var hconfig = new ConfigHandle();
-            Methods.tiledb_ctx_alloc(hconfig, h);
+            Methods.tiledb_ctx_alloc(hconfig, &context);
 
-            if (h[0] == (void*)0)
+            if (context == null)
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(h[0]);
+            SetHandle(context);
         }
 
         public ContextHandle(ConfigHandle hconfig) : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_ctx_t*[1];
-            Methods.tiledb_ctx_alloc(hconfig, h);
+            tiledb_ctx_t* context;
+            Methods.tiledb_ctx_alloc(hconfig, &context);
 
-            if (h[0] == (void*)0)
+            if (context == null)
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(h[0]);
+            SetHandle(context);
         }
 
         // Deallocator: call native free with CER guarantees from SafeHandle
@@ -147,15 +147,14 @@ namespace TileDB.Interop
 
         public FilterHandle(ContextHandle hcontext, tiledb_filter_type_t filterType) : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_filter_t*[1];
+            tiledb_filter_t* filter;
+            Methods.tiledb_filter_alloc(hcontext, filterType, &filter);
 
-            Methods.tiledb_filter_alloc(hcontext, filterType, h);
-
-            if (h[0] == (void*)0)
+            if (filter == null)
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(h[0]);
+            SetHandle(filter);
         }
 
         // Deallocator: call native free with CER guarantees from SafeHandle
@@ -188,15 +187,14 @@ namespace TileDB.Interop
         //   - exception on failure
         public FilterListHandle(ContextHandle hcontext) : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_filter_list_t*[1];
+            tiledb_filter_list_t* filterList;
+            Methods.tiledb_filter_list_alloc(hcontext, &filterList);
 
-            Methods.tiledb_filter_list_alloc(hcontext, h);
-
-            if (h[0] == (void*)0)
+            if (filterList == null)
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(h[0]);
+            SetHandle(filterList);
         }
 
         // Deallocator: call native free with CER guarantees from SafeHandle
@@ -229,15 +227,14 @@ namespace TileDB.Interop
 
         public VFSHandle(ContextHandle hcontext, ConfigHandle hconfig) : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_vfs_t*[1];
+            tiledb_vfs_t* vfs;
+            Methods.tiledb_vfs_alloc(hcontext, hconfig, &vfs);
 
-            int status = TileDB.Interop.Methods.tiledb_vfs_alloc(hcontext, hconfig, h);
-
-            if (h[0] == (void*)0)
+            if (vfs == null)
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(h[0]);
+            SetHandle(vfs);
         }
 
         // Deallocator: call native free with CER guarantees from SafeHandle
@@ -270,16 +267,15 @@ namespace TileDB.Interop
         //   - exception on failure
         public AttributeHandle(ContextHandle hcontext, string name, tiledb_datatype_t datatype) : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_attribute_t*[1];
-
+            tiledb_attribute_t* attribute;
             var ms_name = new MarshaledString(name);
-            Methods.tiledb_attribute_alloc(hcontext, ms_name, datatype, h);
+            Methods.tiledb_attribute_alloc(hcontext, ms_name, datatype, &attribute);
 
-            if (h[0] == (void*)0)
+            if (attribute == null)
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(h[0]);
+            SetHandle(attribute);
         }
 
         // Deallocator: call native free with CER guarantees from SafeHandle
@@ -312,17 +308,15 @@ namespace TileDB.Interop
 
         public DimensionHandle(ContextHandle hcontext, string name, tiledb_datatype_t datatype, void* dimDomain, void* tileExtent) : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_dimension_t*[1];
-
+            tiledb_dimension_t* dimension;
             var ms_name = new MarshaledString(name);
+            Methods.tiledb_dimension_alloc(hcontext, ms_name, datatype, dimDomain, tileExtent, &dimension);
 
-            Methods.tiledb_dimension_alloc(hcontext, ms_name, datatype, dimDomain,tileExtent, h);
-
-            if (h[0] == (void*)0)
+            if (dimension == null)
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(h[0]);
+            SetHandle(dimension);
         }
 
         // Deallocator: call native free with CER guarantees from SafeHandle
@@ -356,15 +350,14 @@ namespace TileDB.Interop
 
         public DomainHandle(ContextHandle hcontext) : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_domain_t*[1];
+            tiledb_domain_t* domain;
+            Methods.tiledb_domain_alloc(hcontext, &domain);
 
-            Methods.tiledb_domain_alloc(hcontext, h);
-
-            if (h[0] == (void*)0)
+            if (domain == null)
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(h[0]);
+            SetHandle(null);
         }
 
         // Deallocator: call native free with CER guarantees from SafeHandle
@@ -397,15 +390,14 @@ namespace TileDB.Interop
         //   - exception on failure
         public ArraySchemaHandle(ContextHandle contextHandle, tiledb_array_type_t arrayType) : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_array_schema_t*[1];
+            tiledb_array_schema_t* schema;
+            Methods.tiledb_array_schema_alloc(contextHandle, arrayType, &schema);
 
-            Methods.tiledb_array_schema_alloc(contextHandle, arrayType, h);
-
-            if (h[0] == (void*)0)
+            if (schema == null)
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(h[0]);
+            SetHandle(schema);
         }
 
         // Deallocator: call native free with CER guarantees from SafeHandle
@@ -437,15 +429,14 @@ namespace TileDB.Interop
         //   - exception on failure
         public ArrayHandle(ContextHandle contextHandle, sbyte* uri) : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_array_t*[1];
+            tiledb_array_t* array;
+            Methods.tiledb_array_alloc(contextHandle, uri, &array);
 
-            Methods.tiledb_array_alloc(contextHandle, uri, h);
-
-            if (h[0] == (void*)0)
+            if (array == null)
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(h[0]);
+            SetHandle(array);
         }
 
         // Deallocator: call native free with CER guarantees from SafeHandle
@@ -477,14 +468,14 @@ namespace TileDB.Interop
         //   - exception on failure
         public ArraySchemaEvolutionHandle(ContextHandle contextHandle) : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_array_schema_evolution_t*[1];
-            Methods.tiledb_array_schema_evolution_alloc(contextHandle, h);
+            tiledb_array_schema_evolution_t* evolution;
+            Methods.tiledb_array_schema_evolution_alloc(contextHandle, &evolution);
 
-            if (h[0] == (void*)0)
+            if (evolution == null)
             {
                 throw new Exception("Failed to allocate ArraySchemaEvolutionHandle!");
             }
-            SetHandle(h[0]);
+            SetHandle(evolution);
         }
 
         // Deallocator: call native free with CER guarantees from SafeHandle
@@ -515,15 +506,14 @@ namespace TileDB.Interop
         //   - exception on failure
         public QueryHandle(ContextHandle contextHandle, ArrayHandle arrayHandle, tiledb_query_type_t queryType) : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_query_t*[1];
+            tiledb_query_t* query;
+            Methods.tiledb_query_alloc(contextHandle, arrayHandle, queryType, &query);
 
-            Methods.tiledb_query_alloc(contextHandle, arrayHandle, queryType, h);
-
-            if (h[0] == (void*)0)
+            if (query == null)
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(h[0]);
+            SetHandle(query);
         }
 
         // Deallocator: call native free with CER guarantees from SafeHandle
@@ -556,15 +546,14 @@ namespace TileDB.Interop
         //   - exception on failure
         public QueryConditionHandle(ContextHandle contextHandle) : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_query_condition_t*[1];
+            tiledb_query_condition_t* queryCondition;
+            Methods.tiledb_query_condition_alloc(contextHandle, &queryCondition);
 
-            Methods.tiledb_query_condition_alloc(contextHandle, h);
-
-            if (h[0] == (void*)0)
+            if (queryCondition == null)
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(h[0]);
+            SetHandle(queryCondition);
         }
 
         // Deallocator: call native free with CER guarantees from SafeHandle
@@ -596,15 +585,14 @@ namespace TileDB.Interop
         //   - exception on failure
         public GroupHandle(ContextHandle contextHandle, sbyte* uri) : base(IntPtr.Zero, ownsHandle: true)
         {
-            var h = stackalloc tiledb_group_t*[1];
+            tiledb_group_t* group;
+            Methods.tiledb_group_alloc(contextHandle, uri, &group);
 
-            Methods.tiledb_group_alloc(contextHandle, uri, h);
-
-            if (h[0] == (void*)0)
+            if (group == null)
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(h[0]);
+            SetHandle(group);
         }
 
         // Deallocator: call native free with CER guarantees from SafeHandle
