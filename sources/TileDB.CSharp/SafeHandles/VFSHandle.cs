@@ -1,14 +1,11 @@
 using System;
 using System.Runtime.InteropServices;
+using TileDB.CSharp;
 
 namespace TileDB.Interop
 {
     internal unsafe class VFSHandle : SafeHandle
     {
-        // Constructor for a Handle
-        //   - calls native allocator
-        //   - exception on failure
-
         public VFSHandle(ContextHandle hcontext, ConfigHandle hconfig) : base(IntPtr.Zero, ownsHandle: true)
         {
             tiledb_vfs_t* vfs;
@@ -18,10 +15,9 @@ namespace TileDB.Interop
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(vfs);
+            InitHandle(vfs);
         }
 
-        // Deallocator: call native free with CER guarantees from SafeHandle
         protected override bool ReleaseHandle()
         {
             // Free the native object
@@ -33,13 +29,9 @@ namespace TileDB.Interop
             return true;
         }
 
-        // Conversions, getters, operators
-        public UInt64 get() { return (UInt64)this.handle; }
-        private protected void SetHandle(tiledb_vfs_t* h) { SetHandle((IntPtr)h); }
-        private protected VFSHandle(IntPtr value) : base(value, ownsHandle: false) { }
+        private protected void InitHandle(tiledb_vfs_t* h) { SetHandle((IntPtr)h); }
         public override bool IsInvalid => this.handle == IntPtr.Zero;
-        public static implicit operator IntPtr(VFSHandle h) => h.handle;
-        public static implicit operator tiledb_vfs_t*(VFSHandle h) => (tiledb_vfs_t*)h.handle;
-        public static implicit operator VFSHandle(tiledb_vfs_t* value) => new VFSHandle((IntPtr)value);
+
+        public SafeHandleHolder<tiledb_vfs_t> Acquire() => new(this);
     }
 }

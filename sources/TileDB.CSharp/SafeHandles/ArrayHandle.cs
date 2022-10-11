@@ -1,26 +1,41 @@
 using System;
 using System.Runtime.InteropServices;
+using TileDB.CSharp;
 
 namespace TileDB.Interop
 {
     internal unsafe class ArrayHandle : SafeHandle
     {
-        // Constructor for a Handle
-        //   - calls native allocator
-        //   - exception on failure
-        public ArrayHandle(ContextHandle contextHandle, sbyte* uri) : base(IntPtr.Zero, ownsHandle: true)
-        {
-            tiledb_array_t* array;
-            Methods.tiledb_array_alloc(contextHandle, uri, &array);
+        public ArrayHandle() : base(IntPtr.Zero, true) { }
 
-            if (array == null)
+        public ArrayHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
+
+        public ArrayHandle CreateUnowned(tiledb_array_t* array) => new((IntPtr)array, ownsHandle: false);
+
+        public static ArrayHandle Create(Context context, sbyte* uri)
+        {
+            var handle = new ArrayHandle();
+            bool successful = false;
+            tiledb_array_t* array = null;
+            try
             {
-                throw new Exception("Failed to allocate!");
+                using (var ctx = context.Handle.Acquire())
+                {
+                    context.handle_error(Methods.tiledb_array_alloc(ctx, uri, &array));
+                }
+                successful = true;
             }
-            SetHandle(array);
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(array);
+                }
+            }
+
+            return handle;
         }
 
-        // Deallocator: call native free with CER guarantees from SafeHandle
         protected override bool ReleaseHandle()
         {
             // Free the native object
@@ -32,13 +47,9 @@ namespace TileDB.Interop
             return true;
         }
 
-        // Conversions, getters, operators
-        public ulong Get() { return (ulong)handle; }
-        private protected void SetHandle(tiledb_array_t* h) { SetHandle((IntPtr)h); }
-        private protected ArrayHandle(IntPtr value) : base(value, ownsHandle: false) { }
+        private void InitHandle(tiledb_array_t* h) { SetHandle((IntPtr)h); }
         public override bool IsInvalid => handle == IntPtr.Zero;
-        public static implicit operator IntPtr(ArrayHandle h) => h.handle;
-        public static implicit operator tiledb_array_t*(ArrayHandle h) => (tiledb_array_t*)h.handle;
-        public static implicit operator ArrayHandle(tiledb_array_t* value) => new ArrayHandle((IntPtr)value);
+
+        public SafeHandleHolder<tiledb_array_t> Acquire() => new(this);
     }
 }

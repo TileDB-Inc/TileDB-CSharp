@@ -1,13 +1,17 @@
 using System;
 using System.Runtime.InteropServices;
+using TileDB.CSharp;
 
 namespace TileDB.Interop
 {
     internal unsafe class FilterListHandle : SafeHandle
     {
-        // Constructor for a Handle
-        //   - calls native allocator
-        //   - exception on failure
+        public FilterListHandle() : base(IntPtr.Zero, true) { }
+
+        public FilterListHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
+
+        public static FilterListHandle CreateUnowned(tiledb_filter_list_t* filterList) => new((IntPtr)filterList, ownsHandle: false);
+
         public FilterListHandle(ContextHandle hcontext) : base(IntPtr.Zero, ownsHandle: true)
         {
             tiledb_filter_list_t* filterList;
@@ -17,10 +21,9 @@ namespace TileDB.Interop
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(filterList);
+            InitHandle(filterList);
         }
 
-        // Deallocator: call native free with CER guarantees from SafeHandle
         protected override bool ReleaseHandle()
         {
             // Free the native object
@@ -32,13 +35,9 @@ namespace TileDB.Interop
             return true;
         }
 
-        // Conversions, getters, operators
-        public ulong Get() { return (ulong)handle; }
-        private protected void SetHandle(tiledb_filter_list_t* h) { SetHandle((IntPtr)h); }
-        private protected FilterListHandle(IntPtr value) : base(value, ownsHandle: false) { }
+        private void InitHandle(tiledb_filter_list_t* h) { SetHandle((IntPtr)h); }
         public override bool IsInvalid => handle == IntPtr.Zero;
-        public static implicit operator IntPtr(FilterListHandle h) => h.handle;
-        public static implicit operator tiledb_filter_list_t*(FilterListHandle h) => (tiledb_filter_list_t*)h.handle;
-        public static implicit operator FilterListHandle(tiledb_filter_list_t* value) => new FilterListHandle((IntPtr)value);
+
+        public SafeHandleHolder<tiledb_filter_list_t> Acquire() => new(this);
     }
 }

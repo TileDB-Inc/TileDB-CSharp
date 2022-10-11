@@ -1,13 +1,11 @@
 using System;
 using System.Runtime.InteropServices;
+using TileDB.CSharp;
 
 namespace TileDB.Interop
 {
     internal unsafe class QueryConditionHandle : SafeHandle
     {
-        // Constructor for a Handle
-        //   - calls native allocator
-        //   - exception on failure
         public QueryConditionHandle(ContextHandle contextHandle) : base(IntPtr.Zero, ownsHandle: true)
         {
             tiledb_query_condition_t* queryCondition;
@@ -17,10 +15,9 @@ namespace TileDB.Interop
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(queryCondition);
+            InitHandle(queryCondition);
         }
 
-        // Deallocator: call native free with CER guarantees from SafeHandle
         protected override bool ReleaseHandle()
         {
             // Free the native object
@@ -32,13 +29,9 @@ namespace TileDB.Interop
             return true;
         }
 
-        // Conversions, getters, operators
-        public ulong Get() { return (ulong)handle; }
-        private protected void SetHandle(tiledb_query_condition_t* h) { SetHandle((IntPtr)h); }
-        private protected QueryConditionHandle(IntPtr value) : base(value, ownsHandle: false) { }
+        private void InitHandle(tiledb_query_condition_t* h) { SetHandle((IntPtr)h); }
         public override bool IsInvalid => handle == IntPtr.Zero;
-        public static implicit operator IntPtr(QueryConditionHandle h) => h.handle;
-        public static implicit operator tiledb_query_condition_t*(QueryConditionHandle h) => (tiledb_query_condition_t*)h.handle;
-        public static implicit operator QueryConditionHandle(tiledb_query_condition_t* value) => new QueryConditionHandle((IntPtr)value);
+
+        public SafeHandleHolder<tiledb_query_condition_t> Acquire() => new(this);
     }
 }

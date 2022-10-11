@@ -1,13 +1,16 @@
 using System;
 using System.Runtime.InteropServices;
+using TileDB.CSharp;
 
 namespace TileDB.Interop
 {
     internal unsafe class DomainHandle : SafeHandle
     {
-        // Constructor for a Handle
-        //   - calls native allocator
-        //   - exception on failure
+        public DomainHandle() : base(IntPtr.Zero, true) { }
+
+        public DomainHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
+
+        public static DomainHandle CreateUnowned(tiledb_domain_t* schema) => new((IntPtr)schema, ownsHandle: false);
 
         public DomainHandle(ContextHandle hcontext) : base(IntPtr.Zero, ownsHandle: true)
         {
@@ -18,10 +21,9 @@ namespace TileDB.Interop
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(null);
+            InitHandle(null);
         }
 
-        // Deallocator: call native free with CER guarantees from SafeHandle
         protected override bool ReleaseHandle()
         {
             // Free the native object
@@ -33,13 +35,9 @@ namespace TileDB.Interop
             return true;
         }
 
-        // Conversions, getters, operators
-        public ulong Get() { return (ulong)handle; }
-        private protected void SetHandle(tiledb_domain_t* h) { SetHandle((IntPtr)h); }
-        private protected DomainHandle(IntPtr value) : base(value, ownsHandle: false) { }
+        private void InitHandle(tiledb_domain_t* h) { SetHandle((IntPtr)h); }
         public override bool IsInvalid => handle == IntPtr.Zero;
-        public static implicit operator IntPtr(DomainHandle h) => h.handle;
-        public static implicit operator tiledb_domain_t*(DomainHandle h) => (tiledb_domain_t*)h.handle;
-        public static implicit operator DomainHandle(tiledb_domain_t* value) => new DomainHandle((IntPtr)value);
+
+        public SafeHandleHolder<tiledb_domain_t> Acquire() => new(this);
     }
 }

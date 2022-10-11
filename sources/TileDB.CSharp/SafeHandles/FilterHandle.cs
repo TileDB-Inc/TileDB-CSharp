@@ -1,14 +1,11 @@
 using System;
 using System.Runtime.InteropServices;
+using TileDB.CSharp;
 
 namespace TileDB.Interop
 {
     internal unsafe class FilterHandle : SafeHandle
     {
-        // Constructor for a Handle
-        //   - calls native allocator
-        //   - exception on failure
-
         public FilterHandle(ContextHandle hcontext, tiledb_filter_type_t filterType) : base(IntPtr.Zero, ownsHandle: true)
         {
             tiledb_filter_t* filter;
@@ -18,10 +15,9 @@ namespace TileDB.Interop
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(filter);
+            InitHandle(filter);
         }
 
-        // Deallocator: call native free with CER guarantees from SafeHandle
         protected override bool ReleaseHandle()
         {
             // Free the native object
@@ -33,13 +29,9 @@ namespace TileDB.Interop
             return true;
         }
 
-        // Conversions, getters, operators
-        public ulong Get() { return (ulong)handle; }
-        private protected void SetHandle(tiledb_filter_t* h) { SetHandle((IntPtr)h); }
-        private protected FilterHandle(IntPtr value) : base(value, ownsHandle: false) { }
+        private void InitHandle(tiledb_filter_t* h) { SetHandle((IntPtr)h); }
         public override bool IsInvalid => handle == IntPtr.Zero;
-        public static implicit operator IntPtr(FilterHandle h) => h.handle;
-        public static implicit operator tiledb_filter_t*(FilterHandle h) => (tiledb_filter_t*)h.handle;
-        public static implicit operator FilterHandle(tiledb_filter_t* value) => new FilterHandle((IntPtr)value);
+
+        public SafeHandleHolder<tiledb_filter_t> Acquire() => new(this);
     }
 }

@@ -1,14 +1,11 @@
 using System;
 using System.Runtime.InteropServices;
+using TileDB.CSharp;
 
 namespace TileDB.Interop
 {
     internal unsafe class ConfigHandle : SafeHandle
     {
-        // Constructor for a Handle
-        //   - calls native allocator
-        //   - exception on failure
-
         public ConfigHandle() : base(IntPtr.Zero, ownsHandle: true)
         {
             tiledb_config_t* config;
@@ -19,10 +16,9 @@ namespace TileDB.Interop
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(config);
+            InitHandle(config);
         }
 
-        // Deallocator: call native free with CER guarantees from SafeHandle
         protected override bool ReleaseHandle()
         {
             // Free the native object
@@ -34,13 +30,9 @@ namespace TileDB.Interop
             return true;
         }
 
-        // Conversions, getters, operators
-        public ulong Get() { return (ulong)handle; }
-        private protected void SetHandle(tiledb_config_t* h) { SetHandle((IntPtr)h); }
-        private protected ConfigHandle(IntPtr value) : base(value, ownsHandle: false) { }
+        private void InitHandle(tiledb_config_t* h) { SetHandle((IntPtr)h); }
         public override bool IsInvalid => handle == IntPtr.Zero;
-        public static implicit operator IntPtr(ConfigHandle h) => h.handle;
-        public static implicit operator tiledb_config_t*(ConfigHandle h) => (tiledb_config_t*)h.handle;
-        public static implicit operator ConfigHandle(tiledb_config_t* value) => new ConfigHandle((IntPtr)value);
+
+        public SafeHandleHolder<tiledb_config_t> Acquire() => new(this);
     }
 }

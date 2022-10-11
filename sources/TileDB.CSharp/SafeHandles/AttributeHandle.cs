@@ -1,13 +1,17 @@
 using System;
 using System.Runtime.InteropServices;
+using TileDB.CSharp;
 
 namespace TileDB.Interop
 {
     internal unsafe class AttributeHandle : SafeHandle
     {
-        // Constructor for a Handle
-        //   - calls native allocator
-        //   - exception on failure
+        public AttributeHandle() : base(IntPtr.Zero, true) { }
+
+        public AttributeHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
+
+        public static AttributeHandle CreateUnowned(tiledb_attribute_t* schema) => new((IntPtr)schema, ownsHandle: false);
+
         public AttributeHandle(ContextHandle hcontext, string name, tiledb_datatype_t datatype) : base(IntPtr.Zero, ownsHandle: true)
         {
             tiledb_attribute_t* attribute;
@@ -18,10 +22,9 @@ namespace TileDB.Interop
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(attribute);
+            InitHandle(attribute);
         }
 
-        // Deallocator: call native free with CER guarantees from SafeHandle
         protected override bool ReleaseHandle()
         {
             // Free the native object
@@ -33,13 +36,9 @@ namespace TileDB.Interop
             return true;
         }
 
-        // Conversions, getters, operators
-        public ulong Get() { return (ulong)handle; }
-        private protected void SetHandle(tiledb_attribute_t* h) { SetHandle((IntPtr)h); }
-        private protected AttributeHandle(IntPtr value) : base(value, ownsHandle: false) { }
+        private void InitHandle(tiledb_attribute_t* h) { SetHandle((IntPtr)h); }
         public override bool IsInvalid => handle == IntPtr.Zero;
-        public static implicit operator IntPtr(AttributeHandle h) => h.handle;
-        public static implicit operator tiledb_attribute_t*(AttributeHandle h) => (tiledb_attribute_t*)h.handle;
-        public static implicit operator AttributeHandle(tiledb_attribute_t* value) => new AttributeHandle((IntPtr)value);
+
+        public SafeHandleHolder<tiledb_attribute_t> Acquire() => new(this);
     }
 }

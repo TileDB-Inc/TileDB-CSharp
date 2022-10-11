@@ -1,13 +1,11 @@
 using System;
 using System.Runtime.InteropServices;
+using TileDB.CSharp;
 
 namespace TileDB.Interop
 {
     internal unsafe class ContextHandle : SafeHandle
     {
-        // Constructor for a Handle
-        //   - calls native allocator
-        //   - exception on failure
         public ContextHandle() : base(IntPtr.Zero, ownsHandle: true)
         {
             tiledb_ctx_t* context;
@@ -18,7 +16,7 @@ namespace TileDB.Interop
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(context);
+            InitHandle(context);
         }
 
         public ContextHandle(ConfigHandle hconfig) : base(IntPtr.Zero, ownsHandle: true)
@@ -30,10 +28,9 @@ namespace TileDB.Interop
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(context);
+            InitHandle(context);
         }
 
-        // Deallocator: call native free with CER guarantees from SafeHandle
         protected override bool ReleaseHandle()
         {
             // Free the native object
@@ -45,13 +42,9 @@ namespace TileDB.Interop
             return true;
         }
 
-        // Conversions, getters, operators
-        public ulong Get() { return (ulong)handle; }
-        private protected void SetHandle(tiledb_ctx_t* h) { SetHandle((IntPtr)h); }
-        private protected ContextHandle(IntPtr value) : base(value, ownsHandle: false) { }
+        private void InitHandle(tiledb_ctx_t* h) { SetHandle((IntPtr)h); }
         public override bool IsInvalid => handle == IntPtr.Zero;
-        public static implicit operator IntPtr(ContextHandle h) => h.handle;
-        public static implicit operator tiledb_ctx_t*(ContextHandle h) => (tiledb_ctx_t*)h.handle;
-        public static implicit operator ContextHandle(tiledb_ctx_t* value) => new ContextHandle((IntPtr)value);
+
+        public SafeHandleHolder<tiledb_ctx_t> Acquire() => new(this);
     }
 }

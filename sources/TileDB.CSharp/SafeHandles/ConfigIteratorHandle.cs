@@ -1,14 +1,11 @@
 using System;
 using System.Runtime.InteropServices;
+using TileDB.CSharp;
 
 namespace TileDB.Interop
 {
     internal unsafe class ConfigIteratorHandle : SafeHandle
     {
-        // Constructor for a Handle
-        //   - calls native allocator
-        //   - exception on failure
-
         public ConfigIteratorHandle(ConfigHandle hconfig, string prefix) : base(IntPtr.Zero, ownsHandle: true)
         {
             tiledb_config_iter_t* config_iter;
@@ -20,10 +17,9 @@ namespace TileDB.Interop
             {
                 throw new Exception("Failed to allocate!");
             }
-            SetHandle(config_iter);
+            InitHandle(config_iter);
         }
 
-        // Deallocator: call native free with CER guarantees from SafeHTha andle
         protected override bool ReleaseHandle()
         {
             // Free the native object
@@ -35,13 +31,9 @@ namespace TileDB.Interop
             return true;
         }
 
-        // Conversions, getters, operators
-        public ulong Get() { return (ulong)handle; }
-        private protected void SetHandle(tiledb_config_iter_t* h) { SetHandle((IntPtr)h); }
-        private protected ConfigIteratorHandle(IntPtr value) : base(value, ownsHandle: false) { }
+        private void InitHandle(tiledb_config_iter_t* h) { SetHandle((IntPtr)h); }
         public override bool IsInvalid => handle == IntPtr.Zero;
-        public static implicit operator IntPtr(ConfigIteratorHandle h) => h.handle;
-        public static implicit operator tiledb_config_iter_t*(ConfigIteratorHandle h) => (tiledb_config_iter_t*)h.handle;
-        public static implicit operator ConfigIteratorHandle(tiledb_config_iter_t* value) => new ConfigIteratorHandle((IntPtr)value);
+
+        public SafeHandleHolder<tiledb_config_iter_t> Acquire() => new(this);
     }
 }

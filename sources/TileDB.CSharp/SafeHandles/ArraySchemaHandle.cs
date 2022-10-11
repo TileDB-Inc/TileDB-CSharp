@@ -1,26 +1,41 @@
 using System;
 using System.Runtime.InteropServices;
+using TileDB.CSharp;
 
 namespace TileDB.Interop
 {
     internal unsafe class ArraySchemaHandle : SafeHandle
     {
-        // Constructor for a Handle
-        //   - calls native allocator
-        //   - exception on failure
-        public ArraySchemaHandle(ContextHandle contextHandle, tiledb_array_type_t arrayType) : base(IntPtr.Zero, ownsHandle: true)
-        {
-            tiledb_array_schema_t* schema;
-            Methods.tiledb_array_schema_alloc(contextHandle, arrayType, &schema);
+        public ArraySchemaHandle() : base(IntPtr.Zero, true) { }
 
-            if (schema == null)
+        public ArraySchemaHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
+
+        public static ArraySchemaHandle CreateUnowned(tiledb_array_schema_t* schema) => new((IntPtr)schema, ownsHandle: false);
+
+        public static ArraySchemaHandle Create(Context context, tiledb_array_type_t arrayType)
+        {
+            var handle = new ArraySchemaHandle();
+            bool successful = false;
+            tiledb_array_schema_t* schema = null;
+            try
             {
-                throw new Exception("Failed to allocate!");
+                using (var ctx = context.Handle.Acquire())
+                {
+                    context.handle_error(Methods.tiledb_array_schema_alloc(ctx, arrayType, &schema));
+                }
+                successful = true;
             }
-            SetHandle(schema);
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(schema);
+                }
+            }
+
+            return handle;
         }
 
-        // Deallocator: call native free with CER guarantees from SafeHandle
         protected override bool ReleaseHandle()
         {
             // Free the native object
@@ -32,13 +47,9 @@ namespace TileDB.Interop
             return true;
         }
 
-        // Conversions, getters, operators
-        public ulong Get() { return (ulong)handle; }
-        private protected void SetHandle(tiledb_array_schema_t* h) { SetHandle((IntPtr)h); }
-        private protected ArraySchemaHandle(IntPtr value) : base(value, ownsHandle: false) { }
+        private void InitHandle(tiledb_array_schema_t* h) { SetHandle((IntPtr)h); }
         public override bool IsInvalid => handle == IntPtr.Zero;
-        public static implicit operator IntPtr(ArraySchemaHandle h) => h.handle;
-        public static implicit operator tiledb_array_schema_t*(ArraySchemaHandle h) => (tiledb_array_schema_t*)h.handle;
-        public static implicit operator ArraySchemaHandle(tiledb_array_schema_t* value) => new ArraySchemaHandle((IntPtr)value);
+
+        public SafeHandleHolder<tiledb_array_schema_t> Acquire() => new(this);
     }
 }
