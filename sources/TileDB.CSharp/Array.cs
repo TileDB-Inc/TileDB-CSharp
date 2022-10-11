@@ -50,7 +50,7 @@ namespace TileDB.CSharp
             _ctx = ctx;
             _uri = uri;
             var ms_uri = new MarshaledString(_uri);
-            _handle = new ArrayHandle(_ctx.Handle, ms_uri);
+            _handle = ArrayHandle.Create(_ctx, ms_uri);
             _disposed = false;
             _metadata = new ArrayMetadata(this);
         }
@@ -109,7 +109,9 @@ namespace TileDB.CSharp
         /// <param name="timestampStart"></param>
         public void SetOpenTimestampStart(ulong timestampStart)
         {
-            _ctx.handle_error(Methods.tiledb_array_set_open_timestamp_start(_ctx.Handle, _handle, timestampStart));
+            using var ctx = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_set_open_timestamp_start(ctx, handle, timestampStart));
         }
 
         /// <summary>
@@ -118,7 +120,9 @@ namespace TileDB.CSharp
         /// <param name="timestampEnd"></param>
         public void SetOpenTimestampEnd(ulong timestampEnd)
         {
-            _ctx.handle_error(Methods.tiledb_array_set_open_timestamp_end(_ctx.Handle, _handle, timestampEnd));
+            using var ctx = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_set_open_timestamp_end(ctx, handle, timestampEnd));
         }
 
         /// <summary>
@@ -127,8 +131,10 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public ulong OpenTimestampStart()
         {
+            using var ctx = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             ulong timestamp;
-            _ctx.handle_error(Methods.tiledb_array_get_open_timestamp_start(_ctx.Handle, _handle, &timestamp));
+            _ctx.handle_error(Methods.tiledb_array_get_open_timestamp_start(ctx, handle, &timestamp));
             return timestamp;
         }
 
@@ -138,8 +144,10 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public ulong OpenTimestampEnd()
         {
+            using var ctx = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             ulong timestamp;
-            _ctx.handle_error(Methods.tiledb_array_get_open_timestamp_end(_ctx.Handle, _handle, &timestamp));
+            _ctx.handle_error(Methods.tiledb_array_get_open_timestamp_end(ctx, handle, &timestamp));
             return timestamp;
         }
 
@@ -149,15 +157,19 @@ namespace TileDB.CSharp
         /// <param name="queryType"></param>
         public void Open(QueryType queryType)
         {
+            using var ctx = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             var tiledb_query_type = (tiledb_query_type_t)queryType;
-            _ctx.handle_error(Methods.tiledb_array_open(_ctx.Handle, _handle, tiledb_query_type));
+            _ctx.handle_error(Methods.tiledb_array_open(ctx, handle, tiledb_query_type));
         }
         /// <summary>
         /// ReOpen the array.
         /// </summary>
         public void Reopen()
         {
-            _ctx.handle_error(Methods.tiledb_array_reopen(_ctx.Handle, _handle));
+            using var ctx = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_reopen(ctx, handle));
         }
 
         /// <summary>
@@ -166,8 +178,10 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public bool IsOpen()
         {
+            using var ctx = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             int int_open;
-            _ctx.handle_error(Methods.tiledb_array_is_open(_ctx.Handle, _handle, &int_open));
+            _ctx.handle_error(Methods.tiledb_array_is_open(ctx, handle, &int_open));
             return int_open > 0;
         }
 
@@ -177,7 +191,10 @@ namespace TileDB.CSharp
         /// <param name="config"></param>
         public void SetConfig(Config config)
         {
-            _ctx.handle_error(Methods.tiledb_array_set_config(_ctx.Handle, _handle, config.Handle));
+            using var ctx = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var configHandle = config.Handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_set_config(ctx, handle, configHandle));
         }
 
         /// <summary>
@@ -194,7 +211,9 @@ namespace TileDB.CSharp
         /// </summary>
         public void Close()
         {
-            _ctx.handle_error(Methods.tiledb_array_close(_ctx.Handle, _handle));
+            using var ctx = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_close(ctx, handle));
         }
 
         /// <summary>
@@ -204,12 +223,16 @@ namespace TileDB.CSharp
         public ArraySchema Schema()
         {
             tiledb_array_schema_t* array_schema_p;
-            _ctx.handle_error(Methods.tiledb_array_get_schema(_ctx.Handle, _handle, &array_schema_p));
+            using (var ctx = _ctx.Handle.Acquire())
+            using (var handle = _handle.Acquire())
+            {
+                _ctx.handle_error(Methods.tiledb_array_get_schema(ctx, handle, &array_schema_p));
+            }
             if (array_schema_p == null)
             {
                 throw new ErrorException("Array.schema, schema pointer is null");
             }
-            return new ArraySchema(_ctx,array_schema_p);
+            return new ArraySchema(_ctx, ArraySchemaHandle.CreateUnowned(array_schema_p));
         }
 
         /// <summary>
@@ -218,8 +241,10 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public QueryType QueryType()
         {
+            using var ctx = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             tiledb_query_type_t tiledb_query_type;
-            _ctx.handle_error(Methods.tiledb_array_get_query_type(_ctx.Handle, _handle, &tiledb_query_type));
+            _ctx.handle_error(Methods.tiledb_array_get_query_type(ctx, handle, &tiledb_query_type));
             return (QueryType)tiledb_query_type;
         }
 
@@ -232,7 +257,9 @@ namespace TileDB.CSharp
         public static void Create(Context ctx, string uri, ArraySchema schema)
         {
             var ms_uri = new MarshaledString(uri);
-            ctx.handle_error(Methods.tiledb_array_create(ctx.Handle, ms_uri, schema.Handle));
+            using var ctxHandle = ctx.Handle.Acquire();
+            using var schemaHandle = schema.Handle.Acquire();
+            ctx.handle_error(Methods.tiledb_array_create(ctxHandle, ms_uri, schemaHandle));
         }
 
         /// <summary>
@@ -242,7 +269,9 @@ namespace TileDB.CSharp
         public void Create(ArraySchema schema)
         {
             var ms_uri = new MarshaledString(_uri);
-            _ctx.handle_error(Methods.tiledb_array_create(_ctx.Handle, ms_uri, schema.Handle));
+            using var ctx = _ctx.Handle.Acquire();
+            using var schemaHandle = schema.Handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_create(ctx, ms_uri, schemaHandle));
         }
 
         /// <summary>
@@ -253,7 +282,9 @@ namespace TileDB.CSharp
         public void Evolve(Context ctx, ArraySchemaEvolution schemaEvolution)
         {
             var msUri = new MarshaledString(_uri);
-            _ctx.handle_error(Methods.tiledb_array_evolve(ctx.Handle, msUri, schemaEvolution.Handle));
+            using var ctxHandle = ctx.Handle.Acquire();
+            using var schemaEvolutionHandle = schemaEvolution.Handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_evolve(ctxHandle, msUri, schemaEvolutionHandle));
         }
 
         /// <summary>
@@ -265,7 +296,9 @@ namespace TileDB.CSharp
         public static void Consolidate(Context ctx, string uri, Config config)
         {
             var ms_uri = new MarshaledString(uri);
-            ctx.handle_error(Methods.tiledb_array_consolidate(ctx.Handle, ms_uri, config.Handle));
+            using var ctxHandle = ctx.Handle.Acquire();
+            using var configHandle = config.Handle.Acquire();
+            ctx.handle_error(Methods.tiledb_array_consolidate(ctxHandle, ms_uri, configHandle));
         }
 
         /// <summary>
@@ -277,7 +310,9 @@ namespace TileDB.CSharp
         public static void Vacuum(Context ctx, string uri, Config config)
         {
             var ms_uri = new MarshaledString(uri);
-            ctx.handle_error(Methods.tiledb_array_vacuum(ctx.Handle, ms_uri, config.Handle));
+            using var ctxHandle = ctx.Handle.Acquire();
+            using var configHandle = config.Handle.Acquire();
+            ctx.handle_error(Methods.tiledb_array_vacuum(ctxHandle, ms_uri, configHandle));
         }
 
         public (NonEmptyDomain, bool) NonEmptyDomain()
@@ -398,11 +433,6 @@ namespace TileDB.CSharp
                         nonEmptyDomain.Add(dimName, new Tuple<string, string>(data0, data1));
                     }
                         break;
-                    default:
-                        {
-                        }
-                        break;
-
                 }
             }
 
@@ -428,7 +458,9 @@ namespace TileDB.CSharp
             var int_empty = 1;
             try
             {
-                _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_from_index(_ctx.Handle, _handle, index,
+                using var ctx = _ctx.Handle.Acquire();
+                using var handle = _handle.Acquire();
+                _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_from_index(ctx, handle, index,
                     (void*)dataGcHandle.AddrOfPinnedObject(), &int_empty));
             }
             finally
@@ -459,7 +491,9 @@ namespace TileDB.CSharp
             var int_empty = 1;
             try
             {
-                _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_from_name(_ctx.Handle, _handle, ms_name, (void*)dataGcHandle.AddrOfPinnedObject(), &int_empty));
+                using var ctx = _ctx.Handle.Acquire();
+                using var handle = _handle.Acquire();
+                _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_from_name(ctx, handle, ms_name, (void*)dataGcHandle.AddrOfPinnedObject(), &int_empty));
             }
             finally
             {
@@ -483,7 +517,11 @@ namespace TileDB.CSharp
             ulong start_size;
             ulong end_size;
             var int_empty = 1;
-            _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_size_from_index(_ctx.Handle, _handle, index, &start_size, &end_size, &int_empty));
+            using (var ctx = _ctx.Handle.Acquire())
+            using (var handle = _handle.Acquire())
+            {
+                _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_size_from_index(ctx, handle, index, &start_size, &end_size, &int_empty));
+            }
             if (int_empty > 0) {
                 return (string.Empty, string.Empty, true);
             }
@@ -496,7 +534,9 @@ namespace TileDB.CSharp
 
             try
             {
-                _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_from_index(_ctx.Handle, _handle, index,
+                using var ctx = _ctx.Handle.Acquire();
+                using var handle = _handle.Acquire();
+                _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_from_index(ctx, handle, index,
                     (void*)startGcHandle.AddrOfPinnedObject(), (void*)endGcHandle.AddrOfPinnedObject(), &int_empty));
             }
             finally
@@ -520,7 +560,11 @@ namespace TileDB.CSharp
             var int_empty = 1;
             var ms_name = new MarshaledString(name);
 
-            _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_size_from_name(_ctx.Handle, _handle, ms_name, &start_size, &end_size, &int_empty));
+            using (var ctx = _ctx.Handle.Acquire())
+            using (var handle = _handle.Acquire())
+            {
+                _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_size_from_name(ctx, handle, ms_name, &start_size, &end_size, &int_empty));
+            }
 
             if (int_empty > 0)
             {
@@ -535,7 +579,9 @@ namespace TileDB.CSharp
 
             try
             {
-                _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_from_name(_ctx.Handle, _handle, ms_name,
+                using var ctx = _ctx.Handle.Acquire();
+                using var handle = _handle.Acquire();
+                _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_from_name(ctx, handle, ms_name,
                     (void*)startGcHandle.AddrOfPinnedObject(), (void*)endGcHandle.AddrOfPinnedObject(), &int_empty));
             }
             finally
@@ -556,7 +602,9 @@ namespace TileDB.CSharp
             var ms_result = new MarshaledStringOut();
             fixed (sbyte** p_result = &ms_result.Value)
             {
-                _ctx.handle_error(Methods.tiledb_array_get_uri(_ctx.Handle, _handle, p_result));
+                using var ctx = _ctx.Handle.Acquire();
+                using var handle = _handle.Acquire();
+                _ctx.handle_error(Methods.tiledb_array_get_uri(ctx, handle, p_result));
             }
 
             return ms_result;
@@ -572,7 +620,8 @@ namespace TileDB.CSharp
         {
             var ms_uri = new MarshaledString(uri);
             tiledb_encryption_type_t tiledb_encryption_type;
-            ctx.handle_error(Methods.tiledb_array_encryption_type(ctx.Handle, ms_uri, &tiledb_encryption_type));
+            using var ctxHandle = ctx.Handle.Acquire();
+            ctx.handle_error(Methods.tiledb_array_encryption_type(ctxHandle, ms_uri, &tiledb_encryption_type));
             return (EncryptionType)tiledb_encryption_type;
         }
 
@@ -699,9 +748,10 @@ namespace TileDB.CSharp
         public static ArraySchema LoadArraySchema(Context ctx, string path)
         {
             var ms_path = new MarshaledString(path);
-            tiledb_array_schema_t* tiledb_array_schema_p;
-            ctx.handle_error(Methods.tiledb_array_schema_load(ctx.Handle, ms_path, &tiledb_array_schema_p));
-            return new ArraySchema(ctx, tiledb_array_schema_p);
+            tiledb_array_schema_t* array_schema_p;
+            using var ctxHandle = ctx.Handle.Acquire();
+            ctx.handle_error(Methods.tiledb_array_schema_load(ctxHandle, ms_path, &array_schema_p));
+            return new ArraySchema(ctx, ArraySchemaHandle.CreateUnowned(array_schema_p));
         }
 
         #endregion capi functions
