@@ -3,17 +3,17 @@ using System.Runtime.InteropServices;
 
 namespace TileDB.CSharp
 {
-    internal struct HandleHolder<THandle, TNativeObject> : IDisposable where THandle : SafeHandle where TNativeObject : unmanaged
+    internal struct SafeHandleHolder<TNativeObject> : IDisposable where TNativeObject : unmanaged
     {
-        private readonly THandle _handle;
+        private readonly SafeHandle _handle;
         private bool _isHeld;
 
 #pragma warning disable S3869 // "SafeHandle.DangerousGetHandle" should not be called
-        public static unsafe implicit operator TNativeObject*(HandleHolder<THandle, TNativeObject> holder) =>
+        public static unsafe implicit operator TNativeObject*(SafeHandleHolder<TNativeObject> holder) =>
             (TNativeObject*)holder._handle.DangerousGetHandle();
 #pragma warning restore S3869 // "SafeHandle.DangerousGetHandle" should not be called
 
-        public HandleHolder(THandle handle)
+        public SafeHandleHolder(SafeHandle handle)
         {
             _handle = handle;
             _isHeld = false;
