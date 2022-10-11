@@ -1,18 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <Nullable>enable</Nullable>
     <RollForward>Major</RollForward>
     <RootNamespace>TileDB.CSharp</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
     <Version>5.2.4</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <!-- compile files in ./ -->
-    <Compile Include="*.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TileDB.Interop\TileDB.Interop.csproj" />

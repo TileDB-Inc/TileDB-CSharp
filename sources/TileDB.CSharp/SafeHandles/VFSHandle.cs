@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace TileDB.Interop
 {
-    public unsafe class VFSHandle : SafeHandle
+    internal unsafe class VFSHandle : SafeHandle
     {
         // Constructor for a Handle
         //   - calls native allocator

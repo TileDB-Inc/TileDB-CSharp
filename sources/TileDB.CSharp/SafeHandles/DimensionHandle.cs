@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace TileDB.Interop
 {
-    public unsafe class DimensionHandle: SafeHandle
+    internal unsafe class DimensionHandle: SafeHandle
     {
         // Constructor for a Handle
         //   - calls native allocator
