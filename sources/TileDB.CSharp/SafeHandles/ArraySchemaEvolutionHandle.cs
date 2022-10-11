@@ -6,16 +6,34 @@ namespace TileDB.Interop
 {
     internal unsafe class ArraySchemaEvolutionHandle : SafeHandle
     {
-        public ArraySchemaEvolutionHandle(ContextHandle contextHandle) : base(IntPtr.Zero, ownsHandle: true)
-        {
-            tiledb_array_schema_evolution_t* evolution;
-            Methods.tiledb_array_schema_evolution_alloc(contextHandle, &evolution);
+        public ArraySchemaEvolutionHandle() : base(IntPtr.Zero, true) { }
 
-            if (evolution == null)
+        public ArraySchemaEvolutionHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
+
+        public ArraySchemaEvolutionHandle CreateUnowned(tiledb_array_t* array) => new((IntPtr)array, ownsHandle: false);
+
+        public static ArraySchemaEvolutionHandle Create(Context context)
+        {
+            var handle = new ArraySchemaEvolutionHandle();
+            bool successful = false;
+            tiledb_array_schema_evolution_t* evolution = null;
+            try
             {
-                throw new Exception("Failed to allocate ArraySchemaEvolutionHandle!");
+                using (var contextHandle = context.Handle.Acquire())
+                {
+                    context.handle_error(Methods.tiledb_array_schema_evolution_alloc(contextHandle, &evolution));
+                }
+                successful = true;
             }
-            InitHandle(evolution);
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(evolution);
+                }
+            }
+
+            return handle;
         }
 
         protected override bool ReleaseHandle()
