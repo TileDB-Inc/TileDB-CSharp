@@ -10,7 +10,7 @@ namespace TileDB.CSharp.Test
         [TestMethod]
         public void TestArrayMetadata()
         {
-            var tmpArrayPath = CoreUtil.MakeTestPath("metadata_array");
+            var tmpArrayPath = TestUtil.MakeTestPath("metadata_array");
 
             if (Directory.Exists(tmpArrayPath))
             {

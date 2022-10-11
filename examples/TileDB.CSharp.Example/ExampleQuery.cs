@@ -5,7 +5,7 @@ namespace TileDB.CSharp.Examples
 {
     static class ExampleQuery
     {
-        private static readonly string ArrayPath = CoreUtil.MakeExamplePath("sparse-array");
+        private static readonly string ArrayPath = ExampleUtil.MakeExamplePath("sparse-array");
         private static readonly Context Ctx = Context.GetDefault();
 
         private static void CreateArray()

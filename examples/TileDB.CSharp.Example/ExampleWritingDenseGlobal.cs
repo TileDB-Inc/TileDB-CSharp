@@ -5,7 +5,7 @@ namespace TileDB.CSharp.Examples
 {
     public static class ExampleWritingDenseGlobal
     {
-        private static readonly string ArrayPath = CoreUtil.MakeExamplePath("writing-dense-global");
+        private static readonly string ArrayPath = ExampleUtil.MakeExamplePath("writing-dense-global");
         private static readonly Context Ctx;
 
         static ExampleWritingDenseGlobal()

@@ -6,7 +6,7 @@ namespace TileDB.CSharp.Examples
 {
     public static class ExampleWritingSparseGlobal
     {
-        private static readonly string ArrayPath = CoreUtil.MakeExamplePath("writing-sparse-global");
+        private static readonly string ArrayPath = ExampleUtil.MakeExamplePath("writing-sparse-global");
         private static readonly Context Ctx = Context.GetDefault();
 
         private static void CreateArray()

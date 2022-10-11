@@ -7,7 +7,7 @@ namespace TileDB.CSharp.Examples
 {
     public static class ExampleIncompleteQuery
     {
-        static readonly string ArrayPath = CoreUtil.MakeExamplePath("sparse-incomplete-query");
+        static readonly string ArrayPath = ExampleUtil.MakeExamplePath("sparse-incomplete-query");
         private static readonly Context Ctx = Context.GetDefault();
 
         private static void CreateArray()

@@ -8,7 +8,7 @@ namespace TileDB.CSharp.Test
     [TestClass]
     public class ArraySchemaEvolutionTest
     {
-        private static readonly string ArrayUri = CoreUtil.MakeTestPath("test-schema-evolution");
+        private static readonly string ArrayUri = TestUtil.MakeTestPath("test-schema-evolution");
 
         [TestInitialize]
         public void CreateArray()

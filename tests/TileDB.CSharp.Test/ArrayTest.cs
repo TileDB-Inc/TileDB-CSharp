@@ -12,7 +12,7 @@ namespace TileDB.CSharp.Test
         {
             var context = Context.GetDefault();
 
-            var tmpArrayPath = CoreUtil.MakeTestPath("dense_array_test");
+            var tmpArrayPath = TestUtil.MakeTestPath("dense_array_test");
 
             if (Directory.Exists(tmpArrayPath))
             {
@@ -64,7 +64,7 @@ namespace TileDB.CSharp.Test
         {
             var context = Context.GetDefault();
 
-            var tmpArrayPath = CoreUtil.MakeTestPath("sparse_array_test");
+            var tmpArrayPath = TestUtil.MakeTestPath("sparse_array_test");
 
             if (Directory.Exists(tmpArrayPath))
             {

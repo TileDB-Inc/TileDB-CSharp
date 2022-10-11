@@ -40,7 +40,7 @@ namespace TileDB.CSharp.Test
 
             array_schema.Check();
 
-            var tmpArrayPath = CoreUtil.MakeTestPath("tiledb_test_sparse_array");
+            var tmpArrayPath = TestUtil.MakeTestPath("tiledb_test_sparse_array");
 
             if (Directory.Exists(tmpArrayPath))
             {

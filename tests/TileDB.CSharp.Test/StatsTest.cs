@@ -5,7 +5,7 @@ namespace TileDB.CSharp.Test
     [TestClass]
     public class StatsTest
     {
-        private static readonly string ArrayUri = CoreUtil.MakeTestPath("test-stats");
+        private static readonly string ArrayUri = TestUtil.MakeTestPath("test-stats");
 
         [TestMethod]
         public void TestStats()
@@ -35,7 +35,7 @@ namespace TileDB.CSharp.Test
             string? stats = null;
             stats = Stats.Get();
             Assert.IsNotNull(stats);
-            var filePath = CoreUtil.MakeTestPath("test-stats-dump");
+            var filePath = TestUtil.MakeTestPath("test-stats-dump");
             Stats.Dump(filePath);
             Assert.IsTrue(System.IO.File.Exists(filePath));
 

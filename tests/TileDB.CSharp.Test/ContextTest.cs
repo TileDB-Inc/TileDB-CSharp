@@ -38,7 +38,7 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual<string>(config.Get("vfs.s3.connect_timeout_ms"), "5000");
             Assert.AreEqual<string>(config.Get("vfs.s3.endpoint_override"), "localhost:8888");
 
-            var tempConfigPath = CoreUtil.MakeTestPath("temp.cfg");
+            var tempConfigPath = TestUtil.MakeTestPath("temp.cfg");
             config.SaveToFile(tempConfigPath);
 
             var config2 = new Config();

@@ -5,6 +5,13 @@ namespace TileDB.CSharp.Test
 {
     public static class TestUtil
     {
+        static TestUtil()
+        {
+            if (!Directory.Exists(MakeTestPath("")))
+            {
+                Directory.CreateDirectory(MakeTestPath(""));
+            }
+        }
         /// <summary>
         /// Guard running new test cases against previous versions
         /// Returns false if TileDB core version predates `major.minor.rev`
@@ -34,6 +41,21 @@ namespace TileDB.CSharp.Test
         }
 
         /// <summary>
+        /// Normalizes temp directory
+        /// </summary>
+        /// <param name="tempFile">Name of file to create temp path</param>
+        /// <returns>A full path to the local tempFile</returns>
+        public static string MakeTempPath(string tempFile) =>
+            Path.Join(Path.Join(Path.GetTempPath(), "tiledb-csharp-temp"), tempFile);
+
+        /// <summary>
+        /// Normalizes temp directory for all tests
+        /// </summary>
+        /// <param name="fileName">Name of file to create temp path</param>
+        /// <returns>A full path to a local temp directory using provided fileName</returns>
+        public static string MakeTestPath(string fileName) => Path.Join(MakeTempPath("test"), fileName);
+
+        /// <summary>
         /// Create a new array with a given name and schema
         /// </summary>
         /// <param name="ctx">Current TileDB Context</param>
@@ -56,7 +78,7 @@ namespace TileDB.CSharp.Test
         {
             var context = Context.GetDefault();
             using Array array = new Array(context, arrayUri);
-            array.Open(QueryType.TILEDB_WRITE);
+            array.Open(QueryType.TILEDB_READ);
             PrintLocalSchema(array.Schema());
             array.Close();
         }

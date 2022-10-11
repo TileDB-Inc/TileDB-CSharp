@@ -92,7 +92,7 @@ namespace TileDB.CSharp.Test
 
         private string GetTempDir()
         {
-            return CoreUtil.MakeTestPath("group-test");
+            return TestUtil.MakeTestPath("group-test");
         }
 
         private void RemoveTempDir(string path)

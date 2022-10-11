@@ -89,7 +89,7 @@ namespace TileDB.CSharp.Examples
 
         public static void RunLocal()
         {
-            var localPath = CoreUtil.MakeExamplePath("file-local");
+            var localPath = ExampleUtil.MakeExamplePath("file-local");
             var localOutputFile = Path.Join(localPath, "local_out_file");
             var localFile = Path.Join(localPath, "local_file");
             var localArrayName = "array_name";
@@ -108,7 +108,7 @@ namespace TileDB.CSharp.Examples
         public static void RunCloud(string token, string nameSpace, string cloudArrayName, string s3Bucket,
             string host = "https://api.tiledb.com")
         {
-            var localPath = CoreUtil.MakeExamplePath("file-cloud");
+            var localPath = ExampleUtil.MakeExamplePath("file-cloud");
             if (!Directory.Exists(localPath))
             {
                 Directory.CreateDirectory(localPath);

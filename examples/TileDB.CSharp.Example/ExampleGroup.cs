@@ -97,7 +97,7 @@ namespace TileDB.CSharp.Examples
 
         public static void RunLocal()
         {
-            var localGroupPath = CoreUtil.MakeExamplePath("groups-local");
+            var localGroupPath = ExampleUtil.MakeExamplePath("groups-local");
             if (!Directory.Exists(localGroupPath))
             {
                 Directory.CreateDirectory(localGroupPath);

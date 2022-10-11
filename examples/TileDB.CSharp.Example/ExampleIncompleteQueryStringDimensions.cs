@@ -8,7 +8,7 @@ namespace TileDB.CSharp.Examples
 {
     public static class ExampleIncompleteQueryStringDimensions
     {
-        static readonly string ArrayPath = CoreUtil.MakeExamplePath("sparse-incomplete-query-string-dimensions");
+        static readonly string ArrayPath = ExampleUtil.MakeExamplePath("sparse-incomplete-query-string-dimensions");
         private static readonly Context Ctx = Context.GetDefault();
 
         private static void CreateArray()

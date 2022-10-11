@@ -12,7 +12,7 @@ namespace TileDB.CSharp.Test
         [DataTestMethod]
         public void TestGlobalQuery(LayoutType layoutType, ArrayType arrayType)
         {
-            string arrayPath = CoreUtil.MakeTestPath(
+            string arrayPath = TestUtil.MakeTestPath(
                 $"array-query-{EnumUtil.ArrayTypeToStr(arrayType)}-{EnumUtil.LayoutTypeToStr(layoutType)}");
             Console.WriteLine($"Creating temp test array: {arrayPath}");
             if (Directory.Exists(arrayPath))
@@ -149,7 +149,7 @@ namespace TileDB.CSharp.Test
 
             array_schema.Check();
 
-            var tmpArrayPath = CoreUtil.MakeTestPath("tiledb_test_array");
+            var tmpArrayPath = TestUtil.MakeTestPath("tiledb_test_array");
 
             if (Directory.Exists(tmpArrayPath))
             {
@@ -264,7 +264,7 @@ namespace TileDB.CSharp.Test
 
             array_schema.Check();
 
-            var tmpArrayPath = CoreUtil.MakeTestPath("tiledb_test_sparse_array");
+            var tmpArrayPath = TestUtil.MakeTestPath("tiledb_test_sparse_array");
 
             if (Directory.Exists(tmpArrayPath))
             {
@@ -385,7 +385,7 @@ namespace TileDB.CSharp.Test
 
             array_schema.Check();
 
-            var tmpArrayPath = CoreUtil.MakeTestPath("tiledb_test_nullable_array");
+            var tmpArrayPath = TestUtil.MakeTestPath("tiledb_test_nullable_array");
 
             if (Directory.Exists(tmpArrayPath))
             {
@@ -521,7 +521,7 @@ namespace TileDB.CSharp.Test
             array_schema.SetDomain(domain);
             array_schema.Check();
 
-            var tmpArrayPath = CoreUtil.MakeTestPath("tiledb_test_bool_array");
+            var tmpArrayPath = TestUtil.MakeTestPath("tiledb_test_bool_array");
             if (Directory.Exists(tmpArrayPath))
             {
                 Directory.Delete(tmpArrayPath, true);
