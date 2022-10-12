@@ -6,16 +6,33 @@ namespace TileDB.Interop
 {
     internal unsafe class QueryHandle : SafeHandle
     {
-        public QueryHandle(ContextHandle contextHandle, ArrayHandle arrayHandle, tiledb_query_type_t queryType) : base(IntPtr.Zero, ownsHandle: true)
-        {
-            tiledb_query_t* query;
-            Methods.tiledb_query_alloc(contextHandle, arrayHandle, queryType, &query);
+        public QueryHandle() : base(IntPtr.Zero, true) { }
 
-            if (query == null)
+        public QueryHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
+
+        public static QueryHandle CreateUnowned(tiledb_query_t* filterList) => new((IntPtr)filterList, ownsHandle: false);
+
+        public static QueryHandle Create(Context context, ArrayHandle arrayHandle, tiledb_query_type_t queryType)
+        {
+            var handle = new QueryHandle();
+            bool successful = false;
+            tiledb_query_t* query = null;
+            try
             {
-                throw new Exception("Failed to allocate!");
+                using var contextHandle = context.Handle.Acquire();
+                using var arrayHandleHolder = arrayHandle.Acquire();
+                context.handle_error(Methods.tiledb_query_alloc(contextHandle, arrayHandleHolder, queryType, &query));
+                successful = true;
             }
-            InitHandle(query);
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(query);
+                }
+            }
+
+            return handle;
         }
 
         protected override bool ReleaseHandle()
