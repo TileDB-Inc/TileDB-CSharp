@@ -12,16 +12,26 @@ namespace TileDB.Interop
 
         public static DomainHandle CreateUnowned(tiledb_domain_t* schema) => new((IntPtr)schema, ownsHandle: false);
 
-        public DomainHandle(ContextHandle hcontext) : base(IntPtr.Zero, ownsHandle: true)
+        public static DomainHandle Create(Context context)
         {
-            tiledb_domain_t* domain;
-            Methods.tiledb_domain_alloc(hcontext, &domain);
-
-            if (domain == null)
+            var handle = new DomainHandle();
+            bool successful = false;
+            tiledb_domain_t* domain = null;
+            try
             {
-                throw new Exception("Failed to allocate!");
+                using var contextHandle = context.Handle.Acquire();
+                context.handle_error(Methods.tiledb_domain_alloc(contextHandle, &domain));
+                successful = true;
             }
-            InitHandle(null);
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(domain);
+                }
+            }
+
+            return handle;
         }
 
         protected override bool ReleaseHandle()
