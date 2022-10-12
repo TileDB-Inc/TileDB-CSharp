@@ -6,16 +6,32 @@ namespace TileDB.Interop
 {
     internal unsafe class VFSHandle : SafeHandle
     {
-        public VFSHandle(ContextHandle hcontext, ConfigHandle hconfig) : base(IntPtr.Zero, ownsHandle: true)
-        {
-            tiledb_vfs_t* vfs;
-            Methods.tiledb_vfs_alloc(hcontext, hconfig, &vfs);
+        public VFSHandle() : base(IntPtr.Zero, true) { }
 
-            if (vfs == null)
+        public VFSHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
+
+        public static VFSHandle CreateUnowned(tiledb_vfs_t* filterList) => new((IntPtr)filterList, ownsHandle: false);
+
+        public static VFSHandle Create(Context context, ConfigHandle configHandle)
+        {
+            var handle = new VFSHandle();
+            bool successful = false;
+            tiledb_vfs_t* vfs = null;
+            try
             {
-                throw new Exception("Failed to allocate!");
+                using var contextHandle = context.Handle.Acquire();
+                using var configHandleHolder = configHandle.Acquire();
+                context.handle_error(Methods.tiledb_vfs_alloc(contextHandle, configHandleHolder, &vfs));
             }
-            InitHandle(vfs);
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(vfs);
+                }
+            }
+
+            return handle;
         }
 
         protected override bool ReleaseHandle()
