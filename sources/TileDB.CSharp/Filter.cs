@@ -16,7 +16,7 @@ namespace TileDB.CSharp
         public Filter(Context ctx, FilterType filterType)
         {
             _ctx = ctx;
-            _handle = new FilterHandle(_ctx.Handle, (tiledb_filter_type_t)(filterType));
+            _handle = FilterHandle.Create(_ctx, (tiledb_filter_type_t)(filterType));
         }
 
         internal Filter(Context ctx, FilterHandle handle)
@@ -51,7 +51,9 @@ namespace TileDB.CSharp
         public FilterType FilterType()
         {
             var tiledb_filter_type= tiledb_filter_type_t.TILEDB_FILTER_NONE;
-            _ctx.handle_error(Methods.tiledb_filter_get_type(_ctx.Handle, _handle, &tiledb_filter_type));
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_filter_get_type(ctxHandle, handle, &tiledb_filter_type));
             return (FilterType)tiledb_filter_type;
         }
 
@@ -90,10 +92,12 @@ namespace TileDB.CSharp
             //check for filter option
             check_filter_option<T>(filterOption);
 
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             var tiledb_filter_option = (tiledb_filter_option_t)filterOption;
             var data = new[] { value };
             var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            _ctx.handle_error(Methods.tiledb_filter_set_option(_ctx.Handle, _handle, tiledb_filter_option, (void*)dataGcHandle.AddrOfPinnedObject()));
+            _ctx.handle_error(Methods.tiledb_filter_set_option(ctxHandle, handle, tiledb_filter_option, (void*)dataGcHandle.AddrOfPinnedObject()));
             dataGcHandle.Free();
         }
 
@@ -111,12 +115,13 @@ namespace TileDB.CSharp
 
             var data = new T[1];
             var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            _ctx.handle_error(Methods.tiledb_filter_get_option(_ctx.Handle, _handle, tiledb_filter_option, (void*)dataGcHandle.AddrOfPinnedObject()));
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_filter_get_option(ctxHandle, handle, tiledb_filter_option, (void*)dataGcHandle.AddrOfPinnedObject()));
             var result = data[0];
             dataGcHandle.Free();
 
             return result;
         }
-
     }
 }

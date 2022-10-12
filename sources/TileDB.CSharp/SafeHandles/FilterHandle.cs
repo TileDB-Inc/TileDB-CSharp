@@ -6,16 +6,31 @@ namespace TileDB.Interop
 {
     internal unsafe class FilterHandle : SafeHandle
     {
-        public FilterHandle(ContextHandle hcontext, tiledb_filter_type_t filterType) : base(IntPtr.Zero, ownsHandle: true)
-        {
-            tiledb_filter_t* filter;
-            Methods.tiledb_filter_alloc(hcontext, filterType, &filter);
+        public FilterHandle() : base(IntPtr.Zero, true) { }
 
-            if (filter == null)
+        public FilterHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
+
+        public static FilterHandle CreateUnowned(tiledb_filter_t* array) => new((IntPtr)array, ownsHandle: false);
+
+        public static FilterHandle Create(Context context, tiledb_filter_type_t filterType)
+        {
+            var handle = new FilterHandle();
+            bool successful = false;
+            tiledb_filter_t* filter = null;
+            try
             {
-                throw new Exception("Failed to allocate!");
+                using var contextHandle = context.Handle.Acquire();
+                context.handle_error(Methods.tiledb_filter_alloc(contextHandle, filterType, &filter));
             }
-            InitHandle(filter);
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(filter);
+                }
+            }
+
+            return handle;
         }
 
         protected override bool ReleaseHandle()
