@@ -22,6 +22,7 @@ namespace TileDB.Interop
                 using var contextHandle = context.Handle.Acquire();
                 using var configHandleHolder = configHandle.Acquire();
                 context.handle_error(Methods.tiledb_vfs_alloc(contextHandle, configHandleHolder, &vfs));
+                successful = true;
             }
             finally
             {

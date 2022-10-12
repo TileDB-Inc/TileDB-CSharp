@@ -22,6 +22,7 @@ namespace TileDB.Interop
                 using var contextHandle = context.Handle.Acquire();
                 var ms_name = new MarshaledString(name);
                 context.handle_error(Methods.tiledb_dimension_alloc(contextHandle, ms_name, datatype, dimDomain, tileExtent, &dimension));
+                successful = true;
             }
             finally
             {
