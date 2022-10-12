@@ -10,7 +10,7 @@ namespace TileDB.Interop
 
         public ArrayHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
 
-        public ArrayHandle CreateUnowned(tiledb_array_t* array) => new((IntPtr)array, ownsHandle: false);
+        public static ArrayHandle CreateUnowned(tiledb_array_t* array) => new((IntPtr)array, ownsHandle: false);
 
         public static ArrayHandle Create(Context context, sbyte* uri)
         {

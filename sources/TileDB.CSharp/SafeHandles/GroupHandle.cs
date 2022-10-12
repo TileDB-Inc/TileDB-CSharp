@@ -10,7 +10,7 @@ namespace TileDB.Interop
 
         public GroupHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
 
-        public static GroupHandle CreateUnowned(tiledb_filter_list_t* filterList) => new((IntPtr)filterList, ownsHandle: false);
+        public static GroupHandle CreateUnowned(tiledb_group_t* filterList) => new((IntPtr)filterList, ownsHandle: false);
 
         public static GroupHandle Create(Context context, sbyte* uri)
         {

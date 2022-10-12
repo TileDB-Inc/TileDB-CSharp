@@ -21,6 +21,7 @@ namespace TileDB.Interop
             {
                 using var contextHandle = context.Handle.Acquire();
                 context.handle_error(Methods.tiledb_filter_alloc(contextHandle, filterType, &filter));
+                successful = true;
             }
             finally
             {
