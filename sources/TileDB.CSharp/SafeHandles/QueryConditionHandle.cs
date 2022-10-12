@@ -6,16 +6,32 @@ namespace TileDB.Interop
 {
     internal unsafe class QueryConditionHandle : SafeHandle
     {
-        public QueryConditionHandle(ContextHandle contextHandle) : base(IntPtr.Zero, ownsHandle: true)
-        {
-            tiledb_query_condition_t* queryCondition;
-            Methods.tiledb_query_condition_alloc(contextHandle, &queryCondition);
+        public QueryConditionHandle() : base(IntPtr.Zero, true) { }
 
-            if (queryCondition == null)
+        public QueryConditionHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
+
+        public static QueryConditionHandle CreateUnowned(tiledb_query_condition_t* filterList) => new((IntPtr)filterList, ownsHandle: false);
+
+        public static QueryConditionHandle Create(Context context)
+        {
+            var handle = new QueryConditionHandle();
+            bool successful = false;
+            tiledb_query_condition_t* queryCondition = null;
+            try
             {
-                throw new Exception("Failed to allocate!");
+                using var contextHandle = context.Handle.Acquire();
+                context.handle_error(Methods.tiledb_query_condition_alloc(contextHandle, &queryCondition));
+                successful = true;
             }
-            InitHandle(queryCondition);
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(queryCondition);
+                }
+            }
+
+            return handle;
         }
 
         protected override bool ReleaseHandle()

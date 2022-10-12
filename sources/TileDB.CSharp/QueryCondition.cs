@@ -17,7 +17,7 @@ namespace TileDB.CSharp
         public QueryCondition(Context ctx)
         {
             _ctx = ctx;
-            _handle = new QueryConditionHandle(_ctx.Handle);
+            _handle = QueryConditionHandle.Create(_ctx);
         }
 
         internal QueryCondition(Context ctx, QueryConditionHandle handle)
@@ -53,13 +53,15 @@ namespace TileDB.CSharp
         /// <param name="optype"></param>
         public void Init<T>(string attribute_name, T condition_value, QueryConditionOperatorType optype) where T: struct
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             var ms_attribute_name = new MarshaledString(attribute_name);
             T[] data = new T[1] { condition_value };
             ulong size = (ulong)Marshal.SizeOf(data[0]);
             var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
             try
             {
-                _ctx.handle_error(Methods.tiledb_query_condition_init(_ctx.Handle, _handle, ms_attribute_name,
+                _ctx.handle_error(Methods.tiledb_query_condition_init(ctxHandle, handle, ms_attribute_name,
                     (void*)dataGcHandle.AddrOfPinnedObject(), size, (tiledb_query_condition_op_t)optype));
             }
             finally
@@ -74,15 +76,17 @@ namespace TileDB.CSharp
         /// <param name="attribute_name"></param>
         /// <param name="condition_value"></param>
         /// <param name="optype"></param>
-        public void Init(string attribute_name, string condition_value, QueryConditionOperatorType optype) 
+        public void Init(string attribute_name, string condition_value, QueryConditionOperatorType optype)
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             var ms_attribute_name = new MarshaledString(attribute_name);
             byte[] data = Encoding.ASCII.GetBytes(condition_value);
             ulong size = (ulong)data.Length;
             var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
             try
             {
-                _ctx.handle_error(Methods.tiledb_query_condition_init(_ctx.Handle, _handle, ms_attribute_name,
+                _ctx.handle_error(Methods.tiledb_query_condition_init(ctxHandle, handle, ms_attribute_name,
                     (void*)dataGcHandle.AddrOfPinnedObject(), size, (tiledb_query_condition_op_t)optype));
             }
             finally
@@ -93,15 +97,13 @@ namespace TileDB.CSharp
 
         public QueryCondition Combine(QueryCondition rhs, QueryConditionCombinationOperatorType combination_optype)
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var rhsHandle = rhs.Handle.Acquire();
             tiledb_query_condition_t* condition_p = null;
-            _ctx.handle_error(Methods.tiledb_query_condition_combine(_ctx.Handle, _handle, rhs.Handle,(tiledb_query_condition_combination_op_t)combination_optype, &condition_p));
+            _ctx.handle_error(Methods.tiledb_query_condition_combine(ctxHandle, handle, rhsHandle,(tiledb_query_condition_combination_op_t)combination_optype, &condition_p));
 
-            if (condition_p == null)
-            {
-                throw new ErrorException("QueryCondition.combine, query condition pointer is null");
-            }
-
-            return new QueryCondition(_ctx, condition_p);
+            return new QueryCondition(_ctx, QueryConditionHandle.CreateUnowned(condition_p));
         }
 
         #endregion capi functions
@@ -133,10 +135,8 @@ namespace TileDB.CSharp
         public static QueryCondition Create<T>(Context ctx, string attribute_name, T value, QueryConditionOperatorType optype) where T: struct
         {
             var ret = new QueryCondition(ctx);
-            ret.Init<T>(attribute_name, value, optype);
+            ret.Init(attribute_name, value, optype);
             return ret;
         }
-
-
-    }//class
-}//namespace
+    }
+}
