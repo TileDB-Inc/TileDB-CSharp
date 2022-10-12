@@ -12,16 +12,26 @@ namespace TileDB.Interop
 
         public static FilterListHandle CreateUnowned(tiledb_filter_list_t* filterList) => new((IntPtr)filterList, ownsHandle: false);
 
-        public FilterListHandle(ContextHandle hcontext) : base(IntPtr.Zero, ownsHandle: true)
+        public static FilterListHandle Create(Context context)
         {
-            tiledb_filter_list_t* filterList;
-            Methods.tiledb_filter_list_alloc(hcontext, &filterList);
-
-            if (filterList == null)
+            var handle = new FilterListHandle();
+            bool successful = false;
+            tiledb_filter_list_t* filterList = null;
+            try
             {
-                throw new Exception("Failed to allocate!");
+                using var contextHandle = context.Handle.Acquire();
+                context.handle_error(Methods.tiledb_filter_list_alloc(contextHandle, &filterList));
+                successful = true;
             }
-            InitHandle(filterList);
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(filterList);
+                }
+            }
+
+            return handle;
         }
 
         protected override bool ReleaseHandle()

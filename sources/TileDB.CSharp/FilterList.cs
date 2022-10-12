@@ -9,12 +9,10 @@ namespace TileDB.CSharp
         private readonly Context _ctx;
         private bool _disposed;
 
- 
-
         public FilterList(Context ctx) 
         {
             _ctx = ctx;
-            _handle = new FilterListHandle(_ctx.Handle);
+            _handle = FilterListHandle.Create(_ctx);
         }
 
         internal FilterList(Context ctx, FilterListHandle handle) 
@@ -47,16 +45,21 @@ namespace TileDB.CSharp
         /// <param name="filter"></param>
         public void AddFilter(Filter filter)
         {
-            _ctx.handle_error(Methods.tiledb_filter_list_add_filter(_ctx.Handle, _handle, filter.Handle));
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var filterHandle = filter.Handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_filter_list_add_filter(ctxHandle, handle, filterHandle));
         }
 
         /// <summary>
         /// Set maximum chunk size.
         /// </summary>
         /// <param name="maxChunkSize"></param>
-        public void SetMaxChunkSize(uint maxChunkSize) 
+        public void SetMaxChunkSize(uint maxChunkSize)
         {
-            _ctx.handle_error(Methods.tiledb_filter_list_set_max_chunk_size(_ctx.Handle,_handle,maxChunkSize));
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_filter_list_set_max_chunk_size(ctxHandle, handle, maxChunkSize));
         }
 
         /// <summary>
@@ -65,8 +68,10 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public uint MaxChunkSize()
         {
-            uint result = 0;
-            _ctx.handle_error(Methods.tiledb_filter_list_get_max_chunk_size(_ctx.Handle, _handle,&result));
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            uint result;
+            _ctx.handle_error(Methods.tiledb_filter_list_get_max_chunk_size(ctxHandle, handle, &result));
             return result;
         }
 
@@ -76,8 +81,10 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public uint NFilters()
         {
-            uint result = 0;
-            _ctx.handle_error(Methods.tiledb_filter_list_get_nfilters(_ctx.Handle, _handle, &result));
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            uint result;
+            _ctx.handle_error(Methods.tiledb_filter_list_get_nfilters(ctxHandle, handle, &result));
             return result;
         }
 
@@ -90,13 +97,17 @@ namespace TileDB.CSharp
         public Filter Filter(uint filterIndex) 
         {
             tiledb_filter_t* filter_p = null;
-            _ctx.handle_error(Methods.tiledb_filter_list_get_filter_from_index(_ctx.Handle, _handle, filterIndex, &filter_p));
+            using (var ctxHandle = _ctx.Handle.Acquire())
+            using (var handle = _handle.Acquire())
+            {
+                _ctx.handle_error(Methods.tiledb_filter_list_get_filter_from_index(ctxHandle, handle, filterIndex, &filter_p));
+            }
 
             if (filter_p == null) {
                 throw new ErrorException("FilterList.filter, filter pointer is null");
             }
 
-            return new Filter(_ctx, filter_p);
+            return new Filter(_ctx, FilterHandle.CreateUnowned(filter_p));
         }
 
     }
