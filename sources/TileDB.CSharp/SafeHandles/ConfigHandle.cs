@@ -6,17 +6,32 @@ namespace TileDB.Interop
 {
     internal unsafe class ConfigHandle : SafeHandle
     {
-        public ConfigHandle() : base(IntPtr.Zero, ownsHandle: true)
-        {
-            tiledb_config_t* config;
-            tiledb_error_t* error;
-            Methods.tiledb_config_alloc(&config, &error);
+        public ConfigHandle() : base(IntPtr.Zero, true) { }
 
-            if (config == null)
+        public ConfigHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
+
+        public static ConfigHandle CreateUnowned(tiledb_config_t* schema) => new((IntPtr)schema, ownsHandle: false);
+
+        public static ConfigHandle Create()
+        {
+            var handle = new ConfigHandle();
+            bool successful = false;
+            tiledb_config_t* config = null;
+            try
             {
-                throw new Exception("Failed to allocate!");
+                tiledb_error_t* error;
+                Methods.tiledb_config_alloc(&config, &error);
+                successful = true;
             }
-            InitHandle(config);
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(config);
+                }
+            }
+
+            return handle;
         }
 
         protected override bool ReleaseHandle()
