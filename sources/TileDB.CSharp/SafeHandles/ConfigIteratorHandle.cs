@@ -6,18 +6,34 @@ namespace TileDB.Interop
 {
     internal unsafe class ConfigIteratorHandle : SafeHandle
     {
-        public ConfigIteratorHandle(ConfigHandle hconfig, string prefix) : base(IntPtr.Zero, ownsHandle: true)
-        {
-            tiledb_config_iter_t* config_iter;
-            tiledb_error_t* error;
-            var ms_prefix = new MarshaledString(prefix);
-            Methods.tiledb_config_iter_alloc(hconfig, ms_prefix, &config_iter, &error);
+        public ConfigIteratorHandle() : base(IntPtr.Zero, true) { }
 
-            if (config_iter == null)
+        public ConfigIteratorHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
+
+        public static ConfigIteratorHandle CreateUnowned(tiledb_config_iter_t* schema) => new((IntPtr)schema, ownsHandle: false);
+
+        public static ConfigIteratorHandle Create(ConfigHandle hconfig, string prefix)
+        {
+            var handle = new ConfigIteratorHandle();
+            bool successful = false;
+            tiledb_config_iter_t* config_iter = null;
+            try
             {
-                throw new Exception("Failed to allocate!");
+                using var config = hconfig.Acquire();
+                tiledb_error_t* error;
+                var ms_prefix = new MarshaledString(prefix);
+                Methods.tiledb_config_iter_alloc(config, ms_prefix, &config_iter, &error);
+                successful = true;
             }
-            InitHandle(config_iter);
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(config_iter);
+                }
+            }
+
+            return handle;
         }
 
         protected override bool ReleaseHandle()
