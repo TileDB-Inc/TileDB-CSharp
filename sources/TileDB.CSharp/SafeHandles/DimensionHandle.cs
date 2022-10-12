@@ -4,19 +4,34 @@ using TileDB.CSharp;
 
 namespace TileDB.Interop
 {
-    internal unsafe class DimensionHandle: SafeHandle
+    internal unsafe class DimensionHandle : SafeHandle
     {
-        public DimensionHandle(ContextHandle hcontext, string name, tiledb_datatype_t datatype, void* dimDomain, void* tileExtent) : base(IntPtr.Zero, ownsHandle: true)
-        {
-            tiledb_dimension_t* dimension;
-            var ms_name = new MarshaledString(name);
-            Methods.tiledb_dimension_alloc(hcontext, ms_name, datatype, dimDomain, tileExtent, &dimension);
+        public DimensionHandle() : base(IntPtr.Zero, true) { }
 
-            if (dimension == null)
+        public DimensionHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
+
+        public static DimensionHandle CreateUnowned(tiledb_dimension_t* schema) => new((IntPtr)schema, ownsHandle: false);
+
+        public static DimensionHandle Create(Context context, string name, tiledb_datatype_t datatype, void* dimDomain, void* tileExtent)
+        {
+            var handle = new DimensionHandle();
+            bool successful = false;
+            tiledb_dimension_t* dimension = null;
+            try
             {
-                throw new Exception("Failed to allocate!");
+                using var contextHandle = context.Handle.Acquire();
+                var ms_name = new MarshaledString(name);
+                context.handle_error(Methods.tiledb_dimension_alloc(contextHandle, ms_name, datatype, dimDomain, tileExtent, &dimension));
             }
-            InitHandle(dimension);
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(dimension);
+                }
+            }
+
+            return handle;
         }
 
         protected override bool ReleaseHandle()

@@ -44,8 +44,10 @@ namespace TileDB.CSharp
         /// <param name="filterList"></param>
         public void SetFilterList(FilterList filterList)
         {
-
-            _ctx.handle_error(Methods.tiledb_dimension_set_filter_list(_ctx.Handle, _handle, filterList.Handle));
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var filterListHandle = filterList.Handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_dimension_set_filter_list(ctxHandle, handle, filterListHandle));
         }
 
         /// <summary>
@@ -54,7 +56,9 @@ namespace TileDB.CSharp
         /// <param name="cellValNum"></param>
         public void SetCellValNum(uint cellValNum)
         {
-            _ctx.handle_error(Methods.tiledb_dimension_set_cell_val_num(_ctx.Handle, _handle, cellValNum));
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_dimension_set_cell_val_num(ctxHandle, handle, cellValNum));
         }
 
         /// <summary>
@@ -63,9 +67,11 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public FilterList FilterList()
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             tiledb_filter_list_t* filter_list_p;
-            _ctx.handle_error(Methods.tiledb_dimension_get_filter_list(_ctx.Handle, _handle, &filter_list_p));
-            return new FilterList(_ctx, filter_list_p);
+            _ctx.handle_error(Methods.tiledb_dimension_get_filter_list(ctxHandle, handle, &filter_list_p));
+            return new FilterList(_ctx, FilterListHandle.CreateUnowned(filter_list_p));
         }
 
         /// <summary>
@@ -74,8 +80,10 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public uint CellValNum()
         {
-            uint cell_value_num = 0;
-            _ctx.handle_error(Methods.tiledb_dimension_get_cell_val_num(_ctx.Handle, _handle, &cell_value_num));
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            uint cell_value_num;
+            _ctx.handle_error(Methods.tiledb_dimension_get_cell_val_num(ctxHandle, handle, &cell_value_num));
             return cell_value_num;
         }
 
@@ -85,10 +93,12 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public string Name()
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             var ms_name = new MarshaledStringOut();
             fixed (sbyte** p_result = &ms_name.Value) 
             {
-                _ctx.handle_error(Methods.tiledb_dimension_get_name(_ctx.Handle, _handle, p_result));
+                _ctx.handle_error(Methods.tiledb_dimension_get_name(ctxHandle, handle, p_result));
             }
             
             return ms_name;
@@ -100,10 +110,11 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public DataType Type()
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            tiledb_datatype_t tiledb_datatype;
 
-            var tiledb_datatype = tiledb_datatype_t.TILEDB_ANY;
-
-            _ctx.handle_error(Methods.tiledb_dimension_get_type(_ctx.Handle, _handle, &tiledb_datatype));
+            _ctx.handle_error(Methods.tiledb_dimension_get_type(ctxHandle, handle, &tiledb_datatype));
 
             return (DataType)tiledb_datatype;
         }
@@ -115,11 +126,13 @@ namespace TileDB.CSharp
         /// <returns></returns>
         private byte[] get_domain<T>() where T: struct
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             void* value_p;
             var temp = default(T);
             var size = (ulong)(2* Marshal.SizeOf(temp));
 
-            _ctx.handle_error(Methods.tiledb_dimension_get_domain(_ctx.Handle, _handle, &value_p));
+            _ctx.handle_error(Methods.tiledb_dimension_get_domain(ctxHandle, handle, &value_p));
 
             var fill_span = new ReadOnlySpan<byte>(value_p, (int)size);
             return fill_span.ToArray();
@@ -145,11 +158,13 @@ namespace TileDB.CSharp
         /// <returns></returns>
         private byte[] get_tile_extent<T>() where T : struct
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             void* value_p;
             var temp = default(T);
             var size = (ulong)(Marshal.SizeOf(temp));
 
-            _ctx.handle_error(Methods.tiledb_dimension_get_tile_extent(_ctx.Handle, _handle, &value_p));
+            _ctx.handle_error(Methods.tiledb_dimension_get_tile_extent(ctxHandle, handle, &value_p));
 
             var fill_span = new ReadOnlySpan<byte>(value_p, (int)size);
             return fill_span.ToArray();
@@ -360,7 +375,7 @@ namespace TileDB.CSharp
 
             if (tiledb_datatype == tiledb_datatype_t.TILEDB_STRING_ASCII)
             {
-                var str_dim_handle = new DimensionHandle(ctx.Handle, name, tiledb_datatype, null, null);
+                var str_dim_handle = DimensionHandle.Create(ctx, name, tiledb_datatype, null, null);
                 return new Dimension(ctx, str_dim_handle);
             }
 
@@ -368,7 +383,7 @@ namespace TileDB.CSharp
      
             var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
             var extent_dataGcHandle = GCHandle.Alloc(extent, GCHandleType.Pinned);
-            var handle = new DimensionHandle(ctx.Handle, name, tiledb_datatype, (void*)dataGcHandle.AddrOfPinnedObject(), (void*)extent_dataGcHandle.AddrOfPinnedObject());
+            var handle = DimensionHandle.Create(ctx, name, tiledb_datatype, (void*)dataGcHandle.AddrOfPinnedObject(), (void*)extent_dataGcHandle.AddrOfPinnedObject());
             dataGcHandle.Free();
             extent_dataGcHandle.Free();
             return new Dimension(ctx,handle);
@@ -408,6 +423,5 @@ namespace TileDB.CSharp
         {
             return Create<string>(ctx, name, "", "", "");
         }
-    }//class
-
-}//namespace
+    }
+}
