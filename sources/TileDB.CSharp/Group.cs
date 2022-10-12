@@ -1,9 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
 using TileDB.Interop;
 
 namespace TileDB.CSharp
@@ -12,17 +7,15 @@ namespace TileDB.CSharp
     {
         private readonly GroupHandle _handle;
         private readonly Context _ctx;
-        private readonly string _uri;
         private bool _disposed;
 
-        private GroupMetadata _metadata;
+        private readonly GroupMetadata _metadata;
 
         public Group(Context ctx, string uri)
         {
             _ctx = ctx;
-            _uri = uri;
-            var ms_uri = new MarshaledString(_uri);
-            _handle = new GroupHandle(_ctx.Handle, ms_uri);
+            var ms_uri = new MarshaledString(uri);
+            _handle = GroupHandle.Create(_ctx, ms_uri);
             _disposed = false;
             _metadata = new GroupMetadata(this);
         }
@@ -31,7 +24,6 @@ namespace TileDB.CSharp
         {
             _ctx = ctx;
             _handle = handle;
-            _uri = Uri();
             _disposed = false;
             _metadata = new GroupMetadata(this);
         }
@@ -65,11 +57,11 @@ namespace TileDB.CSharp
         }
 
         #region capi functions
-
         public static void Create(Context ctx, string uri)
         {
+            using var ctxHandle = ctx.Handle.Acquire();
             var ms_uri = new MarshaledString(uri);
-            ctx.handle_error(Methods.tiledb_group_create(ctx.Handle, ms_uri));
+            ctx.handle_error(Methods.tiledb_group_create(ctxHandle, ms_uri));
         }
 
         /// <summary>
@@ -78,8 +70,10 @@ namespace TileDB.CSharp
         /// <param name="queryType"></param>
         public void Open(QueryType queryType)
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             var tiledb_query_type = (tiledb_query_type_t)queryType;
-            _ctx.handle_error(Methods.tiledb_group_open(_ctx.Handle, _handle, tiledb_query_type));
+            _ctx.handle_error(Methods.tiledb_group_open(ctxHandle, handle, tiledb_query_type));
         }
 
         /// <summary>
@@ -87,7 +81,9 @@ namespace TileDB.CSharp
         /// </summary>
         public void Close()
         {
-            _ctx.handle_error(Methods.tiledb_group_close(_ctx.Handle, _handle));
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_group_close(ctxHandle, handle));
         }
 
         /// <summary>
@@ -96,7 +92,10 @@ namespace TileDB.CSharp
         /// <param name="config"></param>
         public void SetConfig(Config config)
         {
-            _ctx.handle_error(Methods.tiledb_group_set_config(_ctx.Handle, _handle, config.Handle));
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var configHandle = config.Handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_group_set_config(ctxHandle, handle, configHandle));
         }
 
         /// <summary>
@@ -108,7 +107,7 @@ namespace TileDB.CSharp
             return _ctx.Config();
         }
 
- 
+
         /// <summary>
         /// Put metadata array.
         /// </summary>
@@ -217,21 +216,25 @@ namespace TileDB.CSharp
         /// <param name="relative"></param>
         public void AddMember(string uri, bool relative, string name)
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             var ms_uri = new MarshaledString(uri);
-            var ms_name = new MarshaledString(uri);
+            var ms_name = new MarshaledString(name);
             byte byte_relative = relative ? (byte)1 : (byte)0;
             _ctx.handle_error(Methods.tiledb_group_add_member(
-                _ctx.Handle, _handle, ms_uri, byte_relative, ms_name));
+                ctxHandle, handle, ms_uri, byte_relative, ms_name));
         }
- 
+
         /// <summary>
         /// Remove a member
         /// </summary>
         /// <param name="uri"></param>
         public void RemoveMember(string uri)
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             var ms_uri = new MarshaledString(uri);
-            _ctx.handle_error(Methods.tiledb_group_remove_member(_ctx.Handle, _handle, ms_uri));
+            _ctx.handle_error(Methods.tiledb_group_remove_member(ctxHandle, handle, ms_uri));
         }
 
 
@@ -241,8 +244,10 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public ulong MemberCount()
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             ulong num;
-            _ctx.handle_error(Methods.tiledb_group_get_member_count(_ctx.Handle, _handle, &num));
+            _ctx.handle_error(Methods.tiledb_group_get_member_count(ctxHandle, handle, &num));
             return num;
         }
 
@@ -252,18 +257,18 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        (string uri, ObjectType object_type, string name) MemberByIndex(ulong index) 
+        (string uri, ObjectType object_type, string name) MemberByIndex(ulong index)
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             var ms_uri = new MarshaledStringOut();
             var ms_name = new MarshaledStringOut();
             tiledb_object_t tiledb_objecttype;
             fixed (sbyte** p_uri = &ms_uri.Value)
+            fixed (sbyte** p_name = &ms_name.Value)
             {
-                fixed (sbyte** p_name = &ms_name.Value)
-                {
-                    _ctx.handle_error(Methods.tiledb_group_get_member_by_index(
-                        _ctx.Handle, _handle, index, p_uri, &tiledb_objecttype, p_name));
-                }
+                _ctx.handle_error(Methods.tiledb_group_get_member_by_index(
+                    ctxHandle, handle, index, p_uri, &tiledb_objecttype, p_name));
             }
 
             return (ms_uri, (ObjectType)tiledb_objecttype, ms_name);
@@ -275,8 +280,10 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public bool IsOpen()
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             int int_open;
-            _ctx.handle_error(Methods.tiledb_group_is_open(_ctx.Handle, _handle, &int_open));
+            _ctx.handle_error(Methods.tiledb_group_is_open(ctxHandle, handle, &int_open));
             return int_open > 0;
         }
 
@@ -286,10 +293,12 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public string Uri()
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             var ms_result = new MarshaledStringOut();
             fixed (sbyte** p_result = &ms_result.Value)
             {
-                _ctx.handle_error(Methods.tiledb_group_get_uri(_ctx.Handle, _handle, p_result));
+                _ctx.handle_error(Methods.tiledb_group_get_uri(ctxHandle, handle, p_result));
             }
 
             return ms_result;
@@ -301,32 +310,31 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public QueryType QueryType()
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             tiledb_query_type_t tiledb_query_type;
-            _ctx.handle_error(Methods.tiledb_group_get_query_type(_ctx.Handle, _handle, &tiledb_query_type));
+            _ctx.handle_error(Methods.tiledb_group_get_query_type(ctxHandle, handle, &tiledb_query_type));
             return (QueryType)tiledb_query_type;
         }
 
-
-       /// <summary>
-       /// Dump to string
-       /// </summary>
-       /// <param name="recursive"></param>
-       /// <returns></returns>
+        /// <summary>
+        /// Dump to string
+        /// </summary>
+        /// <param name="recursive"></param>
+        /// <returns></returns>
         public string Dump(bool recursive)
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             var ms_result = new MarshaledStringOut();
             byte int_recursive = (byte)(recursive ? 1 : 0);
             fixed (sbyte** p_result = &ms_result.Value)
             {
-                _ctx.handle_error(Methods.tiledb_group_dump_str(_ctx.Handle, _handle, p_result, int_recursive));
+                _ctx.handle_error(Methods.tiledb_group_dump_str(ctxHandle, handle, p_result, int_recursive));
             }
 
             return ms_result;
-
         }
-
-        #endregion capi functions
-
-    }//class
-
-}//namespace
+        #endregion
+    }
+}

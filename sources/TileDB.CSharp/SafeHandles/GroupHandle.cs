@@ -6,16 +6,32 @@ namespace TileDB.Interop
 {
     internal unsafe class GroupHandle : SafeHandle
     {
-        public GroupHandle(ContextHandle contextHandle, sbyte* uri) : base(IntPtr.Zero, ownsHandle: true)
-        {
-            tiledb_group_t* group;
-            Methods.tiledb_group_alloc(contextHandle, uri, &group);
+        public GroupHandle() : base(IntPtr.Zero, true) { }
 
-            if (group == null)
+        public GroupHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
+
+        public static GroupHandle CreateUnowned(tiledb_filter_list_t* filterList) => new((IntPtr)filterList, ownsHandle: false);
+
+        public static GroupHandle Create(Context context, sbyte* uri)
+        {
+            var handle = new GroupHandle();
+            bool successful = false;
+            tiledb_group_t* group = null;
+            try
             {
-                throw new Exception("Failed to allocate!");
+                using var contextHandle = context.Handle.Acquire();
+                context.handle_error(Methods.tiledb_group_alloc(contextHandle, uri, &group));
+                successful = true;
             }
-            InitHandle(group);
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(group);
+                }
+            }
+
+            return handle;
         }
 
         protected override bool ReleaseHandle()
