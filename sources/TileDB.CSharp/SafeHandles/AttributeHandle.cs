@@ -12,17 +12,26 @@ namespace TileDB.Interop
 
         public static AttributeHandle CreateUnowned(tiledb_attribute_t* schema) => new((IntPtr)schema, ownsHandle: false);
 
-        public AttributeHandle(ContextHandle hcontext, string name, tiledb_datatype_t datatype) : base(IntPtr.Zero, ownsHandle: true)
+        public static AttributeHandle Create(Context context, string name, tiledb_datatype_t datatype)
         {
-            tiledb_attribute_t* attribute;
-            var ms_name = new MarshaledString(name);
-            Methods.tiledb_attribute_alloc(hcontext, ms_name, datatype, &attribute);
-
-            if (attribute == null)
+            var handle = new AttributeHandle();
+            bool successful = false;
+            tiledb_attribute_t* attribute = null;
+            try
             {
-                throw new Exception("Failed to allocate!");
+                using var contextHandle = context.Handle.Acquire();
+                var ms_name = new MarshaledString(name);
+                context.handle_error(Methods.tiledb_attribute_alloc(contextHandle, ms_name, datatype, &attribute));
             }
-            InitHandle(attribute);
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(attribute);
+                }
+            }
+
+            return handle;
         }
 
         protected override bool ReleaseHandle()
