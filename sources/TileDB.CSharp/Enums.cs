@@ -176,7 +176,8 @@ namespace TileDB.CSharp
         TILEDB_MIME_AUTODETECT = tiledb_mime_type_t.TILEDB_MIME_AUTODETECT,
     }
 
-   public class Constants {
+    public class Constants
+    {
         public const uint TILEDB_VAR_NUM = uint.MaxValue;
 
         #region File Api
@@ -203,11 +204,8 @@ namespace TileDB.CSharp
         {
             tiledb_query_type_t tiledb_query_type = (tiledb_query_type_t)queryType;
             var ms_result = new MarshaledStringOut();
-            fixed (sbyte** p_result = &ms_result.Value)
-            {
-                TileDB.Interop.Methods.tiledb_query_type_to_str(tiledb_query_type, p_result);
-            }
-            return ms_result;
+            Methods.tiledb_query_type_to_str(tiledb_query_type, &ms_result.Value);
+            return ms_result.ToString();
         }
 
         /// <summary>
@@ -221,7 +219,7 @@ namespace TileDB.CSharp
             var ms_str = new MarshaledString(str);
             unsafe
             {
-                int status = TileDB.Interop.Methods.tiledb_query_type_from_str(ms_str, &tiledb_query_type);
+                int status = Methods.tiledb_query_type_from_str(ms_str, &tiledb_query_type);
                 if (status != (int)Status.TILEDB_OK)
                 {
                     throw new System.ArgumentException("EnumUtil.QueryTypeFromStr, Invalid string:" + str);
@@ -239,11 +237,8 @@ namespace TileDB.CSharp
         {
             tiledb_object_t tiledb_object = (tiledb_object_t)objectType;
             var ms_result = new MarshaledStringOut();
-            fixed (sbyte** p_result = &ms_result.Value)
-            {
-                TileDB.Interop.Methods.tiledb_object_type_to_str(tiledb_object, p_result);
-            }
-            return ms_result;
+            Methods.tiledb_object_type_to_str(tiledb_object, &ms_result.Value);
+            return ms_result.ToString();
         }
 
         public static ObjectType ObjectTypeFromStr(string str)
@@ -252,7 +247,7 @@ namespace TileDB.CSharp
             var ms_str = new MarshaledString(str);
             unsafe
             {
-                int status = TileDB.Interop.Methods.tiledb_object_type_from_str(ms_str, &tiledb_object);
+                int status = Methods.tiledb_object_type_from_str(ms_str, &tiledb_object);
                 if (status != (int)Status.TILEDB_OK)
                 {
                     throw new System.ArgumentException("EnumUtil.ObjectTypeFromStr, Invalid string:" + str);
@@ -265,11 +260,8 @@ namespace TileDB.CSharp
         {
             tiledb_filesystem_t tiledb_filesystem = (tiledb_filesystem_t)fileSystemType;
             var ms_result = new MarshaledStringOut();
-            fixed (sbyte** p_result = &ms_result.Value)
-            {
-                TileDB.Interop.Methods.tiledb_filesystem_to_str(tiledb_filesystem, p_result);
-            }
-            return ms_result;
+            Methods.tiledb_filesystem_to_str(tiledb_filesystem, &ms_result.Value);
+            return ms_result.ToString();
         }
 
         public static FileSystemType FileSystemTypeFromStr(string str)
@@ -278,7 +270,7 @@ namespace TileDB.CSharp
             var ms_str = new MarshaledString(str);
             unsafe
             {
-                int status = TileDB.Interop.Methods.tiledb_filesystem_from_str(ms_str, &tiledb_filesystem);
+                int status = Methods.tiledb_filesystem_from_str(ms_str, &tiledb_filesystem);
                 if (status != (int)Status.TILEDB_OK)
                 {
                     throw new System.ArgumentException("EnumUtil.FileSystemTypeFromStr, Invalid string:" + str);
@@ -291,11 +283,8 @@ namespace TileDB.CSharp
         {
             tiledb_datatype_t tiledb_datatype = (tiledb_datatype_t)dataType;
             var ms_result = new MarshaledStringOut();
-            fixed (sbyte** p_result = &ms_result.Value)
-            {
-                TileDB.Interop.Methods.tiledb_datatype_to_str(tiledb_datatype, p_result);
-            }
-            return ms_result;
+            Methods.tiledb_datatype_to_str(tiledb_datatype, &ms_result.Value);
+            return ms_result.ToString();
         }
 
         public static DataType DataTypeFromStr(string str)
@@ -304,7 +293,7 @@ namespace TileDB.CSharp
             var ms_str = new MarshaledString(str);
             unsafe
             {
-                int status = TileDB.Interop.Methods.tiledb_datatype_from_str(ms_str, &tiledb_datatype);
+                int status = Methods.tiledb_datatype_from_str(ms_str, &tiledb_datatype);
                 if (status != (int)Status.TILEDB_OK)
                 {
                     throw new System.ArgumentException("EnumUtil.DataTypeFromStr, Invalid string:" + str);
@@ -317,11 +306,8 @@ namespace TileDB.CSharp
         {
             tiledb_array_type_t tiledb_arraytype = (tiledb_array_type_t)arrayType;
             var ms_result = new MarshaledStringOut();
-            fixed (sbyte** p_result = &ms_result.Value)
-            {
-                TileDB.Interop.Methods.tiledb_array_type_to_str(tiledb_arraytype, p_result);
-            }
-            return ms_result;
+            Methods.tiledb_array_type_to_str(tiledb_arraytype, &ms_result.Value);
+            return ms_result.ToString();
         }
 
         public static ArrayType ArrayTypeFromStr(string str)
@@ -330,7 +316,7 @@ namespace TileDB.CSharp
             var ms_str = new MarshaledString(str);
             unsafe
             {
-                int status = TileDB.Interop.Methods.tiledb_array_type_from_str(ms_str, &tiledb_arraytype);
+                int status = Methods.tiledb_array_type_from_str(ms_str, &tiledb_arraytype);
                 if (status != (int)Status.TILEDB_OK)
                 {
                     throw new System.ArgumentException("EnumUtil.ArrayTypeFromStr, Invalid string:" + str);
@@ -343,11 +329,8 @@ namespace TileDB.CSharp
         {
             tiledb_layout_t tiledb_layout = (tiledb_layout_t)layoutType;
             var ms_result = new MarshaledStringOut();
-            fixed (sbyte** p_result = &ms_result.Value)
-            {
-                TileDB.Interop.Methods.tiledb_layout_to_str(tiledb_layout, p_result);
-            }
-            return ms_result;
+            Methods.tiledb_layout_to_str(tiledb_layout, &ms_result.Value);
+            return ms_result.ToString();
         }
 
         public static LayoutType LayoutTypeFromStr(string str)
@@ -356,7 +339,7 @@ namespace TileDB.CSharp
             var ms_str = new MarshaledString(str);
             unsafe
             {
-                int status = TileDB.Interop.Methods.tiledb_layout_from_str(ms_str, &tiledb_layout);
+                int status = Methods.tiledb_layout_from_str(ms_str, &tiledb_layout);
                 if (status != (int)Status.TILEDB_OK)
                 {
                     throw new System.ArgumentException("EnumUtil.LayoutTypeFromStr, Invalid string:" + str);
@@ -369,11 +352,8 @@ namespace TileDB.CSharp
         {
             tiledb_filter_type_t tiledb_filtertype = (tiledb_filter_type_t)filterType;
             var ms_result = new MarshaledStringOut();
-            fixed (sbyte** p_result = &ms_result.Value)
-            {
-                TileDB.Interop.Methods.tiledb_filter_type_to_str(tiledb_filtertype, p_result);
-            }
-            return ms_result;
+            Methods.tiledb_filter_type_to_str(tiledb_filtertype, &ms_result.Value);
+            return ms_result.ToString();
         }
 
         public static FilterType FilterTypeFromStr(string str)
@@ -382,7 +362,7 @@ namespace TileDB.CSharp
             var ms_str = new MarshaledString(str);
             unsafe
             {
-                int status = TileDB.Interop.Methods.tiledb_filter_type_from_str(ms_str, &tiledb_filtertype);
+                int status = Methods.tiledb_filter_type_from_str(ms_str, &tiledb_filtertype);
                 if (status != (int)Status.TILEDB_OK)
                 {
                     throw new System.ArgumentException("EnumUtil.FilterTypeFromStr, Invalid string:" + str);
@@ -395,11 +375,8 @@ namespace TileDB.CSharp
         {
             tiledb_filter_option_t tiledb_filteroption = (tiledb_filter_option_t)filterOption;
             var ms_result = new MarshaledStringOut();
-            fixed (sbyte** p_result = &ms_result.Value)
-            {
-                TileDB.Interop.Methods.tiledb_filter_option_to_str(tiledb_filteroption, p_result);
-            }
-            return ms_result;
+            Methods.tiledb_filter_option_to_str(tiledb_filteroption, &ms_result.Value);
+            return ms_result.ToString();
         }
 
         public static FilterOption FilterOptionFromStr(string str)
@@ -408,7 +385,7 @@ namespace TileDB.CSharp
             var ms_str = new MarshaledString(str);
             unsafe
             {
-                int status = TileDB.Interop.Methods.tiledb_filter_option_from_str(ms_str, &tiledb_filteroption);
+                int status = Methods.tiledb_filter_option_from_str(ms_str, &tiledb_filteroption);
                 if (status != (int)Status.TILEDB_OK)
                 {
                     throw new System.ArgumentException("EnumUtil.FilterOptionFromStr, Invalid string:" + str);
@@ -421,11 +398,8 @@ namespace TileDB.CSharp
         {
             tiledb_encryption_type_t tiledb_encryptiontype = (tiledb_encryption_type_t)encryptionType;
             var ms_result = new MarshaledStringOut();
-            fixed (sbyte** p_result = &ms_result.Value)
-            {
-                TileDB.Interop.Methods.tiledb_encryption_type_to_str(tiledb_encryptiontype, p_result);
-            }
-            return ms_result;
+            Methods.tiledb_encryption_type_to_str(tiledb_encryptiontype, &ms_result.Value);
+            return ms_result.ToString();
         }
 
         public static EncryptionType EncryptionTypeFromStr(string str)
@@ -434,7 +408,7 @@ namespace TileDB.CSharp
             var ms_str = new MarshaledString(str);
             unsafe
             {
-                int status = TileDB.Interop.Methods.tiledb_encryption_type_from_str(ms_str, &tiledb_encryptiontype);
+                int status = Methods.tiledb_encryption_type_from_str(ms_str, &tiledb_encryptiontype);
                 if (status != (int)Status.TILEDB_OK)
                 {
                     throw new System.ArgumentException("EnumUtil.EncryptionTypeFromStr, Invalid string:" + str);
@@ -447,11 +421,8 @@ namespace TileDB.CSharp
         {
             tiledb_query_status_t tiledb_querystatus = (tiledb_query_status_t)queryStatus;
             var ms_result = new MarshaledStringOut();
-            fixed (sbyte** p_result = &ms_result.Value)
-            {
-                TileDB.Interop.Methods.tiledb_query_status_to_str(tiledb_querystatus, p_result);
-            }
-            return ms_result;
+            Methods.tiledb_query_status_to_str(tiledb_querystatus, &ms_result.Value);
+            return ms_result.ToString();
         }
 
         public static QueryStatus QueryStatusFromStr(string str)
@@ -460,7 +431,7 @@ namespace TileDB.CSharp
             var ms_str = new MarshaledString(str);
             unsafe
             {
-                int status = TileDB.Interop.Methods.tiledb_query_status_from_str(ms_str, &tiledb_querystatus);
+                int status = Methods.tiledb_query_status_from_str(ms_str, &tiledb_querystatus);
                 if (status != (int)Status.TILEDB_OK)
                 {
                     throw new System.ArgumentException("EnumUtil.QueryStatusFromStr, Invalid string:" + str);
@@ -473,11 +444,8 @@ namespace TileDB.CSharp
         {
             tiledb_walk_order_t tiledb_walkorder = (tiledb_walk_order_t)walkOrderType;
             var ms_result = new MarshaledStringOut();
-            fixed (sbyte** p_result = &ms_result.Value)
-            {
-                TileDB.Interop.Methods.tiledb_walk_order_to_str(tiledb_walkorder, p_result);
-            }
-            return ms_result;
+            Methods.tiledb_walk_order_to_str(tiledb_walkorder, &ms_result.Value);
+            return ms_result.ToString();
         }
 
         public static WalkOrderType WalkOrderTypeFromStr(string str)
@@ -486,7 +454,7 @@ namespace TileDB.CSharp
             var ms_str = new MarshaledString(str);
             unsafe
             {
-                int status = TileDB.Interop.Methods.tiledb_walk_order_from_str(ms_str, &tiledb_walkorder);
+                int status = Methods.tiledb_walk_order_from_str(ms_str, &tiledb_walkorder);
                 if (status != (int)Status.TILEDB_OK)
                 {
                     throw new System.ArgumentException("EnumUtil.WalkOrderFromStr, Invalid string:" + str);
@@ -499,11 +467,8 @@ namespace TileDB.CSharp
         {
             tiledb_vfs_mode_t tiledb_vfsmode = (tiledb_vfs_mode_t)vfsMode;
             var ms_result = new MarshaledStringOut();
-            fixed (sbyte** p_result = &ms_result.Value)
-            {
-                TileDB.Interop.Methods.tiledb_vfs_mode_to_str(tiledb_vfsmode, p_result);
-            }
-            return ms_result;
+            Methods.tiledb_vfs_mode_to_str(tiledb_vfsmode, &ms_result.Value);
+            return ms_result.ToString();
         }
 
         public static VfsMode VfsModeFromStr(string str)
@@ -512,10 +477,10 @@ namespace TileDB.CSharp
             var ms_str = new MarshaledString(str);
             unsafe
             {
-                int status = TileDB.Interop.Methods.tiledb_vfs_mode_from_str(ms_str, &tiledb_vfsmode);
+                int status = Methods.tiledb_vfs_mode_from_str(ms_str, &tiledb_vfsmode);
                 if (status != (int)Status.TILEDB_OK)
                 {
-                    throw new System.ArgumentException("EnumUtil.VfsModeFromStr, Invalid string:" + str);
+                    throw new ArgumentException("EnumUtil.VfsModeFromStr, Invalid string:" + str);
                 }
             }
             return (VfsMode)tiledb_vfsmode;
@@ -693,10 +658,5 @@ namespace TileDB.CSharp
             var tiledb_datatype = (tiledb_datatype_t)datatype;
             return Methods.tiledb_datatype_size(tiledb_datatype);
         }
-
-
-
-
-    }//class
-
+    }
 }

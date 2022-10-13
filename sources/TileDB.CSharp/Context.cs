@@ -31,7 +31,7 @@ namespace TileDB.CSharp
         private void Dispose(bool disposing)
         {
             if (_disposed) return;
-            if (disposing && !_handle.IsInvalid) 
+            if (disposing && !_handle.IsInvalid)
             {
                 _handle.Dispose();
             }
@@ -41,13 +41,12 @@ namespace TileDB.CSharp
 
         internal ContextHandle Handle => _handle;
 
-
         private static Context? _default;
         /// <summary>
         /// Get default context.
         /// </summary>
         /// <returns></returns>
-        public static Context GetDefault() 
+        public static Context GetDefault()
         {
             if (_default == null)
             {
@@ -64,12 +63,9 @@ namespace TileDB.CSharp
         {
             using var handle = _handle.Acquire();
             var result_out = new MarshaledStringOut();
-            fixed (sbyte** p_result = &result_out.Value) 
-            {
-                handle_error(Methods.tiledb_ctx_get_stats(handle, p_result));
-            }
-            
-            return result_out;
+            handle_error(Methods.tiledb_ctx_get_stats(handle, &result_out.Value));
+
+            return result_out.ToString();
         }
 
         /// <summary>
@@ -96,16 +92,13 @@ namespace TileDB.CSharp
             {
                 status = Methods.tiledb_ctx_get_last_error(handle, &p_tiledb_error);
             }
-            if(status == (int)Status.TILEDB_OK)
+            if (status == (int)Status.TILEDB_OK)
             {
                 var str_out = new MarshaledStringOut();
 
-                fixed(sbyte** p_str = &str_out.Value) 
-                {
-                    status = Methods.tiledb_error_message(p_tiledb_error, p_str);
-                }
-                
-                if(status == (int)Status.TILEDB_OK)
+                status = Methods.tiledb_error_message(p_tiledb_error, &str_out.Value);
+
+                if (status == (int)Status.TILEDB_OK)
                 {
                     sb_result.Append(str_out);
                 }
@@ -121,7 +114,7 @@ namespace TileDB.CSharp
                 sb_result.Append(" Context.last_error,caught exception:" + message);
             }
             Methods.tiledb_error_free(&p_tiledb_error);
-            
+
             return sb_result.ToString();
         }
 
@@ -142,7 +135,7 @@ namespace TileDB.CSharp
         /// <exception cref="System.ArgumentException"></exception>
         public void SetTag(string key, string value)
         {
-            if(string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value)) 
+            if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value))
             {
                 throw new ArgumentException("Context.set_tag, key or value is null or empty!");
             }
@@ -157,15 +150,15 @@ namespace TileDB.CSharp
         /// <summary>
         /// Default event handler is just printing
         /// </summary>
-        public event EventHandler<ErrorEventArgs> ErrorHappened = (_,e) => {
+        public event EventHandler<ErrorEventArgs> ErrorHappened = (_, e) =>
+        {
             var error_msg = $"Error! Code:{e.Code},Message:{e.Message}";
             throw new Exception(error_msg);
         };
 
- 
-        internal void handle_error(int rc) 
+        internal void handle_error(int rc)
         {
-            if (rc == (int)Status.TILEDB_OK) 
+            if (rc == (int)Status.TILEDB_OK)
             {
                 return;
             }
@@ -180,11 +173,8 @@ namespace TileDB.CSharp
             if (status == (int)Status.TILEDB_OK)
             {
                 var str_out = new MarshaledStringOut();
-                fixed(sbyte** p_str = &str_out.Value) 
-                {
-                    status = Methods.tiledb_error_message(p_tiledb_error, p_str);
-                }
-              
+                status = Methods.tiledb_error_message(p_tiledb_error, &str_out.Value);
+
                 if (status == (int)Status.TILEDB_OK)
                 {
                     sb_message.Append(str_out);
@@ -207,14 +197,11 @@ namespace TileDB.CSharp
             OnError(args);
         }
 
-        private void OnError(ErrorEventArgs e) 
+        private void OnError(ErrorEventArgs e)
         {
             var handler = ErrorHappened;
             handler(this, e); //fire the event
         }
-
-        #endregion error
-
-
+        #endregion
     }
 }

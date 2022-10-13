@@ -23,7 +23,8 @@ namespace TileDB.CSharp
 
         public bool TryGet<T>(string key, out T? value)
         {
-            if (_dict.TryGetValue(key, out var result) && result is T value1) {
+            if (_dict.TryGetValue(key, out var result) && result is T value1)
+            {
                 value = value1;
                 return true;
             }
@@ -417,15 +418,15 @@ namespace TileDB.CSharp
                         }
                         break;
                     case TypeCode.String:
-                    {
-                        (string data0, string data1, bool isEmpty) = NonEmptyDomainVar(i);
-                        if (isEmpty == false)
                         {
-                            isEmptyDomain = false;
-                        }
+                            (string data0, string data1, bool isEmpty) = NonEmptyDomainVar(i);
+                            if (isEmpty == false)
+                            {
+                                isEmptyDomain = false;
+                            }
 
-                        nonEmptyDomain.Add(dimName, new Tuple<string, string>(data0, data1));
-                    }
+                            nonEmptyDomain.Add(dimName, new Tuple<string, string>(data0, data1));
+                        }
                         break;
                 }
             }
@@ -505,7 +506,7 @@ namespace TileDB.CSharp
         public (string, string, bool) NonEmptyDomainVar(uint index)
         {
             var dim = Schema().Domain().Dimension(index);
-            if(!EnumUtil.IsStringType(dim.Type()))
+            if (!EnumUtil.IsStringType(dim.Type()))
             {
                 throw new ErrorException("Array.NonEmptyDomainVar, not string dimension for index:" + index);
             }
@@ -517,7 +518,8 @@ namespace TileDB.CSharp
             {
                 _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_size_from_index(ctxHandle, handle, index, &start_size, &end_size, &int_empty));
             }
-            if (int_empty > 0) {
+            if (int_empty > 0)
+            {
                 return (string.Empty, string.Empty, true);
             }
 
@@ -540,7 +542,7 @@ namespace TileDB.CSharp
                 endGcHandle.Free();
             }
 
-            return (Encoding.ASCII.GetString(start),Encoding.ASCII.GetString(end), false);
+            return (Encoding.ASCII.GetString(start), Encoding.ASCII.GetString(end), false);
         }
 
         public (string, string, bool) NonEmptyDomainVar(string name)
@@ -563,7 +565,7 @@ namespace TileDB.CSharp
 
             if (int_empty > 0)
             {
-                return (string.Empty,string.Empty, true);
+                return (string.Empty, string.Empty, true);
             }
 
             var start = new byte[(int)start_size];
@@ -585,7 +587,7 @@ namespace TileDB.CSharp
                 endGcHandle.Free();
             }
 
-            return new (Encoding.ASCII.GetString(start), Encoding.ASCII.GetString(end), false);
+            return new(Encoding.ASCII.GetString(start), Encoding.ASCII.GetString(end), false);
         }
 
         /// <summary>
@@ -595,14 +597,11 @@ namespace TileDB.CSharp
         public string Uri()
         {
             var ms_result = new MarshaledStringOut();
-            fixed (sbyte** p_result = &ms_result.Value)
-            {
-                using var ctxHandle = _ctx.Handle.Acquire();
-                using var handle = _handle.Acquire();
-                _ctx.handle_error(Methods.tiledb_array_get_uri(ctxHandle, handle, p_result));
-            }
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_get_uri(ctxHandle, handle, &ms_result.Value));
 
-            return ms_result;
+            return ms_result.ToString();
         }
 
         /// <summary>
@@ -626,7 +625,7 @@ namespace TileDB.CSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <param name="data"></param>
-        public void PutMetadata<T>(string key, T[] data) where T: struct
+        public void PutMetadata<T>(string key, T[] data) where T : struct
         {
             _metadata.PutMetadata<T>(key, data);
         }

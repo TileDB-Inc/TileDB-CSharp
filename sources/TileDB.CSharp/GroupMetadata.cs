@@ -377,15 +377,12 @@ namespace TileDB.CSharp
             var ms_key = new MarshaledStringOut();
             var dataType = tiledb_datatype_t.TILEDB_ANY;
             uint valueNum = 0;
-            fixed (sbyte** p_key = &ms_key.Value)
-            {
-                uint key_len;
-                ctx.handle_error(Methods.tiledb_group_get_metadata_from_index(ctxHandle, groupHandle, index, p_key,
-                    &key_len, &dataType, &valueNum, &value_p));
-            }
+            uint key_len;
+            ctx.handle_error(Methods.tiledb_group_get_metadata_from_index(ctxHandle, groupHandle, index, &ms_key.Value,
+                &key_len, &dataType, &valueNum, &value_p));
             var size = (int)(valueNum * EnumUtil.TileDBDataTypeSize(dataType));
             var fill_span = new ReadOnlySpan<byte>(value_p, size);
-            return (ms_key, fill_span.ToArray(), dataType, valueNum);
+            return (ms_key.ToString(), fill_span.ToArray(), dataType, valueNum);
         }
         #endregion
     }

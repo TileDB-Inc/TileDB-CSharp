@@ -97,12 +97,9 @@ namespace TileDB.CSharp
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             var ms_name = new MarshaledStringOut();
-            fixed (sbyte** p_result = &ms_name.Value) 
-            {
-                _ctx.handle_error(Methods.tiledb_dimension_get_name(ctxHandle, handle, p_result));
-            }
+            _ctx.handle_error(Methods.tiledb_dimension_get_name(ctxHandle, handle, &ms_name.Value));
             
-            return ms_name;
+            return ms_name.ToString();
         }
 
         /// <summary>

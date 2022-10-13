@@ -3,22 +3,17 @@ using System.Text;
 
 namespace TileDB.Interop
 {
-    internal unsafe class MarshaledStringOut
+    internal unsafe struct MarshaledStringOut
     {
         public sbyte* Value;
 
-        public MarshaledStringOut()
+        public override string ToString()
         {
-            Value = null;
-        }
-
-        public static implicit operator string(MarshaledStringOut s)
-        {
-            if (s.Value == null) {
+            if (Value == null) {
                 return string.Empty;
             }
 
-            var span = new ReadOnlySpan<byte>(s.Value, int.MaxValue);
+            var span = new ReadOnlySpan<byte>(Value, int.MaxValue);
             span = span.Slice(0, span.IndexOf((byte)'\0'));
             return Encoding.ASCII.GetString(span);
         }
