@@ -1,8 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
 using TileDB.CSharp;
+using TileDB.Interop;
 
-namespace TileDB.Interop
+namespace TileDB.CSharp.Marshalling.SafeHandles
 {
     internal unsafe class AttributeHandle : SafeHandle
     {
@@ -15,7 +16,7 @@ namespace TileDB.Interop
         public static AttributeHandle Create(Context context, string name, tiledb_datatype_t datatype)
         {
             var handle = new AttributeHandle();
-            bool successful = false;
+            var successful = false;
             tiledb_attribute_t* attribute = null;
             try
             {

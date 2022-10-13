@@ -1,7 +1,8 @@
 using System;
+using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
-namespace TileDB.CSharp 
+namespace TileDB.CSharp
 {
     public unsafe class VFS : IDisposable
     {

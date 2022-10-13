@@ -1,8 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
 using TileDB.CSharp;
+using TileDB.Interop;
 
-namespace TileDB.Interop
+namespace TileDB.CSharp.Marshalling.SafeHandles
 {
     internal unsafe class VFSHandle : SafeHandle
     {
@@ -15,7 +16,7 @@ namespace TileDB.Interop
         public static VFSHandle Create(Context context, ConfigHandle configHandle)
         {
             var handle = new VFSHandle();
-            bool successful = false;
+            var successful = false;
             tiledb_vfs_t* vfs = null;
             try
             {
@@ -38,8 +39,8 @@ namespace TileDB.Interop
         protected override bool ReleaseHandle()
         {
             // Free the native object
-            tiledb_vfs_t* p = (tiledb_vfs_t*)handle;
-            TileDB.Interop.Methods.tiledb_vfs_free(&p);
+            var p = (tiledb_vfs_t*)handle;
+            Methods.tiledb_vfs_free(&p);
             // Invalidate the contained pointer
             SetHandle(IntPtr.Zero);
 
@@ -47,7 +48,7 @@ namespace TileDB.Interop
         }
 
         private protected void InitHandle(tiledb_vfs_t* h) { SetHandle((IntPtr)h); }
-        public override bool IsInvalid => this.handle == IntPtr.Zero;
+        public override bool IsInvalid => handle == IntPtr.Zero;
 
         public SafeHandleHolder<tiledb_vfs_t> Acquire() => new(this);
     }

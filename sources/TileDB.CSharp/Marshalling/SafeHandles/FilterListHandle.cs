@@ -1,8 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
 using TileDB.CSharp;
+using TileDB.Interop;
 
-namespace TileDB.Interop
+namespace TileDB.CSharp.Marshalling.SafeHandles
 {
     internal unsafe class FilterListHandle : SafeHandle
     {
@@ -15,7 +16,7 @@ namespace TileDB.Interop
         public static FilterListHandle Create(Context context)
         {
             var handle = new FilterListHandle();
-            bool successful = false;
+            var successful = false;
             tiledb_filter_list_t* filterList = null;
             try
             {

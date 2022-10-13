@@ -1,8 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
 using TileDB.CSharp;
+using TileDB.Interop;
 
-namespace TileDB.Interop
+namespace TileDB.CSharp.Marshalling.SafeHandles
 {
     internal unsafe class ContextHandle : SafeHandle
     {
@@ -15,7 +16,7 @@ namespace TileDB.Interop
         public static ContextHandle Create()
         {
             var handle = new ContextHandle();
-            bool successful = false;
+            var successful = false;
             tiledb_ctx_t* context = null;
             try
             {
@@ -38,7 +39,7 @@ namespace TileDB.Interop
         public static ContextHandle Create(ConfigHandle configHandle)
         {
             var handle = new ContextHandle();
-            bool successful = false;
+            var successful = false;
             tiledb_ctx_t* context = null;
             try
             {

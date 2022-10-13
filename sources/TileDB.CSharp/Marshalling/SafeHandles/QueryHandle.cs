@@ -1,8 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
 using TileDB.CSharp;
+using TileDB.Interop;
 
-namespace TileDB.Interop
+namespace TileDB.CSharp.Marshalling.SafeHandles
 {
     internal unsafe class QueryHandle : SafeHandle
     {
@@ -15,7 +16,7 @@ namespace TileDB.Interop
         public static QueryHandle Create(Context context, ArrayHandle arrayHandle, tiledb_query_type_t queryType)
         {
             var handle = new QueryHandle();
-            bool successful = false;
+            var successful = false;
             tiledb_query_t* query = null;
             try
             {

@@ -1,8 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
 using TileDB.CSharp;
+using TileDB.Interop;
 
-namespace TileDB.Interop
+namespace TileDB.CSharp.Marshalling.SafeHandles
 {
     internal unsafe class ArraySchemaHandle : SafeHandle
     {
@@ -15,7 +16,7 @@ namespace TileDB.Interop
         public static ArraySchemaHandle Create(Context context, tiledb_array_type_t arrayType)
         {
             var handle = new ArraySchemaHandle();
-            bool successful = false;
+            var successful = false;
             tiledb_array_schema_t* schema = null;
             try
             {

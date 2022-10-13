@@ -1,8 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
 using TileDB.CSharp;
+using TileDB.Interop;
 
-namespace TileDB.Interop
+namespace TileDB.CSharp.Marshalling.SafeHandles
 {
     internal unsafe class GroupHandle : SafeHandle
     {
@@ -15,7 +16,7 @@ namespace TileDB.Interop
         public static GroupHandle Create(Context context, sbyte* uri)
         {
             var handle = new GroupHandle();
-            bool successful = false;
+            var successful = false;
             tiledb_group_t* group = null;
             try
             {

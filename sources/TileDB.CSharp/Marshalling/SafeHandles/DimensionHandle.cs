@@ -1,8 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
 using TileDB.CSharp;
+using TileDB.Interop;
 
-namespace TileDB.Interop
+namespace TileDB.CSharp.Marshalling.SafeHandles
 {
     internal unsafe class DimensionHandle : SafeHandle
     {
@@ -15,7 +16,7 @@ namespace TileDB.Interop
         public static DimensionHandle Create(Context context, string name, tiledb_datatype_t datatype, void* dimDomain, void* tileExtent)
         {
             var handle = new DimensionHandle();
-            bool successful = false;
+            var successful = false;
             tiledb_dimension_t* dimension = null;
             try
             {

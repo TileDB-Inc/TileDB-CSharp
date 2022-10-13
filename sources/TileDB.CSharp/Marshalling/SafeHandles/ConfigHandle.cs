@@ -1,8 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
 using TileDB.CSharp;
+using TileDB.Interop;
 
-namespace TileDB.Interop
+namespace TileDB.CSharp.Marshalling.SafeHandles
 {
     internal unsafe class ConfigHandle : SafeHandle
     {
@@ -15,7 +16,7 @@ namespace TileDB.Interop
         public static ConfigHandle Create()
         {
             var handle = new ConfigHandle();
-            bool successful = false;
+            var successful = false;
             tiledb_config_t* config = null;
             try
             {

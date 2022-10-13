@@ -1,8 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
 using TileDB.CSharp;
+using TileDB.Interop;
 
-namespace TileDB.Interop
+namespace TileDB.CSharp.Marshalling.SafeHandles
 {
     internal unsafe class ArraySchemaEvolutionHandle : SafeHandle
     {
@@ -15,7 +16,7 @@ namespace TileDB.Interop
         public static ArraySchemaEvolutionHandle Create(Context context)
         {
             var handle = new ArraySchemaEvolutionHandle();
-            bool successful = false;
+            var successful = false;
             tiledb_array_schema_evolution_t* evolution = null;
             try
             {

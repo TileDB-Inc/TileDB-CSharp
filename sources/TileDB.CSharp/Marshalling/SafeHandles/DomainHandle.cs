@@ -1,8 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
 using TileDB.CSharp;
+using TileDB.Interop;
 
-namespace TileDB.Interop
+namespace TileDB.CSharp.Marshalling.SafeHandles
 {
     internal unsafe class DomainHandle : SafeHandle
     {
@@ -15,7 +16,7 @@ namespace TileDB.Interop
         public static DomainHandle Create(Context context)
         {
             var handle = new DomainHandle();
-            bool successful = false;
+            var successful = false;
             tiledb_domain_t* domain = null;
             try
             {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace TileDB.CSharp
+namespace TileDB.CSharp.Marshalling
 {
     internal struct SafeHandleHolder<TNativeObject> : IDisposable where TNativeObject : unmanaged
     {

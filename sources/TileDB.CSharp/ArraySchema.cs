@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
 namespace TileDB.CSharp
