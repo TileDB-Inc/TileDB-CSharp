@@ -3,13 +3,14 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using TileDB.CSharp;
+using TileDB.CSharp.Examples;
 using TileDB.Interop;
 
 namespace QuickstartSparseString
 {
     class Program
     {
-        private static readonly string ArrayPath = CoreUtil.MakeExamplePath("quickstart-sparse-string");
+        private static readonly string ArrayPath = ExampleUtil.MakeExamplePath("quickstart-sparse-string");
 
         static unsafe void CheckError(tiledb_ctx_t* ctx)
         {

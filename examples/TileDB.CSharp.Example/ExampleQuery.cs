@@ -45,7 +45,6 @@ namespace TileDB.CSharp.Examples
                 query_write.SetDataBuffer<int>("cols", dim2_data_buffer);
                 query_write.SetDataBuffer<int>("a", attr_data_buffer);
                 query_write.Submit();
-                var status = query_write.Status();
                 array_write.Close();
             }//array_write
 
@@ -66,7 +65,6 @@ namespace TileDB.CSharp.Examples
                 query_read.SetDataBuffer<int>("cols", dim2_data_buffer_read);
                 query_read.SetDataBuffer<int>("a", attr_data_buffer_read);
                 query_read.Submit();
-                var status_read = query_read.Status();
                 array_read.Close();
             }
 

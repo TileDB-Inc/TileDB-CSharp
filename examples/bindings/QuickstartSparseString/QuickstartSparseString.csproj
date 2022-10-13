@@ -10,5 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\sources\TileDB.CSharp\TileDB.CSharp.csproj" />
+    <ProjectReference Include="..\..\..\examples\TileDB.CSharp.Example\TileDB.CSharp.Example.csproj" />
   </ItemGroup>
 </Project>

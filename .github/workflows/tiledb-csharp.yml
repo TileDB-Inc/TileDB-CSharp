@@ -54,7 +54,7 @@ jobs:
       - name: Run examples
         shell: bash
         run: |
-          find examples/ -name *.csproj -execdir dotnet run \;
+          find examples/ -name *.csproj | xargs -I{} dotnet run --project {}
 
   Stage-Release-Candidate:
     needs: Run-Tests

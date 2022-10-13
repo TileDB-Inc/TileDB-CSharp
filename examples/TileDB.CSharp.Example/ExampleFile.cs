@@ -6,8 +6,8 @@ namespace TileDB.CSharp.Examples
 {
     public class ExampleFile
     {
-        private Context _ctx;
-        private string _nameSpace;
+        private readonly Context _ctx;
+        private readonly string _nameSpace;
 
         // Local access
         public ExampleFile()

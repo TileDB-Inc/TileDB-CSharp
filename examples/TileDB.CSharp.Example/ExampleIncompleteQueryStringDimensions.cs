@@ -84,7 +84,6 @@ namespace TileDB.CSharp.Examples
                 do
                 {
                     queryRead.Submit();
-                    var s = queryRead.Status();
                     var resultBufferElements = queryRead.ResultBufferElements();
 
                     var rowDataElements = (int)resultBufferElements["rows"].Item1;
