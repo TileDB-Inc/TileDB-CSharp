@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 
 namespace TileDB.Interop
 {
@@ -18,7 +19,8 @@ namespace TileDB.Interop
             }
 
             var span = new ReadOnlySpan<byte>(s.Value, int.MaxValue);
-            return span.Slice(0, span.IndexOf((byte)'\0')).AsString();
+            span = span.Slice(0, span.IndexOf((byte)'\0'));
+            return Encoding.ASCII.GetString(span);
         }
     }
 }
