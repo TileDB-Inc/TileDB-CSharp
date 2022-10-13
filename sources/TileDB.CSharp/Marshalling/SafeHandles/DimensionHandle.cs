@@ -38,12 +38,10 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
 
         protected override bool ReleaseHandle()
         {
-            // Free the native object
-            var p = (tiledb_dimension_t*)handle;
-            Methods.tiledb_dimension_free(&p);
-            // Invalidate the contained pointer
-            SetHandle(IntPtr.Zero);
-
+            fixed (IntPtr* p = &handle)
+            {
+                Methods.tiledb_dimension_free((tiledb_dimension_t**)p);
+            }
             return true;
         }
 

@@ -39,12 +39,10 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
 
         protected override bool ReleaseHandle()
         {
-            // Free the native object
-            var p = (tiledb_array_t*)handle;
-            Methods.tiledb_array_free(&p);
-            // Invalidate the contained pointer
-            SetHandle(IntPtr.Zero);
-
+            fixed (IntPtr* p = &handle)
+            {
+                Methods.tiledb_array_free((tiledb_array_t**)p);
+            }
             return true;
         }
 

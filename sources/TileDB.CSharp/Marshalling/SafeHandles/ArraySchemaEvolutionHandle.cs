@@ -39,9 +39,10 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
 
         protected override bool ReleaseHandle()
         {
-            var p = (tiledb_array_schema_evolution_t*)handle;
-            Methods.tiledb_array_schema_evolution_free(&p);
-            SetHandle(IntPtr.Zero);
+            fixed (IntPtr* p = &handle)
+            {
+                Methods.tiledb_array_schema_evolution_free((tiledb_array_schema_evolution_t**)p);
+            }
             return true;
         }
 
