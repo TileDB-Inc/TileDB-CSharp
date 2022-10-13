@@ -1,11 +1,10 @@
 using System;
 using System.Runtime.InteropServices;
-using TileDB.CSharp;
 using TileDB.Interop;
 
 namespace TileDB.CSharp.Marshalling.SafeHandles
 {
-    internal unsafe class QueryConditionHandle : SafeHandle
+    internal unsafe sealed class QueryConditionHandle : SafeHandle
     {
         public QueryConditionHandle() : base(IntPtr.Zero, true) { }
 

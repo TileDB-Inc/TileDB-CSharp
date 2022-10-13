@@ -5,7 +5,7 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp.Marshalling.SafeHandles
 {
-    internal unsafe class ContextHandle : SafeHandle
+    internal unsafe sealed class ContextHandle : SafeHandle
     {
         public ContextHandle() : base(IntPtr.Zero, true) { }
 

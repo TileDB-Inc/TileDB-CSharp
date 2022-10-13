@@ -1,11 +1,10 @@
 using System;
 using System.Runtime.InteropServices;
-using TileDB.CSharp;
 using TileDB.Interop;
 
 namespace TileDB.CSharp.Marshalling.SafeHandles
 {
-    internal unsafe class VFSHandle : SafeHandle
+    internal unsafe sealed class VFSHandle : SafeHandle
     {
         public VFSHandle() : base(IntPtr.Zero, true) { }
 

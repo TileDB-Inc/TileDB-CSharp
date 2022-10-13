@@ -1,11 +1,10 @@
 using System;
 using System.Runtime.InteropServices;
-using TileDB.CSharp;
 using TileDB.Interop;
 
 namespace TileDB.CSharp.Marshalling.SafeHandles
 {
-    internal unsafe class ArraySchemaHandle : SafeHandle
+    internal unsafe sealed class ArraySchemaHandle : SafeHandle
     {
         public ArraySchemaHandle() : base(IntPtr.Zero, true) { }
 

@@ -1,11 +1,10 @@
 using System;
 using System.Runtime.InteropServices;
-using TileDB.CSharp;
 using TileDB.Interop;
 
 namespace TileDB.CSharp.Marshalling.SafeHandles
 {
-    internal unsafe class DomainHandle : SafeHandle
+    internal unsafe sealed class DomainHandle : SafeHandle
     {
         public DomainHandle() : base(IntPtr.Zero, true) { }
 

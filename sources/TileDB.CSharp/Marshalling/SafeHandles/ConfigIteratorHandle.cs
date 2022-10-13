@@ -1,11 +1,10 @@
 using System;
 using System.Runtime.InteropServices;
-using TileDB.CSharp;
 using TileDB.Interop;
 
 namespace TileDB.CSharp.Marshalling.SafeHandles
 {
-    internal unsafe class ConfigIteratorHandle : SafeHandle
+    internal unsafe sealed class ConfigIteratorHandle : SafeHandle
     {
         public ConfigIteratorHandle() : base(IntPtr.Zero, true) { }
 
