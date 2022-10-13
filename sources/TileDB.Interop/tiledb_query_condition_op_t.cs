@@ -1,7 +1,6 @@
 namespace TileDB.Interop
 {
-    [NativeTypeName("unsigned int")]
-    public enum tiledb_query_condition_op_t : uint
+    public enum tiledb_query_condition_op_t
     {
         TILEDB_LT = 0,
         TILEDB_LE = 1,

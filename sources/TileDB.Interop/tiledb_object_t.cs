@@ -1,7 +1,6 @@
 namespace TileDB.Interop
 {
-    [NativeTypeName("unsigned int")]
-    public enum tiledb_object_t : uint
+    public enum tiledb_object_t
     {
         TILEDB_INVALID = 0,
         TILEDB_GROUP = 1,

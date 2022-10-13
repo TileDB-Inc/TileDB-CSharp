@@ -1,7 +1,6 @@
 namespace TileDB.Interop
 {
-    [NativeTypeName("unsigned int")]
-    public enum tiledb_layout_t : uint
+    public enum tiledb_layout_t
     {
         TILEDB_ROW_MAJOR = 0,
         TILEDB_COL_MAJOR = 1,

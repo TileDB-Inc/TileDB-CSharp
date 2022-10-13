@@ -1,7 +1,6 @@
 namespace TileDB.Interop
 {
-    [NativeTypeName("unsigned int")]
-    public enum tiledb_query_status_t : uint
+    public enum tiledb_query_status_t
     {
         TILEDB_FAILED = 0,
         TILEDB_COMPLETED = 1,

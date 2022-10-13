@@ -2,24 +2,24 @@
 
 Note: prerequisite installation instructions below if needed.
 
-```
+```sh
 export DYLD_LIBRARY_PATH=/path/to/libclang/runtimes/osx-x64/native/
 export TILEDB_DIR=/path/to/TileDB/dist
 
-ClangSharpPInvokeGenerator -I /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include  -I $TILEDB_DIR/include/ --file $TILEDB_DIR/include/tiledb/tiledb.h $TILEDB_DIR/include/tiledb/tiledb_experimental.h @scripts/generate/generate.rsp -l tiledb
+dotnet tool restore
+dotnet ClangSharpPInvokeGenerator -I /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -I $TILEDB_DIR/include/ --file $TILEDB_DIR/include/tiledb/tiledb.h $TILEDB_DIR/include/tiledb/tiledb_experimental.h @scripts/generate/generate.rsp
 ```
 
-## Generated on windows (copy tiledb_export.h to tiledb/sm/c_api):
+## Generating on Windows (PowerShell):
 
+We assume that the TileDB Core repository is in the same folder with the C# repository's folder, and has been installed.
+
+```powershell
+$TILEDB_DIR=..\TileDB\dist\
+
+dotnet tool restore
+dotnet ClangSharpPInvokeGenerator -f $TILEDB_DIR\include\tiledb\tiledb.h $TILEDB_DIR\include\tiledb\tiledb_experimental.h -I $TILEDB_DIR\include\ "@.\scripts\generate\generate.rsp"
 ```
-dotnet tool install --global ClangSharpPInvokeGenerator --version 13.0.0-beta1
-cd tildb/sm/c_api
-ClangSharpPInvokeGenerator -n TileDB.Interop  -f tiledb.h tiledb_experimental.h -c latest-codegen unix-types multi-file generate-helper-types --methodClassName Methods  -l tiledb   --output sources/TileDB.Interop
-```
-
-## Replacements in LibTileDB.cs
-
-1. Comment all  *_dump functions,
 
 # Generator Installation
 
