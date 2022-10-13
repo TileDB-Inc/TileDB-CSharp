@@ -6,7 +6,7 @@ using System.Text;
 
 namespace TileDB.Interop 
 {
-    public static unsafe class SpanExtensions 
+    internal static unsafe class SpanExtensions 
     {
         public static string AsString(this Span<byte> self) => AsString((ReadOnlySpan<byte>)self);
 
@@ -23,5 +23,4 @@ namespace TileDB.Interop
             }
         }
     }
-
-}//namespace
+}

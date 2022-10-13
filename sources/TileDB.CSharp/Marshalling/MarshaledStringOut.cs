@@ -2,9 +2,10 @@ using System;
 
 namespace TileDB.Interop
 {
-    public unsafe class MarshaledStringOut
+    internal unsafe class MarshaledStringOut
     {
         public sbyte* Value;
+
         public MarshaledStringOut()
         {
             Value = null;
@@ -20,5 +21,4 @@ namespace TileDB.Interop
             return span.Slice(0, span.IndexOf((byte)'\0')).AsString();
         }
     }
-
-}//namespace
+}

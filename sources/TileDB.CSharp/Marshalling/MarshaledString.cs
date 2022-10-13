@@ -6,9 +6,8 @@ using System.Text;
 
 namespace TileDB.Interop
 {
-    public unsafe struct MarshaledString : IDisposable
+    internal unsafe struct MarshaledString : IDisposable
     {
-   
         public MarshaledString(string input)
         {
             int length;
@@ -62,7 +61,6 @@ namespace TileDB.Interop
             {
                 return Encoding.ASCII.GetString(p, span.Length);
             }
-
         }
     }
 }
