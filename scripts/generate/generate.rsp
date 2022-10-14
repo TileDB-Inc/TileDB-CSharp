@@ -9,3 +9,15 @@ Methods
 TileDB.Interop
 --output
 sources/TileDB.Interop
+--exclude
+tiledb_attribute_dump
+tiledb_domain_dump
+tiledb_dimension_dump
+tiledb_array_schema_dump
+tiledb_stats_dump
+tiledb_stats_raw_dump
+tiledb_fragment_info_dump
+tiledb_status
+--remap
+tiledb_experimental_query_status_details_t=tiledb_query_status_details_t
+-ltiledb
