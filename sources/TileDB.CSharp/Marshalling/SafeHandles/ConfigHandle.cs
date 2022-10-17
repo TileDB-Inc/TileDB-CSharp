@@ -20,7 +20,7 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
             try
             {
                 tiledb_error_t* error;
-                Methods.tiledb_config_alloc(&config, &error);
+                ErrorHandling.ThrowOnError(Methods.tiledb_config_alloc(&config, &error));
                 successful = true;
             }
             finally

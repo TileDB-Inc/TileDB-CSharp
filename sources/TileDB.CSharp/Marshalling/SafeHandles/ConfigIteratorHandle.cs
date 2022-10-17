@@ -22,7 +22,7 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
                 using var config = hconfig.Acquire();
                 tiledb_error_t* error;
                 var ms_prefix = new MarshaledString(prefix);
-                Methods.tiledb_config_iter_alloc(config, ms_prefix, &config_iter, &error);
+                ErrorHandling.ThrowOnError(Methods.tiledb_config_iter_alloc(config, ms_prefix, &config_iter, &error));
                 successful = true;
             }
             finally

@@ -22,7 +22,7 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
             {
                 using var configHandle = ConfigHandle.Create();
                 using var configHandleHolder = configHandle.Acquire();
-                Methods.tiledb_ctx_alloc(configHandleHolder, &context);
+                ErrorHandling.ThrowOnError(Methods.tiledb_ctx_alloc(configHandleHolder, &context));
                 successful = true;
             }
             finally
