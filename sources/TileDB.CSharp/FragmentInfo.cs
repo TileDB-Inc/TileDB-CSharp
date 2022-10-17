@@ -208,20 +208,42 @@ namespace TileDB.CSharp
             return (start, end);
         }
 
-        public (T Start, T End) GetNonEmptyDomain<T>(uint fragmentIndex, uint dimensionIndex) where T : struct
+        public (T Start, T End) GetNonEmptyDomain<T>(uint fragmentIndex, uint dimensionIndex)
         {
+            if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
+            {
+                if (typeof(T) == typeof(string))
+                {
+                    (string startStr, string endStr) = GetStringNonEmptyDomain(fragmentIndex, dimensionIndex);
+                    return ((T)(object)startStr, (T)(object)endStr);
+                }
+                ThrowHelpers.ThrowTypeNotSupported();
+                return default;
+            }
+
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             byte* domain = stackalloc byte[Unsafe.SizeOf<T>() * 2];
             _ctx.handle_error(Methods.tiledb_fragment_info_get_non_empty_domain_from_index(ctxHandle, handle, fragmentIndex, dimensionIndex, domain));
 
-            var beginning = Unsafe.ReadUnaligned<T>(domain);
+            var start = Unsafe.ReadUnaligned<T>(domain);
             var end = Unsafe.ReadUnaligned<T>(domain + Unsafe.SizeOf<T>());
-            return (beginning, end);
+            return (start, end);
         }
 
-        public (T Start, T End) GetNonEmptyDomain<T>(uint fragmentIndex, string dimensionName) where T : struct
+        public (T Start, T End) GetNonEmptyDomain<T>(uint fragmentIndex, string dimensionName)
         {
+            if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
+            {
+                if (typeof(T) == typeof(string))
+                {
+                    (string startStr, string endStr) = GetStringNonEmptyDomain(fragmentIndex, dimensionName);
+                    return ((T)(object)startStr, (T)(object)endStr);
+                }
+                ThrowHelpers.ThrowTypeNotSupported();
+                return default;
+            }
+
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_dimensionName = new MarshaledString(dimensionName);
@@ -233,7 +255,7 @@ namespace TileDB.CSharp
             return (start, end);
         }
 
-        public (string Start, string End) GetNonEmptyDomain(uint fragmentIndex, uint dimensionIndex)
+        private (string Start, string End) GetStringNonEmptyDomain(uint fragmentIndex, uint dimensionIndex)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -253,7 +275,7 @@ namespace TileDB.CSharp
             return (start, end);
         }
 
-        public (string Start, string End) GetNonEmptyDomain(uint fragmentIndex, string dimensionName)
+        private (string Start, string End) GetStringNonEmptyDomain(uint fragmentIndex, string dimensionName)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
