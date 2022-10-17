@@ -11,7 +11,7 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
 
         public ContextHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
 
-        public static ContextHandle CreateUnowned(tiledb_ctx_t* schema) => new((IntPtr)schema, ownsHandle: false);
+        public static ContextHandle CreateUnowned(tiledb_ctx_t* context) => new((IntPtr)context, ownsHandle: false);
 
         public static ContextHandle Create()
         {
