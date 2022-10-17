@@ -7,6 +7,9 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
+    /// <summary>
+    /// Represents a TileDB fragment info object.
+    /// </summary>
     public unsafe sealed class FragmentInfo : IDisposable
     {
         private readonly Context _ctx;
@@ -14,6 +17,11 @@ namespace TileDB.CSharp
 
         internal FragmentInfoHandle Handle => _handle;
 
+        /// <summary>
+        /// Creates a <see cref="FragmentInfo"/> object.
+        /// </summary>
+        /// <param name="ctx">The <see cref="Context"/> associated with this object.</param>
+        /// <param name="uri">The URI of the array to load the fragment info for.</param>
         public FragmentInfo(Context ctx, string uri)
         {
             _ctx = ctx;
@@ -21,11 +29,17 @@ namespace TileDB.CSharp
             _handle = FragmentInfoHandle.Create(ctx, uri_ms);
         }
 
+        /// <summary>
+        /// Disposes this <see cref="FragmentInfo"/> object.
+        /// </summary>
         public void Dispose()
         {
             _handle.Dispose();
         }
 
+        /// <summary>
+        /// Loads the fragment info.
+        /// </summary>
         public void Load()
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -33,6 +47,11 @@ namespace TileDB.CSharp
             _ctx.handle_error(Methods.tiledb_fragment_info_load(ctxHandle, handle));
         }
 
+        /// <summary>
+        /// Loads the fragment info from an encrypted array.
+        /// </summary>
+        /// <param name="encryptionType">The encryption type to use.</param>
+        /// <param name="key">The encryption key to use.</param>
         public void LoadWithKey(EncryptionType encryptionType, ReadOnlySpan<byte> key)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -43,6 +62,10 @@ namespace TileDB.CSharp
             }
         }
 
+        /// <summary>
+        /// Set the fragment info object's <see cref="Config"/>.
+        /// </summary>
+        /// <param name="config">The <see cref="Config"/> object to set.</param>
         public void SetConfig(Config config)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -51,6 +74,9 @@ namespace TileDB.CSharp
             _ctx.handle_error(Methods.tiledb_fragment_info_set_config(ctxHandle, handle, configHandle));
         }
 
+        /// <summary>
+        /// The number of fragments in the array.
+        /// </summary>
         public uint FragmentCount
         {
             get
@@ -63,6 +89,9 @@ namespace TileDB.CSharp
             }
         }
 
+        /// <summary>
+        /// The number of fragments to vacuum in the array.
+        /// </summary>
         public uint FragmentToVacuumCount
         {
             get
@@ -75,6 +104,9 @@ namespace TileDB.CSharp
             }
         }
 
+        /// <summary>
+        /// The number of fragments with unconsolidated metadata in the array.
+        /// </summary>
         public uint FragmentWithUnconsolidatedMetadataCount
         {
             get
@@ -87,6 +119,14 @@ namespace TileDB.CSharp
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="ArraySchema"/> of a fragment.
+        /// </summary>
+        /// <param name="fragmentIndex">The index of the fragment of interest.</param>
+        /// <remarks>
+        /// The maximum value <paramref name="fragmentIndex"/> can take
+        /// is determined by the <see cref="FragmentCount"/> property.
+        /// </remarks>
         public ArraySchema GetSchema(uint fragmentIndex)
         {
             var ctx = _ctx;
@@ -97,6 +137,14 @@ namespace TileDB.CSharp
             return new ArraySchema(ctx, ArraySchemaHandle.CreateUnowned(schema));
         }
 
+        /// <summary>
+        /// Gets the schema name of a fragment.
+        /// </summary>
+        /// <param name="fragmentIndex">The index of the fragment of interest.</param>
+        /// <remarks>
+        /// The maximum value <paramref name="fragmentIndex"/> can take
+        /// is determined by the <see cref="FragmentCount"/> property.
+        /// </remarks>
         public string GetSchemaName(uint fragmentIndex)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -109,6 +157,14 @@ namespace TileDB.CSharp
             return name;
         }
 
+        /// <summary>
+        /// Gets the <see cref="ArraySchema"/> of a fragment.
+        /// </summary>
+        /// <param name="fragmentIndex">The index of the fragment of interest.</param>
+        /// <remarks>
+        /// The maximum value <paramref name="fragmentIndex"/> can take
+        /// is determined by the <see cref="FragmentCount"/> property.
+        /// </remarks>
         public ulong GetCellsWritten(uint fragmentIndex)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -118,6 +174,13 @@ namespace TileDB.CSharp
             return result;
         }
 
+        /// <summary>
+        /// Gets the URI of a fragment to vacuum.
+        /// </summary>
+        /// <param name="fragmentIndex">The index of the fragment of interest.<remarks>
+        /// The maximum value <paramref name="fragmentIndex"/> can take
+        /// is determined by the <see cref="FragmentToVacuumCount"/> property.
+        /// </remarks>
         public string GetFragmentToVacuumUri(uint fragmentIndex)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -130,6 +193,14 @@ namespace TileDB.CSharp
             return uri;
         }
 
+        /// <summary>
+        /// Gets the name of a fragment.
+        /// </summary>
+        /// <param name="fragmentIndex">The index of the fragment of interest.</param>
+        /// <remarks>
+        /// The maximum value <paramref name="fragmentIndex"/> can take
+        /// is determined by the <see cref="FragmentCount"/> property.
+        /// </remarks>
         public string GetFragmentName(uint fragmentIndex)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -142,6 +213,14 @@ namespace TileDB.CSharp
             return uri;
         }
 
+        /// <summary>
+        /// Gets the URI of a fragment.
+        /// </summary>
+        /// <param name="fragmentIndex">The index of the fragment of interest.</param>
+        /// <remarks>
+        /// The maximum value <paramref name="fragmentIndex"/> can take
+        /// is determined by the <see cref="FragmentCount"/> property.
+        /// </remarks>
         public string GetFragmentUri(uint fragmentIndex)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -154,6 +233,14 @@ namespace TileDB.CSharp
             return uri;
         }
 
+        /// <summary>
+        /// Gets the format version of a fragment.
+        /// </summary>
+        /// <param name="fragmentIndex">The index of the fragment of interest.</param>
+        /// <remarks>
+        /// The maximum value <paramref name="fragmentIndex"/> can take
+        /// is determined by the <see cref="FragmentCount"/> property.
+        /// </remarks>
         public uint GetFormatVersion(uint fragmentIndex)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -163,6 +250,14 @@ namespace TileDB.CSharp
             return result;
         }
 
+        /// <summary>
+        /// Gets the size in bytes of a fragment.
+        /// </summary>
+        /// <param name="fragmentIndex">The index of the fragment of interest.</param>
+        /// <remarks>
+        /// The maximum value <paramref name="fragmentIndex"/> can take
+        /// is determined by the <see cref="FragmentCount"/> property.
+        /// </remarks>
         public ulong GetFragmentSize(uint fragmentIndex)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -172,6 +267,14 @@ namespace TileDB.CSharp
             return result;
         }
 
+        /// <summary>
+        /// Checks whether a fragment has consolidated metadata.
+        /// </summary>
+        /// <param name="fragmentIndex">The index of the fragment of interest.</param>
+        /// <remarks>
+        /// The maximum value <paramref name="fragmentIndex"/> can take
+        /// is determined by the <see cref="FragmentCount"/> property.
+        /// </remarks>
         public bool HasConsolidatedMetadata(uint fragmentIndex)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -181,6 +284,14 @@ namespace TileDB.CSharp
             return result == 1;
         }
 
+        /// <summary>
+        /// Checks whether a fragment is dense.
+        /// </summary>
+        /// <param name="fragmentIndex">The index of the fragment of interest.</param>
+        /// <remarks>
+        /// The maximum value <paramref name="fragmentIndex"/> can take
+        /// is determined by the <see cref="FragmentCount"/> property.
+        /// </remarks>
         public bool IsDense(uint fragmentIndex)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -190,6 +301,14 @@ namespace TileDB.CSharp
             return result == 1;
         }
 
+        /// <summary>
+        /// Checks whether a fragment is sparse.
+        /// </summary>
+        /// <param name="fragmentIndex">The index of the fragment of interest.</param>
+        /// <remarks>
+        /// The maximum value <paramref name="fragmentIndex"/> can take
+        /// is determined by the <see cref="FragmentCount"/> property.
+        /// </remarks>
         public bool IsSparse(uint fragmentIndex)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -199,6 +318,15 @@ namespace TileDB.CSharp
             return result == 1;
         }
 
+        /// <summary>
+        /// Gets the timestamp range of a fragment.
+        /// </summary>
+        /// <param name="fragmentIndex">The index of the fragment of interest.</param>
+        /// <returns>The start and end timestamps of the fragment.</returns>
+        /// <remarks>
+        /// The maximum value <paramref name="fragmentIndex"/> can take
+        /// is determined by the <see cref="FragmentCount"/> property.
+        /// </remarks>
         public (ulong Start, ulong End) GetTimestampRange(uint fragmentIndex)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -208,6 +336,16 @@ namespace TileDB.CSharp
             return (start, end);
         }
 
+        /// <summary>
+        /// Gets the non-empty domain from one of a fragment's dimensions, identified by its index.
+        /// </summary>
+        /// <typeparam name="T">The dimension's data type.</typeparam>
+        /// <param name="fragmentIndex">The index of the fragment of interest.</param>
+        /// <param name="dimensionIndex">The index of the dimension of interest, following
+        /// the order as it was defined in the domain of the array schema.</param>
+        /// <returns>The start and end values of the domain, inclusive.</returns>
+        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is a managed type
+        /// other than <see cref="string"/>.</exception>
         public (T Start, T End) GetNonEmptyDomain<T>(uint fragmentIndex, uint dimensionIndex)
         {
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
@@ -231,6 +369,16 @@ namespace TileDB.CSharp
             return (start, end);
         }
 
+        /// <summary>
+        /// Gets the non-empty domain from one of a fragment's dimensions, identified by its index.
+        /// </summary>
+        /// <typeparam name="T">The dimension's data type.</typeparam>
+        /// <param name="fragmentIndex">The index of the fragment of interest.</param>
+        /// <param name="dimensionIndex">The index of the dimension of interest, following
+        /// the order as it was defined in the domain of the array schema.</param>
+        /// <returns>The start and end values of the domain, inclusive.</returns>
+        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is a managed type
+        /// other than <see cref="string"/>.</exception>
         public (T Start, T End) GetNonEmptyDomain<T>(uint fragmentIndex, string dimensionName)
         {
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
