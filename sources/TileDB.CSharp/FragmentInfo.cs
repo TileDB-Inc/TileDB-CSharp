@@ -120,6 +120,21 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// The number of cells written to the fragments by the user.
+        /// </summary>
+        public ulong TotalCellCount
+        {
+            get
+            {
+                using var ctxHandle = _ctx.Handle.Acquire();
+                using var handle = _handle.Acquire();
+                ulong result;
+                _ctx.handle_error(Methods.tiledb_fragment_info_get_total_cell_num(ctxHandle, handle, &result));
+                return result;
+            }
+        }
+
+        /// <summary>
         /// Gets the <see cref="ArraySchema"/> of a fragment.
         /// </summary>
         /// <param name="fragmentIndex">The index of the fragment of interest.</param>
