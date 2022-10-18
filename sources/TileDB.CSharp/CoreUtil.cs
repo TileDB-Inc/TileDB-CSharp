@@ -3,11 +3,10 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-using System.IO;
-
 namespace TileDB.CSharp {
 
     public class CoreUtil {
+
         /// <summary>
         /// Get core library version.
         /// </summary>
