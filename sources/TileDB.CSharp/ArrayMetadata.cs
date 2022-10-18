@@ -67,7 +67,7 @@ namespace TileDB.CSharp
             var ctx = _array.Context();
             using var ctxHandle = ctx.Handle.Acquire();
             using var arrayHandle = _array.Handle.Acquire();
-            var ms_key = new MarshaledString(key);
+            using var ms_key = new MarshaledString(key);
             ctx.handle_error(Methods.tiledb_array_delete_metadata(ctxHandle, arrayHandle, ms_key));
         }
 
@@ -153,7 +153,7 @@ namespace TileDB.CSharp
             var ctx = _array.Context();
             using var ctxHandle = ctx.Handle.Acquire();
             using var arrayHandle = _array.Handle.Acquire();
-            var ms_key = new MarshaledString(key);
+            using var ms_key = new MarshaledString(key);
             tiledb_datatype_t tiledb_datatype = tiledb_datatype_t.TILEDB_ANY;
             var has_key = 0;
             ctx.handle_error(Methods.tiledb_array_has_metadata_key(ctxHandle, arrayHandle, ms_key, &tiledb_datatype, &has_key));
@@ -170,7 +170,7 @@ namespace TileDB.CSharp
         public static void ConsolidateMetadata(Context ctx, string uri, Config config)
         {
             using var ctxHandle = ctx.Handle.Acquire();
-            var ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             using var configHandle = config.Handle.Acquire();
             ctx.handle_error(Methods.tiledb_array_consolidate_metadata(ctxHandle, ms_uri, configHandle));
         }
@@ -183,7 +183,7 @@ namespace TileDB.CSharp
             {
                 var ctx = _array.Context();
                 void* value_p;
-                var ms_key = new MarshaledString(key);
+                using var ms_key = new MarshaledString(key);
                 var datatype = tiledb_datatype_t.TILEDB_ANY;
 
                 int has_key = 0;
@@ -345,7 +345,7 @@ namespace TileDB.CSharp
                 throw new ArgumentException("ArrayMetadata.put_metadata, null or empty key-value!");
             }
             var ctx = _array.Context();
-            var ms_key = new MarshaledString(key);
+            using var ms_key = new MarshaledString(key);
             var dataGcHandle = GCHandle.Alloc(value, GCHandleType.Pinned);
             try
             {
@@ -364,7 +364,7 @@ namespace TileDB.CSharp
         {
             var ctx = _array.Context();
             void* value_p;
-            var ms_key = new MarshaledString(key);
+            using var ms_key = new MarshaledString(key);
             var datatype = tiledb_datatype_t.TILEDB_ANY;
             uint value_num = 0;
             using (var ctxHandle = ctx.Handle.Acquire())

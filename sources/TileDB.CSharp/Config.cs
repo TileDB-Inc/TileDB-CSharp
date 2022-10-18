@@ -77,8 +77,8 @@ namespace TileDB.CSharp
                 throw new ArgumentException("Config.set, param or value is null or empty!");
             }
 
-            var ms_param = new MarshaledString(param);
-            var ms_value = new MarshaledString(value);
+            using var ms_param = new MarshaledString(param);
+            using var ms_value = new MarshaledString(value);
             var tiledb_error = new tiledb_error_t();
 
             var p_tiledb_error = &tiledb_error;
@@ -110,7 +110,7 @@ namespace TileDB.CSharp
                 throw new ArgumentException("Config.get, param or value is null or empty!");
             }
 
-            var ms_param = new MarshaledString(param);
+            using var ms_param = new MarshaledString(param);
             var ms_result = new MarshaledStringOut();
 
             var tiledb_error = new tiledb_error_t();
@@ -144,7 +144,7 @@ namespace TileDB.CSharp
                 throw new ArgumentException("Config.set, param is null or empty!");
             }
 
-            var ms_param = new MarshaledString(param);
+            using var ms_param = new MarshaledString(param);
             var tiledb_error = new tiledb_error_t();
 
             var p_tiledb_error = &tiledb_error;
@@ -175,7 +175,7 @@ namespace TileDB.CSharp
                 throw new ArgumentException("Config.load_from_file, filename is null or empty!");
             }
 
-            var ms_filename = new MarshaledString(filename);
+            using var ms_filename = new MarshaledString(filename);
             var tiledb_error = new tiledb_error_t();
 
             var p_tiledb_error = &tiledb_error;
@@ -206,7 +206,7 @@ namespace TileDB.CSharp
                 throw new ArgumentException("Config.save_to_file, filename is null or empty!");
             }
 
-            var ms_filename = new MarshaledString(filename);
+            using var ms_filename = new MarshaledString(filename);
             var tiledb_error = new tiledb_error_t();
 
             var p_tiledb_error = &tiledb_error;

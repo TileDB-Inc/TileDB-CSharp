@@ -118,7 +118,7 @@ namespace TileDB.CSharp
         {
             var tiledb_error = new tiledb_error_t();
             var p_tiledb_error = &tiledb_error;
-            var ms_prefix = new MarshaledString(prefix);
+            using var ms_prefix = new MarshaledString(prefix);
             int status;
             using (var configHandle = _hConfig.Acquire())
             using (var handle = _handle.Acquire())

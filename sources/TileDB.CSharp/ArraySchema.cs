@@ -22,7 +22,7 @@ namespace TileDB.CSharp
         {
             _ctx = ctx;
             tiledb_array_schema_t* array_schema_p;
-            var ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             using var ctxHandle = ctx.Handle.Acquire();
             _ctx.handle_error(Methods.tiledb_array_schema_load(ctxHandle, ms_uri, &array_schema_p));
             _handle = ArraySchemaHandle.CreateUnowned(array_schema_p);
@@ -317,7 +317,7 @@ namespace TileDB.CSharp
             tiledb_attribute_t* attribute_p;
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
             _ctx.handle_error(Methods.tiledb_array_schema_get_attribute_from_name(ctxHandle, handle, ms_name, &attribute_p));
 
             return new Attribute(_ctx, AttributeHandle.CreateUnowned(attribute_p));
@@ -333,7 +333,7 @@ namespace TileDB.CSharp
             var has_attr = 0;
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
             _ctx.handle_error(Methods.tiledb_array_schema_has_attribute(ctxHandle, handle, ms_name, &has_attr));
             return has_attr>0;
         }

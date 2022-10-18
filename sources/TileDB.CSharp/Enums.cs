@@ -216,7 +216,7 @@ namespace TileDB.CSharp
         public static QueryType QueryTypeFromStr(string str)
         {
             tiledb_query_type_t tiledb_query_type;
-            var ms_str = new MarshaledString(str);
+            using var ms_str = new MarshaledString(str);
             unsafe
             {
                 int status = Methods.tiledb_query_type_from_str(ms_str, &tiledb_query_type);
@@ -244,7 +244,7 @@ namespace TileDB.CSharp
         public static ObjectType ObjectTypeFromStr(string str)
         {
             tiledb_object_t tiledb_object;
-            var ms_str = new MarshaledString(str);
+            using var ms_str = new MarshaledString(str);
             unsafe
             {
                 int status = Methods.tiledb_object_type_from_str(ms_str, &tiledb_object);
@@ -267,7 +267,7 @@ namespace TileDB.CSharp
         public static FileSystemType FileSystemTypeFromStr(string str)
         {
             tiledb_filesystem_t tiledb_filesystem;
-            var ms_str = new MarshaledString(str);
+            using var ms_str = new MarshaledString(str);
             unsafe
             {
                 int status = Methods.tiledb_filesystem_from_str(ms_str, &tiledb_filesystem);
@@ -290,7 +290,7 @@ namespace TileDB.CSharp
         public static DataType DataTypeFromStr(string str)
         {
             tiledb_datatype_t tiledb_datatype;
-            var ms_str = new MarshaledString(str);
+            using var ms_str = new MarshaledString(str);
             unsafe
             {
                 int status = Methods.tiledb_datatype_from_str(ms_str, &tiledb_datatype);
@@ -313,7 +313,7 @@ namespace TileDB.CSharp
         public static ArrayType ArrayTypeFromStr(string str)
         {
             tiledb_array_type_t tiledb_arraytype;
-            var ms_str = new MarshaledString(str);
+            using var ms_str = new MarshaledString(str);
             unsafe
             {
                 int status = Methods.tiledb_array_type_from_str(ms_str, &tiledb_arraytype);
@@ -336,7 +336,7 @@ namespace TileDB.CSharp
         public static LayoutType LayoutTypeFromStr(string str)
         {
             tiledb_layout_t tiledb_layout;
-            var ms_str = new MarshaledString(str);
+            using var ms_str = new MarshaledString(str);
             unsafe
             {
                 int status = Methods.tiledb_layout_from_str(ms_str, &tiledb_layout);
@@ -359,7 +359,7 @@ namespace TileDB.CSharp
         public static FilterType FilterTypeFromStr(string str)
         {
             tiledb_filter_type_t tiledb_filtertype;
-            var ms_str = new MarshaledString(str);
+            using var ms_str = new MarshaledString(str);
             unsafe
             {
                 int status = Methods.tiledb_filter_type_from_str(ms_str, &tiledb_filtertype);
@@ -382,7 +382,7 @@ namespace TileDB.CSharp
         public static FilterOption FilterOptionFromStr(string str)
         {
             tiledb_filter_option_t tiledb_filteroption;
-            var ms_str = new MarshaledString(str);
+            using var ms_str = new MarshaledString(str);
             unsafe
             {
                 int status = Methods.tiledb_filter_option_from_str(ms_str, &tiledb_filteroption);
@@ -405,7 +405,7 @@ namespace TileDB.CSharp
         public static EncryptionType EncryptionTypeFromStr(string str)
         {
             tiledb_encryption_type_t tiledb_encryptiontype;
-            var ms_str = new MarshaledString(str);
+            using var ms_str = new MarshaledString(str);
             unsafe
             {
                 int status = Methods.tiledb_encryption_type_from_str(ms_str, &tiledb_encryptiontype);
@@ -428,7 +428,7 @@ namespace TileDB.CSharp
         public static QueryStatus QueryStatusFromStr(string str)
         {
             tiledb_query_status_t tiledb_querystatus;
-            var ms_str = new MarshaledString(str);
+            using var ms_str = new MarshaledString(str);
             unsafe
             {
                 int status = Methods.tiledb_query_status_from_str(ms_str, &tiledb_querystatus);
@@ -451,7 +451,7 @@ namespace TileDB.CSharp
         public static WalkOrderType WalkOrderTypeFromStr(string str)
         {
             tiledb_walk_order_t tiledb_walkorder;
-            var ms_str = new MarshaledString(str);
+            using var ms_str = new MarshaledString(str);
             unsafe
             {
                 int status = Methods.tiledb_walk_order_from_str(ms_str, &tiledb_walkorder);
@@ -474,7 +474,7 @@ namespace TileDB.CSharp
         public static VfsMode VfsModeFromStr(string str)
         {
             tiledb_vfs_mode_t tiledb_vfsmode;
-            var ms_str = new MarshaledString(str);
+            using var ms_str = new MarshaledString(str);
             unsafe
             {
                 int status = Methods.tiledb_vfs_mode_from_str(ms_str, &tiledb_vfsmode);

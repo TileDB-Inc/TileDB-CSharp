@@ -15,7 +15,7 @@ namespace TileDB.CSharp
         public Group(Context ctx, string uri)
         {
             _ctx = ctx;
-            var ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             _handle = GroupHandle.Create(_ctx, ms_uri);
             _disposed = false;
             _metadata = new GroupMetadata(this);
@@ -61,7 +61,7 @@ namespace TileDB.CSharp
         public static void Create(Context ctx, string uri)
         {
             using var ctxHandle = ctx.Handle.Acquire();
-            var ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             ctx.handle_error(Methods.tiledb_group_create(ctxHandle, ms_uri));
         }
 
@@ -218,8 +218,8 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_uri = new MarshaledString(uri);
-            var ms_name = new MarshaledString(name);
+            using var ms_uri = new MarshaledString(uri);
+            using var ms_name = new MarshaledString(name);
             byte byte_relative = relative ? (byte)1 : (byte)0;
             _ctx.handle_error(Methods.tiledb_group_add_member(
                 ctxHandle, handle, ms_uri, byte_relative, ms_name));
@@ -233,7 +233,7 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             _ctx.handle_error(Methods.tiledb_group_remove_member(ctxHandle, handle, ms_uri));
         }
 

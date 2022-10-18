@@ -20,7 +20,7 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
             try
             {
                 using var contextHandle = context.Handle.Acquire();
-                var ms_name = new MarshaledString(name);
+                using var ms_name = new MarshaledString(name);
                 context.handle_error(Methods.tiledb_attribute_alloc(contextHandle, ms_name, datatype, &attribute));
                 successful = true;
             }

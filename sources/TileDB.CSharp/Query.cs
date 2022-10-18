@@ -261,7 +261,7 @@ namespace TileDB.CSharp
 
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
             ulong size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
             AddDataBufferHandle(name, GCHandle.Alloc(data, GCHandleType.Pinned), size);
             _ctx.handle_error(Methods.tiledb_query_set_data_buffer(ctxHandle, handle, ms_name,
@@ -283,7 +283,7 @@ namespace TileDB.CSharp
             }
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
             ulong size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
             var bufferHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
             AddOffsetsBufferHandle(name, bufferHandle, size);
@@ -307,7 +307,7 @@ namespace TileDB.CSharp
             }
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
             ulong size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
             var bufferHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
             AddValidityBufferHandle(name, bufferHandle, size);
@@ -500,7 +500,7 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
             T[] startData = new T[1] { start };
             T[] endData = new T[1] { end };
             var startDataGcHandle = GCHandle.Alloc(startData, GCHandleType.Pinned);
@@ -566,7 +566,7 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
             T[] startData = new T[1] { start };
             T[] endData = new T[1] { end };
             T[] strideData = new T[1] { stride };
@@ -625,7 +625,7 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
             byte[] startData = Encoding.ASCII.GetBytes(start);
             byte[] endData = Encoding.ASCII.GetBytes(end);
             var startDataGcHandle = GCHandle.Alloc(startData, GCHandleType.Pinned);
@@ -667,7 +667,7 @@ namespace TileDB.CSharp
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             UInt64 range_num;
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
             _ctx.handle_error(Methods.tiledb_query_get_range_num_from_name(ctxHandle, handle, ms_name, &range_num));
             return range_num;
         }
@@ -709,7 +709,7 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_name = new MarshaledString(dim_name);
+            using var ms_name = new MarshaledString(dim_name);
             void* start_p;
             void* end_p;
             void* stride_p;
@@ -780,7 +780,7 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_name = new MarshaledString(dim_name);
+            using var ms_name = new MarshaledString(dim_name);
             UInt64 start_size = 0;
             UInt64 end_size = 0;
             _ctx.handle_error(Methods.tiledb_query_get_range_var_size_from_name(ctxHandle, handle, ms_name, range_idx, &start_size, &end_size));
@@ -816,7 +816,7 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
             UInt64 size = 0;
             _ctx.handle_error(Methods.tiledb_query_get_est_result_size(ctxHandle, handle, ms_name, &size));
             return size;
@@ -831,7 +831,7 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
             UInt64 size_off = 0;
             UInt64 size_val = 0;
             _ctx.handle_error(Methods.tiledb_query_get_est_result_size_var(ctxHandle, handle, ms_name, &size_off, &size_val));
@@ -848,7 +848,7 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
             UInt64 size_val = 0;
             UInt64 size_validity = 0;
             _ctx.handle_error(Methods.tiledb_query_get_est_result_size_nullable(ctxHandle, handle, ms_name, &size_val, &size_validity));
@@ -865,7 +865,7 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
             UInt64 size_off = 0;
             UInt64 size_val = 0;
             UInt64 size_validity = 0;

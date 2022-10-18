@@ -141,8 +141,8 @@ namespace TileDB.CSharp
             }
 
             using var handle = _handle.Acquire();
-            var ms_key = new MarshaledString(key);
-            var ms_value = new MarshaledString(value);
+            using var ms_key = new MarshaledString(key);
+            using var ms_value = new MarshaledString(value);
             handle_error(Methods.tiledb_ctx_set_tag(handle, ms_key, ms_value));
         }
 

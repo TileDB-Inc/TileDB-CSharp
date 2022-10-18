@@ -46,7 +46,7 @@ namespace TileDB.CSharp
         {
             _ctx = ctx;
             _uri = uri;
-            var ms_uri = new MarshaledString(_uri);
+            using var ms_uri = new MarshaledString(_uri);
             _handle = ArrayHandle.Create(_ctx, ms_uri);
             _disposed = false;
             _metadata = new ArrayMetadata(this);
@@ -251,7 +251,7 @@ namespace TileDB.CSharp
         /// <param name="schema"></param>
         public static void Create(Context ctx, string uri, ArraySchema schema)
         {
-            var ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             using var ctxHandle = ctx.Handle.Acquire();
             using var schemaHandle = schema.Handle.Acquire();
             ctx.handle_error(Methods.tiledb_array_create(ctxHandle, ms_uri, schemaHandle));
@@ -263,7 +263,7 @@ namespace TileDB.CSharp
         /// <param name="schema"></param>
         public void Create(ArraySchema schema)
         {
-            var ms_uri = new MarshaledString(_uri);
+            using var ms_uri = new MarshaledString(_uri);
             using var ctxHandle = _ctx.Handle.Acquire();
             using var schemaHandle = schema.Handle.Acquire();
             _ctx.handle_error(Methods.tiledb_array_create(ctxHandle, ms_uri, schemaHandle));
@@ -276,7 +276,7 @@ namespace TileDB.CSharp
         /// <param name="schemaEvolution">Fully constructed ArraySchemaEvolution to apply</param>
         public void Evolve(Context ctx, ArraySchemaEvolution schemaEvolution)
         {
-            var msUri = new MarshaledString(_uri);
+            using var msUri = new MarshaledString(_uri);
             using var ctxHandle = ctx.Handle.Acquire();
             using var schemaEvolutionHandle = schemaEvolution.Handle.Acquire();
             _ctx.handle_error(Methods.tiledb_array_evolve(ctxHandle, msUri, schemaEvolutionHandle));
@@ -290,7 +290,7 @@ namespace TileDB.CSharp
         /// <param name="config"></param>
         public static void Consolidate(Context ctx, string uri, Config config)
         {
-            var ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             using var ctxHandle = ctx.Handle.Acquire();
             using var configHandle = config.Handle.Acquire();
             ctx.handle_error(Methods.tiledb_array_consolidate(ctxHandle, ms_uri, configHandle));
@@ -304,7 +304,7 @@ namespace TileDB.CSharp
         /// <param name="config"></param>
         public static void Vacuum(Context ctx, string uri, Config config)
         {
-            var ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             using var ctxHandle = ctx.Handle.Acquire();
             using var configHandle = config.Handle.Acquire();
             ctx.handle_error(Methods.tiledb_array_vacuum(ctxHandle, ms_uri, configHandle));
@@ -480,7 +480,7 @@ namespace TileDB.CSharp
                 throw new ArgumentException("Array.NonEmptyDomain, not valid datatype!");
             }
 
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
             var data = new[] { default(T), default(T) };
             var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
             var int_empty = 1;
@@ -555,7 +555,7 @@ namespace TileDB.CSharp
             ulong start_size;
             ulong end_size;
             var int_empty = 1;
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
 
             using (var ctxHandle = _ctx.Handle.Acquire())
             using (var handle = _handle.Acquire())
@@ -612,7 +612,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public static EncryptionType EncryptionType(Context ctx, string uri)
         {
-            var ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             tiledb_encryption_type_t tiledb_encryption_type;
             using var ctxHandle = ctx.Handle.Acquire();
             ctx.handle_error(Methods.tiledb_array_encryption_type(ctxHandle, ms_uri, &tiledb_encryption_type));
@@ -739,7 +739,7 @@ namespace TileDB.CSharp
         /// <param name="path"></param>
         public static ArraySchema LoadArraySchema(Context ctx, string path)
         {
-            var ms_path = new MarshaledString(path);
+            using var ms_path = new MarshaledString(path);
             tiledb_array_schema_t* array_schema_p;
             using var ctxHandle = ctx.Handle.Acquire();
             ctx.handle_error(Methods.tiledb_array_schema_load(ctxHandle, ms_path, &array_schema_p));

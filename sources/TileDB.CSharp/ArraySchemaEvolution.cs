@@ -61,7 +61,7 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var msAttrName = new MarshaledString(attrName);
+            using var msAttrName = new MarshaledString(attrName);
             _ctx.handle_error(Methods.tiledb_array_schema_evolution_drop_attribute(ctxHandle, handle, msAttrName));
         }
 
@@ -92,7 +92,7 @@ namespace TileDB.CSharp
         public void EvolveArray(string uri)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
-            var msUri = new MarshaledString(uri);
+            using var msUri = new MarshaledString(uri);
             using var handle = _handle.Acquire();
             _ctx.handle_error(Methods.tiledb_array_evolve(ctxHandle, msUri, handle));
         }
