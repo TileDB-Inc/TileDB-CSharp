@@ -377,7 +377,8 @@ namespace TileDB.CSharp
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             byte* domain = stackalloc byte[Unsafe.SizeOf<T>() * 2];
-            _ctx.handle_error(Methods.tiledb_fragment_info_get_non_empty_domain_from_index(ctxHandle, handle, fragmentIndex, dimensionIndex, domain));
+            _ctx.handle_error(Methods.tiledb_fragment_info_get_non_empty_domain_from_index(ctxHandle,
+                handle, fragmentIndex, dimensionIndex, domain));
 
             var start = Unsafe.ReadUnaligned<T>(domain);
             var end = Unsafe.ReadUnaligned<T>(domain + Unsafe.SizeOf<T>());
@@ -389,8 +390,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <typeparam name="T">The dimension's data type.</typeparam>
         /// <param name="fragmentIndex">The index of the fragment of interest.</param>
-        /// <param name="dimensionIndex">The index of the dimension of interest, following
-        /// the order as it was defined in the domain of the array schema.</param>
+        /// <param name="dimensionName">The name of the dimension of interest.</param>
         /// <returns>The start and end values of the domain, inclusive.</returns>
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is a managed type
         /// other than <see cref="string"/>.</exception>
@@ -411,7 +411,8 @@ namespace TileDB.CSharp
             using var handle = _handle.Acquire();
             using var ms_dimensionName = new MarshaledString(dimensionName);
             byte* domain = stackalloc byte[Unsafe.SizeOf<T>() * 2];
-            _ctx.handle_error(Methods.tiledb_fragment_info_get_non_empty_domain_from_name(ctxHandle, handle, fragmentIndex, ms_dimensionName, domain));
+            _ctx.handle_error(Methods.tiledb_fragment_info_get_non_empty_domain_from_name(ctxHandle,
+                handle, fragmentIndex, ms_dimensionName, domain));
 
             var start = Unsafe.ReadUnaligned<T>(domain);
             var end = Unsafe.ReadUnaligned<T>(domain + Unsafe.SizeOf<T>());
@@ -423,14 +424,16 @@ namespace TileDB.CSharp
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             ulong startSize64, endSize64;
-            _ctx.handle_error(Methods.tiledb_fragment_info_get_non_empty_domain_var_size_from_index(ctxHandle, handle, fragmentIndex, dimensionIndex, &startSize64, &endSize64));
+            _ctx.handle_error(Methods.tiledb_fragment_info_get_non_empty_domain_var_size_from_index(ctxHandle,
+                handle, fragmentIndex, dimensionIndex, &startSize64, &endSize64));
             int startSize = checked((int)startSize64);
             int endSize = checked((int)endSize64);
             using var startBuf = new ScratchBuffer<byte>(startSize, stackalloc byte[128]);
             using var endBuf = new ScratchBuffer<byte>(endSize, stackalloc byte[128]);
             fixed (byte* startBufPtr = startBuf, endBufPtr = endBuf)
             {
-                _ctx.handle_error(Methods.tiledb_fragment_info_get_non_empty_domain_var_from_index(ctxHandle, handle, fragmentIndex, dimensionIndex, startBufPtr, endBufPtr));
+                _ctx.handle_error(Methods.tiledb_fragment_info_get_non_empty_domain_var_from_index(ctxHandle,
+                    handle, fragmentIndex, dimensionIndex, startBufPtr, endBufPtr));
             }
 
             var start = Encoding.ASCII.GetString(startBuf.Span);
@@ -444,14 +447,16 @@ namespace TileDB.CSharp
             using var handle = _handle.Acquire();
             using var ms_dimensionName = new MarshaledString(dimensionName);
             ulong startSize64, endSize64;
-            _ctx.handle_error(Methods.tiledb_fragment_info_get_non_empty_domain_var_size_from_name(ctxHandle, handle, fragmentIndex, ms_dimensionName, &startSize64, &endSize64));
+            _ctx.handle_error(Methods.tiledb_fragment_info_get_non_empty_domain_var_size_from_name(ctxHandle,
+                handle, fragmentIndex, ms_dimensionName, &startSize64, &endSize64));
             int startSize = checked((int)startSize64);
             int endSize = checked((int)endSize64);
             using var startBuf = new ScratchBuffer<byte>(startSize, stackalloc byte[128]);
             using var endBuf = new ScratchBuffer<byte>(endSize, stackalloc byte[128]);
             fixed (byte* startBufPtr = startBuf, endBufPtr = endBuf)
             {
-                _ctx.handle_error(Methods.tiledb_fragment_info_get_non_empty_domain_var_from_name(ctxHandle, handle, fragmentIndex, ms_dimensionName, startBufPtr, endBufPtr));
+                _ctx.handle_error(Methods.tiledb_fragment_info_get_non_empty_domain_var_from_name(ctxHandle,
+                    handle, fragmentIndex, ms_dimensionName, startBufPtr, endBufPtr));
             }
 
             var start = Encoding.ASCII.GetString(startBuf.Span);
