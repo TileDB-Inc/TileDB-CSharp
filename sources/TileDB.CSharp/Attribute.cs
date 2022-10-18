@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
 namespace TileDB.CSharp
@@ -15,11 +16,11 @@ namespace TileDB.CSharp
         public Attribute(Context ctx, string name, DataType dataType)
         {
             _ctx = ctx;
-            var tiledb_datatype = (tiledb_datatype_t)(dataType);
-            _handle = new AttributeHandle(_ctx.Handle, name, tiledb_datatype);
+            var tiledb_datatype = (tiledb_datatype_t)dataType;
+            _handle = AttributeHandle.Create(_ctx, name, tiledb_datatype);
             if (EnumUtil.IsStringType(dataType))
             {
-                SetCellValNum((uint)Constants.TILEDB_VAR_NUM);
+                SetCellValNum(Constants.TILEDB_VAR_NUM);
             }
         }
 
@@ -54,8 +55,10 @@ namespace TileDB.CSharp
         /// <param name="nullable"></param>
         public void SetNullable(bool nullable)
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             var int8_nullable = nullable ? (byte)1 : (byte)0;
-            _ctx.handle_error(Methods.tiledb_attribute_set_nullable(_ctx.Handle, _handle, int8_nullable));
+            _ctx.handle_error(Methods.tiledb_attribute_set_nullable(ctxHandle, handle, int8_nullable));
         }
 
         /// <summary>
@@ -64,8 +67,10 @@ namespace TileDB.CSharp
         /// <param name="filterList"></param>
         public void SetFilterList(FilterList filterList)
         {
-            _ctx.handle_error(Methods.tiledb_attribute_set_filter_list(_ctx.Handle, _handle, filterList.Handle));
-
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var filterListHandle = filterList.Handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_attribute_set_filter_list(ctxHandle, handle, filterListHandle));
         }
 
         /// <summary>
@@ -74,7 +79,9 @@ namespace TileDB.CSharp
         /// <param name="cellValNum"></param>
         public void SetCellValNum(uint cellValNum)
         {
-            _ctx.handle_error(Methods.tiledb_attribute_set_cell_val_num(_ctx.Handle, _handle, cellValNum));
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_attribute_set_cell_val_num(ctxHandle, handle, cellValNum));
         }
 
         /// <summary>
@@ -83,10 +90,12 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public string Name()
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             var ms_result = new MarshaledStringOut();
             fixed (sbyte** p_result = &ms_result.Value)
             {
-                _ctx.handle_error(Methods.tiledb_attribute_get_name(_ctx.Handle, _handle, p_result));
+                _ctx.handle_error(Methods.tiledb_attribute_get_name(ctxHandle, handle, p_result));
             }
 
             return ms_result;
@@ -98,8 +107,10 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public DataType Type()
         {
-            var tiledb_datatype = tiledb_datatype_t.TILEDB_ANY;
-            _ctx.handle_error(Methods.tiledb_attribute_get_type(_ctx.Handle, _handle, &tiledb_datatype));
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            tiledb_datatype_t tiledb_datatype;
+            _ctx.handle_error(Methods.tiledb_attribute_get_type(ctxHandle, handle, &tiledb_datatype));
             return (DataType)tiledb_datatype;
         }
 
@@ -109,8 +120,10 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public bool Nullable()
         {
-            byte nullable = 0;
-            _ctx.handle_error(Methods.tiledb_attribute_get_nullable(_ctx.Handle, _handle, &nullable));
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            byte nullable;
+            _ctx.handle_error(Methods.tiledb_attribute_get_nullable(ctxHandle, handle, &nullable));
             return nullable > 0;
         }
 
@@ -120,9 +133,11 @@ namespace TileDB.CSharp
         /// </summary>
         public FilterList FilterList()
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             tiledb_filter_list_t* filter_list_p;
-            _ctx.handle_error(Methods.tiledb_attribute_get_filter_list(_ctx.Handle, _handle, &filter_list_p));
-            return new FilterList(_ctx, filter_list_p);
+            _ctx.handle_error(Methods.tiledb_attribute_get_filter_list(ctxHandle, handle, &filter_list_p));
+            return new FilterList(_ctx, FilterListHandle.CreateUnowned(filter_list_p));
         }
 
 
@@ -132,8 +147,10 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public uint CellValNum()
         {
-            uint cell_val_num = 0;
-            _ctx.handle_error(Methods.tiledb_attribute_get_cell_val_num(_ctx.Handle, _handle, &cell_val_num));
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            uint cell_val_num;
+            _ctx.handle_error(Methods.tiledb_attribute_get_cell_val_num(ctxHandle, handle, &cell_val_num));
             return cell_val_num;
         }
 
@@ -143,9 +160,10 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public ulong CellSize()
         {
-
-            ulong cell_size = 0;
-            _ctx.handle_error(Methods.tiledb_attribute_get_cell_size(_ctx.Handle, _handle, &cell_size));
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            ulong cell_size;
+            _ctx.handle_error(Methods.tiledb_attribute_get_cell_size(ctxHandle, handle, &cell_size));
             return cell_size;
         }
 
@@ -163,23 +181,25 @@ namespace TileDB.CSharp
 
             var cell_val_num = this.CellValNum();
 
-            if (cell_val_num != (uint)Constants.TILEDB_VAR_NUM && cell_val_num != data.Length)
+            if (cell_val_num != Constants.TILEDB_VAR_NUM && cell_val_num != data.Length)
             {
                 throw new ArgumentException("Attribute.SetFillValue_nullable, data length is not equal to cell_val_num!");
             }
 
             ulong size;
-            if (cell_val_num == (uint)Constants.TILEDB_VAR_NUM) {
+            if (cell_val_num == Constants.TILEDB_VAR_NUM) {
                 size = (ulong)(data.Length* Marshal.SizeOf(data[0]));
             } else
             {
                 size = cell_val_num * (ulong)(Marshal.SizeOf(data[0]));
             }
 
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
             try
             {
-                _ctx.handle_error(Methods.tiledb_attribute_set_fill_value(_ctx.Handle, _handle,
+                _ctx.handle_error(Methods.tiledb_attribute_set_fill_value(ctxHandle, handle,
                     (void*)dataGcHandle.AddrOfPinnedObject(), size));
             }
             finally
@@ -203,7 +223,7 @@ namespace TileDB.CSharp
             }
 
             var cell_val_num = this.CellValNum();
-            var data = cell_val_num == (uint)Constants.TILEDB_VAR_NUM
+            var data = cell_val_num == Constants.TILEDB_VAR_NUM
                 ? new[] { value }
                 : Enumerable.Repeat(value, (int)cell_val_num).ToArray();
             SetFillValue(data);
@@ -225,9 +245,11 @@ namespace TileDB.CSharp
         /// <returns></returns>
         private byte[] get_fill_value()
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             void* value_p;
             ulong size;
-            _ctx.handle_error(Methods.tiledb_attribute_get_fill_value(_ctx.Handle,_handle,&value_p,&size));
+            _ctx.handle_error(Methods.tiledb_attribute_get_fill_value(ctxHandle, handle, &value_p, &size));
 
             var fill_span = new ReadOnlySpan<byte>(value_p, (int)size);
             return fill_span.ToArray();
@@ -279,13 +301,13 @@ namespace TileDB.CSharp
             }
 
             var cell_val_num = this.CellValNum();
-            if (cell_val_num != (uint)Constants.TILEDB_VAR_NUM && cell_val_num != data.Length)
+            if (cell_val_num != Constants.TILEDB_VAR_NUM && cell_val_num != data.Length)
             {
                 throw new ArgumentException("Attribute.SetFillValueNullable, data length is not equal to cell_val_num!");
             }
 
             ulong size;
-            if (cell_val_num == (uint)Constants.TILEDB_VAR_NUM)
+            if (cell_val_num == Constants.TILEDB_VAR_NUM)
             {
                 size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
             }
@@ -296,10 +318,12 @@ namespace TileDB.CSharp
 
             var validity = valid ? (byte)1 : (byte)0;
 
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
             try
             {
-                _ctx.handle_error(Methods.tiledb_attribute_set_fill_value_nullable(_ctx.Handle, _handle, (void*)dataGcHandle.AddrOfPinnedObject(), size, validity));
+                _ctx.handle_error(Methods.tiledb_attribute_set_fill_value_nullable(ctxHandle, handle, (void*)dataGcHandle.AddrOfPinnedObject(), size, validity));
             }
             finally
             {
@@ -316,7 +340,7 @@ namespace TileDB.CSharp
         public void SetFillValueNullable<T>(T value, bool valid) where T: struct
         {
             var cell_val_num = this.CellValNum();
-            var data = cell_val_num == (uint)Constants.TILEDB_VAR_NUM ? new[] { value } : Enumerable.Repeat(value, (int)cell_val_num).ToArray();
+            var data = cell_val_num == Constants.TILEDB_VAR_NUM ? new[] { value } : Enumerable.Repeat(value, (int)cell_val_num).ToArray();
             SetFillValueNullable(data, valid);
         }
 
@@ -337,10 +361,12 @@ namespace TileDB.CSharp
         /// <returns></returns>
         private (byte[] bytearray, bool valid) get_fill_value_nullable()
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             void* value_p;
             ulong size;
             var byte_valid = default(byte);
-            _ctx.handle_error(Methods.tiledb_attribute_get_fill_value_nullable(_ctx.Handle, _handle, &value_p, &size, &byte_valid));
+            _ctx.handle_error(Methods.tiledb_attribute_get_fill_value_nullable(ctxHandle, handle, &value_p, &size, &byte_valid));
 
             var fill_span = new ReadOnlySpan<byte>(value_p, (int)size);
             return (fill_span.ToArray(), byte_valid>0);
@@ -351,10 +377,8 @@ namespace TileDB.CSharp
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-
         public Tuple<T[],bool> FillValueNullable<T>() where T : struct
         {
-
             var fill_value = get_fill_value_nullable();
             Span<byte> byteSpan = fill_value.bytearray;
             var span = MemoryMarshal.Cast<byte, T>(byteSpan);
@@ -365,7 +389,7 @@ namespace TileDB.CSharp
         /// Get string fill value and validity.
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="System.NotSupportedException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
         public string FillValueNullable()
         {
             var datatype = Type();
@@ -376,7 +400,6 @@ namespace TileDB.CSharp
             var(fill_bytes,_) = get_fill_value_nullable();
             return Encoding.ASCII.GetString(fill_bytes);
         }
-
         #endregion
 
         /// <summary>
@@ -391,7 +414,5 @@ namespace TileDB.CSharp
             var datatype = EnumUtil.TypeToDataType(typeof(T));
             return new Attribute(ctx, name, datatype);
         }
-
     }
-
-}//namespace
+}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
 namespace TileDB.CSharp
@@ -11,7 +12,7 @@ namespace TileDB.CSharp
     
         public Config()
         {
-            _handle = new ConfigHandle();
+            _handle = ConfigHandle.Create();
         }
 
         internal Config(ConfigHandle handle) 
@@ -44,7 +45,7 @@ namespace TileDB.CSharp
         /// <param name="pTileDBError"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        private string GetLastError(tiledb_error_t *pTileDBError, int status)
+        private static string GetLastError(tiledb_error_t *pTileDBError, int status)
         {
             var sb_result = new StringBuilder();
             if (Enum.IsDefined(typeof(Status), status))
@@ -82,7 +83,11 @@ namespace TileDB.CSharp
             var tiledb_error = new tiledb_error_t();
 
             var p_tiledb_error = &tiledb_error;
-            var status = Methods.tiledb_config_set(_handle, ms_param, ms_value, &p_tiledb_error);
+            int status;
+            using (var handle = _handle.Acquire())
+            {
+                status = Methods.tiledb_config_set(handle, ms_param, ms_value, &p_tiledb_error);
+            }
             if (status != (int)Status.TILEDB_OK)
             {
                 var err_message = GetLastError(p_tiledb_error, status);
@@ -113,7 +118,11 @@ namespace TileDB.CSharp
             var p_tiledb_error = &tiledb_error;
             fixed (sbyte** p_result = &ms_result.Value)
             {
-                var status = Methods.tiledb_config_get(_handle, ms_param, p_result, &p_tiledb_error);
+                int status;
+                using (var handle = _handle.Acquire())
+                {
+                    status = Methods.tiledb_config_get(handle, ms_param, p_result, &p_tiledb_error);
+                }
                 if (status != (int)Status.TILEDB_OK)
                 {
                     var err_message = GetLastError(p_tiledb_error, status);
@@ -143,7 +152,11 @@ namespace TileDB.CSharp
             var tiledb_error = new tiledb_error_t();
 
             var p_tiledb_error = &tiledb_error;
-            var status = Methods.tiledb_config_unset(_handle, ms_param, &p_tiledb_error);
+            int status;
+            using (var handle = _handle.Acquire())
+            {
+                status = Methods.tiledb_config_unset(handle, ms_param, &p_tiledb_error);
+            }
             if (status != (int)Status.TILEDB_OK)
             {
                 var err_message = GetLastError(p_tiledb_error, status);
@@ -170,7 +183,11 @@ namespace TileDB.CSharp
             var tiledb_error = new tiledb_error_t();
 
             var p_tiledb_error = &tiledb_error;
-            var status = Methods.tiledb_config_load_from_file(_handle, ms_filename, &p_tiledb_error);
+            int status;
+            using (var handle = _handle.Acquire())
+            {
+                status = Methods.tiledb_config_load_from_file(handle, ms_filename, &p_tiledb_error);
+            }
             if (status != (int)Status.TILEDB_OK)
             {
                 var err_message = GetLastError(p_tiledb_error, status);
@@ -197,7 +214,11 @@ namespace TileDB.CSharp
             var tiledb_error = new tiledb_error_t();
 
             var p_tiledb_error = &tiledb_error;
-            var status = Methods.tiledb_config_save_to_file(_handle, ms_filename, &p_tiledb_error);
+            int status;
+            using (var handle = _handle.Acquire())
+            {
+                status = Methods.tiledb_config_save_to_file(handle, ms_filename, &p_tiledb_error);
+            }
             if (status != (int)Status.TILEDB_OK)
             {
                 var err_message = GetLastError(p_tiledb_error, status);
@@ -224,8 +245,10 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public bool Cmp(ref Config other)
         {
+            using var handle = Handle.Acquire();
+            using var otherHandle = other.Handle.Acquire();
             byte equal;
-            Methods.tiledb_config_compare(_handle, other._handle, &equal);
+            Methods.tiledb_config_compare(handle, otherHandle, &equal);
             return equal == 1;
         }
     }

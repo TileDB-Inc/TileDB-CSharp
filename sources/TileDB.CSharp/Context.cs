@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
 namespace TileDB.CSharp
@@ -12,13 +13,13 @@ namespace TileDB.CSharp
 
         public Context()
         {
-            _handle = new ContextHandle();
+            _handle = ContextHandle.Create();
             _config = new Config();
         }
 
         public Context(Config config)
         {
-            _handle = new ContextHandle(config.Handle);
+            _handle = ContextHandle.Create(config.Handle);
             _config = config;
         }
 
@@ -60,11 +61,12 @@ namespace TileDB.CSharp
         /// </summary>
         /// <returns></returns>
         public string Stats()
-        {    
+        {
+            using var handle = _handle.Acquire();
             var result_out = new MarshaledStringOut();
             fixed (sbyte** p_result = &result_out.Value) 
             {
-                handle_error(Methods.tiledb_ctx_get_stats(_handle, p_result));
+                handle_error(Methods.tiledb_ctx_get_stats(handle, p_result));
             }
             
             return result_out;
@@ -87,10 +89,13 @@ namespace TileDB.CSharp
         public string LastError()
         {
             var sb_result = new StringBuilder();
-             
-            var tiledb_error = new tiledb_error_t();
-            var p_tiledb_error = &tiledb_error;
-            var status = Methods.tiledb_ctx_get_last_error(_handle, &p_tiledb_error);
+
+            tiledb_error_t* p_tiledb_error;
+            int status;
+            using (var handle = _handle.Acquire())
+            {
+                status = Methods.tiledb_ctx_get_last_error(handle, &p_tiledb_error);
+            }
             if(status == (int)Status.TILEDB_OK)
             {
                 var str_out = new MarshaledStringOut();
@@ -125,7 +130,8 @@ namespace TileDB.CSharp
         /// </summary>
         public void CancelTasks()
         {
-            handle_error(Methods.tiledb_ctx_cancel_tasks(_handle));
+            using var handle = _handle.Acquire();
+            handle_error(Methods.tiledb_ctx_cancel_tasks(handle));
         }
 
         /// <summary>
@@ -140,10 +146,11 @@ namespace TileDB.CSharp
             {
                 throw new ArgumentException("Context.set_tag, key or value is null or empty!");
             }
- 
+
+            using var handle = _handle.Acquire();
             var ms_key = new MarshaledString(key);
             var ms_value = new MarshaledString(value);
-            handle_error(Methods.tiledb_ctx_set_tag(_handle, ms_key, ms_value));
+            handle_error(Methods.tiledb_ctx_set_tag(handle, ms_key, ms_value));
         }
 
         #region error
@@ -164,9 +171,12 @@ namespace TileDB.CSharp
             }
 
             var sb_message = new StringBuilder();
-            var tiledb_error = new tiledb_error_t();
-            var p_tiledb_error = &tiledb_error;
-            var status = Methods.tiledb_ctx_get_last_error(_handle, &p_tiledb_error);
+            tiledb_error_t* p_tiledb_error;
+            int status;
+            using (var handle = _handle.Acquire())
+            {
+                status = Methods.tiledb_ctx_get_last_error(handle, &p_tiledb_error);
+            }
             if (status == (int)Status.TILEDB_OK)
             {
                 var str_out = new MarshaledStringOut();

@@ -1,4 +1,5 @@
 using System;
+using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
 namespace TileDB.CSharp
@@ -12,7 +13,7 @@ namespace TileDB.CSharp
         public ArraySchemaEvolution(Context ctx)
         {
             _ctx = ctx;
-            _handle = new ArraySchemaEvolutionHandle(_ctx.Handle);
+            _handle = ArraySchemaEvolutionHandle.Create(_ctx);
             _disposed = false;
         }
 
@@ -46,7 +47,10 @@ namespace TileDB.CSharp
         /// <param name="attr">Fully constructed Attribute to add to the schema</param>
         public void AddAttribute(Attribute attr)
         {
-            _ctx.handle_error(Methods.tiledb_array_schema_evolution_add_attribute(_ctx.Handle, _handle, attr.Handle));
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var attrHandle = attr.Handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_schema_evolution_add_attribute(ctxHandle, handle, attrHandle));
         }
 
         /// <summary>
@@ -55,8 +59,10 @@ namespace TileDB.CSharp
         /// <param name="attrName">String name of attribute to drop from the schema</param>
         public void DropAttribute(string attrName)
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             var msAttrName = new MarshaledString(attrName);
-            _ctx.handle_error(Methods.tiledb_array_schema_evolution_drop_attribute(_ctx.Handle, _handle, msAttrName));
+            _ctx.handle_error(Methods.tiledb_array_schema_evolution_drop_attribute(ctxHandle, handle, msAttrName));
         }
 
         /// <summary>
@@ -73,8 +79,10 @@ namespace TileDB.CSharp
         /// <param name="low">Low value of timestamp range</param>
         public void SetTimeStampRange(ulong high, ulong low)
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
             _ctx.handle_error(
-                Methods.tiledb_array_schema_evolution_set_timestamp_range(_ctx.Handle, _handle, low, high));
+                Methods.tiledb_array_schema_evolution_set_timestamp_range(ctxHandle, handle, low, high));
         }
 
         /// <summary>
@@ -83,8 +91,10 @@ namespace TileDB.CSharp
         /// <param name="uri">Uri of existing array to apply evolution</param>
         public void EvolveArray(string uri)
         {
+            using var ctxHandle = _ctx.Handle.Acquire();
             var msUri = new MarshaledString(uri);
-            _ctx.handle_error(Methods.tiledb_array_evolve(_ctx.Handle, msUri, _handle));
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_evolve(ctxHandle, msUri, handle));
         }
     }
 }

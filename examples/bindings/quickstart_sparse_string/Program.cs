@@ -10,12 +10,12 @@ namespace QuickstartSparseString
     {
         static unsafe void CheckError(tiledb_ctx_t* ctx)
         {
-            var err = stackalloc tiledb_error_t*[1];
-            Methods.tiledb_ctx_get_last_error(ctx, err);
-            if (*err != null)
+            tiledb_error_t* err;
+            Methods.tiledb_ctx_get_last_error(ctx, &err);
+            if (err != null)
             {
                 var err_out = (sbyte**)Marshal.StringToHGlobalAnsi("");
-                Methods.tiledb_error_message(*err, err_out);
+                Methods.tiledb_error_message(err, err_out);
 
                 Console.WriteLine($"{new string(err_out[0])}");
                 Marshal.FreeHGlobal((IntPtr)err_out);
@@ -25,8 +25,7 @@ namespace QuickstartSparseString
         static unsafe void CreateArray(tiledb_ctx_t* ctx)
         {
             // Creating dimensions
-            var d1 = stackalloc tiledb_dimension_t*[1];
-            var d2 = stackalloc tiledb_dimension_t*[1];
+            tiledb_dimension_t* d1, d2;
 
             Int32[] dim_domain = { 1, 4 };
             Int32 dim_extent = 4;
@@ -36,7 +35,7 @@ namespace QuickstartSparseString
             var cols_name = (sbyte*)Marshal.StringToHGlobalAnsi("cols");
 
             Methods.tiledb_dimension_alloc(ctx, rows_name, tiledb_datatype_t.TILEDB_STRING_ASCII,
-                null, null, d1
+                null, null, &d1
             );
             // Check for errors with helper function
             CheckError(ctx);
@@ -44,7 +43,7 @@ namespace QuickstartSparseString
             var domain_handle = GCHandle.Alloc(dim_domain, GCHandleType.Pinned);
             var extent_handle = GCHandle.Alloc(dim_extent, GCHandleType.Pinned);
             Methods.tiledb_dimension_alloc(ctx, cols_name, tiledb_datatype_t.TILEDB_INT32,
-                domain_handle.AddrOfPinnedObject().ToPointer(), extent_handle.AddrOfPinnedObject().ToPointer(), d2
+                domain_handle.AddrOfPinnedObject().ToPointer(), extent_handle.AddrOfPinnedObject().ToPointer(), &d2
             );
             CheckError(ctx);
 
@@ -53,9 +52,9 @@ namespace QuickstartSparseString
             Methods.tiledb_domain_alloc(ctx, &domain);
             CheckError(ctx);
 
-            Methods.tiledb_domain_add_dimension(ctx, domain, *d1);
+            Methods.tiledb_domain_add_dimension(ctx, domain, d1);
             CheckError(ctx);
-            Methods.tiledb_domain_add_dimension(ctx, domain, *d2);
+            Methods.tiledb_domain_add_dimension(ctx, domain, d2);
             CheckError(ctx);
 
             // Creating attribute
@@ -85,8 +84,8 @@ namespace QuickstartSparseString
             Methods.tiledb_array_create(ctx, (sbyte*)arr_name, array_schema);
             CheckError(ctx);
 
-            Methods.tiledb_dimension_free(d1);
-            Methods.tiledb_dimension_free(d2);
+            Methods.tiledb_dimension_free(&d1);
+            Methods.tiledb_dimension_free(&d2);
             Methods.tiledb_attribute_free(&a1);
             Methods.tiledb_domain_free(&domain);
             Methods.tiledb_array_schema_free(&array_schema);

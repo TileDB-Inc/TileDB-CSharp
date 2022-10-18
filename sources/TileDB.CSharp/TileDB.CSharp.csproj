@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <Nullable>enable</Nullable>
     <RollForward>Major</RollForward>
     <RootNamespace>TileDB.CSharp</RootNamespace>
@@ -9,11 +8,6 @@
     <NuspecFile>TileDB.CSharp.nuspec</NuspecFile>
     <Version>5.2.4</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <!-- compile files in ./ -->
-    <Compile Include="*.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TileDB.Interop\TileDB.Interop.csproj" />

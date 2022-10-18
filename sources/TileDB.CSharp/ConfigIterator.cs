@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
 namespace TileDB.CSharp
@@ -10,10 +11,10 @@ namespace TileDB.CSharp
         private readonly ConfigHandle _hConfig;
         private bool _disposed;
 
-        public ConfigIterator(ConfigHandle hConfig, string prefix)
+        internal ConfigIterator(ConfigHandle hConfig, string prefix)
         {
             _hConfig = hConfig;
-            _handle = new ConfigIteratorHandle(hConfig, prefix);
+            _handle = ConfigIteratorHandle.Create(hConfig, prefix);
         }
 
         public void Dispose()
@@ -60,9 +61,12 @@ namespace TileDB.CSharp
             var s_param = new MarshaledStringOut();
             var s_value = new MarshaledStringOut();
             int status;
-            fixed(sbyte** param_str = &s_param.Value, value_str = &s_value.Value)
+            using (var handle = _handle.Acquire())
             {
-                status = Methods.tiledb_config_iter_here(_handle, param_str, value_str, &p_tiledb_error);
+                fixed(sbyte** param_str = &s_param.Value, value_str = &s_value.Value)
+                {
+                    status = Methods.tiledb_config_iter_here(handle, param_str, value_str, &p_tiledb_error);
+                }
             }
 
             if (status != (int)Status.TILEDB_OK)
@@ -80,7 +84,11 @@ namespace TileDB.CSharp
         {
             var tiledb_error = new tiledb_error_t();
             var p_tiledb_error = &tiledb_error;
-            var status = Methods.tiledb_config_iter_next(_handle, &p_tiledb_error);
+            int status;
+            using (var handle = _handle.Acquire())
+            {
+                status = Methods.tiledb_config_iter_next(handle, &p_tiledb_error);
+            }
             if (status != (int)Status.TILEDB_OK)
             {
                 var err_message = GetLastError(p_tiledb_error, status);
@@ -95,7 +103,11 @@ namespace TileDB.CSharp
             var tiledb_error = new tiledb_error_t();
             var p_tiledb_error = &tiledb_error;
             int c_done;
-            var status = Methods.tiledb_config_iter_done(_handle, &c_done, &p_tiledb_error);
+            int status;
+            using (var handle = _handle.Acquire())
+            {
+                status = Methods.tiledb_config_iter_done(handle, &c_done, &p_tiledb_error);
+            }
             if (status != (int)Status.TILEDB_OK)
             {
                 var err_message = GetLastError(p_tiledb_error, status);
@@ -111,7 +123,12 @@ namespace TileDB.CSharp
             var tiledb_error = new tiledb_error_t();
             var p_tiledb_error = &tiledb_error;
             var ms_prefix = new MarshaledString(prefix);
-            var status = Methods.tiledb_config_iter_reset(_hConfig, _handle, ms_prefix, &p_tiledb_error);
+            int status;
+            using (var configHandle = _hConfig.Acquire())
+            using (var handle = _handle.Acquire())
+            {
+                status = Methods.tiledb_config_iter_reset(configHandle, handle, ms_prefix, &p_tiledb_error);
+            }
             if (status != (int)Status.TILEDB_OK)
             {
                 var err_message = GetLastError(p_tiledb_error, status);
