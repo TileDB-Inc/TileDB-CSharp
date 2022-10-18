@@ -352,6 +352,133 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Gets the number of Minimum Bounded Rectangles (MBRs) of a fragment.
+        /// </summary>
+        /// <param name="fragmentIndex">The index of the fragment of interest.</param>
+        /// <remarks>
+        /// The maximum value <paramref name="fragmentIndex"/> can take
+        /// is determined by the <see cref="FragmentCount"/> property.
+        /// </remarks>
+        public ulong GetMinimumBoundedRectangleCount(uint fragmentIndex)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            ulong result;
+            _ctx.handle_error(Methods.tiledb_fragment_info_get_mbr_num(ctxHandle, handle, fragmentIndex, &result));
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the Minimum Bounded Rectangle (MBR) from one of a fragment's dimensions, identified by its index.
+        /// </summary>
+        /// <typeparam name="T">The dimension's data type.</typeparam>
+        /// <param name="fragmentIndex">The index of the fragment of interest.</param>
+        /// <param name="minimumBoundedRectangleIndex">The index of the MBR of interest.</param>
+        /// <param name="dimensionIndex">The index of the dimension of interest, following
+        /// the order as it was defined in the domain of the array schema.</param>
+        /// <returns>The start and end values of the MBR, inclusive.</returns>
+        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is a managed type
+        /// other than <see cref="string"/>.</exception>
+        public (T Start, T End) GetMinimumBoundedRectangle<T>(uint fragmentIndex, uint minimumBoundedRectangleIndex, uint dimensionIndex)
+        {
+            if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
+            {
+                if (typeof(T) == typeof(string))
+                {
+                    (string startStr, string endStr) = GetStringMinimumBoundedRectangle(fragmentIndex, minimumBoundedRectangleIndex, dimensionIndex);
+                    return ((T)(object)startStr, (T)(object)endStr);
+                }
+                ThrowHelpers.ThrowTypeNotSupported();
+                return default;
+            }
+
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            byte* mbr = stackalloc byte[Unsafe.SizeOf<T>() * 2];
+            _ctx.handle_error(Methods.tiledb_fragment_info_get_mbr_from_index(ctxHandle, handle, fragmentIndex, minimumBoundedRectangleIndex, dimensionIndex, mbr));
+
+            var start = Unsafe.ReadUnaligned<T>(mbr);
+            var end = Unsafe.ReadUnaligned<T>(mbr + Unsafe.SizeOf<T>());
+            return (start, end);
+        }
+
+        /// <summary>
+        /// Gets the Minimum Bounded Rectangle (MBR) from one of a fragment's dimensions, identified by its name.
+        /// </summary>
+        /// <typeparam name="T">The dimension's data type.</typeparam>
+        /// <param name="fragmentIndex">The index of the fragment of interest.</param>
+        /// <param name="minimumBoundedRectangleIndex">The index of the MBR of interest.</param>
+        /// <param name="dimensionName">The name of the dimension of interest.</param>
+        /// <returns>The start and end values of the MBR, inclusive.</returns>
+        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is a managed type
+        /// other than <see cref="string"/>.</exception>
+        public (T Start, T End) GetMinimumBoundedRectangle<T>(uint fragmentIndex, uint minimumBoundedRectangleIndex, string dimensionName)
+        {
+            if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
+            {
+                if (typeof(T) == typeof(string))
+                {
+                    (string startStr, string endStr) = GetStringMinimumBoundedRectangle(fragmentIndex, minimumBoundedRectangleIndex, dimensionName);
+                    return ((T)(object)startStr, (T)(object)endStr);
+                }
+                ThrowHelpers.ThrowTypeNotSupported();
+                return default;
+            }
+
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var ms_dimensionName = new MarshaledString(dimensionName);
+            byte* mbr = stackalloc byte[Unsafe.SizeOf<T>() * 2];
+            _ctx.handle_error(Methods.tiledb_fragment_info_get_mbr_from_name(ctxHandle,
+                handle, fragmentIndex, minimumBoundedRectangleIndex, ms_dimensionName, mbr));
+
+            var start = Unsafe.ReadUnaligned<T>(mbr);
+            var end = Unsafe.ReadUnaligned<T>(mbr + Unsafe.SizeOf<T>());
+            return (start, end);
+        }
+
+        private (string Start, string End) GetStringMinimumBoundedRectangle(uint fragmentIndex, uint minimumBoundedRectangleIndex, uint dimensionIndex)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            ulong startSize64, endSize64;
+            _ctx.handle_error(Methods.tiledb_fragment_info_get_mbr_var_size_from_index(ctxHandle,
+                handle, fragmentIndex, minimumBoundedRectangleIndex, dimensionIndex, &startSize64, &endSize64));
+            int startSize = checked((int)startSize64);
+            int endSize = checked((int)endSize64);
+            using var startBuf = new ScratchBuffer<byte>(startSize, stackalloc byte[128]);
+            using var endBuf = new ScratchBuffer<byte>(endSize, stackalloc byte[128]);
+            fixed (byte* startBufPtr = startBuf, endBufPtr = endBuf)
+            {
+                _ctx.handle_error(Methods.tiledb_fragment_info_get_mbr_var_from_index(ctxHandle,
+                    handle, fragmentIndex, minimumBoundedRectangleIndex, dimensionIndex, startBufPtr, endBufPtr));
+            }
+
+            return (startBuf.Span.AsString(), endBuf.Span.AsString());
+        }
+
+        private (string Start, string End) GetStringMinimumBoundedRectangle(uint fragmentIndex, uint minimumBoundedRectangleIndex, string dimensionName)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var ms_dimensionName = new MarshaledString(dimensionName);
+            ulong startSize64, endSize64;
+            _ctx.handle_error(Methods.tiledb_fragment_info_get_mbr_var_size_from_name(ctxHandle,
+                handle, fragmentIndex, minimumBoundedRectangleIndex, ms_dimensionName, &startSize64, &endSize64));
+            int startSize = checked((int)startSize64);
+            int endSize = checked((int)endSize64);
+            using var startBuf = new ScratchBuffer<byte>(startSize, stackalloc byte[128]);
+            using var endBuf = new ScratchBuffer<byte>(endSize, stackalloc byte[128]);
+            fixed (byte* startBufPtr = startBuf, endBufPtr = endBuf)
+            {
+                _ctx.handle_error(Methods.tiledb_fragment_info_get_mbr_var_from_name(ctxHandle, handle,
+                    fragmentIndex, minimumBoundedRectangleIndex, ms_dimensionName, startBufPtr, endBufPtr));
+            }
+
+            return (startBuf.Span.AsString(), endBuf.Span.AsString());
+        }
+
+        /// <summary>
         /// Gets the non-empty domain from one of a fragment's dimensions, identified by its index.
         /// </summary>
         /// <typeparam name="T">The dimension's data type.</typeparam>
