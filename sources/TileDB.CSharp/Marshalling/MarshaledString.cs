@@ -32,8 +32,6 @@ namespace TileDB.Interop
             Value = value;
         }
 
-        public ReadOnlySpan<byte> AsSpan() => new ReadOnlySpan<byte>(Value, Length);
-
         public int Length { get; private set; }
 
         public sbyte* Value { get; private set; }
