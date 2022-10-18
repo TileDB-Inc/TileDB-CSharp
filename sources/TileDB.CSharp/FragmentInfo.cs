@@ -391,10 +391,13 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowTypeNotSupported();
                 return default;
             }
+            ValidateDomainType<T>();
 
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            byte* mbr = stackalloc byte[Unsafe.SizeOf<T>() * 2];
+            // We always allocate twice the maximum possible data type to avoid buffer overflows.
+            // If the dimension is of type uint64 and we pass a buffer of two bytes, it will write past the buffer's boundaries.
+            byte* mbr = stackalloc byte[sizeof(ulong) * 2];
             _ctx.handle_error(Methods.tiledb_fragment_info_get_mbr_from_index(ctxHandle, handle, fragmentIndex, minimumBoundedRectangleIndex, dimensionIndex, mbr));
 
             var start = Unsafe.ReadUnaligned<T>(mbr);
@@ -424,11 +427,14 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowTypeNotSupported();
                 return default;
             }
+            ValidateDomainType<T>();
 
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_dimensionName = new MarshaledString(dimensionName);
-            byte* mbr = stackalloc byte[Unsafe.SizeOf<T>() * 2];
+            // We always allocate twice the maximum possible data type to avoid buffer overflows.
+            // If the dimension is of type uint64 and we pass a buffer of two bytes, it will write past the buffer's boundaries.
+            byte* mbr = stackalloc byte[sizeof(ulong) * 2];
             _ctx.handle_error(Methods.tiledb_fragment_info_get_mbr_from_name(ctxHandle,
                 handle, fragmentIndex, minimumBoundedRectangleIndex, ms_dimensionName, mbr));
 
@@ -500,10 +506,13 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowTypeNotSupported();
                 return default;
             }
+            ValidateDomainType<T>();
 
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            byte* domain = stackalloc byte[Unsafe.SizeOf<T>() * 2];
+            // We always allocate twice the maximum possible data type to avoid buffer overflows.
+            // If the dimension is of type uint64 and we pass a buffer of two bytes, it will write past the buffer's boundaries.
+            byte* domain = stackalloc byte[sizeof(ulong) * 2];
             _ctx.handle_error(Methods.tiledb_fragment_info_get_non_empty_domain_from_index(ctxHandle,
                 handle, fragmentIndex, dimensionIndex, domain));
 
@@ -533,11 +542,14 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowTypeNotSupported();
                 return default;
             }
+            ValidateDomainType<T>();
 
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_dimensionName = new MarshaledString(dimensionName);
-            byte* domain = stackalloc byte[Unsafe.SizeOf<T>() * 2];
+            // We always allocate twice the maximum possible data type to avoid buffer overflows.
+            // If the dimension is of type uint64 and we pass a buffer of two bytes, it will write past the buffer's boundaries.
+            byte* domain = stackalloc byte[sizeof(ulong) * 2];
             _ctx.handle_error(Methods.tiledb_fragment_info_get_non_empty_domain_from_name(ctxHandle,
                 handle, fragmentIndex, ms_dimensionName, domain));
 
@@ -563,9 +575,7 @@ namespace TileDB.CSharp
                     handle, fragmentIndex, dimensionIndex, startBufPtr, endBufPtr));
             }
 
-            var start = Encoding.ASCII.GetString(startBuf.Span);
-            var end = Encoding.ASCII.GetString(endBuf.Span);
-            return (start, end);
+            return (startBuf.Span.AsString(), endBuf.Span.AsString());
         }
 
         private (string Start, string End) GetStringNonEmptyDomain(uint fragmentIndex, string dimensionName)
@@ -586,9 +596,15 @@ namespace TileDB.CSharp
                     handle, fragmentIndex, ms_dimensionName, startBufPtr, endBufPtr));
             }
 
-            var start = Encoding.ASCII.GetString(startBuf.Span);
-            var end = Encoding.ASCII.GetString(endBuf.Span);
-            return (start, end);
+            return (startBuf.Span.AsString(), endBuf.Span.AsString());
+        }
+
+        private static void ValidateDomainType<T>()
+        {
+            if (Unsafe.SizeOf<T>() > sizeof(ulong))
+            {
+                ThrowHelpers.ThrowTypeNotSupported();
+            }
         }
     }
 }
