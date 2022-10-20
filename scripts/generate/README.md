@@ -155,9 +155,9 @@ cd ~/workspace/tiledb/TileDB-CSharp-tmp
 csgen -I $TILEDB_DIR/include/ -I ~/workspace/tiledb/clang+llvm-14.0.0-x86_64-linux-gnu-ubuntu-18.04/lib/clang/14.0.0/include/ --file $TILEDB_DIR/include/tiledb/tiledb.h $TILEDB_DIR/include/tiledb/tiledb_experimental.h @scripts/generate/generate.rsp -l libtiledb
 ```
 
-`~/workspace/tiledb/TileDB-CSharp-tmp/sources/TileDB.Interop/Methods.cs` should be updated
+`~/workspace/tiledb/TileDB-CSharp-tmp/sources/TileDB.CSharp/Interop/Methods.cs` should be updated
 
-In `~/workspace/tiledb/TileDB-CSharp-tmp/sources/TileDB.Interop/Methods.cs` do 
+In `~/workspace/tiledb/TileDB-CSharp-tmp/sources/TileDB.CSharp/Interop/Methods.cs` do 
 
 ```bash
 - Comment all *_dump functions

@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileDB.CSharp.Test", "tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileDB.CSharp.Example", "examples\TileDB.CSharp.Example\TileDB.CSharp.Example.csproj", "{3F1C263E-AE13-4E74-945A-D8B30D2BC4EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileDB.Interop", "sources\TileDB.Interop\TileDB.Interop.csproj", "{5ECFEE69-761D-4D8C-B47F-EB914342B761}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{7C55D112-DBCB-4930-95DA-BE2BDC385D09}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bindings", "bindings", "{290031CD-EF93-4A53-826E-CBF70141B064}"
@@ -38,10 +36,6 @@ Global
 		{3F1C263E-AE13-4E74-945A-D8B30D2BC4EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F1C263E-AE13-4E74-945A-D8B30D2BC4EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F1C263E-AE13-4E74-945A-D8B30D2BC4EF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5ECFEE69-761D-4D8C-B47F-EB914342B761}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5ECFEE69-761D-4D8C-B47F-EB914342B761}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5ECFEE69-761D-4D8C-B47F-EB914342B761}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5ECFEE69-761D-4D8C-B47F-EB914342B761}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E56005DF-0E78-4B8F-9054-1C337521041C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E56005DF-0E78-4B8F-9054-1C337521041C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E56005DF-0E78-4B8F-9054-1C337521041C}.Release|Any CPU.ActiveCfg = Release|Any CPU
