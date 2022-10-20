@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using TileDB.CSharp.Marshalling.SafeHandles;
@@ -124,9 +125,6 @@ namespace TileDB.CSharp
         private Dictionary<string, BufferHandle> _dataBufferHandles = new Dictionary<string, BufferHandle>();
         private Dictionary<string, BufferHandle> _offsetsBufferHandles = new Dictionary<string, BufferHandle>();
         private Dictionary<string, BufferHandle> _validityBufferHandles = new Dictionary<string, BufferHandle>();
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void QueryCallbackDelegate(IntPtr ptr);
 
         public Query(Context ctx, Array array, QueryType queryType)
         {
@@ -379,25 +377,15 @@ namespace TileDB.CSharp
             return QueryStatus.TILEDB_COMPLETED;
         }
 
-        /// <summary>
-        /// Callback function on query completed.
-        /// </summary>
-        /// <param name="ptr"></param>
-        private void QueryCallback(IntPtr ptr)
+        [UnmanagedCallersOnly(CallConvs = new [] {typeof(CallConvCdecl)})]
+        private static void QueryCallback(void* ptr)
         {
+            GCHandle gcHandle = GCHandle.FromIntPtr((IntPtr)ptr);
+            var query = (Query)gcHandle.Target!;
+            gcHandle.Free();
             //fire event
             var args = new QueryEventArgs((int)QueryStatus.TILEDB_COMPLETED, "query completed");
-            OnQueryCompleted(args);
-        }
-
-        private void OnQueryCompleted(QueryEventArgs args)
-        {
-            var handler = QueryCompleted;
-            if (handler != null)
-            {
-                handler(this, args); //fire the event
-            }
-
+            query.QueryCompleted?.Invoke(query, args);
         }
 
         /// <summary>
@@ -405,10 +393,22 @@ namespace TileDB.CSharp
         /// </summary>
         public void SubmitAsync()
         {
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            QueryCallbackDelegate  callback = new QueryCallbackDelegate(QueryCallback);
-            _ctx.handle_error(Methods.tiledb_query_submit_async(ctxHandle, handle, (delegate* unmanaged[Cdecl]< void *, void > )Marshal.GetFunctionPointerForDelegate<QueryCallbackDelegate>(callback), null));
+            GCHandle gcHandle = GCHandle.Alloc(this);
+            bool successful = false;
+            try
+            {
+                using var ctxHandle = _ctx.Handle.Acquire();
+                using var handle = _handle.Acquire();
+                _ctx.handle_error(Methods.tiledb_query_submit_async(ctxHandle, handle, &QueryCallback, (void*)GCHandle.ToIntPtr(gcHandle)));
+                successful = true;
+            }
+            finally
+            {
+                if (!successful)
+                {
+                    gcHandle.Free();
+                }
+            }
         }
 
         /// <summary>
