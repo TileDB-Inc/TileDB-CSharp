@@ -1,15 +1,15 @@
 ﻿using System;
-using System.IO;
-using TileDB.CSharp;
+using System.Threading.Tasks;
+
 namespace TileDB.CSharp.Examples
 {
     static class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Console.WriteLine("TileDB Core Version: {0}", CoreUtil.GetCoreLibVersion());
 
-            ExampleQuery.Run();
+            await ExampleQuery.RunAsync();
             ExampleIncompleteQuery.Run();
             ExampleIncompleteQueryStringDimensions.Run();
             ExampleWritingDenseGlobal.Run();
