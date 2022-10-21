@@ -15,10 +15,10 @@ dotnet ClangSharpPInvokeGenerator -I /Library/Developer/CommandLineTools/SDKs/Ma
 We assume that the TileDB Core repository is in the same folder with the C# repository's folder, and has been installed.
 
 ```powershell
-$TILEDB_DIR=..\TileDB\dist\
+$TILEDB_DIR=..\TileDB\dist\include
 
 dotnet tool restore
-dotnet ClangSharpPInvokeGenerator -f $TILEDB_DIR\include\tiledb\tiledb.h $TILEDB_DIR\include\tiledb\tiledb_experimental.h -I $TILEDB_DIR\include\ "@.\scripts\generate\generate.rsp"
+dotnet ClangSharpPInvokeGenerator -F $TILEDB_DIR -I $TILEDB_DIR "@.\scripts\generate\generate.rsp"
 ```
 
 # Generator Installation

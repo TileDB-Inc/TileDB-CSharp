@@ -7,6 +7,13 @@ generate-helper-types
 Methods
 --namespace
 TileDB.Interop
+-file
+tiledb/tiledb.h
+tiledb/tiledb_experimental.h
+tiledb/api/c_api/config/config_api_external.h
+tiledb/api/c_api/context/context_api_external.h
+tiledb/api/c_api/error/error_api_external.h
+tiledb/api/c_api/filter/filter_api_external.h
 --output
 sources/TileDB.CSharp/Interop
 --exclude
@@ -17,7 +24,8 @@ tiledb_array_schema_dump
 tiledb_stats_dump
 tiledb_stats_raw_dump
 tiledb_fragment_info_dump
-tiledb_status
 --remap
 tiledb_experimental_query_status_details_t=tiledb_query_status_details_t
+tiledb_ctx_handle_t=tiledb_ctx_t
+tiledb_filter_handle_t=tiledb_filter_t
 -ltiledb
