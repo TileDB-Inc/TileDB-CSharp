@@ -6,6 +6,10 @@ namespace TileDB.Interop
     public static unsafe partial class Methods
     {
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("capi_status_t")]
+        public static extern int tiledb_status_code([NativeTypeName("capi_return_t")] int x);
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]
         public static extern int tiledb_array_schema_evolution_alloc(tiledb_ctx_t* ctx, tiledb_array_schema_evolution_t** array_schema_evolution);
 

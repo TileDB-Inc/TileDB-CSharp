@@ -8,6 +8,7 @@ Methods
 --namespace
 TileDB.Interop
 -file
+tiledb/api/c_api/api_external_common.h
 tiledb/tiledb_experimental.h
 tiledb/tiledb.h
 --output
@@ -20,6 +21,7 @@ tiledb_array_schema_dump
 tiledb_stats_dump
 tiledb_stats_raw_dump
 tiledb_fragment_info_dump
+tiledb_status
 --remap
 tiledb_experimental_query_status_details_t=tiledb_query_status_details_t
 tiledb_ctx_handle_t=tiledb_ctx_t
