@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace TileDB.CSharp.Examples
 {
@@ -14,11 +15,11 @@ namespace TileDB.CSharp.Examples
         {
             int[] dim1_bound = { 1, 10 };
             int dim1_ext = 4;
-            var dim1 = Dimension.Create<int>(Ctx, "rows", dim1_bound, dim1_ext);
+            var dim1 = Dimension.Create(Ctx, "rows", dim1_bound, dim1_ext);
 
             int[] dim2_bound = { 1, 10 };
             int dim2_ext = 4;
-            var dim2 = Dimension.Create<int>(Ctx, "cols", dim2_bound, dim2_ext);
+            var dim2 = Dimension.Create(Ctx, "cols", dim2_bound, dim2_ext);
 
             var domain = new Domain(Ctx);
             domain.AddDimension(dim1);
@@ -34,7 +35,7 @@ namespace TileDB.CSharp.Examples
             Array.Create(Ctx, ArrayPath, schema);
         }
 
-        private static void WriteArray()
+        private static async Task WriteArrayAsync()
         {
             // Produce columns iteratively
             List<int> colsList = new();
@@ -58,38 +59,38 @@ namespace TileDB.CSharp.Examples
 
                 var queryWrite = new Query(Ctx, arrayWrite);
                 queryWrite.SetLayout(LayoutType.Unordered);
-                queryWrite.SetDataBuffer<int>("rows", rowsData);
-                queryWrite.SetDataBuffer<int>("cols", colsData);
-                queryWrite.SetDataBuffer<int>("a1", attrData);
-                queryWrite.Submit();
+                queryWrite.SetDataBuffer("rows", rowsData);
+                queryWrite.SetDataBuffer("cols", colsData);
+                queryWrite.SetDataBuffer("a1", attrData);
+                await queryWrite.SubmitAsync();
 
                 Console.WriteLine($"Write query status: {queryWrite.Status()}");
                 arrayWrite.Close();
             }
         }
 
-        private static void ReadArray()
+        static void ReadArray()
         {
             // Allocate buffers for 10 values per batch read
             var rowsRead = new int[10];
             var colsRead = new int[10];
             var attrRead = new int[10];
 
-            using (var arrayRead = new Array(Ctx, ArrayPath))
+            using (var arrayRead = new Array(ctx, arrayName))
             {
                 arrayRead.Open(QueryType.Read);
                 var queryRead = new Query(Ctx, arrayRead);
                 queryRead.SetLayout(LayoutType.Unordered);
                 queryRead.SetSubarray(new[] { 1, 100, 1, 100 });
 
-                queryRead.SetDataBuffer<int>("rows", rowsRead);
-                queryRead.SetDataBuffer<int>("cols", colsRead);
-                queryRead.SetDataBuffer<int>("a1", attrRead);
+                queryRead.SetDataBuffer("rows", rowsRead);
+                queryRead.SetDataBuffer("cols", colsRead);
+                queryRead.SetDataBuffer("a1", attrRead);
 
                 int batchNum = 1;
                 do
                 {
-                    queryRead.Submit();
+                    await queryRead.SubmitAsync();
 
                     // Zip (row, col) together for pretty printing
                     var coordList =
@@ -108,16 +109,16 @@ namespace TileDB.CSharp.Examples
             }
         }
 
-        public static void Run()
+        public static async Task RunAsync()
         {
-             if (Directory.Exists(ArrayPath))
+             if (Directory.Exists(arrayName))
              {
-                 Directory.Delete(ArrayPath, true);
+                 Directory.Delete(arrayName, true);
              }
 
-             CreateArray();
-             WriteArray();
-             ReadArray();
+            CreateArray();
+            await WriteArrayAsync();
+            await ReadArrayAsync();
         }
     }
 }

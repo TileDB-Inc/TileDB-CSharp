@@ -5,13 +5,13 @@ namespace TileDB.CSharp.Examples
 {
     static class Program
     {
-        static async Task Main(string[] args)
+        static async Task Main()
         {
             Console.WriteLine("TileDB Core Version: {0}", CoreUtil.GetCoreLibVersion());
 
             await ExampleQuery.RunAsync();
-            ExampleIncompleteQuery.Run();
-            ExampleIncompleteQueryStringDimensions.Run();
+            await ExampleIncompleteQuery.RunAsync();
+            await ExampleIncompleteQueryStringDimensions.RunAsync();
             ExampleWritingDenseGlobal.Run();
             ExampleWritingSparseGlobal.Run();
 

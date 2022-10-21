@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace TileDB.CSharp.Examples
 {
@@ -29,7 +30,7 @@ namespace TileDB.CSharp.Examples
             Array.Create(Ctx, ArrayPath, schema);
         }
 
-        private static void WriteArray()
+        static async Task WriteArrayAsync()
         {
             var rowsData = Encoding.ASCII.GetBytes("abbcccddddeeeee");
             var colsData = Encoding.ASCII.GetBytes("jjjjjiiiihhhggf");
@@ -50,14 +51,14 @@ namespace TileDB.CSharp.Examples
                 queryWrite.SetDataBuffer("cols", colsData);
                 queryWrite.SetOffsetsBuffer("cols", colsOffsets);
                 queryWrite.SetDataBuffer("a1", attrData);
-                queryWrite.Submit();
+                await queryWrite.SubmitAsync();
 
                 Console.WriteLine($"Write query status: {queryWrite.Status()}");
                 arrayWrite.Close();
             }
         }
 
-        private static void ReadArray()
+        static async Task ReadArrayAsync()
         {
             using (var arrayRead = new Array(Ctx, ArrayPath))
             {
@@ -83,7 +84,7 @@ namespace TileDB.CSharp.Examples
                 int batchNum = 1;
                 do
                 {
-                    queryRead.Submit();
+                    await queryRead.SubmitAsync();
                     var resultBufferElements = queryRead.ResultBufferElements();
 
                     var rowDataElements = (int)resultBufferElements["rows"].Item1;
@@ -134,7 +135,7 @@ namespace TileDB.CSharp.Examples
             }
         }
 
-        public static void Run()
+        public static async Task RunAsync()
         {
              if (Directory.Exists(ArrayPath))
              {
@@ -142,8 +143,8 @@ namespace TileDB.CSharp.Examples
              }
 
              CreateArray();
-             WriteArray();
-             ReadArray();
+             await WriteArrayAsync();
+             await ReadArrayAsync();
         }
     }
 }
