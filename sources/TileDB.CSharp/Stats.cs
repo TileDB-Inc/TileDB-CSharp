@@ -40,10 +40,10 @@ namespace TileDB.CSharp
         /// <returns>string object containing dumped TileDB statistics</returns>
         public static string Get()
         {
-            var ms = new MarshaledStringOut();
-            _ctx.handle_error(Methods.tiledb_stats_dump_str(&ms.Value));
-            string stats = ms.ToString();
-            _ctx.handle_error(Methods.tiledb_stats_free_str(&ms.Value));
+            sbyte* result;
+            _ctx.handle_error(Methods.tiledb_stats_dump_str(&result));
+            string stats = MarshaledStringOut.GetStringFromNullTerminated(result);
+            _ctx.handle_error(Methods.tiledb_stats_free_str(&result));
             return stats;
         }
     }

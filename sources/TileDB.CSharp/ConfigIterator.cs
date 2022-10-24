@@ -41,9 +41,10 @@ namespace TileDB.CSharp
             if (Enum.IsDefined(typeof(Status), status))
             {
                 sb_result.Append("Status: " + (Status)status).ToString();
-                var str_out = new MarshaledStringOut();
-                Methods.tiledb_error_message(pTiledbError, &str_out.Value);
-                sb_result.Append(", Message: " + str_out.ToString());
+                sbyte* messagePtr;
+                Methods.tiledb_error_message(pTiledbError, &messagePtr);
+                string message = MarshaledStringOut.GetStringFromNullTerminated(messagePtr);
+                sb_result.Append(", Message: " + message);
             }
             else
             {
@@ -57,12 +58,12 @@ namespace TileDB.CSharp
         {
             var tiledb_error = new tiledb_error_t();
             var p_tiledb_error = &tiledb_error;
-            var s_param = new MarshaledStringOut();
-            var s_value = new MarshaledStringOut();
+            sbyte* paramPtr;
+            sbyte* valuePtr;
             int status;
             using (var handle = _handle.Acquire())
             {
-                status = Methods.tiledb_config_iter_here(handle, &s_param.Value, &s_value.Value, &p_tiledb_error);
+                status = Methods.tiledb_config_iter_here(handle, &paramPtr, &valuePtr, &p_tiledb_error);
             }
 
             if (status != (int)Status.TILEDB_OK)
@@ -73,7 +74,9 @@ namespace TileDB.CSharp
             }
             Methods.tiledb_error_free(&p_tiledb_error);
 
-            return new Tuple<string, string>(s_param.ToString(), s_value.ToString());
+            string param = MarshaledStringOut.GetStringFromNullTerminated(paramPtr);
+            string value = MarshaledStringOut.GetStringFromNullTerminated(valuePtr);
+            return new Tuple<string, string>(param, value);
         }
 
         public void Next()

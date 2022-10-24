@@ -176,10 +176,10 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var result_out = new MarshaledStringOut();
-            _ctx.handle_error(Methods.tiledb_query_get_stats(ctxHandle, handle, &result_out.Value));
+            sbyte* result;
+            _ctx.handle_error(Methods.tiledb_query_get_stats(ctxHandle, handle, &result));
 
-            return result_out.ToString();
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
         /// <summary>
         /// Set config.
@@ -932,9 +932,9 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_result = new MarshaledStringOut();
-            _ctx.handle_error(Methods.tiledb_query_get_fragment_uri(ctxHandle, handle, idx, &ms_result.Value));
-            return ms_result.ToString();
+            sbyte* result;
+            _ctx.handle_error(Methods.tiledb_query_get_fragment_uri(ctxHandle, handle, idx, &result));
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         /// <summary>

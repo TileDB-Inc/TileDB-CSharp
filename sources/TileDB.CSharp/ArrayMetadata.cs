@@ -381,16 +381,16 @@ namespace TileDB.CSharp
         {
             var ctx = _array.Context();
             void* value_p;
-            var ms_key = new MarshaledStringOut();
+            sbyte* key;
             var dataType = tiledb_datatype_t.TILEDB_ANY;
             uint valueNum = 0;
             uint key_len;
             using var ctxHandle = ctx.Handle.Acquire();
             using var arrayHandle = _array.Handle.Acquire();
-            ctx.handle_error(Methods.tiledb_array_get_metadata_from_index(ctxHandle, arrayHandle, index, &ms_key.Value, &key_len, &dataType, &valueNum, &value_p));
+            ctx.handle_error(Methods.tiledb_array_get_metadata_from_index(ctxHandle, arrayHandle, index, &key, &key_len, &dataType, &valueNum, &value_p));
             var size = (int)(valueNum * EnumUtil.TileDBDataTypeSize(dataType));
             var fill_span = new ReadOnlySpan<byte>(value_p, size);
-            return (ms_key.ToString(), fill_span.ToArray(), dataType, valueNum);
+            return (MarshaledStringOut.GetStringFromNullTerminated(key), fill_span.ToArray(), dataType, valueNum);
         }
         #endregion
     }

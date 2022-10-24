@@ -596,12 +596,12 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public string Uri()
         {
-            var ms_result = new MarshaledStringOut();
+            sbyte* result;
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            _ctx.handle_error(Methods.tiledb_array_get_uri(ctxHandle, handle, &ms_result.Value));
+            _ctx.handle_error(Methods.tiledb_array_get_uri(ctxHandle, handle, &result));
 
-            return ms_result.ToString();
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         /// <summary>

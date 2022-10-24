@@ -203,9 +203,9 @@ namespace TileDB.CSharp
         public static string QueryTypeToStr(QueryType queryType)
         {
             tiledb_query_type_t tiledb_query_type = (tiledb_query_type_t)queryType;
-            var ms_result = new MarshaledStringOut();
-            Methods.tiledb_query_type_to_str(tiledb_query_type, &ms_result.Value);
-            return ms_result.ToString();
+            sbyte* result;
+            Methods.tiledb_query_type_to_str(tiledb_query_type, &result);
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         /// <summary>
@@ -236,9 +236,9 @@ namespace TileDB.CSharp
         public static string ObjectTypeToStr(ObjectType objectType)
         {
             tiledb_object_t tiledb_object = (tiledb_object_t)objectType;
-            var ms_result = new MarshaledStringOut();
-            Methods.tiledb_object_type_to_str(tiledb_object, &ms_result.Value);
-            return ms_result.ToString();
+            sbyte* result;
+            Methods.tiledb_object_type_to_str(tiledb_object, &result);
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         public static ObjectType ObjectTypeFromStr(string str)
@@ -259,9 +259,9 @@ namespace TileDB.CSharp
         public static string FileSystemTypeToStr(FileSystemType fileSystemType)
         {
             tiledb_filesystem_t tiledb_filesystem = (tiledb_filesystem_t)fileSystemType;
-            var ms_result = new MarshaledStringOut();
-            Methods.tiledb_filesystem_to_str(tiledb_filesystem, &ms_result.Value);
-            return ms_result.ToString();
+            sbyte* result;
+            Methods.tiledb_filesystem_to_str(tiledb_filesystem, &result);
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         public static FileSystemType FileSystemTypeFromStr(string str)
@@ -282,9 +282,9 @@ namespace TileDB.CSharp
         public static string DataTypeToStr(DataType dataType)
         {
             tiledb_datatype_t tiledb_datatype = (tiledb_datatype_t)dataType;
-            var ms_result = new MarshaledStringOut();
-            Methods.tiledb_datatype_to_str(tiledb_datatype, &ms_result.Value);
-            return ms_result.ToString();
+            sbyte* result;
+            Methods.tiledb_datatype_to_str(tiledb_datatype, &result);
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         public static DataType DataTypeFromStr(string str)
@@ -305,9 +305,9 @@ namespace TileDB.CSharp
         public static string ArrayTypeToStr(ArrayType arrayType)
         {
             tiledb_array_type_t tiledb_arraytype = (tiledb_array_type_t)arrayType;
-            var ms_result = new MarshaledStringOut();
-            Methods.tiledb_array_type_to_str(tiledb_arraytype, &ms_result.Value);
-            return ms_result.ToString();
+            sbyte* result;
+            Methods.tiledb_array_type_to_str(tiledb_arraytype, &result);
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         public static ArrayType ArrayTypeFromStr(string str)
@@ -328,9 +328,9 @@ namespace TileDB.CSharp
         public static string LayoutTypeToStr(LayoutType layoutType)
         {
             tiledb_layout_t tiledb_layout = (tiledb_layout_t)layoutType;
-            var ms_result = new MarshaledStringOut();
-            Methods.tiledb_layout_to_str(tiledb_layout, &ms_result.Value);
-            return ms_result.ToString();
+            sbyte* result;
+            Methods.tiledb_layout_to_str(tiledb_layout, &result);
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         public static LayoutType LayoutTypeFromStr(string str)
@@ -351,9 +351,9 @@ namespace TileDB.CSharp
         public static string FilterTypeToStr(FilterType filterType)
         {
             tiledb_filter_type_t tiledb_filtertype = (tiledb_filter_type_t)filterType;
-            var ms_result = new MarshaledStringOut();
-            Methods.tiledb_filter_type_to_str(tiledb_filtertype, &ms_result.Value);
-            return ms_result.ToString();
+            sbyte* result;
+            Methods.tiledb_filter_type_to_str(tiledb_filtertype, &result);
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         public static FilterType FilterTypeFromStr(string str)
@@ -374,9 +374,9 @@ namespace TileDB.CSharp
         public static string FilterOptionToStr(FilterOption filterOption)
         {
             tiledb_filter_option_t tiledb_filteroption = (tiledb_filter_option_t)filterOption;
-            var ms_result = new MarshaledStringOut();
-            Methods.tiledb_filter_option_to_str(tiledb_filteroption, &ms_result.Value);
-            return ms_result.ToString();
+            sbyte* result;
+            Methods.tiledb_filter_option_to_str(tiledb_filteroption, &result);
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         public static FilterOption FilterOptionFromStr(string str)
@@ -397,9 +397,9 @@ namespace TileDB.CSharp
         public static string EncryptionTypeToStr(EncryptionType encryptionType)
         {
             tiledb_encryption_type_t tiledb_encryptiontype = (tiledb_encryption_type_t)encryptionType;
-            var ms_result = new MarshaledStringOut();
-            Methods.tiledb_encryption_type_to_str(tiledb_encryptiontype, &ms_result.Value);
-            return ms_result.ToString();
+            sbyte* result;
+            Methods.tiledb_encryption_type_to_str(tiledb_encryptiontype, &result);
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         public static EncryptionType EncryptionTypeFromStr(string str)
@@ -420,9 +420,9 @@ namespace TileDB.CSharp
         public static string QueryStatusToStr(QueryStatus queryStatus)
         {
             tiledb_query_status_t tiledb_querystatus = (tiledb_query_status_t)queryStatus;
-            var ms_result = new MarshaledStringOut();
-            Methods.tiledb_query_status_to_str(tiledb_querystatus, &ms_result.Value);
-            return ms_result.ToString();
+            sbyte* result;
+            Methods.tiledb_query_status_to_str(tiledb_querystatus, &result);
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         public static QueryStatus QueryStatusFromStr(string str)
@@ -443,9 +443,9 @@ namespace TileDB.CSharp
         public static string WalkOrderTypeToStr(WalkOrderType walkOrderType)
         {
             tiledb_walk_order_t tiledb_walkorder = (tiledb_walk_order_t)walkOrderType;
-            var ms_result = new MarshaledStringOut();
-            Methods.tiledb_walk_order_to_str(tiledb_walkorder, &ms_result.Value);
-            return ms_result.ToString();
+            sbyte* result;
+            Methods.tiledb_walk_order_to_str(tiledb_walkorder, &result);
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         public static WalkOrderType WalkOrderTypeFromStr(string str)
@@ -466,9 +466,9 @@ namespace TileDB.CSharp
         public static string VfsModeToStr(VfsMode vfsMode)
         {
             tiledb_vfs_mode_t tiledb_vfsmode = (tiledb_vfs_mode_t)vfsMode;
-            var ms_result = new MarshaledStringOut();
-            Methods.tiledb_vfs_mode_to_str(tiledb_vfsmode, &ms_result.Value);
-            return ms_result.ToString();
+            sbyte* result;
+            Methods.tiledb_vfs_mode_to_str(tiledb_vfsmode, &result);
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         public static VfsMode VfsModeFromStr(string str)

@@ -259,13 +259,15 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_uri = new MarshaledStringOut();
-            var ms_name = new MarshaledStringOut();
+            sbyte* uriPtr;
+            sbyte* namePtr;
             tiledb_object_t tiledb_objecttype;
             _ctx.handle_error(Methods.tiledb_group_get_member_by_index(
-                ctxHandle, handle, index, &ms_uri.Value, &tiledb_objecttype, &ms_name.Value));
+                ctxHandle, handle, index, &uriPtr, &tiledb_objecttype, &namePtr));
 
-            return (ms_uri.ToString(), (ObjectType)tiledb_objecttype, ms_name.ToString());
+            string uri = MarshaledStringOut.GetStringFromNullTerminated(uriPtr);
+            string name = MarshaledStringOut.GetStringFromNullTerminated(namePtr);
+            return (uri, (ObjectType)tiledb_objecttype, name);
         }
 
         /// <summary>
@@ -289,10 +291,10 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_result = new MarshaledStringOut();
-            _ctx.handle_error(Methods.tiledb_group_get_uri(ctxHandle, handle, &ms_result.Value));
+            sbyte* result;
+            _ctx.handle_error(Methods.tiledb_group_get_uri(ctxHandle, handle, &result));
 
-            return ms_result.ToString();
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         /// <summary>
@@ -317,11 +319,11 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_result = new MarshaledStringOut();
+            sbyte* result;
             byte int_recursive = (byte)(recursive ? 1 : 0);
-            _ctx.handle_error(Methods.tiledb_group_dump_str(ctxHandle, handle, &ms_result.Value, int_recursive));
+            _ctx.handle_error(Methods.tiledb_group_dump_str(ctxHandle, handle, &result, int_recursive));
 
-            return ms_result.ToString();
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
         #endregion
     }

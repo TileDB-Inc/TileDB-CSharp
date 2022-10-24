@@ -98,10 +98,10 @@ namespace TileDB.CSharp
         public string MIMETypeToStr(MIMEType mimeType)
         {
             var tiledb_mime_type = (tiledb_mime_type_t)mimeType;
-            var ms_result = new MarshaledStringOut();
-            Methods.tiledb_mime_type_to_str(tiledb_mime_type, &ms_result.Value);
+            sbyte* result;
+            Methods.tiledb_mime_type_to_str(tiledb_mime_type, &result);
 
-            return ms_result.ToString();
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         public MIMEType MIMETypeFromStr(string str)

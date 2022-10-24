@@ -51,9 +51,10 @@ namespace TileDB.CSharp
             if (Enum.IsDefined(typeof(Status), status))
             {
                 sb_result.Append("Status: " + (Status)status).ToString();
-                var str_out = new MarshaledStringOut();
-                Methods.tiledb_error_message(pTileDBError, &str_out.Value);
-                sb_result.Append(", Message: " + str_out);
+                sbyte* messagePtr;
+                Methods.tiledb_error_message(pTileDBError, &messagePtr);
+                string message = MarshaledStringOut.GetStringFromNullTerminated(messagePtr);
+                sb_result.Append(", Message: " + message);
             }
             else
             {
@@ -111,14 +112,14 @@ namespace TileDB.CSharp
             }
 
             using var ms_param = new MarshaledString(param);
-            var ms_result = new MarshaledStringOut();
+            sbyte* result;
 
             var tiledb_error = new tiledb_error_t();
             var p_tiledb_error = &tiledb_error;
             int status;
             using (var handle = _handle.Acquire())
             {
-                status = Methods.tiledb_config_get(handle, ms_param, &ms_result.Value, &p_tiledb_error);
+                status = Methods.tiledb_config_get(handle, ms_param, &result, &p_tiledb_error);
             }
             if (status != (int)Status.TILEDB_OK)
             {
@@ -128,7 +129,7 @@ namespace TileDB.CSharp
             }
 
             Methods.tiledb_error_free(&p_tiledb_error);
-            return ms_result.ToString();
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         /// <summary>

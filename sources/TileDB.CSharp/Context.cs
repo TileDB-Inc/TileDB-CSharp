@@ -62,10 +62,10 @@ namespace TileDB.CSharp
         public string Stats()
         {
             using var handle = _handle.Acquire();
-            var result_out = new MarshaledStringOut();
-            handle_error(Methods.tiledb_ctx_get_stats(handle, &result_out.Value));
+            sbyte* result;
+            handle_error(Methods.tiledb_ctx_get_stats(handle, &result));
 
-            return result_out.ToString();
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         /// <summary>
@@ -94,13 +94,14 @@ namespace TileDB.CSharp
             }
             if (status == (int)Status.TILEDB_OK)
             {
-                var str_out = new MarshaledStringOut();
+                sbyte* messagePtr;
 
-                status = Methods.tiledb_error_message(p_tiledb_error, &str_out.Value);
+                status = Methods.tiledb_error_message(p_tiledb_error, &messagePtr);
 
                 if (status == (int)Status.TILEDB_OK)
                 {
-                    sb_result.Append(str_out);
+                    string message = MarshaledStringOut.GetStringFromNullTerminated(messagePtr);
+                    sb_result.Append(message);
                 }
                 else
                 {
@@ -172,12 +173,13 @@ namespace TileDB.CSharp
             }
             if (status == (int)Status.TILEDB_OK)
             {
-                var str_out = new MarshaledStringOut();
-                status = Methods.tiledb_error_message(p_tiledb_error, &str_out.Value);
+                sbyte* messagePtr;
+                status = Methods.tiledb_error_message(p_tiledb_error, &messagePtr);
 
                 if (status == (int)Status.TILEDB_OK)
                 {
-                    sb_message.Append(str_out);
+                    string message = MarshaledStringOut.GetStringFromNullTerminated(messagePtr);
+                    sb_message.Append(message);
                 }
                 else
                 {
