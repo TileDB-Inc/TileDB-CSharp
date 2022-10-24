@@ -23,7 +23,8 @@ namespace TileDB.CSharp
 
         public bool TryGet<T>(string key, out T? value)
         {
-            if (_dict.TryGetValue(key, out var result) && result is T value1) {
+            if (_dict.TryGetValue(key, out var result) && result is T value1)
+            {
                 value = value1;
                 return true;
             }
@@ -45,7 +46,7 @@ namespace TileDB.CSharp
         {
             _ctx = ctx;
             _uri = uri;
-            var ms_uri = new MarshaledString(_uri);
+            using var ms_uri = new MarshaledString(_uri);
             _handle = ArrayHandle.Create(_ctx, ms_uri);
             _disposed = false;
             _metadata = new ArrayMetadata(this);
@@ -250,7 +251,7 @@ namespace TileDB.CSharp
         /// <param name="schema"></param>
         public static void Create(Context ctx, string uri, ArraySchema schema)
         {
-            var ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             using var ctxHandle = ctx.Handle.Acquire();
             using var schemaHandle = schema.Handle.Acquire();
             ctx.handle_error(Methods.tiledb_array_create(ctxHandle, ms_uri, schemaHandle));
@@ -262,7 +263,7 @@ namespace TileDB.CSharp
         /// <param name="schema"></param>
         public void Create(ArraySchema schema)
         {
-            var ms_uri = new MarshaledString(_uri);
+            using var ms_uri = new MarshaledString(_uri);
             using var ctxHandle = _ctx.Handle.Acquire();
             using var schemaHandle = schema.Handle.Acquire();
             _ctx.handle_error(Methods.tiledb_array_create(ctxHandle, ms_uri, schemaHandle));
@@ -275,7 +276,7 @@ namespace TileDB.CSharp
         /// <param name="schemaEvolution">Fully constructed ArraySchemaEvolution to apply</param>
         public void Evolve(Context ctx, ArraySchemaEvolution schemaEvolution)
         {
-            var msUri = new MarshaledString(_uri);
+            using var msUri = new MarshaledString(_uri);
             using var ctxHandle = ctx.Handle.Acquire();
             using var schemaEvolutionHandle = schemaEvolution.Handle.Acquire();
             _ctx.handle_error(Methods.tiledb_array_evolve(ctxHandle, msUri, schemaEvolutionHandle));
@@ -289,7 +290,7 @@ namespace TileDB.CSharp
         /// <param name="config"></param>
         public static void Consolidate(Context ctx, string uri, Config config)
         {
-            var ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             using var ctxHandle = ctx.Handle.Acquire();
             using var configHandle = config.Handle.Acquire();
             ctx.handle_error(Methods.tiledb_array_consolidate(ctxHandle, ms_uri, configHandle));
@@ -303,7 +304,7 @@ namespace TileDB.CSharp
         /// <param name="config"></param>
         public static void Vacuum(Context ctx, string uri, Config config)
         {
-            var ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             using var ctxHandle = ctx.Handle.Acquire();
             using var configHandle = config.Handle.Acquire();
             ctx.handle_error(Methods.tiledb_array_vacuum(ctxHandle, ms_uri, configHandle));
@@ -417,15 +418,15 @@ namespace TileDB.CSharp
                         }
                         break;
                     case TypeCode.String:
-                    {
-                        (string data0, string data1, bool isEmpty) = NonEmptyDomainVar(i);
-                        if (isEmpty == false)
                         {
-                            isEmptyDomain = false;
-                        }
+                            (string data0, string data1, bool isEmpty) = NonEmptyDomainVar(i);
+                            if (isEmpty == false)
+                            {
+                                isEmptyDomain = false;
+                            }
 
-                        nonEmptyDomain.Add(dimName, new Tuple<string, string>(data0, data1));
-                    }
+                            nonEmptyDomain.Add(dimName, new Tuple<string, string>(data0, data1));
+                        }
                         break;
                 }
             }
@@ -479,7 +480,7 @@ namespace TileDB.CSharp
                 throw new ArgumentException("Array.NonEmptyDomain, not valid datatype!");
             }
 
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
             var data = new[] { default(T), default(T) };
             var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
             var int_empty = 1;
@@ -505,7 +506,7 @@ namespace TileDB.CSharp
         public (string, string, bool) NonEmptyDomainVar(uint index)
         {
             var dim = Schema().Domain().Dimension(index);
-            if(!EnumUtil.IsStringType(dim.Type()))
+            if (!EnumUtil.IsStringType(dim.Type()))
             {
                 throw new ErrorException("Array.NonEmptyDomainVar, not string dimension for index:" + index);
             }
@@ -517,7 +518,8 @@ namespace TileDB.CSharp
             {
                 _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_size_from_index(ctxHandle, handle, index, &start_size, &end_size, &int_empty));
             }
-            if (int_empty > 0) {
+            if (int_empty > 0)
+            {
                 return (string.Empty, string.Empty, true);
             }
 
@@ -540,7 +542,7 @@ namespace TileDB.CSharp
                 endGcHandle.Free();
             }
 
-            return (Encoding.ASCII.GetString(start),Encoding.ASCII.GetString(end), false);
+            return (MarshaledStringOut.GetString(start), MarshaledStringOut.GetString(end), false);
         }
 
         public (string, string, bool) NonEmptyDomainVar(string name)
@@ -553,7 +555,7 @@ namespace TileDB.CSharp
             ulong start_size;
             ulong end_size;
             var int_empty = 1;
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
 
             using (var ctxHandle = _ctx.Handle.Acquire())
             using (var handle = _handle.Acquire())
@@ -563,7 +565,7 @@ namespace TileDB.CSharp
 
             if (int_empty > 0)
             {
-                return (string.Empty,string.Empty, true);
+                return (string.Empty, string.Empty, true);
             }
 
             var start = new byte[(int)start_size];
@@ -585,7 +587,7 @@ namespace TileDB.CSharp
                 endGcHandle.Free();
             }
 
-            return new (Encoding.ASCII.GetString(start), Encoding.ASCII.GetString(end), false);
+            return new(MarshaledStringOut.GetString(start), MarshaledStringOut.GetString(end), false);
         }
 
         /// <summary>
@@ -594,15 +596,12 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public string Uri()
         {
-            var ms_result = new MarshaledStringOut();
-            fixed (sbyte** p_result = &ms_result.Value)
-            {
-                using var ctxHandle = _ctx.Handle.Acquire();
-                using var handle = _handle.Acquire();
-                _ctx.handle_error(Methods.tiledb_array_get_uri(ctxHandle, handle, p_result));
-            }
+            sbyte* result;
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_get_uri(ctxHandle, handle, &result));
 
-            return ms_result;
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         /// <summary>
@@ -613,7 +612,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public static EncryptionType EncryptionType(Context ctx, string uri)
         {
-            var ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             tiledb_encryption_type_t tiledb_encryption_type;
             using var ctxHandle = ctx.Handle.Acquire();
             ctx.handle_error(Methods.tiledb_array_encryption_type(ctxHandle, ms_uri, &tiledb_encryption_type));
@@ -626,7 +625,7 @@ namespace TileDB.CSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <param name="data"></param>
-        public void PutMetadata<T>(string key, T[] data) where T: struct
+        public void PutMetadata<T>(string key, T[] data) where T : struct
         {
             _metadata.PutMetadata<T>(key, data);
         }
@@ -740,7 +739,7 @@ namespace TileDB.CSharp
         /// <param name="path"></param>
         public static ArraySchema LoadArraySchema(Context ctx, string path)
         {
-            var ms_path = new MarshaledString(path);
+            using var ms_path = new MarshaledString(path);
             tiledb_array_schema_t* array_schema_p;
             using var ctxHandle = ctx.Handle.Acquire();
             ctx.handle_error(Methods.tiledb_array_schema_load(ctxHandle, ms_path, &array_schema_p));

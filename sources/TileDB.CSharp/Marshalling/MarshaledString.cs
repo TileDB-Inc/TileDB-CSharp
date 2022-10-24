@@ -1,38 +1,36 @@
 // Copyright (c) .NET Foundation and Contributors. All Rights Reserved. Licensed under the MIT License (MIT). See License.md in the repository root for more information.
 
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 
 namespace TileDB.Interop
 {
-    public unsafe struct MarshaledString : IDisposable
+    internal unsafe struct MarshaledString : IDisposable
     {
-   
         public MarshaledString(string input)
         {
             int length;
-            IntPtr value;
+            sbyte* value;
 
             if (input is null)
             {
                 length = 0;
-                value = IntPtr.Zero;
+                value = null;
             }
             else
             {
-                var valueBytes = (input.Length != 0) ? Encoding.ASCII.GetBytes(input) : Array.Empty<byte>();
-                length = valueBytes.Length;
-                value = Marshal.AllocHGlobal(length + 1);
-                Marshal.Copy(valueBytes, 0, value, length);
-                Marshal.WriteByte(value, length, 0);
+                length = Encoding.ASCII.GetByteCount(input);
+                value = (sbyte*)Marshal.AllocHGlobal(length + 1);
+                int bytesWritten = Encoding.ASCII.GetBytes(input, new Span<byte>(value, length));
+                Debug.Assert(bytesWritten == length);
+                value[length] = 0;
             }
 
             Length = length;
-            Value = (sbyte*)value;
+            Value = value;
         }
-
-        public ReadOnlySpan<byte> AsSpan() => new ReadOnlySpan<byte>(Value, Length);
 
         public int Length { get; private set; }
 
@@ -53,16 +51,7 @@ namespace TileDB.Interop
         public override string ToString()
         {
             var span = new ReadOnlySpan<byte>(Value, Length);
-            if (span.IsEmpty) 
-            {
-                return string.Empty;
-            }
-
-            fixed (byte* p = span) 
-            {
-                return Encoding.ASCII.GetString(p, span.Length);
-            }
-
+            return MarshaledStringOut.GetString(span);
         }
     }
 }

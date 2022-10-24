@@ -10,7 +10,6 @@ namespace TileDB.CSharp
         private readonly Context _ctx;
         private bool _disposed;
 
-
         public Domain(Context ctx) 
         {
             _ctx = ctx;
@@ -122,7 +121,7 @@ namespace TileDB.CSharp
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             tiledb_dimension_t* dimension_p;
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
             _ctx.handle_error(Methods.tiledb_domain_get_dimension_from_name(ctxHandle, handle, ms_name, &dimension_p));
 
             if (dimension_p == null)
@@ -143,7 +142,7 @@ namespace TileDB.CSharp
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             int has_dim;
-            var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(name);
             _ctx.handle_error(Methods.tiledb_domain_has_dimension(ctxHandle, handle, ms_name, &has_dim));
             return has_dim > 0;
         }

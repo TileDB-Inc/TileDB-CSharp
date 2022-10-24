@@ -6,11 +6,7 @@ namespace TileDB.CSharp
 {
     public static unsafe class Stats
     {
-        private static readonly Context _ctx;
-        static Stats()
-        {
-            _ctx = Context.GetDefault();
-        }
+        private static readonly Context _ctx = Context.GetDefault();
 
         /// <summary>
         /// Enable statistic gathering
@@ -44,11 +40,10 @@ namespace TileDB.CSharp
         /// <returns>string object containing dumped TileDB statistics</returns>
         public static string Get()
         {
-            var ms = (sbyte**)Marshal.StringToHGlobalAnsi("");
-            _ctx.handle_error(Methods.tiledb_stats_dump_str(ms));
-            string stats = new(*ms);
-            _ctx.handle_error(Methods.tiledb_stats_free_str(ms));
-            Marshal.FreeHGlobal((IntPtr)ms);
+            sbyte* result;
+            _ctx.handle_error(Methods.tiledb_stats_dump_str(&result));
+            string stats = MarshaledStringOut.GetStringFromNullTerminated(result);
+            _ctx.handle_error(Methods.tiledb_stats_free_str(&result));
             return stats;
         }
     }
