@@ -94,7 +94,7 @@ namespace TileDB.CSharp
         public string GetMetadata(string key)
         {
             var (_, byte_array, _, _) = get_metadata(key);
-            return Encoding.ASCII.GetString(byte_array);
+            return MarshaledStringOut.GetString(byte_array);
         }
 
         /// <summary>

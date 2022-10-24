@@ -772,7 +772,7 @@ namespace TileDB.CSharp
                 endDataGcHandle.Free();
             }
 
-            return new Tuple<string, string>(Encoding.ASCII.GetString(startData), Encoding.ASCII.GetString(endData));
+            return new Tuple<string, string>(MarshaledStringOut.GetString(startData), MarshaledStringOut.GetString(endData));
 
         }
 
@@ -803,7 +803,7 @@ namespace TileDB.CSharp
                 endDataGcHandle.Free();
             }
 
-            return new Tuple<string, string>(Encoding.ASCII.GetString(startData), Encoding.ASCII.GetString(endData));
+            return new Tuple<string, string>(MarshaledStringOut.GetString(startData), MarshaledStringOut.GetString(endData));
 
         }
 

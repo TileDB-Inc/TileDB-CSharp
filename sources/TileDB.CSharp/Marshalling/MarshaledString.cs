@@ -51,7 +51,7 @@ namespace TileDB.Interop
         public override string ToString()
         {
             var span = new ReadOnlySpan<byte>(Value, Length);
-            return Encoding.ASCII.GetString(span);
+            return MarshaledStringOut.GetString(span);
         }
     }
 }

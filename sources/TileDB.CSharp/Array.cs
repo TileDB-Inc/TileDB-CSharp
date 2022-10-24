@@ -542,7 +542,7 @@ namespace TileDB.CSharp
                 endGcHandle.Free();
             }
 
-            return (Encoding.ASCII.GetString(start), Encoding.ASCII.GetString(end), false);
+            return (MarshaledStringOut.GetString(start), MarshaledStringOut.GetString(end), false);
         }
 
         public (string, string, bool) NonEmptyDomainVar(string name)
@@ -587,7 +587,7 @@ namespace TileDB.CSharp
                 endGcHandle.Free();
             }
 
-            return new(Encoding.ASCII.GetString(start), Encoding.ASCII.GetString(end), false);
+            return new(MarshaledStringOut.GetString(start), MarshaledStringOut.GetString(end), false);
         }
 
         /// <summary>

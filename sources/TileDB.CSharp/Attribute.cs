@@ -281,7 +281,7 @@ namespace TileDB.CSharp
                 throw new NotSupportedException("Attribute.FillValue, please use FillValue<T> for non-string attribute!");
             }
             var fill_bytes = get_fill_value();
-            return Encoding.ASCII.GetString(fill_bytes);
+            return MarshaledStringOut.GetString(fill_bytes);
         }
 
         /// <summary>
@@ -395,7 +395,7 @@ namespace TileDB.CSharp
                 throw new NotSupportedException("Attribute.FillValueNullable, please use fill_value<T> for non-string attribute!");
             }
             var(fill_bytes,_) = get_fill_value_nullable();
-            return Encoding.ASCII.GetString(fill_bytes);
+            return MarshaledStringOut.GetString(fill_bytes);
         }
         #endregion
 
