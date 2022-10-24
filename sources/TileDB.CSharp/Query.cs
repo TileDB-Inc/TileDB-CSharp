@@ -64,7 +64,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public ulong OffsetsSize()
         {
-            return OffsetsBytesSize.HasValue ? OffsetsBytesSize.Value/Methods.tiledb_datatype_size(tiledb_datatype_t.TILEDB_UINT64) : 0;
+            return OffsetsBytesSize.HasValue ? OffsetsBytesSize.Value / Methods.tiledb_datatype_size(tiledb_datatype_t.TILEDB_UINT64) : 0;
         }
 
         /// <summary>
@@ -75,17 +75,6 @@ namespace TileDB.CSharp
         {
             return ValidityBytesSize.HasValue ? ValidityBytesSize.Value / Methods.tiledb_datatype_size(tiledb_datatype_t.TILEDB_UINT8) : 0;
         }
-    }
-
-    public class QueryEventArgs : EventArgs
-    {
-        public QueryEventArgs(int status, string message)
-        {
-            Status = status;
-            Message = message;
-        }
-        public int Status { get; set; }
-        public string Message { get; set; }
     }
 
     internal class BufferHandle
@@ -114,7 +103,7 @@ namespace TileDB.CSharp
         }
     }
 
-    public sealed unsafe class Query : IDisposable
+    public sealed unsafe partial class Query : IDisposable
     {
         private readonly Array _array;
         private readonly Context _ctx;
@@ -161,7 +150,6 @@ namespace TileDB.CSharp
             FreeAllBufferHandles();
 
             _disposed = true;
-
         }
 
         internal QueryHandle Handle => _handle;
@@ -180,6 +168,7 @@ namespace TileDB.CSharp
 
             return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
+
         /// <summary>
         /// Set config.
         /// </summary>
@@ -232,7 +221,6 @@ namespace TileDB.CSharp
             {
                 dataGcHandle.Free();
             }
-
         }
 
         /// <summary>
@@ -385,48 +373,35 @@ namespace TileDB.CSharp
             _ctx.handle_error(Methods.tiledb_query_submit_and_finalize(ctxHandle, handle));
         }
 
-        [UnmanagedCallersOnly(CallConvs = new [] {typeof(CallConvCdecl)})]
+        [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
         private static void QueryCallback(void* ptr)
         {
             GCHandle gcHandle = GCHandle.FromIntPtr((IntPtr)ptr);
-            var query = (Query)gcHandle.Target!;
+            var valueTaskSource = (ValueTaskSource)gcHandle.Target!;
             gcHandle.Free();
-            // Fire the event on the thread pool.
-            // This yields the TileDB native thread and prevents any excpetions by the callback to reach it.
-            Task.Run(() =>
-            {
-                var args = new QueryEventArgs((int)QueryStatus.Completed, "query completed");
-                query.QueryCompleted?.Invoke(query, args);
-            });
+            valueTaskSource.SetResult();
         }
 
         /// <summary>
         /// Submits the query asynchronously.
         /// </summary>
-        public void SubmitAsync()
+        public ValueTask SubmitAsync()
         {
-            GCHandle gcHandle = GCHandle.Alloc(this);
-            bool successful = false;
+            ValueTaskSource valueTaskSource = GetValueTaskSource();
+            GCHandle gcHandle = GCHandle.Alloc(valueTaskSource);
             try
             {
                 using var ctxHandle = _ctx.Handle.Acquire();
                 using var handle = _handle.Acquire();
                 _ctx.handle_error(Methods.tiledb_query_submit_async(ctxHandle, handle, &QueryCallback, (void*)GCHandle.ToIntPtr(gcHandle)));
-                successful = true;
+                return valueTaskSource.AsValueTask();
             }
-            finally
+            catch
             {
-                if (!successful)
-                {
-                    gcHandle.Free();
-                }
+                gcHandle.Free();
+                throw;
             }
         }
-
-        /// <summary>
-        /// Default event handler is empty
-        /// </summary>
-        public event EventHandler<QueryEventArgs>? QueryCompleted;
 
         /// <summary>
         /// Returns `true` if the query has results. Applicable only to read; false for write queries.
