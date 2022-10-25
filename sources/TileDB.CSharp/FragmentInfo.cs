@@ -164,12 +164,9 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var name = new MarshaledStringOut();
-            fixed (sbyte** name_ptr = &name.Value)
-            {
-                _ctx.handle_error(Methods.tiledb_fragment_info_get_array_schema_name(ctxHandle, handle, fragmentIndex, name_ptr));
-            }
-            return name;
+            sbyte* name;
+            _ctx.handle_error(Methods.tiledb_fragment_info_get_array_schema_name(ctxHandle, handle, fragmentIndex, &name));
+            return MarshaledStringOut.GetStringFromNullTerminated(name);
         }
 
         /// <summary>
@@ -200,12 +197,9 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var uri = new MarshaledStringOut();
-            fixed (sbyte** uri_ptr = &uri.Value)
-            {
-                _ctx.handle_error(Methods.tiledb_fragment_info_get_to_vacuum_uri(ctxHandle, handle, fragmentIndex, uri_ptr));
-            }
-            return uri;
+            sbyte* uri;
+            _ctx.handle_error(Methods.tiledb_fragment_info_get_to_vacuum_uri(ctxHandle, handle, fragmentIndex, &uri));
+            return MarshaledStringOut.GetStringFromNullTerminated(uri);
         }
 
         /// <summary>
@@ -220,12 +214,9 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var uri = new MarshaledStringOut();
-            fixed (sbyte** uri_ptr = &uri.Value)
-            {
-                _ctx.handle_error(Methods.tiledb_fragment_info_get_fragment_name(ctxHandle, handle, fragmentIndex, uri_ptr));
-            }
-            return uri;
+            sbyte* name;
+            _ctx.handle_error(Methods.tiledb_fragment_info_get_fragment_name(ctxHandle, handle, fragmentIndex, &name));
+            return MarshaledStringOut.GetStringFromNullTerminated(name);
         }
 
         /// <summary>
@@ -240,12 +231,9 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var uri = new MarshaledStringOut();
-            fixed (sbyte** uri_ptr = &uri.Value)
-            {
-                _ctx.handle_error(Methods.tiledb_fragment_info_get_fragment_uri(ctxHandle, handle, fragmentIndex, uri_ptr));
-            }
-            return uri;
+            sbyte* uri;
+            _ctx.handle_error(Methods.tiledb_fragment_info_get_fragment_uri(ctxHandle, handle, fragmentIndex, &uri));
+            return MarshaledStringOut.GetStringFromNullTerminated(uri);
         }
 
         /// <summary>
@@ -460,7 +448,9 @@ namespace TileDB.CSharp
                     handle, fragmentIndex, minimumBoundedRectangleIndex, dimensionIndex, startBufPtr, endBufPtr));
             }
 
-            return (startBuf.Span.AsString(), endBuf.Span.AsString());
+            string startStr = MarshaledStringOut.GetString(startBuf.Span);
+            string endStr = MarshaledStringOut.GetString(endBuf.Span);
+            return (startStr, endStr);
         }
 
         private (string Start, string End) GetStringMinimumBoundedRectangle(uint fragmentIndex, uint minimumBoundedRectangleIndex, string dimensionName)
@@ -481,7 +471,9 @@ namespace TileDB.CSharp
                     fragmentIndex, minimumBoundedRectangleIndex, ms_dimensionName, startBufPtr, endBufPtr));
             }
 
-            return (startBuf.Span.AsString(), endBuf.Span.AsString());
+            string startStr = MarshaledStringOut.GetString(startBuf.Span);
+            string endStr = MarshaledStringOut.GetString(endBuf.Span);
+            return (startStr, endStr);
         }
 
         /// <summary>
@@ -575,7 +567,9 @@ namespace TileDB.CSharp
                     handle, fragmentIndex, dimensionIndex, startBufPtr, endBufPtr));
             }
 
-            return (startBuf.Span.AsString(), endBuf.Span.AsString());
+            string startStr = MarshaledStringOut.GetString(startBuf.Span);
+            string endStr = MarshaledStringOut.GetString(endBuf.Span);
+            return (startStr, endStr);
         }
 
         private (string Start, string End) GetStringNonEmptyDomain(uint fragmentIndex, string dimensionName)
@@ -596,7 +590,9 @@ namespace TileDB.CSharp
                     handle, fragmentIndex, ms_dimensionName, startBufPtr, endBufPtr));
             }
 
-            return (startBuf.Span.AsString(), endBuf.Span.AsString());
+            string startStr = MarshaledStringOut.GetString(startBuf.Span);
+            string endStr = MarshaledStringOut.GetString(endBuf.Span);
+            return (startStr, endStr);
         }
 
         private static void ValidateDomainType<T>()
