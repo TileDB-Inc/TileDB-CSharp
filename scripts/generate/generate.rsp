@@ -7,7 +7,7 @@ generate-helper-types
 Methods
 --namespace
 TileDB.Interop
--file
+--file
 tiledb/api/c_api/api_external_common.h
 tiledb/tiledb_experimental.h
 tiledb/tiledb.h
