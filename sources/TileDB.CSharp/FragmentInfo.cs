@@ -448,8 +448,8 @@ namespace TileDB.CSharp
                     handle, fragmentIndex, minimumBoundedRectangleIndex, dimensionIndex, startBufPtr, endBufPtr));
             }
 
-            string startStr = MarshaledStringOut.GetString(startBuf.Span);
-            string endStr = MarshaledStringOut.GetString(endBuf.Span);
+            string startStr = MarshaledStringOut.GetString(startBuf.Span[0..startSize]);
+            string endStr = MarshaledStringOut.GetString(endBuf.Span[0..endSize]);
             return (startStr, endStr);
         }
 
@@ -471,8 +471,8 @@ namespace TileDB.CSharp
                     fragmentIndex, minimumBoundedRectangleIndex, ms_dimensionName, startBufPtr, endBufPtr));
             }
 
-            string startStr = MarshaledStringOut.GetString(startBuf.Span);
-            string endStr = MarshaledStringOut.GetString(endBuf.Span);
+            string startStr = MarshaledStringOut.GetString(startBuf.Span[0..startSize]);
+            string endStr = MarshaledStringOut.GetString(endBuf.Span[0..endSize]);
             return (startStr, endStr);
         }
 
