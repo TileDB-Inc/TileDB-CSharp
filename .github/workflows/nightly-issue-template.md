@@ -1,6 +1,6 @@
 ---
 title: Nightly GitHub Actions Build Fail on {{ date | date('ddd, MMMM Do YYYY') }}
-assignees: shaunrd0
+assignees: teo-tsirpanis
 labels: bug
 ---
 
