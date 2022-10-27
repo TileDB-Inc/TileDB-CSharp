@@ -24,14 +24,16 @@ namespace TileDB.CSharp.Test
             _ctx.Dispose();
         }
 
-        [TestMethod]
-        public void TestFragmentCount()
+        [DataTestMethod]
+        [DataRow(true, DisplayName = "Dense")]
+        [DataRow(false, DisplayName = "Sparse")]
+        public void TestFragmentCount(bool isDense)
         {
             using var uri = new TemporaryDirectory("fragment_info_fragment_num");
-            CreateDenseArray(uri);
+            CreateArray(uri, isDense);
             for (uint i = 0; i < FragmentCount; i++)
             {
-                WriteDenseArray(uri);
+                WriteArray(uri, isDense);
             }
 
             using FragmentInfo info = new FragmentInfo(_ctx, uri);
@@ -40,14 +42,16 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual(FragmentCount, info.FragmentCount);
         }
 
-        [TestMethod]
-        public void TestArraySchemaName()
+        [DataTestMethod]
+        [DataRow(true, DisplayName = "Dense")]
+        [DataRow(false, DisplayName = "Sparse")]
+        public void TestArraySchemaName(bool isDense)
         {
             using var uri = new TemporaryDirectory("fragment_info_array_schema_name");
-            CreateDenseArray(uri);
+            CreateArray(uri, isDense);
             for (uint i = 0; i < FragmentCount; i++)
             {
-                WriteDenseArray(uri);
+                WriteArray(uri, isDense);
             }
 
             using FragmentInfo info = new FragmentInfo(_ctx, uri);
@@ -63,16 +67,18 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual(FragmentCount, fragmentCount);
         }
 
-        [TestMethod]
-        public void TestGetFragmentSize()
+        [DataTestMethod]
+        [DataRow(true, DisplayName = "Dense")]
+        [DataRow(false, DisplayName = "Sparse")]
+        public void TestGetFragmentSize(bool isDense)
         {
             using var uri = new TemporaryDirectory("fragment_info_fragment_size");
 
-            CreateDenseArray(uri);
+            CreateArray(uri, isDense);
 
             for (uint i = 0; i < FragmentCount; i++)
             {
-                WriteDenseArray(uri);
+                WriteArray(uri, isDense);
             }
 
             using FragmentInfo info = new FragmentInfo(_ctx, uri);
@@ -90,15 +96,17 @@ namespace TileDB.CSharp.Test
             }
         }
 
-        [TestMethod]
-        public void TestIsDenseSparse()
+        [DataTestMethod]
+        [DataRow(true, DisplayName = "Dense")]
+        [DataRow(false, DisplayName = "Sparse")]
+        public void TestIsDenseSparse(bool isDense)
         {
             using var uri = new TemporaryDirectory("fragment_info_is_dense_sparse");
 
-            CreateDenseArray(uri);
+            CreateArray(uri, isDense);
             for (uint i = 0; i < FragmentCount; i++)
             {
-                WriteDenseArray(uri);
+                WriteArray(uri, isDense);
             }
 
             using FragmentInfo info = new FragmentInfo(_ctx, uri);
@@ -108,21 +116,23 @@ namespace TileDB.CSharp.Test
 
             for (uint i = 0; i < fragmentCount; i++)
             {
-                Assert.IsTrue(info.IsDense(i));
-                Assert.IsFalse(info.IsSparse(i));
+                Assert.AreEqual(isDense, info.IsDense(i));
+                Assert.AreEqual(!isDense, info.IsSparse(i));
             }
         }
 
-        [TestMethod]
-        public void TestGetTimestampRange()
+        [DataTestMethod]
+        [DataRow(true, DisplayName = "Dense")]
+        [DataRow(false, DisplayName = "Sparse")]
+        public void TestGetTimestampRange(bool isDense)
         {
             using var uri = new TemporaryDirectory("fragment_info_timestamp_range");
 
-            CreateDenseArray(uri);
+            CreateArray(uri, isDense);
 
             for (uint i = 0; i < FragmentCount; i++)
             {
-                WriteDenseArray(uri);
+                WriteArray(uri, isDense);
             }
 
             using FragmentInfo info = new FragmentInfo(_ctx, uri);
@@ -204,6 +214,7 @@ namespace TileDB.CSharp.Test
                 arr.Open(QueryType.TILEDB_READ);
                 using ArraySchema schema = arr.Schema();
                 using Domain domain = schema.Domain();
+
                 uint ndim = domain.NDim();
 
                 for (uint dim = 0; dim < ndim; dim++)
@@ -228,14 +239,16 @@ namespace TileDB.CSharp.Test
             }
         }
 
-        [TestMethod]
-        public void TestGetCellCount()
+        [DataTestMethod]
+        [DataRow(true, DisplayName = "Dense")]
+        [DataRow(false, DisplayName = "Sparse")]
+        public void TestGetCellCount(bool isDense)
         {
             using var uri = new TemporaryDirectory("fragment_info_cell_num");
-            CreateDenseArray(uri);
+            CreateArray(uri, isDense);
             for (uint i = 0; i < FragmentCount; i++)
             {
-                WriteDenseArray(uri);
+                WriteArray(uri, isDense);
             }
 
             using FragmentInfo info = new FragmentInfo(_ctx, uri);
@@ -245,18 +258,20 @@ namespace TileDB.CSharp.Test
 
             for (uint i = 0; i < fragmentCount; i++)
             {
-                Assert.AreEqual(8u, info.GetCellsWritten(i));
+                Assert.AreEqual(isDense ? 8u : 5u, info.GetCellsWritten(i));
             }
         }
 
-        [TestMethod]
-        public void TestGetFormatVersion()
+        [DataTestMethod]
+        [DataRow(true, DisplayName = "Dense")]
+        [DataRow(false, DisplayName = "Sparse")]
+        public void TestGetFormatVersion(bool isDense)
         {
             using var uri = new TemporaryDirectory("fragment_info_version");
-            CreateDenseArray(uri);
+            CreateArray(uri, isDense);
             for (uint i = 0; i < FragmentCount; i++)
             {
-                WriteDenseArray(uri);
+                WriteArray(uri, isDense);
             }
 
             using FragmentInfo info = new FragmentInfo(_ctx, uri);
@@ -274,14 +289,16 @@ namespace TileDB.CSharp.Test
             }
         }
 
-        [TestMethod]
-        public void TestHasConsolidatedMetadata()
+        [DataTestMethod]
+        [DataRow(true, DisplayName = "Dense")]
+        [DataRow(false, DisplayName = "Sparse")]
+        public void TestHasConsolidatedMetadata(bool isDense)
         {
             using var uri = new TemporaryDirectory("fragment_info_has_consolidated_metadata");
-            CreateDenseArray(uri);
+            CreateArray(uri, isDense);
             for (uint i = 0; i < FragmentCount; i++)
             {
-                WriteDenseArray(uri);
+                WriteArray(uri, isDense);
             }
 
             using FragmentInfo info = new FragmentInfo(_ctx, uri);
@@ -295,20 +312,46 @@ namespace TileDB.CSharp.Test
             }
         }
 
-        [TestMethod]
-        public void TestHasUnconsolidatedMetadata()
+        [DataTestMethod]
+        [DataRow(true, DisplayName = "Dense")]
+        [DataRow(false, DisplayName = "Sparse")]
+        public void TestHasUnconsolidatedMetadata(bool isDense)
         {
             using var uri = new TemporaryDirectory("fragment_info_has_unconsolidated_metadata");
-            CreateDenseArray(uri);
+            CreateArray(uri, isDense);
             for (uint i = 0; i < FragmentCount; i++)
             {
-                WriteDenseArray(uri);
+                WriteArray(uri, isDense);
             }
 
             using FragmentInfo info = new FragmentInfo(_ctx, uri);
             info.Load();
 
             Assert.AreEqual(FragmentCount, info.FragmentWithUnconsolidatedMetadataCount);
+        }
+
+        private void CreateArray(string arrayUri, bool isDense)
+        {
+            if (isDense)
+            {
+                CreateDenseArray(arrayUri);
+            }
+            else
+            {
+                CreateSparseVarDimArray(arrayUri);
+            }
+        }
+
+        private void WriteArray(string arrayUri, bool isDense)
+        {
+            if (isDense)
+            {
+                WriteDenseArray(arrayUri);
+            }
+            else
+            {
+                WriteSparseVarDimArray(arrayUri);
+            }
         }
 
         private void CreateDenseArray(string arrayUri)
