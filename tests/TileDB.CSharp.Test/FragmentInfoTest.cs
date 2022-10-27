@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.IO;
 using System.Text;
 
 namespace TileDB.CSharp.Test
@@ -18,6 +20,89 @@ namespace TileDB.CSharp.Test
         public void Cleanup()
         {
             _ctx.Dispose();
+        }
+
+        [TestMethod]
+        public void TestGetFragmentSize()
+        {
+            using var uri = new TemporaryDirectory("fragment_info_fragment_size");
+
+            const int TestFragmentCount = 10;
+            CreateDenseArray(uri);
+
+            for (int i = 0; i < TestFragmentCount; i++)
+            {
+                WriteDenseArray(uri);
+            }
+
+            using FragmentInfo info = new FragmentInfo(_ctx, uri);
+            info.Load();
+
+            uint numFragments = info.FragmentCount;
+
+            for (uint i = 0; i < numFragments; i++)
+            {
+                Uri fragmentUri = new(info.GetFragmentUri(i));
+
+                var dirLength = (ulong)TestUtil.GetDirectorySize(fragmentUri.LocalPath);
+
+                Assert.AreEqual(dirLength, info.GetFragmentSize(i));
+            }
+        }
+
+        [TestMethod]
+        public void TestIsDenseSparse()
+        {
+            using var uri = new TemporaryDirectory("fragment_info_is_dense_sparse");
+
+            CreateDenseArray(uri);
+            for (int i = 0; i < 10; i++)
+            {
+                WriteDenseArray(uri);
+            }
+
+            using FragmentInfo info = new FragmentInfo(_ctx, uri);
+            info.Load();
+
+            uint numFragments = info.FragmentCount;
+
+            for (uint i = 0; i < numFragments; i++)
+            {
+                Assert.IsTrue(info.IsDense(i));
+                Assert.IsFalse(info.IsSparse(i));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetTimestampRange()
+        {
+            using var uri = new TemporaryDirectory("fragment_info_timestamp_range");
+
+            CreateDenseArray(uri);
+
+            for (int i = 0; i < 10; i++)
+            {
+                WriteDenseArray(uri);
+            }
+
+            using FragmentInfo info = new FragmentInfo(_ctx, uri);
+            info.Load();
+
+            uint fragmentCount = info.FragmentCount;
+
+            for (uint i = 0; i < fragmentCount; i++)
+            {
+                Uri fragmentUri = new(info.GetFragmentUri(i));
+
+                (ulong, ulong) expectedTimestampRange = info.GetTimestampRange(i);
+
+                string[] dirNameSplit = Path.GetFileName(fragmentUri.LocalPath)!.Split('_');
+
+                ulong start = ulong.Parse(dirNameSplit[2]);
+                ulong end = ulong.Parse(dirNameSplit[3]);
+
+                Assert.AreEqual(expectedTimestampRange, (start, end));
+            }
         }
 
         [TestMethod]
@@ -58,6 +143,78 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual((7, 8), info.GetMinimumBoundedRectangle<int>(1, 1, "d1"));
         }
 
+        private void CreateDenseArray(string arrayUri)
+        {
+            using Dimension rows = Dimension.Create(_ctx, nameof(rows), 1, 4, 2);
+            using Dimension columns = Dimension.Create(_ctx, nameof(columns), 1, 4, 2);
+            
+            using Domain domain = new Domain(_ctx);
+            domain.AddDimension(rows);
+            domain.AddDimension(columns);
+
+            using Attribute a = new Attribute(_ctx, nameof(a), DataType.TILEDB_INT32);
+
+            using ArraySchema schema = new ArraySchema(_ctx, ArrayType.TILEDB_DENSE);
+            schema.SetTileOrder(LayoutType.TILEDB_ROW_MAJOR);
+            schema.SetCellOrder(LayoutType.TILEDB_ROW_MAJOR);
+            schema.SetDomain(domain);
+            schema.AddAttribute(a);
+
+            Array.Create(_ctx, arrayUri, schema);
+        }
+        
+        private void WriteDenseArray(string arrayUri)
+        {
+            int[] data = {1, 2, 3, 4, 5, 6, 7, 8};
+            int[] subarray = {1, 2, 1, 4};
+
+            using Array array = new Array(_ctx, arrayUri);
+            array.Open(QueryType.TILEDB_WRITE);
+            using Query query = new Query(_ctx, array);
+            query.SetDataBuffer("a", data);
+            query.SetSubarray(subarray);
+
+            query.Submit();
+        }
+
+        private void CreateSparseVarDimArray(string arrayUri)
+        {
+            using Dimension d1 = Dimension.CreateString(_ctx, nameof(d1));
+
+            using Domain domain = new Domain(_ctx);
+            domain.AddDimension(d1);
+
+            using Attribute a1 = new Attribute(_ctx, nameof(a1), DataType.TILEDB_INT32);
+
+            using ArraySchema schema = new ArraySchema(_ctx, ArrayType.TILEDB_SPARSE);
+            schema.SetTileOrder(LayoutType.TILEDB_ROW_MAJOR);
+            schema.SetCellOrder(LayoutType.TILEDB_ROW_MAJOR);
+            schema.SetDomain(domain);
+            schema.AddAttribute(a1);
+
+            Array.Create(_ctx, arrayUri, schema);
+        }
+
+        private void WriteSparseVarDimArray(string arrayUri)
+        {
+            byte[] dData = Encoding.ASCII.GetBytes("abbccddee");
+            ulong[] dOffsets = {0, 2, 4, 6, 8};
+
+            int[] a1 = {1, 2, 3, 4, 5};
+
+            using Array array = new Array(_ctx, arrayUri);
+            array.Open(QueryType.TILEDB_WRITE);
+            using Query query = new Query(_ctx, array);
+            query.SetLayout(LayoutType.TILEDB_GLOBAL_ORDER);
+
+            query.SetDataBuffer("d1", dData);
+            query.SetOffsetsBuffer("d1", dOffsets);
+            query.SetDataBuffer("a1", a1);
+
+            query.Submit();
+            query.FinalizeQuery();
+        }
+
         private void CreateSparseArrayNoVarDim(string arrayUri)
         {
             using Dimension d1 = Dimension.Create<long>(_ctx, nameof(d1), 1, 10, 5);
@@ -91,7 +248,7 @@ namespace TileDB.CSharp.Test
 
             void WriteImpl(long[] d1, long[] d2, int[] a1)
             {
-                using Query query = new Query(_ctx, a, QueryType.TILEDB_WRITE);
+                using Query query = new Query(_ctx, a);
                 query.SetLayout(LayoutType.TILEDB_UNORDERED);
                 query.SetDataBuffer("d1", d1);
                 query.SetDataBuffer("d2", d2);
@@ -128,7 +285,7 @@ namespace TileDB.CSharp.Test
 
             using Array array = new Array(_ctx, arrayUri);
             array.Open(QueryType.TILEDB_WRITE);
-            using Query query = new Query(_ctx, array, QueryType.TILEDB_WRITE);
+            using Query query = new Query(_ctx, array);
             query.SetLayout(LayoutType.TILEDB_UNORDERED);
 
             query.SetDataBuffer("d", dData);

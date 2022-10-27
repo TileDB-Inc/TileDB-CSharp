@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.IO.Enumeration;
+using System.Linq;
 
 namespace TileDB.CSharp.Test
 {
@@ -12,6 +14,18 @@ namespace TileDB.CSharp.Test
                 Directory.CreateDirectory(MakeTestPath(""));
             }
         }
+
+        public static long GetDirectorySize(string directory)
+        {
+            var enumeration = new FileSystemEnumerable<long>(
+                directory,
+                (ref FileSystemEntry entry) => entry.Length,
+                new() { RecurseSubdirectories = true }
+            );
+
+            return enumeration.Sum();
+        }
+
         /// <summary>
         /// Guard running new test cases against previous versions
         /// Returns false if TileDB core version predates `major.minor.rev`
