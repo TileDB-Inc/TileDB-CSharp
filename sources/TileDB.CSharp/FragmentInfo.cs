@@ -170,7 +170,7 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Gets the <see cref="ArraySchema"/> of a fragment.
+        /// Gets the number of cells written in a fragment.
         /// </summary>
         /// <param name="fragmentIndex">The index of the fragment of interest.</param>
         /// <remarks>
