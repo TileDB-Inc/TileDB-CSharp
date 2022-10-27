@@ -8,6 +8,8 @@ namespace TileDB.CSharp.Test
     [TestClass]
     public class FragmentInfoTest
     {
+        private const uint FragmentCount = 10;
+
         private Context _ctx = null!;
 
         [TestInitialize]
@@ -23,14 +25,11 @@ namespace TileDB.CSharp.Test
         }
 
         [TestMethod]
-        public void TestGetFragmentSize()
+        public void TestFragmentCount()
         {
-            using var uri = new TemporaryDirectory("fragment_info_fragment_size");
-
-            const int TestFragmentCount = 10;
+            using var uri = new TemporaryDirectory("fragment_info_fragment_num");
             CreateDenseArray(uri);
-
-            for (int i = 0; i < TestFragmentCount; i++)
+            for (uint i = 0; i < FragmentCount; i++)
             {
                 WriteDenseArray(uri);
             }
@@ -38,9 +37,50 @@ namespace TileDB.CSharp.Test
             using FragmentInfo info = new FragmentInfo(_ctx, uri);
             info.Load();
 
-            uint numFragments = info.FragmentCount;
+            Assert.AreEqual(FragmentCount, info.FragmentCount);
+        }
 
-            for (uint i = 0; i < numFragments; i++)
+        [TestMethod]
+        public void TestArraySchemaName()
+        {
+            using var uri = new TemporaryDirectory("fragment_info_array_schema_name");
+            CreateDenseArray(uri);
+            for (uint i = 0; i < FragmentCount; i++)
+            {
+                WriteDenseArray(uri);
+            }
+
+            using FragmentInfo info = new FragmentInfo(_ctx, uri);
+            info.Load();
+
+            uint fragmentCount = info.FragmentCount;
+
+            for (uint i = 0; i < fragmentCount; i++)
+            {
+                Assert.IsNotNull(info.GetSchemaName(i));
+            }
+
+            Assert.AreEqual(FragmentCount, fragmentCount);
+        }
+
+        [TestMethod]
+        public void TestGetFragmentSize()
+        {
+            using var uri = new TemporaryDirectory("fragment_info_fragment_size");
+
+            CreateDenseArray(uri);
+
+            for (uint i = 0; i < FragmentCount; i++)
+            {
+                WriteDenseArray(uri);
+            }
+
+            using FragmentInfo info = new FragmentInfo(_ctx, uri);
+            info.Load();
+
+            uint fragmentCount = info.FragmentCount;
+
+            for (uint i = 0; i < fragmentCount; i++)
             {
                 Uri fragmentUri = new(info.GetFragmentUri(i));
 
@@ -56,7 +96,7 @@ namespace TileDB.CSharp.Test
             using var uri = new TemporaryDirectory("fragment_info_is_dense_sparse");
 
             CreateDenseArray(uri);
-            for (int i = 0; i < 10; i++)
+            for (uint i = 0; i < FragmentCount; i++)
             {
                 WriteDenseArray(uri);
             }
@@ -64,9 +104,9 @@ namespace TileDB.CSharp.Test
             using FragmentInfo info = new FragmentInfo(_ctx, uri);
             info.Load();
 
-            uint numFragments = info.FragmentCount;
+            uint fragmentCount = info.FragmentCount;
 
-            for (uint i = 0; i < numFragments; i++)
+            for (uint i = 0; i < fragmentCount; i++)
             {
                 Assert.IsTrue(info.IsDense(i));
                 Assert.IsFalse(info.IsSparse(i));
@@ -80,7 +120,7 @@ namespace TileDB.CSharp.Test
 
             CreateDenseArray(uri);
 
-            for (int i = 0; i < 10; i++)
+            for (uint i = 0; i < FragmentCount; i++)
             {
                 WriteDenseArray(uri);
             }
@@ -143,11 +183,139 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual((7, 8), info.GetMinimumBoundedRectangle<int>(1, 1, "d1"));
         }
 
+        [TestMethod]
+        public void TestNonEmptyDomain()
+        {
+            using var uri = new TemporaryDirectory("fragment_info_non_empty_domain");
+            CreateDenseArray(uri);
+            for (uint i = 0; i < FragmentCount; i++)
+            {
+                WriteDenseArray(uri);
+            }
+
+            using FragmentInfo info = new FragmentInfo(_ctx, uri);
+            info.Load();
+
+            uint fragmentCount = info.FragmentCount;
+
+            for (uint i = 0; i < fragmentCount; i++)
+            {
+                using Array arr = new Array(_ctx, uri);
+                arr.Open(QueryType.TILEDB_READ);
+                using ArraySchema schema = arr.Schema();
+                using Domain domain = schema.Domain();
+                uint ndim = domain.NDim();
+
+                for (uint dim = 0; dim < ndim; dim++)
+                {
+                    using Dimension d = domain.Dimension(dim);
+
+                    var expectedNonEmptyDomain = info.GetNonEmptyDomain<int>(i, dim);
+                    var actualNonEmptyDomain = arr.NonEmptyDomain<int>(dim) switch
+                    {
+                        (int Start, int End, _) => (Start, End)
+                    };
+                    Assert.AreEqual(expectedNonEmptyDomain, actualNonEmptyDomain);
+
+                    string name = d.Name();
+                    expectedNonEmptyDomain = info.GetNonEmptyDomain<int>(i, name);
+                    actualNonEmptyDomain = arr.NonEmptyDomain<int>(name) switch
+                    {
+                        (int Start, int End, _) => (Start, End)
+                    };
+                    Assert.AreEqual(expectedNonEmptyDomain, actualNonEmptyDomain);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void TestGetCellCount()
+        {
+            using var uri = new TemporaryDirectory("fragment_info_cell_num");
+            CreateDenseArray(uri);
+            for (uint i = 0; i < FragmentCount; i++)
+            {
+                WriteDenseArray(uri);
+            }
+
+            using FragmentInfo info = new FragmentInfo(_ctx, uri);
+            info.Load();
+
+            uint fragmentCount = info.FragmentCount;
+
+            for (uint i = 0; i < fragmentCount; i++)
+            {
+                Assert.AreEqual(8u, info.GetCellsWritten(i));
+            }
+        }
+
+        [TestMethod]
+        public void TestGetFormatVersion()
+        {
+            using var uri = new TemporaryDirectory("fragment_info_version");
+            CreateDenseArray(uri);
+            for (uint i = 0; i < FragmentCount; i++)
+            {
+                WriteDenseArray(uri);
+            }
+
+            using FragmentInfo info = new FragmentInfo(_ctx, uri);
+            info.Load();
+
+            uint fragmentCount = info.FragmentCount;
+
+            for (uint i = 0; i < fragmentCount; i++)
+            {
+                Uri fragmentUri = new(info.GetFragmentUri(i));
+
+                ulong formatVersionFromPath = ulong.Parse(fragmentUri.LocalPath.Split('_')[^1]);
+
+                Assert.AreEqual(formatVersionFromPath, info.GetFormatVersion(i));
+            }
+        }
+
+        [TestMethod]
+        public void TestHasConsolidatedMetadata()
+        {
+            using var uri = new TemporaryDirectory("fragment_info_has_consolidated_metadata");
+            CreateDenseArray(uri);
+            for (uint i = 0; i < FragmentCount; i++)
+            {
+                WriteDenseArray(uri);
+            }
+
+            using FragmentInfo info = new FragmentInfo(_ctx, uri);
+            info.Load();
+
+            uint fragmentCount = info.FragmentCount;
+
+            for (uint i = 0; i < fragmentCount; i++)
+            {
+                Assert.IsFalse(info.HasConsolidatedMetadata(i));
+            }
+        }
+
+        [TestMethod]
+        public void TestHasUnconsolidatedMetadata()
+        {
+            using var uri = new TemporaryDirectory("fragment_info_has_unconsolidated_metadata");
+            CreateDenseArray(uri);
+            for (uint i = 0; i < FragmentCount; i++)
+            {
+                WriteDenseArray(uri);
+            }
+
+            using FragmentInfo info = new FragmentInfo(_ctx, uri);
+            info.Load();
+
+            Assert.AreEqual(FragmentCount, info.FragmentWithUnconsolidatedMetadataCount);
+        }
+
         private void CreateDenseArray(string arrayUri)
         {
             using Dimension rows = Dimension.Create(_ctx, nameof(rows), 1, 4, 2);
             using Dimension columns = Dimension.Create(_ctx, nameof(columns), 1, 4, 2);
-            
+
             using Domain domain = new Domain(_ctx);
             domain.AddDimension(rows);
             domain.AddDimension(columns);
@@ -162,11 +330,11 @@ namespace TileDB.CSharp.Test
 
             Array.Create(_ctx, arrayUri, schema);
         }
-        
+
         private void WriteDenseArray(string arrayUri)
         {
-            int[] data = {1, 2, 3, 4, 5, 6, 7, 8};
-            int[] subarray = {1, 2, 1, 4};
+            int[] data = { 1, 2, 3, 4, 5, 6, 7, 8 };
+            int[] subarray = { 1, 2, 1, 4 };
 
             using Array array = new Array(_ctx, arrayUri);
             array.Open(QueryType.TILEDB_WRITE);
@@ -198,9 +366,9 @@ namespace TileDB.CSharp.Test
         private void WriteSparseVarDimArray(string arrayUri)
         {
             byte[] dData = Encoding.ASCII.GetBytes("abbccddee");
-            ulong[] dOffsets = {0, 2, 4, 6, 8};
+            ulong[] dOffsets = { 0, 2, 4, 6, 8 };
 
-            int[] a1 = {1, 2, 3, 4, 5};
+            int[] a1 = { 1, 2, 3, 4, 5 };
 
             using Array array = new Array(_ctx, arrayUri);
             array.Open(QueryType.TILEDB_WRITE);
@@ -242,9 +410,9 @@ namespace TileDB.CSharp.Test
             using Array a = new Array(_ctx, arrayUri);
             a.Open(QueryType.TILEDB_WRITE);
 
-            WriteImpl(new long[] {1, 2}, new long[] {1, 2}, new int[] {1, 2});
-            WriteImpl(new long[] {1, 2, 7, 8}, new long[] {1, 2, 7, 8}, new int[] {9, 10, 11, 12});
-            WriteImpl(new long[] {1, 2, 7, 1}, new long[] {1, 2, 7, 8}, new int[] {5, 6, 7, 8});
+            WriteImpl(new long[] { 1, 2 }, new long[] { 1, 2 }, new int[] { 1, 2 });
+            WriteImpl(new long[] { 1, 2, 7, 8 }, new long[] { 1, 2, 7, 8 }, new int[] { 9, 10, 11, 12 });
+            WriteImpl(new long[] { 1, 2, 7, 1 }, new long[] { 1, 2, 7, 8 }, new int[] { 5, 6, 7, 8 });
 
             void WriteImpl(long[] d1, long[] d2, int[] a1)
             {
@@ -279,9 +447,9 @@ namespace TileDB.CSharp.Test
         private void WriteSparseVarDimArrayForMbrTesting(string arrayUri)
         {
             byte[] dData = Encoding.ASCII.GetBytes("abbcddd");
-            ulong[] dOffsets = {0, 1, 3, 4};
+            ulong[] dOffsets = { 0, 1, 3, 4 };
 
-            int[] a = {11, 12, 13, 14};
+            int[] a = { 11, 12, 13, 14 };
 
             using Array array = new Array(_ctx, arrayUri);
             array.Open(QueryType.TILEDB_WRITE);
