@@ -10,8 +10,6 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
 
         public FragmentInfoHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
 
-        public static FragmentInfoHandle CreateUnowned(tiledb_fragment_info_t* fragmentInfo) => new((IntPtr)fragmentInfo, ownsHandle: false);
-
         public static FragmentInfoHandle Create(Context context, sbyte* array_uri)
         {
             var handle = new FragmentInfoHandle();
