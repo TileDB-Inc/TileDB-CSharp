@@ -179,8 +179,8 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual(2ul, info.GetMinimumBoundedRectangleCount(1));
             Assert.AreEqual(2ul, info.GetMinimumBoundedRectangleCount(2));
 
-            Assert.AreEqual((1, 2), info.GetMinimumBoundedRectangle<int>(0, 0, 0));
-            Assert.AreEqual((7, 8), info.GetMinimumBoundedRectangle<int>(1, 1, "d1"));
+            Assert.AreEqual((1, 2), info.GetMinimumBoundedRectangle<long>(0, 0, 0));
+            Assert.AreEqual((7, 8), info.GetMinimumBoundedRectangle<long>(1, 1, "d1"));
         }
 
         [TestMethod]
