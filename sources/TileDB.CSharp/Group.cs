@@ -15,7 +15,7 @@ namespace TileDB.CSharp
         public Group(Context ctx, string uri)
         {
             _ctx = ctx;
-            var ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             _handle = GroupHandle.Create(_ctx, ms_uri);
             _disposed = false;
             _metadata = new GroupMetadata(this);
@@ -61,7 +61,7 @@ namespace TileDB.CSharp
         public static void Create(Context ctx, string uri)
         {
             using var ctxHandle = ctx.Handle.Acquire();
-            var ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             ctx.handle_error(Methods.tiledb_group_create(ctxHandle, ms_uri));
         }
 
@@ -107,7 +107,6 @@ namespace TileDB.CSharp
         {
             return _ctx.Config();
         }
-
 
         /// <summary>
         /// Put metadata array.
@@ -219,8 +218,8 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_uri = new MarshaledString(uri);
-            var ms_name = new MarshaledString(name);
+            using var ms_uri = new MarshaledString(uri);
+            using var ms_name = new MarshaledString(name);
             byte byte_relative = relative ? (byte)1 : (byte)0;
             _ctx.handle_error(Methods.tiledb_group_add_member(
                 ctxHandle, handle, ms_uri, byte_relative, ms_name));
@@ -234,10 +233,9 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             _ctx.handle_error(Methods.tiledb_group_remove_member(ctxHandle, handle, ms_uri));
         }
-
 
         /// <summary>
         /// Get count of members.
@@ -252,7 +250,6 @@ namespace TileDB.CSharp
             return num;
         }
 
-
         /// <summary>
         /// Get member by index.
         /// </summary>
@@ -262,17 +259,15 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_uri = new MarshaledStringOut();
-            var ms_name = new MarshaledStringOut();
+            sbyte* uriPtr;
+            sbyte* namePtr;
             tiledb_object_t tiledb_objecttype;
-            fixed (sbyte** p_uri = &ms_uri.Value)
-            fixed (sbyte** p_name = &ms_name.Value)
-            {
-                _ctx.handle_error(Methods.tiledb_group_get_member_by_index(
-                    ctxHandle, handle, index, p_uri, &tiledb_objecttype, p_name));
-            }
+            _ctx.handle_error(Methods.tiledb_group_get_member_by_index(
+                ctxHandle, handle, index, &uriPtr, &tiledb_objecttype, &namePtr));
 
-            return (ms_uri, (ObjectType)tiledb_objecttype, ms_name);
+            string uri = MarshaledStringOut.GetStringFromNullTerminated(uriPtr);
+            string name = MarshaledStringOut.GetStringFromNullTerminated(namePtr);
+            return (uri, (ObjectType)tiledb_objecttype, name);
         }
 
         /// <summary>
@@ -296,13 +291,10 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_result = new MarshaledStringOut();
-            fixed (sbyte** p_result = &ms_result.Value)
-            {
-                _ctx.handle_error(Methods.tiledb_group_get_uri(ctxHandle, handle, p_result));
-            }
+            sbyte* result;
+            _ctx.handle_error(Methods.tiledb_group_get_uri(ctxHandle, handle, &result));
 
-            return ms_result;
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         /// <summary>
@@ -327,14 +319,11 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_result = new MarshaledStringOut();
+            sbyte* result;
             byte int_recursive = (byte)(recursive ? 1 : 0);
-            fixed (sbyte** p_result = &ms_result.Value)
-            {
-                _ctx.handle_error(Methods.tiledb_group_dump_str(ctxHandle, handle, p_result, int_recursive));
-            }
+            _ctx.handle_error(Methods.tiledb_group_dump_str(ctxHandle, handle, &result, int_recursive));
 
-            return ms_result;
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
         #endregion
     }

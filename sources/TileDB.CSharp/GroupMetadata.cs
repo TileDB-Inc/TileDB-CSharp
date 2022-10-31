@@ -67,7 +67,7 @@ namespace TileDB.CSharp
             var ctx = _group.Context();
             using var ctxHandle = ctx.Handle.Acquire();
             using var groupHandle = _group.Handle.Acquire();
-            var ms_key = new MarshaledString(key);
+            using var ms_key = new MarshaledString(key);
             ctx.handle_error(Methods.tiledb_group_delete_metadata(ctxHandle, groupHandle, ms_key));
         }
 
@@ -94,7 +94,7 @@ namespace TileDB.CSharp
         public string GetMetadata(string key)
         {
             var (_, byte_array, _, _) = get_metadata(key);
-            return Encoding.ASCII.GetString(byte_array);
+            return MarshaledStringOut.GetString(byte_array);
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace TileDB.CSharp
             var ctx = _group.Context();
             using var ctxHandle = ctx.Handle.Acquire();
             using var groupHandle = _group.Handle.Acquire();
-            var ms_key = new MarshaledString(key);
+            using var ms_key = new MarshaledString(key);
             tiledb_datatype_t tiledb_datatype = tiledb_datatype_t.TILEDB_ANY;
             var has_key = 0;
             ctx.handle_error(Methods.tiledb_group_has_metadata_key(ctxHandle, groupHandle, ms_key, &tiledb_datatype, &has_key));
@@ -170,7 +170,7 @@ namespace TileDB.CSharp
         public static void ConsolidateMetadata(Context ctx, string uri, Config config)
         {
             using var ctxHandle = ctx.Handle.Acquire();
-            var ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             using var configHandle = config.Handle.Acquire();
             ctx.handle_error(Methods.tiledb_array_consolidate_metadata(ctxHandle, ms_uri, configHandle));
         }
@@ -185,7 +185,7 @@ namespace TileDB.CSharp
                 using var ctxHandle = ctx.Handle.Acquire();
                 using var groupHandle = _group.Handle.Acquire();
                 void* value_p;
-                var ms_key = new MarshaledString(key);
+                using var ms_key = new MarshaledString(key);
                 var datatype = tiledb_datatype_t.TILEDB_ANY;
 
                 int has_key = 0;
@@ -337,7 +337,7 @@ namespace TileDB.CSharp
                 throw new ArgumentException("ArrayMetadata.put_metadata, null or empty key-value!");
             }
             var ctx = _group.Context();
-            var ms_key = new MarshaledString(key);
+            using var ms_key = new MarshaledString(key);
             var dataGcHandle = GCHandle.Alloc(value, GCHandleType.Pinned);
             try
             {
@@ -358,7 +358,7 @@ namespace TileDB.CSharp
             using var ctxHandle = ctx.Handle.Acquire();
             using var groupHandle = _group.Handle.Acquire();
             void* value_p;
-            var ms_key = new MarshaledString(key);
+            using var ms_key = new MarshaledString(key);
             var datatype = tiledb_datatype_t.TILEDB_ANY;
             uint value_num = 0;
             ctx.handle_error(Methods.tiledb_group_get_metadata(ctxHandle, groupHandle, ms_key, &datatype, &value_num,
@@ -374,18 +374,16 @@ namespace TileDB.CSharp
             using var ctxHandle = ctx.Handle.Acquire();
             using var groupHandle = _group.Handle.Acquire();
             void* value_p;
-            var ms_key = new MarshaledStringOut();
+            sbyte* keyPtr;
             var dataType = tiledb_datatype_t.TILEDB_ANY;
             uint valueNum = 0;
-            fixed (sbyte** p_key = &ms_key.Value)
-            {
-                uint key_len;
-                ctx.handle_error(Methods.tiledb_group_get_metadata_from_index(ctxHandle, groupHandle, index, p_key,
-                    &key_len, &dataType, &valueNum, &value_p));
-            }
+            uint key_len;
+            ctx.handle_error(Methods.tiledb_group_get_metadata_from_index(ctxHandle, groupHandle, index, &keyPtr,
+                &key_len, &dataType, &valueNum, &value_p));
             var size = (int)(valueNum * EnumUtil.TileDBDataTypeSize(dataType));
             var fill_span = new ReadOnlySpan<byte>(value_p, size);
-            return (ms_key, fill_span.ToArray(), dataType, valueNum);
+            string key = MarshaledStringOut.GetStringFromNullTerminated(keyPtr);
+            return (key, fill_span.ToArray(), dataType, valueNum);
         }
         #endregion
     }

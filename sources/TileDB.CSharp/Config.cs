@@ -9,13 +9,13 @@ namespace TileDB.CSharp
     {
         private readonly ConfigHandle _handle;
         private bool _disposed;
-    
+
         public Config()
         {
             _handle = ConfigHandle.Create();
         }
 
-        internal Config(ConfigHandle handle) 
+        internal Config(ConfigHandle handle)
         {
             _handle = handle;
         }
@@ -28,7 +28,7 @@ namespace TileDB.CSharp
         private void Dispose(bool disposing)
         {
             if (_disposed) return;
-            if (disposing && (!_handle.IsInvalid)) 
+            if (disposing && (!_handle.IsInvalid))
             {
                 _handle.Dispose();
             }
@@ -45,22 +45,22 @@ namespace TileDB.CSharp
         /// <param name="pTileDBError"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        private static string GetLastError(tiledb_error_t *pTileDBError, int status)
+        private static string GetLastError(tiledb_error_t* pTileDBError, int status)
         {
             var sb_result = new StringBuilder();
             if (Enum.IsDefined(typeof(Status), status))
             {
-                sb_result.Append( "Status: " + (Status)status).ToString();
-                var str_out = new MarshaledStringOut();
-                fixed(sbyte** p_str = &str_out.Value) 
-                {
-                    Methods.tiledb_error_message(pTileDBError, p_str);
-                }
-                sb_result.Append(", Message: " + str_out);                    
-            } else {
+                sb_result.Append("Status: " + (Status)status).ToString();
+                sbyte* messagePtr;
+                Methods.tiledb_error_message(pTileDBError, &messagePtr);
+                string message = MarshaledStringOut.GetStringFromNullTerminated(messagePtr);
+                sb_result.Append(", Message: " + message);
+            }
+            else
+            {
                 sb_result.Append("Unknown error with code: " + status);
             }
-            
+
             return sb_result.ToString();
         }
 
@@ -78,8 +78,8 @@ namespace TileDB.CSharp
                 throw new ArgumentException("Config.set, param or value is null or empty!");
             }
 
-            var ms_param = new MarshaledString(param);
-            var ms_value = new MarshaledString(value);
+            using var ms_param = new MarshaledString(param);
+            using var ms_value = new MarshaledString(value);
             var tiledb_error = new tiledb_error_t();
 
             var p_tiledb_error = &tiledb_error;
@@ -110,29 +110,26 @@ namespace TileDB.CSharp
             {
                 throw new ArgumentException("Config.get, param or value is null or empty!");
             }
- 
-            var ms_param = new MarshaledString(param);
-            var ms_result = new MarshaledStringOut();
-            
+
+            using var ms_param = new MarshaledString(param);
+            sbyte* result;
+
             var tiledb_error = new tiledb_error_t();
             var p_tiledb_error = &tiledb_error;
-            fixed (sbyte** p_result = &ms_result.Value)
+            int status;
+            using (var handle = _handle.Acquire())
             {
-                int status;
-                using (var handle = _handle.Acquire())
-                {
-                    status = Methods.tiledb_config_get(handle, ms_param, p_result, &p_tiledb_error);
-                }
-                if (status != (int)Status.TILEDB_OK)
-                {
-                    var err_message = GetLastError(p_tiledb_error, status);
-                    Methods.tiledb_error_free(&p_tiledb_error);
-                    throw new ErrorException("Config.get, caught exception:" + err_message);
-                }
+                status = Methods.tiledb_config_get(handle, ms_param, &result, &p_tiledb_error);
+            }
+            if (status != (int)Status.TILEDB_OK)
+            {
+                var err_message = GetLastError(p_tiledb_error, status);
+                Methods.tiledb_error_free(&p_tiledb_error);
+                throw new ErrorException("Config.get, caught exception:" + err_message);
             }
 
             Methods.tiledb_error_free(&p_tiledb_error);
-            return ms_result;
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         /// <summary>
@@ -148,7 +145,7 @@ namespace TileDB.CSharp
                 throw new ArgumentException("Config.set, param is null or empty!");
             }
 
-            var ms_param = new MarshaledString(param);
+            using var ms_param = new MarshaledString(param);
             var tiledb_error = new tiledb_error_t();
 
             var p_tiledb_error = &tiledb_error;
@@ -174,12 +171,12 @@ namespace TileDB.CSharp
         /// <exception cref="ErrorException"></exception>
         public void LoadFromFile(string filename)
         {
-            if (string.IsNullOrEmpty(filename) )
+            if (string.IsNullOrEmpty(filename))
             {
                 throw new ArgumentException("Config.load_from_file, filename is null or empty!");
             }
 
-            var ms_filename = new MarshaledString(filename);
+            using var ms_filename = new MarshaledString(filename);
             var tiledb_error = new tiledb_error_t();
 
             var p_tiledb_error = &tiledb_error;
@@ -210,7 +207,7 @@ namespace TileDB.CSharp
                 throw new ArgumentException("Config.save_to_file, filename is null or empty!");
             }
 
-            var ms_filename = new MarshaledString(filename);
+            using var ms_filename = new MarshaledString(filename);
             var tiledb_error = new tiledb_error_t();
 
             var p_tiledb_error = &tiledb_error;

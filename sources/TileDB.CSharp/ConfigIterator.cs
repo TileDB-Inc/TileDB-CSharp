@@ -25,7 +25,7 @@ namespace TileDB.CSharp
         private void Dispose(bool disposing)
         {
             if (_disposed) return;
-            if (disposing && (!_handle.IsInvalid)) 
+            if (disposing && (!_handle.IsInvalid))
             {
                 _handle.Dispose();
             }
@@ -35,22 +35,22 @@ namespace TileDB.CSharp
 
         internal ConfigIteratorHandle Handle => _handle;
 
-        private string GetLastError(tiledb_error_t *pTiledbError, int status)
+        private string GetLastError(tiledb_error_t* pTiledbError, int status)
         {
             var sb_result = new StringBuilder();
             if (Enum.IsDefined(typeof(Status), status))
             {
-                sb_result.Append( "Status: " + (Status)status).ToString();
-                var str_out = new MarshaledStringOut();
-                fixed(sbyte** p_str = &str_out.Value) 
-                {
-                    Methods.tiledb_error_message(pTiledbError, p_str);
-                }
-                sb_result.Append(", Message: " + str_out);                    
-            } else {
+                sb_result.Append("Status: " + (Status)status).ToString();
+                sbyte* messagePtr;
+                Methods.tiledb_error_message(pTiledbError, &messagePtr);
+                string message = MarshaledStringOut.GetStringFromNullTerminated(messagePtr);
+                sb_result.Append(", Message: " + message);
+            }
+            else
+            {
                 sb_result.Append("Unknown error with code: " + status);
             }
-            
+
             return sb_result.ToString();
         }
 
@@ -58,15 +58,12 @@ namespace TileDB.CSharp
         {
             var tiledb_error = new tiledb_error_t();
             var p_tiledb_error = &tiledb_error;
-            var s_param = new MarshaledStringOut();
-            var s_value = new MarshaledStringOut();
+            sbyte* paramPtr;
+            sbyte* valuePtr;
             int status;
             using (var handle = _handle.Acquire())
             {
-                fixed(sbyte** param_str = &s_param.Value, value_str = &s_value.Value)
-                {
-                    status = Methods.tiledb_config_iter_here(handle, param_str, value_str, &p_tiledb_error);
-                }
+                status = Methods.tiledb_config_iter_here(handle, &paramPtr, &valuePtr, &p_tiledb_error);
             }
 
             if (status != (int)Status.TILEDB_OK)
@@ -76,8 +73,10 @@ namespace TileDB.CSharp
                 throw new ErrorException("Config.set, caught exception:" + err_message);
             }
             Methods.tiledb_error_free(&p_tiledb_error);
-            
-            return new Tuple<string, string>(s_param, s_value);
+
+            string param = MarshaledStringOut.GetStringFromNullTerminated(paramPtr);
+            string value = MarshaledStringOut.GetStringFromNullTerminated(valuePtr);
+            return new Tuple<string, string>(param, value);
         }
 
         public void Next()
@@ -98,7 +97,7 @@ namespace TileDB.CSharp
             Methods.tiledb_error_free(&p_tiledb_error);
         }
 
-        public bool Done() 
+        public bool Done()
         {
             var tiledb_error = new tiledb_error_t();
             var p_tiledb_error = &tiledb_error;
@@ -114,7 +113,7 @@ namespace TileDB.CSharp
                 Methods.tiledb_error_free(&p_tiledb_error);
                 throw new ErrorException("ConfigIterator.done, caught exception:" + err_message);
             }
-            Methods.tiledb_error_free(&p_tiledb_error);            
+            Methods.tiledb_error_free(&p_tiledb_error);
             return c_done == 1;
         }
 
@@ -122,7 +121,7 @@ namespace TileDB.CSharp
         {
             var tiledb_error = new tiledb_error_t();
             var p_tiledb_error = &tiledb_error;
-            var ms_prefix = new MarshaledString(prefix);
+            using var ms_prefix = new MarshaledString(prefix);
             int status;
             using (var configHandle = _hConfig.Acquire())
             using (var handle = _handle.Acquire())

@@ -8,8 +8,8 @@ using System.Text;
 using TileDB.Interop;
 
 namespace TileDB.CSharp
-{ 
-    public unsafe class ArrayMetadata : IDictionary<string,byte[]>
+{
+    public unsafe class ArrayMetadata : IDictionary<string, byte[]>
     {
         protected Array _array;
 
@@ -55,7 +55,7 @@ namespace TileDB.CSharp
             var tiledb_datatype = tiledb_datatype_t.TILEDB_STRING_ASCII;
             var data = Encoding.ASCII.GetBytes(value);
             var val_num = (uint)data.Length;
-            put_metadata<byte>(key, data, tiledb_datatype, val_num); 
+            put_metadata<byte>(key, data, tiledb_datatype, val_num);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace TileDB.CSharp
             var ctx = _array.Context();
             using var ctxHandle = ctx.Handle.Acquire();
             using var arrayHandle = _array.Handle.Acquire();
-            var ms_key = new MarshaledString(key);
+            using var ms_key = new MarshaledString(key);
             ctx.handle_error(Methods.tiledb_array_delete_metadata(ctxHandle, arrayHandle, ms_key));
         }
 
@@ -94,7 +94,7 @@ namespace TileDB.CSharp
         public string GetMetadata(string key)
         {
             var (_, byte_array, _, _) = get_metadata(key);
-            return Encoding.ASCII.GetString(byte_array);
+            return MarshaledStringOut.GetString(byte_array);
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace TileDB.CSharp
             var ret = new string[(int)num];
             for (ulong i = 0; i < num; ++i)
             {
-                var (key, _, _,  _) = get_metadata_from_index(i);
+                var (key, _, _, _) = get_metadata_from_index(i);
                 ret[i] = key;
             }
             return ret;
@@ -153,7 +153,7 @@ namespace TileDB.CSharp
             var ctx = _array.Context();
             using var ctxHandle = ctx.Handle.Acquire();
             using var arrayHandle = _array.Handle.Acquire();
-            var ms_key = new MarshaledString(key);
+            using var ms_key = new MarshaledString(key);
             tiledb_datatype_t tiledb_datatype = tiledb_datatype_t.TILEDB_ANY;
             var has_key = 0;
             ctx.handle_error(Methods.tiledb_array_has_metadata_key(ctxHandle, arrayHandle, ms_key, &tiledb_datatype, &has_key));
@@ -170,20 +170,20 @@ namespace TileDB.CSharp
         public static void ConsolidateMetadata(Context ctx, string uri, Config config)
         {
             using var ctxHandle = ctx.Handle.Acquire();
-            var ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             using var configHandle = config.Handle.Acquire();
             ctx.handle_error(Methods.tiledb_array_consolidate_metadata(ctxHandle, ms_uri, configHandle));
         }
         #endregion User api
 
         #region IDictionary interface
-        public byte[] this[string key] 
+        public byte[] this[string key]
         {
-            get 
+            get
             {
                 var ctx = _array.Context();
                 void* value_p;
-                var ms_key = new MarshaledString(key);
+                using var ms_key = new MarshaledString(key);
                 var datatype = tiledb_datatype_t.TILEDB_ANY;
 
                 int has_key = 0;
@@ -195,7 +195,7 @@ namespace TileDB.CSharp
                 }
                 if (has_key <= 0)
                 {
-                     
+
                     return new byte[0];
                 }
 
@@ -209,13 +209,13 @@ namespace TileDB.CSharp
                 var fill_span = new ReadOnlySpan<byte>(value_p, size);
                 return fill_span.ToArray();
             }
-            set 
+            set
             {
                 Add(key, value);
-            }   
+            }
         }
 
-        public ICollection<string> Keys 
+        public ICollection<string> Keys
         {
             get
             {
@@ -243,7 +243,7 @@ namespace TileDB.CSharp
             get
             {
                 List<byte[]> ret = new List<byte[]>();
-                ulong num = MetadataNum(); 
+                ulong num = MetadataNum();
                 for (ulong i = 0; i < num; ++i)
                 {
                     var metadata = get_metadata_from_index(i);
@@ -254,7 +254,7 @@ namespace TileDB.CSharp
             }
         }
 
-        public int Count 
+        public int Count
         {
             get
             {
@@ -263,7 +263,7 @@ namespace TileDB.CSharp
             }
         }
 
-        public bool IsReadOnly 
+        public bool IsReadOnly
         {
             get
             {
@@ -289,13 +289,13 @@ namespace TileDB.CSharp
 
         public bool Contains(KeyValuePair<string, byte[]> item)
         {
-            return ContainsKey(item.Key); 
+            return ContainsKey(item.Key);
         }
 
         public bool ContainsKey(string key)
         {
             var (has_key, _) = HasMetadata(key);
-            return has_key; 
+            return has_key;
         }
 
         public void CopyTo(KeyValuePair<string, byte[]>[] array, int arrayIndex)
@@ -338,14 +338,14 @@ namespace TileDB.CSharp
         #endregion IDictionary interface
 
         #region Private methods
-        private void put_metadata<T>(string key, T[] value, tiledb_datatype_t tiledb_datatype, uint value_num) where T: struct
+        private void put_metadata<T>(string key, T[] value, tiledb_datatype_t tiledb_datatype, uint value_num) where T : struct
         {
             if (string.IsNullOrEmpty(key) || value.Length == 0)
             {
                 throw new ArgumentException("ArrayMetadata.put_metadata, null or empty key-value!");
             }
-            var ctx = _array.Context(); 
-            var ms_key = new MarshaledString(key);
+            var ctx = _array.Context();
+            using var ms_key = new MarshaledString(key);
             var dataGcHandle = GCHandle.Alloc(value, GCHandleType.Pinned);
             try
             {
@@ -364,7 +364,7 @@ namespace TileDB.CSharp
         {
             var ctx = _array.Context();
             void* value_p;
-            var ms_key = new MarshaledString(key);
+            using var ms_key = new MarshaledString(key);
             var datatype = tiledb_datatype_t.TILEDB_ANY;
             uint value_num = 0;
             using (var ctxHandle = ctx.Handle.Acquire())
@@ -381,19 +381,16 @@ namespace TileDB.CSharp
         {
             var ctx = _array.Context();
             void* value_p;
-            var ms_key = new MarshaledStringOut();
+            sbyte* key;
             var dataType = tiledb_datatype_t.TILEDB_ANY;
             uint valueNum = 0;
-            fixed (sbyte** p_key = &ms_key.Value)
-            {
-                uint key_len;
-                using var ctxHandle = ctx.Handle.Acquire();
-                using var arrayHandle = _array.Handle.Acquire();
-                ctx.handle_error(Methods.tiledb_array_get_metadata_from_index(ctxHandle, arrayHandle, index, p_key, &key_len, &dataType, &valueNum, &value_p));
-            }
+            uint key_len;
+            using var ctxHandle = ctx.Handle.Acquire();
+            using var arrayHandle = _array.Handle.Acquire();
+            ctx.handle_error(Methods.tiledb_array_get_metadata_from_index(ctxHandle, arrayHandle, index, &key, &key_len, &dataType, &valueNum, &value_p));
             var size = (int)(valueNum * EnumUtil.TileDBDataTypeSize(dataType));
             var fill_span = new ReadOnlySpan<byte>(value_p, size);
-            return (ms_key, fill_span.ToArray(), dataType, valueNum);
+            return (MarshaledStringOut.GetStringFromNullTerminated(key), fill_span.ToArray(), dataType, valueNum);
         }
         #endregion
     }

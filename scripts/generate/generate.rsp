@@ -8,7 +8,7 @@ Methods
 --namespace
 TileDB.Interop
 --output
-sources/TileDB.Interop
+sources/TileDB.CSharp/Interop
 --exclude
 tiledb_attribute_dump
 tiledb_domain_dump

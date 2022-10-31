@@ -92,13 +92,10 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_result = new MarshaledStringOut();
-            fixed (sbyte** p_result = &ms_result.Value)
-            {
-                _ctx.handle_error(Methods.tiledb_attribute_get_name(ctxHandle, handle, p_result));
-            }
+            sbyte* result;
+            _ctx.handle_error(Methods.tiledb_attribute_get_name(ctxHandle, handle, &result));
 
-            return ms_result;
+            return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
         /// <summary>
@@ -284,7 +281,7 @@ namespace TileDB.CSharp
                 throw new NotSupportedException("Attribute.FillValue, please use FillValue<T> for non-string attribute!");
             }
             var fill_bytes = get_fill_value();
-            return Encoding.ASCII.GetString(fill_bytes);
+            return MarshaledStringOut.GetString(fill_bytes);
         }
 
         /// <summary>
@@ -398,7 +395,7 @@ namespace TileDB.CSharp
                 throw new NotSupportedException("Attribute.FillValueNullable, please use fill_value<T> for non-string attribute!");
             }
             var(fill_bytes,_) = get_fill_value_nullable();
-            return Encoding.ASCII.GetString(fill_bytes);
+            return MarshaledStringOut.GetString(fill_bytes);
         }
         #endregion
 

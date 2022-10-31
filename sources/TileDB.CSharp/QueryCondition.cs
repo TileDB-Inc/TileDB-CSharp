@@ -56,7 +56,7 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_attribute_name = new MarshaledString(attribute_name);
+            using var ms_attribute_name = new MarshaledString(attribute_name);
             T[] data = new T[1] { condition_value };
             ulong size = (ulong)Marshal.SizeOf(data[0]);
             var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
@@ -81,7 +81,7 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var ms_attribute_name = new MarshaledString(attribute_name);
+            using var ms_attribute_name = new MarshaledString(attribute_name);
             byte[] data = Encoding.ASCII.GetBytes(condition_value);
             ulong size = (ulong)data.Length;
             var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
