@@ -43,7 +43,7 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual<string>(val, "10");
 
             // Create temporary path for testing configuration writing/reading
-            var tmpPath = Path.Join( Path.GetTempPath(), "tmp.cfg");
+            var tmpPath = TestUtil.MakeTestPath("tmp.cfg");
 
             config.SaveToFile(tmpPath);
 

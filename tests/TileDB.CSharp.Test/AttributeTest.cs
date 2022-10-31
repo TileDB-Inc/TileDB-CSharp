@@ -20,7 +20,6 @@ namespace TileDB.CSharp.Test
         [TestMethod]
         public void TestFullAttribute()
         {
-    
             var context = Context.GetDefault();
 
             const string attrName = "a";
@@ -58,7 +57,6 @@ namespace TileDB.CSharp.Test
         [TestMethod]
         public void TestNullableAttribute()
         {
-            
             var context = Context.GetDefault();
 
             const string attrName = "a";
@@ -96,12 +94,11 @@ namespace TileDB.CSharp.Test
             var fill_value = attribute.FillValueNullable<int>();
             Assert.AreEqual(12, fill_value.Item1[0]);
             Assert.AreEqual(true, fill_value.Item2);
-        }  
-        
+        }
+
         [TestMethod]
         public void TestStringAttribute()
         {
-            
             var context = Context.GetDefault();
 
             const string attrName = "a";
@@ -147,17 +144,16 @@ namespace TileDB.CSharp.Test
         }
 
         [TestMethod]
-        public void TestVarLengthAttribute() 
+        public void TestVarLengthAttribute()
         {
             createVarLengthAttributeArray();
             writeVarLengthAttributeArray();
             readVarLengthAttributeArray();
-
         }
 
-        private void createVarLengthAttributeArray() 
+        private void createVarLengthAttributeArray()
         {
-            var tmpArrayPath = Path.Join(Path.GetTempPath(), "varlength_attributes_array");
+            var tmpArrayPath = TestUtil.MakeTestPath("varlength_attributes_array");
             if (Directory.Exists(tmpArrayPath))
             {
                 Directory.Delete(tmpArrayPath, true);
@@ -196,9 +192,10 @@ namespace TileDB.CSharp.Test
 
             Array.Create(context, tmpArrayPath, array_schema);
         }
+
         private void writeVarLengthAttributeArray()
         {
-            var tmpArrayPath = Path.Join(Path.GetTempPath(), "varlength_attributes_array");
+            var tmpArrayPath = TestUtil.MakeTestPath("varlength_attributes_array");
             var context = Context.GetDefault();
             var array_write = new Array(context, tmpArrayPath);
             Assert.IsNotNull(array_write);
@@ -233,9 +230,9 @@ namespace TileDB.CSharp.Test
             array_write.Close();
         }
 
-        private void readVarLengthAttributeArray() 
+        private void readVarLengthAttributeArray()
         {
-            var tmpArrayPath = Path.Join(Path.GetTempPath(), "varlength_attributes_array");
+            var tmpArrayPath = TestUtil.MakeTestPath("varlength_attributes_array");
             var context = Context.GetDefault();
             var array_read = new Array(context, tmpArrayPath);
             Assert.IsNotNull(array_read);
@@ -271,9 +268,6 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual<ulong>(26, result_size_a2.DataSize(DataType.TILEDB_INT32));
             Assert.AreEqual<ulong>(16, result_size_a2.OffsetsSize());
             array_read.Close();
-
         }
-
     }
-
 }//namespace

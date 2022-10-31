@@ -1,30 +1,137 @@
 using System;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TileDB.CSharp;
-using System.Runtime.InteropServices;
 namespace TileDB.CSharp.Test
 {
     [TestClass]
     public class QueryTest
     {
 
+        [DataRow(LayoutType.TILEDB_GLOBAL_ORDER, ArrayType.TILEDB_SPARSE)]
+        [DataRow(LayoutType.TILEDB_GLOBAL_ORDER, ArrayType.TILEDB_DENSE)]
+        [DataTestMethod]
+        public void TestGlobalQuery(LayoutType layoutType, ArrayType arrayType)
+        {
+            string arrayPath = TestUtil.MakeTestPath(
+                $"array-query-{EnumUtil.ArrayTypeToStr(arrayType)}-{EnumUtil.LayoutTypeToStr(layoutType)}");
+            Console.WriteLine($"Creating temp test array: {arrayPath}");
+            if (Directory.Exists(arrayPath))
+            {
+                Directory.Delete(arrayPath, true);
+            }
+
+            var ctx = Context.GetDefault();
+            Assert.IsNotNull(ctx);
+
+            // Create array
+            var rows = Dimension.Create<int>(ctx, "rows", new[] { 1, 4 }, 2);
+            Assert.IsNotNull(rows);
+            var cols = Dimension.Create<int>(ctx, "cols", new[] { 1, 4 }, 2);
+            Assert.IsNotNull(cols);
+            using var domain = new Domain(ctx);
+            Assert.IsNotNull(domain);
+            domain.AddDimensions(rows, cols);
+            Assert.IsTrue(domain.HasDimension("rows"));
+            Assert.IsTrue(domain.HasDimension("cols"));
+            using var schema = new ArraySchema(ctx, arrayType);
+            schema.SetDomain(domain);
+            schema.AddAttribute(Attribute.Create<int>(ctx, "a1"));
+            Array.Create(ctx, arrayPath, schema);
+            var array = new Array(ctx, arrayPath);
+
+            // Write array
+            array.Open(QueryType.TILEDB_WRITE);
+            Assert.IsTrue(array.IsOpen());
+            using var queryWrite = new Query(ctx, array);
+            queryWrite.SetLayout(layoutType);
+            if (arrayType == ArrayType.TILEDB_DENSE)
+            {
+                queryWrite.AddRange("rows", 1, 4);
+                queryWrite.AddRange("cols", 1, 2);
+                queryWrite.SetDataBuffer("a1", new[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+            }
+            else // Sparse
+            {
+                queryWrite.SetDataBuffer("rows", new[] { 1, 2, 2, 3, 4, 4 });
+                queryWrite.SetDataBuffer("cols", new[] { 1, 1, 4, 1, 1, 4 });
+                queryWrite.SetDataBuffer("a1", new[] { 1, 2, 3, 4, 5, 6 });
+            }
+            queryWrite.Submit();
+            Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, queryWrite.Status());
+            queryWrite.FinalizeQuery();
+            array.Close();
+
+            // Read array
+            array.Open(QueryType.TILEDB_READ);
+            Assert.IsTrue(array.IsOpen());
+            using var queryRead = new Query(ctx, array);
+            // Initially allocate buffers for dense read
+            var a1Read = new int[16];
+            var rowsRead = new int[16];
+            var colsRead = new int[16];
+            if (arrayType == ArrayType.TILEDB_DENSE)
+            {
+                queryRead.SetSubarray(new [] { 1, 4, 1, 4 });
+            }
+            else // Sparse
+            {
+                // Reallocate buffers for sparse read
+                a1Read = new int[6];
+                rowsRead = new int[6];
+                colsRead = new int[6];
+            }
+
+            // Get coords and attributes for dense and sparse reads
+            queryRead.SetDataBuffer("rows", rowsRead);
+            queryRead.SetDataBuffer("cols", colsRead);
+            queryRead.SetDataBuffer("a1", a1Read);
+            queryRead.Submit();
+            Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, queryRead.Status());
+            array.Close();
+
+            // Check expected values
+            int[] a1Expected;
+            int[] rowsExpected;
+            int[] colsExpected;
+            if (arrayType == ArrayType.TILEDB_DENSE)
+            {
+                a1Expected = new[]
+                {
+                    1, 2, Int32.MinValue, Int32.MinValue,
+                    3, 4, Int32.MinValue, Int32.MinValue,
+                    5, 6, Int32.MinValue, Int32.MinValue,
+                    7, 8, Int32.MinValue, Int32.MinValue
+                };
+                rowsExpected = new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 };
+                colsExpected = new[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 };
+            }
+            else // Sparse
+            {
+                a1Expected = new[] { 1, 2, 3, 4, 5, 6 };
+                rowsExpected = new[] { 1, 2, 2, 3, 4, 4 };
+                colsExpected = new[] { 1, 1, 4, 1, 1, 4 };
+            }
+            CollectionAssert.AreEqual(a1Expected, a1Read);
+            CollectionAssert.AreEqual(colsExpected, colsRead);
+            CollectionAssert.AreEqual(rowsExpected, rowsRead);
+        }
+
         [TestMethod]
-        public void TestQuery()
+        public void TestDenseQuery()
         {
             var context = Context.GetDefault();
             Assert.IsNotNull(context);
-            
+
             var bound = new sbyte[] { 0, 9 };
             const sbyte extent = 2;
             var dimension = Dimension.Create<sbyte>(context, "dim1", bound, extent);
             Assert.IsNotNull(dimension);
-            
+
             var domain = new Domain(context);
             Assert.IsNotNull(domain);
-            
+
             domain.AddDimension(dimension);
-            
+
             var array_schema = new ArraySchema(context, ArrayType.TILEDB_DENSE);
             Assert.IsNotNull(array_schema);
 
@@ -41,8 +148,8 @@ namespace TileDB.CSharp.Test
             array_schema.SetDomain(domain);
 
             array_schema.Check();
-            
-            var tmpArrayPath = Path.Join( Path.GetTempPath(), "tiledb_test_array");
+
+            var tmpArrayPath = TestUtil.MakeTestPath("tiledb_test_array");
 
             if (Directory.Exists(tmpArrayPath))
             {
@@ -51,40 +158,40 @@ namespace TileDB.CSharp.Test
 
             var array = new Array(context, tmpArrayPath);
             Assert.IsNotNull(array);
-            
+
             array.Create(array_schema);
-            
+
             array.Open(QueryType.TILEDB_WRITE);
 
             var query = new Query(context, array);
-            
+
             query.SetSubarray(new sbyte[]{0, 1});
-            
+
             query.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
 
-            var a1_data_buffer = new int[2] { 1, 2 };  
-     
+            var a1_data_buffer = new int[2] { 1, 2 };
+
             query.SetDataBuffer<int>("a1", a1_data_buffer);
 
             var a2_data_buffer = new float[5] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f };
-  
+
             query.SetDataBuffer<float>("a2", a2_data_buffer );
 
-            var a2_offset_buffer = new UInt64[2] { 0, 3 };  
-  
+            var a2_offset_buffer = new UInt64[2] { 0, 3 };
+
             query.SetOffsetsBuffer("a2", a2_offset_buffer);
-            
+
             query.Submit();
 
             var status = query.Status();
-            
+
             Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status);
 
             query.FinalizeQuery();
 
             array.Close();
 
-            //Start to read 
+            //Start to read
             var array_read = new Array(context, tmpArrayPath);
             Assert.IsNotNull(array_read);
 
@@ -97,7 +204,7 @@ namespace TileDB.CSharp.Test
             query_read.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
 
             var a1_data_buffer_read = new int[2];
-    
+
             query_read.SetDataBuffer<int>("a1", a1_data_buffer_read);
 
             var a2_data_buffer_read = new float[5];
@@ -105,7 +212,7 @@ namespace TileDB.CSharp.Test
             query_read.SetDataBuffer<float>("a2", a2_data_buffer_read);
 
             var a2_offset_buffer_read = new UInt64[2];
-      
+
             query_read.SetOffsetsBuffer("a2", a2_offset_buffer_read);
 
             query_read.Submit();
@@ -118,14 +225,11 @@ namespace TileDB.CSharp.Test
             array_read.Close();
 
             CollectionAssert.AreEqual(a1_data_buffer, a1_data_buffer_read);
-             
+
             CollectionAssert.AreEqual(a2_data_buffer, a2_data_buffer_read);
 
             CollectionAssert.AreEqual(a2_offset_buffer, a2_offset_buffer_read);
-
-
         }
-
 
         [TestMethod]
         public void TestSimpleSparseArrayQuery()
@@ -160,7 +264,7 @@ namespace TileDB.CSharp.Test
 
             array_schema.Check();
 
-            var tmpArrayPath = Path.Join(Path.GetTempPath(), "tiledb_test_sparse_array");
+            var tmpArrayPath = TestUtil.MakeTestPath("tiledb_test_sparse_array");
 
             if (Directory.Exists(tmpArrayPath))
             {
@@ -233,11 +337,10 @@ namespace TileDB.CSharp.Test
             CollectionAssert.AreEqual(dim2_data_buffer, dim2_data_buffer_read);
 
             CollectionAssert.AreEqual(attr_data_buffer, attr_data_buffer_read);
-
         }
 
         [TestMethod]
-        public void TestNullableAttributeArrayQuery() 
+        public void TestNullableAttributeArrayQuery()
         {
             var context = Context.GetDefault();
             Assert.IsNotNull(context);
@@ -282,7 +385,7 @@ namespace TileDB.CSharp.Test
 
             array_schema.Check();
 
-            var tmpArrayPath = Path.Join(Path.GetTempPath(), "tiledb_test_nullable_array");
+            var tmpArrayPath = TestUtil.MakeTestPath("tiledb_test_nullable_array");
 
             if (Directory.Exists(tmpArrayPath))
             {
@@ -397,7 +500,6 @@ namespace TileDB.CSharp.Test
             CollectionAssert.AreEqual(a3_data, a3_data_read);
             CollectionAssert.AreEqual(a3_validity, a3_validity_read);
             CollectionAssert.AreEqual(a3_off, a3_off_read);
-
         }// public void TestNullableAttributeArrayQuery
 
         [TestMethod]
@@ -419,7 +521,7 @@ namespace TileDB.CSharp.Test
             array_schema.SetDomain(domain);
             array_schema.Check();
 
-            var tmpArrayPath = Path.Join( Path.GetTempPath(), "tiledb_test_bool_array");
+            var tmpArrayPath = TestUtil.MakeTestPath("tiledb_test_bool_array");
             if (Directory.Exists(tmpArrayPath))
             {
                 Directory.Delete(tmpArrayPath, true);

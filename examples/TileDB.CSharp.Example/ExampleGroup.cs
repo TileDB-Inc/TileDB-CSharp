@@ -6,8 +6,8 @@ namespace TileDB.CSharp.Examples
 {
     public class ExampleGroup
     {
-        private Context _ctx;
-        private string _nameSpace;
+        private readonly Context _ctx;
+        private readonly string _nameSpace;
 
         // Local access
         public ExampleGroup()
@@ -97,7 +97,7 @@ namespace TileDB.CSharp.Examples
 
         public static void RunLocal()
         {
-            var localGroupPath = "local_path";
+            var localGroupPath = ExampleUtil.MakeExamplePath("groups-local");
             if (!Directory.Exists(localGroupPath))
             {
                 Directory.CreateDirectory(localGroupPath);

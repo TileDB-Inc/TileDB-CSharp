@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{7C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bindings", "bindings", "{290031CD-EF93-4A53-826E-CBF70141B064}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "quickstart_sparse_string", "examples\bindings\quickstart_sparse_string\quickstart_sparse_string.csproj", "{E56005DF-0E78-4B8F-9054-1C337521041C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickstartSparseString", "examples\bindings\QuickstartSparseString\QuickstartSparseString.csproj", "{E56005DF-0E78-4B8F-9054-1C337521041C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

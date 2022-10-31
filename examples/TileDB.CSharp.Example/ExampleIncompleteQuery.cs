@@ -5,40 +5,37 @@ using System.Linq;
 
 namespace TileDB.CSharp.Examples
 {
-    public class ExampleIncompleteQuery
+    public static class ExampleIncompleteQuery
     {
-        static string arrayName = "sparse-incomplete-query";
+        static readonly string ArrayPath = ExampleUtil.MakeExamplePath("sparse-incomplete-query");
+        private static readonly Context Ctx = Context.GetDefault();
 
-        static void CreateArray()
+        private static void CreateArray()
         {
-            var ctx = Context.GetDefault();
-
             int[] dim1_bound = { 1, 10 };
             int dim1_ext = 4;
-            var dim1 = Dimension.Create<int>(ctx, "rows", dim1_bound, dim1_ext);
+            var dim1 = Dimension.Create<int>(Ctx, "rows", dim1_bound, dim1_ext);
 
             int[] dim2_bound = { 1, 10 };
             int dim2_ext = 4;
-            var dim2 = Dimension.Create<int>(ctx, "cols", dim2_bound, dim2_ext);
+            var dim2 = Dimension.Create<int>(Ctx, "cols", dim2_bound, dim2_ext);
 
-            var domain = new Domain(ctx);
+            var domain = new Domain(Ctx);
             domain.AddDimension(dim1);
             domain.AddDimension(dim2);
 
-            var schema = new ArraySchema(ctx, ArrayType.TILEDB_SPARSE);
+            var schema = new ArraySchema(Ctx, ArrayType.TILEDB_SPARSE);
             schema.SetDomain(domain);
 
-            var attr = new Attribute(ctx, "a1", DataType.TILEDB_INT32);
+            var attr = new Attribute(Ctx, "a1", DataType.TILEDB_INT32);
             schema.AddAttribute(attr);
             schema.Check();
 
-            Array.Create(ctx, arrayName, schema);
+            Array.Create(Ctx, ArrayPath, schema);
         }
 
-        static void WriteArray()
+        private static void WriteArray()
         {
-            var ctx = Context.GetDefault();
-
             // Produce columns iteratively
             List<int> colsList = new();
             for (int i = 0; i < 10; i++)
@@ -55,11 +52,11 @@ namespace TileDB.CSharp.Examples
 
             // Write a1 attribute with values 1-100
             int[] attrData = Enumerable.Range(1, 100).ToArray();
-            using (var arrayWrite = new Array(ctx, arrayName))
+            using (var arrayWrite = new Array(Ctx, ArrayPath))
             {
                 arrayWrite.Open(QueryType.TILEDB_WRITE);
 
-                var queryWrite = new Query(ctx, arrayWrite);
+                var queryWrite = new Query(Ctx, arrayWrite);
                 queryWrite.SetLayout(LayoutType.TILEDB_UNORDERED);
                 queryWrite.SetDataBuffer<int>("rows", rowsData);
                 queryWrite.SetDataBuffer<int>("cols", colsData);
@@ -71,19 +68,17 @@ namespace TileDB.CSharp.Examples
             }
         }
 
-        static void ReadArray()
+        private static void ReadArray()
         {
-            var ctx = Context.GetDefault();
-
             // Allocate buffers for 10 values per batch read
             var rowsRead = new int[10];
             var colsRead = new int[10];
             var attrRead = new int[10];
 
-            using (var arrayRead = new Array(ctx, arrayName))
+            using (var arrayRead = new Array(Ctx, ArrayPath))
             {
                 arrayRead.Open(QueryType.TILEDB_READ);
-                var queryRead = new Query(ctx, arrayRead);
+                var queryRead = new Query(Ctx, arrayRead);
                 queryRead.SetLayout(LayoutType.TILEDB_UNORDERED);
                 queryRead.SetSubarray(new[] { 1, 100, 1, 100 });
 
@@ -115,9 +110,9 @@ namespace TileDB.CSharp.Examples
 
         public static void Run()
         {
-             if (Directory.Exists(arrayName))
+             if (Directory.Exists(ArrayPath))
              {
-                 Directory.Delete(arrayName, true);
+                 Directory.Delete(ArrayPath, true);
              }
 
              CreateArray();

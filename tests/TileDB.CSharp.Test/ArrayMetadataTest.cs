@@ -10,7 +10,7 @@ namespace TileDB.CSharp.Test
         [TestMethod]
         public void TestArrayMetadata()
         {
-            var tmpArrayPath = Path.Join( Path.GetTempPath(), "metadata_array");
+            var tmpArrayPath = TestUtil.MakeTestPath("metadata_array");
 
             if (Directory.Exists(tmpArrayPath))
             {
@@ -114,7 +114,7 @@ namespace TileDB.CSharp.Test
             var arrayMetadata = array.GetMetadataFromIndex<float>(3);
             Assert.AreEqual("key4",  arrayMetadata.key);
             Assert.AreEqual((int)4,  arrayMetadata.key.Length);
-       
+
             Assert.AreEqual((int)4,  arrayMetadata.data.Length);
 
             array.Close();

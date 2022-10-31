@@ -3,7 +3,7 @@ using System.IO;
 using TileDB.CSharp;
 namespace TileDB.CSharp.Examples
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
@@ -12,9 +12,11 @@ namespace TileDB.CSharp.Examples
             ExampleQuery.Run();
             ExampleIncompleteQuery.Run();
             ExampleIncompleteQueryStringDimensions.Run();
+            ExampleWritingDenseGlobal.Run();
+            ExampleWritingSparseGlobal.Run();
 
             ExampleFile.RunLocal();
-            // ExampleFile.RunCloud("tiledb_api_token", "tiledb_namespace", "cloud_array_name", "s3://bucket/prefix/");
+            // ExampleFile.RunCloud("tiledb_api_token", "tiledb_namespace", "new_cloud_array_name", "s3://bucket/prefix/");
 
             ExampleGroup.RunLocal();
             // ExampleGroup.RunCloud("tiledb_api_token", "tiledb_namespace", "s3://bucket/prefix");
