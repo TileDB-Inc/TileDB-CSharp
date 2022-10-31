@@ -6,22 +6,17 @@ namespace TileDB.CSharp.Examples
     public static class ExampleWritingDenseGlobal
     {
         private static readonly string ArrayPath = ExampleUtil.MakeExamplePath("writing-dense-global");
-        private static readonly Context Ctx;
-
-        static ExampleWritingDenseGlobal()
-        {
-            Ctx = Context.GetDefault();
-        }
+        private static readonly Context Ctx = Context.GetDefault();
 
         private static void CreateArray()
         {
-            var domain = new Domain(Ctx);
+            using var domain = new Domain(Ctx);
             // Create a 4x4 array with 2x2 tile dimensions; Total of 16 cells, 4 tiles, 4 cells each tile
             // + Same layout seen here: https://docs.tiledb.com/main/background/key-concepts-and-data-format#indexing
             domain.AddDimension(Dimension.Create(Ctx, "rows", 1, 4, 2));
             domain.AddDimension(Dimension.Create(Ctx, "cols", 1, 4, 2));
 
-            var schema = new ArraySchema(Ctx, ArrayType.TILEDB_DENSE);
+            using var schema = new ArraySchema(Ctx, ArrayType.TILEDB_DENSE);
             Console.WriteLine($"Tile order: {schema.TileOrder()}; Cell order: {schema.CellOrder()}");
             schema.SetDomain(domain);
             schema.AddAttribute(Attribute.Create<int>(Ctx, "a1"));
@@ -31,10 +26,10 @@ namespace TileDB.CSharp.Examples
 
         private static void WriteArray()
         {
-            var array = new Array(Ctx, ArrayPath);
+            using var array = new Array(Ctx, ArrayPath);
             array.Open(QueryType.TILEDB_WRITE);
 
-            var queryWrite = new Query(Ctx, array, QueryType.TILEDB_WRITE);
+            using var queryWrite = new Query(Ctx, array, QueryType.TILEDB_WRITE);
             queryWrite.SetLayout(LayoutType.TILEDB_GLOBAL_ORDER);
             // Slice rows 1-4, columns 1-2 for a total of 8 cells
             queryWrite.AddRange("rows", 1, 4);
@@ -57,9 +52,9 @@ namespace TileDB.CSharp.Examples
 
         private static void ReadArray()
         {
-            var array = new Array(Ctx, ArrayPath);
+            using var array = new Array(Ctx, ArrayPath);
             array.Open(QueryType.TILEDB_READ);
-            var readQuery = new Query(Ctx, array, QueryType.TILEDB_READ);
+            using var readQuery = new Query(Ctx, array, QueryType.TILEDB_READ);
             readQuery.SetSubarray(new[] { 1, 4, 1, 4 });
 
             var a1Read = new int[16];
