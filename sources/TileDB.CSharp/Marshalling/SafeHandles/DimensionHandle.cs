@@ -10,8 +10,6 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
 
         public DimensionHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
 
-        public static DimensionHandle CreateUnowned(tiledb_dimension_t* schema) => new((IntPtr)schema, ownsHandle: false);
-
         public static DimensionHandle Create(Context context, string name, tiledb_datatype_t datatype, void* dimDomain, void* tileExtent)
         {
             var handle = new DimensionHandle();
@@ -44,7 +42,7 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
             return true;
         }
 
-        private void InitHandle(tiledb_dimension_t* h) { SetHandle((IntPtr)h); }
+        internal void InitHandle(tiledb_dimension_t* h) { SetHandle((IntPtr)h); }
         public override bool IsInvalid => handle == IntPtr.Zero;
 
         public SafeHandleHolder<tiledb_dimension_t> Acquire() => new(this);

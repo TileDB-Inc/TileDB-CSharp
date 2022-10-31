@@ -10,8 +10,6 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
 
         public GroupHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
 
-        public static GroupHandle CreateUnowned(tiledb_group_t* filterList) => new((IntPtr)filterList, ownsHandle: false);
-
         public static GroupHandle Create(Context context, sbyte* uri)
         {
             var handle = new GroupHandle();
@@ -43,7 +41,7 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
             return true;
         }
 
-        private void InitHandle(tiledb_group_t* h) { SetHandle((IntPtr)h); }
+        internal void InitHandle(tiledb_group_t* h) { SetHandle((IntPtr)h); }
         public override bool IsInvalid => handle == IntPtr.Zero;
 
         public SafeHandleHolder<tiledb_group_t> Acquire() => new(this);

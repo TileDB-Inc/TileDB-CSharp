@@ -10,8 +10,6 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
 
         public ArraySchemaEvolutionHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
 
-        public static ArraySchemaEvolutionHandle CreateUnowned(tiledb_array_schema_t* array) => new((IntPtr)array, ownsHandle: false);
-
         public static ArraySchemaEvolutionHandle Create(Context context)
         {
             var handle = new ArraySchemaEvolutionHandle();
@@ -45,7 +43,7 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
             return true;
         }
 
-        private void InitHandle(tiledb_array_schema_evolution_t* h) => SetHandle((IntPtr)h);
+        internal void InitHandle(tiledb_array_schema_evolution_t* h) => SetHandle((IntPtr)h);
         public override bool IsInvalid => handle == IntPtr.Zero;
 
         public SafeHandleHolder<tiledb_array_schema_evolution_t> Acquire() => new(this);

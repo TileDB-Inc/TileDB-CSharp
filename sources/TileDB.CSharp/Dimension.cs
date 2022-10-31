@@ -68,11 +68,27 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public FilterList FilterList()
         {
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            tiledb_filter_list_t* filter_list_p;
-            _ctx.handle_error(Methods.tiledb_dimension_get_filter_list(ctxHandle, handle, &filter_list_p));
-            return new FilterList(_ctx, FilterListHandle.CreateUnowned(filter_list_p));
+            var handle = new FilterListHandle();
+            var successful = false;
+            tiledb_filter_list_t* filter_list_p = null;
+            try
+            {
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var dimensionHandle = _handle.Acquire())
+                {
+                    _ctx.handle_error(Methods.tiledb_dimension_get_filter_list(ctxHandle, dimensionHandle, &filter_list_p));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(filter_list_p);
+                }
+            }
+
+            return new FilterList(_ctx, handle);
         }
 
         /// <summary>

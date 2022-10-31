@@ -52,7 +52,7 @@ namespace TileDB.CSharp
         /// <param name="attribute_name"></param>
         /// <param name="condition_value"></param>
         /// <param name="optype"></param>
-        public void Init<T>(string attribute_name, T condition_value, QueryConditionOperatorType optype) where T: struct
+        public void Init<T>(string attribute_name, T condition_value, QueryConditionOperatorType optype) where T : struct
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -98,15 +98,30 @@ namespace TileDB.CSharp
 
         public QueryCondition Combine(QueryCondition rhs, QueryConditionCombinationOperatorType combination_optype)
         {
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            using var rhsHandle = rhs.Handle.Acquire();
+            var handle = new QueryConditionHandle();
+            var successful = false;
             tiledb_query_condition_t* condition_p = null;
-            _ctx.handle_error(Methods.tiledb_query_condition_combine(ctxHandle, handle, rhsHandle,(tiledb_query_condition_combination_op_t)combination_optype, &condition_p));
+            try
+            {
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var lhsHandle = _handle.Acquire())
+                using (var rhsHandle = rhs.Handle.Acquire())
+                {
+                    _ctx.handle_error(Methods.tiledb_query_condition_combine(ctxHandle, lhsHandle, rhsHandle,
+                        (tiledb_query_condition_combination_op_t)combination_optype, &condition_p));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(condition_p);
+                }
+            }
 
-            return new QueryCondition(_ctx, QueryConditionHandle.CreateUnowned(condition_p));
+            return new QueryCondition(_ctx, handle);
         }
-
         #endregion capi functions
 
         /// <summary>
@@ -119,7 +134,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public static QueryCondition Create(Context ctx, string attribute_name, string value, QueryConditionOperatorType optype)
         {
-            var ret =  new QueryCondition(ctx);
+            var ret = new QueryCondition(ctx);
             ret.Init(attribute_name, value, optype);
             return ret;
         }
@@ -133,7 +148,7 @@ namespace TileDB.CSharp
         /// <param name="value"></param>
         /// <param name="optype"></param>
         /// <returns></returns>
-        public static QueryCondition Create<T>(Context ctx, string attribute_name, T value, QueryConditionOperatorType optype) where T: struct
+        public static QueryCondition Create<T>(Context ctx, string attribute_name, T value, QueryConditionOperatorType optype) where T : struct
         {
             var ret = new QueryCondition(ctx);
             ret.Init(attribute_name, value, optype);

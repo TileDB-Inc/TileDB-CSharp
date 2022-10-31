@@ -20,15 +20,26 @@ namespace TileDB.CSharp
 
         public ArraySchema SchemaCreate(string uri)
         {
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var ms_uri = new MarshaledString(uri);
-            tiledb_array_schema_t* array_schema_p;
-            _ctx.handle_error(Methods.tiledb_filestore_schema_create(ctxHandle, ms_uri, &array_schema_p));
-            if (array_schema_p == null)
+            var handle = new ArraySchemaHandle();
+            var successful = false;
+            tiledb_array_schema_t* array_schema_p = null;
+            try
             {
-                throw new ErrorException("Array.schema, schema pointer is null");
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var ms_uri = new MarshaledString(uri))
+                {
+                    _ctx.handle_error(Methods.tiledb_filestore_schema_create(ctxHandle, ms_uri, &array_schema_p));
+                }
+                successful = true;
             }
-            return new ArraySchema(_ctx, ArraySchemaHandle.CreateUnowned(array_schema_p));
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(array_schema_p);
+                }
+            }
+            return new ArraySchema(_ctx, handle);
         }
 
         public void URIImport(string arrayURI, string fileURI, MIMEType mimeType)

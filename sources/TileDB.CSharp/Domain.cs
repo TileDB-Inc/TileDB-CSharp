@@ -98,17 +98,27 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public Dimension Dimension(uint index)
         {
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            tiledb_dimension_t* dimension_p;
-            _ctx.handle_error(Methods.tiledb_domain_get_dimension_from_index(ctxHandle, handle, index, &dimension_p));
-
-            if (dimension_p == null)
+            var handle = new DimensionHandle();
+            var successful = false;
+            tiledb_dimension_t* dimension_p = null;
+            try
             {
-                throw new ErrorException("Dimension.dimension_from_index, dimension pointer is null");
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var domainHandle = _handle.Acquire())
+                {
+                    _ctx.handle_error(Methods.tiledb_domain_get_dimension_from_index(ctxHandle, domainHandle, index, &dimension_p));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(dimension_p);
+                }
             }
 
-            return new Dimension(_ctx, DimensionHandle.CreateUnowned(dimension_p));
+            return new Dimension(_ctx, handle);
         }
 
         /// <summary>
@@ -118,18 +128,28 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public Dimension Dimension(string name)
         {
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            tiledb_dimension_t* dimension_p;
-            using var ms_name = new MarshaledString(name);
-            _ctx.handle_error(Methods.tiledb_domain_get_dimension_from_name(ctxHandle, handle, ms_name, &dimension_p));
-
-            if (dimension_p == null)
+            var handle = new DimensionHandle();
+            var successful = false;
+            tiledb_dimension_t* dimension_p = null;
+            try
             {
-                throw new ErrorException("Dimension.dimension_from_name, dimension pointer is null");
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var domainHandle = _handle.Acquire())
+                using (var ms_name = new MarshaledString(name))
+                {
+                    _ctx.handle_error(Methods.tiledb_domain_get_dimension_from_name(ctxHandle, domainHandle, ms_name, &dimension_p));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(dimension_p);
+                }
             }
 
-            return new Dimension(_ctx, DimensionHandle.CreateUnowned(dimension_p));
+            return new Dimension(_ctx, handle);
         }
 
         /// <summary>
