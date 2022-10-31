@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\TileDB.CSharp.Example\ExampleUtil.cs" />
     <ProjectReference Include="..\..\..\sources\TileDB.CSharp\TileDB.CSharp.csproj" />
-    <ProjectReference Include="..\..\..\examples\TileDB.CSharp.Example\TileDB.CSharp.Example.csproj" />
   </ItemGroup>
 </Project>
