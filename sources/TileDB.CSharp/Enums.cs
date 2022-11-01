@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using TileDB.Interop;
 
 namespace TileDB.CSharp
@@ -13,167 +13,271 @@ namespace TileDB.CSharp
 
     public enum ObjectType : uint
     {
-        TILEDB_INVALID = tiledb_object_t.TILEDB_INVALID,
-        TILEDB_GROUP = tiledb_object_t.TILEDB_GROUP,
-        TILEDB_ARRAY = tiledb_object_t.TILEDB_ARRAY
+        Invalid = tiledb_object_t.TILEDB_INVALID,
+        Group = tiledb_object_t.TILEDB_GROUP,
+        Array = tiledb_object_t.TILEDB_ARRAY,
+        TILEDB_INVALID = Invalid,
+        TILEDB_GROUP = Group,
+        TILEDB_ARRAY = Array
     }
 
 
     public enum QueryType : uint
     {
-        TILEDB_READ = tiledb_query_type_t.TILEDB_READ,
-        TILEDB_WRITE = tiledb_query_type_t.TILEDB_WRITE,
+        Read = tiledb_query_type_t.TILEDB_READ,
+        Write = tiledb_query_type_t.TILEDB_WRITE,
+        TILEDB_READ = Read,
+        TILEDB_WRITE = Write
     }
 
     public enum QueryStatus : uint
     {
-        TILEDB_FAILED = tiledb_query_status_t.TILEDB_FAILED,
-        TILEDB_COMPLETED = tiledb_query_status_t.TILEDB_COMPLETED,
-        TILEDB_INPROGRESS = tiledb_query_status_t.TILEDB_INPROGRESS,
-        TILEDB_INCOMPLETE = tiledb_query_status_t.TILEDB_INCOMPLETE,
-        TILEDB_UNINITIALIZED = tiledb_query_status_t.TILEDB_UNINITIALIZED,
+        Failed = tiledb_query_status_t.TILEDB_FAILED,
+        Completed = tiledb_query_status_t.TILEDB_COMPLETED,
+        InProgress = tiledb_query_status_t.TILEDB_INPROGRESS,
+        Incomplete = tiledb_query_status_t.TILEDB_INCOMPLETE,
+        Uninitialized = tiledb_query_status_t.TILEDB_UNINITIALIZED,
+        TILEDB_FAILED = Failed,
+        TILEDB_COMPLETED = Completed,
+        TILEDB_INPROGRESS = InProgress,
+        TILEDB_INCOMPLETE = Incomplete,
+        TILEDB_UNINITIALIZED = Uninitialized
     }
 
     public enum QueryConditionOperatorType : uint
     {
-        TILEDB_LT = tiledb_query_condition_op_t.TILEDB_LT,
-        TILEDB_LE = tiledb_query_condition_op_t.TILEDB_LE,
-        TILEDB_GT = tiledb_query_condition_op_t.TILEDB_GT,
-        TILEDB_GE = tiledb_query_condition_op_t.TILEDB_GE,
-        TILEDB_EQ = tiledb_query_condition_op_t.TILEDB_EQ,
-        TILEDB_NE = tiledb_query_condition_op_t.TILEDB_NE,
+        LessThan = tiledb_query_condition_op_t.TILEDB_LT,
+        LessThanOrEqual = tiledb_query_condition_op_t.TILEDB_LE,
+        GreaterThan = tiledb_query_condition_op_t.TILEDB_GT,
+        GreaterThanOrEqual = tiledb_query_condition_op_t.TILEDB_GE,
+        Equal = tiledb_query_condition_op_t.TILEDB_EQ,
+        NotEqual = tiledb_query_condition_op_t.TILEDB_NE,
+        TILEDB_LT = LessThan,
+        TILEDB_LE = LessThanOrEqual,
+        TILEDB_GT = GreaterThan,
+        TILEDB_GE = GreaterThanOrEqual,
+        TILEDB_EQ = Equal,
+        TILEDB_NE = NotEqual
     }
 
     public enum QueryConditionCombinationOperatorType : uint
     {
-        TILEDB_AND = tiledb_query_condition_combination_op_t.TILEDB_AND,
-        TILEDB_OR = tiledb_query_condition_combination_op_t.TILEDB_OR,
-        TILEDB_NOT = tiledb_query_condition_combination_op_t.TILEDB_NOT,
+        And = tiledb_query_condition_combination_op_t.TILEDB_AND,
+        Or = tiledb_query_condition_combination_op_t.TILEDB_OR,
+        Not = tiledb_query_condition_combination_op_t.TILEDB_NOT,
+        TILEDB_AND = And,
+        TILEDB_OR = Or,
+        TILEDB_NOT = Not
     }
 
     public enum FileSystemType : uint
     {
-        TILEDB_HDFS = tiledb_filesystem_t.TILEDB_HDFS,
-        TILEDB_S3 = tiledb_filesystem_t.TILEDB_S3,
-        TILEDB_AZURE = tiledb_filesystem_t.TILEDB_AZURE,
-        TILEDB_GCS = tiledb_filesystem_t.TILEDB_GCS,
-        TILEDB_MEMFS = tiledb_filesystem_t.TILEDB_MEMFS,
+        Hdfs = tiledb_filesystem_t.TILEDB_HDFS,
+        S3 = tiledb_filesystem_t.TILEDB_S3,
+        Azure = tiledb_filesystem_t.TILEDB_AZURE,
+        Gcs = tiledb_filesystem_t.TILEDB_GCS,
+        Memfs = tiledb_filesystem_t.TILEDB_MEMFS,
+        TILEDB_HDFS = Hdfs,
+        TILEDB_S3 = S3,
+        TILEDB_AZURE = Azure,
+        TILEDB_GCS = Gcs,
+        TILEDB_MEMFS = Memfs
     }
 
     public enum DataType : uint
     {
-        TILEDB_INT32 = tiledb_datatype_t.TILEDB_INT32,
-        TILEDB_INT64 = tiledb_datatype_t.TILEDB_INT64,
-        TILEDB_FLOAT32 = tiledb_datatype_t.TILEDB_FLOAT32,
-        TILEDB_FLOAT64 = tiledb_datatype_t.TILEDB_FLOAT64,
-        TILEDB_CHAR = tiledb_datatype_t.TILEDB_CHAR,
-        TILEDB_INT8 = tiledb_datatype_t.TILEDB_INT8,
-        TILEDB_UINT8 = tiledb_datatype_t.TILEDB_UINT8,
-        TILEDB_INT16 = tiledb_datatype_t.TILEDB_INT16,
-        TILEDB_UINT16 = tiledb_datatype_t.TILEDB_UINT16,
-        TILEDB_UINT32 = tiledb_datatype_t.TILEDB_UINT32,
-        TILEDB_UINT64 = tiledb_datatype_t.TILEDB_UINT64,
-        TILEDB_STRING_ASCII = tiledb_datatype_t.TILEDB_STRING_ASCII,
-        TILEDB_STRING_UTF8 = tiledb_datatype_t.TILEDB_STRING_UTF8,
-        TILEDB_STRING_UTF16 = tiledb_datatype_t.TILEDB_STRING_UTF16,
-        TILEDB_STRING_UTF32 = tiledb_datatype_t.TILEDB_STRING_UTF32,
-        TILEDB_STRING_UCS2 = tiledb_datatype_t.TILEDB_STRING_UCS2,
-        TILEDB_STRING_UCS4 = tiledb_datatype_t.TILEDB_STRING_UCS4,
-        TILEDB_ANY = tiledb_datatype_t.TILEDB_ANY,
-        TILEDB_DATETIME_YEAR = tiledb_datatype_t.TILEDB_DATETIME_YEAR,
-        TILEDB_DATETIME_MONTH = tiledb_datatype_t.TILEDB_DATETIME_MONTH,
-        TILEDB_DATETIME_WEEK = tiledb_datatype_t.TILEDB_DATETIME_WEEK,
-        TILEDB_DATETIME_DAY = tiledb_datatype_t.TILEDB_DATETIME_DAY,
-        TILEDB_DATETIME_HR = tiledb_datatype_t.TILEDB_DATETIME_HR,
-        TILEDB_DATETIME_MIN = tiledb_datatype_t.TILEDB_DATETIME_MIN,
-        TILEDB_DATETIME_SEC = tiledb_datatype_t.TILEDB_DATETIME_SEC,
-        TILEDB_DATETIME_MS = tiledb_datatype_t.TILEDB_DATETIME_MS,
-        TILEDB_DATETIME_US = tiledb_datatype_t.TILEDB_DATETIME_US,
-        TILEDB_DATETIME_NS = tiledb_datatype_t.TILEDB_DATETIME_NS,
-        TILEDB_DATETIME_PS = tiledb_datatype_t.TILEDB_DATETIME_PS,
-        TILEDB_DATETIME_FS = tiledb_datatype_t.TILEDB_DATETIME_FS,
-        TILEDB_DATETIME_AS = tiledb_datatype_t.TILEDB_DATETIME_AS,
-        TILEDB_TIME_HR = tiledb_datatype_t.TILEDB_TIME_HR,
-        TILEDB_TIME_MIN = tiledb_datatype_t.TILEDB_TIME_MIN,
-        TILEDB_TIME_SEC = tiledb_datatype_t.TILEDB_TIME_SEC,
-        TILEDB_TIME_MS = tiledb_datatype_t.TILEDB_TIME_MS,
-        TILEDB_TIME_US = tiledb_datatype_t.TILEDB_TIME_US,
-        TILEDB_TIME_NS = tiledb_datatype_t.TILEDB_TIME_NS,
-        TILEDB_TIME_PS = tiledb_datatype_t.TILEDB_TIME_PS,
-        TILEDB_TIME_FS = tiledb_datatype_t.TILEDB_TIME_FS,
-        TILEDB_TIME_AS = tiledb_datatype_t.TILEDB_TIME_AS,
-        TILEDB_BLOB = tiledb_datatype_t.TILEDB_BLOB,
-        TILEDB_BOOL = tiledb_datatype_t.TILEDB_BOOL,
+        Int32 = tiledb_datatype_t.TILEDB_INT32,
+        Int64 = tiledb_datatype_t.TILEDB_INT64,
+        Float32 = tiledb_datatype_t.TILEDB_FLOAT32,
+        Float64 = tiledb_datatype_t.TILEDB_FLOAT64,
+        Char = tiledb_datatype_t.TILEDB_CHAR,
+        Int8 = tiledb_datatype_t.TILEDB_INT8,
+        UInt8 = tiledb_datatype_t.TILEDB_UINT8,
+        Int16 = tiledb_datatype_t.TILEDB_INT16,
+        UInt16 = tiledb_datatype_t.TILEDB_UINT16,
+        UInt32 = tiledb_datatype_t.TILEDB_UINT32,
+        UInt64 = tiledb_datatype_t.TILEDB_UINT64,
+        StringAscii = tiledb_datatype_t.TILEDB_STRING_ASCII,
+        StringUtf8 = tiledb_datatype_t.TILEDB_STRING_UTF8,
+        StringUtf16 = tiledb_datatype_t.TILEDB_STRING_UTF16,
+        StringUtf32 = tiledb_datatype_t.TILEDB_STRING_UTF32,
+        StringUcs2 = tiledb_datatype_t.TILEDB_STRING_UCS2,
+        StringUcs4 = tiledb_datatype_t.TILEDB_STRING_UCS4,
+        Any = tiledb_datatype_t.TILEDB_ANY,
+        DateTimeYear = tiledb_datatype_t.TILEDB_DATETIME_YEAR,
+        DateTimeMonth = tiledb_datatype_t.TILEDB_DATETIME_MONTH,
+        DateTimeWeek = tiledb_datatype_t.TILEDB_DATETIME_WEEK,
+        DateTimeDay = tiledb_datatype_t.TILEDB_DATETIME_DAY,
+        DateTimeHour = tiledb_datatype_t.TILEDB_DATETIME_HR,
+        DateTimeMinute = tiledb_datatype_t.TILEDB_DATETIME_MIN,
+        DateTimeSecond = tiledb_datatype_t.TILEDB_DATETIME_SEC,
+        DateTimeMillisecond = tiledb_datatype_t.TILEDB_DATETIME_MS,
+        DateTimeMicrosecond = tiledb_datatype_t.TILEDB_DATETIME_US,
+        DateTimeNanosecond = tiledb_datatype_t.TILEDB_DATETIME_NS,
+        DateTimePicosecond = tiledb_datatype_t.TILEDB_DATETIME_PS,
+        DateTimeFemtosecond = tiledb_datatype_t.TILEDB_DATETIME_FS,
+        DateTimeAttosecond = tiledb_datatype_t.TILEDB_DATETIME_AS,
+        TimeHour = tiledb_datatype_t.TILEDB_TIME_HR,
+        TimeMinute = tiledb_datatype_t.TILEDB_TIME_MIN,
+        TimeSecond = tiledb_datatype_t.TILEDB_TIME_SEC,
+        TimeMillisecond = tiledb_datatype_t.TILEDB_TIME_MS,
+        TimeMicrosecond = tiledb_datatype_t.TILEDB_TIME_US,
+        TimeNanosecond = tiledb_datatype_t.TILEDB_TIME_NS,
+        TimePicosecond = tiledb_datatype_t.TILEDB_TIME_PS,
+        TimeFemtosecond = tiledb_datatype_t.TILEDB_TIME_FS,
+        TimeAttosecond = tiledb_datatype_t.TILEDB_TIME_AS,
+        Blob = tiledb_datatype_t.TILEDB_BLOB,
+        Boolean = tiledb_datatype_t.TILEDB_BOOL,
+        TILEDB_INT32 = Int32,
+        TILEDB_INT64 = Int64,
+        TILEDB_FLOAT32 = Float32,
+        TILEDB_FLOAT64 = Float64,
+        TILEDB_CHAR = Char,
+        TILEDB_INT8 = Int8,
+        TILEDB_UINT8 = UInt8,
+        TILEDB_INT16 = Int16,
+        TILEDB_UINT16 = UInt16,
+        TILEDB_UINT32 = UInt32,
+        TILEDB_UINT64 = UInt64,
+        TILEDB_STRING_ASCII = StringAscii,
+        TILEDB_STRING_UTF8 = StringUtf8,
+        TILEDB_STRING_UTF16 = StringUtf16,
+        TILEDB_STRING_UTF32 = StringUtf32,
+        TILEDB_STRING_UCS2 = StringUcs2,
+        TILEDB_STRING_UCS4 = StringUcs4,
+        TILEDB_ANY = Any,
+        TILEDB_DATETIME_YEAR = DateTimeYear,
+        TILEDB_DATETIME_MONTH = DateTimeMonth,
+        TILEDB_DATETIME_WEEK = DateTimeWeek,
+        TILEDB_DATETIME_DAY = DateTimeDay,
+        TILEDB_DATETIME_HR = DateTimeHour,
+        TILEDB_DATETIME_MIN = DateTimeMinute,
+        TILEDB_DATETIME_SEC = DateTimeSecond,
+        TILEDB_DATETIME_MS = DateTimeMillisecond,
+        TILEDB_DATETIME_US = DateTimeMicrosecond,
+        TILEDB_DATETIME_NS = DateTimeNanosecond,
+        TILEDB_DATETIME_PS = DateTimePicosecond,
+        TILEDB_DATETIME_FS = DateTimeFemtosecond,
+        TILEDB_DATETIME_AS = DateTimeAttosecond,
+        TILEDB_TIME_HR = TimeHour,
+        TILEDB_TIME_MIN = TimeMinute,
+        TILEDB_TIME_SEC = TimeSecond,
+        TILEDB_TIME_MS = TimeMillisecond,
+        TILEDB_TIME_US = TimeMicrosecond,
+        TILEDB_TIME_NS = TimeNanosecond,
+        TILEDB_TIME_PS = TimePicosecond,
+        TILEDB_TIME_FS = TimeFemtosecond,
+        TILEDB_TIME_AS = TimeAttosecond,
+        TILEDB_BLOB = Blob,
+        TILEDB_BOOL = Boolean
     }
 
     public enum ArrayType : uint
     {
-        TILEDB_DENSE = tiledb_array_type_t.TILEDB_DENSE,
-        TILEDB_SPARSE = tiledb_array_type_t.TILEDB_SPARSE,
+        Dense = tiledb_array_type_t.TILEDB_DENSE,
+        Sparse = tiledb_array_type_t.TILEDB_SPARSE,
+        TILEDB_DENSE = Dense,
+        TILEDB_SPARSE = Sparse
     }
 
     public enum LayoutType : uint
     {
-        TILEDB_ROW_MAJOR = tiledb_layout_t.TILEDB_ROW_MAJOR,
-        TILEDB_COL_MAJOR = tiledb_layout_t.TILEDB_COL_MAJOR,
-        TILEDB_GLOBAL_ORDER = tiledb_layout_t.TILEDB_GLOBAL_ORDER,
-        TILEDB_UNORDERED = tiledb_layout_t.TILEDB_UNORDERED,
-        TILEDB_HILBERT = tiledb_layout_t.TILEDB_HILBERT,
+        RowMajor = tiledb_layout_t.TILEDB_ROW_MAJOR,
+        ColumnMajor = tiledb_layout_t.TILEDB_COL_MAJOR,
+        GlobalOrder = tiledb_layout_t.TILEDB_GLOBAL_ORDER,
+        Unordered = tiledb_layout_t.TILEDB_UNORDERED,
+        Hilbert = tiledb_layout_t.TILEDB_HILBERT,
+        TILEDB_ROW_MAJOR = RowMajor,
+        TILEDB_COL_MAJOR = ColumnMajor,
+        TILEDB_GLOBAL_ORDER = GlobalOrder,
+        TILEDB_UNORDERED = Unordered,
+        TILEDB_HILBERT = Hilbert
     }
 
     public enum FilterType : uint
     {
-        TILEDB_FILTER_NONE = tiledb_filter_type_t.TILEDB_FILTER_NONE,
-        TILEDB_FILTER_GZIP = tiledb_filter_type_t.TILEDB_FILTER_GZIP,
-        TILEDB_FILTER_ZSTD = tiledb_filter_type_t.TILEDB_FILTER_ZSTD,
-        TILEDB_FILTER_LZ4 = tiledb_filter_type_t.TILEDB_FILTER_LZ4,
-        TILEDB_FILTER_RLE = tiledb_filter_type_t.TILEDB_FILTER_RLE,
-        TILEDB_FILTER_BZIP2 = tiledb_filter_type_t.TILEDB_FILTER_BZIP2,
-        TILEDB_FILTER_DOUBLE_DELTA = tiledb_filter_type_t.TILEDB_FILTER_DOUBLE_DELTA,
-        TILEDB_FILTER_BIT_WIDTH_REDUCTION = tiledb_filter_type_t.TILEDB_FILTER_BIT_WIDTH_REDUCTION,
-        TILEDB_FILTER_BITSHUFFLE = tiledb_filter_type_t.TILEDB_FILTER_BITSHUFFLE,
-        TILEDB_FILTER_BYTESHUFFLE = tiledb_filter_type_t.TILEDB_FILTER_BYTESHUFFLE,
-        TILEDB_FILTER_POSITIVE_DELTA = tiledb_filter_type_t.TILEDB_FILTER_POSITIVE_DELTA,
-        TILEDB_FILTER_CHECKSUM_MD5 = tiledb_filter_type_t.TILEDB_FILTER_CHECKSUM_MD5,
-        TILEDB_FILTER_CHECKSUM_SHA256 = tiledb_filter_type_t.TILEDB_FILTER_CHECKSUM_SHA256,
-        TILEDB_FILTER_DICTIONARY = tiledb_filter_type_t.TILEDB_FILTER_DICTIONARY,
-        TILEDB_FILTER_SCALE_FLOAT = tiledb_filter_type_t.TILEDB_FILTER_SCALE_FLOAT,
+        None = tiledb_filter_type_t.TILEDB_FILTER_NONE,
+        Gzip = tiledb_filter_type_t.TILEDB_FILTER_GZIP,
+        Zstandard = tiledb_filter_type_t.TILEDB_FILTER_ZSTD,
+        Lz4 = tiledb_filter_type_t.TILEDB_FILTER_LZ4,
+        RunLengthEncoding = tiledb_filter_type_t.TILEDB_FILTER_RLE,
+        Bzip2 = tiledb_filter_type_t.TILEDB_FILTER_BZIP2,
+        DoubleDelta = tiledb_filter_type_t.TILEDB_FILTER_DOUBLE_DELTA,
+        BitWidthReduction = tiledb_filter_type_t.TILEDB_FILTER_BIT_WIDTH_REDUCTION,
+        BitShuffle = tiledb_filter_type_t.TILEDB_FILTER_BITSHUFFLE,
+        ByteShuffle = tiledb_filter_type_t.TILEDB_FILTER_BYTESHUFFLE,
+        PositiveDelta = tiledb_filter_type_t.TILEDB_FILTER_POSITIVE_DELTA,
+        ChecksumMd5 = tiledb_filter_type_t.TILEDB_FILTER_CHECKSUM_MD5,
+        ChecksumSha256 = tiledb_filter_type_t.TILEDB_FILTER_CHECKSUM_SHA256,
+        Dictionary = tiledb_filter_type_t.TILEDB_FILTER_DICTIONARY,
+        ScaleFloat = tiledb_filter_type_t.TILEDB_FILTER_SCALE_FLOAT,
+        TILEDB_FILTER_NONE = None,
+        TILEDB_FILTER_GZIP = Gzip,
+        TILEDB_FILTER_ZSTD = Zstandard,
+        TILEDB_FILTER_LZ4 = Lz4,
+        TILEDB_FILTER_RLE = RunLengthEncoding,
+        TILEDB_FILTER_BZIP2 = Bzip2,
+        TILEDB_FILTER_DOUBLE_DELTA = DoubleDelta,
+        TILEDB_FILTER_BIT_WIDTH_REDUCTION = BitWidthReduction,
+        TILEDB_FILTER_BITSHUFFLE = BitShuffle,
+        TILEDB_FILTER_BYTESHUFFLE = ByteShuffle,
+        TILEDB_FILTER_POSITIVE_DELTA = PositiveDelta,
+        TILEDB_FILTER_CHECKSUM_MD5 = ChecksumMd5,
+        TILEDB_FILTER_CHECKSUM_SHA256 = ChecksumSha256,
+        TILEDB_FILTER_DICTIONARY = Dictionary,
+        TILEDB_FILTER_SCALE_FLOAT = ScaleFloat
     }
 
     public enum FilterOption : uint
     {
-        TILEDB_COMPRESSION_LEVEL = tiledb_filter_option_t.TILEDB_COMPRESSION_LEVEL,
-        TILEDB_BIT_WIDTH_MAX_WINDOW = tiledb_filter_option_t.TILEDB_BIT_WIDTH_MAX_WINDOW,
-        TILEDB_POSITIVE_DELTA_MAX_WINDOW = tiledb_filter_option_t.TILEDB_POSITIVE_DELTA_MAX_WINDOW,
-        TILEDB_SCALE_FLOAT_BYTEWIDTH = tiledb_filter_option_t.TILEDB_SCALE_FLOAT_BYTEWIDTH,
-        TILEDB_SCALE_FLOAT_FACTOR = tiledb_filter_option_t.TILEDB_SCALE_FLOAT_FACTOR,
-        TILEDB_SCALE_FLOAT_OFFSET = tiledb_filter_option_t.TILEDB_SCALE_FLOAT_OFFSET,
+        CompressionLevel = tiledb_filter_option_t.TILEDB_COMPRESSION_LEVEL,
+        BitWidthMaxWindow = tiledb_filter_option_t.TILEDB_BIT_WIDTH_MAX_WINDOW,
+        PositiveDeltaMaxWindow = tiledb_filter_option_t.TILEDB_POSITIVE_DELTA_MAX_WINDOW,
+        ScaleFloatByteWidth = tiledb_filter_option_t.TILEDB_SCALE_FLOAT_BYTEWIDTH,
+        ScaleFloatFactor = tiledb_filter_option_t.TILEDB_SCALE_FLOAT_FACTOR,
+        ScaleFloatOffset = tiledb_filter_option_t.TILEDB_SCALE_FLOAT_OFFSET,
+        TILEDB_COMPRESSION_LEVEL = CompressionLevel,
+        TILEDB_BIT_WIDTH_MAX_WINDOW = BitWidthMaxWindow,
+        TILEDB_POSITIVE_DELTA_MAX_WINDOW = PositiveDeltaMaxWindow,
+        TILEDB_SCALE_FLOAT_BYTEWIDTH = ScaleFloatByteWidth,
+        TILEDB_SCALE_FLOAT_FACTOR = ScaleFloatFactor,
+        TILEDB_SCALE_FLOAT_OFFSET = ScaleFloatOffset
     }
 
     public enum EncryptionType : uint
     {
-        TILEDB_NO_ENCRYPTION = tiledb_encryption_type_t.TILEDB_NO_ENCRYPTION,
-        TILEDB_AES_256_GCM = tiledb_encryption_type_t.TILEDB_AES_256_GCM,
+        NoEncryption = tiledb_encryption_type_t.TILEDB_NO_ENCRYPTION,
+        Aes256Gcm = tiledb_encryption_type_t.TILEDB_AES_256_GCM,
+        TILEDB_NO_ENCRYPTION = NoEncryption,
+        TILEDB_AES_256_GCM = Aes256Gcm
     }
 
     public enum WalkOrderType : uint
     {
-        TILEDB_PREORDER = tiledb_walk_order_t.TILEDB_PREORDER,
-        TILEDB_POSTORDER = tiledb_walk_order_t.TILEDB_POSTORDER,
+        PreOrder = tiledb_walk_order_t.TILEDB_PREORDER,
+        PostOrder = tiledb_walk_order_t.TILEDB_POSTORDER,
+        TILEDB_PREORDER = PreOrder,
+        TILEDB_POSTORDER = PostOrder
     }
 
     public enum VfsMode : uint
     {
-        TILEDB_VFS_READ = tiledb_vfs_mode_t.TILEDB_VFS_READ,
-        TILEDB_VFS_WRITE = tiledb_vfs_mode_t.TILEDB_VFS_WRITE,
-        TILEDB_VFS_APPEND = tiledb_vfs_mode_t.TILEDB_VFS_APPEND,
+        Read = tiledb_vfs_mode_t.TILEDB_VFS_READ,
+        Write = tiledb_vfs_mode_t.TILEDB_VFS_WRITE,
+        Append = tiledb_vfs_mode_t.TILEDB_VFS_APPEND,
+        TILEDB_VFS_READ = Read,
+        TILEDB_VFS_WRITE = Write,
+        TILEDB_VFS_APPEND = Append
     }
 
     public enum MIMEType : uint
     {
-        TILEDB_MIME_PDF = tiledb_mime_type_t.TILEDB_MIME_PDF,
-        TILEDB_MIME_TIFF = tiledb_mime_type_t.TILEDB_MIME_TIFF,
-        TILEDB_MIME_AUTODETECT = tiledb_mime_type_t.TILEDB_MIME_AUTODETECT,
+        Pdf = tiledb_mime_type_t.TILEDB_MIME_PDF,
+        Tiff = tiledb_mime_type_t.TILEDB_MIME_TIFF,
+        AutoDetect = tiledb_mime_type_t.TILEDB_MIME_AUTODETECT,
+        TILEDB_MIME_PDF = Pdf,
+        TILEDB_MIME_TIFF = Tiff,
+        TILEDB_MIME_AUTODETECT = AutoDetect
     }
 
     public class Constants
@@ -188,10 +292,7 @@ namespace TileDB.CSharp
         public const string FILE_METADATA_MIME_ENCODING_KEY = "mime_encoding";
         public const string METADATA_ORIGINAL_FILE_NAME = "original_file_name";
         #endregion File Api
-
     }
-
-
 
     public static unsafe class EnumUtil
     {
