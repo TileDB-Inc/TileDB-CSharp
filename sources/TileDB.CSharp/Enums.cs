@@ -18,11 +18,13 @@ namespace TileDB.CSharp
         TILEDB_ARRAY = tiledb_object_t.TILEDB_ARRAY
     }
 
-
     public enum QueryType : uint
     {
         TILEDB_READ = tiledb_query_type_t.TILEDB_READ,
         TILEDB_WRITE = tiledb_query_type_t.TILEDB_WRITE,
+        Delete = tiledb_query_type_t.TILEDB_DELETE,
+        Update = tiledb_query_type_t.TILEDB_UPDATE,
+        ModifyExclusive = tiledb_query_type_t.TILEDB_MODIFY_EXCLUSIVE
     }
 
     public enum QueryStatus : uint
@@ -138,6 +140,7 @@ namespace TileDB.CSharp
         TILEDB_FILTER_CHECKSUM_SHA256 = tiledb_filter_type_t.TILEDB_FILTER_CHECKSUM_SHA256,
         TILEDB_FILTER_DICTIONARY = tiledb_filter_type_t.TILEDB_FILTER_DICTIONARY,
         TILEDB_FILTER_SCALE_FLOAT = tiledb_filter_type_t.TILEDB_FILTER_SCALE_FLOAT,
+        Xor = tiledb_filter_type_t.TILEDB_FILTER_XOR
     }
 
     public enum FilterOption : uint
@@ -188,10 +191,7 @@ namespace TileDB.CSharp
         public const string FILE_METADATA_MIME_ENCODING_KEY = "mime_encoding";
         public const string METADATA_ORIGINAL_FILE_NAME = "original_file_name";
         #endregion File Api
-
     }
-
-
 
     public static unsafe class EnumUtil
     {
