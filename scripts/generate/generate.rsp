@@ -9,6 +9,10 @@ Methods
 TileDB.Interop
 --file
 tiledb/api/c_api/api_external_common.h
+tiledb/api/c_api/config/config_api_external.h
+tiledb/api/c_api/context/context_api_external.h
+tiledb/api/c_api/error/error_api_external.h
+tiledb/api/c_api/filter/filter_api_external.h
 tiledb/tiledb_experimental.h
 tiledb/tiledb.h
 --output
