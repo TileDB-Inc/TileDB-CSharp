@@ -20,8 +20,8 @@ namespace TileDB.CSharp.Examples
             var domain = new Domain(Ctx);
             domain.AddDimension(dim1);
             domain.AddDimension(dim2);
-            var array_schema = new ArraySchema(Ctx, ArrayType.TILEDB_SPARSE);
-            var attr = new Attribute(Ctx, "a", DataType.TILEDB_INT32);
+            var array_schema = new ArraySchema(Ctx, ArrayType.Sparse);
+            var attr = new Attribute(Ctx, "a", DataType.Int32);
             array_schema.AddAttribute(attr);
             array_schema.SetDomain(domain);
             array_schema.Check();
@@ -38,9 +38,9 @@ namespace TileDB.CSharp.Examples
 
             using (var array_write = new Array(Ctx, ArrayPath))
             {
-                array_write.Open(QueryType.TILEDB_WRITE);
+                array_write.Open(QueryType.Write);
                 var query_write = new Query(Ctx, array_write);
-                query_write.SetLayout(LayoutType.TILEDB_UNORDERED);
+                query_write.SetLayout(LayoutType.Unordered);
                 query_write.SetDataBuffer<int>("rows", dim1_data_buffer);
                 query_write.SetDataBuffer<int>("cols", dim2_data_buffer);
                 query_write.SetDataBuffer<int>("a", attr_data_buffer);
@@ -58,9 +58,9 @@ namespace TileDB.CSharp.Examples
 
             using (var array_read = new Array(Ctx, ArrayPath))
             {
-                array_read.Open(QueryType.TILEDB_READ);
+                array_read.Open(QueryType.Read);
                 var query_read = new Query(Ctx, array_read);
-                query_read.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
+                query_read.SetLayout(LayoutType.RowMajor);
                 query_read.SetDataBuffer<int>("rows", dim1_data_buffer_read);
                 query_read.SetDataBuffer<int>("cols", dim2_data_buffer_read);
                 query_read.SetDataBuffer<int>("a", attr_data_buffer_read);
@@ -85,9 +85,9 @@ namespace TileDB.CSharp.Examples
             var attr_data_buffer_read = new int[3];
 
             var array_read = new Array(Ctx, ArrayPath);
-            array_read.Open(QueryType.TILEDB_READ);
+            array_read.Open(QueryType.Read);
             var query_read = new Query(Ctx, array_read);
-            query_read.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
+            query_read.SetLayout(LayoutType.RowMajor);
             query_read.SetDataBuffer<int>("rows", dim1_data_buffer_read);
             query_read.SetDataBuffer<int>("cols", dim2_data_buffer_read);
             query_read.SetDataBuffer<int>("a", attr_data_buffer_read);

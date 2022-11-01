@@ -260,7 +260,7 @@ namespace TileDB.CSharp
             get
             {
                 QueryType querytype = _group.QueryType();
-                return querytype == QueryType.TILEDB_READ;
+                return querytype == QueryType.Read;
             }
         }
 

@@ -17,7 +17,7 @@ namespace TileDB.CSharp.Examples
             domain.AddDimension(Dimension.Create(Ctx, "rows", 1, 4, 2));
             domain.AddDimension(Dimension.Create(Ctx, "cols", 1, 4, 2));
 
-            using var schema = new ArraySchema(Ctx, ArrayType.TILEDB_SPARSE);
+            using var schema = new ArraySchema(Ctx, ArrayType.Sparse);
             Console.WriteLine($"Tile order: {schema.TileOrder()}; Cell order: {schema.CellOrder()}");
             schema.SetDomain(domain);
             schema.AddAttribute(Attribute.Create<int>(Ctx, "a1"));
@@ -28,9 +28,9 @@ namespace TileDB.CSharp.Examples
         private static void WriteArray()
         {
             using var array = new Array(Ctx, ArrayPath);
-            array.Open(QueryType.TILEDB_WRITE);
-            using var queryWrite = new Query(Ctx, array, QueryType.TILEDB_WRITE);
-            queryWrite.SetLayout(LayoutType.TILEDB_GLOBAL_ORDER);
+            array.Open(QueryType.Write);
+            using var queryWrite = new Query(Ctx, array, QueryType.Write);
+            queryWrite.SetLayout(LayoutType.GlobalOrder);
 
             // Coordinates for global order writes must be provided in-order
             // + We may not write to (2, 1) before (1, 1); (2, 1) comes after (1, 1) in global order
@@ -56,8 +56,8 @@ namespace TileDB.CSharp.Examples
         private static void ReadArray()
         {
             using var array = new Array(Ctx, ArrayPath);
-            array.Open(QueryType.TILEDB_READ);
-            using var readQuery = new Query(Ctx, array, QueryType.TILEDB_READ);
+            array.Open(QueryType.Read);
+            using var readQuery = new Query(Ctx, array, QueryType.Read);
             readQuery.SetSubarray(new[] { 1, 4, 1, 4 });
 
             var rowsRead = new int[6];

@@ -19,10 +19,10 @@ namespace TileDB.CSharp.Examples
             var domain = new Domain(Ctx);
             domain.AddDimensions(rows, cols);
 
-            var schema = new ArraySchema(Ctx, ArrayType.TILEDB_SPARSE);
+            var schema = new ArraySchema(Ctx, ArrayType.Sparse);
             schema.SetDomain(domain);
 
-            var attr = new Attribute(Ctx, "a1", DataType.TILEDB_INT32);
+            var attr = new Attribute(Ctx, "a1", DataType.Int32);
             schema.AddAttribute(attr);
             schema.Check();
 
@@ -41,10 +41,10 @@ namespace TileDB.CSharp.Examples
 
             using (var arrayWrite = new Array(Ctx, ArrayPath))
             {
-                arrayWrite.Open(QueryType.TILEDB_WRITE);
+                arrayWrite.Open(QueryType.Write);
 
                 var queryWrite = new Query(Ctx, arrayWrite);
-                queryWrite.SetLayout(LayoutType.TILEDB_UNORDERED);
+                queryWrite.SetLayout(LayoutType.Unordered);
                 queryWrite.SetDataBuffer("rows", rowsData);
                 queryWrite.SetOffsetsBuffer("rows", rowsOffsets);
                 queryWrite.SetDataBuffer("cols", colsData);
@@ -61,9 +61,9 @@ namespace TileDB.CSharp.Examples
         {
             using (var arrayRead = new Array(Ctx, ArrayPath))
             {
-                arrayRead.Open(QueryType.TILEDB_READ);
+                arrayRead.Open(QueryType.Read);
                 var queryRead = new Query(Ctx, arrayRead);
-                queryRead.SetLayout(LayoutType.TILEDB_UNORDERED);
+                queryRead.SetLayout(LayoutType.Unordered);
                 queryRead.AddRange("rows", "a", "eeeee");
                 queryRead.AddRange("cols", "f", "jjjjj");
 
@@ -127,7 +127,7 @@ namespace TileDB.CSharp.Examples
                     Console.WriteLine($"Batch #{batchNum++}: {string.Join(", ", resultList)}");
 
                     // If read is still incomplete, submit query again using allocated buffers
-                } while (queryRead.Status() == QueryStatus.TILEDB_INCOMPLETE);
+                } while (queryRead.Status() == QueryStatus.Incomplete);
 
                 Console.WriteLine($"Final read query status: {queryRead.Status()}");
                 arrayRead.Close();

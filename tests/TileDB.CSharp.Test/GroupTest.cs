@@ -17,7 +17,7 @@ namespace TileDB.CSharp.Test
             string group1_uri = System.IO.Path.Combine(temp_dir, "group1");
             Group.Create(ctx, group1_uri);
             var group = new Group(ctx, group1_uri);
-            group.Open(QueryType.TILEDB_WRITE);
+            group.Open(QueryType.Write);
             group.Close();
 
             // Put metadata on a group that is not opened
@@ -25,17 +25,17 @@ namespace TileDB.CSharp.Test
             Assert.ThrowsException<Exception>(() => group.PutMetadata<int>("key",v));
 
             // Write metadata on a group opened in READ mode
-            group.Open(QueryType.TILEDB_READ);
+            group.Open(QueryType.Read);
             Assert.ThrowsException<Exception>(() => group.PutMetadata<int>("key", v));
 
             // Close and reopen in WRITE mode
             group.Close();
-            group.Open(QueryType.TILEDB_WRITE);
+            group.Open(QueryType.Write);
 
             group.PutMetadata<int>("key", v);
             group.Close();
 
-            group.Open(QueryType.TILEDB_READ);
+            group.Open(QueryType.Read);
             var data = group.GetMetadata<int>("key");
 
             Assert.AreEqual<int>(5, data[0]);
@@ -63,29 +63,29 @@ namespace TileDB.CSharp.Test
             Group.Create(ctx, group2_uri);
 
             var group1 = new Group(ctx, group1_uri);
-            group1.Open(QueryType.TILEDB_WRITE);
+            group1.Open(QueryType.Write);
 
             group1.AddMember(array1_uri, false, "array1");
             group1.AddMember(array2_uri, false, "array2");
             group1.Close();
 
             var group2 = new Group(ctx, group2_uri);
-            group2.Open(QueryType.TILEDB_WRITE);
+            group2.Open(QueryType.Write);
             group2.AddMember(array2_uri, false, "array2");
             group2.Close();
 
             //Reopen in read mode
-            group1.Open(QueryType.TILEDB_READ);
+            group1.Open(QueryType.Read);
             Assert.AreEqual<ulong>(2, group1.MemberCount());
             group1.Close();
 
             //Reopen in write mode
-            group1.Open(QueryType.TILEDB_WRITE);
+            group1.Open(QueryType.Write);
             group1.RemoveMember(array1_uri);
             group1.Close();
 
             //Reopen in read mode
-            group1.Open(QueryType.TILEDB_READ);
+            group1.Open(QueryType.Read);
             Assert.AreEqual<ulong>(1, group1.MemberCount());
             group1.Close();
         }
@@ -137,20 +137,20 @@ namespace TileDB.CSharp.Test
             Assert.IsNotNull(dim_1);
             domain.AddDimension(dim_1);
 
-            var array_schema = new ArraySchema(context, ArrayType.TILEDB_DENSE);
+            var array_schema = new ArraySchema(context, ArrayType.Dense);
             Assert.IsNotNull(array_schema);
 
-            var attr1 = new Attribute(context, "a1", DataType.TILEDB_FLOAT32);
+            var attr1 = new Attribute(context, "a1", DataType.Float32);
             Assert.IsNotNull(attr1);
             array_schema.AddAttribute(attr1);
 
             array_schema.SetDomain(domain);
-            array_schema.SetCellOrder(LayoutType.TILEDB_ROW_MAJOR);
-            array_schema.SetTileOrder(LayoutType.TILEDB_ROW_MAJOR);
+            array_schema.SetCellOrder(LayoutType.RowMajor);
+            array_schema.SetTileOrder(LayoutType.RowMajor);
 
             array_schema.Check();
 
             Array.Create(context, tmpArrayPath, array_schema);
         }
-    }//class
-}//namespace
+    }
+}

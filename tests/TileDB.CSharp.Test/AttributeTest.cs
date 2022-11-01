@@ -10,7 +10,7 @@ namespace TileDB.CSharp.Test
         public void FillValue()
         {
             var ctx = Context.GetDefault();
-            var attr = new Attribute(ctx, "a", DataType.TILEDB_INT32);
+            var attr = new Attribute(ctx, "a", DataType.Int32);
             var fill_value = 100;
             attr.SetFillValue(fill_value);
             var value_size = attr.FillValue<int>();
@@ -23,13 +23,13 @@ namespace TileDB.CSharp.Test
             var context = Context.GetDefault();
 
             const string attrName = "a";
-            using var attribute =  new Attribute(context, attrName, DataType.TILEDB_INT32);
+            using var attribute =  new Attribute(context, attrName, DataType.Int32);
             Assert.AreEqual(attrName, attribute.Name());
-            Assert.AreEqual(DataType.TILEDB_INT32, attribute.Type());
+            Assert.AreEqual(DataType.Int32, attribute.Type());
 
             // Set and get compressor
-            var gzipFilter = new Filter(context, FilterType.TILEDB_FILTER_GZIP);
-            gzipFilter.SetOption(FilterOption.TILEDB_COMPRESSION_LEVEL, 5);
+            var gzipFilter = new Filter(context, FilterType.Gzip);
+            gzipFilter.SetOption(FilterOption.CompressionLevel, 5);
             var filter_list = new FilterList(context);
             filter_list.AddFilter(gzipFilter);
             attribute.SetFilterList(filter_list);
@@ -38,8 +38,8 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual(filter_list.NFilters(), filterListReturn.NFilters());
             var filterReturn = filterListReturn.Filter(0);
             var filterTypeReturn = filterReturn.FilterType();
-            Assert.AreEqual(FilterType.TILEDB_FILTER_GZIP, filterTypeReturn);
-            var filterOption = gzipFilter.GetOption<int>(FilterOption.TILEDB_COMPRESSION_LEVEL);
+            Assert.AreEqual(FilterType.Gzip, filterTypeReturn);
+            var filterOption = gzipFilter.GetOption<int>(FilterOption.CompressionLevel);
             Assert.AreEqual(5, filterOption);
 
             attribute.SetCellValNum(10);
@@ -60,17 +60,17 @@ namespace TileDB.CSharp.Test
             var context = Context.GetDefault();
 
             const string attrName = "a";
-            using var attribute = new Attribute(context, attrName, DataType.TILEDB_INT32);
+            using var attribute = new Attribute(context, attrName, DataType.Int32);
             Assert.AreEqual(attrName, attribute.Name());
 
             attribute.SetNullable(true);
 
             Assert.AreEqual(true, attribute.Nullable());
-            Assert.AreEqual(DataType.TILEDB_INT32, attribute.Type());
+            Assert.AreEqual(DataType.Int32, attribute.Type());
 
             // Set and get compressor
-            var gzipFilter = new Filter(context, FilterType.TILEDB_FILTER_GZIP);
-            gzipFilter.SetOption( FilterOption.TILEDB_COMPRESSION_LEVEL, 5);
+            var gzipFilter = new Filter(context, FilterType.Gzip);
+            gzipFilter.SetOption( FilterOption.CompressionLevel, 5);
             var filter_list = new FilterList(context);
             filter_list.AddFilter(gzipFilter);
             attribute.SetFilterList(filter_list);
@@ -79,8 +79,8 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual(filter_list.NFilters(), filterListReturn.NFilters());
             var filterReturn = filterListReturn.Filter(0);
             var filterTypeReturn = filterReturn.FilterType();
-            Assert.AreEqual(FilterType.TILEDB_FILTER_GZIP, filterTypeReturn);
-            var filterOption = gzipFilter.GetOption<int>(FilterOption.TILEDB_COMPRESSION_LEVEL);
+            Assert.AreEqual(FilterType.Gzip, filterTypeReturn);
+            var filterOption = gzipFilter.GetOption<int>(FilterOption.CompressionLevel);
             Assert.AreEqual(5, filterOption);
 
             attribute.SetCellValNum(10);
@@ -102,9 +102,9 @@ namespace TileDB.CSharp.Test
             var context = Context.GetDefault();
 
             const string attrName = "a";
-            using var attribute = new Attribute(context, attrName, DataType.TILEDB_STRING_ASCII);
+            using var attribute = new Attribute(context, attrName, DataType.StringAscii);
             Assert.AreEqual<string>(attrName, attribute.Name());
-            Assert.AreEqual(DataType.TILEDB_STRING_ASCII, attribute.Type());
+            Assert.AreEqual(DataType.StringAscii, attribute.Type());
 
             attribute.SetFillValue("test_fill");
             var fill_value = attribute.FillValue();
@@ -117,9 +117,9 @@ namespace TileDB.CSharp.Test
             var context = Context.GetDefault();
 
             const string attrName = "a";
-            using var attribute = new Attribute(context, attrName, DataType.TILEDB_BOOL);
+            using var attribute = new Attribute(context, attrName, DataType.Boolean);
             Assert.AreEqual<string>(attrName, attribute.Name());
-            Assert.AreEqual(DataType.TILEDB_BOOL, attribute.Type());
+            Assert.AreEqual(DataType.Boolean, attribute.Type());
 
             bool fill_value = true;
             attribute.SetFillValue(fill_value);
@@ -133,9 +133,9 @@ namespace TileDB.CSharp.Test
             var context = Context.GetDefault();
 
             const string attrName = "a";
-            using var attribute = new Attribute(context, attrName, DataType.TILEDB_CHAR);
+            using var attribute = new Attribute(context, attrName, DataType.Char);
             Assert.AreEqual<string>(attrName, attribute.Name());
-            Assert.AreEqual(DataType.TILEDB_CHAR, attribute.Type());
+            Assert.AreEqual(DataType.Char, attribute.Type());
 
             char fill_value = 'b';
             attribute.SetFillValue<char>(fill_value);
@@ -171,22 +171,22 @@ namespace TileDB.CSharp.Test
             Assert.IsNotNull(dim_cols);
             domain.AddDimension(dim_cols);
 
-            var array_schema = new ArraySchema(context, ArrayType.TILEDB_DENSE);
+            var array_schema = new ArraySchema(context, ArrayType.Dense);
             Assert.IsNotNull(array_schema);
 
-            var attr1 = new Attribute(context, "a1", DataType.TILEDB_STRING_ASCII);
+            var attr1 = new Attribute(context, "a1", DataType.StringAscii);
             Assert.IsNotNull(attr1);
             attr1.SetCellValNum(Constants.TILEDB_VAR_NUM);
             array_schema.AddAttribute(attr1);
 
-            var attr2 = new Attribute(context, "a2", DataType.TILEDB_INT32);
+            var attr2 = new Attribute(context, "a2", DataType.Int32);
             Assert.IsNotNull(attr2);
             attr2.SetCellValNum(Constants.TILEDB_VAR_NUM);
             array_schema.AddAttribute(attr2);
 
             array_schema.SetDomain(domain);
-            array_schema.SetCellOrder(LayoutType.TILEDB_ROW_MAJOR);
-            array_schema.SetTileOrder(LayoutType.TILEDB_ROW_MAJOR);
+            array_schema.SetCellOrder(LayoutType.RowMajor);
+            array_schema.SetTileOrder(LayoutType.RowMajor);
 
             array_schema.Check();
 
@@ -200,7 +200,7 @@ namespace TileDB.CSharp.Test
             var array_write = new Array(context, tmpArrayPath);
             Assert.IsNotNull(array_write);
 
-            array_write.Open(QueryType.TILEDB_WRITE);
+            array_write.Open(QueryType.Write);
 
             string[] a1_str = new string[16] { "a","b","c","d", "aa","bb","cc","dd"
                 ,"aaa","bbb","ccc","ddd","aaaa","bbbb","cccc","dddd" };
@@ -209,11 +209,11 @@ namespace TileDB.CSharp.Test
             int[] a2_data = new int[26] {1, 1, 2, 2,  3,  4,  5,  6,  6,  7,  7,  8,  8,
                               8, 9, 9, 10, 11, 12, 12, 13, 14, 14, 14, 15, 16 };
             ulong[] a2_el_off = new ulong[16] { 0, 2, 4, 5, 6, 7, 9, 11, 14, 16, 17, 18, 20, 21, 24, 25};
-            ulong[] a2_off = CoreUtil.ElementOffsetsToByteOffsets(a2_el_off, DataType.TILEDB_INT32);
+            ulong[] a2_off = CoreUtil.ElementOffsetsToByteOffsets(a2_el_off, DataType.Int32);
 
             var query_write = new Query(context, array_write);
-            query_write.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
-           // query_write.SetSubarray<int>(new int[] { 1, 4, 4, 4 });
+            query_write.SetLayout(LayoutType.RowMajor);
+            // query_write.SetSubarray<int>(new int[] { 1, 4, 4, 4 });
 
             query_write.SetDataBuffer<byte>("a1", a1_data);
             query_write.SetOffsetsBuffer("a1", a1_offsets);
@@ -224,7 +224,7 @@ namespace TileDB.CSharp.Test
             query_write.Submit();
 
             var status_write = query_write.Status();
-            Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status_write);
+            Assert.AreEqual(QueryStatus.Completed, status_write);
             query_write.FinalizeQuery();
 
             array_write.Close();
@@ -236,14 +236,14 @@ namespace TileDB.CSharp.Test
             var context = Context.GetDefault();
             var array_read = new Array(context, tmpArrayPath);
             Assert.IsNotNull(array_read);
-            array_read.Open(QueryType.TILEDB_READ);
+            array_read.Open(QueryType.Read);
 
             var query_read = new Query(context, array_read);
 
             // Slice only rows 1,2 and cols 2,3,4
             query_read.SetSubarray<int>(new int[] { 1, 4, 1, 4});
 
-            query_read.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
+            query_read.SetLayout(LayoutType.RowMajor);
 
             byte[] a1_data_buffer_read = new byte[128];
             ulong[] a1_offsets_buffer_read = new ulong[128];
@@ -258,16 +258,16 @@ namespace TileDB.CSharp.Test
 
             query_read.Submit();
             var status_read = query_read.Status();
-            Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status_read);
+            Assert.AreEqual(QueryStatus.Completed, status_read);
 
             var result_size_a1 = query_read.EstResultSize("a1");
             var result_size_a2 = query_read.EstResultSize("a2");
 
             Assert.AreEqual<ulong>(40, result_size_a1.DataBytesSize);
             Assert.AreEqual<ulong>(16, result_size_a1.OffsetsSize());
-            Assert.AreEqual<ulong>(26, result_size_a2.DataSize(DataType.TILEDB_INT32));
+            Assert.AreEqual<ulong>(26, result_size_a2.DataSize(DataType.Int32));
             Assert.AreEqual<ulong>(16, result_size_a2.OffsetsSize());
             array_read.Close();
         }
     }
-}//namespace
+}

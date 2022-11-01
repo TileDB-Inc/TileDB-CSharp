@@ -90,7 +90,7 @@ namespace TileDB.CSharp.Examples
             }
 
             var parentGroup = new Group(_ctx, parentGroupURI);
-            parentGroup.Open(QueryType.TILEDB_WRITE);
+            parentGroup.Open(QueryType.Write);
             parentGroup.AddMember(childGroupURI, false, "groupMember2");
             parentGroup.Close();
         }

@@ -21,13 +21,13 @@ namespace TileDB.CSharp.Test
             var domain = new Domain(ctx);
             domain.AddDimensions(rows, cols);
 
-            var schema = new ArraySchema(ctx, ArrayType.TILEDB_DENSE);
+            var schema = new ArraySchema(ctx, ArrayType.Dense);
             schema.SetDomain(domain);
 
-            var nullableAttr = new Attribute(ctx, "a1", DataType.TILEDB_INT32);
+            var nullableAttr = new Attribute(ctx, "a1", DataType.Int32);
             nullableAttr.SetNullable(true);
-            schema.AddAttributes(nullableAttr, new Attribute(ctx, "a2", DataType.TILEDB_INT32),
-                new Attribute(ctx, "a3", DataType.TILEDB_BOOL));
+            schema.AddAttributes(nullableAttr, new Attribute(ctx, "a2", DataType.Int32),
+                new Attribute(ctx, "a3", DataType.Boolean));
             schema.Check();
             TestUtil.CreateArray(ctx, ArrayUri, schema);
         }
@@ -39,21 +39,21 @@ namespace TileDB.CSharp.Test
             var array = new Array(ctx, ArrayUri);
             TestUtil.PrintLocalSchema(ArrayUri);
 
-            array.Open(QueryType.TILEDB_READ);
+            array.Open(QueryType.Read);
             // Select existing attribute from schema to delete
             var delAttr = array.Schema().Attributes()["a3"];
             array.Close();
 
             var schemaEvolution = new ArraySchemaEvolution(ctx);
 
-            var addAttr = new Attribute(ctx, "a4", DataType.TILEDB_FLOAT32);
+            var addAttr = new Attribute(ctx, "a4", DataType.Float32);
             schemaEvolution.AddAttribute(addAttr);
             schemaEvolution.DropAttribute("a2");
             schemaEvolution.DropAttribute(delAttr);
             Console.WriteLine("Removing attributes `a2`, `a3`; Adding new attribute `a4`");
             schemaEvolution.EvolveArray(ArrayUri);
 
-            array.Open(QueryType.TILEDB_READ);
+            array.Open(QueryType.Read);
             var schema = array.Schema();
             TestUtil.PrintLocalSchema(ArrayUri);
             Assert.IsTrue(schema.HasAttribute("a1"));
@@ -67,7 +67,7 @@ namespace TileDB.CSharp.Test
             Console.WriteLine("Removing attribute `a1` using Array.Evolve");
             array.Evolve(ctx, schemaEvolution);
 
-            array.Open(QueryType.TILEDB_READ);
+            array.Open(QueryType.Read);
             schema = array.Schema();
             Assert.IsFalse(schema.HasAttribute("a1"));
             TestUtil.PrintLocalSchema(ArrayUri);

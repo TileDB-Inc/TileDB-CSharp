@@ -840,17 +840,16 @@ namespace TileDB.CSharp
                 || tiledbDatatype == tiledb_datatype_t.TILEDB_STRING_UTF16
                 || tiledbDatatype == tiledb_datatype_t.TILEDB_STRING_UTF32
                 || tiledbDatatype == tiledb_datatype_t.TILEDB_STRING_UTF8;
-
         }
 
         public static bool IsStringType(DataType datatype)
         {
-            return datatype == DataType.TILEDB_STRING_ASCII
-                || datatype == DataType.TILEDB_STRING_UCS2
-                || datatype == DataType.TILEDB_STRING_UCS4
-                || datatype == DataType.TILEDB_STRING_UTF16
-                || datatype == DataType.TILEDB_STRING_UTF32
-                || datatype == DataType.TILEDB_STRING_UTF8;
+            return datatype == DataType.StringAscii
+                || datatype == DataType.StringUcs2
+                || datatype == DataType.StringUcs4
+                || datatype == DataType.StringUtf16
+                || datatype == DataType.StringUtf32
+                || datatype == DataType.StringUtf8;
         }
 
 
