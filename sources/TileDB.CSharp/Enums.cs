@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.ComponentModel;
 using TileDB.Interop;
 
 namespace TileDB.CSharp
@@ -16,8 +17,11 @@ namespace TileDB.CSharp
         Invalid = tiledb_object_t.TILEDB_INVALID,
         Group = tiledb_object_t.TILEDB_GROUP,
         Array = tiledb_object_t.TILEDB_ARRAY,
+        [Obsolete("Use Invalid instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_INVALID = Invalid,
+        [Obsolete("Use Group instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_GROUP = Group,
+        [Obsolete("Use Array instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_ARRAY = Array
     }
 
@@ -26,7 +30,9 @@ namespace TileDB.CSharp
     {
         Read = tiledb_query_type_t.TILEDB_READ,
         Write = tiledb_query_type_t.TILEDB_WRITE,
+        [Obsolete("Use Read instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_READ = Read,
+        [Obsolete("Use Write instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_WRITE = Write
     }
 
@@ -37,10 +43,15 @@ namespace TileDB.CSharp
         InProgress = tiledb_query_status_t.TILEDB_INPROGRESS,
         Incomplete = tiledb_query_status_t.TILEDB_INCOMPLETE,
         Uninitialized = tiledb_query_status_t.TILEDB_UNINITIALIZED,
+        [Obsolete("Use Failed instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FAILED = Failed,
+        [Obsolete("Use Completed instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_COMPLETED = Completed,
+        [Obsolete("Use InProgress instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_INPROGRESS = InProgress,
+        [Obsolete("Use Incomplete instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_INCOMPLETE = Incomplete,
+        [Obsolete("Use Uninitialized instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_UNINITIALIZED = Uninitialized
     }
 
@@ -52,11 +63,17 @@ namespace TileDB.CSharp
         GreaterThanOrEqual = tiledb_query_condition_op_t.TILEDB_GE,
         Equal = tiledb_query_condition_op_t.TILEDB_EQ,
         NotEqual = tiledb_query_condition_op_t.TILEDB_NE,
+        [Obsolete("Use LessThan instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_LT = LessThan,
+        [Obsolete("Use LessThanOrEqual instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_LE = LessThanOrEqual,
+        [Obsolete("Use GreaterThan instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_GT = GreaterThan,
+        [Obsolete("Use GreaterThanOrEqual instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_GE = GreaterThanOrEqual,
+        [Obsolete("Use Equal instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_EQ = Equal,
+        [Obsolete("Use NotEqual instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_NE = NotEqual
     }
 
@@ -65,8 +82,11 @@ namespace TileDB.CSharp
         And = tiledb_query_condition_combination_op_t.TILEDB_AND,
         Or = tiledb_query_condition_combination_op_t.TILEDB_OR,
         Not = tiledb_query_condition_combination_op_t.TILEDB_NOT,
+        [Obsolete("Use And instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_AND = And,
+        [Obsolete("Use Or instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_OR = Or,
+        [Obsolete("Use Not instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_NOT = Not
     }
 
@@ -77,10 +97,15 @@ namespace TileDB.CSharp
         Azure = tiledb_filesystem_t.TILEDB_AZURE,
         Gcs = tiledb_filesystem_t.TILEDB_GCS,
         Memfs = tiledb_filesystem_t.TILEDB_MEMFS,
+        [Obsolete("Use Hdfs instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_HDFS = Hdfs,
+        [Obsolete("Use S3 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_S3 = S3,
+        [Obsolete("Use Azure instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_AZURE = Azure,
+        [Obsolete("Use Gcs instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_GCS = Gcs,
+        [Obsolete("Use Memfs instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_MEMFS = Memfs
     }
 
@@ -128,47 +153,89 @@ namespace TileDB.CSharp
         TimeAttosecond = tiledb_datatype_t.TILEDB_TIME_AS,
         Blob = tiledb_datatype_t.TILEDB_BLOB,
         Boolean = tiledb_datatype_t.TILEDB_BOOL,
+        [Obsolete("Use Int32 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_INT32 = Int32,
+        [Obsolete("Use Int64 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_INT64 = Int64,
+        [Obsolete("Use Float32 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FLOAT32 = Float32,
+        [Obsolete("Use Float64 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FLOAT64 = Float64,
+        [Obsolete("Use Char instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_CHAR = Char,
+        [Obsolete("Use Int8 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_INT8 = Int8,
+        [Obsolete("Use UInt8 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_UINT8 = UInt8,
+        [Obsolete("Use Int16 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_INT16 = Int16,
+        [Obsolete("Use UInt16 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_UINT16 = UInt16,
+        [Obsolete("Use UInt32 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_UINT32 = UInt32,
+        [Obsolete("Use UInt64 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_UINT64 = UInt64,
+        [Obsolete("Use StringAscii instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_STRING_ASCII = StringAscii,
+        [Obsolete("Use StringUtf8 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_STRING_UTF8 = StringUtf8,
+        [Obsolete("Use StringUtf16 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_STRING_UTF16 = StringUtf16,
+        [Obsolete("Use StringUtf32 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_STRING_UTF32 = StringUtf32,
+        [Obsolete("Use StringUcs2 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_STRING_UCS2 = StringUcs2,
+        [Obsolete("Use StringUcs4 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_STRING_UCS4 = StringUcs4,
+        [Obsolete("Use Any instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_ANY = Any,
+        [Obsolete("Use DateTimeYear instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_YEAR = DateTimeYear,
+        [Obsolete("Use DateTimeMonth instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_MONTH = DateTimeMonth,
+        [Obsolete("Use DateTimeWeek instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_WEEK = DateTimeWeek,
+        [Obsolete("Use DateTimeDay instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_DAY = DateTimeDay,
+        [Obsolete("Use DateTimeHour instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_HR = DateTimeHour,
+        [Obsolete("Use DateTimeMinute instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_MIN = DateTimeMinute,
+        [Obsolete("Use DateTimeSecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_SEC = DateTimeSecond,
+        [Obsolete("Use DateTimeMillisecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_MS = DateTimeMillisecond,
+        [Obsolete("Use DateTimeMicrosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_US = DateTimeMicrosecond,
+        [Obsolete("Use DateTimeNanosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_NS = DateTimeNanosecond,
+        [Obsolete("Use DateTimePicosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_PS = DateTimePicosecond,
+        [Obsolete("Use DateTimeFemtosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_FS = DateTimeFemtosecond,
+        [Obsolete("Use DateTimeAttosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_AS = DateTimeAttosecond,
+        [Obsolete("Use TimeHour instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_TIME_HR = TimeHour,
+        [Obsolete("Use TimeMinute instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_TIME_MIN = TimeMinute,
+        [Obsolete("Use TimeSecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_TIME_SEC = TimeSecond,
+        [Obsolete("Use TimeMillisecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_TIME_MS = TimeMillisecond,
+        [Obsolete("Use TimeMicrosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_TIME_US = TimeMicrosecond,
+        [Obsolete("Use TimeNanosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_TIME_NS = TimeNanosecond,
+        [Obsolete("Use TimePicosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_TIME_PS = TimePicosecond,
+        [Obsolete("Use TimeFemtosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_TIME_FS = TimeFemtosecond,
+        [Obsolete("Use TimeAttosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_TIME_AS = TimeAttosecond,
+        [Obsolete("Use Blob instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_BLOB = Blob,
+        [Obsolete("Use Boolean instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_BOOL = Boolean
     }
 
@@ -176,7 +243,9 @@ namespace TileDB.CSharp
     {
         Dense = tiledb_array_type_t.TILEDB_DENSE,
         Sparse = tiledb_array_type_t.TILEDB_SPARSE,
+        [Obsolete("Use Dense instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DENSE = Dense,
+        [Obsolete("Use Sparse instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_SPARSE = Sparse
     }
 
@@ -187,10 +256,15 @@ namespace TileDB.CSharp
         GlobalOrder = tiledb_layout_t.TILEDB_GLOBAL_ORDER,
         Unordered = tiledb_layout_t.TILEDB_UNORDERED,
         Hilbert = tiledb_layout_t.TILEDB_HILBERT,
+        [Obsolete("Use RowMajor instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_ROW_MAJOR = RowMajor,
+        [Obsolete("Use ColumnMajor instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_COL_MAJOR = ColumnMajor,
+        [Obsolete("Use GlobalOrder instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_GLOBAL_ORDER = GlobalOrder,
+        [Obsolete("Use Unordered instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_UNORDERED = Unordered,
+        [Obsolete("Use Hilbert instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_HILBERT = Hilbert
     }
 
@@ -211,20 +285,35 @@ namespace TileDB.CSharp
         ChecksumSha256 = tiledb_filter_type_t.TILEDB_FILTER_CHECKSUM_SHA256,
         Dictionary = tiledb_filter_type_t.TILEDB_FILTER_DICTIONARY,
         ScaleFloat = tiledb_filter_type_t.TILEDB_FILTER_SCALE_FLOAT,
+        [Obsolete("Use None instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_NONE = None,
+        [Obsolete("Use Gzip instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_GZIP = Gzip,
+        [Obsolete("Use Zstandard instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_ZSTD = Zstandard,
+        [Obsolete("Use Lz4 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_LZ4 = Lz4,
+        [Obsolete("Use RunLengthEncoding instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_RLE = RunLengthEncoding,
+        [Obsolete("Use Bzip2 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_BZIP2 = Bzip2,
+        [Obsolete("Use DoubleDelta instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_DOUBLE_DELTA = DoubleDelta,
+        [Obsolete("Use BitWidthReduction instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_BIT_WIDTH_REDUCTION = BitWidthReduction,
+        [Obsolete("Use BitShuffle instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_BITSHUFFLE = BitShuffle,
+        [Obsolete("Use ByteShuffle instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_BYTESHUFFLE = ByteShuffle,
+        [Obsolete("Use PositiveDelta instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_POSITIVE_DELTA = PositiveDelta,
+        [Obsolete("Use ChecksumMd5 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_CHECKSUM_MD5 = ChecksumMd5,
+        [Obsolete("Use ChecksumSha256 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_CHECKSUM_SHA256 = ChecksumSha256,
+        [Obsolete("Use Dictionary instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_DICTIONARY = Dictionary,
+        [Obsolete("Use ScaleFloat instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_SCALE_FLOAT = ScaleFloat
     }
 
@@ -236,11 +325,17 @@ namespace TileDB.CSharp
         ScaleFloatByteWidth = tiledb_filter_option_t.TILEDB_SCALE_FLOAT_BYTEWIDTH,
         ScaleFloatFactor = tiledb_filter_option_t.TILEDB_SCALE_FLOAT_FACTOR,
         ScaleFloatOffset = tiledb_filter_option_t.TILEDB_SCALE_FLOAT_OFFSET,
+        [Obsolete("Use CompressionLevel instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_COMPRESSION_LEVEL = CompressionLevel,
+        [Obsolete("Use BitWidthMaxWindow instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_BIT_WIDTH_MAX_WINDOW = BitWidthMaxWindow,
+        [Obsolete("Use PositiveDeltaMaxWindow instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_POSITIVE_DELTA_MAX_WINDOW = PositiveDeltaMaxWindow,
+        [Obsolete("Use ScaleFloatByteWidth instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_SCALE_FLOAT_BYTEWIDTH = ScaleFloatByteWidth,
+        [Obsolete("Use ScaleFloatFactor instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_SCALE_FLOAT_FACTOR = ScaleFloatFactor,
+        [Obsolete("Use ScaleFloatOffset instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_SCALE_FLOAT_OFFSET = ScaleFloatOffset
     }
 
@@ -248,7 +343,9 @@ namespace TileDB.CSharp
     {
         NoEncryption = tiledb_encryption_type_t.TILEDB_NO_ENCRYPTION,
         Aes256Gcm = tiledb_encryption_type_t.TILEDB_AES_256_GCM,
+        [Obsolete("Use NoEncryption instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_NO_ENCRYPTION = NoEncryption,
+        [Obsolete("Use Aes256Gcm instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_AES_256_GCM = Aes256Gcm
     }
 
@@ -256,7 +353,9 @@ namespace TileDB.CSharp
     {
         PreOrder = tiledb_walk_order_t.TILEDB_PREORDER,
         PostOrder = tiledb_walk_order_t.TILEDB_POSTORDER,
+        [Obsolete("Use PreOrder instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_PREORDER = PreOrder,
+        [Obsolete("Use PostOrder instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_POSTORDER = PostOrder
     }
 
@@ -265,8 +364,11 @@ namespace TileDB.CSharp
         Read = tiledb_vfs_mode_t.TILEDB_VFS_READ,
         Write = tiledb_vfs_mode_t.TILEDB_VFS_WRITE,
         Append = tiledb_vfs_mode_t.TILEDB_VFS_APPEND,
+        [Obsolete("Use Read instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_VFS_READ = Read,
+        [Obsolete("Use Write instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_VFS_WRITE = Write,
+        [Obsolete("Use Append instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_VFS_APPEND = Append
     }
 
@@ -275,8 +377,11 @@ namespace TileDB.CSharp
         Pdf = tiledb_mime_type_t.TILEDB_MIME_PDF,
         Tiff = tiledb_mime_type_t.TILEDB_MIME_TIFF,
         AutoDetect = tiledb_mime_type_t.TILEDB_MIME_AUTODETECT,
+        [Obsolete("Use Pdf instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_MIME_PDF = Pdf,
+        [Obsolete("Use Tiff instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_MIME_TIFF = Tiff,
+        [Obsolete("Use AutoDetect instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_MIME_AUTODETECT = AutoDetect
     }
 
