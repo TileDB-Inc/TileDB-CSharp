@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
     // TODO Not sure why this is not automatically wrapped
-    public enum Status
+    internal enum Status
     {
         TILEDB_OOM = -2,
         TILEDB_ERR = -1,
