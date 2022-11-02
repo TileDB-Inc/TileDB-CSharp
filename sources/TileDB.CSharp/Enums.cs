@@ -1220,7 +1220,6 @@ namespace TileDB.CSharp
                 || datatype == DataType.StringUtf8;
         }
 
-
         public static ulong TileDBDataTypeSize(tiledb_datatype_t tiledbDatatype)
         {
             return Methods.tiledb_datatype_size(tiledbDatatype);
