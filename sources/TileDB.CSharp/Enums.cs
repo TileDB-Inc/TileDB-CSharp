@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using TileDB.Interop;
 
@@ -12,10 +12,22 @@ namespace TileDB.CSharp
         TILEDB_OK = 0
     }
 
+    /// <summary>
+    /// Specifies the type of a TileDB object.
+    /// </summary>
     public enum ObjectType : uint
     {
+        /// <summary>
+        /// Invalid object.
+        /// </summary>
         Invalid = tiledb_object_t.TILEDB_INVALID,
+        /// <summary>
+        /// The object is a <see cref="Group"/>.
+        /// </summary>
         Group = tiledb_object_t.TILEDB_GROUP,
+        /// <summary>
+        /// The object is an <see cref="Array"/>.
+        /// </summary>
         Array = tiledb_object_t.TILEDB_ARRAY,
         [Obsolete("Use Invalid instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_INVALID = Invalid,
@@ -25,10 +37,18 @@ namespace TileDB.CSharp
         TILEDB_ARRAY = Array
     }
 
-
+    /// <summary>
+    /// Specifies the type of a <see cref="Query"/>.
+    /// </summary>
     public enum QueryType : uint
     {
+        /// <summary>
+        /// Read query.
+        /// </summary>
         Read = tiledb_query_type_t.TILEDB_READ,
+        /// <summary>
+        /// Write query.
+        /// </summary>
         Write = tiledb_query_type_t.TILEDB_WRITE,
         [Obsolete("Use Read instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_READ = Read,
@@ -36,12 +56,30 @@ namespace TileDB.CSharp
         TILEDB_WRITE = Write
     }
 
+    /// <summary>
+    /// Specifies the status of a <see cref="Query"/>.
+    /// </summary>
     public enum QueryStatus : uint
     {
+        /// <summary>
+        /// The query failed.
+        /// </summary>
         Failed = tiledb_query_status_t.TILEDB_FAILED,
+        /// <summary>
+        /// The query completed and all data has been read.
+        /// </summary>
         Completed = tiledb_query_status_t.TILEDB_COMPLETED,
+        /// <summary>
+        /// The query is in process.
+        /// </summary>
         InProgress = tiledb_query_status_t.TILEDB_INPROGRESS,
+        /// <summary>
+        /// The query completed but not all data has been read.
+        /// </summary>
         Incomplete = tiledb_query_status_t.TILEDB_INCOMPLETE,
+        /// <summary>
+        /// The query is not initialized.
+        /// </summary>
         Uninitialized = tiledb_query_status_t.TILEDB_UNINITIALIZED,
         [Obsolete("Use Failed instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FAILED = Failed,
@@ -55,13 +93,34 @@ namespace TileDB.CSharp
         TILEDB_UNINITIALIZED = Uninitialized
     }
 
+    /// <summary>
+    /// Specifies the relation type of a <see cref="QueryCondition"/> between its attribute and its value.
+    /// </summary>
     public enum QueryConditionOperatorType : uint
     {
+        /// <summary>
+        /// The attribute is less than the value.
+        /// </summary>
         LessThan = tiledb_query_condition_op_t.TILEDB_LT,
+        /// <summary>
+        /// The attribute is less than or equal to the value.
+        /// </summary>
         LessThanOrEqual = tiledb_query_condition_op_t.TILEDB_LE,
+        /// <summary>
+        /// The attribute is greater than the value.
+        /// </summary>
         GreaterThan = tiledb_query_condition_op_t.TILEDB_GT,
+        /// <summary>
+        /// The attribute is greater than or equal to the value.
+        /// </summary>
         GreaterThanOrEqual = tiledb_query_condition_op_t.TILEDB_GE,
+        /// <summary>
+        /// The attribute is equal to the value.
+        /// </summary>
         Equal = tiledb_query_condition_op_t.TILEDB_EQ,
+        /// <summary>
+        /// The attribute is not equal to the value.
+        /// </summary>
         NotEqual = tiledb_query_condition_op_t.TILEDB_NE,
         [Obsolete("Use LessThan instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_LT = LessThan,
@@ -77,10 +136,22 @@ namespace TileDB.CSharp
         TILEDB_NE = NotEqual
     }
 
+    /// <summary>
+    /// Specifies the combination operator type of one or two <see cref="QueryCondition"/>s.
+    /// </summary>
     public enum QueryConditionCombinationOperatorType : uint
     {
+        /// <summary>
+        /// Both conditions must be satisfied.
+        /// </summary>
         And = tiledb_query_condition_combination_op_t.TILEDB_AND,
+        /// <summary>
+        /// Either of the two conditions must be satisfied.
+        /// </summary>
         Or = tiledb_query_condition_combination_op_t.TILEDB_OR,
+        /// <summary>
+        /// The condition must not be satisfied.
+        /// </summary>
         Not = tiledb_query_condition_combination_op_t.TILEDB_NOT,
         [Obsolete("Use And instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_AND = And,
@@ -90,12 +161,30 @@ namespace TileDB.CSharp
         TILEDB_NOT = Not
     }
 
+    /// <summary>
+    /// Specifies the type of a TileDB file system.
+    /// </summary>
     public enum FileSystemType : uint
     {
+        /// <summary>
+        /// HDFS file system.
+        /// </summary>
         Hdfs = tiledb_filesystem_t.TILEDB_HDFS,
+        /// <summary>
+        /// S3 file system.
+        /// </summary>
         S3 = tiledb_filesystem_t.TILEDB_S3,
+        /// <summary>
+        /// Azure filesystem.
+        /// </summary>
         Azure = tiledb_filesystem_t.TILEDB_AZURE,
+        /// <summary>
+        /// Google Cloud Storage file system.
+        /// </summary>
         Gcs = tiledb_filesystem_t.TILEDB_GCS,
+        /// <summary>
+        /// In-memory file system.
+        /// </summary>
         Memfs = tiledb_filesystem_t.TILEDB_MEMFS,
         [Obsolete("Use Hdfs instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_HDFS = Hdfs,
@@ -109,49 +198,209 @@ namespace TileDB.CSharp
         TILEDB_MEMFS = Memfs
     }
 
+    /// <summary>
+    /// Specifies the data type of entities such as <see cref="Dimension"/>s, <see cref="Attribute"/>s,
+    /// <see cref="ArrayMetadata"/> and <see cref="GroupMetadata"/>.
+    /// </summary>
     public enum DataType : uint
     {
+        /// <summary>
+        /// A signed 32-bit integer.
+        /// </summary>
         Int32 = tiledb_datatype_t.TILEDB_INT32,
+        /// <summary>
+        /// A signed 64-bit integer.
+        /// </summary>
         Int64 = tiledb_datatype_t.TILEDB_INT64,
+        /// <summary>
+        /// A 32-bit floating-point number.
+        /// </summary>
         Float32 = tiledb_datatype_t.TILEDB_FLOAT32,
+        /// <summary>
+        /// A 64-bit floating-point number.
+        /// </summary>
         Float64 = tiledb_datatype_t.TILEDB_FLOAT64,
+        /// <summary>
+        /// A sequence of characters. Deprecated.
+        /// </summary>
+        [Obsolete("This data type is deprecated.")]
+        // https://github.com/TileDB-Inc/TileDB/pull/2742
         Char = tiledb_datatype_t.TILEDB_CHAR,
+        /// <summary>
+        /// A signed 8-bit integer.
+        /// </summary>
         Int8 = tiledb_datatype_t.TILEDB_INT8,
+        /// <summary>
+        /// An unsigned 8-bit integer.
+        /// </summary>
         UInt8 = tiledb_datatype_t.TILEDB_UINT8,
+        /// <summary>
+        /// A signed 16-bit integer.
+        /// </summary>
         Int16 = tiledb_datatype_t.TILEDB_INT16,
+        /// <summary>
+        /// An unsigned 16-bit integer.
+        /// </summary>
         UInt16 = tiledb_datatype_t.TILEDB_UINT16,
+        /// <summary>
+        /// An unsigned 64-bit integer.
+        /// </summary>
         UInt32 = tiledb_datatype_t.TILEDB_UINT32,
+        /// <summary>
+        /// An unsigned 64-bit integer.
+        /// </summary>
         UInt64 = tiledb_datatype_t.TILEDB_UINT64,
+        /// <summary>
+        /// An ASCII string.
+        /// </summary>
         StringAscii = tiledb_datatype_t.TILEDB_STRING_ASCII,
+        /// <summary>
+        /// A UTF-8 string.
+        /// </summary>
         StringUtf8 = tiledb_datatype_t.TILEDB_STRING_UTF8,
+        /// <summary>
+        /// A UTF-16 string.
+        /// </summary>
         StringUtf16 = tiledb_datatype_t.TILEDB_STRING_UTF16,
+        /// <summary>
+        /// A UTF-32 string.
+        /// </summary>
         StringUtf32 = tiledb_datatype_t.TILEDB_STRING_UTF32,
+        /// <summary>
+        /// A UCS-2 string. Deprecated.
+        /// </summary>
+        [Obsolete("This data type is deprecated.")]
+        // https://github.com/TileDB-Inc/TileDB/pull/2812
         StringUcs2 = tiledb_datatype_t.TILEDB_STRING_UCS2,
+        /// <summary>
+        /// A UCS-4 string. Deprecated.
+        /// </summary>
+        [Obsolete("This data type is deprecated.")]
+        // https://github.com/TileDB-Inc/TileDB/pull/2812
         StringUcs4 = tiledb_datatype_t.TILEDB_STRING_UCS4,
+        /// <summary>
+        /// Any value. Deprecated.
+        /// </summary>
+        [Obsolete("This data type is deprecated.")]
+        // https://github.com/TileDB-Inc/TileDB/pull/2807
         Any = tiledb_datatype_t.TILEDB_ANY,
+        /// <summary>
+        /// A date and time, counted as the signed 64-bit number of
+        /// years since the Unix epoch (January 1 1970 at midnight).
+        /// </summary>
         DateTimeYear = tiledb_datatype_t.TILEDB_DATETIME_YEAR,
+        /// <summary>
+        /// A date and time, counted as the signed 64-bit number of
+        /// months since the Unix epoch (January 1 1970 at midnight).
+        /// </summary>
         DateTimeMonth = tiledb_datatype_t.TILEDB_DATETIME_MONTH,
+        /// <summary>
+        /// A date and time, counted as the signed 64-bit number of
+        /// weeks since the Unix epoch (January 1 1970 at midnight).
+        /// </summary>
         DateTimeWeek = tiledb_datatype_t.TILEDB_DATETIME_WEEK,
+        /// <summary>
+        /// A date and time, counted as the signed 64-bit number of
+        /// days since the Unix epoch (January 1 1970 at midnight).
+        /// </summary>
         DateTimeDay = tiledb_datatype_t.TILEDB_DATETIME_DAY,
+        /// <summary>
+        /// A date and time, counted as the signed 64-bit number of
+        /// hours since the Unix epoch (January 1 1970 at midnight).
+        /// </summary>
         DateTimeHour = tiledb_datatype_t.TILEDB_DATETIME_HR,
+        /// <summary>
+        /// A date and time, counted as the signed 64-bit number of
+        /// minutes since the Unix epoch (January 1 1970 at midnight).
+        /// </summary>
         DateTimeMinute = tiledb_datatype_t.TILEDB_DATETIME_MIN,
+        /// <summary>
+        /// A date and time, counted as the signed 64-bit number of
+        /// seconds since the Unix epoch (January 1 1970 at midnight).
+        /// </summary>
         DateTimeSecond = tiledb_datatype_t.TILEDB_DATETIME_SEC,
+        /// <summary>
+        /// A date and time, counted as the signed 64-bit number of
+        /// milliseconds since the Unix epoch (January 1 1970 at midnight).
+        /// </summary>
         DateTimeMillisecond = tiledb_datatype_t.TILEDB_DATETIME_MS,
+        /// <summary>
+        /// A date and time, counted as the signed 64-bit number of
+        /// microseconds since the Unix epoch (January 1 1970 at midnight).
+        /// </summary>
         DateTimeMicrosecond = tiledb_datatype_t.TILEDB_DATETIME_US,
+        /// <summary>
+        /// A date and time, counted as the signed 64-bit number of
+        /// nanoseconds since the Unix epoch (January 1 1970 at midnight).
+        /// </summary>
         DateTimeNanosecond = tiledb_datatype_t.TILEDB_DATETIME_NS,
+        /// <summary>
+        /// A date and time, counted as the signed 64-bit number of
+        /// picoseconds since the Unix epoch (January 1 1970 at midnight).
+        /// </summary>
+        /// <remarks>
+        /// One second consists of one trillion picoseconds.
+        /// </remarks>
         DateTimePicosecond = tiledb_datatype_t.TILEDB_DATETIME_PS,
+        /// <summary>
+        /// A date and time, counted as the signed 64-bit number of
+        /// femtoseconds since the Unix epoch (January 1 1970 at midnight).
+        /// </summary>
+        /// <remarks>
+        /// One second consists of one quadrillion femtoseconds.
+        /// </remarks>
         DateTimeFemtosecond = tiledb_datatype_t.TILEDB_DATETIME_FS,
+        /// <summary>
+        /// A date and time, counted as the signed 64-bit number of
+        /// attoseconds since the Unix epoch (January 1 1970 at midnight).
+        /// </summary>
+        /// <remarks>
+        /// One second consists of one quintillion attoseconds.
+        /// </remarks>
         DateTimeAttosecond = tiledb_datatype_t.TILEDB_DATETIME_AS,
+        /// <summary>
+        /// A time of day counted in hours.
+        /// </summary>
         TimeHour = tiledb_datatype_t.TILEDB_TIME_HR,
+        /// <summary>
+        /// A time of day counted in minutes.
+        /// </summary>
         TimeMinute = tiledb_datatype_t.TILEDB_TIME_MIN,
+        /// <summary>
+        /// A time of day counted in seconds.
+        /// </summary>
         TimeSecond = tiledb_datatype_t.TILEDB_TIME_SEC,
+        /// <summary>
+        /// A time of day counted in milliseconds.
+        /// </summary>
         TimeMillisecond = tiledb_datatype_t.TILEDB_TIME_MS,
+        /// <summary>
+        /// A time of day counted in microseconds.
+        /// </summary>
         TimeMicrosecond = tiledb_datatype_t.TILEDB_TIME_US,
+        /// <summary>
+        /// A time of day counted in nanoseconds.
+        /// </summary>
         TimeNanosecond = tiledb_datatype_t.TILEDB_TIME_NS,
+        /// <summary>
+        /// A time of day counted in picoseconds.
+        /// </summary>
         TimePicosecond = tiledb_datatype_t.TILEDB_TIME_PS,
+        /// <summary>
+        /// A time of day counted in femtoseconds.
+        /// </summary>
         TimeFemtosecond = tiledb_datatype_t.TILEDB_TIME_FS,
+        /// <summary>
+        /// A time of day counted in attoseconds.
+        /// </summary>
         TimeAttosecond = tiledb_datatype_t.TILEDB_TIME_AS,
+        /// <summary>
+        /// A binary blob.
+        /// </summary>
         Blob = tiledb_datatype_t.TILEDB_BLOB,
+        /// <summary>
+        /// A boolean value.
+        /// </summary>
         Boolean = tiledb_datatype_t.TILEDB_BOOL,
         [Obsolete("Use Int32 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_INT32 = Int32,
@@ -239,9 +488,18 @@ namespace TileDB.CSharp
         TILEDB_BOOL = Boolean
     }
 
+    /// <summary>
+    /// Specifies the type of an <see cref="Array"/>.
+    /// </summary>
     public enum ArrayType : uint
     {
+        /// <summary>
+        /// The array is dense.
+        /// </summary>
         Dense = tiledb_array_type_t.TILEDB_DENSE,
+        /// <summary>
+        /// The array is sparse.
+        /// </summary>
         Sparse = tiledb_array_type_t.TILEDB_SPARSE,
         [Obsolete("Use Dense instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DENSE = Dense,
@@ -249,12 +507,32 @@ namespace TileDB.CSharp
         TILEDB_SPARSE = Sparse
     }
 
+    /// <summary>
+    /// Specifies the order of data stored in an <see cref="Array"/>
+    /// or sent or retrieved from a <see cref="Query"/>.
+    /// </summary>
     public enum LayoutType : uint
     {
+        /// <summary>
+        /// Data are in row-major order.
+        /// </summary>
         RowMajor = tiledb_layout_t.TILEDB_ROW_MAJOR,
+        /// <summary>
+        /// Data are in column-major order.
+        /// </summary>
         ColumnMajor = tiledb_layout_t.TILEDB_COL_MAJOR,
+        /// <summary>
+        /// Data are in global order.
+        /// </summary>
         GlobalOrder = tiledb_layout_t.TILEDB_GLOBAL_ORDER,
+        /// <summary>
+        /// Data are unordered.
+        /// </summary>
+        // TODO: Make them more explanatory.
         Unordered = tiledb_layout_t.TILEDB_UNORDERED,
+        /// <summary>
+        /// Data are ordered according to a Hilbert curve.
+        /// </summary>
         Hilbert = tiledb_layout_t.TILEDB_HILBERT,
         [Obsolete("Use RowMajor instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_ROW_MAJOR = RowMajor,
@@ -268,22 +546,70 @@ namespace TileDB.CSharp
         TILEDB_HILBERT = Hilbert
     }
 
+    /// <summary>
+    /// Specifies the type of a <see cref="Filter"/>.
+    /// </summary>
     public enum FilterType : uint
     {
+        /// <summary>
+        /// No-op filter.
+        /// </summary>
         None = tiledb_filter_type_t.TILEDB_FILTER_NONE,
+        /// <summary>
+        /// Gzip compressor.
+        /// </summary>
         Gzip = tiledb_filter_type_t.TILEDB_FILTER_GZIP,
+        /// <summary>
+        /// Zstandard compressor.
+        /// </summary>
         Zstandard = tiledb_filter_type_t.TILEDB_FILTER_ZSTD,
+        /// <summary>
+        /// LZ4 compressor.
+        /// </summary>
         Lz4 = tiledb_filter_type_t.TILEDB_FILTER_LZ4,
+        /// <summary>
+        /// Run-length encoding compressor.
+        /// </summary>
         RunLengthEncoding = tiledb_filter_type_t.TILEDB_FILTER_RLE,
+        /// <summary>
+        /// Bzip2 compressor.
+        /// </summary>
         Bzip2 = tiledb_filter_type_t.TILEDB_FILTER_BZIP2,
+        /// <summary>
+        /// Double-delta compressor.
+        /// </summary>
         DoubleDelta = tiledb_filter_type_t.TILEDB_FILTER_DOUBLE_DELTA,
+        /// <summary>
+        /// Bit width reduction filter.
+        /// </summary>
         BitWidthReduction = tiledb_filter_type_t.TILEDB_FILTER_BIT_WIDTH_REDUCTION,
+        /// <summary>
+        /// Bit shuffle filter.
+        /// </summary>
         BitShuffle = tiledb_filter_type_t.TILEDB_FILTER_BITSHUFFLE,
+        /// <summary>
+        /// Byte shuffle filter.
+        /// </summary>
         ByteShuffle = tiledb_filter_type_t.TILEDB_FILTER_BYTESHUFFLE,
+        /// <summary>
+        /// Positive delta filter.
+        /// </summary>
         PositiveDelta = tiledb_filter_type_t.TILEDB_FILTER_POSITIVE_DELTA,
+        /// <summary>
+        /// MD5 checksum filter.
+        /// </summary>
         ChecksumMd5 = tiledb_filter_type_t.TILEDB_FILTER_CHECKSUM_MD5,
+        /// <summary>
+        /// SHA-256 checksum filter.
+        /// </summary>
         ChecksumSha256 = tiledb_filter_type_t.TILEDB_FILTER_CHECKSUM_SHA256,
+        /// <summary>
+        /// Dictionary encoding filter.
+        /// </summary>
         Dictionary = tiledb_filter_type_t.TILEDB_FILTER_DICTIONARY,
+        /// <summary>
+        /// Float scaling filter.
+        /// </summary>
         ScaleFloat = tiledb_filter_type_t.TILEDB_FILTER_SCALE_FLOAT,
         [Obsolete("Use None instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_NONE = None,
@@ -339,9 +665,18 @@ namespace TileDB.CSharp
         TILEDB_SCALE_FLOAT_OFFSET = ScaleFloatOffset
     }
 
+    /// <summary>
+    /// Specifies the kind of data encryption in an <see cref="Array"/>.
+    /// </summary>
     public enum EncryptionType : uint
     {
+        /// <summary>
+        /// Data are not encrypted.
+        /// </summary>
         NoEncryption = tiledb_encryption_type_t.TILEDB_NO_ENCRYPTION,
+        /// <summary>
+        /// Data are encrypted using the AES-256 block cipher in Galois Counter Mode (GCM).
+        /// </summary>
         Aes256Gcm = tiledb_encryption_type_t.TILEDB_AES_256_GCM,
         [Obsolete("Use NoEncryption instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_NO_ENCRYPTION = NoEncryption,
@@ -349,9 +684,18 @@ namespace TileDB.CSharp
         TILEDB_AES_256_GCM = Aes256Gcm
     }
 
+    /// <summary>
+    /// Specifies the order objects are walked.
+    /// </summary>
     public enum WalkOrderType : uint
     {
+        /// <summary>
+        /// The objects are walked in pre-order.
+        /// </summary>
         PreOrder = tiledb_walk_order_t.TILEDB_PREORDER,
+        /// <summary>
+        /// The objects are walked in post-order.
+        /// </summary>
         PostOrder = tiledb_walk_order_t.TILEDB_POSTORDER,
         [Obsolete("Use PreOrder instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_PREORDER = PreOrder,
@@ -359,10 +703,22 @@ namespace TileDB.CSharp
         TILEDB_POSTORDER = PostOrder
     }
 
+    /// <summary>
+    /// Specifies the VFS mode.
+    /// </summary>
     public enum VfsMode : uint
     {
+        /// <summary>
+        /// Read mode.
+        /// </summary>
         Read = tiledb_vfs_mode_t.TILEDB_VFS_READ,
+        /// <summary>
+        /// Write mode.
+        /// </summary>
         Write = tiledb_vfs_mode_t.TILEDB_VFS_WRITE,
+        /// <summary>
+        /// Append mode.
+        /// </summary>
         Append = tiledb_vfs_mode_t.TILEDB_VFS_APPEND,
         [Obsolete("Use Read instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_VFS_READ = Read,
@@ -372,10 +728,22 @@ namespace TileDB.CSharp
         TILEDB_VFS_APPEND = Append
     }
 
+    /// <summary>
+    /// Specifies a MIME type.
+    /// </summary>
     public enum MIMEType : uint
     {
+        /// <summary>
+        /// <c>application/pdf</c>
+        /// </summary>
         Pdf = tiledb_mime_type_t.TILEDB_MIME_PDF,
+        /// <summary>
+        /// <c>image/tiff</c>
+        /// </summary>
         Tiff = tiledb_mime_type_t.TILEDB_MIME_TIFF,
+        /// <summary>
+        /// Unspecified MIME type.
+        /// </summary>
         AutoDetect = tiledb_mime_type_t.TILEDB_MIME_AUTODETECT,
         [Obsolete("Use Pdf instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_MIME_PDF = Pdf,
