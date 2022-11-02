@@ -10,8 +10,6 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
 
         public QueryHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
 
-        public static QueryHandle CreateUnowned(tiledb_query_t* filterList) => new((IntPtr)filterList, ownsHandle: false);
-
         public static QueryHandle Create(Context context, ArrayHandle arrayHandle, tiledb_query_type_t queryType)
         {
             var handle = new QueryHandle();
@@ -44,7 +42,7 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
             return true;
         }
 
-        private void InitHandle(tiledb_query_t* h) { SetHandle((IntPtr)h); }
+        internal void InitHandle(tiledb_query_t* h) { SetHandle((IntPtr)h); }
         public override bool IsInvalid => handle == IntPtr.Zero;
 
         public SafeHandleHolder<tiledb_query_t> Acquire() => new(this);

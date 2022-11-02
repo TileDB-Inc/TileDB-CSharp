@@ -95,20 +95,29 @@ namespace TileDB.CSharp
         /// <param name="filterIndex"></param>
         /// <returns></returns>
         /// <exception cref="ErrorException"></exception>
-        public Filter Filter(uint filterIndex) 
+        public Filter Filter(uint filterIndex)
         {
+            var handle = new FilterHandle();
+            var successful = false;
             tiledb_filter_t* filter_p = null;
-            using (var ctxHandle = _ctx.Handle.Acquire())
-            using (var handle = _handle.Acquire())
+            try
             {
-                _ctx.handle_error(Methods.tiledb_filter_list_get_filter_from_index(ctxHandle, handle, filterIndex, &filter_p));
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var filterListHandle = _handle.Acquire())
+                {
+                    _ctx.handle_error(Methods.tiledb_filter_list_get_filter_from_index(ctxHandle, filterListHandle, filterIndex, &filter_p));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(filter_p);
+                }
             }
 
-            if (filter_p == null) {
-                throw new ErrorException("FilterList.filter, filter pointer is null");
-            }
-
-            return new Filter(_ctx, FilterHandle.CreateUnowned(filter_p));
+            return new Filter(_ctx, handle);
         }
 
     }

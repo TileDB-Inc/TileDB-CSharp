@@ -217,17 +217,26 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public ArraySchema Schema()
         {
-            tiledb_array_schema_t* array_schema_p;
-            using (var ctxHandle = _ctx.Handle.Acquire())
-            using (var handle = _handle.Acquire())
+            var handle = new ArraySchemaHandle();
+            var successful = false;
+            tiledb_array_schema_t* array_schema_p = null;
+            try
             {
-                _ctx.handle_error(Methods.tiledb_array_get_schema(ctxHandle, handle, &array_schema_p));
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var arrayHandle = _handle.Acquire())
+                {
+                    _ctx.handle_error(Methods.tiledb_array_get_schema(ctxHandle, arrayHandle, &array_schema_p));
+                }
+                successful = true;
             }
-            if (array_schema_p == null)
+            finally
             {
-                throw new ErrorException("Array.schema, schema pointer is null");
+                if (successful)
+                {
+                    handle.InitHandle(array_schema_p);
+                }
             }
-            return new ArraySchema(_ctx, ArraySchemaHandle.CreateUnowned(array_schema_p));
+            return new ArraySchema(_ctx, handle);
         }
 
         /// <summary>
@@ -737,14 +746,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="ctx"></param>
         /// <param name="path"></param>
-        public static ArraySchema LoadArraySchema(Context ctx, string path)
-        {
-            using var ms_path = new MarshaledString(path);
-            tiledb_array_schema_t* array_schema_p;
-            using var ctxHandle = ctx.Handle.Acquire();
-            ctx.handle_error(Methods.tiledb_array_schema_load(ctxHandle, ms_path, &array_schema_p));
-            return new ArraySchema(ctx, ArraySchemaHandle.CreateUnowned(array_schema_p));
-        }
+        public static ArraySchema LoadArraySchema(Context ctx, string path) => ArraySchema.Load(ctx, path);
         #endregion
     }
 }

@@ -10,8 +10,6 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
 
         public ConfigHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
 
-        public static ConfigHandle CreateUnowned(tiledb_config_t* schema) => new((IntPtr)schema, ownsHandle: false);
-
         public static ConfigHandle Create()
         {
             var handle = new ConfigHandle();
@@ -43,7 +41,7 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
             return true;
         }
 
-        private void InitHandle(tiledb_config_t* h) { SetHandle((IntPtr)h); }
+        internal void InitHandle(tiledb_config_t* h) { SetHandle((IntPtr)h); }
         public override bool IsInvalid => handle == IntPtr.Zero;
 
         public SafeHandleHolder<tiledb_config_t> Acquire() => new(this);

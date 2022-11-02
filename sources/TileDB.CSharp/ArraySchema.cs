@@ -18,16 +18,6 @@ namespace TileDB.CSharp
             _handle = ArraySchemaHandle.Create(_ctx, tiledb_array_type);
         }
 
-        private ArraySchema(Context ctx, string uri)
-        {
-            _ctx = ctx;
-            tiledb_array_schema_t* array_schema_p;
-            using var ms_uri = new MarshaledString(uri);
-            using var ctxHandle = ctx.Handle.Acquire();
-            _ctx.handle_error(Methods.tiledb_array_schema_load(ctxHandle, ms_uri, &array_schema_p));
-            _handle = ArraySchemaHandle.CreateUnowned(array_schema_p);
-        }
-
         internal ArraySchema(Context ctx, ArraySchemaHandle handle)
         {
             _ctx = ctx;
@@ -231,12 +221,27 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public FilterList CoordsFilterList()
         {
+            var handle = new FilterListHandle();
+            var successful = false;
+            tiledb_filter_list_t* filter_list_p = null;
+            try
+            {
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var schemaHandle = _handle.Acquire())
+                {
+                    _ctx.handle_error(Methods.tiledb_array_schema_get_coords_filter_list(ctxHandle, schemaHandle, &filter_list_p));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(filter_list_p);
+                }
+            }
 
-            tiledb_filter_list_t* filter_list_p;
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            _ctx.handle_error(Methods.tiledb_array_schema_get_coords_filter_list(ctxHandle, handle, &filter_list_p));
-            return new FilterList(_ctx, FilterListHandle.CreateUnowned(filter_list_p));
+            return new FilterList(_ctx, handle);
         }
 
         /// <summary>
@@ -245,11 +250,27 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public FilterList OffsetsFilterList()
         {
-            tiledb_filter_list_t* filter_list_p;
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            _ctx.handle_error(Methods.tiledb_array_schema_get_offsets_filter_list(ctxHandle, handle, &filter_list_p));
-            return new FilterList(_ctx, FilterListHandle.CreateUnowned(filter_list_p));
+            var handle = new FilterListHandle();
+            var successful = false;
+            tiledb_filter_list_t* filter_list_p = null;
+            try
+            {
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var schemaHandle = _handle.Acquire())
+                {
+                    _ctx.handle_error(Methods.tiledb_array_schema_get_offsets_filter_list(ctxHandle, schemaHandle, &filter_list_p));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(filter_list_p);
+                }
+            }
+
+            return new FilterList(_ctx, handle);
         }
 
         /// <summary>
@@ -258,12 +279,27 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public Domain Domain()
         {
+            var handle = new DomainHandle();
+            var successful = false;
             tiledb_domain_t* domain_p = null;
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            _ctx.handle_error(Methods.tiledb_array_schema_get_domain(ctxHandle, handle, &domain_p));
+            try
+            {
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var schemaHandle = _handle.Acquire())
+                {
+                    _ctx.handle_error(Methods.tiledb_array_schema_get_domain(ctxHandle, schemaHandle, &domain_p));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(domain_p);
+                }
+            }
 
-            return new Domain(_ctx, DomainHandle.CreateUnowned(domain_p));
+            return new Domain(_ctx, handle);
         }
 
         /// <summary>
@@ -299,12 +335,27 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public Attribute Attribute(uint i)
         {
-            tiledb_attribute_t* attribute_p;
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            _ctx.handle_error(Methods.tiledb_array_schema_get_attribute_from_index(ctxHandle, handle, i, &attribute_p));
+            var handle = new AttributeHandle();
+            var successful = false;
+            tiledb_attribute_t* attribute_p = null;
+            try
+            {
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var schemaHandle = _handle.Acquire())
+                {
+                    _ctx.handle_error(Methods.tiledb_array_schema_get_attribute_from_index(ctxHandle, schemaHandle, i, &attribute_p));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(attribute_p);
+                }
+            }
 
-            return new Attribute(_ctx, AttributeHandle.CreateUnowned(attribute_p));
+            return new Attribute(_ctx, handle);
         }
 
         /// <summary>
@@ -314,13 +365,28 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public Attribute Attribute(string name)
         {
-            tiledb_attribute_t* attribute_p;
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            using var ms_name = new MarshaledString(name);
-            _ctx.handle_error(Methods.tiledb_array_schema_get_attribute_from_name(ctxHandle, handle, ms_name, &attribute_p));
+            var handle = new AttributeHandle();
+            var successful = false;
+            tiledb_attribute_t* attribute_p = null;
+            try
+            {
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var schemaHandle = _handle.Acquire())
+                using (var ms_name = new MarshaledString(name))
+                {
+                    _ctx.handle_error(Methods.tiledb_array_schema_get_attribute_from_name(ctxHandle, schemaHandle, ms_name, &attribute_p));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(attribute_p);
+                }
+            }
 
-            return new Attribute(_ctx, AttributeHandle.CreateUnowned(attribute_p));
+            return new Attribute(_ctx, handle);
         }
 
         /// <summary>
@@ -344,13 +410,29 @@ namespace TileDB.CSharp
         /// <param name="ctx"></param>
         /// <param name="uri"></param>
         /// <returns></returns>
-
         public static ArraySchema Load(Context ctx, string uri)
         {
-            return new ArraySchema(ctx, uri);
+            var handle = new ArraySchemaHandle();
+            var successful = false;
+            tiledb_array_schema_t* array_schema_p = null;
+            try
+            {
+                using (var ms_uri = new MarshaledString(uri))
+                using (var ctxHandle = ctx.Handle.Acquire())
+                {
+                    ctx.handle_error(Methods.tiledb_array_schema_load(ctxHandle, ms_uri, &array_schema_p));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(array_schema_p);
+                }
+            }
+            return new ArraySchema(ctx, handle);
         }
-
-
         #endregion capi functions
 
         /// <summary>
