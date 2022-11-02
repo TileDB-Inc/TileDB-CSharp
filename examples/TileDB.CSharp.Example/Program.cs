@@ -12,8 +12,8 @@ namespace TileDB.CSharp.Examples
             await ExampleQuery.RunAsync();
             await ExampleIncompleteQuery.RunAsync();
             await ExampleIncompleteQueryStringDimensions.RunAsync();
-            ExampleWritingDenseGlobal.Run();
-            ExampleWritingSparseGlobal.Run();
+            await ExampleWritingDenseGlobal.RunAsync();
+            await ExampleWritingSparseGlobal.RunAsync();
 
             ExampleFile.RunLocal();
             // ExampleFile.RunCloud("tiledb_api_token", "tiledb_namespace", "new_cloud_array_name", "s3://bucket/prefix/");

@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace TileDB.CSharp.Examples
 {
@@ -25,7 +26,7 @@ namespace TileDB.CSharp.Examples
             Array.Create(Ctx, ArrayPath, schema);
         }
 
-        private static void WriteArray()
+        private static async Task WriteArrayAsync()
         {
             using var array = new Array(Ctx, ArrayPath);
             array.Open(QueryType.Write);
@@ -38,14 +39,14 @@ namespace TileDB.CSharp.Examples
             queryWrite.SetDataBuffer("rows", new[] { 1, 2, 2 });
             queryWrite.SetDataBuffer("cols", new[] { 1, 1, 4 });
             queryWrite.SetDataBuffer("a1", new[] { 1, 2, 3 });
-            queryWrite.Submit();
+            await queryWrite.SubmitAsync();
             Console.WriteLine($"Write query #1 status: {queryWrite.Status()}");
 
             // Write 3 more value at coordinates (3, 1), (4, 1), and (4, 4)
             queryWrite.SetDataBuffer("rows", new[] { 3, 4, 4 });
             queryWrite.SetDataBuffer("cols", new[] { 1, 1, 4 });
             queryWrite.SetDataBuffer("a1", new[] { 4, 5, 6 });
-            queryWrite.Submit();
+            await queryWrite.SubmitAsync();
             Console.WriteLine($"Write query #2 status: {queryWrite.Status()}");
 
             // Important: Global order writes must call Query.FinalizeQuery()
@@ -53,7 +54,7 @@ namespace TileDB.CSharp.Examples
             array.Close();
         }
 
-        private static void ReadArray()
+        private static async Task ReadArrayAsync()
         {
             using var array = new Array(Ctx, ArrayPath);
             array.Open(QueryType.Read);
@@ -66,7 +67,7 @@ namespace TileDB.CSharp.Examples
             readQuery.SetDataBuffer("rows", rowsRead);
             readQuery.SetDataBuffer("cols", colsRead);
             readQuery.SetDataBuffer("a1", a1Read);
-            readQuery.Submit();
+            await readQuery.SubmitAsync();
             Console.WriteLine($"Read query status: {readQuery.Status()}");
             var coordsRead = rowsRead.Zip(colsRead);
             var dataRead = coordsRead.Zip(a1Read);
@@ -75,7 +76,7 @@ namespace TileDB.CSharp.Examples
             array.Close();
         }
 
-        public static void Run()
+        public static async Task RunAsync()
         {
             if (Directory.Exists(ArrayPath))
             {
@@ -83,8 +84,8 @@ namespace TileDB.CSharp.Examples
             }
 
             CreateArray();
-            WriteArray();
-            ReadArray();
+            await WriteArrayAsync();
+            await ReadArrayAsync();
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace TileDB.CSharp.Examples
 {
@@ -24,7 +25,7 @@ namespace TileDB.CSharp.Examples
             Array.Create(Ctx, ArrayPath, schema);
         }
 
-        private static void WriteArray()
+        private static async Task WriteArrayAsync()
         {
             using var array = new Array(Ctx, ArrayPath);
             array.Open(QueryType.Write);
@@ -37,12 +38,12 @@ namespace TileDB.CSharp.Examples
 
             // Write 4 cells
             queryWrite.SetDataBuffer("a1", new[] { 1, 2, 3, 4 });
-            queryWrite.Submit();
+            await queryWrite.SubmitAsync();
             Console.WriteLine($"Write query #1 status: {queryWrite.Status()}");
 
             // Write 4 more cells before we finalize the query
             queryWrite.SetDataBuffer("a1", new[] { 5, 6, 7, 8});
-            queryWrite.Submit();
+            await queryWrite.SubmitAsync();
             Console.WriteLine($"Write query #2 status: {queryWrite.Status()}");
 
             // Important: Global order writes must call Query.FinalizeQuery()
@@ -50,7 +51,7 @@ namespace TileDB.CSharp.Examples
             array.Close();
         }
 
-        private static void ReadArray()
+        private static async Task ReadArrayAsync()
         {
             using var array = new Array(Ctx, ArrayPath);
             array.Open(QueryType.Read);
@@ -59,14 +60,14 @@ namespace TileDB.CSharp.Examples
 
             var a1Read = new int[16];
             readQuery.SetDataBuffer("a1", a1Read);
-            readQuery.Submit();
+            await readQuery.SubmitAsync();
             Console.WriteLine($"Read query status: {readQuery.Status()}");
             Console.WriteLine($"a1 data: {string.Join(", ", a1Read)}");
 
             array.Close();
         }
 
-        public static void Run()
+        public static async Task RunAsync()
         {
             if (Directory.Exists(ArrayPath))
             {
@@ -74,8 +75,8 @@ namespace TileDB.CSharp.Examples
             }
 
             CreateArray();
-            WriteArray();
-            ReadArray();
+            await WriteArrayAsync();
+            await ReadArrayAsync();
         }
     }
 }

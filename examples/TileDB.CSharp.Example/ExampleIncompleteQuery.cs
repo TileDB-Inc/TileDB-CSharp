@@ -69,14 +69,14 @@ namespace TileDB.CSharp.Examples
             }
         }
 
-        static void ReadArray()
+        static async Task ReadArrayAsync()
         {
             // Allocate buffers for 10 values per batch read
             var rowsRead = new int[10];
             var colsRead = new int[10];
             var attrRead = new int[10];
 
-            using (var arrayRead = new Array(ctx, arrayName))
+            using (var arrayRead = new Array(Ctx, ArrayPath))
             {
                 arrayRead.Open(QueryType.Read);
                 var queryRead = new Query(Ctx, arrayRead);
@@ -111,9 +111,9 @@ namespace TileDB.CSharp.Examples
 
         public static async Task RunAsync()
         {
-             if (Directory.Exists(arrayName))
+             if (Directory.Exists(ArrayPath))
              {
-                 Directory.Delete(arrayName, true);
+                 Directory.Delete(ArrayPath, true);
              }
 
             CreateArray();
