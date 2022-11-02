@@ -375,6 +375,18 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Submits and finalizes the query.
+        /// </summary>
+        /// <seealso cref="Submit"/>
+        /// <seealso cref="FinalizeQuery"/>
+        public void SubmitAndFinalize()
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_query_submit_and_finalize(ctxHandle, handle));
+        }
+
+        /// <summary>
         /// Callback function on query completed.
         /// </summary>
         /// <param name="ptr"></param>
