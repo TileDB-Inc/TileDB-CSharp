@@ -753,7 +753,7 @@ namespace TileDB.CSharp
         TILEDB_MIME_AUTODETECT = AutoDetect
     }
 
-    public class Constants
+    public static class Constants
     {
         public const uint TILEDB_VAR_NUM = uint.MaxValue;
 
@@ -767,6 +767,9 @@ namespace TileDB.CSharp
         #endregion File Api
     }
 
+    /// <summary>
+    /// Contains utility functions that operate on the library's enum types.
+    /// </summary>
     public static unsafe class EnumUtil
     {
         /// <summary>
