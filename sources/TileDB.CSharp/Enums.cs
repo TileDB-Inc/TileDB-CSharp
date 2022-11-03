@@ -774,6 +774,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="queryType"></param>
         /// <returns></returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static string QueryTypeToStr(QueryType queryType)
         {
             tiledb_query_type_t tiledb_query_type = (tiledb_query_type_t)queryType;
@@ -787,6 +788,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static QueryType QueryTypeFromStr(string str)
         {
             tiledb_query_type_t tiledb_query_type;
@@ -807,6 +809,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="objectType"></param>
         /// <returns></returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static string ObjectTypeToStr(ObjectType objectType)
         {
             tiledb_object_t tiledb_object = (tiledb_object_t)objectType;
@@ -815,6 +818,7 @@ namespace TileDB.CSharp
             return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ObjectType ObjectTypeFromStr(string str)
         {
             tiledb_object_t tiledb_object;
@@ -830,6 +834,7 @@ namespace TileDB.CSharp
             return (ObjectType)tiledb_object;
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static string FileSystemTypeToStr(FileSystemType fileSystemType)
         {
             tiledb_filesystem_t tiledb_filesystem = (tiledb_filesystem_t)fileSystemType;
@@ -838,6 +843,7 @@ namespace TileDB.CSharp
             return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static FileSystemType FileSystemTypeFromStr(string str)
         {
             tiledb_filesystem_t tiledb_filesystem;
@@ -853,6 +859,7 @@ namespace TileDB.CSharp
             return (FileSystemType)tiledb_filesystem;
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static string DataTypeToStr(DataType dataType)
         {
             tiledb_datatype_t tiledb_datatype = (tiledb_datatype_t)dataType;
@@ -861,6 +868,7 @@ namespace TileDB.CSharp
             return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static DataType DataTypeFromStr(string str)
         {
             tiledb_datatype_t tiledb_datatype;
@@ -876,6 +884,7 @@ namespace TileDB.CSharp
             return (DataType)tiledb_datatype;
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static string ArrayTypeToStr(ArrayType arrayType)
         {
             tiledb_array_type_t tiledb_arraytype = (tiledb_array_type_t)arrayType;
@@ -884,6 +893,7 @@ namespace TileDB.CSharp
             return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ArrayType ArrayTypeFromStr(string str)
         {
             tiledb_array_type_t tiledb_arraytype;
@@ -899,6 +909,7 @@ namespace TileDB.CSharp
             return (ArrayType)tiledb_arraytype;
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static string LayoutTypeToStr(LayoutType layoutType)
         {
             tiledb_layout_t tiledb_layout = (tiledb_layout_t)layoutType;
@@ -907,6 +918,7 @@ namespace TileDB.CSharp
             return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static LayoutType LayoutTypeFromStr(string str)
         {
             tiledb_layout_t tiledb_layout;
@@ -922,6 +934,7 @@ namespace TileDB.CSharp
             return (LayoutType)tiledb_layout;
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static string FilterTypeToStr(FilterType filterType)
         {
             tiledb_filter_type_t tiledb_filtertype = (tiledb_filter_type_t)filterType;
@@ -930,6 +943,7 @@ namespace TileDB.CSharp
             return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static FilterType FilterTypeFromStr(string str)
         {
             tiledb_filter_type_t tiledb_filtertype;
@@ -945,6 +959,7 @@ namespace TileDB.CSharp
             return (FilterType)tiledb_filtertype;
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static string FilterOptionToStr(FilterOption filterOption)
         {
             tiledb_filter_option_t tiledb_filteroption = (tiledb_filter_option_t)filterOption;
@@ -953,6 +968,7 @@ namespace TileDB.CSharp
             return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static FilterOption FilterOptionFromStr(string str)
         {
             tiledb_filter_option_t tiledb_filteroption;
@@ -968,6 +984,7 @@ namespace TileDB.CSharp
             return (FilterOption)tiledb_filteroption;
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static string EncryptionTypeToStr(EncryptionType encryptionType)
         {
             tiledb_encryption_type_t tiledb_encryptiontype = (tiledb_encryption_type_t)encryptionType;
@@ -976,6 +993,7 @@ namespace TileDB.CSharp
             return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static EncryptionType EncryptionTypeFromStr(string str)
         {
             tiledb_encryption_type_t tiledb_encryptiontype;
@@ -991,6 +1009,7 @@ namespace TileDB.CSharp
             return (EncryptionType)tiledb_encryptiontype;
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static string QueryStatusToStr(QueryStatus queryStatus)
         {
             tiledb_query_status_t tiledb_querystatus = (tiledb_query_status_t)queryStatus;
@@ -999,6 +1018,7 @@ namespace TileDB.CSharp
             return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static QueryStatus QueryStatusFromStr(string str)
         {
             tiledb_query_status_t tiledb_querystatus;
@@ -1014,6 +1034,7 @@ namespace TileDB.CSharp
             return (QueryStatus)tiledb_querystatus;
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static string WalkOrderTypeToStr(WalkOrderType walkOrderType)
         {
             tiledb_walk_order_t tiledb_walkorder = (tiledb_walk_order_t)walkOrderType;
@@ -1022,6 +1043,7 @@ namespace TileDB.CSharp
             return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static WalkOrderType WalkOrderTypeFromStr(string str)
         {
             tiledb_walk_order_t tiledb_walkorder;
@@ -1037,6 +1059,7 @@ namespace TileDB.CSharp
             return (WalkOrderType)tiledb_walkorder;
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static string VfsModeToStr(VfsMode vfsMode)
         {
             tiledb_vfs_mode_t tiledb_vfsmode = (tiledb_vfs_mode_t)vfsMode;
@@ -1045,6 +1068,7 @@ namespace TileDB.CSharp
             return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static VfsMode VfsModeFromStr(string str)
         {
             tiledb_vfs_mode_t tiledb_vfsmode;
