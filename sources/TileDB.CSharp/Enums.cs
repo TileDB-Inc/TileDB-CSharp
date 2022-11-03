@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using TileDB.Interop;
 
@@ -243,7 +243,7 @@ namespace TileDB.CSharp
         /// </summary>
         UInt16 = tiledb_datatype_t.TILEDB_UINT16,
         /// <summary>
-        /// An unsigned 64-bit integer.
+        /// An unsigned 32-bit integer.
         /// </summary>
         UInt32 = tiledb_datatype_t.TILEDB_UINT32,
         /// <summary>
