@@ -381,7 +381,7 @@ namespace TileDB.CSharp
 
         public static Dimension Create<T>(Context ctx, string name, T boundLower, T boundUpper, T extent)
         {
-            var tiledb_datatype = EnumUtil.to_tiledb_datatype(typeof(T));
+            var tiledb_datatype = (tiledb_datatype_t)EnumUtil.TypeToDataType(typeof(T));
 
             if (tiledb_datatype == tiledb_datatype_t.TILEDB_ANY) {
                 throw new NotSupportedException("Dimension.create, not supported datatype");
@@ -416,7 +416,7 @@ namespace TileDB.CSharp
         /// <exception cref="System.ArgumentException"></exception>
         public static Dimension Create<T>(Context ctx, string name, T[] bound, T extent) 
         {
-            var tiledb_datatype = EnumUtil.to_tiledb_datatype(typeof(T));
+            var tiledb_datatype = (tiledb_datatype_t)EnumUtil.TypeToDataType(typeof(T));
             if (tiledb_datatype == tiledb_datatype_t.TILEDB_STRING_ASCII) 
             {
                 throw new NotSupportedException("Dimension.create, use create_string for string dimensions");

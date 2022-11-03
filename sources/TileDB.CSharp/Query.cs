@@ -1008,7 +1008,7 @@ namespace TileDB.CSharp
                 ulong? offsetNum = null;
                 ulong? validityNum = null;
 
-                ulong typeSize = EnumUtil.TileDBDataTypeSize((tiledb_datatype_t)GetDataType(key));
+                ulong typeSize = EnumUtil.DataTypeSize(GetDataType(key));
                 ulong dataNum = (ulong)_dataBufferHandles[key].SizeHandle.Target! / typeSize;
 
                 if (_offsetsBufferHandles.ContainsKey(key))

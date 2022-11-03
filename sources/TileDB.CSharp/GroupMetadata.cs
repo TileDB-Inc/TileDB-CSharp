@@ -29,8 +29,8 @@ namespace TileDB.CSharp
         /// <param name="data"></param>
         public void PutMetadata<T>(string key, T[] data) where T : struct
         {
-            var tiledb_datatype = EnumUtil.to_tiledb_datatype(typeof(T));
-            put_metadata<T>(key, data, tiledb_datatype, (uint)data.Length);
+            var tiledb_datatype = (tiledb_datatype_t)EnumUtil.TypeToDataType(typeof(T));
+            put_metadata(key, data, tiledb_datatype, (uint)data.Length);
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace TileDB.CSharp
             using var ctxHandle = ctx.Handle.Acquire();
             using var groupHandle = _group.Handle.Acquire();
             using var ms_key = new MarshaledString(key);
-            tiledb_datatype_t tiledb_datatype = tiledb_datatype_t.TILEDB_ANY;
+            tiledb_datatype_t tiledb_datatype;
             var has_key = 0;
             ctx.handle_error(Methods.tiledb_group_has_metadata_key(ctxHandle, groupHandle, ms_key, &tiledb_datatype, &has_key));
 
@@ -186,7 +186,7 @@ namespace TileDB.CSharp
                 using var groupHandle = _group.Handle.Acquire();
                 void* value_p;
                 using var ms_key = new MarshaledString(key);
-                var datatype = tiledb_datatype_t.TILEDB_ANY;
+                tiledb_datatype_t datatype;
 
                 int has_key = 0;
                 ctx.handle_error(Methods.tiledb_group_has_metadata_key(ctxHandle, groupHandle, ms_key, &datatype, &has_key));
@@ -198,7 +198,7 @@ namespace TileDB.CSharp
                 uint value_num = 0;
                 ctx.handle_error(Methods.tiledb_group_get_metadata(ctxHandle, groupHandle, ms_key, &datatype, &value_num,
                     &value_p));
-                var size = (int)(value_num * EnumUtil.TileDBDataTypeSize(datatype));
+                var size = (int)(value_num * Methods.tiledb_datatype_size(datatype));
                 var fill_span = new ReadOnlySpan<byte>(value_p, size);
                 return fill_span.ToArray();
             }
@@ -359,11 +359,11 @@ namespace TileDB.CSharp
             using var groupHandle = _group.Handle.Acquire();
             void* value_p;
             using var ms_key = new MarshaledString(key);
-            var datatype = tiledb_datatype_t.TILEDB_ANY;
+            tiledb_datatype_t datatype;
             uint value_num = 0;
             ctx.handle_error(Methods.tiledb_group_get_metadata(ctxHandle, groupHandle, ms_key, &datatype, &value_num,
                 &value_p));
-            var size = (int)(value_num * EnumUtil.TileDBDataTypeSize(datatype));
+            var size = (int)(value_num * Methods.tiledb_datatype_size(datatype));
             var fill_span = new ReadOnlySpan<byte>(value_p, size);
             return (key, fill_span.ToArray(), datatype, value_num);
         }
@@ -375,12 +375,12 @@ namespace TileDB.CSharp
             using var groupHandle = _group.Handle.Acquire();
             void* value_p;
             sbyte* keyPtr;
-            var dataType = tiledb_datatype_t.TILEDB_ANY;
+            tiledb_datatype_t dataType;
             uint valueNum = 0;
             uint key_len;
             ctx.handle_error(Methods.tiledb_group_get_metadata_from_index(ctxHandle, groupHandle, index, &keyPtr,
                 &key_len, &dataType, &valueNum, &value_p));
-            var size = (int)(valueNum * EnumUtil.TileDBDataTypeSize(dataType));
+            var size = (int)(valueNum * Methods.tiledb_datatype_size(dataType));
             var fill_span = new ReadOnlySpan<byte>(value_p, size);
             string key = MarshaledStringOut.GetStringFromNullTerminated(keyPtr);
             return (key, fill_span.ToArray(), dataType, valueNum);
