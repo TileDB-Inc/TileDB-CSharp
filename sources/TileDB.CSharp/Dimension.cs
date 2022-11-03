@@ -13,6 +13,13 @@ namespace TileDB.CSharp
         private readonly Context _ctx;
         private bool _disposed;
 
+        /// <summary>
+        /// This value indicates a variable-sized attribute.
+        /// It may be returned from <see cref="CellValNum"/>
+        /// and can be passed to <see cref="SetCellValNum"/>.
+        /// </summary>
+        public const uint VariableSized = Constants.VariableSizedImpl;
+
         internal Dimension(Context ctx, DimensionHandle handle) 
         {
             _ctx = ctx;
@@ -52,9 +59,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set cell value number.
+        /// Sets the number of values per cell for this dimension.
+        /// For variable-sized attributes the value should be <see cref="VariableSized"/>.
         /// </summary>
-        /// <param name="cellValNum"></param>
         public void SetCellValNum(uint cellValNum)
         {
             using var ctxHandle = _ctx.Handle.Acquire();

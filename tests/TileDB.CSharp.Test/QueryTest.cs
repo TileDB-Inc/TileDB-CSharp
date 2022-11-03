@@ -141,7 +141,7 @@ namespace TileDB.CSharp.Test
             var a2 = new Attribute(context, "a2", DataType.Float32);
             Assert.IsNotNull(a2);
 
-            a2.SetCellValNum((uint)Constants.TILEDB_VAR_NUM);
+            a2.SetCellValNum(Attribute.VariableSized);
 
             array_schema.AddAttributes(a1, a2);
 
@@ -371,7 +371,7 @@ namespace TileDB.CSharp.Test
             var attr2 = new Attribute(context, "a2", DataType.Int32);
             Assert.IsNotNull(attr2);
             attr2.SetNullable(true);
-            attr2.SetCellValNum((uint)Constants.TILEDB_VAR_NUM);
+            attr2.SetCellValNum(Attribute.VariableSized);
             array_schema.AddAttribute(attr2);
 
             var attr3 = new Attribute(context, "a3", DataType.StringAscii);

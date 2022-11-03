@@ -143,7 +143,7 @@ namespace TileDB.CSharp.Test
             var a2 = new Attribute(context, "a2", DataType.StringAscii);
             Assert.IsNotNull(a2);
 
-            a2.SetCellValNum((uint)Constants.TILEDB_VAR_NUM);
+            a2.SetCellValNum(Attribute.VariableSized);
 
             array_schema.AddAttributes(a1, a2);
 
@@ -180,7 +180,7 @@ namespace TileDB.CSharp.Test
             var a2 = new Attribute(context, "a2", DataType.StringAscii);
             Assert.IsNotNull(a2);
 
-            a2.SetCellValNum((uint)Constants.TILEDB_VAR_NUM);
+            a2.SetCellValNum(Attribute.VariableSized);
 
             array_schema.AddAttributes(a1, a2);
 

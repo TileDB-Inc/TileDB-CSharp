@@ -755,7 +755,14 @@ namespace TileDB.CSharp
 
     public static class Constants
     {
-        public const uint TILEDB_VAR_NUM = uint.MaxValue;
+        /// <summary>
+        /// Referenced by <see cref="TILEDB_VAR_NUM"/>, <see cref="Attribute.VariableSized"/>
+        /// and <see cref="Dimension.VariableSized"/>.
+        /// </summary>
+        internal const uint VariableSizedImpl = uint.MaxValue;
+
+        [Obsolete("Use Attribute.VariableSized or Dimension.VariableSized instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        public const uint TILEDB_VAR_NUM = VariableSizedImpl;
 
         #region File Api
         public const string METADATA_SIZE_KEY = "file_size";
