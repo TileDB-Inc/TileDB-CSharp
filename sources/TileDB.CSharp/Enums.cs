@@ -1060,155 +1060,141 @@ namespace TileDB.CSharp
             return (VfsMode)tiledb_vfsmode;
         }
 
-        public static tiledb_datatype_t to_tiledb_datatype(Type t)
-        {
-            tiledb_datatype_t tiledb_datatype;
-
-            if (t == typeof(int))
-            {
-                tiledb_datatype = tiledb_datatype_t.TILEDB_INT32;
-            }
-            else if (t == typeof(long))
-            {
-                tiledb_datatype = tiledb_datatype_t.TILEDB_INT64;
-            }
-            else if (t == typeof(float))
-            {
-                tiledb_datatype = tiledb_datatype_t.TILEDB_FLOAT32;
-            }
-            else if (t == typeof(double))
-            {
-                tiledb_datatype = tiledb_datatype_t.TILEDB_FLOAT64;
-            }
-            else if (t == typeof(byte))
-            {
-                tiledb_datatype = tiledb_datatype_t.TILEDB_UINT8;
-            }
-            else if (t == typeof(sbyte))
-            {
-                tiledb_datatype = tiledb_datatype_t.TILEDB_INT8;
-            }
-            else if (t == typeof(short))
-            {
-                tiledb_datatype = tiledb_datatype_t.TILEDB_INT16;
-            }
-            else if (t == typeof(ushort))
-            {
-                tiledb_datatype = tiledb_datatype_t.TILEDB_UINT16;
-            }
-            else if (t == typeof(uint))
-            {
-                tiledb_datatype = tiledb_datatype_t.TILEDB_UINT32;
-            }
-            else if (t == typeof(ulong))
-            {
-                tiledb_datatype = tiledb_datatype_t.TILEDB_UINT64;
-            }
-            else if (t == typeof(string))
-            {
-                tiledb_datatype = tiledb_datatype_t.TILEDB_STRING_ASCII;
-            }
-            else if (t == typeof(bool))
-            {
-                tiledb_datatype = tiledb_datatype_t.TILEDB_BOOL;
-            }
-            else
-            {
-                tiledb_datatype = tiledb_datatype_t.TILEDB_ANY;
-            }
-
-            return tiledb_datatype;
-        }
+        [Obsolete("This method will be removed in a future version of the library. Use TypeToDataType and the DataType enum instead.")]
+        public static tiledb_datatype_t to_tiledb_datatype(Type t) =>
+            (tiledb_datatype_t)TypeToDataType(t);
 
         public static DataType TypeToDataType(Type t)
         {
-            var tiledb_datatype = to_tiledb_datatype(t);
-            return (DataType)tiledb_datatype;
+            if (t == typeof(int))
+            {
+                return DataType.Int32;
+            }
+            else if (t == typeof(long))
+            {
+                return DataType.Int64;
+            }
+            else if (t == typeof(float))
+            {
+                return DataType.Float32;
+            }
+            else if (t == typeof(double))
+            {
+                return DataType.Float64;
+            }
+            else if (t == typeof(byte))
+            {
+                return DataType.UInt8;
+            }
+            else if (t == typeof(sbyte))
+            {
+                return DataType.Int8;
+            }
+            else if (t == typeof(short))
+            {
+                return DataType.Int16;
+            }
+            else if (t == typeof(ushort))
+            {
+                return DataType.UInt16;
+            }
+            else if (t == typeof(uint))
+            {
+                return DataType.UInt32;
+            }
+            else if (t == typeof(ulong))
+            {
+                return DataType.UInt64;
+            }
+            else if (t == typeof(string))
+            {
+                return DataType.StringAscii;
+            }
+            else if (t == typeof(bool))
+            {
+                return DataType.Boolean;
+            }
+            else
+            {
+                return DataType.Any;
+            }
         }
 
-        private static Type TileDBDataTypeToType(tiledb_datatype_t tiledbDatatype)
+        [Obsolete("This method will be removed in a future version of the library. Use DataTypeToType and the DataType enum instead.")]
+        private static Type TileDBDataTypeToType(tiledb_datatype_t tiledbDatatype) =>
+            DataTypeToType((DataType)tiledbDatatype);
+
+        public static Type DataTypeToType(DataType datatype)
         {
-            switch (tiledbDatatype)
+            switch (datatype)
             {
-                case tiledb_datatype_t.TILEDB_ANY:
+                case DataType.Any:
                     return typeof(sbyte);
-                case tiledb_datatype_t.TILEDB_CHAR:
+                case DataType.Char:
                     return typeof(sbyte);
-                case tiledb_datatype_t.TILEDB_DATETIME_AS:
-                case tiledb_datatype_t.TILEDB_DATETIME_DAY:
-                case tiledb_datatype_t.TILEDB_DATETIME_FS:
-                case tiledb_datatype_t.TILEDB_DATETIME_HR:
-                case tiledb_datatype_t.TILEDB_DATETIME_MIN:
-                case tiledb_datatype_t.TILEDB_DATETIME_MONTH:
-                case tiledb_datatype_t.TILEDB_DATETIME_MS:
-                case tiledb_datatype_t.TILEDB_DATETIME_NS:
-                case tiledb_datatype_t.TILEDB_DATETIME_PS:
-                case tiledb_datatype_t.TILEDB_DATETIME_SEC:
-                case tiledb_datatype_t.TILEDB_DATETIME_US:
-                case tiledb_datatype_t.TILEDB_DATETIME_WEEK:
-                case tiledb_datatype_t.TILEDB_DATETIME_YEAR:
+                case DataType.DateTimeAttosecond:
+                case DataType.DateTimeDay:
+                case DataType.DateTimeFemtosecond:
+                case DataType.DateTimeHour:
+                case DataType.DateTimeMinute:
+                case DataType.DateTimeMonth:
+                case DataType.DateTimeMillisecond:
+                case DataType.DateTimeNanosecond:
+                case DataType.DateTimePicosecond:
+                case DataType.DateTimeSecond:
+                case DataType.DateTimeMicrosecond:
+                case DataType.DateTimeWeek:
+                case DataType.DateTimeYear:
                     return typeof(long);
-                case tiledb_datatype_t.TILEDB_FLOAT32:
+                case DataType.Float32:
                     return typeof(float);
-                case tiledb_datatype_t.TILEDB_FLOAT64:
+                case DataType.Float64:
                     return typeof(double);
-                case tiledb_datatype_t.TILEDB_INT16:
+                case DataType.Int16:
                     return typeof(short);
-                case tiledb_datatype_t.TILEDB_INT32:
+                case DataType.Int32:
                     return typeof(int);
-                case tiledb_datatype_t.TILEDB_INT64:
+                case DataType.Int64:
                     return typeof(long);
-                case tiledb_datatype_t.TILEDB_INT8:
+                case DataType.Int8:
                     return typeof(sbyte);
-                case tiledb_datatype_t.TILEDB_STRING_ASCII:
-                case tiledb_datatype_t.TILEDB_STRING_UCS2:
-                case tiledb_datatype_t.TILEDB_STRING_UCS4:
-                case tiledb_datatype_t.TILEDB_STRING_UTF16:
-                case tiledb_datatype_t.TILEDB_STRING_UTF32:
-                case tiledb_datatype_t.TILEDB_STRING_UTF8:
+                case DataType.StringAscii:
+                case DataType.StringUcs2:
+                case DataType.StringUcs4:
+                case DataType.StringUtf16:
+                case DataType.StringUtf32:
+                case DataType.StringUtf8:
                     return typeof(sbyte);
-                case tiledb_datatype_t.TILEDB_TIME_AS:
-                case tiledb_datatype_t.TILEDB_TIME_FS:
-                case tiledb_datatype_t.TILEDB_TIME_HR:
-                case tiledb_datatype_t.TILEDB_TIME_MIN:
-                case tiledb_datatype_t.TILEDB_TIME_MS:
-                case tiledb_datatype_t.TILEDB_TIME_NS:
-                case tiledb_datatype_t.TILEDB_TIME_PS:
-                case tiledb_datatype_t.TILEDB_TIME_SEC:
-                case tiledb_datatype_t.TILEDB_TIME_US:
+                case DataType.TimeAttosecond:
+                case DataType.TimeFemtosecond:
+                case DataType.TimeHour:
+                case DataType.TimeMinute:
+                case DataType.TimeMillisecond:
+                case DataType.TimeNanosecond:
+                case DataType.TimePicosecond:
+                case DataType.TimeSecond:
+                case DataType.TimeMicrosecond:
                     return typeof(long);
-                case tiledb_datatype_t.TILEDB_UINT16:
+                case DataType.UInt16:
                     return typeof(ushort);
-                case tiledb_datatype_t.TILEDB_UINT32:
+                case DataType.UInt32:
                     return typeof(uint);
-                case tiledb_datatype_t.TILEDB_UINT64:
+                case DataType.UInt64:
                     return typeof(ulong);
-                case tiledb_datatype_t.TILEDB_UINT8:
+                case DataType.UInt8:
                     return typeof(byte);
-                case tiledb_datatype_t.TILEDB_BLOB:
+                case DataType.Blob:
                     return typeof(byte);
-                case tiledb_datatype_t.TILEDB_BOOL:
+                case DataType.Boolean:
                     return typeof(byte);
                 default:
                     return typeof(byte);
             }
         }
 
-        public static Type DataTypeToType(DataType datatype)
-        {
-            var tiledb_datatype = (tiledb_datatype_t)datatype;
-            return TileDBDataTypeToType(tiledb_datatype);
-        }
-
-        public static bool IsStringType(tiledb_datatype_t tiledbDatatype)
-        {
-            return tiledbDatatype == tiledb_datatype_t.TILEDB_STRING_ASCII
-                || tiledbDatatype == tiledb_datatype_t.TILEDB_STRING_UCS2
-                || tiledbDatatype == tiledb_datatype_t.TILEDB_STRING_UCS4
-                || tiledbDatatype == tiledb_datatype_t.TILEDB_STRING_UTF16
-                || tiledbDatatype == tiledb_datatype_t.TILEDB_STRING_UTF32
-                || tiledbDatatype == tiledb_datatype_t.TILEDB_STRING_UTF8;
-        }
+        [Obsolete("This method will be removed in a future version of the library. Use the overload that accepts the DataType enum instead.")]
+        public static bool IsStringType(tiledb_datatype_t tiledbDatatype) =>
+            IsStringType((DataType)tiledbDatatype);
 
         public static bool IsStringType(DataType datatype)
         {
@@ -1220,15 +1206,11 @@ namespace TileDB.CSharp
                 || datatype == DataType.StringUtf8;
         }
 
-        public static ulong TileDBDataTypeSize(tiledb_datatype_t tiledbDatatype)
-        {
-            return Methods.tiledb_datatype_size(tiledbDatatype);
-        }
+        [Obsolete("This method will be removed in a future version of the library. Use DataTypeSize and the DataType enum instead.")]
+        public static ulong TileDBDataTypeSize(tiledb_datatype_t tiledbDatatype) =>
+            DataTypeSize((DataType)tiledbDatatype);
 
-        public static ulong DataTypeSize(DataType datatype)
-        {
-            var tiledb_datatype = (tiledb_datatype_t)datatype;
-            return Methods.tiledb_datatype_size(tiledb_datatype);
-        }
+        public static ulong DataTypeSize(DataType datatype) =>
+            Methods.tiledb_datatype_size((tiledb_datatype_t)datatype);
     }
 }
