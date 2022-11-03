@@ -1116,7 +1116,9 @@ namespace TileDB.CSharp
             }
             else
             {
+#pragma warning disable CS0618 // Type or member is obsolete
                 return DataType.Any;
+#pragma warning restore CS0618 // Type or member is obsolete
             }
         }
 
@@ -1126,6 +1128,7 @@ namespace TileDB.CSharp
 
         public static Type DataTypeToType(DataType datatype)
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             switch (datatype)
             {
                 case DataType.Any:
@@ -1190,6 +1193,7 @@ namespace TileDB.CSharp
                 default:
                     return typeof(byte);
             }
+#pragma warning restore CS0618 // Type or member is obsolete
         }
 
         [Obsolete("This method will be removed in a future version of the library. Use the overload that accepts the DataType enum instead.")]
@@ -1198,12 +1202,14 @@ namespace TileDB.CSharp
 
         public static bool IsStringType(DataType datatype)
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             return datatype == DataType.StringAscii
                 || datatype == DataType.StringUcs2
                 || datatype == DataType.StringUcs4
                 || datatype == DataType.StringUtf16
                 || datatype == DataType.StringUtf32
                 || datatype == DataType.StringUtf8;
+#pragma warning restore CS0618 // Type or member is obsolete
         }
 
         [Obsolete("This method will be removed in a future version of the library. Use DataTypeSize and the DataType enum instead.")]
