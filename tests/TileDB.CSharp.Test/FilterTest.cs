@@ -64,11 +64,6 @@ namespace TileDB.CSharp.Test
         [TestMethod]
         public void NewFloatScalingFilterIsValid()
         {
-            if (!TestUtil.VersionMinimum(2, 11))
-            {
-                return;
-            }
-
             var ctx = Context.GetDefault();
             using var filter = new Filter(ctx, FilterType.ScaleFloat);
             Assert.AreEqual(FilterType.ScaleFloat, filter.FilterType());
