@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         # Will be checking following versions
-        dotnet: ['5.0', '6.0']
+        dotnet: ['net5.0', 'net6.0']
         # Repeat this test for each os
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
@@ -31,12 +31,8 @@ jobs:
         run: |
           rm -rf $DOTNET_ROOT
 
-      # Following action sets up dotnet and uses the strategy matrix to test on
-      # specific versions
-      - name: Set up dotnet
+      - name: Set up .NET SDK from global.json
         uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: ${{ matrix.dotnet }}
 
       - name: Display .NET versions
         run: dotnet --info
@@ -49,30 +45,22 @@ jobs:
       # DotNet test
       - name: Test TileDB.CSharp
         run: |
-          dotnet test -c Release tests/TileDB.CSharp.Test
+          dotnet test -c Release tests/TileDB.CSharp.Test -f ${{ matrix.dotnet }}
 
       - name: Run examples
         shell: bash
         run: |
-          find examples/ -name *.csproj | xargs -I{} dotnet run --project {}
+          find examples/ -name *.csproj | xargs -I{} dotnet run --project {} -f ${{ matrix.dotnet }}
 
   Stage-Release-Candidate:
     needs: Run-Tests
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # Will be checking following versions
-        dotnet: ['5.0']
     steps:
       # Checks out repository
       - uses: actions/checkout@v3
 
-      # Following action sets up dotnet and uses the strategy matrix to test on
-      # specific versions
-      - name: Set up dotnet
+      - name: Set up .NET SDK from global.json
         uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: ${{ matrix.dotnet }}
 
       - name: Display dotnet versions
         run: dotnet --info
@@ -102,7 +90,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        dotnet: ['5.0', '6.0']
+        dotnet: ['net5.0', 'net6.0']
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout TileDB-CSharp repository
@@ -119,10 +107,8 @@ jobs:
         run: |
           rm -rf $DOTNET_ROOT
 
-      - name: Set up dotnet
+      - name: Set up .NET SDK from global.json
         uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: ${{ matrix.dotnet }}
 
       - name: Display dotnet versions
         run: dotnet --info
@@ -141,7 +127,7 @@ jobs:
       # Run tests using NuGet release candidate
       - name: Test TileDB.CSharp
         run: |
-          dotnet test -c Release tests/TileDB.CSharp.Test
+          dotnet test -c Release tests/TileDB.CSharp.Test -f ${{ matrix.dotnet }}
 
   Release:
     # Only run this job if a tag was provided

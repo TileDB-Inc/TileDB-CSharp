@@ -3,9 +3,8 @@
     <Nullable>enable</Nullable>
     <OutputType>Exe</OutputType>
     <RollForward>Major</RollForward>
-    <RollForward>Major</RollForward>
     <RootNamespace>TileDB.CSharp.Examples</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
