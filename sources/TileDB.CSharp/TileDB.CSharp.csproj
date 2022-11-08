@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Nullable>enable</Nullable>
     <RollForward>Major</RollForward>
     <RootNamespace>TileDB.CSharp</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
-    <NuspecFile>TileDB.CSharp.nuspec</NuspecFile>
     <Version>5.3.0</Version>
+    <NuspecFile>TileDB.CSharp.nuspec</NuspecFile>
+    <NuspecProperties>version=$(Version)</NuspecProperties>
   </PropertyGroup>
 
   <PropertyGroup>
