@@ -63,6 +63,34 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Creates a <see cref="Config"/> object that contains this <see cref="FragmentInfo"/>'s configuration.
+        /// </summary>
+        public Config GetConfig()
+        {
+            var handle = new ConfigHandle();
+            bool successful = false;
+            tiledb_config_t* config = null;
+            try
+            {
+                using (var ctx = _ctx.Handle.Acquire())
+                using (var fragmentInfoHandle = _handle.Acquire())
+                {
+                    _ctx.handle_error(Methods.tiledb_fragment_info_get_config(ctx, fragmentInfoHandle, &config));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(config);
+                }
+            }
+
+            return new Config(handle);
+        }
+
+        /// <summary>
         /// Set the fragment info object's <see cref="Config"/>.
         /// </summary>
         /// <param name="config">The <see cref="Config"/> object to set.</param>
