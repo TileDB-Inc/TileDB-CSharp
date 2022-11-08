@@ -253,7 +253,7 @@ namespace TileDB.CSharp
                 throw new ArgumentException("Query.SetDataBuffer, buffer is null or empty!");
             }
 
-            if (data is bool[] boolData && QueryType() == CSharp.QueryType.TILEDB_WRITE)
+            if (data is bool[] boolData && QueryType() == CSharp.QueryType.Write)
             {
                 SetDataBuffer<byte>(name, System.Array.ConvertAll(boolData as bool[], d => d ? (byte)1 : (byte)0));
                 return;
@@ -371,7 +371,7 @@ namespace TileDB.CSharp
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             _ctx.handle_error(Methods.tiledb_query_submit(ctxHandle, handle));
-            return QueryStatus.TILEDB_COMPLETED;
+            return QueryStatus.Completed;
         }
 
         /// <summary>
@@ -393,7 +393,7 @@ namespace TileDB.CSharp
         private void QueryCallback(IntPtr ptr)
         {
             //fire event
-            var args = new QueryEventArgs((int)QueryStatus.TILEDB_COMPLETED, "query completed");
+            var args = new QueryEventArgs((int)QueryStatus.Completed, "query completed");
             OnQueryCompleted(args);
         }
 
@@ -969,8 +969,8 @@ namespace TileDB.CSharp
         {
             if (EnumUtil.TypeToDataType(typeof(T)) != dataType)
             {
-                if (!(dataType== DataType.TILEDB_STRING_ASCII && (typeof(T)==typeof(byte) || typeof(T) == typeof(sbyte) || typeof(T) == typeof(string)))
-                   && !(dataType == DataType.TILEDB_BOOL && typeof(T) == typeof(byte)))
+                if (!(dataType== DataType.StringAscii && (typeof(T)==typeof(byte) || typeof(T) == typeof(sbyte) || typeof(T) == typeof(string)))
+                   && !(dataType == DataType.Boolean && typeof(T) == typeof(byte)))
                 {
                     throw new System.ArgumentException("T " + typeof(T).Name + " doesnot match " + dataType.ToString());
                 }
@@ -1020,7 +1020,7 @@ namespace TileDB.CSharp
                 ulong? offsetNum = null;
                 ulong? validityNum = null;
 
-                ulong typeSize = EnumUtil.TileDBDataTypeSize((tiledb_datatype_t)GetDataType(key));
+                ulong typeSize = EnumUtil.DataTypeSize(GetDataType(key));
                 ulong dataNum = (ulong)_dataBufferHandles[key].SizeHandle.Target! / typeSize;
 
                 if (_offsetsBufferHandles.ContainsKey(key))

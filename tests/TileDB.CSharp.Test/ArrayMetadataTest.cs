@@ -39,13 +39,13 @@ namespace TileDB.CSharp.Test
 
             domain.AddDimensions(rowDim, colDim);
 
-            var array_schema = new ArraySchema(context, ArrayType.TILEDB_SPARSE);
+            var array_schema = new ArraySchema(context, ArrayType.Sparse);
             Assert.IsNotNull(array_schema);
-            var a1 = new Attribute(context, "a1", DataType.TILEDB_UINT32);
+            var a1 = new Attribute(context, "a1", DataType.UInt32);
             Assert.IsNotNull(a1);
 
-            array_schema.SetCellOrder(LayoutType.TILEDB_ROW_MAJOR);
-            array_schema.SetTileOrder(LayoutType.TILEDB_ROW_MAJOR);
+            array_schema.SetCellOrder(LayoutType.RowMajor);
+            array_schema.SetTileOrder(LayoutType.RowMajor);
 
             array_schema.AddAttribute(a1);
 
@@ -66,7 +66,7 @@ namespace TileDB.CSharp.Test
             var array = new Array(context, tmpArrayPath);
             Assert.IsNotNull(array);
 
-            array.Open(QueryType.TILEDB_WRITE);
+            array.Open(QueryType.Write);
 
             array.PutMetadata<int>("key1", new int[] { 25 });
 
@@ -88,7 +88,7 @@ namespace TileDB.CSharp.Test
             var array = new Array(context, tmpArrayPath);
             Assert.IsNotNull(array);
 
-            array.Open(QueryType.TILEDB_READ);
+            array.Open(QueryType.Read);
 
             var v1 = array.GetMetadata<int>("key1");
             CollectionAssert.AreEqual(new int[]{ 25 }, v1);
@@ -113,9 +113,9 @@ namespace TileDB.CSharp.Test
 
             var arrayMetadata = array.GetMetadataFromIndex<float>(3);
             Assert.AreEqual("key4",  arrayMetadata.key);
-            Assert.AreEqual((int)4,  arrayMetadata.key.Length);
+            Assert.AreEqual(4,  arrayMetadata.key.Length);
 
-            Assert.AreEqual((int)4,  arrayMetadata.data.Length);
+            Assert.AreEqual(4,  arrayMetadata.data.Length);
 
             array.Close();
         }
@@ -127,7 +127,7 @@ namespace TileDB.CSharp.Test
             var array = new Array(context, tmpArrayPath);
             Assert.IsNotNull(array);
 
-            array.Open(QueryType.TILEDB_WRITE);
+            array.Open(QueryType.Write);
 
             array.DeleteMetadata("key1");
             array.DeleteMetadata("key2");

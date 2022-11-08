@@ -78,7 +78,7 @@ namespace TileDB.CSharp.Test
         {
             var context = Context.GetDefault();
             using Array array = new Array(context, arrayUri);
-            array.Open(QueryType.TILEDB_READ);
+            array.Open(QueryType.Read);
             PrintLocalSchema(array.Schema());
             array.Close();
         }

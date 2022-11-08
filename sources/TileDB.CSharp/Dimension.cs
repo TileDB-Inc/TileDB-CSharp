@@ -13,6 +13,13 @@ namespace TileDB.CSharp
         private readonly Context _ctx;
         private bool _disposed;
 
+        /// <summary>
+        /// This value indicates a variable-sized attribute.
+        /// It may be returned from <see cref="CellValNum"/>
+        /// and can be passed to <see cref="SetCellValNum"/>.
+        /// </summary>
+        public const uint VariableSized = Constants.VariableSizedImpl;
+
         internal Dimension(Context ctx, DimensionHandle handle) 
         {
             _ctx = ctx;
@@ -52,9 +59,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set cell value number.
+        /// Sets the number of values per cell for this dimension.
+        /// For variable-sized attributes the value should be <see cref="VariableSized"/>.
         /// </summary>
-        /// <param name="cellValNum"></param>
         public void SetCellValNum(uint cellValNum)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -381,7 +388,7 @@ namespace TileDB.CSharp
 
         public static Dimension Create<T>(Context ctx, string name, T boundLower, T boundUpper, T extent)
         {
-            var tiledb_datatype = EnumUtil.to_tiledb_datatype(typeof(T));
+            var tiledb_datatype = (tiledb_datatype_t)EnumUtil.TypeToDataType(typeof(T));
 
             if (tiledb_datatype == tiledb_datatype_t.TILEDB_ANY) {
                 throw new NotSupportedException("Dimension.create, not supported datatype");
@@ -416,7 +423,7 @@ namespace TileDB.CSharp
         /// <exception cref="System.ArgumentException"></exception>
         public static Dimension Create<T>(Context ctx, string name, T[] bound, T extent) 
         {
-            var tiledb_datatype = EnumUtil.to_tiledb_datatype(typeof(T));
+            var tiledb_datatype = (tiledb_datatype_t)EnumUtil.TypeToDataType(typeof(T));
             if (tiledb_datatype == tiledb_datatype_t.TILEDB_STRING_ASCII) 
             {
                 throw new NotSupportedException("Dimension.create, use create_string for string dimensions");

@@ -497,12 +497,12 @@ namespace TileDB.CSharp
             if (HasAttribute(name))
             {
                 var attr = Attribute(name);
-                return attr.CellValNum() == (uint)Constants.TILEDB_VAR_NUM;
+                return attr.CellValNum() == TileDB.CSharp.Attribute.VariableSized;
             }
             else if (Domain().HasDimension(name))
             {
                 var dim = Domain().Dimension(name);
-                return dim.CellValNum() == (uint)Constants.TILEDB_VAR_NUM;
+                return dim.CellValNum() == Dimension.VariableSized;
             }
 
             return false;

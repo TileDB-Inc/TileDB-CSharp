@@ -27,7 +27,7 @@ namespace TileDB.CSharp
             f.URIImport(
                 array_uri,
                 file,
-                MIMEType.TILEDB_MIME_AUTODETECT
+                MIMEType.AutoDetect
             );
         }
 
@@ -54,7 +54,7 @@ namespace TileDB.CSharp
             f.URIImport(
                 uri_write,
                 file,
-                MIMEType.TILEDB_MIME_AUTODETECT
+                MIMEType.AutoDetect
             );
         }
 

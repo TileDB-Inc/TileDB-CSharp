@@ -46,7 +46,7 @@ namespace TileDB.CSharp {
                 }
                 using (var array = new Array(ctx, uri))
                 {
-                    array.Open(QueryType.TILEDB_WRITE);
+                    array.Open(QueryType.Write);
                     array.PutMetadata(key, value);
                     array.Close();
                 }
@@ -81,7 +81,7 @@ namespace TileDB.CSharp {
 
                 using (var array = new Array(ctx, uri))
                 {
-                    array.Open(QueryType.TILEDB_WRITE);
+                    array.Open(QueryType.Write);
                     foreach(var item in strmap)
                     {
                         array.PutMetadata(item.Key, item.Value);
@@ -120,7 +120,7 @@ namespace TileDB.CSharp {
 
                 using (var array = new Array(ctx, uri))
                 {
-                    array.Open(QueryType.TILEDB_WRITE);
+                    array.Open(QueryType.Write);
 
                     T[] data = list.ToArray();
                     array.PutMetadata<T>(key, data);

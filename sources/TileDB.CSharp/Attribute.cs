@@ -13,6 +13,13 @@ namespace TileDB.CSharp
         private readonly Context _ctx;
         private bool _disposed;
 
+        /// <summary>
+        /// This value indicates a variable-sized attribute.
+        /// It may be returned from <see cref="CellValNum"/>
+        /// and can be passed to <see cref="SetCellValNum"/>.
+        /// </summary>
+        public const uint VariableSized = Constants.VariableSizedImpl;
+
         public Attribute(Context ctx, string name, DataType dataType)
         {
             _ctx = ctx;
@@ -20,7 +27,7 @@ namespace TileDB.CSharp
             _handle = AttributeHandle.Create(_ctx, name, tiledb_datatype);
             if (EnumUtil.IsStringType(dataType))
             {
-                SetCellValNum(Constants.TILEDB_VAR_NUM);
+                SetCellValNum(VariableSized);
             }
         }
 
@@ -74,9 +81,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set cell value number.
+        /// Sets the number of values per cell for this attribute.
+        /// For variable-sized attributes the value should be <see cref="VariableSized"/>.
         /// </summary>
-        /// <param name="cellValNum"></param>
         public void SetCellValNum(uint cellValNum)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -154,9 +161,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get cell value number.
+        /// Returns the number of values per cell for this attribute.
+        /// For variable-sized attributes the result is <see cref="VariableSized"/>.
         /// </summary>
-        /// <returns></returns>
         public uint CellValNum()
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -193,13 +200,13 @@ namespace TileDB.CSharp
 
             var cell_val_num = this.CellValNum();
 
-            if (cell_val_num != Constants.TILEDB_VAR_NUM && cell_val_num != data.Length)
+            if (cell_val_num != VariableSized && cell_val_num != data.Length)
             {
                 throw new ArgumentException("Attribute.SetFillValue_nullable, data length is not equal to cell_val_num!");
             }
 
             ulong size;
-            if (cell_val_num == Constants.TILEDB_VAR_NUM) {
+            if (cell_val_num == VariableSized) {
                 size = (ulong)(data.Length* Marshal.SizeOf(data[0]));
             } else
             {
@@ -235,7 +242,7 @@ namespace TileDB.CSharp
             }
 
             var cell_val_num = this.CellValNum();
-            var data = cell_val_num == Constants.TILEDB_VAR_NUM
+            var data = cell_val_num == VariableSized
                 ? new[] { value }
                 : Enumerable.Repeat(value, (int)cell_val_num).ToArray();
             SetFillValue(data);
@@ -313,13 +320,13 @@ namespace TileDB.CSharp
             }
 
             var cell_val_num = this.CellValNum();
-            if (cell_val_num != Constants.TILEDB_VAR_NUM && cell_val_num != data.Length)
+            if (cell_val_num != VariableSized && cell_val_num != data.Length)
             {
                 throw new ArgumentException("Attribute.SetFillValueNullable, data length is not equal to cell_val_num!");
             }
 
             ulong size;
-            if (cell_val_num == Constants.TILEDB_VAR_NUM)
+            if (cell_val_num == VariableSized)
             {
                 size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
             }
@@ -352,7 +359,7 @@ namespace TileDB.CSharp
         public void SetFillValueNullable<T>(T value, bool valid) where T: struct
         {
             var cell_val_num = this.CellValNum();
-            var data = cell_val_num == Constants.TILEDB_VAR_NUM ? new[] { value } : Enumerable.Repeat(value, (int)cell_val_num).ToArray();
+            var data = cell_val_num == VariableSized ? new[] { value } : Enumerable.Repeat(value, (int)cell_val_num).ToArray();
             SetFillValueNullable(data, valid);
         }
 

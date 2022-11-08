@@ -27,11 +27,11 @@ namespace TileDB.CSharp.Test
             domain.AddDimension(dimension1);
             domain.AddDimension(dimension2);
 
-            var array_schema = new ArraySchema(context, ArrayType.TILEDB_DENSE);
+            var array_schema = new ArraySchema(context, ArrayType.Dense);
             Assert.IsNotNull(array_schema);
 
 
-            var attr1 = new Attribute(context, "a1", DataType.TILEDB_INT32);
+            var attr1 = new Attribute(context, "a1", DataType.Int32);
             Assert.IsNotNull(attr1);
 
             array_schema.AddAttribute(attr1);
@@ -53,7 +53,7 @@ namespace TileDB.CSharp.Test
             var array_write = new Array(context, tmpArrayPath);
             Assert.IsNotNull(array_write);
 
-            array_write.Open(QueryType.TILEDB_WRITE);
+            array_write.Open(QueryType.Write);
 
             var query_write = new Query(context, array_write);
 
@@ -63,25 +63,25 @@ namespace TileDB.CSharp.Test
 
             var status = query_write.Status();
 
-            Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status);
+            Assert.AreEqual(QueryStatus.Completed, status);
 
             array_write.Close();
 
             var array_read = new Array(context, tmpArrayPath);
             Assert.IsNotNull(array_read);
 
-            array_read.Open(QueryType.TILEDB_READ);
+            array_read.Open(QueryType.Read);
 
             var query_read = new Query(context, array_read);
 
-            query_read.SetLayout(LayoutType.TILEDB_ROW_MAJOR);
+            query_read.SetLayout(LayoutType.RowMajor);
 
             int[] subarray = new int[4] { 1, 4, 1, 4 };
             query_read.SetSubarray<int>(subarray);
 
-            QueryCondition qc1 = QueryCondition.Create<int>(context, "a1", 3, QueryConditionOperatorType.TILEDB_GT);
-            QueryCondition qc2 = QueryCondition.Create<int>(context, "a1", 7, QueryConditionOperatorType.TILEDB_LT);
-            var qc = qc1.Combine(qc2, QueryConditionCombinationOperatorType.TILEDB_AND);
+            QueryCondition qc1 = QueryCondition.Create<int>(context, "a1", 3, QueryConditionOperatorType.GreaterThan);
+            QueryCondition qc2 = QueryCondition.Create<int>(context, "a1", 7, QueryConditionOperatorType.LessThan);
+            var qc = qc1.Combine(qc2, QueryConditionCombinationOperatorType.And);
 
             query_read.SetCondition(qc);
 
@@ -91,7 +91,7 @@ namespace TileDB.CSharp.Test
             query_read.Submit();
             var status_read = query_read.Status();
 
-            Assert.AreEqual(QueryStatus.TILEDB_COMPLETED, status_read);
+            Assert.AreEqual(QueryStatus.Completed, status_read);
 
             array_read.Close();
 
@@ -99,10 +99,6 @@ namespace TileDB.CSharp.Test
             // Assert.AreEqual<int>(4, attr_data_buffer_read[0]);
             // Assert.AreEqual<int>(5, attr_data_buffer_read[1]);
             // Assert.AreEqual<int>(6, attr_data_buffer_read[2]);
-
-
-        }//public void TestSimpleQueryCondition()
-
-    }//class
-
-}//namespace
+        }
+    }
+}

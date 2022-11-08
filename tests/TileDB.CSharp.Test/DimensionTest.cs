@@ -13,7 +13,7 @@ namespace TileDB.CSharp.Test
             var dimension = Dimension.Create(context, "test", bound_lower, bound_upper, extent);
 
             Assert.AreEqual("test", dimension.Name());
-            Assert.AreEqual(DataType.TILEDB_INT32, dimension.Type());
+            Assert.AreEqual(DataType.Int32, dimension.Type());
             Assert.AreEqual(extent, dimension.TileExtent<int>());
             var dim_domain = dimension.Domain<int>();
             Assert.AreEqual(1, dim_domain[0]);
@@ -27,7 +27,7 @@ namespace TileDB.CSharp.Test
 
             var dimension = Dimension.Create<string>(context, "strdim", "", "", "");
             Assert.AreEqual<string>("strdim", dimension.Name());
-            Assert.AreEqual(DataType.TILEDB_STRING_ASCII, dimension.Type());
+            Assert.AreEqual(DataType.StringAscii, dimension.Type());
         }
     }
 }//namespace
