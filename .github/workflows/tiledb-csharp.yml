@@ -77,7 +77,7 @@ jobs:
       # DotNet pack
       - name: Dotnet pack for TileDB.CSharp
         run: |
-          dotnet pack ./sources/TileDB.CSharp/TileDB.CSharp.csproj -c Release
+          dotnet pack ./sources/TileDB.CSharp/TileDB.CSharp.csproj -p:Version=0.0.0-local -c Release
 
       - name: Archive nuget artifact
         uses: actions/upload-artifact@v3
@@ -100,6 +100,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: TileDB NuGet Package
+          path: packages
 
       # GitHub runners come with several versions of .NET preinstalled; Remove them to target version
       - name: Remove existing .NET versions
@@ -116,18 +117,10 @@ jobs:
       - name: Setup NuGet
         uses: nuget/setup-nuget@v1
 
-      # Set up TileDB.CSharp.Test project to use local NuGet package
-      - name: Setup local test project
-        shell: bash
-        run: |
-          nuget add TileDB.CSharp.*.nupkg -Source ./packages
-          dotnet new mstest -o tests/TileDB.CSharp.Test/ --force
-          dotnet add tests/TileDB.CSharp.Test/TileDB.CSharp.Test.csproj package TileDB.CSharp -s ./packages
-
       # Run tests using NuGet release candidate
       - name: Test TileDB.CSharp
         run: |
-          dotnet test -c Release tests/TileDB.CSharp.Test -f ${{ matrix.dotnet }}
+          dotnet test -c Release tests/TileDB.CSharp.Test.NuGet -f ${{ matrix.dotnet }}
 
   Release:
     # Only run this job if a tag was provided
