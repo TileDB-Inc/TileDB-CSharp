@@ -144,12 +144,26 @@ namespace TileDB.CSharp
         /// </remarks>
         public ArraySchema GetSchema(uint fragmentIndex)
         {
+            var handle = new ArraySchemaHandle();
+            var successful = false;
+            tiledb_array_schema_t* schema = null;
             var ctx = _ctx;
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            tiledb_array_schema_t* schema;
-            _ctx.handle_error(Methods.tiledb_fragment_info_get_array_schema(ctxHandle, handle, fragmentIndex, &schema));
-            return new ArraySchema(ctx, ArraySchemaHandle.CreateUnowned(schema));
+            try
+            {
+                using var ctxHandle = ctx.Handle.Acquire();
+                using var fragmentInfoHandle = _handle.Acquire();
+                ctx.handle_error(Methods.tiledb_fragment_info_get_array_schema(ctxHandle, fragmentInfoHandle, fragmentIndex, &schema));
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(schema);
+                }
+            }
+
+            return new ArraySchema(ctx, handle);
         }
 
         /// <summary>
