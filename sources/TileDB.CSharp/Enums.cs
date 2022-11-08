@@ -50,6 +50,9 @@ namespace TileDB.CSharp
         /// Write query.
         /// </summary>
         Write = tiledb_query_type_t.TILEDB_WRITE,
+        Delete = tiledb_query_type_t.TILEDB_DELETE,
+        Update = tiledb_query_type_t.TILEDB_UPDATE,
+        ModifyExclusive = tiledb_query_type_t.TILEDB_MODIFY_EXCLUSIVE,
         [Obsolete("Use Read instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_READ = Read,
         [Obsolete("Use Write instead."), EditorBrowsable(EditorBrowsableState.Never)]
@@ -611,6 +614,10 @@ namespace TileDB.CSharp
         /// Float scaling filter.
         /// </summary>
         ScaleFloat = tiledb_filter_type_t.TILEDB_FILTER_SCALE_FLOAT,
+        /// <summary>
+        /// XOR filter.
+        /// </summary>
+        Xor = tiledb_filter_type_t.TILEDB_FILTER_XOR,
         [Obsolete("Use None instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_NONE = None,
         [Obsolete("Use Gzip instead."), EditorBrowsable(EditorBrowsableState.Never)]
