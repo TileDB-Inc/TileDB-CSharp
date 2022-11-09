@@ -1,27 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileDB.CSharp", "sources\TileDB.CSharp\TileDB.CSharp.csproj", "{47B5AEE4-59F8-4685-A244-0C5BA8DC518D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TileDB.CSharp", "sources\TileDB.CSharp\TileDB.CSharp.csproj", "{47B5AEE4-59F8-4685-A244-0C5BA8DC518D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileDB.CSharp.Test", "tests\TileDB.CSharp.Test\TileDB.CSharp.Test.csproj", "{C770B213-685E-4845-BA62-96092A3AF27F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TileDB.CSharp.Test", "tests\TileDB.CSharp.Test\TileDB.CSharp.Test.csproj", "{C770B213-685E-4845-BA62-96092A3AF27F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileDB.CSharp.Example", "examples\TileDB.CSharp.Example\TileDB.CSharp.Example.csproj", "{3F1C263E-AE13-4E74-945A-D8B30D2BC4EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TileDB.CSharp.Example", "examples\TileDB.CSharp.Example\TileDB.CSharp.Example.csproj", "{3F1C263E-AE13-4E74-945A-D8B30D2BC4EF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{7C55D112-DBCB-4930-95DA-BE2BDC385D09}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bindings", "bindings", "{290031CD-EF93-4A53-826E-CBF70141B064}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickstartSparseString", "examples\bindings\QuickstartSparseString\QuickstartSparseString.csproj", "{E56005DF-0E78-4B8F-9054-1C337521041C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickstartSparseString", "examples\bindings\QuickstartSparseString\QuickstartSparseString.csproj", "{E56005DF-0E78-4B8F-9054-1C337521041C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{976083E6-C64F-43F2-ADCB-4D78278982A2}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
+		global.json = global.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{47B5AEE4-59F8-4685-A244-0C5BA8DC518D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -41,8 +45,14 @@ Global
 		{E56005DF-0E78-4B8F-9054-1C337521041C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E56005DF-0E78-4B8F-9054-1C337521041C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{290031CD-EF93-4A53-826E-CBF70141B064} = {7C55D112-DBCB-4930-95DA-BE2BDC385D09}
 		{E56005DF-0E78-4B8F-9054-1C337521041C} = {290031CD-EF93-4A53-826E-CBF70141B064}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7D010889-FC86-4021-8E34-D940F1BF0E86}
 	EndGlobalSection
 EndGlobal
