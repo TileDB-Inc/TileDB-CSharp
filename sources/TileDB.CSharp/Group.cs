@@ -271,9 +271,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Tes if the group is open or not.
+        /// Returns if this group is open or not.
         /// </summary>
-        /// <returns></returns>
         public bool IsOpen()
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -281,6 +280,20 @@ namespace TileDB.CSharp
             int int_open;
             _ctx.handle_error(Methods.tiledb_group_is_open(ctxHandle, handle, &int_open));
             return int_open > 0;
+        }
+
+        /// <summary>
+        /// Returns if the given URI is relative to this group.
+        /// </summary>
+        /// <param name="uri">The URI to test.</param>
+        public bool IsUriRelative(string uri)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var ms_uri = new MarshaledString(uri);
+            byte result;
+            _ctx.handle_error(Methods.tiledb_group_get_is_relative_uri_by_name(ctxHandle, handle, ms_uri, &result));
+            return result > 0;
         }
 
         /// <summary>
