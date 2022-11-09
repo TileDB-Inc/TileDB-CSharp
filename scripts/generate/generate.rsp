@@ -17,6 +17,8 @@ tiledb/tiledb_experimental.h
 tiledb/tiledb.h
 --output
 sources/TileDB.CSharp/Interop
+--headerFile
+./scripts/generate/header.txt
 --exclude
 tiledb_attribute_dump
 tiledb_domain_dump
