@@ -24,3 +24,7 @@ dotnet_diagnostic.S1144.severity = None
 
 # 'System.Exception' should not be thrown by user code
 dotnet_diagnostic.S112.severity = None
+
+# Native methods should be wrapped
+# For some reason this warning shows even on auto-generated files.
+dotnet_diagnostic.S4200.severity = None
