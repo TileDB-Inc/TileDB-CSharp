@@ -1,4 +1,7 @@
 <Project>
+  <PropertyGroup>
+    <LanguageVersion>latest</LanguageVersion>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference
       Include="SonarAnalyzer.CSharp"
