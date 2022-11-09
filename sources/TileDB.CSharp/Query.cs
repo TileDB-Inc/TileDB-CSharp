@@ -11,9 +11,9 @@ namespace TileDB.CSharp
 {
     public class ResultSize
     {
-        public ulong DataBytesSize = 0;
-        public ulong? OffsetsBytesSize = null;
-        public ulong? ValidityBytesSize = null;
+        public ulong DataBytesSize;
+        public ulong? OffsetsBytesSize;
+        public ulong? ValidityBytesSize;
 
         /// <summary>
         /// Constructor.
@@ -120,9 +120,9 @@ namespace TileDB.CSharp
         private readonly QueryHandle _handle;
         private bool _disposed;
 
-        private Dictionary<string, BufferHandle> _dataBufferHandles = new Dictionary<string, BufferHandle>();
-        private Dictionary<string, BufferHandle> _offsetsBufferHandles = new Dictionary<string, BufferHandle>();
-        private Dictionary<string, BufferHandle> _validityBufferHandles = new Dictionary<string, BufferHandle>();
+        private readonly Dictionary<string, BufferHandle> _dataBufferHandles = new Dictionary<string, BufferHandle>();
+        private readonly Dictionary<string, BufferHandle> _offsetsBufferHandles = new Dictionary<string, BufferHandle>();
+        private readonly Dictionary<string, BufferHandle> _validityBufferHandles = new Dictionary<string, BufferHandle>();
 
         public Query(Context ctx, Array array, QueryType queryType)
         {

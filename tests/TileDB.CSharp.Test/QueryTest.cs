@@ -409,7 +409,7 @@ namespace TileDB.CSharp.Test
             ulong[] a3_off = new ulong[4];
             for (int i = 0; i < a3_el_off.Length; ++i)
             {
-                a3_off[i] = a3_el_off[i] * EnumUtil.DataTypeSize(DataType.Char);
+                a3_off[i] = a3_el_off[i] * EnumUtil.DataTypeSize(DataType.StringAscii);
             }
 
             byte[] a1_validity = new byte[4] { 1, 0, 0, 1 };

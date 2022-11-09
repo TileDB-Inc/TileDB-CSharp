@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections.Generic;
 namespace TileDB.CSharp {
 
-    public class CoreUtil {
+    public static class CoreUtil {
 
         /// <summary>
         /// Get core library version.

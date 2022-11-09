@@ -103,12 +103,12 @@ namespace TileDB.CSharp.Test
 
             const string attrName = "a";
             using var attribute = new Attribute(context, attrName, DataType.StringAscii);
-            Assert.AreEqual<string>(attrName, attribute.Name());
+            Assert.AreEqual(attrName, attribute.Name());
             Assert.AreEqual(DataType.StringAscii, attribute.Type());
 
             attribute.SetFillValue("test_fill");
             var fill_value = attribute.FillValue();
-            Assert.AreEqual<string>("test_fill", fill_value);
+            Assert.AreEqual("test_fill", fill_value);
         }//TestStringAttribute
 
         [TestMethod]
@@ -118,7 +118,7 @@ namespace TileDB.CSharp.Test
 
             const string attrName = "a";
             using var attribute = new Attribute(context, attrName, DataType.Boolean);
-            Assert.AreEqual<string>(attrName, attribute.Name());
+            Assert.AreEqual(attrName, attribute.Name());
             Assert.AreEqual(DataType.Boolean, attribute.Type());
 
             bool fill_value = true;
@@ -128,19 +128,19 @@ namespace TileDB.CSharp.Test
         }
 
         [TestMethod]
-        public void TestCharAttribute()
+        public void TestInt32Attribute()
         {
             var context = Context.GetDefault();
 
             const string attrName = "a";
-            using var attribute = new Attribute(context, attrName, DataType.Char);
-            Assert.AreEqual<string>(attrName, attribute.Name());
-            Assert.AreEqual(DataType.Char, attribute.Type());
+            using var attribute = new Attribute(context, attrName, DataType.Int32);
+            Assert.AreEqual(attrName, attribute.Name());
+            Assert.AreEqual(DataType.Int32, attribute.Type());
 
-            char fill_value = 'b';
-            attribute.SetFillValue<char>(fill_value);
-            var value_size = attribute.FillValue<byte>();
-            Assert.AreEqual((byte)'b', value_size[0]);
+            int fill_value = 184;
+            attribute.SetFillValue(fill_value);
+            var value_size = attribute.FillValue<int>();
+            Assert.AreEqual(184, value_size[0]);
         }
 
         [TestMethod]
@@ -215,10 +215,10 @@ namespace TileDB.CSharp.Test
             query_write.SetLayout(LayoutType.RowMajor);
             // query_write.SetSubarray<int>(new int[] { 1, 4, 4, 4 });
 
-            query_write.SetDataBuffer<byte>("a1", a1_data);
+            query_write.SetDataBuffer("a1", a1_data);
             query_write.SetOffsetsBuffer("a1", a1_offsets);
 
-            query_write.SetDataBuffer<int>("a2", a2_data);
+            query_write.SetDataBuffer("a2", a2_data);
             query_write.SetOffsetsBuffer("a2", a2_off);
 
             query_write.Submit();
@@ -241,7 +241,7 @@ namespace TileDB.CSharp.Test
             var query_read = new Query(context, array_read);
 
             // Slice only rows 1,2 and cols 2,3,4
-            query_read.SetSubarray<int>(new int[] { 1, 4, 1, 4});
+            query_read.SetSubarray(new int[] { 1, 4, 1, 4});
 
             query_read.SetLayout(LayoutType.RowMajor);
 
@@ -251,9 +251,9 @@ namespace TileDB.CSharp.Test
             int[] a2_data_buffer_read = new int[128];
             ulong[] a2_offsets_buffer_read = new ulong[128];
 
-            query_read.SetDataBuffer<byte>("a1", a1_data_buffer_read);
+            query_read.SetDataBuffer("a1", a1_data_buffer_read);
             query_read.SetOffsetsBuffer("a1", a1_offsets_buffer_read);
-            query_read.SetDataBuffer<int>("a2", a2_data_buffer_read);
+            query_read.SetDataBuffer("a2", a2_data_buffer_read);
             query_read.SetOffsetsBuffer("a2", a2_offsets_buffer_read);
 
             query_read.Submit();

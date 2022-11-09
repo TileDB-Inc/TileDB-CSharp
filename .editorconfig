@@ -1,3 +1,13 @@
+root = true
+charset = utf-8
+end_of_line = crlf
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+
+[*.{xml,*proj,props,targets,yml}]
+indent_size = 2
+
 [*.cs]
 csharp_style_var_for_built_in_types=true:silent
 csharp_style_var_when_type_is_apparent=true:silent
@@ -24,3 +34,7 @@ dotnet_diagnostic.S1144.severity = None
 
 # 'System.Exception' should not be thrown by user code
 dotnet_diagnostic.S112.severity = None
+
+# Native methods should be wrapped
+# For some reason this warning shows even on auto-generated files.
+dotnet_diagnostic.S4200.severity = None
