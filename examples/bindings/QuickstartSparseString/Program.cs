@@ -8,7 +8,7 @@ using TileDB.Interop;
 
 namespace QuickstartSparseString
 {
-    class Program
+    static class Program
     {
         private static readonly string ArrayPath = ExampleUtil.MakeExamplePath("quickstart-sparse-string");
 

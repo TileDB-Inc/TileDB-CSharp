@@ -17,9 +17,9 @@ namespace TileDB.CSharp.Test
             using (var ctx = new Context(config))
             {
                 // Get values
-                Assert.AreEqual<string>(ctx.Config().Get("sm.memory_budget"), "512000000");
-                Assert.AreEqual<string>(ctx.Config().Get("vfs.s3.connect_timeout_ms"), "5000");
-                Assert.AreEqual<string>(ctx.Config().Get("vfs.s3.endpoint_override"), "localhost:8888");
+                Assert.AreEqual("512000000", ctx.Config().Get("sm.memory_budget"));
+                Assert.AreEqual("5000", ctx.Config().Get("vfs.s3.connect_timeout_ms"));
+                Assert.AreEqual("localhost:8888", ctx.Config().Get("vfs.s3.endpoint_override"));
             }
         }
 
@@ -34,9 +34,9 @@ namespace TileDB.CSharp.Test
             config.Set("vfs.s3.endpoint_override", "localhost:8888");
 
             // Get values
-            Assert.AreEqual<string>(config.Get("sm.memory_budget"), "512000000");
-            Assert.AreEqual<string>(config.Get("vfs.s3.connect_timeout_ms"), "5000");
-            Assert.AreEqual<string>(config.Get("vfs.s3.endpoint_override"), "localhost:8888");
+            Assert.AreEqual("512000000", config.Get("sm.memory_budget"));
+            Assert.AreEqual("5000", config.Get("vfs.s3.connect_timeout_ms"));
+            Assert.AreEqual("localhost:8888", config.Get("vfs.s3.endpoint_override"));
 
             var tempConfigPath = TestUtil.MakeTestPath("temp.cfg");
             config.SaveToFile(tempConfigPath);
@@ -45,9 +45,9 @@ namespace TileDB.CSharp.Test
             config2.LoadFromFile(tempConfigPath);
 
             // Get values from config2
-            Assert.AreEqual<string>(config2.Get("sm.memory_budget"), "512000000");
-            Assert.AreEqual<string>(config2.Get("vfs.s3.connect_timeout_ms"), "5000");
-            Assert.AreEqual<string>(config2.Get("vfs.s3.endpoint_override"), "localhost:8888");
+            Assert.AreEqual("512000000", config2.Get("sm.memory_budget"));
+            Assert.AreEqual("5000", config2.Get("vfs.s3.connect_timeout_ms"));
+            Assert.AreEqual("localhost:8888", config2.Get("vfs.s3.endpoint_override"));
         }
     }
 }

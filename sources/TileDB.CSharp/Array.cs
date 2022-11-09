@@ -40,7 +40,7 @@ namespace TileDB.CSharp
         private readonly string _uri;
         private bool _disposed;
 
-        private ArrayMetadata _metadata;
+        private readonly ArrayMetadata _metadata;
 
         public Array(Context ctx, string uri)
         {
@@ -341,7 +341,7 @@ namespace TileDB.CSharp
                     case TypeCode.Int16:
                         {
                             (short data0, short data1, bool isEmpty) = NonEmptyDomain<short>(i);
-                            if (isEmpty == false)
+                            if (!isEmpty)
                             {
                                 isEmptyDomain = false;
                             }
@@ -352,7 +352,7 @@ namespace TileDB.CSharp
                     case TypeCode.Int32:
                         {
                             (int data0, int data1, bool isEmpty) = NonEmptyDomain<int>(i);
-                            if (isEmpty == false)
+                            if (!isEmpty)
                             {
                                 isEmptyDomain = false;
                             }
@@ -363,7 +363,7 @@ namespace TileDB.CSharp
                     case TypeCode.Int64:
                         {
                             (long data0, long data1, bool isEmpty) = NonEmptyDomain<long>(i);
-                            if (isEmpty == false)
+                            if (!isEmpty)
                             {
                                 isEmptyDomain = false;
                             }
@@ -374,7 +374,7 @@ namespace TileDB.CSharp
                     case TypeCode.UInt16:
                         {
                             (ushort data0, ushort data1, bool isEmpty) = NonEmptyDomain<ushort>(i);
-                            if (isEmpty == false)
+                            if (!isEmpty)
                             {
                                 isEmptyDomain = false;
                             }
@@ -385,7 +385,7 @@ namespace TileDB.CSharp
                     case TypeCode.UInt32:
                         {
                             (uint data0, uint data1, bool isEmpty) = NonEmptyDomain<uint>(i);
-                            if (isEmpty == false)
+                            if (!isEmpty)
                             {
                                 isEmptyDomain = false;
                             }
@@ -396,7 +396,7 @@ namespace TileDB.CSharp
                     case TypeCode.UInt64:
                         {
                             (ulong data0, ulong data1, bool isEmpty) = NonEmptyDomain<ulong>(i);
-                            if (isEmpty == false)
+                            if (!isEmpty)
                             {
                                 isEmptyDomain = false;
                             }
@@ -407,7 +407,7 @@ namespace TileDB.CSharp
                     case TypeCode.Single:
                         {
                             (float data0, float data1, bool isEmpty) = NonEmptyDomain<float>(i);
-                            if (isEmpty == false)
+                            if (!isEmpty)
                             {
                                 isEmptyDomain = false;
                             }
@@ -418,7 +418,7 @@ namespace TileDB.CSharp
                     case TypeCode.Double:
                         {
                             (double data0, double data1, bool isEmpty) = NonEmptyDomain<double>(i);
-                            if (isEmpty == false)
+                            if (!isEmpty)
                             {
                                 isEmptyDomain = false;
                             }
@@ -429,7 +429,7 @@ namespace TileDB.CSharp
                     case TypeCode.String:
                         {
                             (string data0, string data1, bool isEmpty) = NonEmptyDomainVar(i);
-                            if (isEmpty == false)
+                            if (!isEmpty)
                             {
                                 isEmptyDomain = false;
                             }

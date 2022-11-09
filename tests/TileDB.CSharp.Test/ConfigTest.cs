@@ -12,16 +12,16 @@ namespace TileDB.CSharp.Test
             var config = new Config();
             config.Set("sm.tile_cache_size", "10");
             var val = config.Get("sm.tile_cache_size");
-            Assert.AreEqual<string>(val, "10");
+            Assert.AreEqual("10", val);
         }
 
         [TestMethod]
         public void ConfigGet() {
             var config = new Config();
             var val = config.Get("sm.tile_cache_size");
-            Assert.AreEqual<string>(val, "10000000");
+            Assert.AreEqual("10000000", val);
             val = config.Get("sm.does_not_exists");
-            Assert.AreEqual<string>(val, "");
+            Assert.AreEqual("", val);
         }
 
         [TestMethod]
@@ -29,10 +29,10 @@ namespace TileDB.CSharp.Test
             var config = new Config();
             config.Set("sm.tile_cache_size", "10");
             var val = config.Get("sm.tile_cache_size");
-            Assert.AreEqual<string>(val, "10");
+            Assert.AreEqual("10", val);
             config.Unset("sm.tile_cache_size");
             val = config.Get("sm.tile_cache_size");
-            Assert.AreEqual<string>(val, "10000000");
+            Assert.AreEqual("10000000", val);
         }
 
         [TestMethod]
@@ -40,7 +40,7 @@ namespace TileDB.CSharp.Test
             var config = new Config();
             config.Set("sm.tile_cache_size", "10");
             var val = config.Get("sm.tile_cache_size");
-            Assert.AreEqual<string>(val, "10");
+            Assert.AreEqual("10", val);
 
             // Create temporary path for testing configuration writing/reading
             var tmpPath = TestUtil.MakeTestPath("tmp.cfg");
@@ -51,7 +51,7 @@ namespace TileDB.CSharp.Test
             config2.LoadFromFile(tmpPath);
 
             val = config2.Get("sm.tile_cache_size");
-            Assert.AreEqual<string>(val, "10");
+            Assert.AreEqual("10", val);
         }
 
         [TestMethod]
@@ -59,23 +59,23 @@ namespace TileDB.CSharp.Test
             var config = new Config();
             config.Set("sm.tile_cache_size", "10");
             var val = config.Get("sm.tile_cache_size");
-            Assert.AreEqual<string>(val, "10");
+            Assert.AreEqual("10", val);
 
             var config2 = new Config();
             config2.Set("sm.tile_cache_size", "10");
             var val2 = config.Get("sm.tile_cache_size");
-            Assert.AreEqual<string>(val2, "10");
+            Assert.AreEqual("10", val2);
 
             var cmp2 = config.Cmp(ref config2);
-            Assert.AreEqual(cmp2, true);
+            Assert.IsTrue(cmp2);
 
             var config3 = new Config();
             config3.Set("sm.tile_cache_size", "11");
             var val3 = config3.Get("sm.tile_cache_size");
-            Assert.AreEqual<string>(val3, "11");
+            Assert.AreEqual("11", val3);
 
             var cmp3 = config.Cmp(ref config3);
-            Assert.AreEqual(cmp3, false);
+            Assert.IsFalse(cmp3);
         }
 
         [TestMethod]
@@ -92,103 +92,103 @@ namespace TileDB.CSharp.Test
 
                 switch (config_entry_pair.Item1) {
                     case "aws_access_key_id":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "");
+                        Assert.AreEqual("", config_entry_pair.Item2);
                         break;
                     case "aws_external_id":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "");
+                        Assert.AreEqual("", config_entry_pair.Item2);
                         break;
                     case "aws_load_frequency":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "");
+                        Assert.AreEqual("", config_entry_pair.Item2);
                         break;
                     case "aws_role_arn":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "");
+                        Assert.AreEqual("", config_entry_pair.Item2);
                         break;
                     case "aws_secret_access_key":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "");
+                        Assert.AreEqual("", config_entry_pair.Item2);
                         break;
                     case "aws_session_name":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "");
+                        Assert.AreEqual("", config_entry_pair.Item2);
                         break;
                     case "aws_session_token":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "");
+                        Assert.AreEqual("", config_entry_pair.Item2);
                         break;
                     case "bucket_canned_acl":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "NOT_SET");
+                        Assert.AreEqual("NOT_SET", config_entry_pair.Item2);
                         break;
                     case "ca_file":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "");
+                        Assert.AreEqual("", config_entry_pair.Item2);
                         break;
                     case "ca_path":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "");
+                        Assert.AreEqual("", config_entry_pair.Item2);
                         break;
                     case "connect_max_tries":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "5");
+                        Assert.AreEqual("5", config_entry_pair.Item2);
                         break;
                     case "connect_scale_factor":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "25");
+                        Assert.AreEqual("25", config_entry_pair.Item2);
                         break;
                     case "connect_timeout_ms":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "10800");
+                        Assert.AreEqual("10800", config_entry_pair.Item2);
                         break;
                     case "endpoint_override":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "");
+                        Assert.AreEqual("", config_entry_pair.Item2);
                         break;
                     case "logging_level":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "Off");
+                        Assert.AreEqual("Off", config_entry_pair.Item2);
                         break;
                     case "max_parallel_ops":
-                        Assert.AreEqual(config_entry_pair.Item2, Environment.ProcessorCount.ToString());
+                        Assert.AreEqual(Environment.ProcessorCount.ToString(), config_entry_pair.Item2);
                         break;
                     case "multipart_part_size":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "5242880");
+                        Assert.AreEqual("5242880", config_entry_pair.Item2);
                         break;
                     case "object_canned_acl":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "NOT_SET");
+                        Assert.AreEqual("NOT_SET", config_entry_pair.Item2);
                         break;
                     case "proxy_host":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "");
+                        Assert.AreEqual("", config_entry_pair.Item2);
                         break;
                     case "proxy_password":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "");
+                        Assert.AreEqual("", config_entry_pair.Item2);
                         break;
                     case "proxy_port":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "0");
+                        Assert.AreEqual("0", config_entry_pair.Item2);
                         break;
                     case "proxy_scheme":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "http");
+                        Assert.AreEqual("http", config_entry_pair.Item2);
                         break;
                     case "proxy_username":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "");
+                        Assert.AreEqual("", config_entry_pair.Item2);
                         break;
                     case "region":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "us-east-1");
+                        Assert.AreEqual("us-east-1", config_entry_pair.Item2);
                         break;
                     case "request_timeout_ms":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "3000");
+                        Assert.AreEqual("3000", config_entry_pair.Item2);
                         break;
                     case "requester_pays":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "false");
+                        Assert.AreEqual("false", config_entry_pair.Item2);
                         break;
                     case "scheme":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "https");
+                        Assert.AreEqual("https", config_entry_pair.Item2);
                         break;
                     case "skip_init":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "false");
+                        Assert.AreEqual("false", config_entry_pair.Item2);
                         break;
                     case "sse":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "");
+                        Assert.AreEqual("", config_entry_pair.Item2);
                         break;
                     case "sse_kms_key_id":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "");
+                        Assert.AreEqual("", config_entry_pair.Item2);
                         break;
                     case "use_multipart_upload":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "true");
+                        Assert.AreEqual("true", config_entry_pair.Item2);
                         break;
                     case "use_virtual_addressing":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "true");
+                        Assert.AreEqual("true", config_entry_pair.Item2);
                         break;
                     case "verify_ssl":
-                        Assert.AreEqual<string>(config_entry_pair.Item2, "true");
+                        Assert.AreEqual("true", config_entry_pair.Item2);
                         break;
                 }
                 iter.Next();
