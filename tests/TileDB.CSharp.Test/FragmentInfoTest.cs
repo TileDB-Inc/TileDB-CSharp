@@ -211,7 +211,7 @@ namespace TileDB.CSharp.Test
             for (uint i = 0; i < fragmentCount; i++)
             {
                 using Array arr = new Array(_ctx, uri);
-                arr.Open(QueryType.TILEDB_READ);
+                arr.Open(QueryType.Read);
                 using ArraySchema schema = arr.Schema();
                 using Domain domain = schema.Domain();
 
@@ -363,11 +363,11 @@ namespace TileDB.CSharp.Test
             domain.AddDimension(rows);
             domain.AddDimension(columns);
 
-            using Attribute a = new Attribute(_ctx, nameof(a), DataType.TILEDB_INT32);
+            using Attribute a = new Attribute(_ctx, nameof(a), DataType.Int32);
 
-            using ArraySchema schema = new ArraySchema(_ctx, ArrayType.TILEDB_DENSE);
-            schema.SetTileOrder(LayoutType.TILEDB_ROW_MAJOR);
-            schema.SetCellOrder(LayoutType.TILEDB_ROW_MAJOR);
+            using ArraySchema schema = new ArraySchema(_ctx, ArrayType.Dense);
+            schema.SetTileOrder(LayoutType.RowMajor);
+            schema.SetCellOrder(LayoutType.RowMajor);
             schema.SetDomain(domain);
             schema.AddAttribute(a);
 
@@ -380,7 +380,7 @@ namespace TileDB.CSharp.Test
             int[] subarray = { 1, 2, 1, 4 };
 
             using Array array = new Array(_ctx, arrayUri);
-            array.Open(QueryType.TILEDB_WRITE);
+            array.Open(QueryType.Write);
             using Query query = new Query(_ctx, array);
             query.SetDataBuffer("a", data);
             query.SetSubarray(subarray);
@@ -395,11 +395,11 @@ namespace TileDB.CSharp.Test
             using Domain domain = new Domain(_ctx);
             domain.AddDimension(d1);
 
-            using Attribute a1 = new Attribute(_ctx, nameof(a1), DataType.TILEDB_INT32);
+            using Attribute a1 = new Attribute(_ctx, nameof(a1), DataType.Int32);
 
-            using ArraySchema schema = new ArraySchema(_ctx, ArrayType.TILEDB_SPARSE);
-            schema.SetTileOrder(LayoutType.TILEDB_ROW_MAJOR);
-            schema.SetCellOrder(LayoutType.TILEDB_ROW_MAJOR);
+            using ArraySchema schema = new ArraySchema(_ctx, ArrayType.Sparse);
+            schema.SetTileOrder(LayoutType.RowMajor);
+            schema.SetCellOrder(LayoutType.RowMajor);
             schema.SetDomain(domain);
             schema.AddAttribute(a1);
 
@@ -414,9 +414,9 @@ namespace TileDB.CSharp.Test
             int[] a1 = { 1, 2, 3, 4, 5 };
 
             using Array array = new Array(_ctx, arrayUri);
-            array.Open(QueryType.TILEDB_WRITE);
+            array.Open(QueryType.Write);
             using Query query = new Query(_ctx, array);
-            query.SetLayout(LayoutType.TILEDB_GLOBAL_ORDER);
+            query.SetLayout(LayoutType.GlobalOrder);
 
             query.SetDataBuffer("d1", dData);
             query.SetOffsetsBuffer("d1", dOffsets);
@@ -435,11 +435,11 @@ namespace TileDB.CSharp.Test
             domain.AddDimension(d1);
             domain.AddDimension(d2);
 
-            using Attribute a1 = new Attribute(_ctx, nameof(a1), DataType.TILEDB_INT32);
+            using Attribute a1 = new Attribute(_ctx, nameof(a1), DataType.Int32);
 
-            using ArraySchema schema = new ArraySchema(_ctx, ArrayType.TILEDB_SPARSE);
-            schema.SetTileOrder(LayoutType.TILEDB_ROW_MAJOR);
-            schema.SetCellOrder(LayoutType.TILEDB_ROW_MAJOR);
+            using ArraySchema schema = new ArraySchema(_ctx, ArrayType.Sparse);
+            schema.SetTileOrder(LayoutType.RowMajor);
+            schema.SetCellOrder(LayoutType.RowMajor);
             schema.SetCapacity(2);
             schema.SetDomain(domain);
             schema.AddAttribute(a1);
@@ -451,7 +451,7 @@ namespace TileDB.CSharp.Test
         private void WriteSparseArrayNoVarDim3Frags(string arrayUri)
         {
             using Array a = new Array(_ctx, arrayUri);
-            a.Open(QueryType.TILEDB_WRITE);
+            a.Open(QueryType.Write);
 
             WriteImpl(new long[] { 1, 2 }, new long[] { 1, 2 }, new int[] { 1, 2 });
             WriteImpl(new long[] { 1, 2, 7, 8 }, new long[] { 1, 2, 7, 8 }, new int[] { 9, 10, 11, 12 });
@@ -460,7 +460,7 @@ namespace TileDB.CSharp.Test
             void WriteImpl(long[] d1, long[] d2, int[] a1)
             {
                 using Query query = new Query(_ctx, a);
-                query.SetLayout(LayoutType.TILEDB_UNORDERED);
+                query.SetLayout(LayoutType.Unordered);
                 query.SetDataBuffer("d1", d1);
                 query.SetDataBuffer("d2", d2);
                 query.SetDataBuffer("a1", a1);
@@ -476,10 +476,10 @@ namespace TileDB.CSharp.Test
             using Domain domain = new Domain(_ctx);
             domain.AddDimension(d);
 
-            using Attribute a = new Attribute(_ctx, nameof(a), DataType.TILEDB_INT32);
-            using ArraySchema schema = new ArraySchema(_ctx, ArrayType.TILEDB_SPARSE);
-            schema.SetTileOrder(LayoutType.TILEDB_ROW_MAJOR);
-            schema.SetCellOrder(LayoutType.TILEDB_ROW_MAJOR);
+            using Attribute a = new Attribute(_ctx, nameof(a), DataType.Int32);
+            using ArraySchema schema = new ArraySchema(_ctx, ArrayType.Sparse);
+            schema.SetTileOrder(LayoutType.RowMajor);
+            schema.SetCellOrder(LayoutType.RowMajor);
             schema.SetDomain(domain);
             schema.SetCapacity(2);
             schema.AddAttribute(a);
@@ -495,9 +495,9 @@ namespace TileDB.CSharp.Test
             int[] a = { 11, 12, 13, 14 };
 
             using Array array = new Array(_ctx, arrayUri);
-            array.Open(QueryType.TILEDB_WRITE);
+            array.Open(QueryType.Write);
             using Query query = new Query(_ctx, array);
-            query.SetLayout(LayoutType.TILEDB_UNORDERED);
+            query.SetLayout(LayoutType.Unordered);
 
             query.SetDataBuffer("d", dData);
             query.SetOffsetsBuffer("d", dOffsets);
