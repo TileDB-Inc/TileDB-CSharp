@@ -74,7 +74,7 @@ jobs:
 
       - name: Test TileDB-CSharp
         run: |
-          dotnet test tiledb-csharp/tests/TileDB.CSharp.Test/TileDB.CSharp.Test.csproj -c Release -f {{ matrix.dotnet }}
+          dotnet test tiledb-csharp/tests/TileDB.CSharp.Test/TileDB.CSharp.Test.csproj -c Release -f ${{ matrix.dotnet }}
 
       - name: Run examples
         shell: bash
