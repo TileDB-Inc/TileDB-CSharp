@@ -1,0 +1,45 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Version>2.12.2</Version>
+    <Version Condition="$(IsDev) == true">0.0.0-dev</Version>
+    <VersionTag>a9d60c8</VersionTag>
+    <TempDir>./temp</TempDir>
+    <OutDir>./packages</OutDir>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <NativePlatform ArchiveExtension="tar.gz" />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <NativePlatform Include="linux-x86_64" RuntimeId="linux-x64" LibraryPath="lib/libtiledb.so" />
+    <NativePlatform Include="macos-x86_64" RuntimeId="osx-x64" LibraryPath="lib/libtiledb.dylib" />
+    <NativePlatform Include="macos-arm64" RuntimeId="osx-arm64" LibraryPath="lib/libtiledb.dylib" />
+    <NativePlatform Include="windows-x86_64" RuntimeId="win-x64" LibraryPath="bin/tiledb.dll" ArchiveExtension="zip" />
+  </ItemGroup>
+
+  <Target Name="DownloadReleaseArtifacts"
+    Outputs="$(TempDir)/%(NativePlatform.Identity)/%(NativePlatform.LibraryPath)"
+    Condition="$(IsDev) != true">
+    <PropertyGroup>
+      <DownloadUrl>https://github.com/TileDB-Inc/TileDB/releases/download/$(Version)/TileDB-%(NativePlatform.Identity)-$(Version)-$(VersionTag).%(NativePlatform.ArchiveExtension)</DownloadUrl>
+      <ExtractDir>$(TempDir)/%(NativePlatform.Identity)</ExtractDir>
+    </PropertyGroup>
+    <DownloadFile
+      SourceUrl="$(DownloadUrl)"
+      DestinationFolder="$(TempDir)">
+      <Output TaskParameter="DownloadedFile" ItemName="DownloadedFile" />
+    </DownloadFile>
+    <MakeDir Directories="$(ExtractDir)" />
+    <Unzip
+      Condition="'%(NativePlatform.ArchiveExtension)' == 'zip'"
+      SourceFiles="@(DownloadedFile)"
+      DestinationFolder="$(ExtractDir)" />
+    <Exec
+      Condition="'%(NativePlatform.ArchiveExtension)' == 'tar.gz'"
+      Command="tar -xf @(DownloadedFile) -C $(ExtractDir)" />
+  </Target>
+
+  <Target Name="Clean">
+    <RemoveDir Directories="$(TempDir);$(OutDir)" />
+  </Target>
+</Project>
