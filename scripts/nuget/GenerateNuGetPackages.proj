@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Pack">
   <PropertyGroup>
     <Version>2.12.2</Version>
     <Version Condition="$(IsDev) == true">0.0.0-dev</Version>
@@ -38,6 +38,25 @@
       Condition="'%(NativePlatform.ArchiveExtension)' == 'tar.gz'"
       Command="tar -xf @(DownloadedFile) -C $(ExtractDir)" />
   </Target>
+
+  <Target Name="PackNativePackages"
+    DependsOnTargets="DownloadReleaseArtifacts"
+    Inputs="@(NativePlatform->'$(TempDir)/%(Identity)/%(LibraryPath)')"
+    Outputs="@(NativePlatform->'$(OutDir)/TileDB.Native.runtime.%(RuntimeId).$(Version).nupkg')">
+    <ItemGroup>
+      <ProjectsToBuild Include="TileDB.Native.runtime.template.proj"
+        AdditionalProperties="RuntimeId=%(NativePlatform.RuntimeId);NativeLibraryPath=$(TempDir)/%(NativePlatform.Identity)/%(NativePlatform.LibraryPath)" />
+    </ItemGroup>
+
+    <MSBuild
+      Projects="@(ProjectsToBuild)"
+      BuildInParallel="true"
+      Targets="Pack"
+      Properties="PackageOutputPath=$(OutDir);Version=$(Version)" />
+  </Target>
+
+  <Target Name="Pack"
+    DependsOnTargets="PackNativePackages" />
 
   <Target Name="Clean">
     <RemoveDir Directories="$(TempDir);$(OutDir)" />

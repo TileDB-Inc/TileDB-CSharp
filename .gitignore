@@ -56,3 +56,4 @@ tiledb.pc
 include
 scripts/nuget/temp
 *.binlog
+*.nupkg
