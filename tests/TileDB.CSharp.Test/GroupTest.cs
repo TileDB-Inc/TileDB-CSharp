@@ -11,34 +11,32 @@ namespace TileDB.CSharp.Test
         public void TestGroupMetadata()
         {
             var ctx = Context.GetDefault();
-            string temp_dir = GetTempDir();
-            RemoveTempDir(temp_dir);
-            CreateTempDir(temp_dir);
-            string group1_uri = System.IO.Path.Combine(temp_dir, "group1");
+            using var temp_dir = new TemporaryDirectory("group_metadata");
+            string group1_uri = Path.Combine(temp_dir, "group1");
             Group.Create(ctx, group1_uri);
-            var group = new Group(ctx, group1_uri);
+            using var group = new Group(ctx, group1_uri);
             group.Open(QueryType.Write);
             group.Close();
 
             // Put metadata on a group that is not opened
             int v = 5;
-            Assert.ThrowsException<Exception>(() => group.PutMetadata<int>("key",v));
+            Assert.ThrowsException<Exception>(() => group.PutMetadata("key", v));
 
             // Write metadata on a group opened in READ mode
             group.Open(QueryType.Read);
-            Assert.ThrowsException<Exception>(() => group.PutMetadata<int>("key", v));
+            Assert.ThrowsException<Exception>(() => group.PutMetadata("key", v));
 
             // Close and reopen in WRITE mode
             group.Close();
             group.Open(QueryType.Write);
 
-            group.PutMetadata<int>("key", v);
+            group.PutMetadata("key", v);
             group.Close();
 
             group.Open(QueryType.Read);
             var data = group.GetMetadata<int>("key");
 
-            Assert.AreEqual<int>(5, data[0]);
+            Assert.AreEqual(5, data[0]);
 
             group.Close();
         }
@@ -47,29 +45,27 @@ namespace TileDB.CSharp.Test
         public void TestGroupMember()
         {
             var ctx = Context.GetDefault();
-            string temp_dir = GetTempDir();
-            RemoveTempDir(temp_dir);
-            CreateTempDir(temp_dir);
+            using var temp_dir = new TemporaryDirectory("group_member");
 
-            string array1_uri = System.IO.Path.Combine(temp_dir, "array1");
+            string array1_uri = Path.Combine(temp_dir, "array1");
             CreateArray(array1_uri);
-            string array2_uri = System.IO.Path.Combine(temp_dir, "array2");
+            string array2_uri = Path.Combine(temp_dir, "array2");
             CreateArray(array2_uri);
 
-            string group1_uri = System.IO.Path.Combine(temp_dir, "group1");
+            string group1_uri = Path.Combine(temp_dir, "group1");
             Group.Create(ctx, group1_uri);
 
-            string group2_uri = System.IO.Path.Combine(temp_dir, "group2");
+            string group2_uri = Path.Combine(temp_dir, "group2");
             Group.Create(ctx, group2_uri);
 
-            var group1 = new Group(ctx, group1_uri);
+            using var group1 = new Group(ctx, group1_uri);
             group1.Open(QueryType.Write);
 
             group1.AddMember(array1_uri, false, "array1");
             group1.AddMember(array2_uri, false, "array2");
             group1.Close();
 
-            var group2 = new Group(ctx, group2_uri);
+            using var group2 = new Group(ctx, group2_uri);
             group2.Open(QueryType.Write);
             group2.AddMember(array2_uri, false, "array2");
             group2.Close();
@@ -90,38 +86,37 @@ namespace TileDB.CSharp.Test
             group1.Close();
         }
 
-        private string GetTempDir()
-        {
-            return TestUtil.MakeTestPath("group-test");
-        }
-
-        private void RemoveTempDir(string path)
+        [TestMethod]
+        public void TestIsUriRelative()
         {
             var ctx = Context.GetDefault();
-            using (var vfs = new VFS(ctx))
+            using var uri = new TemporaryDirectory("group_is_uri_relative");
+            string group1Uri = Path.Combine(uri, "group1");
+            Group.Create(ctx, group1Uri);
+
+            var array1Uri = Path.Combine(uri, "array1");
+            CreateArray(array1Uri);
+            var array2Uri = Path.Combine(group1Uri, "array2");
+            CreateArray(array2Uri);
+
+            using (var group = new Group(ctx, group1Uri))
             {
-                if (vfs.IsDir(path))
-                {
-                    vfs.RemoveDir(path);
-                }
+                group.Open(QueryType.Write);
+
+                group.AddMember(array1Uri, false, "array1");
+                group.AddMember("array2", true, "array2");
+                group.Close();
+            }
+
+            using (var group = new Group(ctx, group1Uri))
+            {
+                group.Open(QueryType.Read);
+                Assert.IsFalse(group.IsUriRelative("array1"));
+                Assert.IsTrue(group.IsUriRelative("array2"));
             }
         }
 
-        private void CreateTempDir(string path)
-        {
-            var ctx = Context.GetDefault();
-            using(var vfs = new VFS(ctx))
-            {
-                if (vfs.IsDir(path))
-                {
-                    vfs.RemoveDir(path);
-                }
-                vfs.CreateDir(path);
-                Assert.IsTrue(vfs.IsDir(path));
-            }
-        }
-
-        private void CreateArray(string uri)
+        private static void CreateArray(string uri)
         {
             string tmpArrayPath = uri;
             if (Directory.Exists(tmpArrayPath))
