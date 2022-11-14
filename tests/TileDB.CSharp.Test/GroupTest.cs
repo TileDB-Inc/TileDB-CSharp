@@ -90,6 +90,36 @@ namespace TileDB.CSharp.Test
             group1.Close();
         }
 
+        [TestMethod]
+        public void TestIsUriRelative()
+        {
+            var ctx = Context.GetDefault();
+            using var uri = new TemporaryDirectory("group_is_uri_relative");
+            string group1Uri = Path.Combine(uri, "group1");
+            Group.Create(ctx, group1Uri);
+
+            var array1Uri = Path.Combine(uri, "array1");
+            CreateArray(array1Uri);
+            var array2Uri = Path.Combine(group1Uri, "array2");
+            CreateArray(array2Uri);
+
+            using (var group = new Group(ctx, group1Uri))
+            {
+                group.Open(QueryType.Write);
+
+                group.AddMember(array1Uri, false, "array1");
+                group.AddMember("array2", true, "array2");
+                group.Close();
+            }
+
+            using (var group = new Group(ctx, group1Uri))
+            {
+                group.Open(QueryType.Read);
+                Assert.IsFalse(group.IsUriRelative("array1"));
+                Assert.IsTrue(group.IsUriRelative("array2"));
+            }
+        }
+
         private string GetTempDir()
         {
             return TestUtil.MakeTestPath("group-test");
