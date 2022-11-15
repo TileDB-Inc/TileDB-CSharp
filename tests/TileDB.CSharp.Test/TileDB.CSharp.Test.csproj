@@ -5,6 +5,7 @@
     <RollForward>Major</RollForward>
     <RootNamespace>TileDB.CSharp.Test</RootNamespace>
     <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
+    <UseCurrentRuntimeIdentifier>true</UseCurrentRuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
