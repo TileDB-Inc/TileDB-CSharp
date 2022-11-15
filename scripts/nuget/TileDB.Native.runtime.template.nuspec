@@ -7,7 +7,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <icon>logo.png</icon>
-    <projectUrl>https://tiledb.com</projectUrl>
+    <projectUrl>https://tiledb.com/products/tiledb-embedded/</projectUrl>
     <repository type="git" url="https://github.com/TileDB-Inc/TileDB" />
     <description>Native binaries of TileDB Embedded for $rid$.</description>
     <tags>tiledb</tags>

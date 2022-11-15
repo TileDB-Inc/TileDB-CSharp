@@ -7,7 +7,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <icon>logo.png</icon>
-    <projectUrl>https://tiledb.com</projectUrl>
+    <projectUrl>https://tiledb.com/products/tiledb-embedded/</projectUrl>
     <repository type="git" url="https://github.com/TileDB-Inc/TileDB" />
     <description>The TileDB Embedded library. This is a metapackage that will route to the appropriate native package based on the runtime identifier.</description>
     <tags>tiledb</tags>
