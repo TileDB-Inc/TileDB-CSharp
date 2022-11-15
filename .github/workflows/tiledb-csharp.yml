@@ -11,6 +11,7 @@ on:
 jobs:
   Run-Tests:
     strategy:
+      fail-fast: false
       matrix:
         # Will be checking following versions
         dotnet: ['net5.0', 'net6.0']
@@ -20,11 +21,6 @@ jobs:
     steps:
       # Checks out repository
       - uses: actions/checkout@v3
-
-      # Install tiledb
-      - name: Install tiledb
-        shell: bash
-        run: ./.github/scripts/install_tiledb.sh
 
       - name: Remove existing .NET versions
         shell: bash
@@ -64,10 +60,6 @@ jobs:
 
       - name: Display dotnet versions
         run: dotnet --info
-
-      # Download tiledb
-      - name: Download tiledb
-        run: ./.github/scripts/download_tiledb.sh
 
       # DotNet build
       - name: Dotnet build for TileDB.CSharp
