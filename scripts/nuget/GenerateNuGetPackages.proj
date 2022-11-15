@@ -6,6 +6,8 @@
     <TempDir>./temp</TempDir>
     <OutDir>./packages</OutDir>
     <RuntimeJson>$(TempDir)/runtime.json</RuntimeJson>
+    <MetapackageProject>./TileDB.Native.proj</MetapackageProject>
+    <NativePackageTemplateProject>./TileDB.Native.runtime.template.proj</NativePackageTemplateProject>
   </PropertyGroup>
 
   <ItemDefinitionGroup>
@@ -47,7 +49,7 @@
     Inputs="@(NativePlatform->'$(TempDir)/%(Identity)/%(LibraryPath)')"
     Outputs="@(NativePlatform->'$(OutDir)/TileDB.Native.runtime.%(RuntimeId).$(Version).nupkg')">
     <ItemGroup>
-      <ProjectsToBuild Include="TileDB.Native.runtime.template.proj"
+      <ProjectsToBuild Include="$(NativePackageTemplateProject)"
         AdditionalProperties="RuntimeId=%(NativePlatform.RuntimeId);NativeLibraryPath=$(TempDir)/%(NativePlatform.Identity)/%(NativePlatform.LibraryPath)" />
     </ItemGroup>
 
@@ -75,16 +77,23 @@
 
   <Target Name="PackMetapackage"
     DependsOnTargets="WriteRuntimeJson"
-    Inputs="$(RuntimeJson);TileDB.Native.nuspec;TileDB.Native.proj"
+    Inputs="$(RuntimeJson);$(MetapackageProject)"
     Outputs="$(OutDir)/TileDB.Native.$(Version).nupkg">
     <MSBuild
-      Projects="TileDB.Native.proj"
+      Projects="$(MetapackageProject)"
       Targets="Pack"
       Properties="PackageOutputPath=$(OutDir);Version=$(Version)" />
   </Target>
 
   <Target Name="Pack"
     DependsOnTargets="PackNativePackages;PackMetapackage" />
+
+  <Target Name="Restore">
+    <MSBuild
+      Projects="$(MetapackageProject);$(NativePackageProject)"
+      BuildInParallel="true"
+      Targets="Restore" />
+  </Target>
 
   <Target Name="Clean">
     <RemoveDir Directories="$(TempDir);$(OutDir)" />

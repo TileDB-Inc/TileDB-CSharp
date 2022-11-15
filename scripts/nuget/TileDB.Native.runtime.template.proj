@@ -2,6 +2,7 @@
   <PropertyGroup>
     <NoBuild>true</NoBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
+    <SkipResolvePackageAssets>true</SkipResolvePackageAssets>
     <TargetFramework>netstandard2.0</TargetFramework>
     <NuspecFile>TileDB.Native.runtime.template.nuspec</NuspecFile>
     <NuspecProperties>rid=$(RuntimeId);version=$(Version);nativelib=$(NativeLibraryPath)</NuspecProperties>
