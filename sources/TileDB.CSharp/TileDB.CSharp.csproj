@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -6,13 +6,20 @@
     <RollForward>Major</RollForward>
     <RootNamespace>TileDB.CSharp</RootNamespace>
     <Version>5.3.0</Version>
-    <NuspecFile>TileDB.CSharp.nuspec</NuspecFile>
-    <NuspecProperties>version=$(Version)</NuspecProperties>
+    <Authors>TileDB Inc</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageProjectUrl>https://tiledb.com/products/tiledb-embedded/</PackageProjectUrl>
+    <Description>C# wrapper of the TileDB Embedded universal data engine.</Description>
+    <PackageTags>tiledb</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup>
     <OutputPath>./lib</OutputPath>
   </PropertyGroup>
 
-  <Import Project="TileDB.CSharp.targets" />
+  <ItemGroup>
+    <None Include="../../art/logo.png" Pack="true" PackagePath="" />
+    <PackageReference Include="TileDB.Native" Version="2.12.2" />
+  </ItemGroup>
 </Project>
