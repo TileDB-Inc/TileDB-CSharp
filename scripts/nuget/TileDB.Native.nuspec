@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>TileDB.Native</id>
+    <version>$version$</version>
+    <authors>TileDB Inc</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <icon>logo.png</icon>
+    <projectUrl>https://tiledb.com</projectUrl>
+    <repository type="git" url="https://github.com/TileDB-Inc/TileDB" />
+    <description>The TileDB Embedded library. This is a metapackage that will route to the appropriate native package based on the runtime identifier.</description>
+    <tags>tiledb</tags>
+  </metadata>
+  <files>
+    <file src="../../art/logo.png" target=""/>
+    <file src="temp/runtime.json" target=""/>
+  </files>
+</package>

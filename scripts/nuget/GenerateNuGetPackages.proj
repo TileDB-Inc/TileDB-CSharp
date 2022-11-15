@@ -5,16 +5,19 @@
     <VersionTag>a9d60c8</VersionTag>
     <TempDir>./temp</TempDir>
     <OutDir>./packages</OutDir>
+    <RuntimeJson>$(TempDir)/runtime.json</RuntimeJson>
   </PropertyGroup>
 
   <ItemDefinitionGroup>
-    <NativePlatform ArchiveExtension="tar.gz" />
+    <!-- The NativePlatform item must set ValueSeparator to the empty string.
+    This is a hack because JSON files do not support trailing commas. -->
+    <NativePlatform ArchiveExtension="tar.gz" ValueSeparator="," />
   </ItemDefinitionGroup>
   <ItemGroup>
     <NativePlatform Include="linux-x86_64" RuntimeId="linux-x64" LibraryPath="lib/libtiledb.so" />
     <NativePlatform Include="macos-x86_64" RuntimeId="osx-x64" LibraryPath="lib/libtiledb.dylib" />
     <NativePlatform Include="macos-arm64" RuntimeId="osx-arm64" LibraryPath="lib/libtiledb.dylib" />
-    <NativePlatform Include="windows-x86_64" RuntimeId="win-x64" LibraryPath="bin/tiledb.dll" ArchiveExtension="zip" />
+    <NativePlatform Include="windows-x86_64" RuntimeId="win-x64" LibraryPath="bin/tiledb.dll" ArchiveExtension="zip" ValueSeparator="" />
   </ItemGroup>
 
   <Target Name="DownloadReleaseArtifacts"
@@ -55,8 +58,33 @@
       Properties="PackageOutputPath=$(OutDir);Version=$(Version)" />
   </Target>
 
+  <Target Name="WriteRuntimeJson">
+    <ItemGroup>
+      <RuntimeJsonPayload Include="{" />
+      <RuntimeJsonPayload Include="&quot;runtimes&quot;: {" />
+      <RuntimeJsonPayload Include="&quot;%(NativePlatform.RuntimeId)&quot;: {&quot;TileDB.Native&quot;: {&quot;TileDB.Native.runtime.%(NativePlatform.RuntimeId)&quot;: &quot;$(Version)&quot;}}%(NativePlatform.ValueSeparator)" />
+      <RuntimeJsonPayload Include="}" />
+      <RuntimeJsonPayload Include="}" />
+    </ItemGroup>
+    <WriteLinesToFile
+      File="$(RuntimeJson)"
+      Lines="@(RuntimeJsonPayload)"
+      Overwrite="true"
+      WriteOnlyWhenDifferent="true" />
+  </Target>
+
+  <Target Name="PackMetapackage"
+    DependsOnTargets="WriteRuntimeJson"
+    Inputs="$(RuntimeJson);TileDB.Native.nuspec;TileDB.Native.proj"
+    Outputs="$(OutDir)/TileDB.Native.$(Version).nupkg">
+    <MSBuild
+      Projects="TileDB.Native.proj"
+      Targets="Pack"
+      Properties="PackageOutputPath=$(OutDir);Version=$(Version)" />
+  </Target>
+
   <Target Name="Pack"
-    DependsOnTargets="PackNativePackages" />
+    DependsOnTargets="PackNativePackages;PackMetapackage" />
 
   <Target Name="Clean">
     <RemoveDir Directories="$(TempDir);$(OutDir)" />
