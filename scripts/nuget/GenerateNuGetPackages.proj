@@ -1,7 +1,5 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Pack">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Version>2.12.2</Version>
-    <VersionTag>a9d60c8</VersionTag>
     <TempDir>./temp</TempDir>
     <OutDir>./packages</OutDir>
     <RuntimeJson>$(TempDir)/runtime.json</RuntimeJson>
@@ -10,7 +8,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="$(DevelopmentBuild) == true">
-    <Version>0.0.0-local+$(VersionTag)</Version>
+    <Version>0.0.0-local</Version>
+    <Version Condition="'$(VersionTag)' != ''">$(Version)+$(VersionTag)</Version>
     <!-- Development packages have a different ID to avoid publishing them by mistake
     and to play well with package source mapping. -->
     <PackageIdPrefix>Local.</PackageIdPrefix>
@@ -34,11 +33,19 @@
     <ItemGroup>
       <NativePlatform Remove="%(NativePlatform.Identity)" Condition="!Exists('$(TempDir)/%(NativePlatform.Identity)/%(NativePlatform.LibraryPath)')" />
     </ItemGroup>
+
+    <Error
+      Condition="'@(NativePlatform)' == ''"
+      Text="Cannot find native binaries for any platform." />
   </Target>
 
   <Target Name="DownloadReleaseArtifacts"
     Outputs="$(TempDir)/%(NativePlatform.Identity)/%(NativePlatform.LibraryPath)"
     Condition="$(DevelopmentBuild) != true">
+    <Error
+      Condition="'$(Version)' == '' AND '$(VersionTag)' == ''"
+      Text="Version and VersionTag must be specified." />
+
     <PropertyGroup>
       <DownloadUrl>https://github.com/TileDB-Inc/TileDB/releases/download/$(Version)/TileDB-%(NativePlatform.Identity)-$(Version)-$(VersionTag).%(NativePlatform.ArchiveExtension)</DownloadUrl>
       <ExtractDir>$(TempDir)/%(NativePlatform.Identity)</ExtractDir>
