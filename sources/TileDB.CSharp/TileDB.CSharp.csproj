@@ -8,6 +8,7 @@
     <RootNamespace>TileDB.CSharp</RootNamespace>
     <Version>5.3.0</Version>
     <Description>C# wrapper of the TileDB Embedded universal data engine.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -15,6 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="README.md" Pack="True" PackagePath="" />
     <PackageReference Include="$(TileDBNativePackageName)" />
   </ItemGroup>
 </Project>
