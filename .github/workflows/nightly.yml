@@ -1,5 +1,8 @@
 name: Nightly-Build
 
+env:
+  TILEDB_NIGHTLY_BUILD: 1
+
 on:
   schedule:
     - cron: "15 2 * * *"
