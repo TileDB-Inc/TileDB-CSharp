@@ -9,85 +9,127 @@ on:
   workflow_dispatch:
 
 jobs:
-  Build:
+  Build-Native:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
         include:
-          - os: ubuntu-22.04
-            HOST: linux
-            BOOTSTRAP: ../bootstrap --enable-s3 --enable-serialization
+          - BOOTSTRAP: ../bootstrap --enable-s3 --enable-serialization
           - os: ubuntu-latest
-            HOST: linux
-            BOOTSTRAP: ../bootstrap --enable-s3 --enable-serialization
+            platform: linux-x86_64
           - os: macos-latest
-            HOST: osx
-            BOOTSTRAP: ../bootstrap --enable-s3 --enable-serialization
+            platform: macos-x86_64
           - os: windows-latest
-            HOST: win
+            platform: windows-x86_64
             BOOTSTRAP: ../bootstrap.ps1 -EnableS3 -EnableSerialization
         tag: [release-2.12, dev]
-        dotnet: ['net5.0', 'net6.0']
     runs-on: ${{ matrix.os }}
-
     steps:
-      - name: Checkout TileDB-CSharp
-        uses: actions/checkout@v3
-        with:
-          path: tiledb-csharp
-
       - name: Checkout TileDB
         uses: actions/checkout@v3
         with:
           repository: TileDB-Inc/TileDB
           ref: ${{ matrix.tag }}
-          path: tiledb
+
+      - name: Build TileDB
+        run: |
+          mkdir -p build
+          cd build
+          ${{ matrix.BOOTSTRAP }}
+          cmake --build . --config Release
+          cmake --build . --config Release --target install-tiledb
+          cd ../
+          mkdir -p artifacts/${{ matrix.platform }}
+          mv dist/* artifacts/${{ matrix.platform }}
+
+      # We combine the binaries of the many platforms per tag by uploading them to the same artifact.
+      - name: Upload native artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: tiledb-native-${{ matrix.tag }}
+          path: artifacts/
+
+  Pack-NuGet:
+    needs: Build-Native
+    strategy:
+      fail-fast: false
+      matrix:
+        tag: [release-2.12, dev]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout TileDB-CSharp
+        uses: actions/checkout@v3
 
       # GitHub runners come with several versions of .NET preinstalled; Remove them to target version
       - name: Remove existing .NET versions
         shell: bash
-        run: |
-          rm -rf $DOTNET_ROOT
+        run: rm -rf $DOTNET_ROOT
 
       - name: Set up .NET SDK from global.json
         uses: actions/setup-dotnet@v3
-        with:
-          global-json-file: tiledb-csharp/global.json
 
       - name: Display dotnet versions
         run: dotnet --info
 
-      - name: Build TileDB
-        run: |
-          mkdir -p tiledb/build
-          cd tiledb/build
-          ${{ matrix.BOOTSTRAP }}
-          cmake --build . --config Release
-          cmake --build . --config Release --target install-tiledb
-          cd ../../
-          cp -r tiledb/dist/lib/* tiledb-csharp/sources/TileDB.CSharp/runtimes/${{ matrix.HOST }}-x64/native/
+      - name: Download native artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: tiledb-native-${{ matrix.tag }}
+          path: scripts/nuget/temp
 
-      - name: Copy Windows tiledb.dll
-        if: matrix.HOST == 'win'
-        run: |
-          cp tiledb/dist/bin/tiledb.dll tiledb-csharp/sources/TileDB.CSharp/runtimes/${{ matrix.HOST }}-x64/native/
+      - name: Build native NuGet packages
+        shell: bash
+        run: dotnet pack ./scripts/nuget/GenerateNuGetPackages.proj -p:DevelopmentBuild=true -p:VersionTag=${{ matrix.tag }}
+
+      - name: Upload native NuGet packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: tiledb-nuget-${{ matrix.tag }}
+          path: scripts/nuget/packages/
+
+  Test-NuGet:
+    needs: Pack-NuGet
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, ubuntu-latest, macos-latest, windows-latest]
+        tag: [release-2.12, dev]
+        dotnet: ['net5.0', 'net6.0']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout TileDB-CSharp
+        uses: actions/checkout@v3
+
+      # GitHub runners come with several versions of .NET preinstalled; Remove them to target version
+      - name: Remove existing .NET versions
+        shell: bash
+        run: rm -rf $DOTNET_ROOT
+
+      - name: Set up .NET SDK from global.json
+        uses: actions/setup-dotnet@v3
+
+      - name: Display dotnet versions
+        run: dotnet --info
+
+      - name: Download native NuGet packages
+        uses: actions/download-artifact@v3
+        with:
+          name: tiledb-nuget-${{ matrix.tag }}
+          path: packages
 
       - name: Build TileDB-CSharp
-        run: |
-          dotnet build tiledb-csharp/sources/TileDB.CSharp/TileDB.CSharp.csproj /p:Platform=x64 -c Release
+        run: dotnet build sources/TileDB.CSharp/TileDB.CSharp.csproj -c Release
 
       - name: Test TileDB-CSharp
-        run: |
-          dotnet test tiledb-csharp/tests/TileDB.CSharp.Test/TileDB.CSharp.Test.csproj -c Release -f ${{ matrix.dotnet }}
+        run: dotnet test tests/TileDB.CSharp.Test/TileDB.CSharp.Test.csproj -c Release -f ${{ matrix.dotnet }}
 
       - name: Run examples
         shell: bash
-        run: |
-          find tiledb-csharp/examples/ -name *.csproj -execdir dotnet run \;
+        run: find examples/ -name *.csproj | xargs -I{} dotnet run --project {} -f ${{ matrix.dotnet }}
 
   Create-Issue:
-    needs: Build
+    needs: Test-NuGet
     if: failure()
     runs-on: ubuntu-latest
     steps:
