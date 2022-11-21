@@ -1,0 +1,45 @@
+name: Generate-Bindings
+
+run-name: 'Update bindings to version ${{inputs.version}}-${{inputs.commit_id}}'
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'TileDB version to generate bindings for'
+        required: true
+        type: string
+      commit_id:
+        description: 'Commit ID of the version'
+        required: true
+        type: string
+
+jobs:
+  Generate-Bindings:
+    runs-on: windows-latest
+    steps:
+      # Checks out repository
+      - uses: actions/checkout@v3
+
+      - name: Remove existing .NET versions
+        shell: bash
+        run: |
+          rm -rf $DOTNET_ROOT
+
+      - name: Set up .NET SDK from global.json
+        uses: actions/setup-dotnet@v3
+
+      - name: Display .NET versions
+        run: dotnet --info
+
+      - name: Run the binding generation script
+        run: dotnet msbuild ./scripts/generate-bindings/GenerateBindings.proj -p:Version=${{ inputs.version }} -p:VersionTag=${{ inputs.commit_id }} /restore
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          branch: bindings-update/${{ inputs.version }}
+          draft: true
+          assignees: teo-tsirpanis
+          title: 'Update bindings to version ${{inputs.version}}-${{inputs.commit_id}}'
+          commit-message: 'Update bindings to version ${{inputs.version}}-${{inputs.commit_id}}'
