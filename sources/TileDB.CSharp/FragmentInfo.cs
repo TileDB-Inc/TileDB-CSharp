@@ -411,12 +411,14 @@ namespace TileDB.CSharp
         /// with the dimension's data type.</exception>
         public (T Start, T End) GetMinimumBoundedRectangle<T>(uint fragmentIndex, uint minimumBoundedRectangleIndex, uint dimensionIndex)
         {
-            ValidateDomainType<T>(GetDimensionType(fragmentIndex, dimensionIndex));
+            DataType dataType = GetDimensionType(fragmentIndex, dimensionIndex);
+            ValidateDomainType<T>(dataType);
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
                 if (typeof(T) == typeof(string))
                 {
-                    (string startStr, string endStr) = GetStringMinimumBoundedRectangle(fragmentIndex, minimumBoundedRectangleIndex, dimensionIndex);
+                    (string startStr, string endStr) =
+                        GetStringMinimumBoundedRectangle(fragmentIndex, minimumBoundedRectangleIndex, dimensionIndex, dataType);
                     return ((T)(object)startStr, (T)(object)endStr);
                 }
                 ThrowHelpers.ThrowTypeNotSupported();
@@ -448,12 +450,14 @@ namespace TileDB.CSharp
         /// with the dimension's data type.</exception>
         public (T Start, T End) GetMinimumBoundedRectangle<T>(uint fragmentIndex, uint minimumBoundedRectangleIndex, string dimensionName)
         {
-            ValidateDomainType<T>(GetDimensionType(fragmentIndex, dimensionName));
+            DataType dataType = GetDimensionType(fragmentIndex, dimensionName);
+            ValidateDomainType<T>(dataType);
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
                 if (typeof(T) == typeof(string))
                 {
-                    (string startStr, string endStr) = GetStringMinimumBoundedRectangle(fragmentIndex, minimumBoundedRectangleIndex, dimensionName);
+                    (string startStr, string endStr) =
+                        GetStringMinimumBoundedRectangle(fragmentIndex, minimumBoundedRectangleIndex, dimensionName, dataType);
                     return ((T)(object)startStr, (T)(object)endStr);
                 }
                 ThrowHelpers.ThrowTypeNotSupported();
@@ -474,7 +478,7 @@ namespace TileDB.CSharp
             return (start, end);
         }
 
-        private (string Start, string End) GetStringMinimumBoundedRectangle(uint fragmentIndex, uint minimumBoundedRectangleIndex, uint dimensionIndex)
+        private (string Start, string End) GetStringMinimumBoundedRectangle(uint fragmentIndex, uint minimumBoundedRectangleIndex, uint dimensionIndex, DataType dataType)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -491,12 +495,12 @@ namespace TileDB.CSharp
                     handle, fragmentIndex, minimumBoundedRectangleIndex, dimensionIndex, startBufPtr, endBufPtr));
             }
 
-            string startStr = MarshaledStringOut.GetString(startBuf.Span[0..startSize]);
-            string endStr = MarshaledStringOut.GetString(endBuf.Span[0..endSize]);
+            string startStr = MarshaledStringOut.GetString(startBuf.Span[0..startSize], dataType);
+            string endStr = MarshaledStringOut.GetString(endBuf.Span[0..endSize], dataType);
             return (startStr, endStr);
         }
 
-        private (string Start, string End) GetStringMinimumBoundedRectangle(uint fragmentIndex, uint minimumBoundedRectangleIndex, string dimensionName)
+        private (string Start, string End) GetStringMinimumBoundedRectangle(uint fragmentIndex, uint minimumBoundedRectangleIndex, string dimensionName, DataType dataType)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -514,8 +518,8 @@ namespace TileDB.CSharp
                     fragmentIndex, minimumBoundedRectangleIndex, ms_dimensionName, startBufPtr, endBufPtr));
             }
 
-            string startStr = MarshaledStringOut.GetString(startBuf.Span[0..startSize]);
-            string endStr = MarshaledStringOut.GetString(endBuf.Span[0..endSize]);
+            string startStr = MarshaledStringOut.GetString(startBuf.Span[0..startSize], dataType);
+            string endStr = MarshaledStringOut.GetString(endBuf.Span[0..endSize], dataType);
             return (startStr, endStr);
         }
 
@@ -532,12 +536,13 @@ namespace TileDB.CSharp
         /// with the dimension's data type.</exception>
         public (T Start, T End) GetNonEmptyDomain<T>(uint fragmentIndex, uint dimensionIndex)
         {
-            ValidateDomainType<T>(GetDimensionType(fragmentIndex, dimensionIndex));
+            DataType dataType = GetDimensionType(fragmentIndex, dimensionIndex);
+            ValidateDomainType<T>(dataType);
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
                 if (typeof(T) == typeof(string))
                 {
-                    (string startStr, string endStr) = GetStringNonEmptyDomain(fragmentIndex, dimensionIndex);
+                    (string startStr, string endStr) = GetStringNonEmptyDomain(fragmentIndex, dimensionIndex, dataType);
                     return ((T)(object)startStr, (T)(object)endStr);
                 }
                 ThrowHelpers.ThrowTypeNotSupported();
@@ -569,12 +574,13 @@ namespace TileDB.CSharp
         /// with the dimension's data type.</exception>
         public (T Start, T End) GetNonEmptyDomain<T>(uint fragmentIndex, string dimensionName)
         {
-            ValidateDomainType<T>(GetDimensionType(fragmentIndex, dimensionName));
+            DataType dataType = GetDimensionType(fragmentIndex, dimensionName);
+            ValidateDomainType<T>(dataType);
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
                 if (typeof(T) == typeof(string))
                 {
-                    (string startStr, string endStr) = GetStringNonEmptyDomain(fragmentIndex, dimensionName);
+                    (string startStr, string endStr) = GetStringNonEmptyDomain(fragmentIndex, dimensionName, dataType);
                     return ((T)(object)startStr, (T)(object)endStr);
                 }
                 ThrowHelpers.ThrowTypeNotSupported();
@@ -595,7 +601,7 @@ namespace TileDB.CSharp
             return (start, end);
         }
 
-        private (string Start, string End) GetStringNonEmptyDomain(uint fragmentIndex, uint dimensionIndex)
+        private (string Start, string End) GetStringNonEmptyDomain(uint fragmentIndex, uint dimensionIndex, DataType dataType)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -612,12 +618,12 @@ namespace TileDB.CSharp
                     handle, fragmentIndex, dimensionIndex, startBufPtr, endBufPtr));
             }
 
-            string startStr = MarshaledStringOut.GetString(startBuf.Span);
-            string endStr = MarshaledStringOut.GetString(endBuf.Span);
+            string startStr = MarshaledStringOut.GetString(startBuf.Span, dataType);
+            string endStr = MarshaledStringOut.GetString(endBuf.Span, dataType);
             return (startStr, endStr);
         }
 
-        private (string Start, string End) GetStringNonEmptyDomain(uint fragmentIndex, string dimensionName)
+        private (string Start, string End) GetStringNonEmptyDomain(uint fragmentIndex, string dimensionName, DataType dataType)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -635,8 +641,8 @@ namespace TileDB.CSharp
                     handle, fragmentIndex, ms_dimensionName, startBufPtr, endBufPtr));
             }
 
-            string startStr = MarshaledStringOut.GetString(startBuf.Span);
-            string endStr = MarshaledStringOut.GetString(endBuf.Span);
+            string startStr = MarshaledStringOut.GetString(startBuf.Span, dataType);
+            string endStr = MarshaledStringOut.GetString(endBuf.Span, dataType);
             return (startStr, endStr);
         }
 
