@@ -171,6 +171,13 @@ namespace TileDB.CSharp.Test
 
             Assert.AreEqual(("a", "bb"), info.GetMinimumBoundedRectangle<string>(0, 0, 0));
             Assert.AreEqual(("c", "ddd"), info.GetMinimumBoundedRectangle<string>(0, 1, "d"));
+
+            Assert.ThrowsException<InvalidOperationException>(() => info.GetMinimumBoundedRectangle<int>(0, 0, 0));
+            Assert.ThrowsException<InvalidOperationException>(() => info.GetMinimumBoundedRectangle<long>(0, 0, 0));
+            Assert.ThrowsException<NotSupportedException>(() => info.GetMinimumBoundedRectangle<Guid>(0, 0, 0));
+            Assert.ThrowsException<InvalidOperationException>(() => info.GetMinimumBoundedRectangle<int>(0, 1, "d"));
+            Assert.ThrowsException<InvalidOperationException>(() => info.GetMinimumBoundedRectangle<long>(0, 1, "d"));
+            Assert.ThrowsException<NotSupportedException>(() => info.GetMinimumBoundedRectangle<Guid>(0, 1, "d"));
         }
 
         [TestMethod]
@@ -191,6 +198,13 @@ namespace TileDB.CSharp.Test
 
             Assert.AreEqual((1, 2), info.GetMinimumBoundedRectangle<long>(0, 0, 0));
             Assert.AreEqual((7, 8), info.GetMinimumBoundedRectangle<long>(1, 1, "d1"));
+
+            Assert.ThrowsException<InvalidOperationException>(() => info.GetMinimumBoundedRectangle<int>(0, 0, 0));
+            Assert.ThrowsException<InvalidOperationException>(() => info.GetMinimumBoundedRectangle<string>(0, 0, 0));
+            Assert.ThrowsException<NotSupportedException>(() => info.GetMinimumBoundedRectangle<Guid>(0, 0, 0));
+            Assert.ThrowsException<InvalidOperationException>(() => info.GetMinimumBoundedRectangle<int>(1, 1, "d1"));
+            Assert.ThrowsException<InvalidOperationException>(() => info.GetMinimumBoundedRectangle<string>(1, 1, "d1"));
+            Assert.ThrowsException<NotSupportedException>(() => info.GetMinimumBoundedRectangle<Guid>(1, 1, "d1"));
         }
 
         [TestMethod]
@@ -211,6 +225,13 @@ namespace TileDB.CSharp.Test
 
             Assert.AreEqual((1, 2), info.GetMinimumBoundedRectangle<int>(0, 0, 0));
             Assert.AreEqual((7, 8), info.GetMinimumBoundedRectangle<int>(1, 1, "d1"));
+
+            Assert.ThrowsException<InvalidOperationException>(() => info.GetMinimumBoundedRectangle<long>(0, 0, 0));
+            Assert.ThrowsException<InvalidOperationException>(() => info.GetMinimumBoundedRectangle<string>(0, 0, 0));
+            Assert.ThrowsException<NotSupportedException>(() => info.GetMinimumBoundedRectangle<Guid>(0, 0, 0));
+            Assert.ThrowsException<InvalidOperationException>(() => info.GetMinimumBoundedRectangle<long>(1, 1, "d1"));
+            Assert.ThrowsException<InvalidOperationException>(() => info.GetMinimumBoundedRectangle<string>(1, 1, "d1"));
+            Assert.ThrowsException<NotSupportedException>(() => info.GetMinimumBoundedRectangle<Guid>(1, 1, "d1"));
         }
 
         [TestMethod]
@@ -247,6 +268,9 @@ namespace TileDB.CSharp.Test
                         (int Start, int End, _) => (Start, End)
                     };
                     Assert.AreEqual(expectedNonEmptyDomain, actualNonEmptyDomain);
+                    Assert.ThrowsException<InvalidOperationException>(() => info.GetNonEmptyDomain<long>(i, dim));
+                    Assert.ThrowsException<InvalidOperationException>(() => info.GetNonEmptyDomain<string>(i, dim));
+                    Assert.ThrowsException<NotSupportedException>(() => info.GetNonEmptyDomain<Guid>(i, dim));
 
                     string name = d.Name();
                     expectedNonEmptyDomain = info.GetNonEmptyDomain<int>(i, name);
@@ -255,6 +279,9 @@ namespace TileDB.CSharp.Test
                         (int Start, int End, _) => (Start, End)
                     };
                     Assert.AreEqual(expectedNonEmptyDomain, actualNonEmptyDomain);
+                    Assert.ThrowsException<InvalidOperationException>(() => info.GetNonEmptyDomain<long>(i, name));
+                    Assert.ThrowsException<InvalidOperationException>(() => info.GetNonEmptyDomain<string>(i, name));
+                    Assert.ThrowsException<NotSupportedException>(() => info.GetNonEmptyDomain<Guid>(i, name));
                 }
             }
         }

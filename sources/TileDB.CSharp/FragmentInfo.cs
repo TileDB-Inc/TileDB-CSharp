@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.CompilerServices;
-using System.Text;
 using TileDB.CSharp.Marshalling;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
@@ -407,10 +406,12 @@ namespace TileDB.CSharp
         /// <param name="dimensionIndex">The index of the dimension of interest, following
         /// the order as it was defined in the domain of the array schema.</param>
         /// <returns>The start and end values of the MBR, inclusive.</returns>
-        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is a managed type
-        /// other than <see cref="string"/>.</exception>
+        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is unsupported.</exception>
+        /// <exception cref="InvalidOperationException"><typeparamref name="T"/> is incompatible
+        /// with the dimension's data type.</exception>
         public (T Start, T End) GetMinimumBoundedRectangle<T>(uint fragmentIndex, uint minimumBoundedRectangleIndex, uint dimensionIndex)
         {
+            ValidateDomainType<T>(GetDimensionType(fragmentIndex, dimensionIndex));
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
                 if (typeof(T) == typeof(string))
@@ -421,7 +422,6 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowTypeNotSupported();
                 return default;
             }
-            ValidateDomainType<T>();
 
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -443,10 +443,12 @@ namespace TileDB.CSharp
         /// <param name="minimumBoundedRectangleIndex">The index of the MBR of interest.</param>
         /// <param name="dimensionName">The name of the dimension of interest.</param>
         /// <returns>The start and end values of the MBR, inclusive.</returns>
-        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is a managed type
-        /// other than <see cref="string"/>.</exception>
+        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is unsupported.</exception>
+        /// <exception cref="InvalidOperationException"><typeparamref name="T"/> is incompatible
+        /// with the dimension's data type.</exception>
         public (T Start, T End) GetMinimumBoundedRectangle<T>(uint fragmentIndex, uint minimumBoundedRectangleIndex, string dimensionName)
         {
+            ValidateDomainType<T>(GetDimensionType(fragmentIndex, dimensionName));
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
                 if (typeof(T) == typeof(string))
@@ -457,7 +459,6 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowTypeNotSupported();
                 return default;
             }
-            ValidateDomainType<T>();
 
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -526,10 +527,12 @@ namespace TileDB.CSharp
         /// <param name="dimensionIndex">The index of the dimension of interest, following
         /// the order as it was defined in the domain of the array schema.</param>
         /// <returns>The start and end values of the domain, inclusive.</returns>
-        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is a managed type
-        /// other than <see cref="string"/>.</exception>
+        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is unsupported.</exception>
+        /// <exception cref="InvalidOperationException"><typeparamref name="T"/> is incompatible
+        /// with the dimension's data type.</exception>
         public (T Start, T End) GetNonEmptyDomain<T>(uint fragmentIndex, uint dimensionIndex)
         {
+            ValidateDomainType<T>(GetDimensionType(fragmentIndex, dimensionIndex));
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
                 if (typeof(T) == typeof(string))
@@ -540,7 +543,6 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowTypeNotSupported();
                 return default;
             }
-            ValidateDomainType<T>();
 
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -562,10 +564,12 @@ namespace TileDB.CSharp
         /// <param name="fragmentIndex">The index of the fragment of interest.</param>
         /// <param name="dimensionName">The name of the dimension of interest.</param>
         /// <returns>The start and end values of the domain, inclusive.</returns>
-        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is a managed type
-        /// other than <see cref="string"/>.</exception>
+        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is unsupported.</exception>
+        /// <exception cref="InvalidOperationException"><typeparamref name="T"/> is incompatible
+        /// with the dimension's data type.</exception>
         public (T Start, T End) GetNonEmptyDomain<T>(uint fragmentIndex, string dimensionName)
         {
+            ValidateDomainType<T>(GetDimensionType(fragmentIndex, dimensionName));
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
                 if (typeof(T) == typeof(string))
@@ -576,7 +580,6 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowTypeNotSupported();
                 return default;
             }
-            ValidateDomainType<T>();
 
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -637,12 +640,36 @@ namespace TileDB.CSharp
             return (startStr, endStr);
         }
 
-        private static void ValidateDomainType<T>()
+        private static void ValidateDomainType<T>(DataType dataType)
         {
             if (Unsafe.SizeOf<T>() > sizeof(ulong))
             {
                 ThrowHelpers.ThrowTypeNotSupported();
             }
+            if (typeof(T) == typeof(string) && !EnumUtil.IsStringType(dataType))
+            {
+                ThrowHelpers.ThrowStringTypeMismatch(dataType);
+            }
+            if (dataType != EnumUtil.TypeToDataType(typeof(T)))
+            {
+                ThrowHelpers.ThrowTypeMismatch(dataType);
+            }
+        }
+
+        private DataType GetDimensionType(uint fragmentIndex, uint dimensionIndex)
+        {
+            using var schema = GetSchema(fragmentIndex);
+            using var domain = schema.Domain();
+            using var dimension = domain.Dimension(dimensionIndex);
+            return dimension.Type();
+        }
+
+        private DataType GetDimensionType(uint fragmentIndex, string dimensionName)
+        {
+            using var schema = GetSchema(fragmentIndex);
+            using var domain = schema.Domain();
+            using var dimension = domain.Dimension(dimensionName);
+            return dimension.Type();
         }
     }
 }
