@@ -1105,6 +1105,11 @@ namespace TileDB.CSharp
         public static tiledb_datatype_t to_tiledb_datatype(Type t) =>
             (tiledb_datatype_t)TypeToDataType(t);
 
+        /// <summary>
+        /// Converts a <see cref="Type"/> to a <see cref="DataType"/> enum value.
+        /// </summary>
+        /// <param name="t">The type to convert.</param>
+        /// <exception cref="NotSupportedException"><paramref name="t"/> is unsupported.</exception>
         public static DataType TypeToDataType(Type t)
         {
             if (t == typeof(int))
@@ -1157,15 +1162,10 @@ namespace TileDB.CSharp
             }
             else
             {
-#pragma warning disable CS0618 // Type or member is obsolete
-                return DataType.Any;
-#pragma warning restore CS0618 // Type or member is obsolete
+                ThrowHelpers.ThrowTypeNotSupported();
+                return default; // unreachable
             }
         }
-
-        [Obsolete("This method will be removed in a future version of the library. Use DataTypeToType and the DataType enum instead.")]
-        private static Type TileDBDataTypeToType(tiledb_datatype_t tiledbDatatype) =>
-            DataTypeToType((DataType)tiledbDatatype);
 
         public static Type DataTypeToType(DataType datatype)
         {
