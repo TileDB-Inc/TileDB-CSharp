@@ -282,12 +282,6 @@ namespace TileDB.CSharp
         // https://github.com/TileDB-Inc/TileDB/pull/2812
         StringUcs4 = tiledb_datatype_t.TILEDB_STRING_UCS4,
         /// <summary>
-        /// Any value. Deprecated.
-        /// </summary>
-        [Obsolete("This data type is deprecated.")]
-        // https://github.com/TileDB-Inc/TileDB/pull/2807
-        Any = tiledb_datatype_t.TILEDB_ANY,
-        /// <summary>
         /// A date and time, counted as the signed 64-bit number of
         /// years since the Unix epoch (January 1 1970 at midnight).
         /// </summary>
@@ -439,8 +433,8 @@ namespace TileDB.CSharp
         TILEDB_STRING_UCS2 = StringUcs2,
         [Obsolete("Use StringUcs4 instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_STRING_UCS4 = StringUcs4,
-        [Obsolete("Use Any instead."), EditorBrowsable(EditorBrowsableState.Never)]
-        TILEDB_ANY = Any,
+        [Obsolete("This data type is deprecated."), EditorBrowsable(EditorBrowsableState.Never)]
+        TILEDB_ANY = tiledb_datatype_t.TILEDB_ANY,
         [Obsolete("Use DateTimeYear instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_YEAR = DateTimeYear,
         [Obsolete("Use DateTimeMonth instead."), EditorBrowsable(EditorBrowsableState.Never)]
@@ -1172,8 +1166,6 @@ namespace TileDB.CSharp
 #pragma warning disable CS0618 // Type or member is obsolete
             switch (datatype)
             {
-                case DataType.Any:
-                    return typeof(sbyte);
                 case DataType.Char:
                     return typeof(sbyte);
                 case DataType.DateTimeAttosecond:
