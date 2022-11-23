@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Text;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
@@ -64,6 +65,51 @@ namespace TileDB.CSharp
             return sb_result.ToString();
         }
 
+        // This function is unsafe because the input spans must be null-terminated.
+        // C# 11's u8 literals guarantee it, as well as the MarshaledString class.
+        // Furthermore the returned span points to memory managed by the Core so it
+        // must not be returned to user code.
+        private ReadOnlySpan<byte> GetUnsafe(ReadOnlySpan<byte> param)
+        {
+            byte* result;
+            tiledb_error_t* p_tiledb_error;
+            int status;
+            fixed (byte* paramPtr = param)
+            {
+                using var handle = _handle.Acquire();
+                status = Methods.tiledb_config_get(handle, (sbyte*)paramPtr, (sbyte**)&result, &p_tiledb_error);
+            }
+            if (status != (int)Status.TILEDB_OK)
+            {
+                var errMessage = GetLastError(p_tiledb_error, status);
+                Methods.tiledb_error_free(&p_tiledb_error);
+                throw new ErrorException(errMessage);
+            }
+            Methods.tiledb_error_free(&p_tiledb_error);
+
+            return MemoryMarshalCompat.CreateReadOnlySpanFromNullTerminated(result);
+        }
+
+        // This function is unsafe because the input spans must be null-terminated.
+        // C# 11's u8 literals guarantee it, as well as the MarshaledString class.
+        private void SetUnsafe(ReadOnlySpan<byte> param, ReadOnlySpan<byte> value)
+        {
+            tiledb_error_t* p_tiledb_error;
+            int status;
+            fixed (byte* paramPtr = param, valuePtr = value)
+            {
+                using var handle = _handle.Acquire();
+                status = Methods.tiledb_config_set(handle, (sbyte*)paramPtr, (sbyte*)valuePtr, &p_tiledb_error);
+            }
+            if (status != (int)Status.TILEDB_OK)
+            {
+                var errMessage = GetLastError(p_tiledb_error, status);
+                Methods.tiledb_error_free(&p_tiledb_error);
+                throw new ErrorException(errMessage);
+            }
+            Methods.tiledb_error_free(&p_tiledb_error);
+        }
+
         /// <summary>
         /// Set parameter value.
         /// </summary>
@@ -80,21 +126,10 @@ namespace TileDB.CSharp
 
             using var ms_param = new MarshaledString(param);
             using var ms_value = new MarshaledString(value);
-            var tiledb_error = new tiledb_error_t();
+            ReadOnlySpan<byte> paramSpan = new(ms_param.Value, ms_param.Length);
+            ReadOnlySpan<byte> valueSpan = new(ms_value.Value, ms_value.Length);
 
-            var p_tiledb_error = &tiledb_error;
-            int status;
-            using (var handle = _handle.Acquire())
-            {
-                status = Methods.tiledb_config_set(handle, ms_param, ms_value, &p_tiledb_error);
-            }
-            if (status != (int)Status.TILEDB_OK)
-            {
-                var err_message = GetLastError(p_tiledb_error, status);
-                Methods.tiledb_error_free(&p_tiledb_error);
-                throw new ErrorException("Config.set, caught exception:" + err_message);
-            }
-            Methods.tiledb_error_free(&p_tiledb_error);
+            SetUnsafe(paramSpan, valueSpan);
         }
 
         /// <summary>
@@ -112,24 +147,10 @@ namespace TileDB.CSharp
             }
 
             using var ms_param = new MarshaledString(param);
-            sbyte* result;
+            ReadOnlySpan<byte> paramSpan = new(ms_param.Value, ms_param.Length);
+            ReadOnlySpan<byte> result = GetUnsafe(paramSpan);
 
-            var tiledb_error = new tiledb_error_t();
-            var p_tiledb_error = &tiledb_error;
-            int status;
-            using (var handle = _handle.Acquire())
-            {
-                status = Methods.tiledb_config_get(handle, ms_param, &result, &p_tiledb_error);
-            }
-            if (status != (int)Status.TILEDB_OK)
-            {
-                var err_message = GetLastError(p_tiledb_error, status);
-                Methods.tiledb_error_free(&p_tiledb_error);
-                throw new ErrorException("Config.get, caught exception:" + err_message);
-            }
-
-            Methods.tiledb_error_free(&p_tiledb_error);
-            return MarshaledStringOut.GetStringFromNullTerminated(result);
+            return MarshaledStringOut.GetString(result);
         }
 
         /// <summary>
@@ -146,9 +167,8 @@ namespace TileDB.CSharp
             }
 
             using var ms_param = new MarshaledString(param);
-            var tiledb_error = new tiledb_error_t();
 
-            var p_tiledb_error = &tiledb_error;
+            tiledb_error_t* p_tiledb_error;
             int status;
             using (var handle = _handle.Acquire())
             {
@@ -177,9 +197,8 @@ namespace TileDB.CSharp
             }
 
             using var ms_filename = new MarshaledString(filename);
-            var tiledb_error = new tiledb_error_t();
 
-            var p_tiledb_error = &tiledb_error;
+            tiledb_error_t* p_tiledb_error;
             int status;
             using (var handle = _handle.Acquire())
             {
@@ -208,9 +227,7 @@ namespace TileDB.CSharp
             }
 
             using var ms_filename = new MarshaledString(filename);
-            var tiledb_error = new tiledb_error_t();
-
-            var p_tiledb_error = &tiledb_error;
+            tiledb_error_t* p_tiledb_error;
             int status;
             using (var handle = _handle.Acquire())
             {
