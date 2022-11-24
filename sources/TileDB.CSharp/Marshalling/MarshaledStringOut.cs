@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using System.Text;
 using TileDB.CSharp;
 
@@ -27,13 +28,7 @@ namespace TileDB.Interop
         /// </summary>
         public static unsafe string GetStringFromNullTerminated(sbyte* ptr)
         {
-            if (ptr == null)
-            {
-                return string.Empty;
-            }
-
-            var span = new ReadOnlySpan<byte>(ptr, int.MaxValue);
-            span = span[0..span.IndexOf((byte)0)];
+            var span = MemoryMarshalCompat.CreateReadOnlySpanFromNullTerminated((byte*)ptr);
             return GetString(span);
         }
     }
