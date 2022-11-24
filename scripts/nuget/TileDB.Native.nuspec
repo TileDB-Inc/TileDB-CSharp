@@ -9,9 +9,7 @@
     <icon>logo.png</icon>
     <projectUrl>https://tiledb.com/products/tiledb-embedded/</projectUrl>
     <repository type="git" url="https://github.com/TileDB-Inc/TileDB.git" />
-    <description>The TileDB Embedded library. This is a metapackage that will route to the appropriate native package based on the runtime identifier.
-
-To do that you have to make an RID-specific build by setting the RuntimeIdentifier or the UseCurrentRuntimeIdentifier project properties, or by using the -r or -ucr .NET SDK command-line options.</description>
+    <description>The TileDB Embedded library. This is a metapackage that will route to the appropriate native package based on the runtime identifier.</description>
     <releaseNotes>https://github.com/TileDB-Inc/TileDB/releases</releaseNotes>
     <tags>tiledb</tags>
   </metadata>
