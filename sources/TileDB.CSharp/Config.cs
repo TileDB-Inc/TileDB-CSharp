@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using TileDB.CSharp.Marshalling.SafeHandles;
@@ -119,10 +119,8 @@ namespace TileDB.CSharp
         /// <exception cref="ErrorException"></exception>
         public void Set(string param, string value)
         {
-            if (string.IsNullOrEmpty(param) || string.IsNullOrEmpty(value))
-            {
-                throw new ArgumentException("Config.set, param or value is null or empty!");
-            }
+            ArgumentExceptionCompat.ThrowIfNullOrEmpty(param);
+            ArgumentExceptionCompat.ThrowIfNullOrEmpty(value);
 
             using var ms_param = new MarshaledString(param);
             using var ms_value = new MarshaledString(value);
@@ -141,10 +139,7 @@ namespace TileDB.CSharp
         /// <exception cref="ErrorException"></exception>
         public string Get(string param)
         {
-            if (string.IsNullOrEmpty(param))
-            {
-                throw new ArgumentException("Config.get, param or value is null or empty!");
-            }
+            ArgumentExceptionCompat.ThrowIfNullOrEmpty(param);
 
             using var ms_param = new MarshaledString(param);
             ReadOnlySpan<byte> paramSpan = new(ms_param.Value, ms_param.Length);
@@ -161,10 +156,7 @@ namespace TileDB.CSharp
         /// <exception cref="ErrorException"></exception>
         public void Unset(string param)
         {
-            if (string.IsNullOrEmpty(param))
-            {
-                throw new ArgumentException("Config.set, param is null or empty!");
-            }
+            ArgumentExceptionCompat.ThrowIfNullOrEmpty(param);
 
             using var ms_param = new MarshaledString(param);
 
@@ -191,10 +183,7 @@ namespace TileDB.CSharp
         /// <exception cref="ErrorException"></exception>
         public void LoadFromFile(string filename)
         {
-            if (string.IsNullOrEmpty(filename))
-            {
-                throw new ArgumentException("Config.load_from_file, filename is null or empty!");
-            }
+            ArgumentExceptionCompat.ThrowIfNullOrEmpty(filename);
 
             using var ms_filename = new MarshaledString(filename);
 
@@ -221,10 +210,7 @@ namespace TileDB.CSharp
         /// <exception cref="ErrorException"></exception>
         public void SaveToFile(string filename)
         {
-            if (string.IsNullOrEmpty(filename))
-            {
-                throw new ArgumentException("Config.save_to_file, filename is null or empty!");
-            }
+            ArgumentExceptionCompat.ThrowIfNullOrEmpty(filename);
 
             using var ms_filename = new MarshaledString(filename);
             tiledb_error_t* p_tiledb_error;
