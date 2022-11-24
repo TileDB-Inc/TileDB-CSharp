@@ -17,6 +17,8 @@
 
   <ItemGroup>
     <None Include="README.md" Pack="True" PackagePath="" />
+    <None Include="build/TileDB.CSharp.targets" Pack="True" PackagePath="build" />
+    <None Include="buildTransitive/TileDB.CSharp.targets" Pack="True" PackagePath="buildTransitive" />
     <PackageReference Include="$(TileDBNativePackageName)" />
   </ItemGroup>
 </Project>

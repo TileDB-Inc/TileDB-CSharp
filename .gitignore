@@ -44,8 +44,6 @@
 
 TileDB-CSharp.sln.DotSettings.user
 
-build
-
 TileDBConfig.cmake
 TileDbTargets*.cmake
 tiledb.pc

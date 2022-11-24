@@ -1,0 +1,7 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="WarnOnNonRidSpecificBuild"
+    Condition="$(TileDBSuppressPortableBuildWarning) != true AND '$(RuntimeIdentifier)' == '' AND ($(OutputType) == Exe or $(OutputType) == WinExe)"
+    AfterTargets="AfterBuild">
+    <Warning Text="The TileDB native library will be imported only when performing an RID-specific build. See the README of the TileDB.CSharp package for more information." />
+  </Target>
+</Project>

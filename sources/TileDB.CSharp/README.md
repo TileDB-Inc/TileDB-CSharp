@@ -8,7 +8,7 @@ After installing the package, see [the official documentation](https://docs.tile
 
 ### Resolving `DllNotFoundException`s
 
-For space reasons the TileDB Embedded native library is downloaded only on [RID](https://learn.microsoft.com/en-us/dotnet/core/rid-catalog)-specific builds. If you are getting `DllNotFoundException`s that the library `tiledb` is not found, you have to specify an RID. There are many ways to do it:
+To reduce the download size, the TileDB Embedded native library is downloaded only on [RID](https://learn.microsoft.com/en-us/dotnet/core/rid-catalog)-specific builds. If you are getting `DllNotFoundException`s that the library `tiledb` is not found, you have to specify an RID, and you will get a warning if you don't. There are many ways to do it:
 
 *
     __From the project file:__
@@ -17,12 +17,8 @@ For space reasons the TileDB Embedded native library is downloaded only on [RID]
 
     ```xml
     <PropertyGroup>
-        <!-- Use this if you are targeting only one RID. -->
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-        <!-- Use this if you are targeting multiple RIDs. -->
-        <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
-        <!-- Use this in to use an RID based on the machine that builds the project.
-        Useful in development. -->
+        <!-- Use this instead to use the RID of your build machine. -->
         <UseCurrentRuntimeIdentifier>true</UseCurrentRuntimeIdentifier>
     </PropertyGroup>
     ```
@@ -30,17 +26,17 @@ For space reasons the TileDB Embedded native library is downloaded only on [RID]
 *
     __From the .NET CLI:__
 
-    When building or publishing a project you can to specify the `-r <your_rid>` option to provide an RID, or the `--use-current-runtime true` option to use the RID of the building machine.
+    When building or publishing a project you can specify the `-r <your_rid>` option to provide an RID.
 
-> Consult the .NET documentation for more info.
+> Consult the .NET documentation for more information.
 
-The supported RIDs are:
+Native binaries are provided for the following RIDs, and all that derive from them such as `win10-x64` or `ubuntu-x64`:
 
 * `win-x64`
 * `linux-x64`
 * `osx-x64`
 * `osx-arm64`
 
-### Updating TileDB Embedded
+### Patching TileDB Embedded
 
-TileDB Embedded is distributed in a separate NuGet package from the C# interface, which means that you can use a newer version of it by updating the `TileDB.Native` package in your project.
+You can update to a newer patch version of TileDB Embedded by explicitly specifying a version of the [`TileDB.Native`](https://nuget.org/packages/TIleDB.Native) package in your project.
