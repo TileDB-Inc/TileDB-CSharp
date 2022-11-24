@@ -1,4 +1,7 @@
 using System;
+using System.Buffers.Text;
+using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text;
 using TileDB.CSharp.Marshalling.SafeHandles;
@@ -110,6 +113,125 @@ namespace TileDB.CSharp
             Methods.tiledb_error_free(&p_tiledb_error);
         }
 
+        internal bool GetBoolUnsafe(ReadOnlySpan<byte> param)
+        {
+            ReadOnlySpan<byte> value = GetUnsafe(param);
+
+            if (value.SequenceEqual("true"u8))
+            {
+                return true;
+            }
+
+            Debug.Assert(param.SequenceEqual("false"u8), "Invalid boolean value");
+            return false;
+        }
+
+        private void SetBoolUnsafe(ReadOnlySpan<byte> param, bool value) =>
+            SetUnsafe(param, value ? "true"u8 : "false"u8);
+
+        private uint GetUInt32Unsafe(ReadOnlySpan<byte> param)
+        {
+            ReadOnlySpan<byte> value = GetUnsafe(param);
+
+            bool success = Utf8Parser.TryParse(value, out uint result, out _);
+            Debug.Assert(success);
+            return result;
+        }
+
+        private void SetUInt32Unsafe(ReadOnlySpan<byte> param, uint value)
+        {
+            Span<byte> buffer = stackalloc byte[32];
+            Debug.Assert(Utf8Formatter.TryFormat(ulong.MaxValue, buffer, out _));
+            buffer.Clear();
+
+            bool success = Utf8Formatter.TryFormat(value, buffer, out int bytesWritten);
+            Debug.Assert(success);
+            buffer = buffer[..bytesWritten];
+            SetUnsafe(param, buffer);
+        }
+
+        private long GetInt64Unsafe(ReadOnlySpan<byte> param)
+        {
+            ReadOnlySpan<byte> value = GetUnsafe(param);
+
+            bool success = Utf8Parser.TryParse(value, out long result, out _);
+            Debug.Assert(success);
+            return result;
+        }
+
+        private void SetInt64Unsafe(ReadOnlySpan<byte> param, long value)
+        {
+            Span<byte> buffer = stackalloc byte[32];
+            Debug.Assert(Utf8Formatter.TryFormat(long.MaxValue, buffer, out _));
+            buffer.Clear();
+
+            bool success = Utf8Formatter.TryFormat(value, buffer, out int bytesWritten);
+            Debug.Assert(success);
+            buffer = buffer[..bytesWritten];
+            SetUnsafe(param, buffer);
+        }
+
+        private ulong GetUInt64Unsafe(ReadOnlySpan<byte> param)
+        {
+            ReadOnlySpan<byte> value = GetUnsafe(param);
+
+            bool success = Utf8Parser.TryParse(value, out ulong result, out _);
+            Debug.Assert(success);
+            return result;
+        }
+
+        private void SetUInt64Unsafe(ReadOnlySpan<byte> param, ulong value)
+        {
+            Span<byte> buffer = stackalloc byte[32];
+            Debug.Assert(Utf8Formatter.TryFormat(ulong.MaxValue, buffer, out _));
+            buffer.Clear();
+
+            bool success = Utf8Formatter.TryFormat(value, buffer, out int bytesWritten);
+            Debug.Assert(success);
+            buffer = buffer[..bytesWritten];
+            SetUnsafe(param, buffer);
+        }
+
+        private float GetSingleUnsafe(ReadOnlySpan<byte> param)
+        {
+            ReadOnlySpan<byte> value = GetUnsafe(param);
+
+            bool success = Utf8Parser.TryParse(value, out ulong result, out _);
+            Debug.Assert(success);
+            return result;
+        }
+
+        private void SetSingleUnsafe(ReadOnlySpan<byte> param, float value)
+        {
+            Span<byte> buffer = stackalloc byte[128];
+            buffer.Clear();
+
+            if (Utf8Formatter.TryFormat(value, buffer, out int bytesWritten))
+            {
+                buffer = buffer[..bytesWritten];
+            }
+            else
+            {
+                buffer = Encoding.ASCII.GetBytes(value.ToString(CultureInfo.InvariantCulture));
+            }
+            SetUnsafe(param, buffer);
+        }
+
+        private string GetStringUnsafe(ReadOnlySpan<byte> param)
+        {
+            ReadOnlySpan<byte> value = GetUnsafe(param);
+            return MarshaledStringOut.GetString(value);
+        }
+
+        private void SetStringUnsafe(ReadOnlySpan<byte> param, string value)
+        {
+            ArgumentExceptionCompat.ThrowIfNullOrEmpty(value);
+
+            using var ms_value = new MarshaledString(value);
+            ReadOnlySpan<byte> valueSpan = new(ms_value.Value, ms_value.Length);
+            SetUnsafe(param, valueSpan);
+        }
+
         /// <summary>
         /// Set parameter value.
         /// </summary>
@@ -123,11 +245,8 @@ namespace TileDB.CSharp
             ArgumentExceptionCompat.ThrowIfNullOrEmpty(value);
 
             using var ms_param = new MarshaledString(param);
-            using var ms_value = new MarshaledString(value);
             ReadOnlySpan<byte> paramSpan = new(ms_param.Value, ms_param.Length);
-            ReadOnlySpan<byte> valueSpan = new(ms_value.Value, ms_value.Length);
-
-            SetUnsafe(paramSpan, valueSpan);
+            SetStringUnsafe(paramSpan, value);
         }
 
         /// <summary>
