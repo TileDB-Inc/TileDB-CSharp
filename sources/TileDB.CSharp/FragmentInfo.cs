@@ -47,21 +47,6 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Loads the fragment info from an encrypted array.
-        /// </summary>
-        /// <param name="encryptionType">The encryption type to use.</param>
-        /// <param name="key">The encryption key to use.</param>
-        public void LoadWithKey(EncryptionType encryptionType, ReadOnlySpan<byte> key)
-        {
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            fixed (byte* keyPtr = key)
-            {
-                _ctx.handle_error(Methods.tiledb_fragment_info_load_with_key(ctxHandle, handle, (tiledb_encryption_type_t)encryptionType, keyPtr, (uint)key.Length));
-            }
-        }
-
-        /// <summary>
         /// Creates a <see cref="Config"/> object that contains this <see cref="FragmentInfo"/>'s configuration.
         /// </summary>
         public Config GetConfig()
