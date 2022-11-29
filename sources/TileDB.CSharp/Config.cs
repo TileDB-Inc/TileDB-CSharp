@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Buffers.Text;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
@@ -9,7 +10,7 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
-    public sealed unsafe class Config : IDisposable
+    public sealed unsafe partial class Config : IDisposable
     {
         private readonly ConfigHandle _handle;
         private bool _disposed;
@@ -72,14 +73,28 @@ namespace TileDB.CSharp
         // C# 11's u8 literals guarantee it, as well as the MarshaledString class.
         // Furthermore the returned span points to memory managed by the Core so it
         // must not be returned to user code.
-        private ReadOnlySpan<byte> GetUnsafe(ReadOnlySpan<byte> param)
+        private static ReadOnlySpan<byte> GetUnsafe(object configObj, ReadOnlySpan<byte> param)
         {
+            if (configObj is ConfigBag bag)
+            {
+                string key = MarshaledStringOut.GetString(param);
+                if (bag.TryGetValue(key, out byte[]? value))
+                {
+                    // Remove the null terminator from the value
+                    return value.AsSpan()[..^1];
+                }
+                return ReadOnlySpan<byte>.Empty;
+            }
+
+            Debug.Assert(configObj is Config);
+            Config config = (Config)configObj;
+
             byte* result;
             tiledb_error_t* p_tiledb_error;
             int status;
             fixed (byte* paramPtr = param)
             {
-                using var handle = _handle.Acquire();
+                using var handle = config._handle.Acquire();
                 status = Methods.tiledb_config_get(handle, (sbyte*)paramPtr, (sbyte**)&result, &p_tiledb_error);
             }
             if (status != (int)Status.TILEDB_OK)
@@ -95,13 +110,28 @@ namespace TileDB.CSharp
 
         // This function is unsafe because the input spans must be null-terminated.
         // C# 11's u8 literals guarantee it, as well as the MarshaledString class.
-        private void SetUnsafe(ReadOnlySpan<byte> param, ReadOnlySpan<byte> value)
+        private static void SetUnsafe(object configObj, ReadOnlySpan<byte> param, ReadOnlySpan<byte> value)
         {
+            if (configObj is ConfigBag bag)
+            {
+                // We don't have a Config object to directly set the value,
+                // so we add it to the bag, and set a null terminator.
+                byte[] valueArray = new byte[value.Length + 1];
+                value.CopyTo(valueArray);
+                bag[MarshaledStringOut.GetString(param)] = valueArray;
+            }
+
+            Debug.Assert(configObj is Config);
+            Config config = (Config)configObj;
+
             tiledb_error_t* p_tiledb_error;
             int status;
             fixed (byte* paramPtr = param, valuePtr = value)
             {
-                using var handle = _handle.Acquire();
+                using var handle = config._handle.Acquire();
+                // Assert that param and value are null-terminated.
+                Debug.Assert(*(paramPtr + param.Length) == 0);
+                Debug.Assert(*(valuePtr + value.Length) == 0);
                 status = Methods.tiledb_config_set(handle, (sbyte*)paramPtr, (sbyte*)valuePtr, &p_tiledb_error);
             }
             if (status != (int)Status.TILEDB_OK)
@@ -113,9 +143,9 @@ namespace TileDB.CSharp
             Methods.tiledb_error_free(&p_tiledb_error);
         }
 
-        internal bool GetBoolUnsafe(ReadOnlySpan<byte> param)
+        internal static bool GetBoolUnsafe(object configObj, ReadOnlySpan<byte> param)
         {
-            ReadOnlySpan<byte> value = GetUnsafe(param);
+            ReadOnlySpan<byte> value = GetUnsafe(configObj, param);
 
             if (value.SequenceEqual("true"u8))
             {
@@ -126,19 +156,19 @@ namespace TileDB.CSharp
             return false;
         }
 
-        private void SetBoolUnsafe(ReadOnlySpan<byte> param, bool value) =>
-            SetUnsafe(param, value ? "true"u8 : "false"u8);
+        private static void SetBoolUnsafe(object configObj, ReadOnlySpan<byte> param, bool value) =>
+            SetUnsafe(configObj, param, value ? "true"u8 : "false"u8);
 
-        private uint GetUInt32Unsafe(ReadOnlySpan<byte> param)
+        private static uint GetUInt32Unsafe(object configObj, ReadOnlySpan<byte> param)
         {
-            ReadOnlySpan<byte> value = GetUnsafe(param);
+            ReadOnlySpan<byte> value = GetUnsafe(configObj, param);
 
             bool success = Utf8Parser.TryParse(value, out uint result, out _);
             Debug.Assert(success);
             return result;
         }
 
-        private void SetUInt32Unsafe(ReadOnlySpan<byte> param, uint value)
+        private static void SetUInt32Unsafe(object configObj, ReadOnlySpan<byte> param, uint value)
         {
             Span<byte> buffer = stackalloc byte[32];
             Debug.Assert(Utf8Formatter.TryFormat(ulong.MaxValue, buffer, out _));
@@ -147,19 +177,19 @@ namespace TileDB.CSharp
             bool success = Utf8Formatter.TryFormat(value, buffer, out int bytesWritten);
             Debug.Assert(success);
             buffer = buffer[..bytesWritten];
-            SetUnsafe(param, buffer);
+            SetUnsafe(configObj, param, buffer);
         }
 
-        private long GetInt64Unsafe(ReadOnlySpan<byte> param)
+        private static long GetInt64Unsafe(object configObj, ReadOnlySpan<byte> param)
         {
-            ReadOnlySpan<byte> value = GetUnsafe(param);
+            ReadOnlySpan<byte> value = GetUnsafe(configObj, param);
 
             bool success = Utf8Parser.TryParse(value, out long result, out _);
             Debug.Assert(success);
             return result;
         }
 
-        private void SetInt64Unsafe(ReadOnlySpan<byte> param, long value)
+        private static void SetInt64Unsafe(object configObj, ReadOnlySpan<byte> param, long value)
         {
             Span<byte> buffer = stackalloc byte[32];
             Debug.Assert(Utf8Formatter.TryFormat(long.MaxValue, buffer, out _));
@@ -168,19 +198,19 @@ namespace TileDB.CSharp
             bool success = Utf8Formatter.TryFormat(value, buffer, out int bytesWritten);
             Debug.Assert(success);
             buffer = buffer[..bytesWritten];
-            SetUnsafe(param, buffer);
+            SetUnsafe(configObj, param, buffer);
         }
 
-        private ulong GetUInt64Unsafe(ReadOnlySpan<byte> param)
+        private static ulong GetUInt64Unsafe(object configObj, ReadOnlySpan<byte> param)
         {
-            ReadOnlySpan<byte> value = GetUnsafe(param);
+            ReadOnlySpan<byte> value = GetUnsafe(configObj, param);
 
             bool success = Utf8Parser.TryParse(value, out ulong result, out _);
             Debug.Assert(success);
             return result;
         }
 
-        private void SetUInt64Unsafe(ReadOnlySpan<byte> param, ulong value)
+        private static void SetUInt64Unsafe(object configObj, ReadOnlySpan<byte> param, ulong value)
         {
             Span<byte> buffer = stackalloc byte[32];
             Debug.Assert(Utf8Formatter.TryFormat(ulong.MaxValue, buffer, out _));
@@ -189,19 +219,19 @@ namespace TileDB.CSharp
             bool success = Utf8Formatter.TryFormat(value, buffer, out int bytesWritten);
             Debug.Assert(success);
             buffer = buffer[..bytesWritten];
-            SetUnsafe(param, buffer);
+            SetUnsafe(configObj, param, buffer);
         }
 
-        private float GetSingleUnsafe(ReadOnlySpan<byte> param)
+        private static float GetSingleUnsafe(object configObj, ReadOnlySpan<byte> param)
         {
-            ReadOnlySpan<byte> value = GetUnsafe(param);
+            ReadOnlySpan<byte> value = GetUnsafe(configObj, param);
 
             bool success = Utf8Parser.TryParse(value, out ulong result, out _);
             Debug.Assert(success);
             return result;
         }
 
-        private void SetSingleUnsafe(ReadOnlySpan<byte> param, float value)
+        private static void SetSingleUnsafe(object configObj, ReadOnlySpan<byte> param, float value)
         {
             Span<byte> buffer = stackalloc byte[128];
             buffer.Clear();
@@ -214,22 +244,22 @@ namespace TileDB.CSharp
             {
                 buffer = Encoding.ASCII.GetBytes(value.ToString(CultureInfo.InvariantCulture));
             }
-            SetUnsafe(param, buffer);
+            SetUnsafe(configObj, param, buffer);
         }
 
-        private string GetStringUnsafe(ReadOnlySpan<byte> param)
+        private static string GetStringUnsafe(object configObj, ReadOnlySpan<byte> param)
         {
-            ReadOnlySpan<byte> value = GetUnsafe(param);
+            ReadOnlySpan<byte> value = GetUnsafe(configObj, param);
             return MarshaledStringOut.GetString(value);
         }
 
-        private void SetStringUnsafe(ReadOnlySpan<byte> param, string value)
+        private static void SetStringUnsafe(object configObj, ReadOnlySpan<byte> param, string value)
         {
             ArgumentExceptionCompat.ThrowIfNullOrEmpty(value);
 
             using var ms_value = new MarshaledString(value);
             ReadOnlySpan<byte> valueSpan = new(ms_value.Value, ms_value.Length);
-            SetUnsafe(param, valueSpan);
+            SetUnsafe(configObj, param, valueSpan);
         }
 
         /// <summary>
@@ -237,7 +267,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="param"></param>
         /// <param name="value"></param>
-        /// <exception cref="System.ArgumentException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ErrorException"></exception>
         public void Set(string param, string value)
         {
@@ -246,7 +276,7 @@ namespace TileDB.CSharp
 
             using var ms_param = new MarshaledString(param);
             ReadOnlySpan<byte> paramSpan = new(ms_param.Value, ms_param.Length);
-            SetStringUnsafe(paramSpan, value);
+            SetStringUnsafe(this, paramSpan, value);
         }
 
         /// <summary>
@@ -254,7 +284,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
-        /// <exception cref="System.ArgumentException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ErrorException"></exception>
         public string Get(string param)
         {
@@ -262,9 +292,20 @@ namespace TileDB.CSharp
 
             using var ms_param = new MarshaledString(param);
             ReadOnlySpan<byte> paramSpan = new(ms_param.Value, ms_param.Length);
-            ReadOnlySpan<byte> result = GetUnsafe(paramSpan);
+            ReadOnlySpan<byte> result = GetUnsafe(this, paramSpan);
 
             return MarshaledStringOut.GetString(result);
+        }
+
+        private void ImportFromBag(ConfigBag bag)
+        {
+            foreach (KeyValuePair<string, byte[]> kvp in bag)
+            {
+                Debug.Assert(kvp.Value[^1] == 0);
+                using var ms_param = new MarshaledString(kvp.Key);
+                ReadOnlySpan<byte> paramSpan = new(ms_param.Value, ms_param.Length);
+                SetUnsafe(this, paramSpan, kvp.Value.AsSpan()[..^1]);
+            }
         }
 
         /// <summary>
@@ -369,6 +410,27 @@ namespace TileDB.CSharp
             byte equal;
             Methods.tiledb_config_compare(handle, otherHandle, &equal);
             return equal == 1;
+        }
+
+        /// <summary>
+        /// Contains string-byte array pairs of configuration options.
+        /// </summary>
+        /// <remarks>
+        /// This class' purpose is to enable easy initialization of <see cref="Config"/>
+        /// objects. In the following code snippet:
+        /// <code>
+        /// Config config = new Config()
+        /// {
+        ///     Rest = new Config.RestConfig() { UserName = "user", Password = "pass" }
+        /// }
+        /// </code>
+        /// when we create the <see cref="RestConfig"/> it cannot see the <see cref="Config"/>
+        /// so it stores the values in a dictionary that gets assigned when we set the
+        /// <see cref="Rest"/> property.
+        /// </remarks>
+        private sealed class ConfigBag : Dictionary<string, byte[]>
+        {
+            public ConfigBag() : base(StringComparer.Ordinal) { }
         }
     }
 }
