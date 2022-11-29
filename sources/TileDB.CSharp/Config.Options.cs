@@ -12,7 +12,7 @@ namespace TileDB.CSharp
         /// </summary>
         public string EnvironmentVariablePrefix
         {
-            get => GetStringUnsafe(this, EnvironmentVariablePrefixName);
+            get => GetStringUnsafe(this, EnvironmentVariablePrefixName, "TILEDB_");
             set => SetStringUnsafe(this, EnvironmentVariablePrefixName, value);
         }
 
@@ -24,7 +24,7 @@ namespace TileDB.CSharp
         /// </summary>
         public uint LoggingLevel
         {
-            get => GetUInt32Unsafe(this, LoggingLevelName);
+            get => GetUInt32Unsafe(this, LoggingLevelName, 0);
             set => SetUInt32Unsafe(this, LoggingLevelName, value);
         }
 

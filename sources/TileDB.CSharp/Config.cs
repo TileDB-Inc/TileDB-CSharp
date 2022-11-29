@@ -143,9 +143,16 @@ namespace TileDB.CSharp
             Methods.tiledb_error_free(&p_tiledb_error);
         }
 
-        internal static bool GetBoolUnsafe(object configObj, ReadOnlySpan<byte> param)
+        internal static bool GetBoolUnsafe(object configObj, ReadOnlySpan<byte> param, bool defaultValue)
         {
             ReadOnlySpan<byte> value = GetUnsafe(configObj, param);
+
+            // GetUnsafe might return an empty value if the option is not set.
+            // The Core sets default values but ConfigBag doesn't, so we will specify a default value ourselves.
+            if (value.IsEmpty)
+            {
+                return defaultValue;
+            }
 
             if (value.SequenceEqual("true"u8))
             {
@@ -159,9 +166,14 @@ namespace TileDB.CSharp
         private static void SetBoolUnsafe(object configObj, ReadOnlySpan<byte> param, bool value) =>
             SetUnsafe(configObj, param, value ? "true"u8 : "false"u8);
 
-        private static uint GetUInt32Unsafe(object configObj, ReadOnlySpan<byte> param)
+        private static uint GetUInt32Unsafe(object configObj, ReadOnlySpan<byte> param, uint defaultValue)
         {
             ReadOnlySpan<byte> value = GetUnsafe(configObj, param);
+
+            if (value.IsEmpty)
+            {
+                return defaultValue;
+            }
 
             bool success = Utf8Parser.TryParse(value, out uint result, out _);
             Debug.Assert(success);
@@ -180,9 +192,14 @@ namespace TileDB.CSharp
             SetUnsafe(configObj, param, buffer);
         }
 
-        private static long GetInt64Unsafe(object configObj, ReadOnlySpan<byte> param)
+        private static long GetInt64Unsafe(object configObj, ReadOnlySpan<byte> param, long defaultValue)
         {
             ReadOnlySpan<byte> value = GetUnsafe(configObj, param);
+
+            if (value.IsEmpty)
+            {
+                return defaultValue;
+            }
 
             bool success = Utf8Parser.TryParse(value, out long result, out _);
             Debug.Assert(success);
@@ -201,9 +218,14 @@ namespace TileDB.CSharp
             SetUnsafe(configObj, param, buffer);
         }
 
-        private static ulong GetUInt64Unsafe(object configObj, ReadOnlySpan<byte> param)
+        private static ulong GetUInt64Unsafe(object configObj, ReadOnlySpan<byte> param, ulong defaultValue)
         {
             ReadOnlySpan<byte> value = GetUnsafe(configObj, param);
+
+            if (value.IsEmpty)
+            {
+                return defaultValue;
+            }
 
             bool success = Utf8Parser.TryParse(value, out ulong result, out _);
             Debug.Assert(success);
@@ -222,9 +244,14 @@ namespace TileDB.CSharp
             SetUnsafe(configObj, param, buffer);
         }
 
-        private static float GetSingleUnsafe(object configObj, ReadOnlySpan<byte> param)
+        private static float GetSingleUnsafe(object configObj, ReadOnlySpan<byte> param, float defaultValue)
         {
             ReadOnlySpan<byte> value = GetUnsafe(configObj, param);
+
+            if (value.IsEmpty)
+            {
+                return defaultValue;
+            }
 
             bool success = Utf8Parser.TryParse(value, out ulong result, out _);
             Debug.Assert(success);
@@ -247,9 +274,15 @@ namespace TileDB.CSharp
             SetUnsafe(configObj, param, buffer);
         }
 
-        private static string GetStringUnsafe(object configObj, ReadOnlySpan<byte> param)
+        private static string GetStringUnsafe(object configObj, ReadOnlySpan<byte> param, string defaultValue)
         {
             ReadOnlySpan<byte> value = GetUnsafe(configObj, param);
+
+            if (value.IsEmpty)
+            {
+                return defaultValue;
+            }
+
             return MarshaledStringOut.GetString(value);
         }
 
