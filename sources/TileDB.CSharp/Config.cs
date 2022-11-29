@@ -432,18 +432,29 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Compare with other.
+        /// Compares this <see cref="Config"/> with another for content equality.
         /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public bool Cmp(ref Config other)
+        /// <param name="config">The other <see cref="Config"/>.</param>
+        /// <returns>Whether the two <see cref="Config"/> objects have the exact same options.</returns>
+        public bool ContentEquals(Config config)
         {
+            if (config is null)
+            {
+                return false;
+            }
+
             using var handle = Handle.Acquire();
-            using var otherHandle = other.Handle.Acquire();
+            using var otherHandle = config.Handle.Acquire();
             byte equal;
             Methods.tiledb_config_compare(handle, otherHandle, &equal);
-            return equal == 1;
+            return equal != 0;
         }
+
+        /// <summary>
+        /// Deprecated. Use <see cref="ContentEquals"/> instead.
+        /// </summary>
+        [Obsolete("Use ContentEquals instead")]
+        public bool Cmp(ref Config other) => ContentEquals(other);
 
         /// <summary>
         /// Contains string-byte array pairs of configuration options.

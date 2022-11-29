@@ -66,7 +66,7 @@ namespace TileDB.CSharp.Test
             var val2 = config.Get("sm.tile_cache_size");
             Assert.AreEqual("10", val2);
 
-            var cmp2 = config.Cmp(ref config2);
+            var cmp2 = config.ContentEquals(config2);
             Assert.IsTrue(cmp2);
 
             var config3 = new Config();
@@ -74,7 +74,7 @@ namespace TileDB.CSharp.Test
             var val3 = config3.Get("sm.tile_cache_size");
             Assert.AreEqual("11", val3);
 
-            var cmp3 = config.Cmp(ref config3);
+            var cmp3 = config.ContentEquals(config3);
             Assert.IsFalse(cmp3);
         }
 
