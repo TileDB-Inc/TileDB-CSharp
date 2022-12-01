@@ -170,7 +170,7 @@ namespace TileDB.CSharp
     public enum FileSystemType : uint
     {
         /// <summary>
-        /// HDFS file system.
+        /// HDFS (Hadoop File System) file system.
         /// </summary>
         Hdfs = tiledb_filesystem_t.TILEDB_HDFS,
         /// <summary>
@@ -184,21 +184,21 @@ namespace TileDB.CSharp
         /// <summary>
         /// Google Cloud Storage file system.
         /// </summary>
-        Gcs = tiledb_filesystem_t.TILEDB_GCS,
+        GoogleCloudStorage = tiledb_filesystem_t.TILEDB_GCS,
         /// <summary>
         /// In-memory file system.
         /// </summary>
-        Memfs = tiledb_filesystem_t.TILEDB_MEMFS,
+        InMemory = tiledb_filesystem_t.TILEDB_MEMFS,
         [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Hdfs instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_HDFS = Hdfs,
         [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use S3 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_S3 = S3,
         [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Azure instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_AZURE = Azure,
-        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Gcs instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
-        TILEDB_GCS = Gcs,
-        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Memfs instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
-        TILEDB_MEMFS = Memfs
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use GoogleCloudStorage instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
+        TILEDB_GCS = GoogleCloudStorage,
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use InMemory instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
+        TILEDB_MEMFS = InMemory
     }
 
     /// <summary>
