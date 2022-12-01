@@ -44,8 +44,6 @@
 
 TileDB-CSharp.sln.DotSettings.user
 
-build
-
 TileDBConfig.cmake
 TileDbTargets*.cmake
 tiledb.pc
@@ -54,3 +52,7 @@ tiledb.pc
 
 .DS_Store
 include
+scripts/nuget/temp
+*.binlog
+*.nupkg
+packages

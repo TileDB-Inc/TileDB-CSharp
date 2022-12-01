@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>$idPrefix$TileDB.Native.runtime.$rid$</id>
+    <version>$version$</version>
+    <authors>TileDB Inc</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <icon>logo.png</icon>
+    <projectUrl>https://tiledb.com/products/tiledb-embedded/</projectUrl>
+    <repository type="git" url="https://github.com/TileDB-Inc/TileDB.git" />
+    <description>Native binaries of TileDB Embedded for $rid$.</description>
+    <releaseNotes>https://github.com/TileDB-Inc/TileDB/releases</releaseNotes>
+    <tags>tiledb</tags>
+  </metadata>
+  <files>
+    <file src="../../art/logo.png" target=""/>
+    <file src="$nativelib$" target="runtimes/$rid$/native"/>
+  </files>
+</package>

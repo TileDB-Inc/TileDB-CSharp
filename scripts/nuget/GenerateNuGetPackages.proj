@@ -1,0 +1,118 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TempDir>./temp</TempDir>
+    <OutDir>./packages</OutDir>
+    <RuntimeJson>$(TempDir)/runtime.json</RuntimeJson>
+    <MetapackageProject>./TileDB.Native.proj</MetapackageProject>
+    <NativePackageTemplateProject>./TileDB.Native.runtime.template.proj</NativePackageTemplateProject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(DevelopmentBuild) == true">
+    <Version>0.0.0-local</Version>
+    <Version Condition="'$(VersionTag)' != ''">$(Version)+$(VersionTag)</Version>
+    <!-- Development packages have a different ID to avoid publishing them by mistake
+    and to play well with package source mapping. -->
+    <PackageIdPrefix>Local.</PackageIdPrefix>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <NativePlatform ArchiveExtension="tar.gz" />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <NativePlatform Include="linux-x86_64" RuntimeId="linux-x64" LibraryPath="lib/libtiledb.so" />
+    <NativePlatform Include="macos-x86_64" RuntimeId="osx-x64" LibraryPath="lib/libtiledb.dylib" />
+    <NativePlatform Include="macos-arm64" RuntimeId="osx-arm64" LibraryPath="lib/libtiledb.dylib" />
+    <NativePlatform Include="windows-x86_64" RuntimeId="win-x64" LibraryPath="bin/tiledb.dll" ArchiveExtension="zip" />
+  </ItemGroup>
+
+  <!-- In nightly builds we build the native binaries ourselves instead of downloading them,
+  so if a platform is missing we can skip it (for example macos-arm64 until GitHub Actions supports it). -->
+  <Target Name="SkipNonExistentDownloads"
+    BeforeTargets="PackNativePackages"
+    Condition="$(DevelopmentBuild) == true">
+    <ItemGroup>
+      <NativePlatform Remove="%(NativePlatform.Identity)" Condition="!Exists('$(TempDir)/%(NativePlatform.Identity)/%(NativePlatform.LibraryPath)')" />
+    </ItemGroup>
+
+    <Error
+      Condition="'@(NativePlatform)' == ''"
+      Text="Cannot find native binaries for any platform." />
+  </Target>
+
+  <Target Name="DownloadReleaseArtifacts"
+    Outputs="$(TempDir)/%(NativePlatform.Identity)/%(NativePlatform.LibraryPath)"
+    Condition="$(DevelopmentBuild) != true">
+    <Error
+      Condition="'$(Version)' == '' AND '$(VersionTag)' == ''"
+      Text="Version and VersionTag must be specified." />
+
+    <PropertyGroup>
+      <DownloadUrl>https://github.com/TileDB-Inc/TileDB/releases/download/$(Version)/TileDB-%(NativePlatform.Identity)-$(Version)-$(VersionTag).%(NativePlatform.ArchiveExtension)</DownloadUrl>
+      <ExtractDir>$(TempDir)/%(NativePlatform.Identity)</ExtractDir>
+    </PropertyGroup>
+    <DownloadFile
+      SourceUrl="$(DownloadUrl)"
+      DestinationFolder="$(TempDir)">
+      <Output TaskParameter="DownloadedFile" ItemName="DownloadedFile" />
+    </DownloadFile>
+    <MakeDir Directories="$(ExtractDir)" />
+    <Unzip
+      Condition="'%(NativePlatform.ArchiveExtension)' == 'zip'"
+      SourceFiles="@(DownloadedFile)"
+      DestinationFolder="$(ExtractDir)" />
+    <Exec
+      Condition="'%(NativePlatform.ArchiveExtension)' == 'tar.gz'"
+      Command="tar -xf @(DownloadedFile) -C $(ExtractDir)" />
+  </Target>
+
+  <Target Name="PackNativePackages"
+    DependsOnTargets="DownloadReleaseArtifacts"
+    Inputs="@(NativePlatform->'$(TempDir)/%(Identity)/%(LibraryPath)')"
+    Outputs="@(NativePlatform->'$(OutDir)/TileDB.Native.runtime.%(RuntimeId).$(Version).nupkg')">
+    <ItemGroup>
+      <ProjectsToBuild Include="$(NativePackageTemplateProject)"
+        AdditionalProperties="RuntimeId=%(NativePlatform.RuntimeId);NativeLibraryPath=$(TempDir)/%(NativePlatform.Identity)/%(NativePlatform.LibraryPath)" />
+    </ItemGroup>
+
+    <MSBuild
+      Projects="@(ProjectsToBuild)"
+      BuildInParallel="true"
+      Targets="Pack"
+      Properties="PackageIdPrefix=$(PackageIdPrefix);PackageOutputPath=$(OutDir);Version=$(Version)" />
+  </Target>
+
+  <Target Name="WriteRuntimeJson">
+    <PropertyGroup>
+      <RuntimeJsonPayload>{&quot;runtimes&quot;: {@(NativePlatform-> '&quot;%(RuntimeId)&quot;:{&quot;$(PackageIdPrefix)TileDB.Native&quot;:{&quot;$(PackageIdPrefix)TileDB.Native.runtime.%(RuntimeId)&quot;:&quot;$(Version)&quot;}}', ',')}}</RuntimeJsonPayload>
+    </PropertyGroup>
+    <WriteLinesToFile
+      File="$(RuntimeJson)"
+      Lines="$(RuntimeJsonPayload)"
+      Overwrite="true"
+      WriteOnlyWhenDifferent="true" />
+  </Target>
+
+  <Target Name="PackMetapackage"
+    DependsOnTargets="WriteRuntimeJson"
+    Inputs="$(RuntimeJson);$(MetapackageProject)"
+    Outputs="$(OutDir)/TileDB.Native.$(Version).nupkg">
+    <MSBuild
+      Projects="$(MetapackageProject)"
+      Targets="Pack"
+      Properties="PackageIdPrefix=$(PackageIdPrefix);PackageOutputPath=$(OutDir);Version=$(Version)" />
+  </Target>
+
+  <Target Name="Pack"
+    DependsOnTargets="PackNativePackages;PackMetapackage" />
+
+  <Target Name="Restore">
+    <MSBuild
+      Projects="$(MetapackageProject);$(NativePackageProject)"
+      BuildInParallel="true"
+      Targets="Restore" />
+  </Target>
+
+  <Target Name="Clean">
+    <RemoveDir Directories="$(TempDir);$(OutDir)" />
+  </Target>
+</Project>

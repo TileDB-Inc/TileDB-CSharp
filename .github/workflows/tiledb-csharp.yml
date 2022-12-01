@@ -2,7 +2,6 @@ name: TileDB-CSharp
 
 on:
   push:
-    tags: [ '*' ]
     branches: [ main ]
   pull_request:
     branches: [ main ]
@@ -11,6 +10,7 @@ on:
 jobs:
   Run-Tests:
     strategy:
+      fail-fast: false
       matrix:
         # Will be checking following versions
         dotnet: ['net5.0', 'net6.0']
@@ -20,11 +20,6 @@ jobs:
     steps:
       # Checks out repository
       - uses: actions/checkout@v3
-
-      # Install tiledb
-      - name: Install tiledb
-        shell: bash
-        run: ./.github/scripts/install_tiledb.sh
 
       - name: Remove existing .NET versions
         shell: bash
@@ -40,7 +35,7 @@ jobs:
       # DotNet build
       - name: Dotnet build for TileDB.CSharp
         run: |
-          dotnet build /p:Platform=x64 -c Release sources/TileDB.CSharp
+          dotnet build -c Release sources/TileDB.CSharp
 
       # DotNet test
       - name: Test TileDB.CSharp
@@ -51,96 +46,3 @@ jobs:
         shell: bash
         run: |
           find examples/ -name *.csproj | xargs -I{} dotnet run --project {} -f ${{ matrix.dotnet }}
-
-  Stage-Release-Candidate:
-    needs: Run-Tests
-    runs-on: ubuntu-latest
-    steps:
-      # Checks out repository
-      - uses: actions/checkout@v3
-
-      - name: Set up .NET SDK from global.json
-        uses: actions/setup-dotnet@v3
-
-      - name: Display dotnet versions
-        run: dotnet --info
-
-      # Download tiledb
-      - name: Download tiledb
-        run: ./.github/scripts/download_tiledb.sh
-
-      # DotNet build
-      - name: Dotnet build for TileDB.CSharp
-        run: |
-          dotnet build /p:Platform=x64 -c Release sources/TileDB.CSharp
-
-      # DotNet pack
-      - name: Dotnet pack for TileDB.CSharp
-        run: |
-          dotnet pack ./sources/TileDB.CSharp/TileDB.CSharp.csproj -p:Version=0.0.0-local -c Release
-
-      - name: Archive nuget artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: TileDB NuGet Package
-          path: sources/TileDB.CSharp/lib/TileDB.CSharp.*.nupkg
-
-  Test-NuGet-Release:
-    needs: Stage-Release-Candidate
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        dotnet: ['net5.0', 'net6.0']
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Checkout TileDB-CSharp repository
-        uses: actions/checkout@v3
-
-      - name: Download TileDB.CSharp NuGet artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: TileDB NuGet Package
-          path: packages
-
-      # GitHub runners come with several versions of .NET preinstalled; Remove them to target version
-      - name: Remove existing .NET versions
-        shell: bash
-        run: |
-          rm -rf $DOTNET_ROOT
-
-      - name: Set up .NET SDK from global.json
-        uses: actions/setup-dotnet@v3
-
-      - name: Display dotnet versions
-        run: dotnet --info
-
-      - name: Setup NuGet
-        uses: nuget/setup-nuget@v1
-
-      # Run tests using NuGet release candidate
-      - name: Test TileDB.CSharp
-        run: |
-          dotnet test -c Release tests/TileDB.CSharp.Test.NuGet -f ${{ matrix.dotnet }}
-
-  Release:
-    # Only run this job if a tag was provided
-    if: startsWith(github.ref, 'refs/tags/')
-    needs: Test-NuGet-Release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/download-artifact@v3
-        with:
-          name: TileDB NuGet Package
-
-      - name: Create Release
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          files: ./*.nupkg
-          tag_name: ${{ github.ref_name }}
-          name: ${{ github.ref_name }}
-          body: ${{ steps.github_release.outputs.changelog }}
-          draft: false
-          prerelease: false

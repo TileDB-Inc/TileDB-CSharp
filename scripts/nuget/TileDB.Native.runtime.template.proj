@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <NoBuild>true</NoBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <SkipResolvePackageAssets>true</SkipResolvePackageAssets>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <NuspecFile>TileDB.Native.runtime.template.nuspec</NuspecFile>
+    <NuspecProperties>idPrefix=$(PackageIdPrefix);rid=$(RuntimeId);version=$(Version);nativelib=$(NativeLibraryPath)</NuspecProperties>
+  </PropertyGroup>
+</Project>

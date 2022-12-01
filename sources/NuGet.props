@@ -1,0 +1,12 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Authors>TileDB Inc</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageProjectUrl>https://tiledb.com/products/tiledb-embedded/</PackageProjectUrl>
+    <PackageTags>tiledb</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)/../art/logo.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+</Project>

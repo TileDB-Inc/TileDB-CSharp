@@ -5,6 +5,7 @@
     <OutputType>Exe</OutputType>
     <RollForward>Major</RollForward>
     <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
+    <UseCurrentRuntimeIdentifier>true</UseCurrentRuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
