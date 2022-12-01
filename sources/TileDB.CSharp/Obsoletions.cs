@@ -11,5 +11,8 @@ namespace TileDB.CSharp
 
         public const string ObsoleteDataTypeMessage = "This data type is obsolete.";
         public const string ObsoleteDataTypeDiagId = "TILEDB0002";
+
+        public const string TileDBInteropMessage = "Members of the TileDB.Interop namespace should not be used by user code will become internal in a future version.";
+        public const string TileDBInteropDiagId = "TILEDB0003";
     }
 }

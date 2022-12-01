@@ -58,3 +58,17 @@ Some members of the `DataType` enum are deprecated and should not be used. This 
 |`StringUcs4`|`StringUtf32`|UTF-32 is a more established synonym of UCS-4.|
 |`Char`|`Byte` or `StringAscii`|The meaning of `Char` is ambiguous.|
 |`TILEDB_ANY`|_a more specific type, depending on the situation_||
+
+## <span id="TILEDB0003">`TILEDB0003` - Members of the `TileDB.Interop` namespace will become internal in a future version and should not be used by user code.</span>
+
+To reduce the library's public API surface and improve its ability to evolve, the low-level interop APIs in the `TileDB.Interop` namespace will become internal in a future release. In version 5.3.0 they were marked as obsolete to warn any 3rd-party users of them.
+
+### Version introduced
+
+5.3.0
+
+### Recommended action
+
+Use the high-level APIs in the `TileDB.CSharp` namespace; they are easier and safer to use.
+
+> The eventual goal is to expose all features of TileDB in a high-level API. Until that happens, please contact us if you need to use a particular feature to help us prioritize.
