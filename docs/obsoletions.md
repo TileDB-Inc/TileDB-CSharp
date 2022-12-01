@@ -4,7 +4,11 @@
 
 Prior to version 5.3.0, the library's various enum values had names identical with the C API, meaning that they were in all-caps and started with `TILEDB_`.
 
-Version 5.3.0 introduced new values with shorter names that comply with .NET's naming guidelines. The old names were obsoleted and hidden from IntelliSense, and future enum values will not be available in the old naming scheme. Switching to the new names is as simple as a find-replace operation. The obsoletion messages will point you to the correct replacement.
+Version 5.3.0 introduced new values with shorter names that comply with .NET's naming guidelines. The old names were obsoleted and hidden from IntelliSense, and future enum values will not be available in the old naming scheme.
+
+### Recommended action
+
+Switching to the new names is as simple as a find-replace operation. The obsoletion messages will point you to the correct replacement.
 
 > Some already obsolete enum values (like `DataType.TILEDB_ANY`) did not receive new names. Users are strongly encouraged to move away from them.
 
@@ -50,7 +54,11 @@ using (Array array_write = new Array(Context.GetDefault(), "my_array"))
 
 ## <span id="TILEDB0002">`TILEDB0002` - Data type is obsolete.</span>
 
-Some members of the `DataType` enum are deprecated and should not be used. This table lists them, along with recommended replacements:
+In version 5.3.0 some members of the `DataType` enum became obsolete and should not be used.
+
+### Recommended action
+
+The following table lists the obsolete types, along with recommended replacements:
 
 |Obsolete type|Replacement|Reason|
 |-------------|-----------|------|
