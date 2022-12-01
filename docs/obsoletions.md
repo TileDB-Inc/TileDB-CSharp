@@ -47,3 +47,14 @@ using (Array array_write = new Array(Context.GetDefault(), "my_array"))
     array_write.Close();
 }
 ```
+
+## <span id="TILEDB0002">`TILEDB0002` - Data type is obsolete.</span>
+
+Some members of the `DataType` enum are deprecated and should not be used. This table lists them, along with recommended replacements:
+
+|Obsolete type|Replacement|Reason|
+|-------------|-----------|------|
+|`StringUcs2`|`StringUtf16`|UCS-2 does not support characters outside the Basic Multilingual Plane.|
+|`StringUcs4`|`StringUtf32`|UTF-32 is a more established synonym of UCS-4.|
+|`Char`|`Byte` or `StringAscii`|The meaning of `Char` is ambiguous.|
+|`TILEDB_ANY`|_a more specific type, depending on the situation_||

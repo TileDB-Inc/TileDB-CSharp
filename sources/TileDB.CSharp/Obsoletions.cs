@@ -8,5 +8,8 @@ namespace TileDB.CSharp
 
         public const string LegacyEnumNamesMessage = "Enum values that start with TILEDB_ are obsolete.";
         public const string LegacyEnumNamesDiagId = "TILEDB0001";
+
+        public const string ObsoleteDataTypeMessage = "This data type is obsolete.";
+        public const string ObsoleteDataTypeDiagId = "TILEDB0002";
     }
 }

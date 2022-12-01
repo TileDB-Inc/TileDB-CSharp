@@ -226,7 +226,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// A sequence of characters. Deprecated.
         /// </summary>
-        [Obsolete("This data type is deprecated.")]
+        [Obsolete(Obsoletions.ObsoleteDataTypeMessage + " Use Byte or StringAscii instead.", DiagnosticId = Obsoletions.ObsoleteDataTypeDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         // https://github.com/TileDB-Inc/TileDB/pull/2742
         Char = tiledb_datatype_t.TILEDB_CHAR,
         /// <summary>
@@ -272,13 +272,13 @@ namespace TileDB.CSharp
         /// <summary>
         /// A UCS-2 string. Deprecated.
         /// </summary>
-        [Obsolete("This data type is deprecated.")]
+        [Obsolete(Obsoletions.ObsoleteDataTypeMessage + " Use StringUtf16 instead.", DiagnosticId = Obsoletions.ObsoleteDataTypeDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         // https://github.com/TileDB-Inc/TileDB/pull/2812
         StringUcs2 = tiledb_datatype_t.TILEDB_STRING_UCS2,
         /// <summary>
         /// A UCS-4 string. Deprecated.
         /// </summary>
-        [Obsolete("This data type is deprecated.")]
+        [Obsolete(Obsoletions.ObsoleteDataTypeMessage + " Use StringUtf32 instead.", DiagnosticId = Obsoletions.ObsoleteDataTypeDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         // https://github.com/TileDB-Inc/TileDB/pull/2812
         StringUcs4 = tiledb_datatype_t.TILEDB_STRING_UCS4,
         /// <summary>
@@ -433,7 +433,8 @@ namespace TileDB.CSharp
         TILEDB_STRING_UCS2 = StringUcs2,
         [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use StringUcs4 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_STRING_UCS4 = StringUcs4,
-        [Obsolete("This data type is deprecated."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.ObsoleteDataTypeMessage + " Use a more specific data type instead.", DiagnosticId = Obsoletions.ObsoleteDataTypeDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
+        // https://github.com/TileDB-Inc/TileDB/pull/2807
         TILEDB_ANY = tiledb_datatype_t.TILEDB_ANY,
         [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use DateTimeYear instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_YEAR = DateTimeYear,
@@ -1216,7 +1217,7 @@ namespace TileDB.CSharp
 
         public static Type DataTypeToType(DataType datatype)
         {
-#pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable TILEDB0002 // Data type is obsolete
             switch (datatype)
             {
                 case DataType.Char:
@@ -1279,7 +1280,7 @@ namespace TileDB.CSharp
                 default:
                     return typeof(byte);
             }
-#pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning restore TILEDB0002 // Data type is obsolete
         }
 
         [Obsolete("This method will be removed in a future version of the library. Use the overload that accepts the DataType enum instead.")]
@@ -1288,14 +1289,14 @@ namespace TileDB.CSharp
 
         public static bool IsStringType(DataType datatype)
         {
-#pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable TILEDB0002 // Data type is obsolete
             return datatype == DataType.StringAscii
                 || datatype == DataType.StringUcs2
                 || datatype == DataType.StringUcs4
                 || datatype == DataType.StringUtf16
                 || datatype == DataType.StringUtf32
                 || datatype == DataType.StringUtf8;
-#pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning restore TILEDB0002 // Data type is obsolete
         }
 
         [Obsolete("This method will be removed in a future version of the library. Use DataTypeSize and the DataType enum instead.")]
