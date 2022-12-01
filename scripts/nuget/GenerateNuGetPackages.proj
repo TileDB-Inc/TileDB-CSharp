@@ -83,8 +83,7 @@
 
   <Target Name="WriteRuntimeJson">
     <PropertyGroup>
-      <RuntimeJsonPayload>{&quot;runtimes&quot;: {@(NativePlatform-> '&quot;%(RuntimeId)&quot;:{&quot;$(PackageIdPrefix)TileDB.Native&quot;:{&quot;$(PackageIdPrefix)TileDB.Native.runtime.%(RuntimeId)&quot;:&quot;$(Version)&quot;}}')}}</RuntimeJsonPayload>
-      <RuntimeJsonPayload>$(RuntimeJsonPayload.Replace(';',','))</RuntimeJsonPayload>
+      <RuntimeJsonPayload>{&quot;runtimes&quot;: {@(NativePlatform-> '&quot;%(RuntimeId)&quot;:{&quot;$(PackageIdPrefix)TileDB.Native&quot;:{&quot;$(PackageIdPrefix)TileDB.Native.runtime.%(RuntimeId)&quot;:&quot;$(Version)&quot;}}', ',')}}</RuntimeJsonPayload>
     </PropertyGroup>
     <WriteLinesToFile
       File="$(RuntimeJson)"
