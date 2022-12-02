@@ -3,9 +3,9 @@ name: TileDB-CSharp
 on:
   push:
     tags: [ '*' ]
-    branches: [ main ]
+    branches: [ main, 'release/*' ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, 'release/*' ]
   workflow_dispatch:
 
 jobs:
