@@ -5,7 +5,6 @@
     <OutputType>Exe</OutputType>
     <RollForward>Major</RollForward>
     <TargetFramework>net5.0</TargetFramework>
-    <Version>5.2.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
