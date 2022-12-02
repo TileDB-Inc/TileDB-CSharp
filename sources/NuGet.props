@@ -4,6 +4,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>logo.png</PackageIcon>
     <PackageProjectUrl>https://tiledb.com/products/tiledb-embedded/</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/TileDB-Inc/TileDB-CSharp/releases</PackageReleaseNotes>
     <PackageTags>tiledb</PackageTags>
   </PropertyGroup>
   <ItemGroup>
