@@ -2,14 +2,15 @@
 <package >
   <metadata>
     <id>TileDB.CSharp</id>
-    <version>5.2.4</version>
+    <version>5.2.5</version>
     <title>$title$</title>
     <authors>TileDB Inc</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
+    <icon>logo.png</icon>
     <projectUrl>https://github.com/TileDB-Inc/TileDB-CSharp</projectUrl>
     <description>CSharp wrapper of TileDB universal data engine</description>
-    <releaseNotes>This package is the csharp wrapper of TileDB 2.11.3.</releaseNotes>
+    <releaseNotes>This package is the csharp wrapper of TileDB 2.12.2.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>tiledb</tags>
     <dependencies>
@@ -17,6 +18,7 @@
     </dependencies>
   </metadata>
   <files>
+    <file src="../../art/logo.png" target=""/>
     <!-- binding libraries -->
     <file src="lib/net5.0/TileDB.CSharp.dll" target="lib/net5.0"/>
     <file src="lib/net5.0/TileDB.Interop.dll" target="lib/net5.0"/>

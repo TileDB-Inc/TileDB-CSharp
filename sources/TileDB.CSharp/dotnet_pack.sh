@@ -1,1 +1,0 @@
-dotnet pack TileDB.CSharp.csproj /p:NuspecFile=TileDB.CSharp.nuspec -c Release

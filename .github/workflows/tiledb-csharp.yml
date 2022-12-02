@@ -3,9 +3,9 @@ name: TileDB-CSharp
 on:
   push:
     tags: [ '*' ]
-    branches: [ main ]
+    branches: [ main, 'release/*' ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, 'release/*' ]
   workflow_dispatch:
 
 jobs:
@@ -89,7 +89,7 @@ jobs:
       # DotNet pack
       - name: Dotnet pack for TileDB.CSharp
         run: |
-          dotnet pack ./sources/TileDB.CSharp/TileDB.CSharp.csproj /p:NuspecFile=TileDB.CSharp.nuspec -c Release
+          dotnet pack ./sources/TileDB.CSharp/TileDB.CSharp.csproj -c Release
 
       - name: Archive nuget artifact
         uses: actions/upload-artifact@v3
