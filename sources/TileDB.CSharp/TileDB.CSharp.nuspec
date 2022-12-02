@@ -10,7 +10,7 @@
     <icon>logo.png</icon>
     <projectUrl>https://github.com/TileDB-Inc/TileDB-CSharp</projectUrl>
     <description>CSharp wrapper of TileDB universal data engine</description>
-    <releaseNotes>This package is the csharp wrapper of TileDB 2.11.3.</releaseNotes>
+    <releaseNotes>This package is the csharp wrapper of TileDB 2.12.2.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>tiledb</tags>
     <dependencies>
