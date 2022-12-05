@@ -24,4 +24,5 @@ jobs:
       - name: Pack TileDB.CSharp
         run: dotnet pack -c Release ./sources/TileDB.CSharp/TileDB.CSharp.csproj
       - name: Publish TileDB.CSharp
-        run: dotnet nuget push ./*.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.TILEDB_CSHARP_NUGET_KEY }}
+        shell: bash
+        run: dotnet nuget push "*.nupkg" -s https://api.nuget.org/v3/index.json -k ${{ secrets.TILEDB_CSHARP_NUGET_KEY }}
