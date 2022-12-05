@@ -1,9 +1,8 @@
 name: Release
 
 on:
-  release:
-    types:
-      - published
+  push:
+    tags: ['*']
 
 jobs:
   Run-Tests:
@@ -23,7 +22,7 @@ jobs:
         run: dotnet --info
       - name: Pack TileDB.CSharp
         run: dotnet pack -c Release ./sources/TileDB.CSharp/TileDB.CSharp.csproj -o pack
-      - name: Publish TileDB.CSharp
+      - name: Push packages to NuGet
         shell: bash
         run: |
           cd pack
