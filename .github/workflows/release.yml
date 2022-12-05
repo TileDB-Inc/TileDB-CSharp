@@ -6,11 +6,12 @@ on:
       - published
 
 jobs:
+  Run-Tests:
+    uses: ./.github/workflows/tiledb-csharp.yml
   Release:
     runs-on: ubuntu-latest
+    needs: Run-Tests
     steps:
-      - name: Run tests
-        uses: ./tiledb-csharp.yml
       - uses: actions/checkout@v3
       - name: Remove existing .NET versions
         shell: bash
