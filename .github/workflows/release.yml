@@ -22,7 +22,9 @@ jobs:
       - name: Display .NET versions
         run: dotnet --info
       - name: Pack TileDB.CSharp
-        run: dotnet pack -c Release ./sources/TileDB.CSharp/TileDB.CSharp.csproj
+        run: dotnet pack -c Release ./sources/TileDB.CSharp/TileDB.CSharp.csproj -o pack
       - name: Publish TileDB.CSharp
         shell: bash
-        run: dotnet nuget push "*.nupkg" -s https://api.nuget.org/v3/index.json -k ${{ secrets.TILEDB_CSHARP_NUGET_KEY }}
+        run: |
+          cd pack
+          dotnet nuget push "*.nupkg" -s https://api.nuget.org/v3/index.json -k ${{ secrets.TILEDB_CSHARP_NUGET_KEY }}
