@@ -59,6 +59,9 @@ namespace TileDB.CSharp
             _ctx.handle_error(Methods.tiledb_filestore_uri_export(ctxHandle, ms_fileURI, ms_arrayURI));
         }
 
+        public void BufferImport<T>(string arrayURI, T value, ulong size, MIMEType mimeType) where T : struct =>
+            BufferImport(arrayURI, value, checked((nuint)size), mimeType);
+
         public void BufferImport<T>(string arrayURI, T value, nuint size, MIMEType mimeType) where T : struct
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -73,6 +76,9 @@ namespace TileDB.CSharp
                 size,
                 tiledb_mime_type));
         }
+
+        public void BufferExport<T>(string arrayURI, ulong offset, ulong size) where T : struct =>
+            BufferExport<T>(arrayURI, checked((nuint)offset), checked((nuint)size));
 
         public T BufferExport<T>(string arrayURI, nuint offset, nuint size) where T : struct
         {
