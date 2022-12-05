@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TileDB.CSharp.Test
@@ -33,8 +32,15 @@ namespace TileDB.CSharp.Test
             schema.SetAllowsDups(duplicates);
             schema.Check();
             var array = new Array(ctx, arrayName);
+            TestUtil.CreateArray(ctx, arrayName, schema);
+            var initialData = new Dictionary<string, dynamic>()
+                {
+                    { "a1", Enumerable.Range(1, 16).ToArray() },
+                    {"rows", new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 } },
+                    { "cols", new[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 } }
+                };
+            TestUtil.WriteArray(array, layout, initialData);
 
-            TestUtil.CreateTestArray(schema, layout, arrayName);
             var readBuffers = new Dictionary<string, dynamic>
                 { {"rows", new int[16]}, {"cols", new int[16]}, {"a1", new int[16]} };
             TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx);
@@ -337,20 +343,8 @@ namespace TileDB.CSharp.Test
             var ctx = Context.GetDefault();
             ctx.Config().Set("sm.query.sparse_global_order.reader", legacy ? "legacy" : "refactored");
             ctx.Config().Set("sm.query.sparse_unordered_with_dups.reader", legacy ? "legacy" : "refactored");
-
-            // Create array
-            var rows = Dimension.Create(ctx, "rows", new[] { 1, 4 }, 4);
-            var cols = Dimension.Create(ctx, "cols", new[] { 1, 4 }, 4);
-            var domain = new Domain(ctx);
-            domain.AddDimensions(rows, cols);
-            var arrayType = ArrayType.Sparse;
-            var schema = new ArraySchema(ctx, arrayType);
-            schema.SetDomain(domain);
-            schema.AddAttribute(new Attribute(ctx, "a1", DataType.Int32));
-            schema.SetAllowsDups(duplicates);
-            schema.Check();
+            InitTest(ctx, arrayName, layout, duplicates);
             var array = new Array(ctx, arrayName);
-            TestUtil.CreateTestArray(schema, layout, arrayName);
 
             // We will increment this value according to writes if duplicates are enabled
             int bufferSize = 16;
@@ -876,9 +870,9 @@ namespace TileDB.CSharp.Test
                     { {"cols", new[] {1, 2, 3}}, {"a1", Encoding.UTF8.GetBytes("onetwothree")} },
                 offsets: new Dictionary<string, ulong[]>() { {"a1", new ulong[] { 0, 3, 6 }} });
 
-            var readBuffers = new Dictionary<string, dynamic>()
-                { {"cols", new int[6]}, { "a1", new byte[11] }, { "a1Offsets", new ulong[3]}};
-            var readQuery = TestUtil.ReadArray(array, layout, readBuffers);
+            var readBuffers = new Dictionary<string, dynamic>() { {"cols", new int[6]}, { "a1", new byte[11] } };
+            var readOffsetBuffers = new Dictionary<string, ulong[]>() { { "a1", new ulong[3] } };
+            var readQuery = TestUtil.ReadArray(array, layout, readBuffers, offsets: readOffsetBuffers);
 
             array.Open(QueryType.Read);
             var bufferElements = readQuery.ResultBufferElements();
@@ -890,9 +884,9 @@ namespace TileDB.CSharp.Test
             for (int i = 0; i < offsetCount; i++)
             {
                 int cellSize = i == offsetCount - 1
-                    ? elementCount - (int)readBuffers["a1Offsets"][i]
-                    : (int)readBuffers["a1Offsets"][i + 1] - (int)readBuffers["a1Offsets"][i];
-                a1Data.Add(new (Encoding.ASCII.GetChars(readBuffers["a1"], (int)readBuffers["a1Offsets"][i],
+                    ? elementCount - (int)readOffsetBuffers["a1"][i]
+                    : (int)readOffsetBuffers["a1"][i + 1] - (int)readOffsetBuffers["a1"][i];
+                a1Data.Add(new (Encoding.ASCII.GetChars(readBuffers["a1"], (int)readOffsetBuffers["a1"][i],
                     cellSize)));
             }
             CollectionAssert.AreEqual(new[] {"one", "two", "three"}, a1Data);
@@ -907,8 +901,9 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual(QueryStatus.Completed, deleteQuery.Status());
 
             readBuffers = new Dictionary<string, dynamic>()
-                { {"cols", new int[6]}, { "a1", new byte[11] }, { "a1Offsets", new ulong[3]}};
-            readQuery = TestUtil.ReadArray(array, layout, readBuffers);
+                { {"cols", new int[6]}, { "a1", new byte[11] } };
+            readOffsetBuffers = new Dictionary<string, ulong[]>() { { "a1", new ulong[17] } };
+            readQuery = TestUtil.ReadArray(array, layout, readBuffers, offsets: readOffsetBuffers);
 
             array.Open(QueryType.Read);
             bufferElements = readQuery.ResultBufferElements();
@@ -920,9 +915,9 @@ namespace TileDB.CSharp.Test
             for (int i = 0; i < offsetCount; i++)
             {
                 int cellSize = i == offsetCount - 1
-                    ? elementCount - (int)readBuffers["a1Offsets"][i]
-                    : (int)readBuffers["a1Offsets"][i + 1] - (int)readBuffers["a1Offsets"][i];
-                a1Data.Add(new (Encoding.ASCII.GetChars(readBuffers["a1"], (int)readBuffers["a1Offsets"][i],
+                    ? elementCount - (int)readOffsetBuffers["a1"][i]
+                    : (int)readOffsetBuffers["a1"][i + 1] - (int)readOffsetBuffers["a1"][i];
+                a1Data.Add(new (Encoding.ASCII.GetChars(readBuffers["a1"], (int)readOffsetBuffers["a1"][i],
                     cellSize)));
             }
 

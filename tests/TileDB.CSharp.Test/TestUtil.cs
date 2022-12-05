@@ -72,7 +72,8 @@ namespace TileDB.CSharp.Test
         public static string MakeTestPath(string fileName) => Path.Join(MakeTempPath("test"), fileName);
 
         /// <summary>
-        /// Create a new array with a given name and schema
+        /// Create a new array with a given name and schema to use for testing.
+        /// If the array already exists, it will be removed and recreated.
         /// </summary>
         /// <param name="ctx">Current TileDB Context</param>
         /// <param name="name">Name of array to create</param>
@@ -86,63 +87,23 @@ namespace TileDB.CSharp.Test
             Array.Create(ctx, name, schema);
         }
 
-        public static void CreateTestArray(ArraySchema schema, LayoutType layout, string arrayName)
-        {
-            var ctx = Context.GetDefault();
-
-            if (Directory.Exists(arrayName))
-            {
-                Directory.Delete(arrayName, true);
-            }
-
-            Array.Create(ctx, arrayName, schema);
-
-            // Write to array
-            using var array = new Array(ctx, arrayName);
-            array.Open(QueryType.Write);
-            using var writeQuery = new Query(ctx, array, QueryType.Write);
-            int[] attrData = Enumerable.Range(1, 16).ToArray();
-            int[]? rowData = null;
-            int[]? colData = null;
-            switch (schema.ArrayType())
-            {
-                case ArrayType.Dense:
-                {
-                    writeQuery.SetLayout(layout);
-                    writeQuery.SetSubarray(new[] {1, 4, 1, 4});
-                    break;
-                }
-                case ArrayType.Sparse:
-                {
-                    // Only write to sparse array using unordered or global order
-                    if (layout is LayoutType.Unordered or LayoutType.GlobalOrder)
-                    {
-                        writeQuery.SetLayout(layout);
-                    }
-                    else
-                    {
-                        writeQuery.SetLayout(LayoutType.Unordered);
-                    }
-
-                    rowData = new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 };
-                    colData = new[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 };
-                    writeQuery.SetDataBuffer("rows", rowData);
-                    writeQuery.SetDataBuffer("cols", colData);
-                    break;
-                }
-            }
-            writeQuery.SetDataBuffer("a1", attrData);
-            writeQuery.Submit();
-            Console.WriteLine($"Write status: {writeQuery.Status()}");
-            if (layout == LayoutType.GlobalOrder)
-            {
-                writeQuery.FinalizeQuery();
-            }
-            array.Close();
-        }
-
-        public static Query WriteArray(Array array, LayoutType layout, Dictionary<string, dynamic> buffers,
-            (ulong, ulong)? timestampRange = null, Context? ctx = null, Dictionary<string, ulong[]>? offsets = null)
+        /// <summary>
+        /// Writes to a TileDB array. Used for tests where we may write to several arrays many times.
+        /// </summary>
+        /// <param name="array">Initialized TileDB Array object to write to</param>
+        /// <param name="layout">Layout to use when writing to the array</param>
+        /// <param name="buffers">Dictionary using buffer name for key mapping to buffer values for writing</param>
+        /// <param name="timestampRange">Optionally provide timestamp range to use for the write</param>
+        /// <param name="ctx">Optionally provide a context from the caller to apply to the write</param>
+        /// <param name="offsets">Dictionary using buffer name for key mapping to offsets to use for writing</param>
+        /// <returns>Query object used to perform the write for caller context</returns>
+        public static Query WriteArray(
+            Array array,
+            LayoutType layout,
+            Dictionary<string, dynamic> buffers,
+            (ulong, ulong)? timestampRange = null,
+            Context? ctx = null,
+            Dictionary<string, ulong[]>? offsets = null)
         {
             if (timestampRange != null)
             {
@@ -164,34 +125,51 @@ namespace TileDB.CSharp.Test
             {
                 writeQuery.SetLayout(layout);
             }
+
             foreach (var buffer in buffers)
             {
-                if (buffer.Value is byte[])
+                writeQuery.SetDataBuffer(buffer.Key, buffer.Value);
+                // Set offset buffer if the attribute or dimension is variable size
+                if (array.Schema().IsVarSize(buffer.Key))
                 {
-                    writeQuery.SetDataBuffer<byte>(buffer.Key, buffer.Value);
                     writeQuery.SetOffsetsBuffer(buffer.Key, offsets![buffer.Key]);
                 }
-                else
-                {
-                    writeQuery.SetDataBuffer(buffer.Key, buffer.Value);
-                }
             }
+
             writeQuery.Submit();
-            Console.WriteLine($"Write query status: {writeQuery.Status()}");
+
+            // Global order writes must finalize the query.
             if (layout == LayoutType.GlobalOrder)
             {
                 writeQuery.FinalizeQuery();
             }
 
+            Console.WriteLine($"Write query status: {writeQuery.Status()}");
+            Assert.AreEqual(QueryStatus.Completed, writeQuery.Status());
             array.Close();
 
-            Assert.AreEqual(QueryStatus.Completed, writeQuery.Status());
             // Return write query for context
             return writeQuery;
         }
 
-        public static Query ReadArray(Array array, LayoutType layout,
-            Dictionary<string, dynamic> buffers, (ulong, ulong)? timestampRange = null, Context? ctx = null)
+        /// <summary>
+        /// Reads a TileDB array into buffers object. Used for tests where we may read from several arrays many times.
+        /// When the read completes the buffers Dictionary will contain values storing read buffer data.
+        /// </summary>
+        /// <param name="array">Initialized TileDB Array object to read from</param>
+        /// <param name="layout">Layout to use when reading from the array</param>
+        /// <param name="buffers">Dictionary using buffer name for key mapping to container for writing to</param>
+        /// <param name="timestampRange">Optionally provide timestamp range to use for the read</param>
+        /// <param name="ctx">Optionally provide a context from the caller to apply to the read</param>
+        /// <param name="offsets">Dictionary using buffer name for key mapping to offsets to use for writing</param>
+        /// <returns>Query object used to perform the read for caller context</returns>
+        public static Query ReadArray(
+            Array array,
+            LayoutType layout,
+            Dictionary<string, dynamic> buffers,
+            (ulong, ulong)? timestampRange = null,
+            Context? ctx = null,
+            Dictionary<string, ulong[]>? offsets = null)
         {
             if (timestampRange != null)
             {
@@ -208,32 +186,38 @@ namespace TileDB.CSharp.Test
             readQuery.SetLayout(layout);
             foreach (var buffer in buffers)
             {
-                if (buffer.Key.Contains("Offset"))
+                readQuery.SetDataBuffer(buffer.Key, buffer.Value);
+                // Set offset buffer if the attribute or dimension is variable size
+                if (array.Schema().IsVarSize(buffer.Key))
                 {
-                    readQuery.SetOffsetsBuffer(buffer.Key.Split("Offset")[0], buffer.Value);
-                }
-                else
-                {
-                    readQuery.SetDataBuffer(buffer.Key, buffer.Value);
+                    readQuery.SetOffsetsBuffer(buffer.Key, offsets![buffer.Key]);
                 }
             }
 
             readQuery.Submit();
             Console.WriteLine($"Read query status: {readQuery.Status()}");
-
+            Assert.AreEqual(QueryStatus.Completed, readQuery.Status());
             array.Close();
 
-            Assert.AreEqual(QueryStatus.Completed, readQuery.Status());
             return readQuery;
         }
 
-        public static void CompareBuffers(Dictionary<string, dynamic> expected, Dictionary<string, dynamic> actual, bool dups)
+        /// <summary>
+        /// Checks expected buffer values are present in actual buffers.
+        /// </summary>
+        /// <param name="expected">Dictionary using buffer name for key mapping to expected contents</param>
+        /// <param name="actual">Dictionary using buffer name for key mapping to actual contents</param>
+        /// <param name="duplicates">True if duplicates are enabled</param>
+        public static void CompareBuffers(
+            Dictionary<string, dynamic> expected,
+            Dictionary<string, dynamic> actual,
+            bool duplicates)
         {
             foreach (var buffer in expected)
             {
                 Console.WriteLine($"Expected {buffer.Key}: {string.Join(", ", buffer.Value)}" +
                                   $"\n  Actual {buffer.Key}: {string.Join(", ", actual[buffer.Key])}");
-                if (dups)
+                if (duplicates)
                 {
                     CollectionAssert.AreEquivalent(buffer.Value, actual[buffer.Key]);
                 }
