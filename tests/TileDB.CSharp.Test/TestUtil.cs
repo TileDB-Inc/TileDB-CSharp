@@ -1,9 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Enumeration;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
 
 namespace TileDB.CSharp.Test
 {
@@ -26,34 +28,6 @@ namespace TileDB.CSharp.Test
             );
 
             return enumeration.Sum();
-        }
-
-        /// <summary>
-        /// Guard running new test cases against previous versions
-        /// Returns false if TileDB core version predates `major.minor.rev`
-        /// </summary>
-        /// <param name="major"></param>
-        /// <param name="minor"></param>
-        /// <param name="rev"></param>
-        /// <returns></returns>
-        public static bool VersionMinimum(int major, int minor=0, int rev=0)
-        {
-            var version = TileDB.CSharp.CoreUtil.GetCoreLibVersion();
-
-            if (version.Major < major)
-            {
-                return false;
-            }
-            else if (version.Major == major && version.Minor < minor)
-            {
-                return false;
-            }
-            else if (version.Major == major && version.Minor == minor && version.Build < rev)
-            {
-                return false;
-            }
-
-            return true;
         }
 
         /// <summary>
@@ -100,7 +74,7 @@ namespace TileDB.CSharp.Test
         public static Query WriteArray(
             Array array,
             LayoutType layout,
-            Dictionary<string, dynamic> buffers,
+            Dictionary<string, System.Array> buffers,
             (ulong, ulong)? timestampRange = null,
             Context? ctx = null,
             Dictionary<string, ulong[]>? offsets = null)
@@ -128,7 +102,8 @@ namespace TileDB.CSharp.Test
 
             foreach (var buffer in buffers)
             {
-                writeQuery.SetDataBuffer(buffer.Key, buffer.Value);
+                // TODO: Remove cast to dynamic
+                writeQuery.SetDataBuffer(buffer.Key, (dynamic)buffer.Value);
                 // Set offset buffer if the attribute or dimension is variable size
                 if (array.Schema().IsVarSize(buffer.Key))
                 {
@@ -144,7 +119,6 @@ namespace TileDB.CSharp.Test
                 writeQuery.FinalizeQuery();
             }
 
-            Console.WriteLine($"Write query status: {writeQuery.Status()}");
             Assert.AreEqual(QueryStatus.Completed, writeQuery.Status());
             array.Close();
 
@@ -166,7 +140,7 @@ namespace TileDB.CSharp.Test
         public static Query ReadArray(
             Array array,
             LayoutType layout,
-            Dictionary<string, dynamic> buffers,
+            Dictionary<string, System.Array> buffers,
             (ulong, ulong)? timestampRange = null,
             Context? ctx = null,
             Dictionary<string, ulong[]>? offsets = null)
@@ -186,7 +160,8 @@ namespace TileDB.CSharp.Test
             readQuery.SetLayout(layout);
             foreach (var buffer in buffers)
             {
-                readQuery.SetDataBuffer(buffer.Key, buffer.Value);
+                // TODO: Remove cast to dynamic
+                readQuery.SetDataBuffer(buffer.Key, (dynamic)buffer.Value);
                 // Set offset buffer if the attribute or dimension is variable size
                 if (array.Schema().IsVarSize(buffer.Key))
                 {
@@ -195,7 +170,6 @@ namespace TileDB.CSharp.Test
             }
 
             readQuery.Submit();
-            Console.WriteLine($"Read query status: {readQuery.Status()}");
             Assert.AreEqual(QueryStatus.Completed, readQuery.Status());
             array.Close();
 
@@ -209,14 +183,12 @@ namespace TileDB.CSharp.Test
         /// <param name="actual">Dictionary using buffer name for key mapping to actual contents</param>
         /// <param name="duplicates">True if duplicates are enabled</param>
         public static void CompareBuffers(
-            Dictionary<string, dynamic> expected,
-            Dictionary<string, dynamic> actual,
+            Dictionary<string, System.Array> expected,
+            Dictionary<string, System.Array> actual,
             bool duplicates)
         {
             foreach (var buffer in expected)
             {
-                Console.WriteLine($"Expected {buffer.Key}: {string.Join(", ", buffer.Value)}" +
-                                  $"\n  Actual {buffer.Key}: {string.Join(", ", actual[buffer.Key])}");
                 if (duplicates)
                 {
                     CollectionAssert.AreEquivalent(buffer.Value, actual[buffer.Key]);
@@ -226,7 +198,6 @@ namespace TileDB.CSharp.Test
                     CollectionAssert.AreEqual(buffer.Value, actual[buffer.Key]);
                 }
             }
-            Console.WriteLine();
         }
 
         /// <summary>
