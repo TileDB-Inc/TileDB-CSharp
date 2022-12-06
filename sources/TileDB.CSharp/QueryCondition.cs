@@ -54,21 +54,12 @@ namespace TileDB.CSharp
         /// <param name="optype"></param>
         public void Init<T>(string attribute_name, T condition_value, QueryConditionOperatorType optype) where T : struct
         {
+            ErrorHandling.ThrowIfManagedType<T>();
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_attribute_name = new MarshaledString(attribute_name);
-            T[] data = new T[1] { condition_value };
-            ulong size = (ulong)Marshal.SizeOf(data[0]);
-            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            try
-            {
-                _ctx.handle_error(Methods.tiledb_query_condition_init(ctxHandle, handle, ms_attribute_name,
-                    (void*)dataGcHandle.AddrOfPinnedObject(), size, (tiledb_query_condition_op_t)optype));
-            }
-            finally
-            {
-                dataGcHandle.Free();
-            }
+            _ctx.handle_error(Methods.tiledb_query_condition_init(ctxHandle, handle, ms_attribute_name,
+                &condition_value, (ulong)sizeof(T), (tiledb_query_condition_op_t)optype));
         }
 
         /// <summary>
@@ -82,18 +73,10 @@ namespace TileDB.CSharp
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_attribute_name = new MarshaledString(attribute_name);
-            byte[] data = Encoding.ASCII.GetBytes(condition_value);
-            ulong size = (ulong)data.Length;
-            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            try
-            {
-                _ctx.handle_error(Methods.tiledb_query_condition_init(ctxHandle, handle, ms_attribute_name,
-                    (void*)dataGcHandle.AddrOfPinnedObject(), size, (tiledb_query_condition_op_t)optype));
-            }
-            finally
-            {
-                dataGcHandle.Free();
-            }
+            using var ms_condition_value = new MarshaledString(condition_value);
+            ulong size = (ulong)ms_condition_value.Length;
+            _ctx.handle_error(Methods.tiledb_query_condition_init(ctxHandle, handle, ms_attribute_name,
+                ms_condition_value, size, (tiledb_query_condition_op_t)optype));
         }
 
         public QueryCondition Combine(QueryCondition rhs, QueryConditionCombinationOperatorType combination_optype)
