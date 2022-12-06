@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
@@ -100,6 +101,7 @@ namespace TileDB.CSharp
             return size;
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public string MIMETypeToStr(MIMEType mimeType)
         {
             var tiledb_mime_type = (tiledb_mime_type_t)mimeType;
@@ -109,7 +111,8 @@ namespace TileDB.CSharp
             return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
-        public MIMEType MIMETypeFromStr(string str)
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static MIMEType MIMETypeFromStr(string str)
         {
             tiledb_mime_type_t mimeType;
             using var ms_str = new MarshaledString(str);
