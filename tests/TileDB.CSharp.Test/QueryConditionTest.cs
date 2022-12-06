@@ -11,14 +11,10 @@ namespace TileDB.CSharp.Test
             var context = Context.GetDefault();
             Assert.IsNotNull(context);
 
-            var bound1 = new int[] { 1, 4 };
-            const int extent1 = 2;
-            var dimension1 = Dimension.Create<int>(context, "rows", bound1, extent1);
+            var dimension1 = Dimension.Create(context, "rows", 1, 4, 2);
             Assert.IsNotNull(dimension1);
 
-            var bound2 = new int[] { 1, 4 };
-            const int extent2 = 2;
-            var dimension2 = Dimension.Create<int>(context, "cols", bound2, extent2);
+            var dimension2 = Dimension.Create(context, "cols", 1, 4, 2);
             Assert.IsNotNull(dimension2);
 
             var domain = new Domain(context);
@@ -58,7 +54,7 @@ namespace TileDB.CSharp.Test
             var query_write = new Query(context, array_write);
 
             var attr1_data_buffer = new int[16] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
-            query_write.SetDataBuffer<int>("a1", attr1_data_buffer);
+            query_write.SetDataBuffer("a1", attr1_data_buffer);
             query_write.Submit();
 
             var status = query_write.Status();
@@ -77,16 +73,16 @@ namespace TileDB.CSharp.Test
             query_read.SetLayout(LayoutType.RowMajor);
 
             int[] subarray = new int[4] { 1, 4, 1, 4 };
-            query_read.SetSubarray<int>(subarray);
+            query_read.SetSubarray(subarray);
 
-            QueryCondition qc1 = QueryCondition.Create<int>(context, "a1", 3, QueryConditionOperatorType.GreaterThan);
-            QueryCondition qc2 = QueryCondition.Create<int>(context, "a1", 7, QueryConditionOperatorType.LessThan);
+            QueryCondition qc1 = QueryCondition.Create(context, "a1", 3, QueryConditionOperatorType.GreaterThan);
+            QueryCondition qc2 = QueryCondition.Create(context, "a1", 7, QueryConditionOperatorType.LessThan);
             var qc = qc1.Combine(qc2, QueryConditionCombinationOperatorType.And);
 
             query_read.SetCondition(qc);
 
             var attr_data_buffer_read = new int[16];
-            query_read.SetDataBuffer<int>("a1", attr_data_buffer_read);
+            query_read.SetDataBuffer("a1", attr_data_buffer_read);
 
             query_read.Submit();
             var status_read = query_read.Status();

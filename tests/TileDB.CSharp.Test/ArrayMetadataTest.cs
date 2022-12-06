@@ -26,12 +26,10 @@ namespace TileDB.CSharp.Test
         {
             var context = Context.GetDefault();
 
-            var bound = new short[] { 1, 4 };
-            const short extent = 4;
-            var rowDim = Dimension.Create(context, "rows", bound, extent);
+            var rowDim = Dimension.Create(context, "rows", 1, 4, 4);
             Assert.IsNotNull(rowDim);
 
-            var colDim = Dimension.Create(context, "cols", bound, extent);
+            var colDim = Dimension.Create(context, "cols", 1, 4, 4);
             Assert.IsNotNull(rowDim);
 
             var domain = new Domain(context);

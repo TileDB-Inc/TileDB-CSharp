@@ -12,13 +12,8 @@ namespace TileDB.CSharp.Examples
 
         private static void CreateArray()
         {
-            int[] dim1_bound = { 1, 10 };
-            int dim1_ext = 4;
-            var dim1 = Dimension.Create<int>(Ctx, "rows", dim1_bound, dim1_ext);
-
-            int[] dim2_bound = { 1, 10 };
-            int dim2_ext = 4;
-            var dim2 = Dimension.Create<int>(Ctx, "cols", dim2_bound, dim2_ext);
+            var dim1 = Dimension.Create(Ctx, "rows", boundLower: 1, boundUpper: 10, extent: 4);
+            var dim2 = Dimension.Create(Ctx, "cols", boundLower: 1, boundUpper: 10, extent: 4);
 
             var domain = new Domain(Ctx);
             domain.AddDimension(dim1);
@@ -58,9 +53,9 @@ namespace TileDB.CSharp.Examples
 
                 var queryWrite = new Query(Ctx, arrayWrite);
                 queryWrite.SetLayout(LayoutType.Unordered);
-                queryWrite.SetDataBuffer<int>("rows", rowsData);
-                queryWrite.SetDataBuffer<int>("cols", colsData);
-                queryWrite.SetDataBuffer<int>("a1", attrData);
+                queryWrite.SetDataBuffer("rows", rowsData);
+                queryWrite.SetDataBuffer("cols", colsData);
+                queryWrite.SetDataBuffer("a1", attrData);
                 queryWrite.Submit();
 
                 Console.WriteLine($"Write query status: {queryWrite.Status()}");
@@ -82,9 +77,9 @@ namespace TileDB.CSharp.Examples
                 queryRead.SetLayout(LayoutType.Unordered);
                 queryRead.SetSubarray(new[] { 1, 100, 1, 100 });
 
-                queryRead.SetDataBuffer<int>("rows", rowsRead);
-                queryRead.SetDataBuffer<int>("cols", colsRead);
-                queryRead.SetDataBuffer<int>("a1", attrRead);
+                queryRead.SetDataBuffer("rows", rowsRead);
+                queryRead.SetDataBuffer("cols", colsRead);
+                queryRead.SetDataBuffer("a1", attrRead);
 
                 int batchNum = 1;
                 do

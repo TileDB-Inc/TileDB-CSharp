@@ -1,6 +1,4 @@
 using System;
-using System.IO;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TileDB.CSharp.Test
@@ -15,8 +13,8 @@ namespace TileDB.CSharp.Test
         {
             var ctx = Context.GetDefault();
 
-            var rows = Dimension.Create(ctx, "rows", new[] { 1, 4 }, 4);
-            var cols = Dimension.Create(ctx, "cols", new[] { 1, 4 }, 4);
+            var rows = Dimension.Create(ctx, "rows", 1, 4, 4);
+            var cols = Dimension.Create(ctx, "cols", 1, 4, 4);
 
             var domain = new Domain(ctx);
             domain.AddDimensions(rows, cols);

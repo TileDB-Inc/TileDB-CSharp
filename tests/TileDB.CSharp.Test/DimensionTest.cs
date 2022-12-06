@@ -15,9 +15,8 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual("test", dimension.Name());
             Assert.AreEqual(DataType.Int32, dimension.Type());
             Assert.AreEqual(extent, dimension.TileExtent<int>());
-            var dim_domain = dimension.Domain<int>();
-            Assert.AreEqual(1, dim_domain[0]);
-            Assert.AreEqual(10, dim_domain[1]);
+            var dim_domain = dimension.GetDomain<int>();
+            Assert.AreEqual((1, 10), dim_domain);
         }
 
         [TestMethod]
@@ -25,9 +24,9 @@ namespace TileDB.CSharp.Test
         {
             var context = Context.GetDefault();
 
-            var dimension = Dimension.Create<string>(context, "strdim", "", "", "");
-            Assert.AreEqual<string>("strdim", dimension.Name());
+            var dimension = Dimension.CreateString(context, "strdim");
+            Assert.AreEqual("strdim", dimension.Name());
             Assert.AreEqual(DataType.StringAscii, dimension.Type());
         }
     }
-}//namespace
+}

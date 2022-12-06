@@ -201,14 +201,10 @@ namespace TileDB.CSharp.Test
 
         private ArraySchema BuildSparseArraySchema(Context context)
         {
-            var boundDim1 = new short[] { 1, 10 };
-            const short extentDim1 = 5;
-            var dim1 = Dimension.Create(context, "dim1", boundDim1, extentDim1);
+            var dim1 = Dimension.Create<short>(context, "dim1", 1, 10, 5);
             Assert.IsNotNull(dim1);
 
-            var boundDim2 = new float[] { 1.0f, 4.0f };
-            const float extentDim2 = 0.5f;
-            var dim2 = Dimension.Create(context, "dim2", boundDim2, extentDim2);
+            var dim2 = Dimension.Create(context, "dim2", 1.0f, 4.0f, 0.5f);
             Assert.IsNotNull(dim2);
 
             var domain = new Domain(context);

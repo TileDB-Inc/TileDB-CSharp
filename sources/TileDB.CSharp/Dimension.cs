@@ -1,17 +1,19 @@
 using System;
 using System.Globalization;
-using System.Runtime.InteropServices;
-using System.Text;
+using System.Runtime.CompilerServices;
+using TileDB.CSharp.Marshalling;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
+    /// <summary>
+    /// Represents a TileDB dimension object.
+    /// </summary>
     public sealed unsafe class Dimension : IDisposable
     {
         private readonly DimensionHandle _handle;
         private readonly Context _ctx;
-        private bool _disposed;
 
         /// <summary>
         /// This value indicates a variable-sized attribute.
@@ -20,31 +22,21 @@ namespace TileDB.CSharp
         /// </summary>
         public const uint VariableSized = Constants.VariableSizedImpl;
 
-        internal Dimension(Context ctx, DimensionHandle handle) 
+        internal Dimension(Context ctx, DimensionHandle handle)
         {
             _ctx = ctx;
             _handle = handle;
         }
 
+        /// <summary>
+        /// Disposes the <see cref="Dimension"/>.
+        /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed) return;
-            if (disposing && (!_handle.IsInvalid))
-            {
-                _handle.Dispose();
-            }
-
-            _disposed = true;
+            _handle.Dispose();
         }
 
         internal DimensionHandle Handle => _handle;
-
-        #region
 
         /// <summary>
         /// Set filter list.
@@ -70,9 +62,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get filter list.
+        /// Gets the filter list of this dimension.
         /// </summary>
-        /// <returns></returns>
         public FilterList FilterList()
         {
             var handle = new FilterListHandle();
@@ -103,9 +94,12 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get cell value number.
+        /// Gets the number of values per cell for the dimension.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// The number of values per cell for the dimension,
+        /// or <see cref="VariableSized"/> for variable-sized dimensions.
+        /// </returns>
         public uint CellValNum()
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -130,9 +124,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get type of the dimension.
+        /// Get <see cref="DataType"/> of the dimension.
         /// </summary>
-        /// <returns></returns>
         public DataType Type()
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -145,258 +138,113 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get domain bytes array.
+        /// Gets the allowed starting and ending values of the dimension, inclusive.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        private byte[] get_domain<T>() where T: struct
+        public (T Start, T End) GetDomain<T>() where T : struct
         {
+            ErrorHandling.ThrowIfManagedType<T>();
+            void* value_p;
+
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            void* value_p;
-            var temp = default(T);
-            var size = (ulong)(2* Marshal.SizeOf(temp));
-
             _ctx.handle_error(Methods.tiledb_dimension_get_domain(ctxHandle, handle, &value_p));
 
-            var fill_span = new ReadOnlySpan<byte>(value_p, (int)size);
-            return fill_span.ToArray();
+            return Unsafe.ReadUnaligned<SequentialPair<T>>(value_p);
         }
 
         /// <summary>
-        /// Get domain array.
+        /// Gets the allowed starting and ending values of the dimension, inclusive.
+        /// Deprecated, use <see cref="GetDomain"/> instead.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
+        [Obsolete("Use GetDomain instead.")]
         public T[] Domain<T>() where T : struct
         {
-            var fill_bytes = get_domain<T>();
-            Span<byte> byteSpan = fill_bytes;
-            var span = MemoryMarshal.Cast<byte, T>(byteSpan);
-            return span.ToArray();
+            (T start, T end) = GetDomain<T>();
+            return new T[] { start, end };
         }
 
         /// <summary>
-        /// Get tile extent bytes array.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        private byte[] get_tile_extent<T>() where T : struct
-        {
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            void* value_p;
-            var temp = default(T);
-            var size = (ulong)(Marshal.SizeOf(temp));
-
-            _ctx.handle_error(Methods.tiledb_dimension_get_tile_extent(ctxHandle, handle, &value_p));
-
-            var fill_span = new ReadOnlySpan<byte>(value_p, (int)size);
-            return fill_span.ToArray();
-        }
-
-        /// <summary>
-        /// Get tile extent.
+        /// Gets the dimension's tile extent.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public T TileExtent<T>() where T : struct
         {
-            var fill_bytes = get_tile_extent<T>();
-            Span<byte> byteSpan = fill_bytes;
-            var span = MemoryMarshal.Cast<byte, T>(byteSpan);
-            return span.ToArray()[0];
+            ErrorHandling.ThrowIfManagedType<T>();
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            void* value_p;
+            _ctx.handle_error(Methods.tiledb_dimension_get_tile_extent(ctxHandle, handle, &value_p));
+
+            return Unsafe.ReadUnaligned<T>(value_p);
         }
-        #endregion
 
         /// <summary>
-        /// Get string of tile extent.
+        /// Gets the dimension's tile extent as string.
         /// </summary>
-        /// <returns></returns>
         public string TileExtentToStr()
         {
-            var sb = new StringBuilder();
-
             var datatype = Type();
             var t = EnumUtil.DataTypeToType(datatype);
-            switch (System.Type.GetTypeCode(t))
+            return System.Type.GetTypeCode(t) switch
             {
-                case TypeCode.Int16:
-                    {
-                        var extent = TileExtent<short>();
-                        sb.Append(extent.ToString());
-                    }
-                    break;
-                case TypeCode.Int32:
-                    {
-                        var extent = TileExtent<int>();
-                        sb.Append(extent.ToString());
-                    }
-                    break;
-                case TypeCode.Int64:
-                    {
-                        var extent = TileExtent<long>();
-                        sb.Append(extent.ToString());
-                    }
-                    break;
-                case TypeCode.UInt16:
-                    {
-                        var extent = TileExtent<ushort>();
-                        sb.Append(extent.ToString());
-                    }
-                    break;
-                case TypeCode.UInt32:
-                    {
-                        var extent = TileExtent<uint>();
-                        sb.Append(extent.ToString());
-                    }
-                    break;
-                case TypeCode.UInt64:
-                    {
-                        var extent = TileExtent<ulong>();
-                        sb.Append(extent.ToString());
-                    }
-                    break;
-                case TypeCode.Single:
-                    {
-                        var extent = TileExtent<float>();
-                        sb.Append(extent.ToString(CultureInfo.InvariantCulture));
-                    }
-                    break;
-                case TypeCode.Double:
-                    {
-                        var extent = TileExtent<double>();
-                        sb.Append(extent.ToString(CultureInfo.InvariantCulture));
-                    }
-                    break;
-                default:
-                    {
-                        sb.Append(",");
-                    }
-                    break;
+                TypeCode.Int16 => Format<short>(),
+                TypeCode.Int32 => Format<int>(),
+                TypeCode.Int64 => Format<long>(),
+                TypeCode.UInt16 => Format<ushort>(),
+                TypeCode.UInt32 => Format<uint>(),
+                TypeCode.UInt64 => Format<ulong>(),
+                TypeCode.Single => Format<float>(),
+                TypeCode.Double => Format<double>(),
+                _ => ","
+            };
 
-            }
-
-            return sb.ToString();
+            string Format<T>() where T : struct, IFormattable => TileExtent<T>().ToString(null, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
-        /// Get string of domain.
+        /// Gets the dimension's domain as string.
         /// </summary>
-        /// <returns></returns>
         public string DomainToStr()
         {
-            var sb = new StringBuilder();
-
             var datatype = Type();
             var t = EnumUtil.DataTypeToType(datatype);
-            switch (System.Type.GetTypeCode(t))
+            return System.Type.GetTypeCode(t) switch
             {
-                case TypeCode.Int16:
-                    {
-                        var domain = Domain<short>();
-                        if (domain.Length >= 2)
-                        {
-                            sb.Append(domain[0] + "," + domain[1]);
-                        }
-                    }
-                    break;
-                case TypeCode.Int32:
-                    {
-                        var domain = Domain<int>();
-                        if (domain.Length >= 2)
-                        {
-                            sb.Append(domain[0] + "," + domain[1]);
-                        }
-                    }
-                    break;
-                case TypeCode.Int64:
-                    {
-                        var domain = Domain<long>();
-                        if (domain.Length >= 2)
-                        {
-                            sb.Append(domain[0] + "," + domain[1]);
-                        }
-                    }
-                    break;
-                case TypeCode.UInt16:
-                    {
-                        var domain = Domain<ushort>();
-                        if (domain.Length >= 2)
-                        {
-                            sb.Append(domain[0] + "," + domain[1]);
-                        }
-                    }
-                    break;
-                case TypeCode.UInt32:
-                    {
-                        var domain = Domain<uint>();
-                        if (domain.Length >= 2)
-                        {
-                            sb.Append(domain[0] + "," + domain[1]);
-                        }
-                    }
-                    break;
-                case TypeCode.UInt64:
-                    {
-                        var domain = Domain<ulong>();
-                        if (domain.Length >= 2)
-                        {
-                            sb.Append(domain[0] + "," + domain[1]);
-                        }
-                    }
-                    break;
-                case TypeCode.Single:
-                    {
-                        var domain = Domain<float>();
-                        if (domain.Length >= 2)
-                        {
-                            sb.Append(domain[0] + "," + domain[1]);
-                        }
-                    }
-                    break;
-                case TypeCode.Double:
-                    {
-                        var domain = Domain<double>();
-                        if (domain.Length >= 2)
-                        {
-                            sb.Append(domain[0] + "," + domain[1]);
-                        }
-                    }
-                    break;
-                default:
-                    {
-                        sb.Append(",");
-                    }
-                    break;
+                TypeCode.Int16 => Format<short>(),
+                TypeCode.Int32 => Format<int>(),
+                TypeCode.Int64 => Format<long>(),
+                TypeCode.UInt16 => Format<ushort>(),
+                TypeCode.UInt32 => Format<uint>(),
+                TypeCode.UInt64 => Format<ulong>(),
+                TypeCode.Single => Format<float>(),
+                TypeCode.Double => Format<double>(),
+                _ => ","
+            };
 
+            string Format<T>() where T : struct
+            {
+                (T Start, T End) = GetDomain<T>();
+                return FormattableString.Invariant($"{Start},{End}");
             }
-
-            return sb.ToString();
-
         }
 
-
-
         /// <summary>
-        /// Create a Dimension
+        /// Creates a <see cref="Dimension"/>.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ctx"></param>
-        /// <param name="name"></param>
-        /// <param name="boundLower"></param>
-        /// <param name="boundUpper"></param>
+        /// <typeparam name="T">The dimension's type.</typeparam>
+        /// <param name="ctx">The <see cref="Context"/> associated with the dimension.</param>
+        /// <param name="name">The dimension's name.</param>
+        /// <param name="boundLower">The dimension's lower bound, inclusive.</param>
+        /// <param name="boundUpper">The dimension's upper bound, inclusive.</param>
         /// <param name="extent"></param>
-        /// <returns></returns>
-        /// <exception cref="System.NotSupportedException"></exception>
+        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
 
         public static Dimension Create<T>(Context ctx, string name, T boundLower, T boundUpper, T extent)
         {
             var tiledb_datatype = (tiledb_datatype_t)EnumUtil.TypeToDataType(typeof(T));
-
-            if (tiledb_datatype == tiledb_datatype_t.TILEDB_ANY) {
-                throw new NotSupportedException("Dimension.create, not supported datatype");
-            }
 
             if (tiledb_datatype == tiledb_datatype_t.TILEDB_STRING_ASCII)
             {
@@ -404,49 +252,39 @@ namespace TileDB.CSharp
                 return new Dimension(ctx, str_dim_handle);
             }
 
-            var data = new[] { boundLower, boundUpper};
-     
-            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            var extent_dataGcHandle = GCHandle.Alloc(extent, GCHandleType.Pinned);
-            var handle = DimensionHandle.Create(ctx, name, tiledb_datatype, (void*)dataGcHandle.AddrOfPinnedObject(), (void*)extent_dataGcHandle.AddrOfPinnedObject());
-            dataGcHandle.Free();
-            extent_dataGcHandle.Free();
-            return new Dimension(ctx,handle);
+            SequentialPair<T> data = (boundLower, boundUpper);
+            var handle = DimensionHandle.Create(ctx, name, tiledb_datatype, &data, &extent);
+            return new Dimension(ctx, handle);
         }
 
         /// <summary>
-        /// Create a dimension.
+        /// Creates a <see cref="Dimension"/>. Deprecated, use <see cref="Create{T}(Context, string, T, T, T)"/> instead.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ctx"></param>
-        /// <param name="name"></param>
-        /// <param name="bound"></param>
-        /// <param name="extent"></param>
-        /// <returns></returns>
-        /// <exception cref="System.NotSupportedException"></exception>
-        /// <exception cref="System.ArgumentException"></exception>
-        public static Dimension Create<T>(Context ctx, string name, T[] bound, T extent) 
+        [Obsolete("Use the overload that does not accept an array instead.")]
+        public static Dimension Create<T>(Context ctx, string name, T[] bound, T extent)
         {
             var tiledb_datatype = (tiledb_datatype_t)EnumUtil.TypeToDataType(typeof(T));
-            if (tiledb_datatype == tiledb_datatype_t.TILEDB_STRING_ASCII) 
+            if (tiledb_datatype == tiledb_datatype_t.TILEDB_STRING_ASCII)
             {
-                throw new NotSupportedException("Dimension.create, use create_string for string dimensions");
+                throw new NotSupportedException("Use CreateString for string dimensions.");
             }
-            if (bound.Length < 2) {
-                throw new ArgumentException("Dimension.create, length of bound array is less than 2!");
+            if (bound is not [T boundLower, T boundUpper, ..])
+            {
+                throw new ArgumentException("Length of bound array is less than 2!");
             }
-            return Create(ctx, name, bound[0], bound[1], extent);
+            return Create(ctx, name, boundLower, boundUpper, extent);
         }
 
         /// <summary>
-        /// Create a string dimension.
+        /// Create a string <see cref="Dimension"/>.
         /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="name"></param>
+        /// <param name="ctx">The <see cref="Context"/> associated with the dimension.</param>
+        /// <param name="name">The dimension's name.</param>
         /// <returns></returns>
-        public static Dimension CreateString(Context ctx, string name) 
+        public static Dimension CreateString(Context ctx, string name)
         {
-            return Create<string>(ctx, name, "", "", "");
+            var str_dim_handle = DimensionHandle.Create(ctx, name, tiledb_datatype_t.TILEDB_STRING_ASCII, null, null);
+            return new Dimension(ctx, str_dim_handle);
         }
     }
 }
