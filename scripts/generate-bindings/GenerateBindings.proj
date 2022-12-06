@@ -1,0 +1,105 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="GenerateBindings">
+  <PropertyGroup>
+    <HeaderFile>./header.txt</HeaderFile>
+    <MethodClass>Methods</MethodClass>
+    <Namespace>TileDB.Interop</Namespace>
+    <LibraryName>tiledb</LibraryName>
+    <OutDir>../../sources/TileDB.CSharp/Interop</OutDir>
+    <TempDir>./temp</TempDir>
+    <InputDir>$(TempDir)/download/include</InputDir>
+    <RspFile>$(TempDir)/generate.rsp</RspFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ConfigOption Include="latest-codegen" />
+    <ConfigOption Include="unix-types" />
+    <ConfigOption Include="multi-file" />
+    <ConfigOption Include="generate-helper-types" />
+    <InputFileBefore Include="tiledb/api/c_api/api_external_common.h" />
+    <InputFile Include="tiledb/tiledb_experimental.h" />
+    <InputFile Include="tiledb/tiledb.h" />
+    <RemapHandleType Include="config" />
+    <RemapHandleType Include="config_iter" />
+    <RemapHandleType Include="ctx" />
+    <RemapHandleType Include="error" />
+    <RemapHandleType Include="filter" />
+    <RemapHandleType Include="filter_list" />
+    <Remap Include="@(RemapHandleType->'tiledb_%(Identity)_handle_t=tiledb_%(Identity)_t')" />
+    <Remap Include="tiledb_experimental_query_status_details_t=tiledb_query_status_details_t" />
+    <ExcludeDump Include="attribute" />
+    <ExcludeDump Include="domain" />
+    <ExcludeDump Include="dimension" />
+    <ExcludeDump Include="array_schema" />
+    <ExcludeDump Include="stats" />
+    <ExcludeDump Include="stats_raw" />
+    <ExcludeDump Include="fragment_info" />
+    <ExcludeMethod Include="@(ExcludeDump->'tiledb_%(Identity)_dump')" />
+    <ExcludeMethod Include="tiledb_status" />
+  </ItemGroup>
+
+  <Target Name="CleanOutput">
+    <RemoveDir Directories="$(OutDir)" />
+  </Target>
+  <Target Name="Clean"
+    DependsOnTargets="CleanOutput">
+    <RemoveDir Directories="$(TempDir)" />
+  </Target>
+
+  <Target Name="Restore">
+    <Exec Command="dotnet tool restore" />
+  </Target>
+
+  <Target Name="DownloadHeaders">
+    <Error
+      Condition="'$(Version)' == '' AND '$(VersionTag)' == ''"
+      Text="Version and VersionTag must be specified." />
+
+    <PropertyGroup>
+      <DownloadUrl>https://github.com/TileDB-Inc/TileDB/releases/download/$(Version)/TileDB-windows-x86_64-$(Version)-$(VersionTag).zip</DownloadUrl>
+      <ExtractDir>$(TempDir)/download</ExtractDir>
+    </PropertyGroup>
+    <DownloadFile
+      SourceUrl="$(DownloadUrl)"
+      DestinationFolder="$(TempDir)">
+      <Output TaskParameter="DownloadedFile" ItemName="DownloadedFile" />
+    </DownloadFile>
+    <MakeDir Directories="$(ExtractDir)" />
+    <Unzip SourceFiles="@(DownloadedFile)" DestinationFolder="$(ExtractDir)" />
+
+    <ItemGroup>
+      <ApiExternalHeaders Include="$(ExtractDir)/include/tiledb/api/c_api/**/*_api_external.h" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="GenerateRspFile"
+    DependsOnTargets="CleanOutput">
+    <ItemGroup>
+      <PInvokeGeneratorArg Remove="@(PInvokeGeneratorArg)" />
+      <PInvokeGeneratorArg Include="--config;@(ConfigOption)" />
+      <PInvokeGeneratorArg Include="--methodClassName;$(MethodClass)" />
+      <PInvokeGeneratorArg Include="--namespace;$(Namespace)" />
+      <PInvokeGeneratorArg Include="--file" />
+      <PInvokeGeneratorArg Condition="'@(InputFileBefore)' != ''" Include="@(InputFileBefore)" />
+      <PInvokeGeneratorArg Condition="'@(ApiExternalHeaders)' != ''" Include="@(ApiExternalHeaders->'%(FullPath)')" />
+      <PInvokeGeneratorArg Include="@(InputFile)" />
+      <PInvokeGeneratorArg Include="--output;$(OutDir)" />
+      <PInvokeGeneratorArg Include="--headerFile;$(HeaderFile)" />
+      <PInvokeGeneratorArg Include="--exclude;@(ExcludeMethod)" />
+      <PInvokeGeneratorArg Include="--remap;@(Remap)" />
+      <PInvokeGeneratorArg Include="-l$(LibraryName)" />
+      <PInvokeGeneratorArg Include="-F;$(InputDir)" />
+      <PInvokeGeneratorArg Include="-I;$(InputDir)" />
+    </ItemGroup>
+
+    <WriteLinesToFile
+      File="$(RspFile)"
+      Lines="@(PInvokeGeneratorArg)"
+      Overwrite="true"
+      WriteOnlyWhenDifferent="true" />
+  </Target>
+
+  <Target Name="GenerateBindings"
+    DependsOnTargets="DownloadHeaders;GenerateRspFile">
+    <Exec Command="dotnet tool run ClangSharpPInvokeGenerator @&quot;$(RspFile)&quot;" />
+  </Target>
+</Project>
