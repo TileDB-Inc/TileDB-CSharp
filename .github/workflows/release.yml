@@ -22,6 +22,13 @@ jobs:
         run: dotnet --info
       - name: Pack TileDB.CSharp
         run: dotnet pack -c Release ./sources/TileDB.CSharp/TileDB.CSharp.csproj -o pack
+      # In case pushing to NuGet fails we upload the packages as artifacts to push them ourselves.
+      # We must push these packages GitHub Actions generated because they are marked as deterministic.
+      - name: Upload packages as artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: nuget-release
+          path: pack/
       - name: Push packages to NuGet
         shell: bash
         run: |
