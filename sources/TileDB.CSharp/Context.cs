@@ -9,7 +9,8 @@ namespace TileDB.CSharp
     {
         private readonly ContextHandle _handle;
         private readonly Config _config;
-        private bool _disposed;
+
+        private bool IsDefault { get; init; }
 
         public Context()
         {
@@ -25,35 +26,22 @@ namespace TileDB.CSharp
 
         public void Dispose()
         {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed) return;
-            if (disposing && !_handle.IsInvalid)
+            if (IsDefault)
             {
-                _handle.Dispose();
+                return;
             }
 
-            _disposed = true;
+            _handle.Dispose();
         }
 
         internal ContextHandle Handle => _handle;
 
-        private static Context? _default;
+        private static readonly Context _default = new() { IsDefault = true };
+
         /// <summary>
-        /// Get default context.
+        /// Gets the default <see cref="Context"/>.
         /// </summary>
-        /// <returns></returns>
-        public static Context GetDefault()
-        {
-            if (_default == null)
-            {
-                _default = new Context(new Config());
-            }
-            return _default;
-        }
+        public static Context GetDefault() => _default;
 
         /// <summary>
         /// Get statistic string.
