@@ -6,6 +6,10 @@ env:
 on:
   schedule:
     - cron: "15 2 * * *"
+  pull_request:
+    branches: [main]
+    paths:
+      - './.github/workflows/nightly.yml'
   workflow_dispatch:
 
 jobs:
@@ -15,14 +19,14 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         include:
-          - BOOTSTRAP: ../bootstrap --enable-s3 --enable-serialization
+          - BOOTSTRAP: ../bootstrap --enable-s3 --enable-serialization --force-build-all-deps
           - os: ubuntu-latest
             platform: linux-x86_64
           - os: macos-latest
             platform: macos-x86_64
           - os: windows-latest
             platform: windows-x86_64
-            BOOTSTRAP: ../bootstrap.ps1 -EnableS3 -EnableSerialization
+            BOOTSTRAP: ../bootstrap.ps1 -EnableS3 -EnableSerialization -EnableBuildDeps
         tag: [release-2.12, dev]
     runs-on: ${{ matrix.os }}
     steps:
