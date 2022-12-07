@@ -666,7 +666,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// The WebP filter's input format.
         /// </summary>
-        /// <remarks>Must be a <see cref="byte"/>.
+        /// <remarks>Must be a <see cref="byte"/>. The allowed values are listed below:
         /// <list type="table">
         /// <listheader>
         /// <term>Allowed value</term>
