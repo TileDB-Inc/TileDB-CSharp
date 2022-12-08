@@ -666,18 +666,8 @@ namespace TileDB.CSharp
         /// <summary>
         /// The WebP filter's input format.
         /// </summary>
-        /// <remarks>Must be a <see cref="byte"/>. The allowed values are listed below:
-        /// <list type="table">
-        /// <listheader>
-        /// <term>Allowed value</term>
-        /// <description>Meaning</description>
-        /// </listheader>
-        /// <item><term>0</term><description>Unspecified</description></item>
-        /// <item><term>1</term><description>RGB</description></item>
-        /// <item><term>2</term><description>BGR</description></item>
-        /// <item><term>3</term><description>RGBA</description></item>
-        /// <item><term>4</term><description>BGRA</description></item>
-        /// </list>
+        /// <remarks>
+        /// Must be a <see cref="WebpInputFormat"/>.
         /// </remarks>
         WebpInputFormat = tiledb_filter_option_t.TILEDB_WEBP_INPUT_FORMAT,
         /// <summary>
@@ -699,6 +689,34 @@ namespace TileDB.CSharp
         TILEDB_SCALE_FLOAT_FACTOR = ScaleFloatFactor,
         [Obsolete("Use ScaleFloatOffset instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_SCALE_FLOAT_OFFSET = ScaleFloatOffset
+    }
+
+    /// <summary>
+    /// Specifies an image format type for the WebP filter.
+    /// </summary>
+    /// <seealso cref="FilterOption.WebpInputFormat"/>
+    public enum WebpInputFormat : byte
+    {
+        /// <summary>
+        /// Unspecified format.
+        /// </summary>
+        Unspecified = tiledb_filter_webp_format_t.TILEDB_WEBP_NONE,
+        /// <summary>
+        /// RGB format.
+        /// </summary>
+        Rgb = tiledb_filter_webp_format_t.TILEDB_WEBP_RGB,
+        /// <summary>
+        /// BGR format.
+        /// </summary>
+        Bgr = tiledb_filter_webp_format_t.TILEDB_WEBP_BGR,
+        /// <summary>
+        /// RGBA format.
+        /// </summary>
+        Rgba = tiledb_filter_webp_format_t.TILEDB_WEBP_RGBA,
+        /// <summary>
+        /// BGRA format.
+        /// </summary>
+        Bgra = tiledb_filter_webp_format_t.TILEDB_WEBP_BGRA,
     }
 
     /// <summary>

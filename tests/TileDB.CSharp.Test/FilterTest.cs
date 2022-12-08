@@ -93,9 +93,9 @@ namespace TileDB.CSharp.Test
             filter.SetOption(FilterOption.WebpQuality, quality);
             Assert.AreEqual(quality, filter.GetOption<double>(FilterOption.WebpQuality));
 
-            const byte inputFormat = 3;
+            const WebpInputFormat inputFormat = WebpInputFormat.Bgra;
             filter.SetOption(FilterOption.WebpInputFormat, inputFormat);
-            Assert.AreEqual(inputFormat, filter.GetOption<byte>(FilterOption.ScaleFloatOffset));
+            Assert.AreEqual(inputFormat, filter.GetOption<WebpInputFormat>(FilterOption.ScaleFloatOffset));
 
             const bool lossless = false;
             filter.SetOption(FilterOption.WebpLossless, lossless);
