@@ -292,11 +292,11 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Consolidate an array.
+        /// Consolidates an array.
         /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="uri"></param>
-        /// <param name="config"></param>
+        /// <param name="ctx">The <see cref="Context"/> to use.</param>
+        /// <param name="uri">The array's URI.</param>
+        /// <param name="config">Configuration parameters for the consolidation. Optional.</param>
         public static void Consolidate(Context ctx, string uri, Config? config = null)
         {
             using var ms_uri = new MarshaledString(uri);
@@ -306,11 +306,11 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Vacuum the array.
+        /// Vacuums an array.
         /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="uri"></param>
-        /// <param name="config"></param>
+        /// <param name="ctx">The <see cref="Context"/> to use.</param>
+        /// <param name="uri">The array's URI.</param>
+        /// <param name="config">Configuration parameters for the consolidation. Optional.</param>
         public static void Vacuum(Context ctx, string uri, Config? config = null)
         {
             using var ms_uri = new MarshaledString(uri);
