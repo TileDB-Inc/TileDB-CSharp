@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using TileDB.CSharp.Marshalling;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
@@ -97,7 +98,6 @@ namespace TileDB.CSharp
             return _metadata;
         }
 
-        #region capi functions
         /// <summary>
         /// Set open timestamp start, sets the subsequent Open call to use the start_timestamp of the passed value.
         /// </summary>
@@ -303,6 +303,25 @@ namespace TileDB.CSharp
             using var ctxHandle = ctx.Handle.Acquire();
             using var configHandle = config?.Handle.Acquire() ?? default;
             ctx.handle_error(Methods.tiledb_array_consolidate(ctxHandle, ms_uri, configHandle));
+        }
+
+        /// <summary>
+        /// Consolidates the given fragment URIs of an array into a single fragment.
+        /// </summary>
+        /// <param name="ctx">The <see cref="Context"/> to use.</param>
+        /// <param name="uri">The array's URI.</param>
+        /// <param name="fragments">The URIs of the fragments to consolidate.</param>
+        /// <param name="config">Configuration parameters for the consolidation. Optional.</param>
+        public static void ConsolidateFragments(Context ctx, string uri, IReadOnlyCollection<string> fragments, Config? config = null)
+        {
+            using var ctxHandle = ctx.Handle.Acquire();
+            using var ms_uri = new MarshaledString(uri);
+            using var msc_fragments = new MarshaledStringCollection(fragments, stackalloc IntPtr[32]);
+            using var configHandle = config?.Handle.Acquire() ?? default;
+            fixed (IntPtr* fragmentsPtr = msc_fragments.Strings)
+            {
+                ctx.handle_error(Methods.tiledb_array_consolidate_fragments(ctxHandle, ms_uri, (sbyte**)fragmentsPtr, (ulong)msc_fragments.Strings.Length, configHandle));
+            }
         }
 
         /// <summary>
@@ -747,6 +766,5 @@ namespace TileDB.CSharp
         /// <param name="ctx"></param>
         /// <param name="path"></param>
         public static ArraySchema LoadArraySchema(Context ctx, string path) => ArraySchema.Load(ctx, path);
-        #endregion
     }
 }
