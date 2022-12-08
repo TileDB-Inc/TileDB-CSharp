@@ -5,60 +5,63 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
+    /// <summary>
+    /// Represents a TileDB context.
+    /// </summary>
     public sealed unsafe class Context : IDisposable
     {
         private readonly ContextHandle _handle;
         private readonly Config _config;
-        private bool _disposed;
 
+        private bool IsDefault { get; init; }
+
+        /// <summary>
+        /// Creates a <see cref="Context"/>.
+        /// </summary>
         public Context()
         {
             _handle = ContextHandle.Create();
             _config = new Config();
         }
 
+        /// <summary>
+        /// Creates a <see cref="Context"/> with an associated <see cref="CSharp.Config"/>.
+        /// </summary>
+        /// <param name="config">The context's config.</param>
         public Context(Config config)
         {
             _handle = ContextHandle.Create(config.Handle);
             _config = config;
         }
 
+        /// <summary>
+        /// Disposes the <see cref="Context"/>.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method on the context returned by <see cref="GetDefault"/> will have no effect.
+        /// </remarks>
         public void Dispose()
         {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed) return;
-            if (disposing && !_handle.IsInvalid)
+            if (IsDefault)
             {
-                _handle.Dispose();
+                return;
             }
 
-            _disposed = true;
+            _handle.Dispose();
         }
 
         internal ContextHandle Handle => _handle;
 
-        private static Context? _default;
-        /// <summary>
-        /// Get default context.
-        /// </summary>
-        /// <returns></returns>
-        public static Context GetDefault()
-        {
-            if (_default == null)
-            {
-                _default = new Context(new Config());
-            }
-            return _default;
-        }
+        private static readonly Context _default = new() { IsDefault = true };
 
         /// <summary>
-        /// Get statistic string.
+        /// Gets the default <see cref="Context"/>.
         /// </summary>
-        /// <returns></returns>
+        public static Context GetDefault() => _default;
+
+        /// <summary>
+        /// Gets the <see cref="Context"/>'s statistics.
+        /// </summary>
         public string Stats()
         {
             using var handle = _handle.Acquire();
@@ -69,9 +72,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get config.
+        /// Gets the <see cref="Context"/>'s <see cref="Config"/>.
         /// </summary>
-        /// <returns></returns>
 
         public Config Config()
         {
@@ -79,9 +81,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get last error message.
+        /// Gets the last error message associated with this <see cref="Context"/>.
         /// </summary>
-        /// <returns></returns>
         public string LastError()
         {
             var sb_result = new StringBuilder();
@@ -120,7 +121,7 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Cancel tasks.
+        /// Cancels the asynchronous tasks associated with this <see cref="Context"/>.
         /// </summary>
         public void CancelTasks()
         {
@@ -129,11 +130,12 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set tag.
+        /// Sets a string key-value “tag” on the given context.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <exception cref="System.ArgumentException"></exception>
+        /// <param name="key">The tag's key.</param>
+        /// <param name="value">The tag's value.</param>
+        /// <exception cref="ArgumentException"><paramref name="key"/> or
+        /// <paramref name="value"/> are <see langword="null"/> or empty.</exception>
         public void SetTag(string key, string value)
         {
             if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value))
@@ -147,10 +149,12 @@ namespace TileDB.CSharp
             handle_error(Methods.tiledb_ctx_set_tag(handle, ms_key, ms_value));
         }
 
-        #region error
         /// <summary>
-        /// Default event handler is just printing
+        /// An event that gets raised if an operation that used this <see cref="Context"/> failed.
         /// </summary>
+        /// <remarks>
+        /// By default it throws an exception.
+        /// </remarks>
         public event EventHandler<ErrorEventArgs> ErrorHappened = (_, e) =>
         {
             var error_msg = $"Error! Code:{e.Code},Message:{e.Message}";
@@ -205,6 +209,5 @@ namespace TileDB.CSharp
             var handler = ErrorHappened;
             handler(this, e); //fire the event
         }
-        #endregion
     }
 }
