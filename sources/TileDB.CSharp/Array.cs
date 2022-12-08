@@ -297,11 +297,11 @@ namespace TileDB.CSharp
         /// <param name="ctx"></param>
         /// <param name="uri"></param>
         /// <param name="config"></param>
-        public static void Consolidate(Context ctx, string uri, Config config)
+        public static void Consolidate(Context ctx, string uri, Config? config = null)
         {
             using var ms_uri = new MarshaledString(uri);
             using var ctxHandle = ctx.Handle.Acquire();
-            using var configHandle = config.Handle.Acquire();
+            using var configHandle = config?.Handle.Acquire() ?? default;
             ctx.handle_error(Methods.tiledb_array_consolidate(ctxHandle, ms_uri, configHandle));
         }
 
@@ -311,11 +311,11 @@ namespace TileDB.CSharp
         /// <param name="ctx"></param>
         /// <param name="uri"></param>
         /// <param name="config"></param>
-        public static void Vacuum(Context ctx, string uri, Config config)
+        public static void Vacuum(Context ctx, string uri, Config? config = null)
         {
             using var ms_uri = new MarshaledString(uri);
             using var ctxHandle = ctx.Handle.Acquire();
-            using var configHandle = config.Handle.Acquire();
+            using var configHandle = config?.Handle.Acquire() ?? default;
             ctx.handle_error(Methods.tiledb_array_vacuum(ctxHandle, ms_uri, configHandle));
         }
 
