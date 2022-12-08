@@ -82,6 +82,7 @@ namespace TileDB.CSharp.Test
         }
 
         [TestMethod]
+        [Ignore("2.13.0 binaries were built without WebP support.")]
         public void NewWebpFilterIsValid()
         {
             var ctx = Context.GetDefault();
