@@ -172,7 +172,7 @@ namespace TileDB.CSharp
             using var ctxHandle = ctx.Handle.Acquire();
             using var ms_uri = new MarshaledString(uri);
             using var configHandle = config.Handle.Acquire();
-            ctx.handle_error(Methods.tiledb_array_consolidate_metadata(ctxHandle, ms_uri, configHandle));
+            ctx.handle_error(Methods.tiledb_group_consolidate_metadata(ctxHandle, ms_uri, configHandle));
         }
         #endregion
 
