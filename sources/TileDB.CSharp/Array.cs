@@ -312,7 +312,7 @@ namespace TileDB.CSharp
         /// <param name="uri">The array's URI.</param>
         /// <param name="fragments">The URIs of the fragments to consolidate.</param>
         /// <param name="config">Configuration parameters for the consolidation. Optional.</param>
-        public static void ConsolidateFragments(Context ctx, string uri, IReadOnlyCollection<string> fragments, Config? config = null)
+        public static void ConsolidateFragments(Context ctx, string uri, IReadOnlyList<string> fragments, Config? config = null)
         {
             using var ctxHandle = ctx.Handle.Acquire();
             using var ms_uri = new MarshaledString(uri);

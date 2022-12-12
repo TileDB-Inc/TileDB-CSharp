@@ -12,20 +12,18 @@ namespace TileDB.CSharp.Marshalling
 
         public ReadOnlySpan<IntPtr> Strings => _nativeStrings.Span;
 
-        public MarshaledStringCollection(IReadOnlyCollection<string> strings, Span<IntPtr> preAllocatedSpan)
+        public MarshaledStringCollection(IReadOnlyList<string> strings, Span<IntPtr> preAllocatedSpan)
         {
             _nativeStrings = new ScratchBuffer<IntPtr>(strings.Count, preAllocatedSpan);
             Span<IntPtr> buffer = _nativeStrings.Span;
             buffer.Clear();
 
-            int i = 0;
             try
             {
-                foreach (string s in strings)
+                for (int i = 0; i < strings.Count; i++)
                 {
-                    buffer[i++] = MarshaledString.AllocNullTerminated(s).Pointer;
+                    buffer[i] = MarshaledString.AllocNullTerminated(strings[i]).Pointer;
                 }
-                Debug.Assert(i == buffer.Length);
             }
             catch
             {
