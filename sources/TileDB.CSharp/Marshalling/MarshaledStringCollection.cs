@@ -1,28 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using TileDB.Interop;
 
 namespace TileDB.CSharp.Marshalling
 {
-    internal unsafe ref struct MarshaledStringCollection
+    internal unsafe struct MarshaledStringCollection : IDisposable
     {
-        private ScratchBuffer<IntPtr> _nativeStrings;
+        public IntPtr* Strings { get; private set; }
 
-        public ReadOnlySpan<IntPtr> Strings => _nativeStrings.Span;
+        public int Count { get; }
 
-        public MarshaledStringCollection(IReadOnlyList<string> strings, Span<IntPtr> preAllocatedSpan)
+        public MarshaledStringCollection(IReadOnlyList<string> strings)
         {
-            _nativeStrings = new ScratchBuffer<IntPtr>(strings.Count, preAllocatedSpan);
-            Span<IntPtr> buffer = _nativeStrings.Span;
-            buffer.Clear();
+            Count = strings.Count;
+            Strings = (IntPtr*)Marshal.AllocHGlobal(Count * sizeof(IntPtr));
 
             try
             {
-                for (int i = 0; i < strings.Count; i++)
+                for (int i = 0; i < Count; i++)
                 {
-                    buffer[i] = MarshaledString.AllocNullTerminated(strings[i]).Pointer;
+                    Strings[i] = MarshaledString.AllocNullTerminated(strings[i]).Pointer;
                 }
             }
             catch
@@ -34,15 +32,14 @@ namespace TileDB.CSharp.Marshalling
 
         public void Dispose()
         {
-            foreach (ref IntPtr ptr in _nativeStrings.Span)
+            if (Strings is null) return;
+
+            for (int i = 0; i < Count; i++)
             {
-                if (ptr != (IntPtr)0)
-                {
-                    Marshal.FreeHGlobal(ptr);
-                    ptr = (IntPtr)0;
-                }
+                MarshaledString.FreeNullTerminated(Strings[i]);
             }
-            _nativeStrings.Dispose();
+            Marshal.FreeHGlobal((IntPtr)Strings);
+            Strings = null;
         }
     }
 }

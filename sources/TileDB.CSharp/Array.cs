@@ -316,12 +316,9 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = ctx.Handle.Acquire();
             using var ms_uri = new MarshaledString(uri);
-            using var msc_fragments = new MarshaledStringCollection(fragments, stackalloc IntPtr[32]);
+            using var msc_fragments = new MarshaledStringCollection(fragments);
             using var configHandle = config?.Handle.Acquire() ?? default;
-            fixed (IntPtr* fragmentsPtr = msc_fragments.Strings)
-            {
-                ctx.handle_error(Methods.tiledb_array_consolidate_fragments(ctxHandle, ms_uri, (sbyte**)fragmentsPtr, (ulong)msc_fragments.Strings.Length, configHandle));
-            }
+            ctx.handle_error(Methods.tiledb_array_consolidate_fragments(ctxHandle, ms_uri, (sbyte**)msc_fragments.Strings, (ulong)msc_fragments.Count, configHandle));
         }
 
         /// <summary>
