@@ -1149,7 +1149,7 @@ namespace TileDB.CSharp
             return (VfsMode)tiledb_vfsmode;
         }
 
-        [Obsolete("This method will be removed in a future version of the library. Use TypeToDataType and the DataType enum instead.")]
+        [Obsolete(Obsoletions.TileDBInteropMessage + " Use TypeToDataType and the DataType enum instead.", DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public static tiledb_datatype_t to_tiledb_datatype(Type t) =>
             (tiledb_datatype_t)TypeToDataType(t);
 
@@ -1283,7 +1283,7 @@ namespace TileDB.CSharp
 #pragma warning restore TILEDB0002 // Data type is obsolete
         }
 
-        [Obsolete("This method will be removed in a future version of the library. Use the overload that accepts the DataType enum instead.")]
+        [Obsolete(Obsoletions.TileDBInteropMessage + " Use the overload that accepts the DataType enum instead.", DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public static bool IsStringType(tiledb_datatype_t tiledbDatatype) =>
             IsStringType((DataType)tiledbDatatype);
 
@@ -1299,7 +1299,7 @@ namespace TileDB.CSharp
 #pragma warning restore TILEDB0002 // Data type is obsolete
         }
 
-        [Obsolete("This method will be removed in a future version of the library. Use DataTypeSize and the DataType enum instead.")]
+        [Obsolete(Obsoletions.TileDBInteropMessage + " Use DataTypeSize and the DataType enum instead.", DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public static ulong TileDBDataTypeSize(tiledb_datatype_t tiledbDatatype) =>
             DataTypeSize((DataType)tiledbDatatype);
 
