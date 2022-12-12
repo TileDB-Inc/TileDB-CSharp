@@ -20,5 +20,7 @@ namespace TileDB.Interop
         TILEDB_FILTER_DICTIONARY = 14,
         TILEDB_FILTER_SCALE_FLOAT = 15,
         TILEDB_FILTER_XOR = 16,
+        TILEDB_FILTER_BITSORT = 17,
+        TILEDB_FILTER_WEBP = 18,
     }
 }

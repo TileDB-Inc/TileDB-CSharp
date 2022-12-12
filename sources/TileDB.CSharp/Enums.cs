@@ -612,6 +612,10 @@ namespace TileDB.CSharp
         /// XOR filter.
         /// </summary>
         Xor = tiledb_filter_type_t.TILEDB_FILTER_XOR,
+        /// <summary>
+        /// WebP filter.
+        /// </summary>
+        Webp = tiledb_filter_type_t.TILEDB_FILTER_WEBP,
         [Obsolete("Use None instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_NONE = None,
         [Obsolete("Use Gzip instead."), EditorBrowsable(EditorBrowsableState.Never)]
@@ -652,6 +656,27 @@ namespace TileDB.CSharp
         ScaleFloatByteWidth = tiledb_filter_option_t.TILEDB_SCALE_FLOAT_BYTEWIDTH,
         ScaleFloatFactor = tiledb_filter_option_t.TILEDB_SCALE_FLOAT_FACTOR,
         ScaleFloatOffset = tiledb_filter_option_t.TILEDB_SCALE_FLOAT_OFFSET,
+        /// <summary>
+        /// The WebP filter's compression quality.
+        /// </summary>
+        /// <remarks>
+        /// Must be a <see cref="float"/> between 1 and 100.
+        /// </remarks>
+        WebpQuality = tiledb_filter_option_t.TILEDB_WEBP_QUALITY,
+        /// <summary>
+        /// The WebP filter's input format.
+        /// </summary>
+        /// <remarks>
+        /// Must be a <see cref="WebpInputFormat"/>.
+        /// </remarks>
+        WebpInputFormat = tiledb_filter_option_t.TILEDB_WEBP_INPUT_FORMAT,
+        /// <summary>
+        /// Whether the WebP filter should perform lossless compression.
+        /// </summary>
+        /// <remarks>
+        /// Must be a <see cref="bool"/>.
+        /// </remarks>
+        WebpLossless = tiledb_filter_option_t.TILEDB_WEBP_LOSSLESS,
         [Obsolete("Use CompressionLevel instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_COMPRESSION_LEVEL = CompressionLevel,
         [Obsolete("Use BitWidthMaxWindow instead."), EditorBrowsable(EditorBrowsableState.Never)]
@@ -664,6 +689,34 @@ namespace TileDB.CSharp
         TILEDB_SCALE_FLOAT_FACTOR = ScaleFloatFactor,
         [Obsolete("Use ScaleFloatOffset instead."), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_SCALE_FLOAT_OFFSET = ScaleFloatOffset
+    }
+
+    /// <summary>
+    /// Specifies an image format type for the WebP filter.
+    /// </summary>
+    /// <seealso cref="FilterOption.WebpInputFormat"/>
+    public enum WebpInputFormat : byte
+    {
+        /// <summary>
+        /// Unspecified format.
+        /// </summary>
+        Unspecified = tiledb_filter_webp_format_t.TILEDB_WEBP_NONE,
+        /// <summary>
+        /// RGB format.
+        /// </summary>
+        Rgb = tiledb_filter_webp_format_t.TILEDB_WEBP_RGB,
+        /// <summary>
+        /// BGR format.
+        /// </summary>
+        Bgr = tiledb_filter_webp_format_t.TILEDB_WEBP_BGR,
+        /// <summary>
+        /// RGBA format.
+        /// </summary>
+        Rgba = tiledb_filter_webp_format_t.TILEDB_WEBP_RGBA,
+        /// <summary>
+        /// BGRA format.
+        /// </summary>
+        Bgra = tiledb_filter_webp_format_t.TILEDB_WEBP_BGRA,
     }
 
     /// <summary>

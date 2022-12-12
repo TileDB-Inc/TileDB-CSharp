@@ -80,5 +80,26 @@ namespace TileDB.CSharp.Test
             filter.SetOption(FilterOption.ScaleFloatByteWidth, byteWidth);
             Assert.AreEqual(byteWidth, filter.GetOption<ulong>(FilterOption.ScaleFloatByteWidth));
         }
+
+        [TestMethod]
+        [Ignore("2.13.0 binaries were built without WebP support.")]
+        public void NewWebpFilterIsValid()
+        {
+            var ctx = Context.GetDefault();
+            using var filter = new Filter(ctx, FilterType.Webp);
+            Assert.AreEqual(FilterType.Webp, filter.FilterType());
+
+            const float quality = 59.0f;
+            filter.SetOption(FilterOption.WebpQuality, quality);
+            Assert.AreEqual(quality, filter.GetOption<double>(FilterOption.WebpQuality));
+
+            const WebpInputFormat inputFormat = WebpInputFormat.Bgra;
+            filter.SetOption(FilterOption.WebpInputFormat, inputFormat);
+            Assert.AreEqual(inputFormat, filter.GetOption<WebpInputFormat>(FilterOption.ScaleFloatOffset));
+
+            const bool lossless = false;
+            filter.SetOption(FilterOption.WebpLossless, lossless);
+            Assert.AreEqual(lossless, filter.GetOption<bool>(FilterOption.WebpLossless));
+        }
     }
 }
