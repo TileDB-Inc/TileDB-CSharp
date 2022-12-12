@@ -306,11 +306,11 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Consolidates the given fragment URIs of an array into a single fragment.
+        /// Consolidates the given fragments of an array into a single fragment.
         /// </summary>
         /// <param name="ctx">The <see cref="Context"/> to use.</param>
         /// <param name="uri">The array's URI.</param>
-        /// <param name="fragments">The URIs of the fragments to consolidate.</param>
+        /// <param name="fragments">The names of the fragments to consolidate. They can be retrieved using <see cref="FragmentInfo.GetFragmentName"/>.</param>
         /// <param name="config">Configuration parameters for the consolidation. Optional.</param>
         public static void ConsolidateFragments(Context ctx, string uri, IReadOnlyList<string> fragments, Config? config = null)
         {

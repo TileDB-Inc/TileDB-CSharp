@@ -160,9 +160,9 @@ namespace TileDB.CSharp.Test
 
             Assert.AreEqual(FragmentCount, fragmentInfo.FragmentCount);
 
-            string[] fragmentUris = Enumerable.Range(0, (int)FragmentCount).Select(x => fragmentInfo.GetFragmentName((uint)x)).ToArray();
+            string[] fragments = Enumerable.Range(0, (int)FragmentCount).Select(x => fragmentInfo.GetFragmentName((uint)x)).ToArray();
 
-            Array.ConsolidateFragments(context, uri, fragmentUris);
+            Array.ConsolidateFragments(context, uri, fragments);
 
             fragmentInfo.Load();
 

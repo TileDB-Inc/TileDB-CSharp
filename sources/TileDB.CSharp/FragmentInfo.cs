@@ -237,6 +237,7 @@ namespace TileDB.CSharp
         /// The maximum value <paramref name="fragmentIndex"/> can take
         /// is determined by the <see cref="FragmentCount"/> property.
         /// </remarks>
+        /// <seealso cref="Array.ConsolidateFragments"/>
         public string GetFragmentName(uint fragmentIndex)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
