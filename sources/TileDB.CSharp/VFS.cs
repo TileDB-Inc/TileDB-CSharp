@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
@@ -21,13 +24,13 @@ namespace TileDB.CSharp
         /// Creates a <see cref="VFS"/> associated with the given <see cref="Context"/>.
         /// </summary>
         /// <param name="ctx">The context to associate the VFS.</param>
-        public VFS(Context ctx) 
+        public VFS(Context ctx)
         {
             ctx_ = ctx;
             handle_ = VFSHandle.Create(ctx_, ctx_.Config().Handle);
         }
 
-        internal VFS(Context ctx, VFSHandle handle) 
+        internal VFS(Context ctx, VFSHandle handle)
         {
             ctx_ = ctx;
             handle_ = handle;
@@ -44,7 +47,8 @@ namespace TileDB.CSharp
         /// <summary>
         /// Gets the <see cref="Config"/> associated with this <see cref="VFS"/>.
         /// </summary>
-        public Config Config() {
+        public Config Config()
+        {
             return ctx_.Config();
         }
 
@@ -52,7 +56,8 @@ namespace TileDB.CSharp
         /// Creates an object-store bucket.
         /// </summary>
         /// <param name="uri">The URI of the bucket to be created.</param>
-        public void CreateBucket(string uri) {
+        public void CreateBucket(string uri)
+        {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
             using var ms_uri = new MarshaledString(uri);
@@ -269,6 +274,67 @@ namespace TileDB.CSharp
             using var handle = handle_.Acquire();
             using var ms_uri = new MarshaledString(uri);
             ctx_.handle_error(Methods.tiledb_vfs_touch(ctxHandle, handle, ms_uri));
+        }
+
+        [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
+        private static int VisitCallback(sbyte* uriPtr, void* data)
+        {
+            string uri = MarshaledStringOut.GetStringFromNullTerminated(uriPtr);
+            bool shouldContinue = ((VisitCallbackData*)data)->Invoke(uri);
+            return shouldContinue ? 1 : 0;
+        }
+
+        /// <summary>
+        /// Lists the top-level children of a directory.
+        /// </summary>
+        /// <param name="uri">The URI of the directory.</param>
+        /// <returns>A <see cref="List{T}"/> containing the children of the directory in <paramref name="uri"/>.</returns>
+        /// <remarks>
+        /// This function does not visit the children recursively; only the
+        /// top-level children of <paramref name="uri"/> will be visited.
+        /// </remarks>
+        public List<string> GetChildren(string uri)
+        {
+            var list = new List<string>();
+            VisitChildren(uri, static (uri, list) =>
+            {
+                ((List<string>)list!).Add(uri);
+                return true;
+            }, list);
+            return list;
+        }
+
+        /// <summary>
+        /// Visits the top-level children of a directory.
+        /// </summary>
+        /// <param name="uri">The URI of the directory to visit.</param>
+        /// <param name="callback">A callback delegate that will be called with the URI of each child and
+        /// <paramref name="callbackArg"/>, and returns whether to continue visiting.</param>
+        /// <param name="callbackArg">An argument that will be passed to <paramref name="callback"/>.</param>
+        /// <remarks>
+        /// This function does not visit the children recursively; only the
+        /// top-level children of <paramref name="uri"/> will be visited.
+        /// </remarks>
+        public void VisitChildren(string uri, Func<string, object?, bool> callback, object? callbackArg)
+        {
+            using var ctxHandle = ctx_.Handle.Acquire();
+            using var handle = handle_.Acquire();
+            using var ms_uri = new MarshaledString(uri);
+            var callbackData = new VisitCallbackData() { Callback = callback, CallbackArgument = callbackArg };
+            // Taking a pointer to callbackData is safe; the callback will be invoked only
+            // during the call to tiledb_vfs_ls. Contrast this with tiledb_query_submit_async where we
+            // had to use a GCHandle because the callback might be invoked after we return from it.
+            // We also are not susceptible to GC holes; callbackData is in the stack and won't be moved around.
+            ctx_.handle_error(Methods.tiledb_vfs_ls(ctxHandle, handle, ms_uri, &VisitCallback, &callbackData));
+        }
+
+        private struct VisitCallbackData
+        {
+            public Func<string, object?, bool> Callback;
+
+            public object? CallbackArgument;
+
+            public bool Invoke(string uri) => Callback(uri, CallbackArgument);
         }
     }
 }
