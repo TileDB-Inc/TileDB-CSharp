@@ -7,11 +7,10 @@ namespace TileDB.CSharp
     /// <summary>
     /// Represents a TileDB VFS (Virtual File System) object.
     /// </summary>
-    public unsafe class VFS : IDisposable
+    public unsafe sealed class VFS : IDisposable
     {
         private readonly VFSHandle handle_;
         private readonly Context ctx_;
-        private bool disposed_ = false;
 
         /// <summary>
         /// Creates a <see cref="VFS"/>.
@@ -39,21 +38,7 @@ namespace TileDB.CSharp
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposed_)
-            {
-                if (disposing && (!handle_.IsInvalid))
-                {
-                    handle_.Dispose();
-                }
-
-                disposed_ = true;
-            }
+            handle_.Dispose();
         }
 
         /// <summary>
