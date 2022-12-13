@@ -4,14 +4,24 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
+    /// <summary>
+    /// Represents a TileDB VFS (Virtual File System) object.
+    /// </summary>
     public unsafe class VFS : IDisposable
     {
         private readonly VFSHandle handle_;
         private readonly Context ctx_;
         private bool disposed_ = false;
 
+        /// <summary>
+        /// Creates a <see cref="VFS"/>.
+        /// </summary>
         public VFS() : this(Context.GetDefault()) { }
 
+        /// <summary>
+        /// Creates a <see cref="VFS"/> associated with the given <see cref="Context"/>.
+        /// </summary>
+        /// <param name="ctx">The context to associate the VFS.</param>
         public VFS(Context ctx) 
         {
             ctx_ = ctx;
@@ -24,6 +34,9 @@ namespace TileDB.CSharp
             handle_ = handle;
         }
 
+        /// <summary>
+        /// Disposes this <see cref="VFS"/>.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
@@ -44,17 +57,16 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get config.
+        /// Gets the <see cref="Config"/> associated with this <see cref="VFS"/>.
         /// </summary>
-        /// <returns></returns>
         public Config Config() {
             return ctx_.Config();
         }
 
         /// <summary>
-        /// Create bucket.
+        /// Creates an object-store bucket.
         /// </summary>
-        /// <param name="uri"></param>
+        /// <param name="uri">The URI of the bucket to be created.</param>
         public void CreateBucket(string uri) {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
@@ -63,9 +75,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Remove bucket.
+        /// Removes an object-store bucket.
         /// </summary>
-        /// <param name="uri"></param>
+        /// <param name="uri">The URI of the bucket to be removed.</param>
         public void RemoveBucket(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
@@ -75,9 +87,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Empty bucket.
+        /// Deletes the contents of an object-store bucket.
         /// </summary>
-        /// <param name="uri"></param>
+        /// <param name="uri">The URI of the bucket to be emptied.</param>
         public void EmptyBucket(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
@@ -87,10 +99,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Test if a bucket is empty or not.
+        /// Checks whether a bucket is empty or not.
         /// </summary>
-        /// <param name="uri"></param>
-        /// <returns></returns>
+        /// <param name="uri">The URI of the bucket to be checked.</param>
         public bool IsEmptyBucket(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
@@ -102,10 +113,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Test if it is bucket or not.
+        /// Checks whether a URI points to a bucket.
         /// </summary>
-        /// <param name="uri"></param>
-        /// <returns></returns>
+        /// <param name="uri">The URI to check.</param>
         public bool IsBucket(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
@@ -117,9 +127,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Create directory.
+        /// Creates a directory.
         /// </summary>
-        /// <param name="uri"></param>
+        /// <param name="uri">The directory's URI.</param>
         public void CreateDir(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
@@ -129,10 +139,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Test if it is directory or not.
+        /// Checks whether a URI points to a directory.
         /// </summary>
-        /// <param name="uri"></param>
-        /// <returns></returns>
+        /// <param name="uri">The URI to check.</param>
         public bool IsDir(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
@@ -144,9 +153,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Remove a directory.
+        /// Removes a directory.
         /// </summary>
-        /// <param name="uri"></param>
+        /// <param name="uri">The directory's URI.</param>
         public void RemoveDir(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
@@ -156,10 +165,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Test if it is file or not.
+        /// Checks whether a URI points to a file.
         /// </summary>
-        /// <param name="uri"></param>
-        /// <returns></returns>
+        /// <param name="uri">The URI to check.</param>
         public bool IsFile(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
@@ -171,9 +179,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Remove a file.
+        /// Removes a file.
         /// </summary>
-        /// <param name="uri"></param>
+        /// <param name="uri">The file's URI.</param>
         public void RemoveFile(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
@@ -183,10 +191,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get directory size.
+        /// Gets the size of a directory.
         /// </summary>
-        /// <param name="uri"></param>
-        /// <returns></returns>
+        /// <param name="uri">The directory's URI.</param>
         public ulong DirSize(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
@@ -198,10 +205,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get file size.
+        /// Gets the size of a file.
         /// </summary>
-        /// <param name="uri"></param>
-        /// <returns></returns>
+        /// <param name="uri">The file's URI.</param>
         public ulong FileSize(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
@@ -213,10 +219,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Move file.
+        /// Renames a file.
         /// </summary>
-        /// <param name="old_uri"></param>
-        /// <param name="new_uri"></param>
+        /// <param name="old_uri">The source URI of the file.</param>
+        /// <param name="new_uri">The destination URI of the file. Will be overwritten if it exists.</param>
         public void MoveFile(string old_uri, string new_uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
@@ -227,10 +233,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Move directory.
+        /// Renames a directory.
         /// </summary>
-        /// <param name="old_uri"></param>
-        /// <param name="new_uri"></param>
+        /// <param name="old_uri">The source URI of the directory.</param>
+        /// <param name="new_uri">The destination URI of the directory. Will be overwritten if it exists.</param>
         public void MoveDir(string old_uri, string new_uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
@@ -241,10 +247,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Copy file.
+        /// Copies a file.
         /// </summary>
-        /// <param name="old_uri"></param>
-        /// <param name="new_uri"></param>
+        /// <param name="old_uri">The source URI of the file.</param>
+        /// <param name="new_uri">The destination URI of the file. Will be overwritten if it exists.</param>
         public void CopyFile(string old_uri, string new_uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
@@ -255,10 +261,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Copy directory.
+        /// Copies a directory.
         /// </summary>
-        /// <param name="old_uri"></param>
-        /// <param name="new_uri"></param>
+        /// <param name="old_uri">The source URI of the directory.</param>
+        /// <param name="new_uri">The destination URI of the directory. Will be overwritten if it exists.</param>
         public void CopyDir(string old_uri, string new_uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
@@ -269,9 +275,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Touch a file.
+        /// Touches a file, i.e., creates a new empty file.
         /// </summary>
-        /// <param name="uri"></param>
+        /// <param name="uri">The file's URI.</param>
         public void Touch(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
