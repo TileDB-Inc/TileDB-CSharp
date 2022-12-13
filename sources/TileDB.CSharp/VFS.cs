@@ -276,6 +276,18 @@ namespace TileDB.CSharp
             ctx_.handle_error(Methods.tiledb_vfs_touch(ctxHandle, handle, ms_uri));
         }
 
+        /// <summary>
+        /// Opens a file.
+        /// </summary>
+        /// <param name="uri">The file's URI.</param>
+        /// <param name="mode">The mode in which the file is opened.</param>
+        /// <returns>A <see cref="VFSFile"/> object that can be used to perform operations on the file.</returns>
+        public VFSFile Open(string uri, VfsMode mode)
+        {
+            VFSFileHandle handle = VFSFileHandle.Open(ctx_, handle_, uri, (tiledb_vfs_mode_t)mode);
+            return new(ctx_, handle);
+        }
+
         [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
         private static int VisitCallback(sbyte* uriPtr, void* data)
         {
