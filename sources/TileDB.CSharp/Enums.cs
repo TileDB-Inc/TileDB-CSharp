@@ -759,21 +759,29 @@ namespace TileDB.CSharp
     }
 
     /// <summary>
-    /// Specifies the VFS mode.
+    /// Specifies the mode in which a <see cref="VFSFile"/> is opened.
     /// </summary>
+    /// <seealso cref="VFS.Open"/>
     public enum VfsMode : uint
     {
         /// <summary>
-        /// Read mode.
+        /// The file is opened for reading.
+        /// An exception will be thrown if it does not exist.
         /// </summary>
         Read = tiledb_vfs_mode_t.TILEDB_VFS_READ,
         /// <summary>
-        /// Write mode.
+        /// The file is opened for writing.
+        /// If it exists, it will be overwritten.
         /// </summary>
         Write = tiledb_vfs_mode_t.TILEDB_VFS_WRITE,
         /// <summary>
-        /// Append mode.
+        /// The file is opened for writing.
+        /// If it exists, the write will start from its end.
         /// </summary>
+        /// <remarks>
+        /// <see cref="FileSystemType.S3"/> does not support this
+        /// operation and, thus, an exception will be thrown in that case.
+        /// </remarks>
         Append = tiledb_vfs_mode_t.TILEDB_VFS_APPEND,
         [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Read instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_VFS_READ = Read,
