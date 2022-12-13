@@ -10,6 +10,7 @@
     <Description>C# wrapper of the TileDB Embedded universal data engine.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>TILEDB0003;$(NoWarn)</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

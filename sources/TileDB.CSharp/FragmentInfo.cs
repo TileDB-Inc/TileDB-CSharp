@@ -215,7 +215,8 @@ namespace TileDB.CSharp
         /// <summary>
         /// Gets the URI of a fragment to vacuum.
         /// </summary>
-        /// <param name="fragmentIndex">The index of the fragment of interest.<remarks>
+        /// <param name="fragmentIndex">The index of the fragment of interest.</param>
+        /// <remarks>
         /// The maximum value <paramref name="fragmentIndex"/> can take
         /// is determined by the <see cref="FragmentToVacuumCount"/> property.
         /// </remarks>
