@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
@@ -292,7 +294,18 @@ namespace TileDB.CSharp
         private static int VisitCallback(sbyte* uriPtr, void* data)
         {
             string uri = MarshaledStringOut.GetStringFromNullTerminated(uriPtr);
-            bool shouldContinue = ((VisitCallbackData*)data)->Invoke(uri);
+            VisitCallbackData* callbackData = (VisitCallbackData*)data;
+            Debug.Assert(callbackData->Exception is null);
+            bool shouldContinue;
+            try
+            {
+                shouldContinue = callbackData->Invoke(uri);
+            }
+            catch (Exception e)
+            {
+                callbackData->Exception = ExceptionDispatchInfo.Capture(e);
+                shouldContinue = false;
+            }
             return shouldContinue ? 1 : 0;
         }
 
@@ -338,6 +351,7 @@ namespace TileDB.CSharp
             // had to use a GCHandle because the callback might be invoked after we return from it.
             // We also are not susceptible to GC holes; callbackData is in the stack and won't be moved around.
             ctx_.handle_error(Methods.tiledb_vfs_ls(ctxHandle, handle, ms_uri, &VisitCallback, &callbackData));
+            callbackData.Exception?.Throw();
         }
 
         private struct VisitCallbackData
@@ -345,6 +359,11 @@ namespace TileDB.CSharp
             public Func<string, object?, bool> Callback;
 
             public object? CallbackArgument;
+
+            // If the callback threw an exception we will save it here and rethrow it once we leave native code.
+            // The reason we do this is that throwing exceptions in P/Invoke is not portable (works only on Windows
+            // and because the native library is compiled with MSVC).
+            public ExceptionDispatchInfo? Exception;
 
             public bool Invoke(string uri) => Callback(uri, CallbackArgument);
         }

@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.IO;
 using System.Security.Cryptography;
 
@@ -62,8 +63,12 @@ namespace TileDB.CSharp.Test
 
             int i = 0;
 
-            vfs.VisitChildren(dir, (_, _) =>
+            vfs.VisitChildren(dir, (uri, _) =>
             {
+                string path = new Uri(uri).LocalPath;
+                Assert.IsTrue(System.IO.File.Exists(path));
+                Assert.AreEqual((string)dir, Path.GetDirectoryName(path));
+
                 i++;
                 return i != 2;
             }, null);
@@ -76,21 +81,31 @@ namespace TileDB.CSharp.Test
         {
             using var dir = new TemporaryDirectory("vfs-visit-exceptions");
 
+            const string ExceptionKey = "foo";
+
             using var vfs = new VFS();
-            vfs.Touch(Path.Combine(dir, "file"));
+            vfs.Touch(Path.Combine(dir, "file1"));
+            vfs.Touch(Path.Combine(dir, "file2"));
+            vfs.Touch(Path.Combine(dir, "file3"));
+
+            int i = 0;
 
             try
             {
-                vfs.VisitChildren(dir, static (_, _) =>
+                vfs.VisitChildren(dir, (_, _) =>
                 {
-                    Assert.Fail("Should be caught.");
-                    return false;
+                    i++;
+                    throw new Exception(ExceptionKey);
                 }, null);
             }
-            catch (AssertFailedException)
+            catch (Exception e)
             {
+                Assert.AreEqual(1, i);
+                Assert.AreEqual(typeof(Exception), e.GetType());
+                Assert.AreEqual(ExceptionKey, e.Message);
                 return;
             }
+
             Assert.Fail("Exception was not propagated.");
         }
     }
