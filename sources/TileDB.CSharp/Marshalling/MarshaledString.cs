@@ -11,26 +11,26 @@ namespace TileDB.Interop
     {
         public MarshaledString(string input)
         {
-            int length;
-            sbyte* value;
-
-            if (input is null)
-            {
-                length = 0;
-                value = null;
-            }
-            else
-            {
-                length = Encoding.ASCII.GetByteCount(input);
-                value = (sbyte*)Marshal.AllocHGlobal(length + 1);
-                int bytesWritten = Encoding.ASCII.GetBytes(input, new Span<byte>(value, length));
-                Debug.Assert(bytesWritten == length);
-                value[length] = 0;
-            }
-
-            Length = length;
-            Value = value;
+            (IntPtr ptr, Length) = AllocNullTerminated(input);
+            Value = (sbyte*)ptr;
         }
+
+        public static (IntPtr Pointer, int Length) AllocNullTerminated(string str)
+        {
+            if (str is null)
+            {
+                return ((IntPtr)0, 0);
+            }
+
+            int length = Encoding.ASCII.GetByteCount(str);
+            var ptr = (sbyte*)Marshal.AllocHGlobal(length + 1);
+            int bytesWritten = Encoding.ASCII.GetBytes(str, new Span<byte>(ptr, length));
+            Debug.Assert(bytesWritten == length);
+            ptr[length] = 0;
+            return ((IntPtr)ptr, length);
+        }
+
+        public static void FreeNullTerminated(IntPtr ptr) => Marshal.FreeHGlobal(ptr);
 
         public int Length { get; private set; }
 

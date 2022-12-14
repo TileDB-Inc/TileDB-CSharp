@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using TileDB.CSharp.Marshalling;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
@@ -97,7 +98,6 @@ namespace TileDB.CSharp
             return _metadata;
         }
 
-        #region capi functions
         /// <summary>
         /// Set open timestamp start, sets the subsequent Open call to use the start_timestamp of the passed value.
         /// </summary>
@@ -292,30 +292,46 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Consolidate an array.
+        /// Consolidates an array.
         /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="uri"></param>
-        /// <param name="config"></param>
-        public static void Consolidate(Context ctx, string uri, Config config)
+        /// <param name="ctx">The <see cref="Context"/> to use.</param>
+        /// <param name="uri">The array's URI.</param>
+        /// <param name="config">Configuration parameters for the consolidation. Optional.</param>
+        public static void Consolidate(Context ctx, string uri, Config? config = null)
         {
             using var ms_uri = new MarshaledString(uri);
             using var ctxHandle = ctx.Handle.Acquire();
-            using var configHandle = config.Handle.Acquire();
+            using var configHandle = config?.Handle.Acquire() ?? default;
             ctx.handle_error(Methods.tiledb_array_consolidate(ctxHandle, ms_uri, configHandle));
         }
 
         /// <summary>
-        /// Vacuum the array.
+        /// Consolidates the given fragments of an array into a single fragment.
         /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="uri"></param>
-        /// <param name="config"></param>
-        public static void Vacuum(Context ctx, string uri, Config config)
+        /// <param name="ctx">The <see cref="Context"/> to use.</param>
+        /// <param name="uri">The array's URI.</param>
+        /// <param name="fragments">The names of the fragments to consolidate. They can be retrieved using <see cref="FragmentInfo.GetFragmentName"/>.</param>
+        /// <param name="config">Configuration parameters for the consolidation. Optional.</param>
+        public static void ConsolidateFragments(Context ctx, string uri, IReadOnlyList<string> fragments, Config? config = null)
+        {
+            using var ctxHandle = ctx.Handle.Acquire();
+            using var ms_uri = new MarshaledString(uri);
+            using var msc_fragments = new MarshaledStringCollection(fragments);
+            using var configHandle = config?.Handle.Acquire() ?? default;
+            ctx.handle_error(Methods.tiledb_array_consolidate_fragments(ctxHandle, ms_uri, (sbyte**)msc_fragments.Strings, (ulong)msc_fragments.Count, configHandle));
+        }
+
+        /// <summary>
+        /// Vacuums an array.
+        /// </summary>
+        /// <param name="ctx">The <see cref="Context"/> to use.</param>
+        /// <param name="uri">The array's URI.</param>
+        /// <param name="config">Configuration parameters for the consolidation. Optional.</param>
+        public static void Vacuum(Context ctx, string uri, Config? config = null)
         {
             using var ms_uri = new MarshaledString(uri);
             using var ctxHandle = ctx.Handle.Acquire();
-            using var configHandle = config.Handle.Acquire();
+            using var configHandle = config?.Handle.Acquire() ?? default;
             ctx.handle_error(Methods.tiledb_array_vacuum(ctxHandle, ms_uri, configHandle));
         }
 
@@ -747,6 +763,5 @@ namespace TileDB.CSharp
         /// <param name="ctx"></param>
         /// <param name="path"></param>
         public static ArraySchema LoadArraySchema(Context ctx, string path) => ArraySchema.Load(ctx, path);
-        #endregion
     }
 }
