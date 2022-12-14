@@ -51,12 +51,12 @@ namespace TileDB.CSharp
         /// <exception cref="Exception">The remaining data in the file after <paramref name="offset"/>
         /// are less than <paramref name="buffer"/>'s <see cref="Span{T}.Length"/>.</exception>
         /// <remarks>If you want to read more than <see cref="int.MaxValue"/> bytes
-        /// of data you should call <see cref="Read(ulong, byte*, ulong)"/>.</remarks>
-        public void Read(ulong offset, Span<byte> buffer)
+        /// of data you should call <see cref="ReadExactly(ulong, byte*, ulong)"/>.</remarks>
+        public void ReadExactly(ulong offset, Span<byte> buffer)
         {
             fixed(byte* ptr = &MemoryMarshal.GetReference(buffer))
             {
-                Read(offset, ptr, (ulong)buffer.Length);
+                ReadExactly(offset, ptr, (ulong)buffer.Length);
             }
         }
 
@@ -68,8 +68,8 @@ namespace TileDB.CSharp
         /// <param name="count">The number of bytes to read.</param>
         /// <exception cref="Exception">The remaining data in the file after <paramref name="offset"/>
         /// are less than <paramref name="count"/>.</exception>
-        /// <seealso cref="Read(ulong, Span{byte})"/>
-        public void Read(ulong offset, byte* buffer, ulong count)
+        /// <seealso cref="ReadExactly(ulong, Span{byte})"/>
+        public void ReadExactly(ulong offset, byte* buffer, ulong count)
         {
             using var contextHandle = _context.Handle.Acquire();
             using var handle = _handle.Acquire();
