@@ -167,6 +167,7 @@ namespace TileDB.CSharp.Test
             fragmentInfo.Load();
 
             Assert.AreEqual(1u, fragmentInfo.FragmentCount);
+            Assert.AreEqual(FragmentCount, fragmentInfo.FragmentToVacuumCount);
         }
 
         private ArraySchema BuildDenseArraySchema(Context context)
