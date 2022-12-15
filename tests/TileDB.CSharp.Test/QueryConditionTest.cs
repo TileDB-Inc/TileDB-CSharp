@@ -78,7 +78,7 @@ namespace TileDB.CSharp.Test
 
             using QueryCondition qc1 = QueryCondition.Create(context, "a1", 3, QueryConditionOperatorType.GreaterThan);
             using QueryCondition qc2 = QueryCondition.Create(context, "a1", 7, QueryConditionOperatorType.LessThan);
-            using QueryCondition qc = qc1.Combine(qc2, QueryConditionCombinationOperatorType.And);
+            using QueryCondition qc = qc1 & qc2;
 
             query_read.SetCondition(qc);
 

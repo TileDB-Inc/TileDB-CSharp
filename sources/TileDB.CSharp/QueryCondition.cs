@@ -163,5 +163,34 @@ namespace TileDB.CSharp
             ret.Init(attribute_name, value, optype);
             return ret;
         }
+
+        /// <summary>
+        /// Creates the conjunction of two <see cref="QueryCondition"/>s.
+        /// </summary>
+        /// <param name="lhs">The first query condition.</param>
+        /// <param name="rhs">The second query condition.</param>
+        /// <returns>A query condition that will be satisfied if both
+        /// <paramref name="lhs"/> and <paramref name="rhs"/> are satisfied.</returns>
+        public static QueryCondition operator &(QueryCondition lhs, QueryCondition rhs) =>
+            Combine(lhs, rhs, QueryConditionCombinationOperatorType.And);
+
+        /// <summary>
+        /// Creates the disjunction of two <see cref="QueryCondition"/>s.
+        /// </summary>
+        /// <param name="lhs">The first query condition.</param>
+        /// <param name="rhs">The second query condition.</param>
+        /// <returns>A query condition that will be satisfied if at least one of
+        /// <paramref name="lhs"/> or <paramref name="rhs"/> are satisfied.</returns>
+        public static QueryCondition operator |(QueryCondition lhs, QueryCondition rhs) =>
+            Combine(lhs, rhs, QueryConditionCombinationOperatorType.Or);
+
+        /// <summary>
+        /// Creates the negation of a <see cref="QueryCondition"/>.
+        /// </summary>
+        /// <param name="condition">The query condition to negate.</param>
+        /// <returns>A query condition that will be satisfied if
+        /// <paramref name="condition"/> is not satisfied.</returns>
+        public static QueryCondition operator !(QueryCondition condition) =>
+            Combine(condition, null, QueryConditionCombinationOperatorType.Not);
     }
 }
