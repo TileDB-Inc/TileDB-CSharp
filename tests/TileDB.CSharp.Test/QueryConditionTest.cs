@@ -97,5 +97,17 @@ namespace TileDB.CSharp.Test
             // Assert.AreEqual<int>(5, attr_data_buffer_read[1]);
             // Assert.AreEqual<int>(6, attr_data_buffer_read[2]);
         }
+
+        [TestMethod]
+        public void TestCombineDifferentContexts()
+        {
+            using var context1 = new Context();
+            using var context2 = new Context();
+
+            using var qc1 = QueryCondition.Create(context1, "a1", 5, QueryConditionOperatorType.GreaterThan);
+            using var qc2 = QueryCondition.Create(context2, "a1", 8, QueryConditionOperatorType.LessThan);
+
+            Assert.ThrowsException<InvalidOperationException>(() => qc1 | qc2);
+        }
     }
 }
