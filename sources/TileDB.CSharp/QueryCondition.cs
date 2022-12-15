@@ -43,7 +43,6 @@ namespace TileDB.CSharp
 
         internal QueryConditionHandle Handle => _handle;
 
-        #region capi functions
         /// <summary>
         /// Initializes this <see cref="QueryCondition"/> with a value of type <typeparamref name="T"/>.
         /// </summary>
@@ -89,21 +88,33 @@ namespace TileDB.CSharp
         /// <summary>
         /// Combines this <see cref="QueryCondition"/> with another one.
         /// </summary>
-        /// <param name="rhs">The other query condition to combine.</param>
+        /// <param name="rhs">The other query condition to combine. Must be null
+        /// if <paramref name="combination_optype"/> is <see cref="QueryConditionCombinationOperatorType.Not"/>.</param>
         /// <param name="combination_optype">The type of the combination.</param>
         /// <returns>A new query condition that combines this one with <paramref name="rhs"/>.</returns>
-        public QueryCondition Combine(QueryCondition rhs, QueryConditionCombinationOperatorType combination_optype)
+        /// <exception cref="InvalidOperationException">This query condition and <paramref name="rhs"/>
+        /// are associated with a different <see cref="Context"/>.</exception>
+        public QueryCondition Combine(QueryCondition? rhs, QueryConditionCombinationOperatorType combination_optype) =>
+            Combine(this, rhs, combination_optype);
+
+        private static QueryCondition Combine(QueryCondition lhs, QueryCondition? rhs, QueryConditionCombinationOperatorType combination_optype)
         {
+            var ctx = lhs._ctx;
+            if (rhs is { _ctx: Context rhsCtx } && ctx != rhsCtx)
+            {
+                ThrowHelpers.ThrowQueryConditionDifferentContexts();
+            }
+
             var handle = new QueryConditionHandle();
             var successful = false;
             tiledb_query_condition_t* condition_p = null;
             try
             {
-                using (var ctxHandle = _ctx.Handle.Acquire())
-                using (var lhsHandle = _handle.Acquire())
-                using (var rhsHandle = rhs.Handle.Acquire())
+                using (var ctxHandle = ctx.Handle.Acquire())
+                using (var lhsHandle = lhs.Handle.Acquire())
+                using (var rhsHandle = rhs?.Handle?.Acquire() ?? default)
                 {
-                    _ctx.handle_error(Methods.tiledb_query_condition_combine(ctxHandle, lhsHandle, rhsHandle,
+                    ctx.handle_error(Methods.tiledb_query_condition_combine(ctxHandle, lhsHandle, rhsHandle,
                         (tiledb_query_condition_combination_op_t)combination_optype, &condition_p));
                 }
                 successful = true;
@@ -120,9 +131,8 @@ namespace TileDB.CSharp
                 }
             }
 
-            return new QueryCondition(_ctx, handle);
+            return new QueryCondition(ctx, handle);
         }
-        #endregion capi functions
 
         /// <summary>
         /// Creates a new <see cref="QueryCondition"/> with a string.

@@ -22,5 +22,9 @@ namespace TileDB.CSharp
         [DoesNotReturn]
         public static void ThrowTooBigSize(ulong size, [CallerArgumentExpression(nameof(size))] string? paramName = null) =>
             throw new ArgumentOutOfRangeException(paramName, size, "Size argument is too big for the type to fit.");
+
+        [DoesNotReturn]
+        public static void ThrowQueryConditionDifferentContexts() =>
+            throw new InvalidOperationException("Cannot combine query conditions associated with different contexts.");
     }
 }
