@@ -294,7 +294,11 @@ namespace TileDB.CSharp
         public void SetDataBuffer<T>(string name, T[] data) where T : struct
         {
             // check datatype
-            CheckDataType<T>(GetDataType(name));
+            using (var schema = _array.Schema())
+            using (var domain = schema.Domain())
+            {
+                CheckDataType<T>(GetDataType(name, schema, domain));
+            }
 
             if (data == null || data.Length == 0)
             {
@@ -961,26 +965,25 @@ namespace TileDB.CSharp
             }
         }
 
-        private DataType GetDataType(string name)
+        private DataType GetDataType(string name, ArraySchema schema, Domain domain)
         {
-            bool is_attr = _array.Schema().HasAttribute(name);
-            bool is_dim = _array.Schema().Domain().HasDimension(name);
-            if (_array.Schema().HasAttribute(name))
+            if (schema.HasAttribute(name))
             {
-                return _array.Schema().Attribute(name).Type();
+                using var attribute = schema.Attribute(name);
+                return attribute.Type();
             }
-            else if (_array.Schema().Domain().HasDimension(name))
+            else if (domain.HasDimension(name))
             {
-                return _array.Schema().Domain().Dimension(name).Type();
+                using var dimension = domain.Dimension(name);
+                return dimension.Type();
             }
-            else if (name == "__coords")
+            
+            if (name == "__coords")
             {
-                return _array.Schema().Domain().Type();
+                return domain.Type();
             }
-            else
-            {
-                throw new ArgumentException("No datatype for " + name);
-            }
+
+            throw new ArgumentException("No datatype for " + name);
         }
 
         #region buffers
@@ -998,13 +1001,15 @@ namespace TileDB.CSharp
         /// <returns>Dictionary mapping buffer name to number of results</returns>
         public Dictionary<string, Tuple<ulong, ulong?, ulong?>> ResultBufferElements()
         {
+            using var schema = _array.Schema();
+            using var domain = schema.Domain();
             var buffers = new Dictionary<string, Tuple<ulong, ulong?, ulong?>>();
             foreach (var key in _dataBufferHandles.Keys)
             {
                 ulong? offsetNum = null;
                 ulong? validityNum = null;
 
-                ulong typeSize = EnumUtil.DataTypeSize(GetDataType(key));
+                ulong typeSize = EnumUtil.DataTypeSize(GetDataType(key, schema, domain));
                 ulong dataNum = (ulong)_dataBufferHandles[key].SizeHandle.Target! / typeSize;
 
                 if (_offsetsBufferHandles.ContainsKey(key))
