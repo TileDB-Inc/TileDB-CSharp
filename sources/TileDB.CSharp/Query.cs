@@ -90,7 +90,7 @@ namespace TileDB.CSharp
         public string Message { get; set; }
     }
 
-    internal class BufferHandle
+    internal sealed class BufferHandle : IDisposable
     {
         public GCHandle DataHandle;
         public ulong BytesSize;
@@ -103,16 +103,10 @@ namespace TileDB.CSharp
             SizeHandle = GCHandle.Alloc(BytesSize, GCHandleType.Pinned);
         }
 
-        public void Free()
+        public void Dispose()
         {
-            if (DataHandle.IsAllocated)
-            {
-                DataHandle.Free();
-            }
-            if (SizeHandle.IsAllocated)
-            {
-                SizeHandle.Free();
-            }
+            DataHandle.Free();
+            SizeHandle.Free();
         }
     }
 
@@ -1035,17 +1029,17 @@ namespace TileDB.CSharp
         {
             foreach (var bh in _dataBufferHandles)
             {
-                bh.Value.Free();
+                bh.Value.Dispose();
             }
 
             foreach (var bh in _offsetsBufferHandles)
             {
-                bh.Value.Free();
+                bh.Value.Dispose();
             }
 
             foreach (var bh in _validityBufferHandles)
             {
-                bh.Value.Free();
+                bh.Value.Dispose();
             }
         }
 
@@ -1059,7 +1053,7 @@ namespace TileDB.CSharp
         {
             if (_dataBufferHandles.ContainsKey(name))
             {
-                _dataBufferHandles[name].Free();
+                _dataBufferHandles[name].Dispose();
             }
             _dataBufferHandles[name] = new BufferHandle(handle, size);
         }
@@ -1074,7 +1068,7 @@ namespace TileDB.CSharp
         {
             if (_offsetsBufferHandles.ContainsKey(name))
             {
-                _offsetsBufferHandles[name].Free();
+                _offsetsBufferHandles[name].Dispose();
             }
             _offsetsBufferHandles[name] = new BufferHandle(handle, size);
         }
@@ -1089,7 +1083,7 @@ namespace TileDB.CSharp
         {
             if (_validityBufferHandles.ContainsKey(name))
             {
-                _validityBufferHandles[name].Free();
+                _validityBufferHandles[name].Dispose();
             }
             _validityBufferHandles[name] = new BufferHandle(handle, size);
         }
