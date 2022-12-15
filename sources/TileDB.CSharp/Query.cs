@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
@@ -390,9 +391,13 @@ namespace TileDB.CSharp
             GCHandle gcHandle = GCHandle.FromIntPtr((IntPtr)ptr);
             var query = (Query)gcHandle.Target!;
             gcHandle.Free();
-            //fire event
-            var args = new QueryEventArgs((int)QueryStatus.Completed, "query completed");
-            query.QueryCompleted?.Invoke(query, args);
+            // Fire the event on the thread pool.
+            // This yields the TileDB native thread and prevents any excpetions by the callback to reach it.
+            Task.Run(() =>
+            {
+                var args = new QueryEventArgs((int)QueryStatus.Completed, "query completed");
+                query.QueryCompleted?.Invoke(query, args);
+            });
         }
 
         /// <summary>
