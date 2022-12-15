@@ -1027,19 +1027,17 @@ namespace TileDB.CSharp
         /// </summary>
         private void FreeAllBufferHandles()
         {
-            foreach (var bh in _dataBufferHandles)
-            {
-                bh.Value.Dispose();
-            }
+            DisposeValuesAndClear(_dataBufferHandles);
+            DisposeValuesAndClear(_offsetsBufferHandles);
+            DisposeValuesAndClear(_validityBufferHandles);
 
-            foreach (var bh in _offsetsBufferHandles)
+            static void DisposeValuesAndClear(Dictionary<string, BufferHandle> handles)
             {
-                bh.Value.Dispose();
-            }
-
-            foreach (var bh in _validityBufferHandles)
-            {
-                bh.Value.Dispose();
+                foreach (var bh in handles)
+                {
+                    bh.Value.Dispose();
+                }
+                handles.Clear();
             }
         }
 
