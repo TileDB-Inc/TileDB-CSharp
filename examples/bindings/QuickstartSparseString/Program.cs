@@ -222,7 +222,7 @@ namespace QuickstartSparseString
             UInt64 read_rows_size = 4;
             var read_rows_handle = GCHandle.Alloc(read_rows, GCHandleType.Pinned);
             var read_rows_size_handle = GCHandle.Alloc(read_rows_size, GCHandleType.Pinned);
-            Methods.tiledb_query_set_buffer(ctx, read_query, rows_name,
+            Methods.tiledb_query_set_data_buffer(ctx, read_query, rows_name,
                 read_rows_handle.AddrOfPinnedObject().ToPointer(),
                 (ulong*)read_rows_size_handle.AddrOfPinnedObject()
             );
@@ -242,7 +242,7 @@ namespace QuickstartSparseString
             UInt64 read_cols_size = (UInt64)3 * sizeof(Int32);
             var read_cols_handle = GCHandle.Alloc(read_cols, GCHandleType.Pinned);
             var read_cols_size_handle = GCHandle.Alloc(read_cols_size, GCHandleType.Pinned);
-            Methods.tiledb_query_set_buffer(ctx, read_query, cols_name,
+            Methods.tiledb_query_set_data_buffer(ctx, read_query, cols_name,
                 read_cols_handle.AddrOfPinnedObject().ToPointer(), (ulong*)read_cols_size_handle.AddrOfPinnedObject()
             );
             CheckError(ctx);
