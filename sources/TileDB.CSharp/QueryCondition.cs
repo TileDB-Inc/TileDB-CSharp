@@ -8,13 +8,24 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
+    /// <summary>
+    /// Represents a TileDB query condition object.
+    /// </summary>
     public sealed unsafe class QueryCondition : IDisposable
     {
         private readonly QueryConditionHandle _handle;
         private readonly Context _ctx;
         private bool _disposed;
 
-
+        /// <summary>
+        /// Creates a <see cref="QueryCondition"/>.
+        /// </summary>
+        /// <param name="ctx">The <see cref="Context"/> associated with this query condition.</param>
+        /// <remarks>
+        /// The query condition must be initialized by calling
+        /// <see cref="Init(string, string, QueryConditionOperatorType)"/>
+        /// or <see cref="Init{T}(string, T, QueryConditionOperatorType)"/>.
+        /// </remarks>
         public QueryCondition(Context ctx)
         {
             _ctx = ctx;
@@ -26,6 +37,10 @@ namespace TileDB.CSharp
             _ctx = ctx;
             _handle = handle;
         }
+
+        /// <summary>
+        /// Disposes this <see cref="QueryCondition"/>.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
@@ -47,11 +62,16 @@ namespace TileDB.CSharp
 
         #region capi functions
         /// <summary>
-        /// Initialize a TileDB query condition object.
+        /// Initializes this <see cref="QueryCondition"/> with a value of type <typeparamref name="T"/>.
         /// </summary>
-        /// <param name="attribute_name"></param>
-        /// <param name="condition_value"></param>
-        /// <param name="optype"></param>
+        /// <param name="attribute_name">The name of the attribute the query condition refers to.</param>
+        /// <param name="condition_value">The value to compare the attribute with.</param>
+        /// <param name="optype">The type of the relationship between the attribute with
+        /// the name <paramref name="attribute_name"/> and <paramref name="condition_value"/>.</param>
+        /// <remarks>
+        /// Query conditions created with <see cref="Create(Context, string, string, QueryConditionOperatorType)"/>
+        /// must not call this method.
+        /// </remarks>
         public void Init<T>(string attribute_name, T condition_value, QueryConditionOperatorType optype) where T : struct
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -72,11 +92,16 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Initialize a TileDB query string condition object.
+        /// Initializes this <see cref="QueryCondition"/> with a string.
         /// </summary>
-        /// <param name="attribute_name"></param>
-        /// <param name="condition_value"></param>
-        /// <param name="optype"></param>
+        /// <param name="attribute_name">The name of the attribute the query condition refers to.</param>
+        /// <param name="condition_value">The string to compare the attribute with.</param>
+        /// <param name="optype">The type of the relationship between the attribute with
+        /// the name <paramref name="attribute_name"/> and <paramref name="condition_value"/>.</param>
+        /// <remarks>
+        /// Query conditions created with <see cref="Create(Context, string, string, QueryConditionOperatorType)"/>
+        /// must not call this method.
+        /// </remarks>
         public void Init(string attribute_name, string condition_value, QueryConditionOperatorType optype)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -96,6 +121,12 @@ namespace TileDB.CSharp
             }
         }
 
+        /// <summary>
+        /// Combines this <see cref="QueryCondition"/> with another one.
+        /// </summary>
+        /// <param name="rhs">The other query condition to combine.</param>
+        /// <param name="combination_optype">The type of the combination.</param>
+        /// <returns>A new query condition that combines this one with <paramref name="rhs"/>.</returns>
         public QueryCondition Combine(QueryCondition rhs, QueryConditionCombinationOperatorType combination_optype)
         {
             var handle = new QueryConditionHandle();
@@ -129,13 +160,13 @@ namespace TileDB.CSharp
         #endregion capi functions
 
         /// <summary>
-        /// Create a new query condition with a string.
+        /// Creates a new <see cref="QueryCondition"/> with a string.
         /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="attribute_name"></param>
-        /// <param name="value"></param>
-        /// <param name="optype"></param>
-        /// <returns></returns>
+        /// <param name="ctx">The <see cref="Context"/> associated with the query condition.</param>
+        /// <param name="attribute_name">The name of the attribute the query condition refers to.</param>
+        /// <param name="value">The value to compare the attribute with.</param>
+        /// <param name="optype">The type of the relationship between the attribute with
+        /// the name <paramref name="attribute_name"/> and <paramref name="value"/>.</param>
         public static QueryCondition Create(Context ctx, string attribute_name, string value, QueryConditionOperatorType optype)
         {
             var ret = new QueryCondition(ctx);
@@ -144,14 +175,13 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Create a new query condition with datatype T.
+        /// Creates a new query condition with datatype <typeparamref name="T"/>.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ctx"></param>
-        /// <param name="attribute_name"></param>
-        /// <param name="value"></param>
-        /// <param name="optype"></param>
-        /// <returns></returns>
+        /// <param name="ctx">The <see cref="Context"/> associated with the query condition.</param>
+        /// <param name="attribute_name">The name of the attribute the query condition refers to.</param>
+        /// <param name="value">The value to compare the attribute with.</param>
+        /// <param name="optype">The type of the relationship between the attribute with
+        /// the name <paramref name="attribute_name"/> and <paramref name="value"/>.</param>
         public static QueryCondition Create<T>(Context ctx, string attribute_name, T value, QueryConditionOperatorType optype) where T : struct
         {
             var ret = new QueryCondition(ctx);
