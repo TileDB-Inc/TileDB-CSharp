@@ -16,6 +16,8 @@ namespace TileDB.CSharp
         private readonly Context _ctx;
         private readonly SubarrayHandle _handle;
 
+        internal SubarrayHandle Handle => _handle;
+
         /// <summary>
         /// Creates a <see cref="Subarray"/>.
         /// </summary>

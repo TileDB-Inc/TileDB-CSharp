@@ -213,6 +213,18 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Indicates that the query will write to or read from a <see cref="Subarray"/>, and provides the appropriate information.
+        /// </summary>
+        /// <param name="subarray">The subarray to use.</param>
+        public void SetSubarray(Subarray subarray)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var subarrayHandle = subarray.Handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_query_set_subarray_t(ctxHandle, handle, subarrayHandle));
+        }
+
+        /// <summary>
         ///
         /// </summary>
         /// <typeparam name="T"></typeparam>
