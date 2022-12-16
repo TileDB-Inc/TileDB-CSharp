@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using TileDB.CSharp.Marshalling;
@@ -20,19 +20,16 @@ namespace TileDB.CSharp
             _handle = SubarrayHandle.Create(_ctx, array.Handle);
         }
 
+        public Subarray(Array array, bool coalesceRanges) : this(array)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_subarray_set_coalesce_ranges(ctxHandle, handle, coalesceRanges ? 1 : 0));
+        }
+
         public void Dispose()
         {
             _handle.Dispose();
-        }
-
-        public bool CoalesceRanges
-        {
-            init
-            {
-                using var ctxHandle = _ctx.Handle.Acquire();
-                using var handle = _handle.Acquire();
-                _ctx.handle_error(Methods.tiledb_subarray_set_coalesce_ranges(ctxHandle, handle, value ? 1 : 0));
-            }
         }
 
         public void SetConfig(Config config)
