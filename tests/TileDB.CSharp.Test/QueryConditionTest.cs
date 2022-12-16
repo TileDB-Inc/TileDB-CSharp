@@ -73,7 +73,8 @@ namespace TileDB.CSharp.Test
 
             query_read.SetLayout(LayoutType.RowMajor);
 
-            int[] subarray = new int[4] { 1, 4, 1, 4 };
+            var subarray = new Subarray(array_read);
+            subarray.SetSubarray(1, 4, 1, 4);
             query_read.SetSubarray(subarray);
 
             using QueryCondition qc1 = QueryCondition.Create(context, "a1", 3, QueryConditionOperatorType.GreaterThan);

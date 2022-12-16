@@ -64,8 +64,10 @@ namespace TileDB.CSharp.Examples
                 arrayRead.Open(QueryType.Read);
                 var queryRead = new Query(Ctx, arrayRead);
                 queryRead.SetLayout(LayoutType.Unordered);
-                queryRead.AddRange("rows", "a", "eeeee");
-                queryRead.AddRange("cols", "f", "jjjjj");
+                var subarray = new Subarray(arrayRead);
+                subarray.AddRange("rows", "a", "eeeee");
+                subarray.AddRange("cols", "f", "jjjjj");
+                queryRead.SetSubarray(subarray);
 
                 var attrRead = new int[5];
                 queryRead.SetDataBuffer("a1", attrRead);

@@ -32,8 +32,10 @@ namespace TileDB.CSharp.Examples
             using var queryWrite = new Query(Ctx, array, QueryType.Write);
             queryWrite.SetLayout(LayoutType.GlobalOrder);
             // Slice rows 1-4, columns 1-2 for a total of 8 cells
-            queryWrite.AddRange("rows", 1, 4);
-            queryWrite.AddRange("cols", 1, 2);
+            using var subarray = new Subarray(array);
+            subarray.AddRange("rows", 1, 4);
+            subarray.AddRange("cols", 1, 2);
+            queryWrite.SetSubarray(subarray);
 
             // Write 4 cells
             queryWrite.SetDataBuffer("a1", new[] { 1, 2, 3, 4 });
@@ -55,7 +57,9 @@ namespace TileDB.CSharp.Examples
             using var array = new Array(Ctx, ArrayPath);
             array.Open(QueryType.Read);
             using var readQuery = new Query(Ctx, array, QueryType.Read);
-            readQuery.SetSubarray(new[] { 1, 4, 1, 4 });
+            using var subarray = new Subarray(array);
+            subarray.SetSubarray(1, 4, 1, 4);
+            readQuery.SetSubarray(subarray);
 
             var a1Read = new int[16];
             readQuery.SetDataBuffer("a1", a1Read);

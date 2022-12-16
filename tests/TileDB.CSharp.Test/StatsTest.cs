@@ -27,7 +27,9 @@ namespace TileDB.CSharp.Test
             array.Open(QueryType.Write);
             var query = new Query(ctx, array);
             query.SetLayout(LayoutType.RowMajor);
-            query.SetSubarray(new[] { 1, 4, 1, 4 });
+            var subarray = new Subarray(array);
+            subarray.SetSubarray(1, 4, 1, 4);
+            query.SetSubarray(subarray);
             query.SetDataBuffer("a1", new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 });
             query.Submit();
             Assert.AreEqual(query.Status(), QueryStatus.Completed);

@@ -241,7 +241,9 @@ namespace TileDB.CSharp.Test
             var query_read = new Query(context, array_read);
 
             // Slice only rows 1,2 and cols 2,3,4
-            query_read.SetSubarray(new int[] { 1, 4, 1, 4});
+            var subarray = new Subarray(array_read);
+            subarray.SetSubarray(1, 4, 1, 4);
+            query_read.SetSubarray(subarray);
 
             query_read.SetLayout(LayoutType.RowMajor);
 

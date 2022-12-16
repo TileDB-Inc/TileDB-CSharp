@@ -189,21 +189,26 @@ namespace QuickstartSparseString
             var cols_name = (sbyte*)Marshal.StringToHGlobalAnsi("cols");
 
             tiledb_query_t* read_query;
+            tiledb_subarray_t* subarray;
             Methods.tiledb_query_alloc(ctx, array, tiledb_query_type_t.TILEDB_READ, &read_query);
+            Methods.tiledb_subarray_alloc(ctx, array, &subarray);
             CheckError(ctx);
 
             byte[] row_start = Encoding.ASCII.GetBytes("a");
             byte[] row_end = Encoding.ASCII.GetBytes("c");
             var start_handle = GCHandle.Alloc(row_start, GCHandleType.Pinned);
             var end_handle = GCHandle.Alloc(row_end, GCHandleType.Pinned);
-            Methods.tiledb_query_add_range_var_by_name(ctx, read_query, rows_name,
+            Methods.tiledb_subarray_add_range_var_by_name(ctx, subarray, rows_name,
                 start_handle.AddrOfPinnedObject().ToPointer(), (ulong)row_start.Length,
                 end_handle.AddrOfPinnedObject().ToPointer(), (ulong)row_end.Length
             );
             CheckError(ctx);
 
             int cols_start = 2, cols_end = 4;
-            Methods.tiledb_query_add_range(ctx, read_query, 1, &cols_start, &cols_end, null);
+            Methods.tiledb_subarray_add_range(ctx, subarray, 1, &cols_start, &cols_end, null);
+            CheckError(ctx);
+
+            Methods.tiledb_query_set_subarray_t(ctx, read_query, subarray);
             CheckError(ctx);
 
             Methods.tiledb_query_set_layout(ctx, read_query, tiledb_layout_t.TILEDB_ROW_MAJOR);
@@ -278,6 +283,7 @@ namespace QuickstartSparseString
 
             Methods.tiledb_array_close(ctx, array);
             CheckError(ctx);
+            Methods.tiledb_subarray_free(&subarray);
             Methods.tiledb_query_free(&read_query);
             Marshal.FreeHGlobal((IntPtr)attr_name);
             Marshal.FreeHGlobal((IntPtr)rows_name);

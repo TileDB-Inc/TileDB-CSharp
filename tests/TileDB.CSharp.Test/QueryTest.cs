@@ -46,8 +46,10 @@ namespace TileDB.CSharp.Test
             queryWrite.SetLayout(layoutType);
             if (arrayType == ArrayType.Dense)
             {
-                queryWrite.AddRange("rows", 1, 4);
-                queryWrite.AddRange("cols", 1, 2);
+                using var subarray = new Subarray(array);
+                subarray.AddRange("rows", 1, 4);
+                subarray.AddRange("cols", 1, 2);
+                queryWrite.SetSubarray(subarray);
                 queryWrite.SetDataBuffer("a1", new[] { 1, 2, 3, 4, 5, 6, 7, 8 });
             }
             else // Sparse
@@ -71,7 +73,9 @@ namespace TileDB.CSharp.Test
             var colsRead = new int[16];
             if (arrayType == ArrayType.Dense)
             {
-                queryRead.SetSubarray(new [] { 1, 4, 1, 4 });
+                using var subarray = new Subarray(array);
+                subarray.SetSubarray(1, 4, 1, 4);
+                queryRead.SetSubarray(subarray);
             }
             else // Sparse
             {
@@ -166,7 +170,11 @@ namespace TileDB.CSharp.Test
 
             var query = new Query(context, array);
 
-            query.SetSubarray(new sbyte[]{0, 1});
+            using (var subarray = new Subarray(array))
+            {
+                subarray.SetSubarray<sbyte>(0, 1);
+                query.SetSubarray(subarray);
+            }
 
             query.SetLayout(LayoutType.RowMajor);
 
@@ -176,7 +184,7 @@ namespace TileDB.CSharp.Test
 
             var a2_data_buffer = new float[5] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f };
 
-            query.SetDataBuffer("a2", a2_data_buffer );
+            query.SetDataBuffer("a2", a2_data_buffer);
 
             var a2_offset_buffer = new ulong[2] { 0, 3 };
 
@@ -200,7 +208,12 @@ namespace TileDB.CSharp.Test
 
             var query_read = new Query(context, array_read);
 
-            query_read.SetSubarray(new sbyte[] { 0, 1 });
+            using (var subarray = new Subarray(array_read))
+            {
+                subarray.SetSubarray<sbyte>(0, 1);
+
+                query_read.SetSubarray(subarray);
+            }
 
             query_read.SetLayout(LayoutType.RowMajor);
 
@@ -463,8 +476,6 @@ namespace TileDB.CSharp.Test
             ulong[] a3_off_read = new ulong[4];
             byte[] a3_validity_read = new byte[4];
 
-            var subarray = new int[4] { 1, 2, 1, 2 };
-
             using (var array_read = new Array(context, tmpArrayPath))
             {
                 Assert.IsNotNull(array_read);
@@ -474,6 +485,8 @@ namespace TileDB.CSharp.Test
                 var query_read = new Query(context, array_read);
 
                 query_read.SetLayout(LayoutType.RowMajor);
+                using var subarray = new Subarray(array_read);
+                subarray.SetSubarray(1, 2, 1, 2);
                 query_read.SetSubarray(subarray);
 
                 query_read.SetDataBuffer("a1", a1_data_read);
@@ -539,7 +552,11 @@ namespace TileDB.CSharp.Test
             array_write.Open(QueryType.Write);
 
             var query_write = new Query(context, array_write);
-            query_write.SetSubarray(new [] {1, 2, 1, 2});
+            using (var subarray = new Subarray(array_write))
+            {
+                subarray.SetSubarray(1, 2, 1, 2);
+                query_write.SetSubarray(subarray);
+            }
             query_write.SetLayout(LayoutType.RowMajor);
 
             var a1_data = new bool[] { false, true, true, false };
@@ -557,7 +574,11 @@ namespace TileDB.CSharp.Test
             array_read.Open(QueryType.Read);
 
             var query_read = new Query(context, array_read);
-            query_read.SetSubarray(new [] {1, 2, 1, 2});
+            using (var subarray = new Subarray(array_read))
+            {
+                subarray.SetSubarray(1, 2, 1, 2);
+                query_read.SetSubarray(subarray);
+            }
             query_read.SetLayout(LayoutType.RowMajor);
 
             var a1_data_read = new bool[4];
@@ -572,7 +593,11 @@ namespace TileDB.CSharp.Test
 
             // Read from array into byte[]
             query_read = new Query(context, array_read);
-            query_read.SetSubarray(new [] {1, 2, 1, 2});
+            using (var subarray = new Subarray(array_read))
+            {
+                subarray.SetSubarray(1, 2, 1, 2);
+                query_read.SetSubarray(subarray);
+            }
             query_read.SetLayout(LayoutType.RowMajor);
 
             var a1_data_read_bytes = new byte[4];
