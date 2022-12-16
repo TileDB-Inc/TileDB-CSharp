@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using TileDB.CSharp.Marshalling;
@@ -7,12 +7,19 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
+    /// <summary>
+    /// Represents a TileDB subarray object.
+    /// </summary>
     public sealed unsafe class Subarray : IDisposable
     {
         private readonly Array _array;
         private readonly Context _ctx;
         private readonly SubarrayHandle _handle;
 
+        /// <summary>
+        /// Creates a <see cref="Subarray"/>.
+        /// </summary>
+        /// <param name="array">The <see cref="Array"/> the subarray is associated with.</param>
         public Subarray(Array array)
         {
             _array = array;
@@ -20,6 +27,12 @@ namespace TileDB.CSharp
             _handle = SubarrayHandle.Create(_ctx, array.Handle);
         }
 
+        /// <summary>
+        /// Creates a <see cref="Subarray"/> with the ability to toggle range coalescing.
+        /// </summary>
+        /// <param name="array">The <see cref="Array"/> the subarray is associated with.</param>
+        /// <param name="coalesceRanges">Whether to coalesce adjacent ranges as they are added.
+        /// Optional, defaults to <see langword="true"/>.</param>
         public Subarray(Array array, bool coalesceRanges) : this(array)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -27,11 +40,33 @@ namespace TileDB.CSharp
             _ctx.handle_error(Methods.tiledb_subarray_set_coalesce_ranges(ctxHandle, handle, coalesceRanges ? 1 : 0));
         }
 
+        /// <summary>
+        /// Disposes this <see cref="Subarray"/>.
+        /// </summary>
         public void Dispose()
         {
             _handle.Dispose();
         }
 
+        /// <summary>
+        /// Sets a <see cref="Config"/> to this <see cref="Subarray"/>
+        /// </summary>
+        /// <param name="config">The config to set.</param>
+        /// <remarks>
+        /// The following options from <paramref name="config"/> will be considered:
+        /// <list type="bullet">
+        /// <item><c>sm.memory_budget</c></item>
+        /// <item><c>sm.memory_budget_var</c></item>
+        /// <item><c>sm.sub_partitioner_memory_budget</c></item>
+        /// <item><c>sm.var_offsets.mode</c></item>
+        /// <item><c>sm.var_offsets.extra_element</c></item>
+        /// <item><c>sm.var_offsets.bitsize</c></item>
+        /// <item><c>sm.check_coord_dups</c></item>
+        /// <item><c>sm.check_coord_oob</c></item>
+        /// <item><c>sm.check_global_order</c></item>
+        /// <item><c>sm.dedup_coords</c></item>
+        /// </list>
+        /// </remarks>
         public void SetConfig(Config config)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -61,6 +96,14 @@ namespace TileDB.CSharp
             SetSubarray<T>(data.AsSpan());
         }
 
+        /// <summary>
+        /// Sets a subarray, defined in the order dimensions were added.
+        /// </summary>
+        /// <typeparam name="T">The type of the dimensions.</typeparam>
+        /// <param name="data">A read-only span of <c>[start,stop]</c> values per dimension.</param>
+        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
+        /// <exception cref="InvalidOperationException"><typeparamref name="T"/> does not match the dimension's type.</exception>
+        /// <exception cref="ArgumentException"><paramref name="data"/> does not contain exactly twice as many items as the number of dimensions.</exception>
         public void SetSubarray<T>(ReadOnlySpan<T> data) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
@@ -87,108 +130,111 @@ namespace TileDB.CSharp
         /// <summary>
         /// Adds a 1D range along a subarray dimension index, in the form (start, end).
         /// </summary>
-        /// <typeparam name="T">Dimension range type</typeparam>
-        /// <param name="index">Index of dimension to add range</param>
-        /// <param name="start">Dimension range start</param>
-        /// <param name="end">Dimension range end</param>
-        public void AddRange<T>(uint index, T start, T end) where T : struct
+        /// <typeparam name="T">The dimension's type.</typeparam>
+        /// <param name="dimensionIndex">The dimension's index.</param>
+        /// <param name="start">The start of the dimension's range.</param>
+        /// <param name="end">The end of the dimension's range.</param>
+        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
+        public void AddRange<T>(uint dimensionIndex, T start, T end) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
-            AddRange(index, &start, &end, null);
+            AddRange(dimensionIndex, &start, &end, null);
         }
 
         /// <summary>
         /// Adds a 1D range along a subarray dimension name, specified by its name, in the form (start, end).
         /// </summary>
-        /// <typeparam name="T">Dimension range type</typeparam>
-        /// <param name="name">Name of dimension to add range</param>
-        /// <param name="start">Dimension range start</param>
-        /// <param name="end">Dimension range end</param>
-        public void AddRange<T>(string name, T start, T end) where T : struct
+        /// <typeparam name="T">The dimension's type.</typeparam>
+        /// <param name="dimensionName">The dimension's name.</param>
+        /// <param name="start">The start of the dimension's range.</param>
+        /// <param name="end">The end of the dimension's range.</param>
+        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
+        public void AddRange<T>(string dimensionName, T start, T end) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
-            AddRange(name, &start, &end, null);
+            AddRange(dimensionName, &start, &end, null);
         }
 
         /// <summary>
         /// Adds a 1D range along a subarray dimension index, in the form (start, end, stride).
         /// </summary>
-        /// <typeparam name="T">Dimension range type</typeparam>
-        /// <param name="index">Index of dimension to add range</param>
-        /// <param name="start">Dimension range start</param>
-        /// <param name="end">Dimension range end</param>
-        /// <param name="stride">Stride between dimension range values</param>
-        public void AddRange<T>(uint index, T start, T end, T stride) where T : struct
+        /// <typeparam name="T">The dimension's type.</typeparam>
+        /// <param name="dimensionIndex">The dimension's index.</param>
+        /// <param name="start">The start of the dimension's range.</param>
+        /// <param name="end">The end of the dimension's range.</param>
+        /// <param name="stride">The stride between dimension range values</param>
+        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
+        public void AddRange<T>(uint dimensionIndex, T start, T end, T stride) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
-            AddRange(index, &start, &end, &stride);
+            AddRange(dimensionIndex, &start, &end, &stride);
         }
 
         /// <summary>
         /// Adds a 1D range along a subarray dimension name, specified by its name, in the form(start, end, stride).
         /// </summary>
-        /// <typeparam name="T">Dimension range type</typeparam>
-        /// <param name="name">Name of dimension</param>
-        /// <param name="start">Dimension range start</param>
-        /// <param name="end">Dimension range end</param>
-        /// <param name="stride">Stride between dimension range values</param>
-        public void AddRange<T>(string name, T start, T end, T stride) where T : struct
+        /// <typeparam name="T">The dimension's type.</typeparam>
+        /// <param name="dimensionName">The dimension's name.</param>
+        /// <param name="start">The start of the dimension's range.</param>
+        /// <param name="end">The end of the dimension's range.</param>
+        /// <param name="stride">The stride between dimension range values</param>
+        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
+        public void AddRange<T>(string dimensionName, T start, T end, T stride) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
-            AddRange(name, &start, &end, &stride);
+            AddRange(dimensionName, &start, &end, &stride);
+        }
+
+        private void AddRange(uint dimensionIndex, void* start, void* end, void* stride)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_subarray_add_range(ctxHandle, handle, dimensionIndex, start, end, stride));
+        }
+
+        private void AddRange(string dimensionName, void* start, void* end, void* stride)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var ms_name = new MarshaledString(dimensionName);
+            _ctx.handle_error(Methods.tiledb_subarray_add_range_by_name(ctxHandle, handle, ms_name, start, end, stride));
         }
 
         /// <summary>
         /// Adds a 1D string range along a subarray dimension index, in the form (start, end).
         /// </summary>
-        /// <param name="index">Index of dimension to add range</param>
-        /// <param name="start">Dimension range start</param>
-        /// <param name="end">Dimension range end</param>
-        public void AddRange(uint index, string start, string end)
+        /// <param name="dimensionIndex">The dimension's index.</param>
+        /// <param name="start">The start of the dimension's range.</param>
+        /// <param name="end">The end of the dimension's range.</param>
+        public void AddRange(uint dimensionIndex, string start, string end)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_start = new MarshaledString(start);
             using var ms_end = new MarshaledString(end);
-            _ctx.handle_error(Methods.tiledb_subarray_add_range_var(ctxHandle, handle, index, ms_start, (ulong)ms_start.Length, ms_end, (ulong)ms_end.Length));
+            _ctx.handle_error(Methods.tiledb_subarray_add_range_var(ctxHandle, handle, dimensionIndex, ms_start, (ulong)ms_start.Length, ms_end, (ulong)ms_end.Length));
         }
 
         /// <summary>
         /// Adds a 1D string range along a subarray dimension name, in the form (start, end).
         /// </summary>
-        /// <param name="name">Name of dimension to add range</param>
-        /// <param name="start">Dimension range start</param>
-        /// <param name="end">Dimension range end</param>
-        public void AddRange(string name, string start, string end)
+        /// <param name="dimensionName">The dimension's name.</param>
+        /// <param name="start">The start of the dimension's range.</param>
+        /// <param name="end">The end of the dimension's range.</param>
+        public void AddRange(string dimensionName, string start, string end)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            using var ms_name = new MarshaledString(name);
+            using var ms_name = new MarshaledString(dimensionName);
             using var ms_start = new MarshaledString(start);
             using var ms_end = new MarshaledString(end);
             _ctx.handle_error(Methods.tiledb_subarray_add_range_var_by_name(ctxHandle, handle, ms_name, ms_start, (ulong)ms_start.Length, ms_end, (ulong)ms_end.Length));
         }
 
-        private void AddRange(uint index, void* start, void* end, void* stride)
-        {
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            _ctx.handle_error(Methods.tiledb_subarray_add_range(ctxHandle, handle, index, start, end, stride));
-        }
-
-        private void AddRange(string name, void* start, void* end, void* stride)
-        {
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            using var ms_name = new MarshaledString(name);
-            _ctx.handle_error(Methods.tiledb_subarray_add_range_by_name(ctxHandle, handle, ms_name, start, end, stride));
-        }
-
         /// <summary>
-        /// Retrieves the number of ranges for a given dimension index.
+        /// Gets the number of ranges for a given dimension index.
         /// </summary>
-        /// <param name="dimensionIndex"></param>
-        /// <returns></returns>
+        /// <param name="dimensionIndex">The dimension's index.</param>
         public ulong GetRangeCount(uint dimensionIndex)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -199,10 +245,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Retrieves the number of ranges for a given dimension name.
+        /// Gets the number of ranges for a given dimension name.
         /// </summary>
-        /// <param name="dimensionName"></param>
-        /// <returns></returns>
+        /// <param name="dimensionName">The dimension's name.</param>
         public ulong GetRangeCount(string dimensionName)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -213,6 +258,14 @@ namespace TileDB.CSharp
             return result;
         }
 
+        /// <summary>
+        /// Gets the range for a given dimension index and range index.
+        /// </summary>
+        /// <typeparam name="T">The dimension's type.</typeparam>
+        /// <param name="dimensionIndex">The dimension's index.</param>
+        /// <param name="rangeIndex">The range's index.</param>
+        /// <returns>The dimension's start, end and stride values.</returns>
+        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
         public (T Start, T End, T Stride) GetRange<T>(uint dimensionIndex, uint rangeIndex) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
@@ -223,6 +276,14 @@ namespace TileDB.CSharp
             return (Unsafe.ReadUnaligned<T>(startPtr), Unsafe.ReadUnaligned<T>(endPtr), Unsafe.ReadUnaligned<T>(stridePtr));
         }
 
+        /// <summary>
+        /// Gets the range for a given dimension name and range index.
+        /// </summary>
+        /// <typeparam name="T">The dimension's type.</typeparam>
+        /// <param name="dimensionName">The dimension's name.</param>
+        /// <param name="rangeIndex">The range's index.</param>
+        /// <returns>The dimension's start, end and stride values.</returns>
+        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
         public (T Start, T End, T Stride) GetRange<T>(string dimensionName, uint rangeIndex) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
@@ -234,6 +295,12 @@ namespace TileDB.CSharp
             return (Unsafe.ReadUnaligned<T>(startPtr), Unsafe.ReadUnaligned<T>(endPtr), Unsafe.ReadUnaligned<T>(stridePtr));
         }
 
+        /// <summary>
+        /// Gets the string range for a given dimension index and range index.
+        /// </summary>
+        /// <param name="dimensionIndex">The dimension's index.</param>
+        /// <param name="rangeIndex">The range's index.</param>
+        /// <returns>The dimension's start and end values.</returns>
         public (string Start, string End) GetStringRange(uint dimensionIndex, uint rangeIndex)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -254,6 +321,12 @@ namespace TileDB.CSharp
             return (startStr, endStr);
         }
 
+        /// <summary>
+        /// Gets the string range for a given dimension name and range index.
+        /// </summary>
+        /// <param name="dimensionName">The dimension's name.</param>
+        /// <param name="rangeIndex">The range's index.</param>
+        /// <returns>The dimension's start and end values.</returns>
         public (string Start, string End) GetStringRange(string dimensionName, uint rangeIndex)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
