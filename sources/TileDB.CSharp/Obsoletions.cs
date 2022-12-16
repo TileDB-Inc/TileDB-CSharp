@@ -12,7 +12,7 @@ namespace TileDB.CSharp
         public const string ObsoleteDataTypeMessage = "This data type is obsolete.";
         public const string ObsoleteDataTypeDiagId = "TILEDB0002";
 
-        public const string TileDBInteropMessage = "Members of the TileDB.Interop namespace should not be used by user code will become internal in a future version.";
+        public const string TileDBInteropMessage = "Members of the TileDB.Interop namespace should not be used by user code and will become internal in a future version.";
         public const string TileDBInteropDiagId = "TILEDB0003";
 
         public const string ContextErrorHappenedMessage = "The Context.ErrorHappened event is obsolete and will not be invoked.";
@@ -35,5 +35,8 @@ namespace TileDB.CSharp
 
         public const string QuerySubmitAsyncMessage = "The Query.SubmitAsync method is obsolete due to reliability problems and will be removed in a future release";
         public const string QuerySubmitAsyncDiagId = "TILEDB0010";
+
+        public const string QuerySubarrayMessage = "Subarray-related methods of the Query class are obsolete and will become unavailable in a future version. Create a Subarray object and assign it to the query with the SetSubarray method instead.";
+        public const string QuerySubarrayDiagId = "TILEDB0011";
     }
 }

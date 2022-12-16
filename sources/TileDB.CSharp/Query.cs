@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -225,10 +226,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        ///
+        /// Deprecated, use <see cref="Subarray.SetSubarray{T}(T[])"/> instead and assign the subarray with <see cref="SetSubarray(Subarray)"/>.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="subarray"></param>
+        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public void SetSubarray<T>(T[] data) where T : struct
         {
             var dim_datatype = _array.Schema().Domain().Type();
@@ -503,12 +504,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Adds a 1D range along a subarray dimension index, in the form (start, end).
+        /// Deprecated, use <see cref="Subarray.AddRange{T}(uint, T, T)"/> instead and assign the subarray with <see cref="SetSubarray(Subarray)"/>.
         /// </summary>
-        /// <typeparam name="T">Dimension range type</typeparam>
-        /// <param name="index">Index of dimension to add range</param>
-        /// <param name="start">Dimension range start</param>
-        /// <param name="end">Dimension range end</param>
+        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public void AddRange<T>(UInt32 index, T start, T end) where T : struct
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -533,12 +532,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Adds a 1D range along a subarray dimension name, specified by its name, in the form (start, end).
+        /// Deprecated, use <see cref="Subarray.AddRange{T}(string, T, T)"/> instead and assign the subarray with <see cref="SetSubarray(Subarray)"/>.
         /// </summary>
-        /// <typeparam name="T">Dimension range type</typeparam>
-        /// <param name="name">Name of dimension to add range</param>
-        /// <param name="start">Dimension range start</param>
-        /// <param name="end">Dimension range end</param>
+        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public void AddRange<T>(string name, T start, T end) where T : struct
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -564,79 +561,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Adds a 1D range along a subarray dimension index, in the form (start, end, stride).
+        /// Deprecated, use <see cref="Subarray.AddRange(uint, string, string)"/> instead and assign the subarray with <see cref="SetSubarray(Subarray)"/>.
         /// </summary>
-        /// <typeparam name="T">Dimension range type</typeparam>
-        /// <param name="index">Index of dimension to add range</param>
-        /// <param name="start">Dimension range start</param>
-        /// <param name="end">Dimension range end</param>
-        /// <param name="stride">Stride between dimension range values</param>
-        private void AddRange<T>(UInt32 index, T start, T end, T stride) where T : struct
-        {
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            T[] startData = new T[1] { start };
-            T[] endData = new T[1] { end };
-            T[] strideData = new T[1] { stride };
-            var startDataGcHandle = GCHandle.Alloc(startData, GCHandleType.Pinned);
-            var endDataGcHandle = GCHandle.Alloc(endData, GCHandleType.Pinned);
-            var strideDataGcHandle = GCHandle.Alloc(strideData, GCHandleType.Pinned);
-            try
-            {
-                _ctx.handle_error(Methods.tiledb_query_add_range(ctxHandle, handle, index,
-                    (void*)startDataGcHandle.AddrOfPinnedObject(),
-                    (void*)endDataGcHandle.AddrOfPinnedObject(),
-                    (void*)strideDataGcHandle.AddrOfPinnedObject()
-                ));
-            }
-            finally
-            {
-                startDataGcHandle.Free();
-                endDataGcHandle.Free();
-                strideDataGcHandle.Free();
-            }
-        }
-
-        /// <summary>
-        /// Adds a 1D range along a subarray dimension name, specified by its name, in the form(start, end, stride).
-        /// </summary>
-        /// <typeparam name="T">Dimension range type</typeparam>
-        /// <param name="name">Name of dimension</param>
-        /// <param name="start">Dimension range start</param>
-        /// <param name="end">Dimension range end</param>
-        /// <param name="stride">Stride between dimension range values</param>
-        private void AddRange<T>(string name, T start, T end, T stride) where T : struct
-        {
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            using var ms_name = new MarshaledString(name);
-            T[] startData = new T[1] { start };
-            T[] endData = new T[1] { end };
-            T[] strideData = new T[1] { stride };
-            var startDataGcHandle = GCHandle.Alloc(startData, GCHandleType.Pinned);
-            var endDataGcHandle = GCHandle.Alloc(endData, GCHandleType.Pinned);
-            var strideDataGcHandle = GCHandle.Alloc(strideData, GCHandleType.Pinned);
-            try
-            {
-                _ctx.handle_error(Methods.tiledb_query_add_range_by_name(ctxHandle, handle, ms_name,
-                    (void*)startDataGcHandle.AddrOfPinnedObject(),
-                    (void*)endDataGcHandle.AddrOfPinnedObject(),
-                    (void*)strideDataGcHandle.AddrOfPinnedObject()));
-            }
-            finally
-            {
-                startDataGcHandle.Free();
-                endDataGcHandle.Free();
-                strideDataGcHandle.Free();
-            }
-        }
-
-        /// <summary>
-        /// Adds a 1D string range along a subarray dimension index, in the form (start, end).
-        /// </summary>
-        /// <param name="index">Index of dimension to add range</param>
-        /// <param name="start">Dimension range start</param>
-        /// <param name="end">Dimension range end</param>
+        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public void AddRange(UInt32 index, string start, string end)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -659,11 +587,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Adds a 1D string range along a subarray dimension name, in the form (start, end).
+        /// Deprecated, use <see cref="Subarray.AddRange(string, string, string)"/> instead and assign the subarray with <see cref="SetSubarray(Subarray)"/>.
         /// </summary>
-        /// <param name="name">Name of dimension to add range</param>
-        /// <param name="start">Dimension range start</param>
-        /// <param name="end">Dimension range end</param>
+        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public void AddRange(string name, string start, string end)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -687,10 +614,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Retrieves the number of ranges for a given dimension index.
+        /// Deprecated, use <see cref="Subarray.GetRangeCount(uint)"/> instead on the query's assigned <see cref="Subarray"/>.
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public UInt64 RangeNum(UInt32 index)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -701,10 +628,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Retrieves the number of ranges for a given dimension name.
+        /// Deprecated, use <see cref="Subarray.GetRangeCount(string)"/> instead on the query's assigned <see cref="Subarray"/>.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public UInt64 RangeNumFromName(string name)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -715,6 +642,7 @@ namespace TileDB.CSharp
             return range_num;
         }
 
+        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         private (byte[] start_bytes, byte[] end_bytes, byte[] stride_bytes) get_range<T>(UInt32 dim_idx, UInt32 range_idx) where T : struct
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -732,12 +660,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Retrieves a range for a given dimension index and range id in tuple(start,end,stride).
+        /// Deprecated, use <see cref="Subarray.GetRange{T}(uint, uint)"/> instead on the query's assigned <see cref="Subarray"/>.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dim_idx"></param>
-        /// <param name="range_idx"></param>
-        /// <returns></returns>
+        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public System.Tuple<T, T, T> Range<T>(UInt32 dim_idx, UInt32 range_idx) where T : struct
         {
             var (start_bytes, end_bytes, stride_bytes) = get_range<T>(dim_idx, range_idx);
@@ -748,6 +674,7 @@ namespace TileDB.CSharp
             return new Tuple<T, T, T>(start_span.ToArray()[0], end_span.ToArray()[0], stride_span.ToArray()[0]);
         }
 
+        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         private (byte[] start_bytes, byte[] end_bytes, byte[] stride_bytes) get_range<T>(string dim_name, UInt32 range_idx) where T : struct
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -764,14 +691,12 @@ namespace TileDB.CSharp
             var stride_span = new ReadOnlySpan<byte>(stride_p, (int)size);
             return (start_span.ToArray(), end_span.ToArray(), stride_span.ToArray());
         }
-
+        
         /// <summary>
-        /// Retrieves a range for a given dimension name and range id in tuple(start,end,stride).
+        /// Deprecated, use <see cref="Subarray.GetRange{T}(string, uint)"/> instead and assign the subarray with <see cref="SetSubarray(Subarray)"/>.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="name"></param>
-        /// <param name="range_idx"></param>
-        /// <returns></returns>
+        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public System.Tuple<T, T, T> Range<T>(string dim_name, UInt32 range_idx) where T : struct
         {
             var (start_bytes, end_bytes, stride_bytes) = get_range<T>(dim_name, range_idx);
@@ -782,13 +707,11 @@ namespace TileDB.CSharp
             return new Tuple<T, T, T>(start_span.ToArray()[0], end_span.ToArray()[0], stride_span.ToArray()[0]);
         }
 
-
         /// <summary>
-        /// Retrieves a range for a given variable length string dimension index and range id.
+        /// Deprecated, use <see cref="Subarray.GetStringRange(uint, uint)"/> instead on the query's assigned <see cref="Subarray"/>.
         /// </summary>
-        /// <param name="dim_idx"></param>
-        /// <param name="range_idx"></param>
-        /// <returns></returns>
+        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public System.Tuple<string, string> RangeVar(UInt32 dim_idx, UInt32 range_idx)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -819,6 +742,11 @@ namespace TileDB.CSharp
 
         }
 
+        /// <summary>
+        /// Deprecated, use <see cref="Subarray.GetStringRange(string, uint)"/> instead on the query's assigned <see cref="Subarray"/>.
+        /// </summary>
+        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public System.Tuple<string, string> RangeVar(string dim_name, UInt32 range_idx)
         {
             using var ctxHandle = _ctx.Handle.Acquire();

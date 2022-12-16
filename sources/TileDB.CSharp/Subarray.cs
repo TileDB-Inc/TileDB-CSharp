@@ -92,6 +92,7 @@ namespace TileDB.CSharp
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
         /// <exception cref="InvalidOperationException"><typeparamref name="T"/> does not match the dimension's type.</exception>
         /// <exception cref="ArgumentException"><paramref name="data"/> does not contain exactly twice as many items as the number of dimensions.</exception>
+        /// <seealso cref="SetSubarray{T}(ReadOnlySpan{T})"/>
         public void SetSubarray<T>(params T[] data) where T : struct
         {
             ErrorHandling.ThrowIfNull(data);
@@ -106,6 +107,7 @@ namespace TileDB.CSharp
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
         /// <exception cref="InvalidOperationException"><typeparamref name="T"/> does not match the dimension's type.</exception>
         /// <exception cref="ArgumentException"><paramref name="data"/> does not contain exactly twice as many items as the number of dimensions.</exception>
+        /// <seealso cref="SetSubarray{T}(T[])"/>
         public void SetSubarray<T>(ReadOnlySpan<T> data) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
