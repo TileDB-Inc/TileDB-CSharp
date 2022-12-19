@@ -303,10 +303,10 @@ namespace TileDB.CSharp
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(name);
             ulong size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
-            AddDataBufferHandle(name, GCHandle.Alloc(data, GCHandleType.Pinned), size);
+            var bufferHandle = AddDataBufferHandle(name, GCHandle.Alloc(data, GCHandleType.Pinned), size);
             _ctx.handle_error(Methods.tiledb_query_set_data_buffer(ctxHandle, handle, ms_name,
-                _dataBufferHandles[name].DataHandle.AddrOfPinnedObject().ToPointer(),
-                (ulong*)_dataBufferHandles[name].SizeHandle.AddrOfPinnedObject().ToPointer()));
+                bufferHandle.DataHandle.AddrOfPinnedObject().ToPointer(),
+                (ulong*)bufferHandle.SizeHandle.AddrOfPinnedObject().ToPointer()));
         }
 
         /// <summary>
@@ -324,12 +324,11 @@ namespace TileDB.CSharp
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(name);
             ulong size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
-            var bufferHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            AddOffsetsBufferHandle(name, bufferHandle, size);
+            var bufferHandle = AddOffsetsBufferHandle(name, GCHandle.Alloc(data, GCHandleType.Pinned), size);
 
             _ctx.handle_error(Methods.tiledb_query_set_offsets_buffer(ctxHandle, handle, ms_name,
-                (ulong*)_offsetsBufferHandles[name].DataHandle.AddrOfPinnedObject().ToPointer(),
-                (ulong*)_offsetsBufferHandles[name].SizeHandle.AddrOfPinnedObject().ToPointer()));
+                (ulong*)bufferHandle.DataHandle.AddrOfPinnedObject().ToPointer(),
+                (ulong*)bufferHandle.SizeHandle.AddrOfPinnedObject().ToPointer()));
         }
 
         /// <summary>
@@ -347,11 +346,10 @@ namespace TileDB.CSharp
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(name);
             ulong size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
-            var bufferHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            AddValidityBufferHandle(name, bufferHandle, size);
+            var bufferHandle = AddValidityBufferHandle(name, GCHandle.Alloc(data, GCHandleType.Pinned), size);
             _ctx.handle_error(Methods.tiledb_query_set_validity_buffer(ctxHandle, handle, ms_name,
-                (byte*)_validityBufferHandles[name].DataHandle.AddrOfPinnedObject().ToPointer(),
-                (ulong*)_validityBufferHandles[name].SizeHandle.AddrOfPinnedObject().ToPointer()));
+                (byte*)bufferHandle.DataHandle.AddrOfPinnedObject().ToPointer(),
+                (ulong*)bufferHandle.SizeHandle.AddrOfPinnedObject().ToPointer()));
         }
 
         /// <summary>
@@ -1029,49 +1027,24 @@ namespace TileDB.CSharp
             }
         }
 
-        /// <summary>
-        /// Add data buffer handle.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="handle"></param>
-        /// <param name="size"></param>
-        private void AddDataBufferHandle(string name, GCHandle handle, ulong size)
+        private static BufferHandle AddBufferHandle(Dictionary<string, BufferHandle> dict, string name, GCHandle handle, ulong size)
         {
-            if (_dataBufferHandles.ContainsKey(name))
+            if (dict.ContainsKey(name))
             {
-                _dataBufferHandles[name].Dispose();
+                dict[name].Dispose();
             }
-            _dataBufferHandles[name] = new BufferHandle(handle, size);
+            var bufferHandle = new BufferHandle(handle, size);
+            dict[name] = bufferHandle;
+            return bufferHandle;
         }
 
-        /// <summary>
-        /// Add offset buffer handle.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="handle"></param>
-        /// <param name="size"></param>
-        private void AddOffsetsBufferHandle(string name, GCHandle handle, ulong size)
-        {
-            if (_offsetsBufferHandles.ContainsKey(name))
-            {
-                _offsetsBufferHandles[name].Dispose();
-            }
-            _offsetsBufferHandles[name] = new BufferHandle(handle, size);
-        }
+        private BufferHandle AddDataBufferHandle(string name, GCHandle handle, ulong size) =>
+            AddBufferHandle(_dataBufferHandles, name, handle, size);
 
-        /// <summary>
-        /// Add validity buffer handle.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="handle"></param>
-        /// <param name="size"></param>
-        private void AddValidityBufferHandle(string name, GCHandle handle, ulong size)
-        {
-            if (_validityBufferHandles.ContainsKey(name))
-            {
-                _validityBufferHandles[name].Dispose();
-            }
-            _validityBufferHandles[name] = new BufferHandle(handle, size);
-        }
+        private BufferHandle AddOffsetsBufferHandle(string name, GCHandle handle, ulong size) =>
+            AddBufferHandle(_offsetsBufferHandles, name, handle, size);
+
+        private BufferHandle AddValidityBufferHandle(string name, GCHandle handle, ulong size) =>
+            AddBufferHandle(_validityBufferHandles, name, handle, size);
     }
 }
