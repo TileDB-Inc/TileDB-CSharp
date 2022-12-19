@@ -1012,10 +1012,12 @@ namespace TileDB.CSharp
         {
             if (dict.TryGetValue(name, out var bufferHandle))
             {
-                bufferHandle.Dispose();
+                bufferHandle.Reset(handle, size);
             }
-            bufferHandle = new BufferHandle(handle, size);
-            dict[name] = bufferHandle;
+            else
+            {
+                dict[name] = bufferHandle = new BufferHandle(handle, size);
+            }
             return bufferHandle;
         }
 
@@ -1053,6 +1055,13 @@ namespace TileDB.CSharp
             {
                 DataHandle = handle;
                 SizePointer = (ulong*)Marshal.AllocHGlobal(sizeof(ulong));
+                Size = size;
+            }
+
+            public void Reset(GCHandle handle, ulong size)
+            {
+                DataHandle.Free();
+                DataHandle = handle;
                 Size = size;
             }
 
