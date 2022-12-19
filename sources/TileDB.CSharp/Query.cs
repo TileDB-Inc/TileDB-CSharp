@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -90,23 +91,42 @@ namespace TileDB.CSharp
         public string Message { get; set; }
     }
 
-    internal sealed class BufferHandle : IDisposable
+    internal sealed unsafe class BufferHandle : IDisposable
     {
-        public GCHandle DataHandle;
-        public ulong BytesSize;
-        public GCHandle SizeHandle;
+        private GCHandle DataHandle;
+        public ulong* SizePointer { get; private set; }
+
+        public void* DataPointer => (void*)DataHandle.AddrOfPinnedObject();
+
+        public ulong Size
+        {
+            get
+            {
+                Debug.Assert(SizePointer is not null);
+                return *SizePointer;
+            }
+            set
+            {
+                Debug.Assert(SizePointer is not null);
+                *SizePointer = value;
+            }
+        }
 
         public BufferHandle(GCHandle handle, ulong size)
         {
             DataHandle = handle;
-            BytesSize = size;
-            SizeHandle = GCHandle.Alloc(BytesSize, GCHandleType.Pinned);
+            SizePointer = (ulong*)Marshal.AllocHGlobal(sizeof(ulong));
+            Size = size;
         }
 
         public void Dispose()
         {
             DataHandle.Free();
-            SizeHandle.Free();
+            if (SizePointer != null)
+            {
+                Marshal.FreeHGlobal((IntPtr)SizePointer);
+            }
+            SizePointer = null;
         }
     }
 
@@ -305,8 +325,8 @@ namespace TileDB.CSharp
             ulong size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
             var bufferHandle = AddDataBufferHandle(name, GCHandle.Alloc(data, GCHandleType.Pinned), size);
             _ctx.handle_error(Methods.tiledb_query_set_data_buffer(ctxHandle, handle, ms_name,
-                bufferHandle.DataHandle.AddrOfPinnedObject().ToPointer(),
-                (ulong*)bufferHandle.SizeHandle.AddrOfPinnedObject().ToPointer()));
+                bufferHandle.DataPointer,
+                bufferHandle.SizePointer));
         }
 
         /// <summary>
@@ -327,8 +347,8 @@ namespace TileDB.CSharp
             var bufferHandle = AddOffsetsBufferHandle(name, GCHandle.Alloc(data, GCHandleType.Pinned), size);
 
             _ctx.handle_error(Methods.tiledb_query_set_offsets_buffer(ctxHandle, handle, ms_name,
-                (ulong*)bufferHandle.DataHandle.AddrOfPinnedObject().ToPointer(),
-                (ulong*)bufferHandle.SizeHandle.AddrOfPinnedObject().ToPointer()));
+                (ulong*)bufferHandle.DataPointer,
+                bufferHandle.SizePointer));
         }
 
         /// <summary>
@@ -348,8 +368,8 @@ namespace TileDB.CSharp
             ulong size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
             var bufferHandle = AddValidityBufferHandle(name, GCHandle.Alloc(data, GCHandleType.Pinned), size);
             _ctx.handle_error(Methods.tiledb_query_set_validity_buffer(ctxHandle, handle, ms_name,
-                (byte*)bufferHandle.DataHandle.AddrOfPinnedObject().ToPointer(),
-                (ulong*)bufferHandle.SizeHandle.AddrOfPinnedObject().ToPointer()));
+                (byte*)bufferHandle.DataPointer,
+                bufferHandle.SizePointer));
         }
 
         /// <summary>
@@ -422,7 +442,7 @@ namespace TileDB.CSharp
             _ctx.handle_error(Methods.tiledb_query_submit_and_finalize(ctxHandle, handle));
         }
 
-        [UnmanagedCallersOnly(CallConvs = new [] {typeof(CallConvCdecl)})]
+        [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
         [Obsolete(Obsoletions.QuerySubmitAsyncMessage, DiagnosticId = Obsoletions.QuerySubmitAsyncDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         private static void QueryCallback(void* ptr)
         {
@@ -959,7 +979,7 @@ namespace TileDB.CSharp
                 using var dimension = domain.Dimension(name);
                 return dimension.Type();
             }
-            
+
             if (name == "__coords")
             {
                 return domain.Type();
@@ -991,15 +1011,15 @@ namespace TileDB.CSharp
                 ulong? validityNum = null;
 
                 ulong typeSize = EnumUtil.DataTypeSize(GetDataType(key, schema, domain));
-                ulong dataNum = (ulong)_dataBufferHandles[key].SizeHandle.Target! / typeSize;
+                ulong dataNum = _dataBufferHandles[key].Size / typeSize;
 
                 if (_offsetsBufferHandles.ContainsKey(key))
                 {
-                    offsetNum = (ulong)_offsetsBufferHandles[key].SizeHandle.Target! / sizeof(ulong);
+                    offsetNum = _offsetsBufferHandles[key].Size / sizeof(ulong);
                 }
                 if (_validityBufferHandles.ContainsKey(key))
                 {
-                    validityNum = (ulong)_validityBufferHandles[key].SizeHandle.Target!;
+                    validityNum = _validityBufferHandles[key].Size;
                 }
 
                 buffers.Add(key, new(dataNum, offsetNum, validityNum));
