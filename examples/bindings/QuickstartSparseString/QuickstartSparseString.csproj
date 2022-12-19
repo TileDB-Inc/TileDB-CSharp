@@ -6,6 +6,7 @@
     <RollForward>Major</RollForward>
     <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
     <UseCurrentRuntimeIdentifier>true</UseCurrentRuntimeIdentifier>
+    <NoWarn>TILEDB0003;$(NoWarn)</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

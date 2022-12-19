@@ -67,18 +67,20 @@ namespace TileDB.CSharp
         private void check_filter_option<T>(FilterOption filterOption)
         {
             //check for filter option
-            var filters = new List<bool> {
-                filterOption == FilterOption.CompressionLevel && typeof(T) == typeof(int),
-                filterOption == FilterOption.BitWidthMaxWindow && typeof(T) == typeof(uint),
-                filterOption == FilterOption.PositiveDeltaMaxWindow && typeof(T) == typeof(uint),
-                filterOption == FilterOption.ScaleFloatByteWidth && typeof(T) == typeof(ulong),
-                filterOption == FilterOption.ScaleFloatFactor && typeof(T) == typeof(double),
-                filterOption == FilterOption.ScaleFloatOffset && typeof(T) == typeof(double),
-            };
+            var ok =
+                (filterOption == FilterOption.CompressionLevel && typeof(T) == typeof(int)) ||
+                (filterOption == FilterOption.BitWidthMaxWindow && typeof(T) == typeof(uint)) ||
+                (filterOption == FilterOption.PositiveDeltaMaxWindow && typeof(T) == typeof(uint)) ||
+                (filterOption == FilterOption.ScaleFloatByteWidth && typeof(T) == typeof(ulong)) ||
+                (filterOption == FilterOption.ScaleFloatFactor && typeof(T) == typeof(double)) ||
+                (filterOption == FilterOption.ScaleFloatOffset && typeof(T) == typeof(double)) ||
+                (filterOption == FilterOption.WebpQuality && typeof(T) == typeof(float)) ||
+                (filterOption == FilterOption.WebpInputFormat && typeof(T) == typeof(WebpInputFormat)) ||
+                (filterOption == FilterOption.WebpLossless && typeof(T) == typeof(bool));
 
-            if (!filters.Contains(true))
+            if (!ok)
             {
-                throw new NotSupportedException("Filter, type:" + typeof(T) + " is not supported for filter option:" + filterOption);
+                throw new NotSupportedException($"Unsupported type for filter option: {filterOption}");
             }
         }
 

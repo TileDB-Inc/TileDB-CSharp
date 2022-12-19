@@ -5,12 +5,12 @@ namespace TileDB.CSharp.Marshalling
 {
     internal struct SafeHandleHolder<TNativeObject> : IDisposable where TNativeObject : unmanaged
     {
-        private readonly SafeHandle _handle;
+        private readonly SafeHandle? _handle;
         private bool _isHeld;
 
 #pragma warning disable S3869 // "SafeHandle.DangerousGetHandle" should not be called
         public static unsafe implicit operator TNativeObject*(SafeHandleHolder<TNativeObject> holder) =>
-            (TNativeObject*)holder._handle.DangerousGetHandle();
+            (TNativeObject*)(holder._handle?.DangerousGetHandle() ?? (IntPtr)0);
 #pragma warning restore S3869 // "SafeHandle.DangerousGetHandle" should not be called
 
         public SafeHandleHolder(SafeHandle handle)
@@ -28,7 +28,7 @@ namespace TileDB.CSharp.Marshalling
             }
 
             _isHeld = false;
-            _handle.DangerousRelease();
+            _handle?.DangerousRelease();
         }
     }
 }

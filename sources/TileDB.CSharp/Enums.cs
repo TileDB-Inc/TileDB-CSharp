@@ -29,11 +29,11 @@ namespace TileDB.CSharp
         /// The object is an <see cref="Array"/>.
         /// </summary>
         Array = tiledb_object_t.TILEDB_ARRAY,
-        [Obsolete("Use Invalid instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Invalid instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_INVALID = Invalid,
-        [Obsolete("Use Group instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Group instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_GROUP = Group,
-        [Obsolete("Use Array instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Array instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_ARRAY = Array
     }
 
@@ -53,9 +53,9 @@ namespace TileDB.CSharp
         Delete = tiledb_query_type_t.TILEDB_DELETE,
         Update = tiledb_query_type_t.TILEDB_UPDATE,
         ModifyExclusive = tiledb_query_type_t.TILEDB_MODIFY_EXCLUSIVE,
-        [Obsolete("Use Read instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Read instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_READ = Read,
-        [Obsolete("Use Write instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Write instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_WRITE = Write
     }
 
@@ -84,15 +84,15 @@ namespace TileDB.CSharp
         /// The query is not initialized.
         /// </summary>
         Uninitialized = tiledb_query_status_t.TILEDB_UNINITIALIZED,
-        [Obsolete("Use Failed instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Failed instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FAILED = Failed,
-        [Obsolete("Use Completed instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Completed instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_COMPLETED = Completed,
-        [Obsolete("Use InProgress instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use InProgress instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_INPROGRESS = InProgress,
-        [Obsolete("Use Incomplete instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Incomplete instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_INCOMPLETE = Incomplete,
-        [Obsolete("Use Uninitialized instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Uninitialized instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_UNINITIALIZED = Uninitialized
     }
 
@@ -125,17 +125,17 @@ namespace TileDB.CSharp
         /// The attribute is not equal to the value.
         /// </summary>
         NotEqual = tiledb_query_condition_op_t.TILEDB_NE,
-        [Obsolete("Use LessThan instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use LessThan instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_LT = LessThan,
-        [Obsolete("Use LessThanOrEqual instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use LessThanOrEqual instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_LE = LessThanOrEqual,
-        [Obsolete("Use GreaterThan instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use GreaterThan instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_GT = GreaterThan,
-        [Obsolete("Use GreaterThanOrEqual instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use GreaterThanOrEqual instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_GE = GreaterThanOrEqual,
-        [Obsolete("Use Equal instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Equal instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_EQ = Equal,
-        [Obsolete("Use NotEqual instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use NotEqual instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_NE = NotEqual
     }
 
@@ -156,11 +156,11 @@ namespace TileDB.CSharp
         /// The condition must not be satisfied.
         /// </summary>
         Not = tiledb_query_condition_combination_op_t.TILEDB_NOT,
-        [Obsolete("Use And instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use And instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_AND = And,
-        [Obsolete("Use Or instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Or instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_OR = Or,
-        [Obsolete("Use Not instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Not instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_NOT = Not
     }
 
@@ -170,7 +170,7 @@ namespace TileDB.CSharp
     public enum FileSystemType : uint
     {
         /// <summary>
-        /// HDFS file system.
+        /// HDFS (Hadoop File System) file system.
         /// </summary>
         Hdfs = tiledb_filesystem_t.TILEDB_HDFS,
         /// <summary>
@@ -184,21 +184,21 @@ namespace TileDB.CSharp
         /// <summary>
         /// Google Cloud Storage file system.
         /// </summary>
-        Gcs = tiledb_filesystem_t.TILEDB_GCS,
+        GoogleCloudStorage = tiledb_filesystem_t.TILEDB_GCS,
         /// <summary>
         /// In-memory file system.
         /// </summary>
-        Memfs = tiledb_filesystem_t.TILEDB_MEMFS,
-        [Obsolete("Use Hdfs instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        InMemory = tiledb_filesystem_t.TILEDB_MEMFS,
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Hdfs instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_HDFS = Hdfs,
-        [Obsolete("Use S3 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use S3 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_S3 = S3,
-        [Obsolete("Use Azure instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Azure instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_AZURE = Azure,
-        [Obsolete("Use Gcs instead."), EditorBrowsable(EditorBrowsableState.Never)]
-        TILEDB_GCS = Gcs,
-        [Obsolete("Use Memfs instead."), EditorBrowsable(EditorBrowsableState.Never)]
-        TILEDB_MEMFS = Memfs
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use GoogleCloudStorage instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
+        TILEDB_GCS = GoogleCloudStorage,
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use InMemory instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
+        TILEDB_MEMFS = InMemory
     }
 
     /// <summary>
@@ -226,7 +226,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// A sequence of characters. Deprecated.
         /// </summary>
-        [Obsolete("This data type is deprecated.")]
+        [Obsolete(Obsoletions.ObsoleteDataTypeMessage + " Use Byte or StringAscii instead.", DiagnosticId = Obsoletions.ObsoleteDataTypeDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         // https://github.com/TileDB-Inc/TileDB/pull/2742
         Char = tiledb_datatype_t.TILEDB_CHAR,
         /// <summary>
@@ -272,13 +272,13 @@ namespace TileDB.CSharp
         /// <summary>
         /// A UCS-2 string. Deprecated.
         /// </summary>
-        [Obsolete("This data type is deprecated.")]
+        [Obsolete(Obsoletions.ObsoleteDataTypeMessage + " Use StringUtf16 instead.", DiagnosticId = Obsoletions.ObsoleteDataTypeDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         // https://github.com/TileDB-Inc/TileDB/pull/2812
         StringUcs2 = tiledb_datatype_t.TILEDB_STRING_UCS2,
         /// <summary>
         /// A UCS-4 string. Deprecated.
         /// </summary>
-        [Obsolete("This data type is deprecated.")]
+        [Obsolete(Obsoletions.ObsoleteDataTypeMessage + " Use StringUtf32 instead.", DiagnosticId = Obsoletions.ObsoleteDataTypeDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         // https://github.com/TileDB-Inc/TileDB/pull/2812
         StringUcs4 = tiledb_datatype_t.TILEDB_STRING_UCS4,
         /// <summary>
@@ -399,89 +399,90 @@ namespace TileDB.CSharp
         /// A boolean value.
         /// </summary>
         Boolean = tiledb_datatype_t.TILEDB_BOOL,
-        [Obsolete("Use Int32 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Int32 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_INT32 = Int32,
-        [Obsolete("Use Int64 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Int64 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_INT64 = Int64,
-        [Obsolete("Use Float32 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Float32 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FLOAT32 = Float32,
-        [Obsolete("Use Float64 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Float64 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FLOAT64 = Float64,
-        [Obsolete("Use Char instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Char instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_CHAR = Char,
-        [Obsolete("Use Int8 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Int8 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_INT8 = Int8,
-        [Obsolete("Use UInt8 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use UInt8 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_UINT8 = UInt8,
-        [Obsolete("Use Int16 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Int16 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_INT16 = Int16,
-        [Obsolete("Use UInt16 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use UInt16 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_UINT16 = UInt16,
-        [Obsolete("Use UInt32 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use UInt32 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_UINT32 = UInt32,
-        [Obsolete("Use UInt64 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use UInt64 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_UINT64 = UInt64,
-        [Obsolete("Use StringAscii instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use StringAscii instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_STRING_ASCII = StringAscii,
-        [Obsolete("Use StringUtf8 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use StringUtf8 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_STRING_UTF8 = StringUtf8,
-        [Obsolete("Use StringUtf16 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use StringUtf16 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_STRING_UTF16 = StringUtf16,
-        [Obsolete("Use StringUtf32 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use StringUtf32 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_STRING_UTF32 = StringUtf32,
-        [Obsolete("Use StringUcs2 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use StringUcs2 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_STRING_UCS2 = StringUcs2,
-        [Obsolete("Use StringUcs4 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use StringUcs4 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_STRING_UCS4 = StringUcs4,
-        [Obsolete("This data type is deprecated."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.ObsoleteDataTypeMessage + " Use a more specific data type instead.", DiagnosticId = Obsoletions.ObsoleteDataTypeDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
+        // https://github.com/TileDB-Inc/TileDB/pull/2807
         TILEDB_ANY = tiledb_datatype_t.TILEDB_ANY,
-        [Obsolete("Use DateTimeYear instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use DateTimeYear instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_YEAR = DateTimeYear,
-        [Obsolete("Use DateTimeMonth instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use DateTimeMonth instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_MONTH = DateTimeMonth,
-        [Obsolete("Use DateTimeWeek instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use DateTimeWeek instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_WEEK = DateTimeWeek,
-        [Obsolete("Use DateTimeDay instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use DateTimeDay instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_DAY = DateTimeDay,
-        [Obsolete("Use DateTimeHour instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use DateTimeHour instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_HR = DateTimeHour,
-        [Obsolete("Use DateTimeMinute instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use DateTimeMinute instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_MIN = DateTimeMinute,
-        [Obsolete("Use DateTimeSecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use DateTimeSecond instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_SEC = DateTimeSecond,
-        [Obsolete("Use DateTimeMillisecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use DateTimeMillisecond instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_MS = DateTimeMillisecond,
-        [Obsolete("Use DateTimeMicrosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use DateTimeMicrosecond instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_US = DateTimeMicrosecond,
-        [Obsolete("Use DateTimeNanosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use DateTimeNanosecond instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_NS = DateTimeNanosecond,
-        [Obsolete("Use DateTimePicosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use DateTimePicosecond instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_PS = DateTimePicosecond,
-        [Obsolete("Use DateTimeFemtosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use DateTimeFemtosecond instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_FS = DateTimeFemtosecond,
-        [Obsolete("Use DateTimeAttosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use DateTimeAttosecond instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DATETIME_AS = DateTimeAttosecond,
-        [Obsolete("Use TimeHour instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use TimeHour instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_TIME_HR = TimeHour,
-        [Obsolete("Use TimeMinute instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use TimeMinute instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_TIME_MIN = TimeMinute,
-        [Obsolete("Use TimeSecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use TimeSecond instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_TIME_SEC = TimeSecond,
-        [Obsolete("Use TimeMillisecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use TimeMillisecond instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_TIME_MS = TimeMillisecond,
-        [Obsolete("Use TimeMicrosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use TimeMicrosecond instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_TIME_US = TimeMicrosecond,
-        [Obsolete("Use TimeNanosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use TimeNanosecond instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_TIME_NS = TimeNanosecond,
-        [Obsolete("Use TimePicosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use TimePicosecond instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_TIME_PS = TimePicosecond,
-        [Obsolete("Use TimeFemtosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use TimeFemtosecond instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_TIME_FS = TimeFemtosecond,
-        [Obsolete("Use TimeAttosecond instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use TimeAttosecond instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_TIME_AS = TimeAttosecond,
-        [Obsolete("Use Blob instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Blob instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_BLOB = Blob,
-        [Obsolete("Use Boolean instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Boolean instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_BOOL = Boolean
     }
 
@@ -498,9 +499,9 @@ namespace TileDB.CSharp
         /// The array is sparse.
         /// </summary>
         Sparse = tiledb_array_type_t.TILEDB_SPARSE,
-        [Obsolete("Use Dense instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Dense instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_DENSE = Dense,
-        [Obsolete("Use Sparse instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Sparse instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_SPARSE = Sparse
     }
 
@@ -531,15 +532,15 @@ namespace TileDB.CSharp
         /// Data are ordered according to a Hilbert curve.
         /// </summary>
         Hilbert = tiledb_layout_t.TILEDB_HILBERT,
-        [Obsolete("Use RowMajor instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use RowMajor instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_ROW_MAJOR = RowMajor,
-        [Obsolete("Use ColumnMajor instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use ColumnMajor instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_COL_MAJOR = ColumnMajor,
-        [Obsolete("Use GlobalOrder instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use GlobalOrder instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_GLOBAL_ORDER = GlobalOrder,
-        [Obsolete("Use Unordered instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Unordered instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_UNORDERED = Unordered,
-        [Obsolete("Use Hilbert instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Hilbert instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_HILBERT = Hilbert
     }
 
@@ -612,35 +613,39 @@ namespace TileDB.CSharp
         /// XOR filter.
         /// </summary>
         Xor = tiledb_filter_type_t.TILEDB_FILTER_XOR,
-        [Obsolete("Use None instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        /// <summary>
+        /// WebP filter.
+        /// </summary>
+        Webp = tiledb_filter_type_t.TILEDB_FILTER_WEBP,
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use None instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_NONE = None,
-        [Obsolete("Use Gzip instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Gzip instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_GZIP = Gzip,
-        [Obsolete("Use Zstandard instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Zstandard instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_ZSTD = Zstandard,
-        [Obsolete("Use Lz4 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Lz4 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_LZ4 = Lz4,
-        [Obsolete("Use RunLengthEncoding instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use RunLengthEncoding instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_RLE = RunLengthEncoding,
-        [Obsolete("Use Bzip2 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Bzip2 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_BZIP2 = Bzip2,
-        [Obsolete("Use DoubleDelta instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use DoubleDelta instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_DOUBLE_DELTA = DoubleDelta,
-        [Obsolete("Use BitWidthReduction instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use BitWidthReduction instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_BIT_WIDTH_REDUCTION = BitWidthReduction,
-        [Obsolete("Use BitShuffle instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use BitShuffle instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_BITSHUFFLE = BitShuffle,
-        [Obsolete("Use ByteShuffle instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use ByteShuffle instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_BYTESHUFFLE = ByteShuffle,
-        [Obsolete("Use PositiveDelta instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use PositiveDelta instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_POSITIVE_DELTA = PositiveDelta,
-        [Obsolete("Use ChecksumMd5 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use ChecksumMd5 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_CHECKSUM_MD5 = ChecksumMd5,
-        [Obsolete("Use ChecksumSha256 instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use ChecksumSha256 instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_CHECKSUM_SHA256 = ChecksumSha256,
-        [Obsolete("Use Dictionary instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Dictionary instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_DICTIONARY = Dictionary,
-        [Obsolete("Use ScaleFloat instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use ScaleFloat instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_FILTER_SCALE_FLOAT = ScaleFloat
     }
 
@@ -652,18 +657,67 @@ namespace TileDB.CSharp
         ScaleFloatByteWidth = tiledb_filter_option_t.TILEDB_SCALE_FLOAT_BYTEWIDTH,
         ScaleFloatFactor = tiledb_filter_option_t.TILEDB_SCALE_FLOAT_FACTOR,
         ScaleFloatOffset = tiledb_filter_option_t.TILEDB_SCALE_FLOAT_OFFSET,
-        [Obsolete("Use CompressionLevel instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        /// <summary>
+        /// The WebP filter's compression quality.
+        /// </summary>
+        /// <remarks>
+        /// Must be a <see cref="float"/> between 1 and 100.
+        /// </remarks>
+        WebpQuality = tiledb_filter_option_t.TILEDB_WEBP_QUALITY,
+        /// <summary>
+        /// The WebP filter's input format.
+        /// </summary>
+        /// <remarks>
+        /// Must be a <see cref="WebpInputFormat"/>.
+        /// </remarks>
+        WebpInputFormat = tiledb_filter_option_t.TILEDB_WEBP_INPUT_FORMAT,
+        /// <summary>
+        /// Whether the WebP filter should perform lossless compression.
+        /// </summary>
+        /// <remarks>
+        /// Must be a <see cref="bool"/>.
+        /// </remarks>
+        WebpLossless = tiledb_filter_option_t.TILEDB_WEBP_LOSSLESS,
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use CompressionLevel instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_COMPRESSION_LEVEL = CompressionLevel,
-        [Obsolete("Use BitWidthMaxWindow instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use BitWidthMaxWindow instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_BIT_WIDTH_MAX_WINDOW = BitWidthMaxWindow,
-        [Obsolete("Use PositiveDeltaMaxWindow instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use PositiveDeltaMaxWindow instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_POSITIVE_DELTA_MAX_WINDOW = PositiveDeltaMaxWindow,
-        [Obsolete("Use ScaleFloatByteWidth instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use ScaleFloatByteWidth instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_SCALE_FLOAT_BYTEWIDTH = ScaleFloatByteWidth,
-        [Obsolete("Use ScaleFloatFactor instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use ScaleFloatFactor instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_SCALE_FLOAT_FACTOR = ScaleFloatFactor,
-        [Obsolete("Use ScaleFloatOffset instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use ScaleFloatOffset instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_SCALE_FLOAT_OFFSET = ScaleFloatOffset
+    }
+
+    /// <summary>
+    /// Specifies an image format type for the WebP filter.
+    /// </summary>
+    /// <seealso cref="FilterOption.WebpInputFormat"/>
+    public enum WebpInputFormat : byte
+    {
+        /// <summary>
+        /// Unspecified format.
+        /// </summary>
+        Unspecified = tiledb_filter_webp_format_t.TILEDB_WEBP_NONE,
+        /// <summary>
+        /// RGB format.
+        /// </summary>
+        Rgb = tiledb_filter_webp_format_t.TILEDB_WEBP_RGB,
+        /// <summary>
+        /// BGR format.
+        /// </summary>
+        Bgr = tiledb_filter_webp_format_t.TILEDB_WEBP_BGR,
+        /// <summary>
+        /// RGBA format.
+        /// </summary>
+        Rgba = tiledb_filter_webp_format_t.TILEDB_WEBP_RGBA,
+        /// <summary>
+        /// BGRA format.
+        /// </summary>
+        Bgra = tiledb_filter_webp_format_t.TILEDB_WEBP_BGRA,
     }
 
     /// <summary>
@@ -679,9 +733,9 @@ namespace TileDB.CSharp
         /// Data are encrypted using the AES-256 block cipher in Galois Counter Mode (GCM).
         /// </summary>
         Aes256Gcm = tiledb_encryption_type_t.TILEDB_AES_256_GCM,
-        [Obsolete("Use NoEncryption instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use NoEncryption instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_NO_ENCRYPTION = NoEncryption,
-        [Obsolete("Use Aes256Gcm instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Aes256Gcm instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_AES_256_GCM = Aes256Gcm
     }
 
@@ -698,9 +752,9 @@ namespace TileDB.CSharp
         /// The objects are walked in post-order.
         /// </summary>
         PostOrder = tiledb_walk_order_t.TILEDB_POSTORDER,
-        [Obsolete("Use PreOrder instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use PreOrder instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_PREORDER = PreOrder,
-        [Obsolete("Use PostOrder instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use PostOrder instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_POSTORDER = PostOrder
     }
 
@@ -721,11 +775,11 @@ namespace TileDB.CSharp
         /// Append mode.
         /// </summary>
         Append = tiledb_vfs_mode_t.TILEDB_VFS_APPEND,
-        [Obsolete("Use Read instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Read instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_VFS_READ = Read,
-        [Obsolete("Use Write instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Write instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_VFS_WRITE = Write,
-        [Obsolete("Use Append instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Append instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_VFS_APPEND = Append
     }
 
@@ -746,11 +800,11 @@ namespace TileDB.CSharp
         /// Unspecified MIME type.
         /// </summary>
         AutoDetect = tiledb_mime_type_t.TILEDB_MIME_AUTODETECT,
-        [Obsolete("Use Pdf instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Pdf instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_MIME_PDF = Pdf,
-        [Obsolete("Use Tiff instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Tiff instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_MIME_TIFF = Tiff,
-        [Obsolete("Use AutoDetect instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use AutoDetect instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         TILEDB_MIME_AUTODETECT = AutoDetect
     }
 
@@ -762,7 +816,7 @@ namespace TileDB.CSharp
         /// </summary>
         internal const uint VariableSizedImpl = uint.MaxValue;
 
-        [Obsolete("Use Attribute.VariableSized or Dimension.VariableSized instead."), EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete(Obsoletions.LegacyEnumNamesMessage + " Use Attribute.VariableSized or Dimension.VariableSized instead.", DiagnosticId = Obsoletions.LegacyEnumNamesDiagId, UrlFormat = Obsoletions.SharedUrlFormat), EditorBrowsable(EditorBrowsableState.Never)]
         public const uint TILEDB_VAR_NUM = VariableSizedImpl;
 
         #region File Api
@@ -1095,7 +1149,7 @@ namespace TileDB.CSharp
             return (VfsMode)tiledb_vfsmode;
         }
 
-        [Obsolete("This method will be removed in a future version of the library. Use TypeToDataType and the DataType enum instead.")]
+        [Obsolete(Obsoletions.TileDBInteropMessage + " Use TypeToDataType and the DataType enum instead.", DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public static tiledb_datatype_t to_tiledb_datatype(Type t) =>
             (tiledb_datatype_t)TypeToDataType(t);
 
@@ -1163,7 +1217,7 @@ namespace TileDB.CSharp
 
         public static Type DataTypeToType(DataType datatype)
         {
-#pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable TILEDB0002 // Data type is obsolete
             switch (datatype)
             {
                 case DataType.Char:
@@ -1226,26 +1280,26 @@ namespace TileDB.CSharp
                 default:
                     return typeof(byte);
             }
-#pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning restore TILEDB0002 // Data type is obsolete
         }
 
-        [Obsolete("This method will be removed in a future version of the library. Use the overload that accepts the DataType enum instead.")]
+        [Obsolete(Obsoletions.TileDBInteropMessage + " Use the overload that accepts the DataType enum instead.", DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public static bool IsStringType(tiledb_datatype_t tiledbDatatype) =>
             IsStringType((DataType)tiledbDatatype);
 
         public static bool IsStringType(DataType datatype)
         {
-#pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable TILEDB0002 // Data type is obsolete
             return datatype == DataType.StringAscii
                 || datatype == DataType.StringUcs2
                 || datatype == DataType.StringUcs4
                 || datatype == DataType.StringUtf16
                 || datatype == DataType.StringUtf32
                 || datatype == DataType.StringUtf8;
-#pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning restore TILEDB0002 // Data type is obsolete
         }
 
-        [Obsolete("This method will be removed in a future version of the library. Use DataTypeSize and the DataType enum instead.")]
+        [Obsolete(Obsoletions.TileDBInteropMessage + " Use DataTypeSize and the DataType enum instead.", DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public static ulong TileDBDataTypeSize(tiledb_datatype_t tiledbDatatype) =>
             DataTypeSize((DataType)tiledbDatatype);
 

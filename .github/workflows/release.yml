@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  push:
+    tags: ['*']
+
+jobs:
+  Run-Tests:
+    uses: ./.github/workflows/tiledb-csharp.yml
+  Release:
+    runs-on: ubuntu-latest
+    needs: Run-Tests
+    steps:
+      - uses: actions/checkout@v3
+      - name: Remove existing .NET versions
+        shell: bash
+        run: |
+          rm -rf $DOTNET_ROOT
+      - name: Set up .NET SDK from global.json
+        uses: actions/setup-dotnet@v3
+      - name: Display .NET versions
+        run: dotnet --info
+      - name: Pack TileDB.CSharp
+        run: dotnet pack -c Release ./sources/TileDB.CSharp/TileDB.CSharp.csproj -o pack
+      # In case pushing to NuGet fails we upload the packages as artifacts to push them ourselves.
+      # We must push these packages GitHub Actions generated because they are marked as deterministic.
+      - name: Upload packages as artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: nuget-release
+          path: pack/
+      - name: Push packages to NuGet
+        shell: bash
+        run: |
+          cd pack
+          dotnet nuget push "*.nupkg" -s https://api.nuget.org/v3/index.json -k ${{ secrets.TILEDB_CSHARP_NUGET_KEY }}

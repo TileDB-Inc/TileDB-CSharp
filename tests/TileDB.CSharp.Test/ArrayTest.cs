@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TileDB.CSharp.Test
@@ -123,11 +124,55 @@ namespace TileDB.CSharp.Test
             Assert.IsNotNull(array_schema_loaded);
         }
 
+        [TestMethod]
+        public void TestConsolidateFragments()
+        {
+            const uint FragmentCount = 10;
+
+            var context = Context.GetDefault();
+
+            using var uri = new TemporaryDirectory("array_consolidate_fragments");
+
+            using (var schema = BuildDenseArraySchema(context))
+            using (var array = new Array(context, uri))
+            {
+                array.Create(schema);
+            }
+
+            int[] a1Data = Enumerable.Range(1, 10).Select(x => x * x).ToArray();
+            byte[] a2Data = "aabbcccdeffggghhhhijj"u8.ToArray();
+            ulong[] a2Offsets = { 0, 2, 4, 7, 8, 9, 11, 14, 17, 18 };
+            for (uint i = 0; i < FragmentCount; i++)
+            {
+                using var array = new Array(context, uri);
+                array.Open(QueryType.Write);
+
+                using var query = new Query(context, array, QueryType.Write);
+                query.SetDataBuffer("a1", a1Data);
+                query.SetDataBuffer("a2", a2Data);
+                query.SetOffsetsBuffer("a2", a2Offsets);
+
+                query.Submit();
+            }
+
+            using var fragmentInfo = new FragmentInfo(context, uri);
+            fragmentInfo.Load();
+
+            Assert.AreEqual(FragmentCount, fragmentInfo.FragmentCount);
+
+            string[] fragments = Enumerable.Range(0, (int)FragmentCount).Select(x => fragmentInfo.GetFragmentName((uint)x)).ToArray();
+
+            Array.ConsolidateFragments(context, uri, fragments);
+
+            fragmentInfo.Load();
+
+            Assert.AreEqual(1u, fragmentInfo.FragmentCount);
+            Assert.AreEqual(FragmentCount, fragmentInfo.FragmentToVacuumCount);
+        }
+
         private ArraySchema BuildDenseArraySchema(Context context)
         {
-            var bound = new short[] { 1, 10 };
-            const short extent = 5;
-            var dimension = Dimension.Create(context, "dim1", bound, extent);
+            var dimension = Dimension.Create<short>(context, "dim1", 1, 10, 5);
             Assert.IsNotNull(dimension);
             var domain = new Domain(context);
             Assert.IsNotNull(domain);

@@ -215,7 +215,8 @@ namespace TileDB.CSharp
         /// <summary>
         /// Gets the URI of a fragment to vacuum.
         /// </summary>
-        /// <param name="fragmentIndex">The index of the fragment of interest.<remarks>
+        /// <param name="fragmentIndex">The index of the fragment of interest.</param>
+        /// <remarks>
         /// The maximum value <paramref name="fragmentIndex"/> can take
         /// is determined by the <see cref="FragmentToVacuumCount"/> property.
         /// </remarks>
@@ -236,6 +237,7 @@ namespace TileDB.CSharp
         /// The maximum value <paramref name="fragmentIndex"/> can take
         /// is determined by the <see cref="FragmentCount"/> property.
         /// </remarks>
+        /// <seealso cref="Array.ConsolidateFragments"/>
         public string GetFragmentName(uint fragmentIndex)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
