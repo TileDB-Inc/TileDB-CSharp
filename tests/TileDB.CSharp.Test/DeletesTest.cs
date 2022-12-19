@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
@@ -59,7 +58,7 @@ namespace TileDB.CSharp.Test
             using var queryCondition = notCondition.Combine(andCondition, QueryConditionCombinationOperatorType.And);
             deleteQuery.SetCondition(queryCondition);
             deleteQuery.Submit();
-            Assert.AreEqual(deleteQuery.Status(), QueryStatus.Completed);
+            Assert.AreEqual(QueryStatus.Completed, deleteQuery.Status());
             array.Close();
 
             // Check for expected values
@@ -138,7 +137,7 @@ namespace TileDB.CSharp.Test
             deleteQuery.SetCondition(andCondition);
             deleteQuery.Submit();
             array.Close();
-            Assert.AreEqual(deleteQuery.Status(), QueryStatus.Completed);
+            Assert.AreEqual(QueryStatus.Completed, deleteQuery.Status());
 
             // Check for expected values
             var readBuffers = new Dictionary<string, System.Array>()
@@ -192,7 +191,7 @@ namespace TileDB.CSharp.Test
             deleteQuery.SetCondition(andCondition);
             deleteQuery.Submit();
             array.Close();
-            Assert.AreEqual(deleteQuery.Status(), QueryStatus.Completed);
+            Assert.AreEqual(QueryStatus.Completed, deleteQuery.Status());
             var readBuffers = new Dictionary<string, System.Array>
                 { { "rows", new int[16] }, { "cols", new int[16] }, { "a1", new int[16] } };
             TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx);
@@ -217,7 +216,7 @@ namespace TileDB.CSharp.Test
             deleteQuery2.SetCondition(orCondition);
             deleteQuery2.Submit();
             array.Close();
-            Assert.AreEqual(deleteQuery2.Status(), QueryStatus.Completed);
+            Assert.AreEqual(QueryStatus.Completed, deleteQuery2.Status());
 
             // Check for expected values
             readBuffers = new()
@@ -262,7 +261,7 @@ namespace TileDB.CSharp.Test
             deleteQuery.SetCondition(andCondition);
             deleteQuery.Submit();
             array.Close();
-            Assert.AreEqual(deleteQuery.Status(), QueryStatus.Completed);
+            Assert.AreEqual(QueryStatus.Completed, deleteQuery.Status());
 
             int bufferSize = 16;
             var readBuffers = new Dictionary<string, System.Array>
@@ -283,7 +282,7 @@ namespace TileDB.CSharp.Test
             bufferSize = duplicates ? ++bufferSize : bufferSize;
             using var writeQuery = TestUtil.WriteArray(array, layout, new()
                 { {"rows", new[] {1}}, {"cols", new[] {1}}, {"a1", new[] {17}} }, ctx: ctx);
-            Assert.AreEqual(writeQuery.Status(), QueryStatus.Completed);
+            Assert.AreEqual(QueryStatus.Completed, writeQuery.Status());
             readBuffers = new()
                 { { "rows", new int[bufferSize] }, { "cols", new int[bufferSize] }, { "a1", new int[bufferSize] } };
 
@@ -366,7 +365,7 @@ namespace TileDB.CSharp.Test
                 { "cols", new[] { 1 } },
             };
             using var writeQuery = TestUtil.WriteArray(array, layout, writeData, ctx: ctx);
-            Assert.AreEqual(writeQuery.Status(), QueryStatus.Completed);
+            Assert.AreEqual(QueryStatus.Completed, writeQuery.Status());
             bufferSize = duplicates ? ++bufferSize : bufferSize;
             readBuffers = new()
                 { { "rows", new int[bufferSize] }, { "cols", new int[bufferSize] },
@@ -452,7 +451,7 @@ namespace TileDB.CSharp.Test
             deleteQuery.Submit();
             Logger.LogMessage($"Delete timestamp: {deleteTime}");
             delArray.Close();
-            Assert.AreEqual(deleteQuery.Status(), QueryStatus.Completed);
+            Assert.AreEqual(QueryStatus.Completed, deleteQuery.Status());
 
             // Read before the timestamp of the delete
             readBuffers = new()
@@ -590,7 +589,7 @@ namespace TileDB.CSharp.Test
             deleteQuery2.SetCondition(attrCondition);
             deleteQuery2.Submit();
             array.Close();
-            Assert.AreEqual(deleteQuery2.Status(), QueryStatus.Completed);
+            Assert.AreEqual(QueryStatus.Completed, deleteQuery2.Status());
 
             // Check for expected values
             readBuffers = new()
@@ -687,7 +686,7 @@ namespace TileDB.CSharp.Test
             deleteQuery.SetCondition(attrCondition);
             deleteQuery.Submit();
             array.Close();
-            Assert.AreEqual(deleteQuery.Status(), QueryStatus.Completed);
+            Assert.AreEqual(QueryStatus.Completed, deleteQuery.Status());
 
             // Check for expected values
             readBuffers = new()
@@ -756,7 +755,7 @@ namespace TileDB.CSharp.Test
             // Write { 1, 2, 3 }
             var writeQuery = TestUtil.WriteArray(array, layout, new()
                 { {"cols", new[] { 1, 2, 3 }}, {"a0", new[] { 1, 2, 3 }}}, ctx: ctx);
-            Assert.AreEqual(writeQuery.Status(), QueryStatus.Completed);
+            Assert.AreEqual(QueryStatus.Completed, writeQuery.Status());
             var readBuffers = new Dictionary<string, System.Array>
                 { {"cols", new int[6]}, {"a0", new int[6]} };
             TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx);
@@ -777,7 +776,7 @@ namespace TileDB.CSharp.Test
             deleteQuery.SetCondition(attrCondition);
             deleteQuery.Submit();
             array.Close();
-            Assert.AreEqual(deleteQuery.Status(), QueryStatus.Completed);
+            Assert.AreEqual(QueryStatus.Completed, deleteQuery.Status());
 
             // Write { 4, 5, 6 }
             // Ensure that the write is performed with a unique timestamp
@@ -785,7 +784,7 @@ namespace TileDB.CSharp.Test
             array.SetOpenTimestampEnd(writeTime.Item2+20);
             writeQuery = TestUtil.WriteArray(array, layout, new()
                 { {"cols", new[] { 4, 5, 6 }}, {"a0", new[] { 4, 5, 6 }} }, ctx: ctx);
-            Assert.AreEqual(writeQuery.Status(), QueryStatus.Completed);
+            Assert.AreEqual(QueryStatus.Completed, writeQuery.Status());
 
             // Check for expected values
             readBuffers = new() { {"cols", new int[6]}, {"a0", new int[6]} };
