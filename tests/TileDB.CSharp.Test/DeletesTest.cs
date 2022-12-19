@@ -496,7 +496,7 @@ namespace TileDB.CSharp.Test
             using var schemaEvolution2 = new ArraySchemaEvolution(ctx);
             schemaEvolution2.DropAttribute("a2");
             array.Evolve(ctx, schemaEvolution2);
-            Logger.LogMessage($"\nSchema after removing attribute (a2)");
+            Logger.LogMessage($"Schema after removing attribute (a2)");
             TestUtil.PrintLocalSchema(array.Uri());
             array.Open(QueryType.Read);
             Assert.IsFalse(array.Schema().HasAttribute("a2"));
@@ -678,8 +678,7 @@ namespace TileDB.CSharp.Test
             array.SetOpenTimestampStart(ulong.MinValue);
             array.SetOpenTimestampEnd(writeTime.Item1);
             array.Open(QueryType.Delete);
-            Logger.LogMessage("Array opened at (start / end): " +
-                              $"{array.OpenTimestampStart()} / {array.OpenTimestampEnd()}");
+            Logger.LogMessage($"Array opened at between {array.OpenTimestampStart()} and {array.OpenTimestampEnd()}");
             var deleteQuery = new Query(ctx, array, QueryType.Delete);
             var attrCondition = new QueryCondition(ctx);
             attrCondition.Init("a1", 17, QueryConditionOperatorType.Equal);
