@@ -966,21 +966,21 @@ namespace TileDB.CSharp
             using var schema = _array.Schema();
             using var domain = schema.Domain();
             var buffers = new Dictionary<string, Tuple<ulong, ulong?, ulong?>>();
-            foreach (var key in _dataBufferHandles.Keys)
+            foreach ((string key, BufferHandle dataHandle) in _dataBufferHandles)
             {
                 ulong? offsetNum = null;
                 ulong? validityNum = null;
 
                 ulong typeSize = EnumUtil.DataTypeSize(GetDataType(key, schema, domain));
-                ulong dataNum = _dataBufferHandles[key].Size / typeSize;
+                ulong dataNum = dataHandle.Size / typeSize;
 
-                if (_offsetsBufferHandles.ContainsKey(key))
+                if (_offsetsBufferHandles.TryGetValue(key, out BufferHandle? offsetHandle))
                 {
-                    offsetNum = _offsetsBufferHandles[key].Size / sizeof(ulong);
+                    offsetNum = offsetHandle.Size / sizeof(ulong);
                 }
-                if (_validityBufferHandles.ContainsKey(key))
+                if (_validityBufferHandles.TryGetValue(key, out BufferHandle? validityHandle))
                 {
-                    validityNum = _validityBufferHandles[key].Size;
+                    validityNum = validityHandle.Size;
                 }
 
                 buffers.Add(key, new(dataNum, offsetNum, validityNum));
@@ -1010,11 +1010,11 @@ namespace TileDB.CSharp
 
         private static BufferHandle AddBufferHandle(Dictionary<string, BufferHandle> dict, string name, GCHandle handle, ulong size)
         {
-            if (dict.ContainsKey(name))
+            if (dict.TryGetValue(name, out var bufferHandle))
             {
-                dict[name].Dispose();
+                bufferHandle.Dispose();
             }
-            var bufferHandle = new BufferHandle(handle, size);
+            bufferHandle = new BufferHandle(handle, size);
             dict[name] = bufferHandle;
             return bufferHandle;
         }
