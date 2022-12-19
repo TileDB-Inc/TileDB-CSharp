@@ -141,7 +141,8 @@ namespace TileDB.CSharp
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
         public void AddRange<T>(uint dimensionIndex, T start, T end) where T : struct
         {
-            ErrorHandling.ThrowIfManagedType<T>();
+            // It will throw if we are on an unsupported type.
+            _ = EnumUtil.TypeToDataType(typeof(T));
             AddRange(dimensionIndex, &start, &end, null);
         }
 
@@ -155,7 +156,7 @@ namespace TileDB.CSharp
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
         public void AddRange<T>(string dimensionName, T start, T end) where T : struct
         {
-            ErrorHandling.ThrowIfManagedType<T>();
+            _ = EnumUtil.TypeToDataType(typeof(T));
             AddRange(dimensionName, &start, &end, null);
         }
 
@@ -170,7 +171,7 @@ namespace TileDB.CSharp
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
         public void AddRange<T>(uint dimensionIndex, T start, T end, T stride) where T : struct
         {
-            ErrorHandling.ThrowIfManagedType<T>();
+            _ = EnumUtil.TypeToDataType(typeof(T));
             AddRange(dimensionIndex, &start, &end, &stride);
         }
 
@@ -185,7 +186,7 @@ namespace TileDB.CSharp
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
         public void AddRange<T>(string dimensionName, T start, T end, T stride) where T : struct
         {
-            ErrorHandling.ThrowIfManagedType<T>();
+            _ = EnumUtil.TypeToDataType(typeof(T));
             AddRange(dimensionName, &start, &end, &stride);
         }
 
@@ -272,7 +273,7 @@ namespace TileDB.CSharp
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
         public (T Start, T End, T Stride) GetRange<T>(uint dimensionIndex, uint rangeIndex) where T : struct
         {
-            ErrorHandling.ThrowIfManagedType<T>();
+            _ = EnumUtil.TypeToDataType(typeof(T));
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             void* startPtr, endPtr, stridePtr;
@@ -290,7 +291,7 @@ namespace TileDB.CSharp
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
         public (T Start, T End, T Stride) GetRange<T>(string dimensionName, uint rangeIndex) where T : struct
         {
-            ErrorHandling.ThrowIfManagedType<T>();
+            _ = EnumUtil.TypeToDataType(typeof(T));
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_dimensionName = new MarshaledString(dimensionName);
