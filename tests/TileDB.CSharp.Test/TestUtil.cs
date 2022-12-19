@@ -70,6 +70,7 @@ namespace TileDB.CSharp.Test
         /// <param name="timestampRange">Optionally provide timestamp range to use for the write</param>
         /// <param name="ctx">Optionally provide a context from the caller to apply to the write</param>
         /// <param name="offsets">Dictionary using buffer name for key mapping to offsets to use for writing</param>
+        /// <param name="keepOpen">If set to false, the query will be disposed at the end of the method and null will be returned.</param>
         /// <returns>Query object used to perform the write for caller context</returns>
         public static Query WriteArray(
             Array array,
@@ -77,19 +78,20 @@ namespace TileDB.CSharp.Test
             Dictionary<string, System.Array> buffers,
             (ulong, ulong)? timestampRange = null,
             Context? ctx = null,
-            Dictionary<string, ulong[]>? offsets = null)
+            Dictionary<string, ulong[]>? offsets = null,
+            bool keepOpen = true)
         {
-            if (timestampRange != null)
+            if (timestampRange is (ulong start, ulong end))
             {
-                array.SetOpenTimestampStart(timestampRange.Value.Item1);
-                array.SetOpenTimestampEnd(timestampRange.Value.Item2);
+                array.SetOpenTimestampStart(start);
+                array.SetOpenTimestampEnd(end);
             }
             array.Open(QueryType.Write);
 
             // Use context if provided; Else get default context
-            var context = ctx ?? Context.GetDefault();
+            ctx ??= Context.GetDefault();
 
-            var writeQuery = new Query(context, array, QueryType.Write);
+            var writeQuery = new Query(ctx, array, QueryType.Write);
             // Sparse arrays can't write using row major; Can read using row-major, but not preferred for performance
             if (array.Schema().ArrayType() == ArrayType.Sparse && layout == LayoutType.RowMajor)
             {
@@ -122,6 +124,12 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual(QueryStatus.Completed, writeQuery.Status());
             array.Close();
 
+            if (!keepOpen)
+            {
+                writeQuery.Dispose();
+                return null!;
+            }
+
             // Return write query for context
             return writeQuery;
         }
@@ -136,6 +144,7 @@ namespace TileDB.CSharp.Test
         /// <param name="timestampRange">Optionally provide timestamp range to use for the read</param>
         /// <param name="ctx">Optionally provide a context from the caller to apply to the read</param>
         /// <param name="offsets">Dictionary using buffer name for key mapping to offsets to use for writing</param>
+        /// <param name="keepOpen">If set to false, the query will be disposed at the end of the method and null will be returned.</param>
         /// <returns>Query object used to perform the read for caller context</returns>
         public static Query ReadArray(
             Array array,
@@ -143,20 +152,20 @@ namespace TileDB.CSharp.Test
             Dictionary<string, System.Array> buffers,
             (ulong, ulong)? timestampRange = null,
             Context? ctx = null,
-            Dictionary<string, ulong[]>? offsets = null)
+            Dictionary<string, ulong[]>? offsets = null,
+            bool keepOpen = true)
         {
-            if (timestampRange != null)
+            if (timestampRange is (ulong start, ulong end))
             {
-                array.SetOpenTimestampStart(timestampRange.Value.Item1);
-                array.SetOpenTimestampEnd(timestampRange.Value.Item2);
+                array.SetOpenTimestampStart(start);
+                array.SetOpenTimestampEnd(end);
             }
-
             array.Open(QueryType.Read);
 
             // Use context if provided; Else get default context
-            var context = ctx ?? Context.GetDefault();
+            ctx ??= Context.GetDefault();
 
-            var readQuery = new Query(context, array, QueryType.Read);
+            var readQuery = new Query(ctx, array, QueryType.Read);
             readQuery.SetLayout(layout);
             foreach (var buffer in buffers)
             {
@@ -172,6 +181,12 @@ namespace TileDB.CSharp.Test
             readQuery.Submit();
             Assert.AreEqual(QueryStatus.Completed, readQuery.Status());
             array.Close();
+
+            if (!keepOpen)
+            {
+                readQuery.Dispose();
+                return null!;
+            }
 
             return readQuery;
         }
