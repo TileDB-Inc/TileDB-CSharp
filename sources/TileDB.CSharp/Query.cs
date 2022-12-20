@@ -91,45 +91,6 @@ namespace TileDB.CSharp
         public string Message { get; set; }
     }
 
-    internal sealed unsafe class BufferHandle : IDisposable
-    {
-        private GCHandle DataHandle;
-        public ulong* SizePointer { get; private set; }
-
-        public void* DataPointer => (void*)DataHandle.AddrOfPinnedObject();
-
-        public ulong Size
-        {
-            get
-            {
-                Debug.Assert(SizePointer is not null);
-                return *SizePointer;
-            }
-            set
-            {
-                Debug.Assert(SizePointer is not null);
-                *SizePointer = value;
-            }
-        }
-
-        public BufferHandle(GCHandle handle, ulong size)
-        {
-            DataHandle = handle;
-            SizePointer = (ulong*)Marshal.AllocHGlobal(sizeof(ulong));
-            Size = size;
-        }
-
-        public void Dispose()
-        {
-            DataHandle.Free();
-            if (SizePointer != null)
-            {
-                Marshal.FreeHGlobal((IntPtr)SizePointer);
-            }
-            SizePointer = null;
-        }
-    }
-
     public sealed unsafe class Query : IDisposable
     {
         private readonly Array _array;
@@ -1066,5 +1027,44 @@ namespace TileDB.CSharp
 
         private BufferHandle AddValidityBufferHandle(string name, GCHandle handle, ulong size) =>
             AddBufferHandle(_validityBufferHandles, name, handle, size);
+
+        private sealed class BufferHandle : IDisposable
+        {
+            private GCHandle DataHandle;
+            public ulong* SizePointer { get; private set; }
+
+            public void* DataPointer => (void*)DataHandle.AddrOfPinnedObject();
+
+            public ulong Size
+            {
+                get
+                {
+                    Debug.Assert(SizePointer is not null);
+                    return *SizePointer;
+                }
+                set
+                {
+                    Debug.Assert(SizePointer is not null);
+                    *SizePointer = value;
+                }
+            }
+
+            public BufferHandle(GCHandle handle, ulong size)
+            {
+                DataHandle = handle;
+                SizePointer = (ulong*)Marshal.AllocHGlobal(sizeof(ulong));
+                Size = size;
+            }
+
+            public void Dispose()
+            {
+                DataHandle.Free();
+                if (SizePointer != null)
+                {
+                    Marshal.FreeHGlobal((IntPtr)SizePointer);
+                }
+                SizePointer = null;
+            }
+        }
     }
 }
