@@ -160,6 +160,7 @@ namespace TileDB.CSharp
             AddRange(dimensionName, &start, &end, null);
         }
 
+        // TODO: Make it public once the Core supports strides.
         /// <summary>
         /// Adds a 1D range along a subarray dimension index, in the form (start, end, stride).
         /// </summary>
@@ -169,12 +170,13 @@ namespace TileDB.CSharp
         /// <param name="end">The end of the dimension's range.</param>
         /// <param name="stride">The stride between dimension range values</param>
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
-        public void AddRange<T>(uint dimensionIndex, T start, T end, T stride) where T : struct
+        private void AddRange<T>(uint dimensionIndex, T start, T end, T stride) where T : struct
         {
             _ = EnumUtil.TypeToDataType(typeof(T));
             AddRange(dimensionIndex, &start, &end, &stride);
         }
 
+        // TODO: Make it public once the Core supports strides.
         /// <summary>
         /// Adds a 1D range along a subarray dimension name, specified by its name, in the form(start, end, stride).
         /// </summary>
@@ -184,7 +186,7 @@ namespace TileDB.CSharp
         /// <param name="end">The end of the dimension's range.</param>
         /// <param name="stride">The stride between dimension range values</param>
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
-        public void AddRange<T>(string dimensionName, T start, T end, T stride) where T : struct
+        private void AddRange<T>(string dimensionName, T start, T end, T stride) where T : struct
         {
             _ = EnumUtil.TypeToDataType(typeof(T));
             AddRange(dimensionName, &start, &end, &stride);
@@ -269,16 +271,16 @@ namespace TileDB.CSharp
         /// <typeparam name="T">The dimension's type.</typeparam>
         /// <param name="dimensionIndex">The dimension's index.</param>
         /// <param name="rangeIndex">The range's index.</param>
-        /// <returns>The dimension's start, end and stride values.</returns>
+        /// <returns>The dimension's start and end values.</returns>
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
-        public (T Start, T End, T Stride) GetRange<T>(uint dimensionIndex, uint rangeIndex) where T : struct
+        public (T Start, T End) GetRange<T>(uint dimensionIndex, uint rangeIndex) where T : struct
         {
             _ = EnumUtil.TypeToDataType(typeof(T));
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            void* startPtr, endPtr, stridePtr;
-            _ctx.handle_error(Methods.tiledb_subarray_get_range(ctxHandle, handle, dimensionIndex, rangeIndex, &startPtr, &endPtr, &stridePtr));
-            return (Unsafe.ReadUnaligned<T>(startPtr), Unsafe.ReadUnaligned<T>(endPtr), Unsafe.ReadUnaligned<T>(stridePtr));
+            void* startPtr, endPtr, stridePtr_unused;
+            _ctx.handle_error(Methods.tiledb_subarray_get_range(ctxHandle, handle, dimensionIndex, rangeIndex, &startPtr, &endPtr, &stridePtr_unused));
+            return (Unsafe.ReadUnaligned<T>(startPtr), Unsafe.ReadUnaligned<T>(endPtr));
         }
 
         /// <summary>
@@ -287,17 +289,17 @@ namespace TileDB.CSharp
         /// <typeparam name="T">The dimension's type.</typeparam>
         /// <param name="dimensionName">The dimension's name.</param>
         /// <param name="rangeIndex">The range's index.</param>
-        /// <returns>The dimension's start, end and stride values.</returns>
+        /// <returns>The dimension's start and end values.</returns>
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
-        public (T Start, T End, T Stride) GetRange<T>(string dimensionName, uint rangeIndex) where T : struct
+        public (T Start, T End) GetRange<T>(string dimensionName, uint rangeIndex) where T : struct
         {
             _ = EnumUtil.TypeToDataType(typeof(T));
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_dimensionName = new MarshaledString(dimensionName);
-            void* startPtr, endPtr, stridePtr;
-            _ctx.handle_error(Methods.tiledb_subarray_get_range_from_name(ctxHandle, handle, ms_dimensionName, rangeIndex, &startPtr, &endPtr, &stridePtr));
-            return (Unsafe.ReadUnaligned<T>(startPtr), Unsafe.ReadUnaligned<T>(endPtr), Unsafe.ReadUnaligned<T>(stridePtr));
+            void* startPtr, endPtr, stridePtr_unused;
+            _ctx.handle_error(Methods.tiledb_subarray_get_range_from_name(ctxHandle, handle, ms_dimensionName, rangeIndex, &startPtr, &endPtr, &stridePtr_unused));
+            return (Unsafe.ReadUnaligned<T>(startPtr), Unsafe.ReadUnaligned<T>(endPtr));
         }
 
         /// <summary>

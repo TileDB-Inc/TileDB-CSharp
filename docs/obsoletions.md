@@ -258,8 +258,10 @@ Some of these methods were renamed or had their signature changed (for example t
 |--------------|-----------------|
 |`RangeNum`|`GetRangeCount(uint)`|
 |`RangeNumFromName`|`GetRangeCount(string)`|
-|`Range` (all overloads)|`GetRange`|
+|`Range` (all overloads)|`GetRange`\*|
 |`RangeVar` (all overloads)|`GetStringRange`|
+
+> \* Because of lack of support by TileDB Embedded, the `Subarray.GetRange` methods will return a tuple with two members instead of three. The deprecated `Query.Range` methods have never actually been usable because of it.
 
 In accordance with [TileDB Embedded's deprecation policy](https://github.com/TileDB-Inc/TileDB/blob/dev/doc/policy/api_changes.md), the methods on `Query` will be removed in a future version and calling them will fail.
 
