@@ -2,7 +2,7 @@
   <Import Project="../NuGet.props" />
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <IsPackable Condition="$(DevelopmentBuild) == true">false</IsPackable>
+    <IsPackable Condition="$(DevelopmentBuild) == true OR '$(LocalLibraryFile)' != ''">false</IsPackable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Nullable>enable</Nullable>
     <RootNamespace>TileDB.CSharp</RootNamespace>
@@ -17,6 +17,7 @@
     <None Include="README.md" Pack="True" PackagePath="" />
     <None Include="build/TileDB.CSharp.targets" Pack="True" PackagePath="build" />
     <None Include="buildTransitive/TileDB.CSharp.targets" Pack="True" PackagePath="buildTransitive" />
-    <PackageReference Include="$(TileDBNativePackageName)" />
+    <None Include="$(LocalLibraryFile)" CopyToOutputDirectory="PreserveNewest" />
+    <PackageReference Condition="'$(LocalLibraryFile)' == ''" Include="$(TileDBNativePackageName)" />
   </ItemGroup>
 </Project>

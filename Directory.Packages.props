@@ -10,7 +10,11 @@
     It is enabled by default in nightly builds. -->
     <DevelopmentBuild Condition="'$(TILEDB_NIGHTLY_BUILD)' != ''">true</DevelopmentBuild>
 
-    <!-- If you want to manually test with custom builds, place the native packages
+    <!-- If you want to manually test with custom builds, you have two options. The first
+    is to uncomment the following property and change it to the path of your binary. -->
+    <!-- <LocalLibraryFile>../TileDB/dist/bin/tiledb.dll</LocalLibraryFile> -->
+
+    <!-- The second option which is used by nightly builds is to place the native packages
     (Local.TileDB.Native and the one corresponding to your RID are required), and
     uncomment the following line. You might also need to clean the repository. -->
     <!-- <DevelopmentBuild>true</DevelopmentBuild> -->
