@@ -10,11 +10,17 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
+    /// <summary>
+    /// Represents a TileDB config object.
+    /// </summary>
     public sealed unsafe partial class Config : IDisposable
     {
         private readonly ConfigHandle _handle;
         private bool _disposed;
 
+        /// <summary>
+        /// Creates a new <see cref="Config"/>.
+        /// </summary>
         public Config()
         {
             _handle = ConfigHandle.Create();
@@ -25,6 +31,9 @@ namespace TileDB.CSharp
             _handle = handle;
         }
 
+        /// <summary>
+        /// Disposes this <see cref="Config"/>.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);

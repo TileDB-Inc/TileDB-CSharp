@@ -43,6 +43,9 @@ namespace TileDB.CSharp
             {
                 internal readonly object _obj;
 
+                /// <summary>
+                /// Creates a <see cref="CurlConfig"/> object.
+                /// </summary>
                 public CurlConfig() => _obj = new ConfigBag();
 
                 internal CurlConfig(object obj)

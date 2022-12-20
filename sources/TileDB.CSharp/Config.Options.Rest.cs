@@ -58,6 +58,9 @@ namespace TileDB.CSharp
         {
             internal readonly object _obj;
 
+            /// <summary>
+            /// Creates a <see cref="RestConfig"/> object.
+            /// </summary>
             public RestConfig() => _obj = new ConfigBag();
 
             internal RestConfig(Config config) => _obj = config;
