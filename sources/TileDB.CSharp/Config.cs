@@ -330,6 +330,20 @@ namespace TileDB.CSharp
             return MarshaledStringOut.GetString(result);
         }
 
+        private static void ImportFromBag(object destination, ConfigBag bag)
+        {
+            if (destination is ConfigBag destinationBag)
+            {
+                foreach (KeyValuePair<string, byte[]> kvp in bag)
+                {
+                    destinationBag[kvp.Key] = kvp.Value;
+                }
+                return;
+            }
+
+            ((Config)destination).ImportFromBag(bag);
+        }
+
         private void ImportFromBag(ConfigBag bag)
         {
             foreach (KeyValuePair<string, byte[]> kvp in bag)

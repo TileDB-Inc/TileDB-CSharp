@@ -46,6 +46,7 @@ namespace TileDB.CSharp
                 rest.LoadMetadataOnArrayOpen = value.LoadMetadataOnArrayOpen;
                 rest.LoadNonEmptyDomainOnArrayOpen = value.LoadNonEmptyDomainOnArrayOpen;
                 rest.UseRefactoredArrayOpen = value.UseRefactoredArrayOpen;
+                rest.Curl = value.Curl;
             }
         }
 
