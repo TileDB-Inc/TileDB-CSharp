@@ -330,12 +330,16 @@ namespace TileDB.CSharp
             return MarshaledStringOut.GetString(result);
         }
 
-        private static void ImportFromBag(object destination, ConfigBag bag)
+        private static void ImportFromBag(object destination, ConfigBag bag, string prefix = "")
         {
             if (destination is ConfigBag destinationBag)
             {
                 foreach (KeyValuePair<string, byte[]> kvp in bag)
                 {
+                    if (!kvp.Key.StartsWith(prefix, StringComparison.Ordinal))
+                    {
+                        continue;
+                    }
                     destinationBag[kvp.Key] = kvp.Value;
                 }
                 return;
@@ -344,10 +348,14 @@ namespace TileDB.CSharp
             ((Config)destination).ImportFromBag(bag);
         }
 
-        private void ImportFromBag(ConfigBag bag)
+        private void ImportFromBag(ConfigBag bag, string prefix = "")
         {
             foreach (KeyValuePair<string, byte[]> kvp in bag)
             {
+                if (!kvp.Key.StartsWith(prefix, StringComparison.Ordinal))
+                {
+                    continue;
+                }
                 Debug.Assert(kvp.Value[^1] == 0);
                 using var ms_param = new MarshaledString(kvp.Key);
                 ReadOnlySpan<byte> paramSpan = new(ms_param.Value, ms_param.Length);

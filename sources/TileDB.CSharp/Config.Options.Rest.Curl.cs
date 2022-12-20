@@ -22,7 +22,10 @@ namespace TileDB.CSharp
 
                     if (value._obj is ConfigBag bag)
                     {
-                        ImportFromBag(_obj, bag);
+                        // If we have two freestanding RestConfig objects x1 and x2, and
+                        // call x1.Rest.Curl = x2.Rest.Curl, all x2's options would be set,
+                        // and so we specify the prefix of the options we want.
+                        ImportFromBag(_obj, bag, "rest.curl.");
                         return;
                     }
 
