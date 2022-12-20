@@ -228,7 +228,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// Deprecated, use <see cref="Subarray.SetSubarray{T}(T[])"/> instead and assign the subarray with <see cref="SetSubarray(Subarray)"/>.
         /// </summary>
-        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.SetSubarray instead on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void SetSubarray<T>(T[] data) where T : struct
         {
@@ -504,9 +504,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Deprecated, use <see cref="Subarray.AddRange{T}(uint, T, T)"/> instead and assign the subarray with <see cref="SetSubarray(Subarray)"/>.
+        /// Deprecated, use <see cref="Subarray.AddRange{T}(uint, T, T)"/> on the query's assigned <see cref="Subarray"/> instead.
         /// </summary>
-        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.AddRange on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void AddRange<T>(UInt32 index, T start, T end) where T : struct
         {
@@ -532,9 +532,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Deprecated, use <see cref="Subarray.AddRange{T}(string, T, T)"/> instead and assign the subarray with <see cref="SetSubarray(Subarray)"/>.
+        /// Deprecated, use <see cref="Subarray.AddRange{T}(string, T, T)"/> on the query's assigned <see cref="Subarray"/> instead.
         /// </summary>
-        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.AddRange on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void AddRange<T>(string name, T start, T end) where T : struct
         {
@@ -561,9 +561,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Deprecated, use <see cref="Subarray.AddRange(uint, string, string)"/> instead and assign the subarray with <see cref="SetSubarray(Subarray)"/>.
+        /// Deprecated, use <see cref="Subarray.AddRange(uint, string, string)"/> on the query's assigned <see cref="Subarray"/> instead.
         /// </summary>
-        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.AddRange on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void AddRange(UInt32 index, string start, string end)
         {
@@ -587,9 +587,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Deprecated, use <see cref="Subarray.AddRange(string, string, string)"/> instead and assign the subarray with <see cref="SetSubarray(Subarray)"/>.
+        /// Deprecated, use <see cref="Subarray.AddRange(string, string, string)"/> on the query's assigned <see cref="Subarray"/> instead.
         /// </summary>
-        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.AddRange on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void AddRange(string name, string start, string end)
         {
@@ -616,7 +616,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// Deprecated, use <see cref="Subarray.GetRangeCount(uint)"/> instead on the query's assigned <see cref="Subarray"/>.
         /// </summary>
-        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.GetRangeCount on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public UInt64 RangeNum(UInt32 index)
         {
@@ -630,7 +630,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// Deprecated, use <see cref="Subarray.GetRangeCount(string)"/> instead on the query's assigned <see cref="Subarray"/>.
         /// </summary>
-        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.GetRangeCount on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public UInt64 RangeNumFromName(string name)
         {
@@ -662,7 +662,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// Deprecated, use <see cref="Subarray.GetRange{T}(uint, uint)"/> instead on the query's assigned <see cref="Subarray"/>.
         /// </summary>
-        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.GetRange on the query's assigned Subarray instead. Note that it does not return a stride.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public System.Tuple<T, T, T> Range<T>(UInt32 dim_idx, UInt32 range_idx) where T : struct
         {
@@ -691,11 +691,11 @@ namespace TileDB.CSharp
             var stride_span = new ReadOnlySpan<byte>(stride_p, (int)size);
             return (start_span.ToArray(), end_span.ToArray(), stride_span.ToArray());
         }
-        
+
         /// <summary>
         /// Deprecated, use <see cref="Subarray.GetRange{T}(string, uint)"/> instead and assign the subarray with <see cref="SetSubarray(Subarray)"/>.
         /// </summary>
-        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.GetRange on the query's assigned Subarray instead. Note that it does not return a stride.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public System.Tuple<T, T, T> Range<T>(string dim_name, UInt32 range_idx) where T : struct
         {
@@ -710,7 +710,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// Deprecated, use <see cref="Subarray.GetStringRange(uint, uint)"/> instead on the query's assigned <see cref="Subarray"/>.
         /// </summary>
-        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.GetStringRange on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public System.Tuple<string, string> RangeVar(UInt32 dim_idx, UInt32 range_idx)
         {
@@ -745,7 +745,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// Deprecated, use <see cref="Subarray.GetStringRange(string, uint)"/> instead on the query's assigned <see cref="Subarray"/>.
         /// </summary>
-        [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.GetStringRange on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public System.Tuple<string, string> RangeVar(string dim_name, UInt32 range_idx)
         {

@@ -36,7 +36,7 @@ namespace TileDB.CSharp
         public const string QuerySubmitAsyncMessage = "The Query.SubmitAsync method is obsolete due to reliability problems and will be removed in a future release";
         public const string QuerySubmitAsyncDiagId = "TILEDB0010";
 
-        public const string QuerySubarrayMessage = "Subarray-related methods of the Query class are obsolete and will become unavailable in a future version. Create a Subarray object and assign it to the query with the SetSubarray method instead.";
+        public const string QuerySubarrayMessage = "Subarray-related methods of the Query class are obsolete and will become unavailable in a future version.";
         public const string QuerySubarrayDiagId = "TILEDB0011";
     }
 }
