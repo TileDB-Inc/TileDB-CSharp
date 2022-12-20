@@ -1,4 +1,5 @@
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -280,14 +281,17 @@ namespace TileDB.CSharp
                 return;
             }
 
+            ulong size = (ulong)data.Length * (ulong)sizeof(T);
+            var bufferHandle = AddDataBufferHandle(name, PinArray(data), size);
+            SetDataBuffer(name, bufferHandle.DataPointer, bufferHandle.SizePointer);
+        }
+
+        private void SetDataBuffer(string name, void* data, ulong* size)
+        {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(name);
-            ulong size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
-            var bufferHandle = AddDataBufferHandle(name, GCHandle.Alloc(data, GCHandleType.Pinned), size);
-            _ctx.handle_error(Methods.tiledb_query_set_data_buffer(ctxHandle, handle, ms_name,
-                bufferHandle.DataPointer,
-                bufferHandle.SizePointer));
+            _ctx.handle_error(Methods.tiledb_query_set_data_buffer(ctxHandle, handle, ms_name, data, size));
         }
 
         /// <summary>
@@ -301,15 +305,19 @@ namespace TileDB.CSharp
             {
                 throw new ArgumentException("Query.set_offsets_buffer, buffer is null or empty!");
             }
+
+            ulong size = (ulong)data.Length * sizeof(ulong);
+            var bufferHandle = AddOffsetsBufferHandle(name, PinArray(data), size);
+
+            SetOffsetsBuffer(name, (ulong*)bufferHandle.DataPointer, bufferHandle.SizePointer);
+        }
+
+        private void SetOffsetsBuffer(string name, ulong* data, ulong* size)
+        {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(name);
-            ulong size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
-            var bufferHandle = AddOffsetsBufferHandle(name, GCHandle.Alloc(data, GCHandleType.Pinned), size);
-
-            _ctx.handle_error(Methods.tiledb_query_set_offsets_buffer(ctxHandle, handle, ms_name,
-                (ulong*)bufferHandle.DataPointer,
-                bufferHandle.SizePointer));
+            _ctx.handle_error(Methods.tiledb_query_set_offsets_buffer(ctxHandle, handle, ms_name, data, size));
         }
 
         /// <summary>
@@ -323,14 +331,17 @@ namespace TileDB.CSharp
             {
                 throw new ArgumentException("Query.set_validity_buffer, buffer is null or empty!");
             }
+            ulong size = (ulong)data.Length * sizeof(byte);
+            var bufferHandle = AddValidityBufferHandle(name, PinArray(data), size);
+            SetValidityBuffer(name, (byte*)bufferHandle.DataPointer, bufferHandle.SizePointer);
+        }
+
+        private void SetValidityBuffer(string name, byte* data, ulong* size)
+        {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(name);
-            ulong size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
-            var bufferHandle = AddValidityBufferHandle(name, GCHandle.Alloc(data, GCHandleType.Pinned), size);
-            _ctx.handle_error(Methods.tiledb_query_set_validity_buffer(ctxHandle, handle, ms_name,
-                (byte*)bufferHandle.DataPointer,
-                bufferHandle.SizePointer));
+            _ctx.handle_error(Methods.tiledb_query_set_validity_buffer(ctxHandle, handle, ms_name, data, size));
         }
 
         /// <summary>
@@ -1008,7 +1019,14 @@ namespace TileDB.CSharp
             }
         }
 
-        private static BufferHandle AddBufferHandle(Dictionary<string, BufferHandle> dict, string name, GCHandle handle, ulong size)
+        private static MemoryHandle PinArray<T>(T[] array) where T : struct
+        {
+            var gcHandle = GCHandle.Alloc(array, GCHandleType.Pinned);
+            var pointer = (void*)gcHandle.AddrOfPinnedObject();
+            return new(pointer, gcHandle);
+        }
+
+        private static BufferHandle AddBufferHandle(Dictionary<string, BufferHandle> dict, string name, MemoryHandle handle, ulong size)
         {
             if (dict.TryGetValue(name, out var bufferHandle))
             {
@@ -1021,21 +1039,21 @@ namespace TileDB.CSharp
             return bufferHandle;
         }
 
-        private BufferHandle AddDataBufferHandle(string name, GCHandle handle, ulong size) =>
+        private BufferHandle AddDataBufferHandle(string name, MemoryHandle handle, ulong size) =>
             AddBufferHandle(_dataBufferHandles, name, handle, size);
 
-        private BufferHandle AddOffsetsBufferHandle(string name, GCHandle handle, ulong size) =>
+        private BufferHandle AddOffsetsBufferHandle(string name, MemoryHandle handle, ulong size) =>
             AddBufferHandle(_offsetsBufferHandles, name, handle, size);
 
-        private BufferHandle AddValidityBufferHandle(string name, GCHandle handle, ulong size) =>
+        private BufferHandle AddValidityBufferHandle(string name, MemoryHandle handle, ulong size) =>
             AddBufferHandle(_validityBufferHandles, name, handle, size);
 
         private sealed class BufferHandle : IDisposable
         {
-            private GCHandle DataHandle;
+            private MemoryHandle DataHandle;
             public ulong* SizePointer { get; private set; }
 
-            public void* DataPointer => (void*)DataHandle.AddrOfPinnedObject();
+            public void* DataPointer => DataHandle.Pointer;
 
             public ulong Size
             {
@@ -1051,23 +1069,23 @@ namespace TileDB.CSharp
                 }
             }
 
-            public BufferHandle(GCHandle handle, ulong size)
+            public BufferHandle(MemoryHandle handle, ulong size)
             {
                 DataHandle = handle;
                 SizePointer = (ulong*)Marshal.AllocHGlobal(sizeof(ulong));
                 Size = size;
             }
 
-            public void Reset(GCHandle handle, ulong size)
+            public void Reset(MemoryHandle handle, ulong size)
             {
-                DataHandle.Free();
+                DataHandle.Dispose();
                 DataHandle = handle;
                 Size = size;
             }
 
             public void Dispose()
             {
-                DataHandle.Free();
+                DataHandle.Dispose();
                 if (SizePointer != null)
                 {
                     Marshal.FreeHGlobal((IntPtr)SizePointer);
