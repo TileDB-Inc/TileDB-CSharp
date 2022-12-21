@@ -152,7 +152,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// An event that gets raised if an operation that used this <see cref="Context"/> failed, before throwing a <see cref="TileDBException"/>.
         /// </summary>
-        public event EventHandler<ErrorEventArgs> ErrorHappened;
+        public event EventHandler<ErrorEventArgs>? ErrorHappened;
 
         internal void handle_error(int rc)
         {
