@@ -150,13 +150,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// An event that gets raised if an operation that used this <see cref="Context"/> failed.
+        /// An event that gets raised if an operation that used this <see cref="Context"/> failed, before throwing a <see cref="TileDBException"/>.
         /// </summary>
-        /// <remarks>
-        /// By default it throws an exception.
-        /// </remarks>
-        public event EventHandler<ErrorEventArgs> ErrorHappened = (_, e) =>
-            throw new TileDBException(e.Message) { StatusCode = e.Code };
+        public event EventHandler<ErrorEventArgs> ErrorHappened;
 
         internal void handle_error(int rc)
         {
@@ -193,8 +189,8 @@ namespace TileDB.CSharp
             }
             Methods.tiledb_error_free(&p_tiledb_error);
 
-            //fire event
-            ErrorHappened(this, new ErrorEventArgs(rc, message));
+            ErrorHappened?.Invoke(this, new ErrorEventArgs((int)status, message));
+            throw new TileDBException(message) { StatusCode = (int)status };
         }
     }
 }
