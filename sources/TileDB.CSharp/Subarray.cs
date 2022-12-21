@@ -42,6 +42,13 @@ namespace TileDB.CSharp
             _ctx.handle_error(Methods.tiledb_subarray_set_coalesce_ranges(ctxHandle, handle, coalesceRanges ? 1 : 0));
         }
 
+        internal Subarray(Context ctx, Array array, SubarrayHandle handle)
+        {
+            _ctx = ctx;
+            _array = array;
+            _handle = handle;
+        }
+
         /// <summary>
         /// Disposes this <see cref="Subarray"/>.
         /// </summary>

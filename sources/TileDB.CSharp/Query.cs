@@ -226,6 +226,38 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Creates a <see cref="Subarray"/> corresponding to this query.
+        /// </summary>
+        public Subarray GetSubarray()
+        {
+            var handle = new SubarrayHandle();
+            var successful = false;
+            tiledb_subarray_t* subarray = null;
+            try
+            {
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var queryHandle = _handle.Acquire())
+                {
+                    _ctx.handle_error(Methods.tiledb_query_get_subarray_t(ctxHandle, queryHandle, &subarray));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(subarray);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
+            }
+
+            return new Subarray(_ctx, _array, handle);
+        }
+
+        /// <summary>
         /// Deprecated, use <see cref="Subarray.SetSubarray{T}(T[])"/> instead and assign the subarray with <see cref="SetSubarray(Subarray)"/>.
         /// </summary>
         [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.SetSubarray instead on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
@@ -256,7 +288,6 @@ namespace TileDB.CSharp
             {
                 dataGcHandle.Free();
             }
-
         }
 
         /// <summary>
