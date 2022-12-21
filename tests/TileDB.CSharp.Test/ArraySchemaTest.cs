@@ -168,8 +168,8 @@ namespace TileDB.CSharp.Test
 			array_schema.SetDomain(domain);
 
 			
-			Assert.ThrowsException<Exception>(()=>array_schema.SetCellOrder(LayoutType.Hilbert));
-			Assert.ThrowsException<Exception>(()=>array_schema.SetTileOrder(LayoutType.Hilbert));
+			Assert.ThrowsException<TileDBException>(()=>array_schema.SetCellOrder(LayoutType.Hilbert));
+			Assert.ThrowsException<TileDBException>(()=>array_schema.SetTileOrder(LayoutType.Hilbert));
 			array_schema.SetCapacity(2);
 			array_schema.Check();
 		}
