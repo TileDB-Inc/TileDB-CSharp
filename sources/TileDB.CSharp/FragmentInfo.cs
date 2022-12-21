@@ -69,6 +69,10 @@ namespace TileDB.CSharp
                 {
                     handle.InitHandle(config);
                 }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
             }
 
             return new Config(handle);
@@ -172,6 +176,10 @@ namespace TileDB.CSharp
                 if (successful)
                 {
                     handle.InitHandle(schema);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
                 }
             }
 

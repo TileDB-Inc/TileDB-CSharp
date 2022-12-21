@@ -115,6 +115,10 @@ namespace TileDB.CSharp
                 {
                     handle.InitHandle(filter_p);
                 }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
             }
 
             return new Filter(_ctx, handle);

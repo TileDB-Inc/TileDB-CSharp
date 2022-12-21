@@ -38,6 +38,10 @@ namespace TileDB.CSharp
                 {
                     handle.InitHandle(array_schema_p);
                 }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
             }
             return new ArraySchema(_ctx, handle);
         }

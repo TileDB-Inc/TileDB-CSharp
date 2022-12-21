@@ -118,6 +118,10 @@ namespace TileDB.CSharp
                 {
                     handle.InitHandle(condition_p);
                 }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
             }
 
             return new QueryCondition(_ctx, handle);

@@ -93,6 +93,10 @@ namespace TileDB.CSharp
                 {
                     handle.InitHandle(filter_list_p);
                 }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
             }
 
             return new FilterList(_ctx, handle);
