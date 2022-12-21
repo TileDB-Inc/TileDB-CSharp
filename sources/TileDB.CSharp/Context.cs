@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
@@ -156,58 +156,45 @@ namespace TileDB.CSharp
         /// By default it throws an exception.
         /// </remarks>
         public event EventHandler<ErrorEventArgs> ErrorHappened = (_, e) =>
-        {
-            var error_msg = $"Error! Code:{e.Code},Message:{e.Message}";
-            throw new Exception(error_msg);
-        };
+            throw new TileDBException(e.Message) { StatusCode = e.Code };
 
         internal void handle_error(int rc)
         {
-            int status = Methods.tiledb_status_code(rc);
+            var status = (Status)Methods.tiledb_status_code(rc);
 
-            if (status == (int)Status.TILEDB_OK)
+            if (status == Status.TILEDB_OK)
             {
                 return;
             }
 
-            var sb_message = new StringBuilder();
+            string message;
             tiledb_error_t* p_tiledb_error;
             using (var handle = _handle.Acquire())
             {
-                status = Methods.tiledb_status_code(Methods.tiledb_ctx_get_last_error(handle, &p_tiledb_error));
+                status = (Status)Methods.tiledb_status_code(Methods.tiledb_ctx_get_last_error(handle, &p_tiledb_error));
             }
-            if (status == (int)Status.TILEDB_OK)
+            if (status == Status.TILEDB_OK)
             {
                 sbyte* messagePtr;
-                status = Methods.tiledb_status_code(Methods.tiledb_error_message(p_tiledb_error, &messagePtr));
+                status = (Status)Methods.tiledb_status_code(Methods.tiledb_error_message(p_tiledb_error, &messagePtr));
 
-                if (status == (int)Status.TILEDB_OK)
+                if (status == Status.TILEDB_OK)
                 {
-                    string message = MarshaledStringOut.GetStringFromNullTerminated(messagePtr);
-                    sb_message.Append(message);
+                    message = MarshaledStringOut.GetStringFromNullTerminated(messagePtr);
                 }
                 else
                 {
-                    var ex_message = Enum.IsDefined(typeof(Status), status) ? ((Status)status).ToString() : ("Unknown error with code:" + status);
-                    sb_message.Append(" Context.handle_error,caught exception:" + ex_message);
+                    message = $"Error during tiledb_error_message: {status}";
                 }
             }
             else
             {
-                var ex_message = Enum.IsDefined(typeof(Status), status) ? ((Status)status).ToString() : ("Unknown error with code:" + status);
-                sb_message.Append(" Context.handle_error,caught exception:" + ex_message);
+                message = $"Error during tiledb_ctx_get_last_error: {status}";
             }
             Methods.tiledb_error_free(&p_tiledb_error);
 
             //fire event
-            var args = new ErrorEventArgs(rc, sb_message.ToString());
-            OnError(args);
-        }
-
-        private void OnError(ErrorEventArgs e)
-        {
-            var handler = ErrorHappened;
-            handler(this, e); //fire the event
+            ErrorHappened(this, new ErrorEventArgs(rc, message));
         }
     }
 }
