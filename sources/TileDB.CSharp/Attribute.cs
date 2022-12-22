@@ -198,6 +198,7 @@ namespace TileDB.CSharp
         /// <param name="data"></param>
         private void SetFillValue<T>(T[] data) where T: struct
         {
+            ErrorHandling.ThrowIfManagedType<T>();
             if (data.Length == 0) {
                 throw new ArgumentException("Attribute.SetFillValue, data is empty!");
             }
@@ -219,17 +220,8 @@ namespace TileDB.CSharp
 
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            try
-            {
-                _ctx.handle_error(Methods.tiledb_attribute_set_fill_value(ctxHandle, handle,
-                    (void*)dataGcHandle.AddrOfPinnedObject(), size));
-            }
-            finally
-            {
-                dataGcHandle.Free();
-            }
-
+            fixed (T* dataPtr = &data[0])
+                _ctx.handle_error(Methods.tiledb_attribute_set_fill_value(ctxHandle, handle, dataPtr, size));
         }
 
         /// <summary>
@@ -266,7 +258,7 @@ namespace TileDB.CSharp
         /// Get fill value bytes array.
         /// </summary>
         /// <returns></returns>
-        private byte[] get_fill_value()
+        private ReadOnlySpan<byte> get_fill_value()
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -274,8 +266,7 @@ namespace TileDB.CSharp
             ulong size;
             _ctx.handle_error(Methods.tiledb_attribute_get_fill_value(ctxHandle, handle, &value_p, &size));
 
-            var fill_span = new ReadOnlySpan<byte>(value_p, (int)size);
-            return fill_span.ToArray();
+            return new ReadOnlySpan<byte>(value_p, (int)size);
         }
 
         /// <summary>
@@ -336,22 +327,15 @@ namespace TileDB.CSharp
             }
             else
             {
-                size = cell_val_num * (ulong)(Marshal.SizeOf(data[0]));
+                size = cell_val_num * (ulong)Marshal.SizeOf(data[0]);
             }
 
             var validity = valid ? (byte)1 : (byte)0;
 
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            try
-            {
-                _ctx.handle_error(Methods.tiledb_attribute_set_fill_value_nullable(ctxHandle, handle, (void*)dataGcHandle.AddrOfPinnedObject(), size, validity));
-            }
-            finally
-            {
-                dataGcHandle.Free();
-            }
+            fixed (T* dataPtr = &data[0])
+                _ctx.handle_error(Methods.tiledb_attribute_set_fill_value_nullable(ctxHandle, handle, dataPtr, size, validity));
         }
 
         /// <summary>
