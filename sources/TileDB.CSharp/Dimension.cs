@@ -239,9 +239,8 @@ namespace TileDB.CSharp
         /// <param name="name">The dimension's name.</param>
         /// <param name="boundLower">The dimension's lower bound, inclusive.</param>
         /// <param name="boundUpper">The dimension's upper bound, inclusive.</param>
-        /// <param name="extent"></param>
+        /// <param name="extent">The dimension's tile extent.</param>
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
-
         public static Dimension Create<T>(Context ctx, string name, T boundLower, T boundUpper, T extent)
         {
             var tiledb_datatype = (tiledb_datatype_t)EnumUtil.TypeToDataType(typeof(T));
@@ -260,7 +259,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// Creates a <see cref="Dimension"/>. Deprecated, use <see cref="Create{T}(Context, string, T, T, T)"/> instead.
         /// </summary>
-        [Obsolete("Use the overload that does not accept an array instead.")]
+        [Obsolete(Obsoletions.DimensionCreateMessage, DiagnosticId = Obsoletions.DimensionCreateDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public static Dimension Create<T>(Context ctx, string name, T[] bound, T extent)
         {
             var tiledb_datatype = (tiledb_datatype_t)EnumUtil.TypeToDataType(typeof(T));
