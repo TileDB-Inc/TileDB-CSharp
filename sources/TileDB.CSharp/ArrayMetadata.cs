@@ -340,24 +340,17 @@ namespace TileDB.CSharp
         #region Private methods
         private void put_metadata<T>(string key, T[] value, tiledb_datatype_t tiledb_datatype, uint value_num) where T : struct
         {
+            ErrorHandling.ThrowIfManagedType<T>();
             if (string.IsNullOrEmpty(key) || value.Length == 0)
             {
                 throw new ArgumentException("ArrayMetadata.put_metadata, null or empty key-value!");
             }
             var ctx = _array.Context();
             using var ms_key = new MarshaledString(key);
-            var dataGcHandle = GCHandle.Alloc(value, GCHandleType.Pinned);
-            try
-            {
-                using var ctxHandle = ctx.Handle.Acquire();
-                using var arrayHandle = _array.Handle.Acquire();
-                ctx.handle_error(Methods.tiledb_array_put_metadata(ctxHandle, arrayHandle, ms_key, tiledb_datatype, value_num,
-                    (void*)dataGcHandle.AddrOfPinnedObject()));
-            }
-            finally
-            {
-                dataGcHandle.Free();
-            }
+            using var ctxHandle = ctx.Handle.Acquire();
+            using var arrayHandle = _array.Handle.Acquire();
+            fixed (T* dataPtr = &value[0])
+                ctx.handle_error(Methods.tiledb_array_put_metadata(ctxHandle, arrayHandle, ms_key, tiledb_datatype, value_num, dataPtr));
         }
 
         private (string key, byte[] data, tiledb_datatype_t tiledb_datatype, uint value_num) get_metadata(string key)
