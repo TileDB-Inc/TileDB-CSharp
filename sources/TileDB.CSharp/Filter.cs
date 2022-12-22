@@ -98,10 +98,7 @@ namespace TileDB.CSharp
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             var tiledb_filter_option = (tiledb_filter_option_t)filterOption;
-            var data = new[] { value };
-            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            _ctx.handle_error(Methods.tiledb_filter_set_option(ctxHandle, handle, tiledb_filter_option, (void*)dataGcHandle.AddrOfPinnedObject()));
-            dataGcHandle.Free();
+            _ctx.handle_error(Methods.tiledb_filter_set_option(ctxHandle, handle, tiledb_filter_option, &value));
         }
 
         /// <summary>
@@ -116,13 +113,10 @@ namespace TileDB.CSharp
 
             var tiledb_filter_option = (tiledb_filter_option_t)filterOption;
 
-            var data = new T[1];
-            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
+            T result;
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            _ctx.handle_error(Methods.tiledb_filter_get_option(ctxHandle, handle, tiledb_filter_option, (void*)dataGcHandle.AddrOfPinnedObject()));
-            var result = data[0];
-            dataGcHandle.Free();
+            _ctx.handle_error(Methods.tiledb_filter_get_option(ctxHandle, handle, tiledb_filter_option, &result));
 
             return result;
         }
