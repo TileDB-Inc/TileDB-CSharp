@@ -2,6 +2,7 @@
 
 namespace TileDB.CSharp
 {
+    [Obsolete(Obsoletions.ContextErrorHappenedMessage, DiagnosticId = Obsoletions.ContextErrorHappenedDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     public class ErrorEventArgs : EventArgs
     {
         public ErrorEventArgs(int code, string message)
@@ -23,5 +24,4 @@ namespace TileDB.CSharp
  
         }
     }
- 
 }
