@@ -477,22 +477,14 @@ namespace TileDB.CSharp
                 throw new ArgumentException("Array.NonEmptyDomain, not valid datatype!");
             }
 
-            var data = new[] { default(T), default(T) };
-            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            var int_empty = 1;
-            try
-            {
-                using var ctxHandle = _ctx.Handle.Acquire();
-                using var handle = _handle.Acquire();
-                _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_from_index(ctxHandle, handle, index,
-                    (void*)dataGcHandle.AddrOfPinnedObject(), &int_empty));
-            }
-            finally
-            {
-                dataGcHandle.Free();
-            }
+            SequentialPair<T> data;
+            int int_empty;
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_from_index(ctxHandle, handle, index,
+                &data, &int_empty));
 
-            return int_empty > 0 ? (default(T), default(T), true) : (data[0], data[1], false);
+            return int_empty > 0 ? (default(T), default(T), true) : (data.First, data.Second, false);
         }
 
         /// <summary>
@@ -510,21 +502,13 @@ namespace TileDB.CSharp
             }
 
             using var ms_name = new MarshaledString(name);
-            var data = new[] { default(T), default(T) };
-            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            var int_empty = 1;
-            try
-            {
-                using var ctxHandle = _ctx.Handle.Acquire();
-                using var handle = _handle.Acquire();
-                _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_from_name(ctxHandle, handle, ms_name, (void*)dataGcHandle.AddrOfPinnedObject(), &int_empty));
-            }
-            finally
-            {
-                dataGcHandle.Free();
-            }
+            SequentialPair<T> data;
+            int int_empty;
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_from_name(ctxHandle, handle, ms_name, &data, &int_empty));
 
-            return int_empty > 0 ? (default(T), default(T), true) : (data[0], data[1], false);
+            return int_empty > 0 ? (default(T), default(T), true) : (data.First, data.Second, false);
         }
 
         /// <summary>
@@ -534,52 +518,45 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public (string, string, bool) NonEmptyDomainVar(uint index)
         {
-            ulong start_size;
-            ulong end_size;
-            var int_empty = 1;
+            ulong start_size64;
+            ulong end_size64;
+            int int_empty;
             using (var ctxHandle = _ctx.Handle.Acquire())
             using (var handle = _handle.Acquire())
             {
-                _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_size_from_index(ctxHandle, handle, index, &start_size, &end_size, &int_empty));
+                _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_size_from_index(ctxHandle, handle, index, &start_size64, &end_size64, &int_empty));
             }
             if (int_empty > 0)
             {
                 return (string.Empty, string.Empty, true);
             }
 
-            var start = new byte[(int)start_size];
-            var end = new byte[(int)end_size];
+            int start_size = checked((int)start_size64);
+            int end_size = checked((int)end_size64);
 
-            var startGcHandle = GCHandle.Alloc(start, GCHandleType.Pinned);
-            var endGcHandle = GCHandle.Alloc(end, GCHandleType.Pinned);
+            using var start = new ScratchBuffer<byte>(start_size, stackalloc byte[128]);
+            using var end = new ScratchBuffer<byte>(end_size, stackalloc byte[128]);
 
-            try
-            {
-                using var ctxHandle = _ctx.Handle.Acquire();
-                using var handle = _handle.Acquire();
+            using (var ctxHandle = _ctx.Handle.Acquire())
+            using (var handle = _handle.Acquire())
+            fixed (byte* startPtr = start, endPtr = end)
                 _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_from_index(ctxHandle, handle, index,
-                    (void*)startGcHandle.AddrOfPinnedObject(), (void*)endGcHandle.AddrOfPinnedObject(), &int_empty));
-            }
-            finally
-            {
-                startGcHandle.Free();
-                endGcHandle.Free();
-            }
+                    startPtr, endPtr, &int_empty));
 
-            return (MarshaledStringOut.GetString(start), MarshaledStringOut.GetString(end), false);
+            return (MarshaledStringOut.GetString(start.Span[0..start_size]), MarshaledStringOut.GetString(end.Span[0..end_size]), false);
         }
 
         public (string, string, bool) NonEmptyDomainVar(string name)
         {
-            ulong start_size;
-            ulong end_size;
-            var int_empty = 1;
+            ulong start_size64;
+            ulong end_size64;
+            int int_empty;
             using var ms_name = new MarshaledString(name);
 
             using (var ctxHandle = _ctx.Handle.Acquire())
             using (var handle = _handle.Acquire())
             {
-                _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_size_from_name(ctxHandle, handle, ms_name, &start_size, &end_size, &int_empty));
+                _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_size_from_name(ctxHandle, handle, ms_name, &start_size64, &end_size64, &int_empty));
             }
 
             if (int_empty > 0)
@@ -587,26 +564,19 @@ namespace TileDB.CSharp
                 return (string.Empty, string.Empty, true);
             }
 
-            var start = new byte[(int)start_size];
-            var end = new byte[(int)end_size];
+            int start_size = checked((int)start_size64);
+            int end_size = checked((int)end_size64);
 
-            var startGcHandle = GCHandle.Alloc(start, GCHandleType.Pinned);
-            var endGcHandle = GCHandle.Alloc(end, GCHandleType.Pinned);
+            using var start = new ScratchBuffer<byte>(start_size, stackalloc byte[128]);
+            using var end = new ScratchBuffer<byte>(end_size, stackalloc byte[128]);
 
-            try
-            {
-                using var ctxHandle = _ctx.Handle.Acquire();
-                using var handle = _handle.Acquire();
+            using (var ctxHandle = _ctx.Handle.Acquire())
+            using (var handle = _handle.Acquire())
+            fixed (byte* startPtr = start, endPtr = end)
                 _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_from_name(ctxHandle, handle, ms_name,
-                    (void*)startGcHandle.AddrOfPinnedObject(), (void*)endGcHandle.AddrOfPinnedObject(), &int_empty));
-            }
-            finally
-            {
-                startGcHandle.Free();
-                endGcHandle.Free();
-            }
+                    startPtr, endPtr, &int_empty));
 
-            return new(MarshaledStringOut.GetString(start), MarshaledStringOut.GetString(end), false);
+            return new(MarshaledStringOut.GetString(start.Span[0..start_size]), MarshaledStringOut.GetString(end.Span[0..end_size]), false);
         }
 
         /// <summary>
