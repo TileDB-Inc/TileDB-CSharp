@@ -17,5 +17,8 @@ namespace TileDB.CSharp
 
         public const string ContextErrorHappenedMessage = "The Context.ErrorHappened event is obsolete and will not be invoked.";
         public const string ContextErrorHappenedDiagId = "TILEDB0004";
+
+        public const string ErrorExceptionMessage = "The ErrorException type is obsolete and will not be thrown. Catch TileDBException instead.";
+        public const string ErrorExceptionDiagId = "TILEDB0005";
     }
 }

@@ -92,3 +92,41 @@ Due to a programming mistake the `Context.ErrorHappened` event never worked as e
 ### Recommended action
 
 Stop subscribing to `Context.ErrorHappened`. If you want to react to errors, you can now catch exceptions of type `TileDBException` which was introduced in version 5.3.0.
+
+## <span id="TILEDB0005">`TILEDB0005` - The `ErrorException` type is obsolete.</span>
+
+The `ErrorException` type is badly named and was thrown only in limited circumstances. It was marked as obsolete in version 5.3.0 and replaced by the `TileDBException` type, which is thrown in any error reported by TileDB Embedded.
+
+### Version introduced
+
+5.3.0
+
+### Recommended action
+
+Catch exceptions of type `TileDBException` instead of `ErrorException`.
+
+### Existing code
+
+```csharp
+try
+{
+    // �
+}
+catch (ErrorException e)
+{
+    Console.WriteLine(e.Message);
+}
+```
+
+### New code
+
+```csharp
+try
+{
+    // �
+}
+catch (TileDBException e)
+{
+    Console.WriteLine(e.Message);
+}
+```

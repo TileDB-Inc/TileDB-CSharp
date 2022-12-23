@@ -45,7 +45,6 @@ namespace TileDB.CSharp
         /// <param name="param"></param>
         /// <param name="value"></param>
         /// <exception cref="System.ArgumentException"></exception>
-        /// <exception cref="ErrorException"></exception>
         public void Set(string param, string value)
         {
             if (string.IsNullOrEmpty(param) || string.IsNullOrEmpty(value))
@@ -71,7 +70,6 @@ namespace TileDB.CSharp
         /// <param name="param"></param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentException"></exception>
-        /// <exception cref="ErrorException"></exception>
         public string Get(string param)
         {
             if (string.IsNullOrEmpty(param))
@@ -98,7 +96,6 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="param"></param>
         /// <exception cref="System.ArgumentException"></exception>
-        /// <exception cref="ErrorException"></exception>
         public void Unset(string param)
         {
             if (string.IsNullOrEmpty(param))
@@ -122,7 +119,6 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="filename"></param>
         /// <exception cref="System.ArgumentException"></exception>
-        /// <exception cref="ErrorException"></exception>
         public void LoadFromFile(string filename)
         {
             if (string.IsNullOrEmpty(filename))
@@ -146,7 +142,6 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="filename"></param>
         /// <exception cref="System.ArgumentException"></exception>
-        /// <exception cref="ErrorException"></exception>
         public void SaveToFile(string filename)
         {
             if (string.IsNullOrEmpty(filename))

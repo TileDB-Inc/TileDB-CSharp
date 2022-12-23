@@ -14,12 +14,23 @@ namespace TileDB.CSharp
         public string Message {get; set;}
     }
 
+    /// <summary>
+    /// Deprecated, use <see cref="TileDBException"/> instead.
+    /// </summary>
+    [Obsolete(Obsoletions.ErrorExceptionMessage, DiagnosticId = Obsoletions.ErrorExceptionDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     public class ErrorException: Exception 
     {
+        /// <summary>
+        /// Creates an <see cref="ErrorException"/>.
+        /// </summary>
         public ErrorException()
         {
         }
 
+        /// <summary>
+        /// Creates an <see cref="ErrorException"/> with a message.
+        /// </summary>
+        /// <param name="message">The exception's message.</param>
         public ErrorException(string message): base(message) {
  
         }
