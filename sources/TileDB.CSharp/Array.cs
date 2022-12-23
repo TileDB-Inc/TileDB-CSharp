@@ -534,8 +534,8 @@ namespace TileDB.CSharp
             int start_size = checked((int)start_size64);
             int end_size = checked((int)end_size64);
 
-            using var start = new ScratchBuffer<byte>(start_size, stackalloc byte[128]);
-            using var end = new ScratchBuffer<byte>(end_size, stackalloc byte[128]);
+            using var start = new ScratchBuffer<byte>(start_size, stackalloc byte[128], exactSize: true);
+            using var end = new ScratchBuffer<byte>(end_size, stackalloc byte[128], exactSize: true);
 
             using (var ctxHandle = _ctx.Handle.Acquire())
             using (var handle = _handle.Acquire())
@@ -543,7 +543,7 @@ namespace TileDB.CSharp
                 _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_from_index(ctxHandle, handle, index,
                     startPtr, endPtr, &int_empty));
 
-            return (MarshaledStringOut.GetString(start.Span[0..start_size]), MarshaledStringOut.GetString(end.Span[0..end_size]), false);
+            return (MarshaledStringOut.GetString(start.Span), MarshaledStringOut.GetString(end.Span), false);
         }
 
         public (string, string, bool) NonEmptyDomainVar(string name)
@@ -567,8 +567,8 @@ namespace TileDB.CSharp
             int start_size = checked((int)start_size64);
             int end_size = checked((int)end_size64);
 
-            using var start = new ScratchBuffer<byte>(start_size, stackalloc byte[128]);
-            using var end = new ScratchBuffer<byte>(end_size, stackalloc byte[128]);
+            using var start = new ScratchBuffer<byte>(start_size, stackalloc byte[128], exactSize: true);
+            using var end = new ScratchBuffer<byte>(end_size, stackalloc byte[128], exactSize: true);
 
             using (var ctxHandle = _ctx.Handle.Acquire())
             using (var handle = _handle.Acquire())
@@ -576,7 +576,7 @@ namespace TileDB.CSharp
                 _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_from_name(ctxHandle, handle, ms_name,
                     startPtr, endPtr, &int_empty));
 
-            return new(MarshaledStringOut.GetString(start.Span[0..start_size]), MarshaledStringOut.GetString(end.Span[0..end_size]), false);
+            return new(MarshaledStringOut.GetString(start.Span), MarshaledStringOut.GetString(end.Span), false);
         }
 
         /// <summary>
