@@ -61,6 +61,10 @@ namespace TileDB.CSharp
         public void BufferImport<T>(string arrayURI, T value, ulong size, MIMEType mimeType) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
+            if (size > (ulong)sizeof(T))
+            {
+                ThrowHelpers.ThrowTooBigSize(size);
+            }
             using var ctxHandle = _ctx.Handle.Acquire();
             using var ms_arrayURI = new MarshaledString(arrayURI);
             var tiledb_mime_type = (tiledb_mime_type_t)mimeType;
@@ -75,6 +79,10 @@ namespace TileDB.CSharp
         public T BufferExport<T>(string arrayURI, ulong offset, ulong size) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
+            if (size > (ulong)sizeof(T))
+            {
+                ThrowHelpers.ThrowTooBigSize(size);
+            }
             using var ctxHandle = _ctx.Handle.Acquire();
             using var ms_arrayURI = new MarshaledString(arrayURI);
             T result;
