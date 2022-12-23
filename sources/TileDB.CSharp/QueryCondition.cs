@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
@@ -15,7 +11,6 @@ namespace TileDB.CSharp
     {
         private readonly QueryConditionHandle _handle;
         private readonly Context _ctx;
-        private bool _disposed;
 
         /// <summary>
         /// Creates a <see cref="QueryCondition"/>.
@@ -43,19 +38,7 @@ namespace TileDB.CSharp
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed) return;
-            if (disposing && (!_handle.IsInvalid))
-            {
-                _handle.Dispose();
-            }
-
-            _disposed = true;
-
+            _handle.Dispose();
         }
 
         internal QueryConditionHandle Handle => _handle;
@@ -74,21 +57,8 @@ namespace TileDB.CSharp
         /// </remarks>
         public void Init<T>(string attribute_name, T condition_value, QueryConditionOperatorType optype) where T : struct
         {
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            using var ms_attribute_name = new MarshaledString(attribute_name);
-            T[] data = new T[1] { condition_value };
-            ulong size = (ulong)Marshal.SizeOf(data[0]);
-            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            try
-            {
-                _ctx.handle_error(Methods.tiledb_query_condition_init(ctxHandle, handle, ms_attribute_name,
-                    (void*)dataGcHandle.AddrOfPinnedObject(), size, (tiledb_query_condition_op_t)optype));
-            }
-            finally
-            {
-                dataGcHandle.Free();
-            }
+            ErrorHandling.ThrowIfManagedType<T>();
+            Init(attribute_name, &condition_value, (ulong)sizeof(T), optype);
         }
 
         /// <summary>
@@ -104,21 +74,16 @@ namespace TileDB.CSharp
         /// </remarks>
         public void Init(string attribute_name, string condition_value, QueryConditionOperatorType optype)
         {
+            using var ms_condition_value = new MarshaledString(condition_value);
+            Init(attribute_name, ms_condition_value, (ulong)ms_condition_value.Length, optype);
+        }
+
+        private void Init(string attribute_name, void* condition_value, ulong condition_value_size, QueryConditionOperatorType optype)
+        {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_attribute_name = new MarshaledString(attribute_name);
-            byte[] data = Encoding.ASCII.GetBytes(condition_value);
-            ulong size = (ulong)data.Length;
-            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            try
-            {
-                _ctx.handle_error(Methods.tiledb_query_condition_init(ctxHandle, handle, ms_attribute_name,
-                    (void*)dataGcHandle.AddrOfPinnedObject(), size, (tiledb_query_condition_op_t)optype));
-            }
-            finally
-            {
-                dataGcHandle.Free();
-            }
+            _ctx.handle_error(Methods.tiledb_query_condition_init(ctxHandle, handle, ms_attribute_name, condition_value, condition_value_size, (tiledb_query_condition_op_t)optype));
         }
 
         /// <summary>
