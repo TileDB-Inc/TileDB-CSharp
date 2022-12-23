@@ -2,6 +2,9 @@ using System;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
+// We are allowed to construct and initialize query conditions.
+#pragma warning disable TILEDB0006
+
 namespace TileDB.CSharp
 {
     /// <summary>
@@ -21,6 +24,7 @@ namespace TileDB.CSharp
         /// <see cref="Init(string, string, QueryConditionOperatorType)"/>
         /// or <see cref="Init{T}(string, T, QueryConditionOperatorType)"/>.
         /// </remarks>
+        [Obsolete(Obsoletions.QueryConditionInitMessage, DiagnosticId = Obsoletions.QueryConditionInitDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public QueryCondition(Context ctx)
         {
             _ctx = ctx;
@@ -54,6 +58,7 @@ namespace TileDB.CSharp
         /// Query conditions created with <see cref="Create(Context, string, string, QueryConditionOperatorType)"/>
         /// must not call this method.
         /// </remarks>
+        [Obsolete(Obsoletions.QueryConditionInitMessage, DiagnosticId = Obsoletions.QueryConditionInitDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public void Init<T>(string attribute_name, T condition_value, QueryConditionOperatorType optype) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
@@ -71,6 +76,7 @@ namespace TileDB.CSharp
         /// Query conditions created with <see cref="Create(Context, string, string, QueryConditionOperatorType)"/>
         /// must not call this method.
         /// </remarks>
+        [Obsolete(Obsoletions.QueryConditionInitMessage, DiagnosticId = Obsoletions.QueryConditionInitDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public void Init(string attribute_name, string condition_value, QueryConditionOperatorType optype)
         {
             using var ms_condition_value = new MarshaledString(condition_value);
