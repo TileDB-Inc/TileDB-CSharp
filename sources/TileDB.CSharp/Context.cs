@@ -150,8 +150,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// An event that gets raised if an operation that used this <see cref="Context"/> failed, before throwing a <see cref="TileDBException"/>.
+        /// Deprecated.
         /// </summary>
+        [Obsolete(Obsoletions.ContextErrorHappenedMessage, DiagnosticId = Obsoletions.ContextErrorHappenedDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public event EventHandler<ErrorEventArgs>? ErrorHappened;
 
         internal void handle_error(int rc)
@@ -189,7 +190,6 @@ namespace TileDB.CSharp
             }
             Methods.tiledb_error_free(&p_tiledb_error);
 
-            ErrorHappened?.Invoke(this, new ErrorEventArgs((int)status, message));
             throw new TileDBException(message) { StatusCode = (int)status };
         }
     }

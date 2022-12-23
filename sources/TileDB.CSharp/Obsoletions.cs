@@ -14,5 +14,8 @@ namespace TileDB.CSharp
 
         public const string TileDBInteropMessage = "Members of the TileDB.Interop namespace should not be used by user code will become internal in a future version.";
         public const string TileDBInteropDiagId = "TILEDB0003";
+
+        public const string ContextErrorHappenedMessage = "The Context.ErrorHappened event is obsolete and will not be invoked.";
+        public const string ContextErrorHappenedDiagId = "TILEDB0004";
     }
 }
