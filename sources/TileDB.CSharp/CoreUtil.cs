@@ -1,26 +1,30 @@
-
-// TileDB Core lib helper functions
 using System;
 using System.Text;
 using System.Collections.Generic;
-namespace TileDB.CSharp {
+using TileDB.Interop;
 
-    public static class CoreUtil {
+namespace TileDB.CSharp
+{
+    /// <summary>
+    /// General utility functions.
+    /// </summary>
+    public static class CoreUtil
+    {
+        private static Version? _coreLibVersion;
 
         /// <summary>
-        /// Get core library version.
+        /// Returns the version of TileDB Embedded.
         /// </summary>
-        /// <returns></returns>
-        public static Version GetCoreLibVersion() {
-            int major;
-            int minor;
-            int rev;
-            unsafe
-            {
-                TileDB.Interop.Methods.tiledb_version(&major, &minor, &rev);
-            }
+        public static Version GetCoreLibVersion()
+        {
+            return _coreLibVersion ??= GetVersion();
 
-            return new Version(major, minor, rev);
+            static unsafe Version GetVersion()
+            {
+                int major, minor, rev;
+                Methods.tiledb_version(&major, &minor, &rev);
+                return new Version(major, minor, rev);
+            }
         }
 
         #region Metadata
@@ -66,7 +70,7 @@ namespace TileDB.CSharp {
         /// <param name="uri"></param>
         /// <param name="strmap"></param>
         [Obsolete("Will be deprecated. Please use Metadata class.", false)]
-        public static void AddArrayMetadataByStringMap(Context ctx, string uri, System.Collections.Generic.Dictionary<string,string> strmap)
+        public static void AddArrayMetadataByStringMap(Context ctx, string uri, System.Collections.Generic.Dictionary<string, string> strmap)
         {
             if (string.IsNullOrEmpty(uri) || strmap == null || strmap.Count == 0)
             {
@@ -82,7 +86,7 @@ namespace TileDB.CSharp {
                 using (var array = new Array(ctx, uri))
                 {
                     array.Open(QueryType.Write);
-                    foreach(var item in strmap)
+                    foreach (var item in strmap)
                     {
                         array.PutMetadata(item.Key, item.Value);
                     }
@@ -105,7 +109,7 @@ namespace TileDB.CSharp {
         /// <param name="key"></param>
         /// <param name="list"></param>
         [Obsolete("Will be deprecated. Please use Metadata class.", false)]
-        public static void AddArrayMetadataByList<T>(Context ctx, string uri, string key, System.Collections.Generic.List<T> list) where T: struct
+        public static void AddArrayMetadataByList<T>(Context ctx, string uri, string key, System.Collections.Generic.List<T> list) where T : struct
         {
             if (string.IsNullOrEmpty(uri) || string.IsNullOrEmpty(key) || list == null || list.Count == 0)
             {
@@ -315,9 +319,6 @@ namespace TileDB.CSharp {
 
             return result;
         }
-
         #endregion Buffer
-
-    }//class
-
-}//namespace
+    }
+}
