@@ -144,25 +144,14 @@ namespace TileDB.CSharp
 
         public void Dispose()
         {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
             if (_disposed) return;
-            if (disposing && (!_handle.IsInvalid))
-            {
-                _handle.Dispose();
-            }
+            _handle.Dispose();
             FreeAllBufferHandles();
-
             _disposed = true;
-
         }
 
         internal QueryHandle Handle => _handle;
 
-        #region capi functions
         /// <summary>
         /// Gets a JSON string with statistics about the query.
         /// </summary>
@@ -261,13 +250,13 @@ namespace TileDB.CSharp
             var dim_datatype = _array.Schema().Domain().Type();
             if (EnumUtil.TypeToDataType(typeof(T)) != dim_datatype)
             {
-                throw new System.ArgumentException("Query.SetSubarray, datatype mismatch!");
+                throw new ArgumentException("Query.SetSubarray, datatype mismatch!");
             }
 
             var expected_size = _array.Schema().Domain().NDim() * 2;
             if (data == null || expected_size != data.Length)
             {
-                throw new System.ArgumentException("Query.SetSubarray, the length of data is not equal to num_dims*2!");
+                throw new ArgumentException("Query.SetSubarray, the length of data is not equal to num_dims*2!");
             }
 
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -290,7 +279,6 @@ namespace TileDB.CSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="name"></param>
         /// <param name="data"></param>
-        /// <param name="size"></param>
         public void SetDataBuffer<T>(string name, T[] data) where T : struct
         {
             // check datatype
@@ -307,7 +295,7 @@ namespace TileDB.CSharp
 
             if (data is bool[] boolData && QueryType() == CSharp.QueryType.Write)
             {
-                SetDataBuffer<byte>(name, System.Array.ConvertAll(boolData as bool[], d => d ? (byte)1 : (byte)0));
+                SetDataBuffer(name, System.Array.ConvertAll(boolData, d => d ? (byte)1 : (byte)0));
                 return;
             }
 
@@ -326,8 +314,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="name"></param>
         /// <param name="data"></param>
-        /// <param name="size"></param>
-        public void SetOffsetsBuffer(string name, UInt64[] data)
+        public void SetOffsetsBuffer(string name, ulong[] data)
         {
             if (data == null || data.Length == 0)
             {
@@ -350,7 +337,6 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="name"></param>
         /// <param name="data"></param>
-        /// <param name="size"></param>
         public void SetValidityBuffer(string name, byte[] data)
         {
             if (data == null || data.Length == 0)
@@ -392,10 +378,10 @@ namespace TileDB.CSharp
             return (LayoutType)layout;
         }
 
-        ///// <summary>
-        ///// Sets the query condition to be applied on a read.
-        ///// </summary>
-        ///// <param name="condition"></param>
+        /// <summary>
+        /// Sets the query condition to be applied on a read.
+        /// </summary>
+        /// <param name="condition"></param>
         public void SetCondition(QueryCondition condition)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -494,7 +480,7 @@ namespace TileDB.CSharp
             using var handle = _handle.Acquire();
             int ret;
             _ctx.handle_error(Methods.tiledb_query_has_results(ctxHandle, handle, &ret));
-            return (ret > 0);
+            return ret > 0;
         }
 
         /// <summary>
@@ -537,7 +523,7 @@ namespace TileDB.CSharp
         /// </summary>
         [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.AddRange on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void AddRange<T>(UInt32 index, T start, T end) where T : struct
+        public void AddRange<T>(uint index, T start, T end) where T : struct
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -594,7 +580,7 @@ namespace TileDB.CSharp
         /// </summary>
         [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.AddRange on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void AddRange(UInt32 index, string start, string end)
+        public void AddRange(uint index, string start, string end)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -647,11 +633,11 @@ namespace TileDB.CSharp
         /// </summary>
         [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.GetRangeCount on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public UInt64 RangeNum(UInt32 index)
+        public ulong RangeNum(uint index)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            UInt64 range_num;
+            ulong range_num;
             _ctx.handle_error(Methods.tiledb_query_get_range_num(ctxHandle, handle, index, &range_num));
             return range_num;
         }
@@ -661,18 +647,18 @@ namespace TileDB.CSharp
         /// </summary>
         [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.GetRangeCount on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public UInt64 RangeNumFromName(string name)
+        public ulong RangeNumFromName(string name)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            UInt64 range_num;
+            ulong range_num;
             using var ms_name = new MarshaledString(name);
             _ctx.handle_error(Methods.tiledb_query_get_range_num_from_name(ctxHandle, handle, ms_name, &range_num));
             return range_num;
         }
 
         [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-        private (byte[] start_bytes, byte[] end_bytes, byte[] stride_bytes) get_range<T>(UInt32 dim_idx, UInt32 range_idx) where T : struct
+        private (byte[] start_bytes, byte[] end_bytes, byte[] stride_bytes) get_range<T>(uint dim_idx, uint range_idx) where T : struct
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -693,7 +679,7 @@ namespace TileDB.CSharp
         /// </summary>
         [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.GetRange on the query's assigned Subarray instead. Note that it does not return a stride.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public System.Tuple<T, T, T> Range<T>(UInt32 dim_idx, UInt32 range_idx) where T : struct
+        public Tuple<T, T, T> Range<T>(uint dim_idx, uint range_idx) where T : struct
         {
             var (start_bytes, end_bytes, stride_bytes) = get_range<T>(dim_idx, range_idx);
             var start_span = MemoryMarshal.Cast<byte, T>(start_bytes);
@@ -704,7 +690,7 @@ namespace TileDB.CSharp
         }
 
         [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-        private (byte[] start_bytes, byte[] end_bytes, byte[] stride_bytes) get_range<T>(string dim_name, UInt32 range_idx) where T : struct
+        private (byte[] start_bytes, byte[] end_bytes, byte[] stride_bytes) get_range<T>(string dim_name, uint range_idx) where T : struct
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -726,7 +712,7 @@ namespace TileDB.CSharp
         /// </summary>
         [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.GetRange on the query's assigned Subarray instead. Note that it does not return a stride.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public System.Tuple<T, T, T> Range<T>(string dim_name, UInt32 range_idx) where T : struct
+        public Tuple<T, T, T> Range<T>(string dim_name, uint range_idx) where T : struct
         {
             var (start_bytes, end_bytes, stride_bytes) = get_range<T>(dim_name, range_idx);
             var start_span = MemoryMarshal.Cast<byte, T>(start_bytes);
@@ -741,12 +727,12 @@ namespace TileDB.CSharp
         /// </summary>
         [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.GetStringRange on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public System.Tuple<string, string> RangeVar(UInt32 dim_idx, UInt32 range_idx)
+        public Tuple<string, string> RangeVar(uint dim_idx, uint range_idx)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            UInt64 start_size = 0;
-            UInt64 end_size = 0;
+            ulong start_size;
+            ulong end_size;
             _ctx.handle_error(Methods.tiledb_query_get_range_var_size(ctxHandle, handle, dim_idx, range_idx, &start_size, &end_size));
 
             byte[] startData = Enumerable.Repeat(default(byte), (int)start_size).ToArray();
@@ -776,13 +762,13 @@ namespace TileDB.CSharp
         /// </summary>
         [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.GetStringRange on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public System.Tuple<string, string> RangeVar(string dim_name, UInt32 range_idx)
+        public Tuple<string, string> RangeVar(string dim_name, uint range_idx)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(dim_name);
-            UInt64 start_size = 0;
-            UInt64 end_size = 0;
+            ulong start_size;
+            ulong end_size;
             _ctx.handle_error(Methods.tiledb_query_get_range_var_size_from_name(ctxHandle, handle, ms_name, range_idx, &start_size, &end_size));
 
             byte[] startData = Enumerable.Repeat(default(byte), (int)start_size).ToArray();
@@ -812,12 +798,12 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        private UInt64 est_result_size(string name)
+        private ulong est_result_size(string name)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(name);
-            UInt64 size = 0;
+            ulong size;
             _ctx.handle_error(Methods.tiledb_query_get_est_result_size(ctxHandle, handle, ms_name, &size));
             return size;
         }
@@ -827,16 +813,16 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        private Tuple<UInt64, UInt64> est_result_size_var(string name)
+        private Tuple<ulong, ulong> est_result_size_var(string name)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(name);
-            UInt64 size_off = 0;
-            UInt64 size_val = 0;
+            ulong size_off;
+            ulong size_val;
             _ctx.handle_error(Methods.tiledb_query_get_est_result_size_var(ctxHandle, handle, ms_name, &size_off, &size_val));
 
-            return new Tuple<UInt64, UInt64>(size_off, size_val);
+            return new Tuple<ulong, ulong>(size_off, size_val);
         }
 
         /// <summary>
@@ -844,16 +830,15 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        private Tuple<UInt64, UInt64> est_result_size_nullable(string name)
+        private Tuple<ulong, ulong> est_result_size_nullable(string name)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(name);
-            UInt64 size_val = 0;
-            UInt64 size_validity = 0;
+            ulong size_val;
+            ulong size_validity;
             _ctx.handle_error(Methods.tiledb_query_get_est_result_size_nullable(ctxHandle, handle, ms_name, &size_val, &size_validity));
-            List<UInt64> ret = new List<ulong>();
-            return new Tuple<UInt64, UInt64>(size_val, size_validity);
+            return new Tuple<ulong, ulong>(size_val, size_validity);
         }
 
         /// <summary>
@@ -861,18 +846,18 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        private Tuple<UInt64, UInt64, UInt64> est_result_size_var_nullable(string name)
+        private Tuple<ulong, ulong, ulong> est_result_size_var_nullable(string name)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(name);
-            UInt64 size_off = 0;
-            UInt64 size_val = 0;
-            UInt64 size_validity = 0;
+            ulong size_off;
+            ulong size_val;
+            ulong size_validity;
 
             _ctx.handle_error(Methods.tiledb_query_get_est_result_size_var_nullable(ctxHandle, handle, ms_name, &size_off, &size_val, &size_validity));
 
-            return new Tuple<UInt64, UInt64, UInt64>(size_off, size_val, size_validity);
+            return new Tuple<ulong, ulong, ulong>(size_off, size_val, size_validity);
         }
 
         /// <summary>
@@ -942,16 +927,15 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="idx"></param>
         /// <returns></returns>
-        public System.Tuple<UInt64, UInt64> FragmentTimestampRange(ulong idx)
+        public Tuple<ulong, ulong> FragmentTimestampRange(ulong idx)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            ulong t1 = 0;
-            ulong t2 = 0;
+            ulong t1;
+            ulong t2;
             _ctx.handle_error(Methods.tiledb_query_get_fragment_timestamp_range(ctxHandle, handle, idx, &t1, &t2));
             return new Tuple<ulong, ulong>(t1, t2);
         }
-        #endregion
 
         private void CheckDataType<T>(DataType dataType)
         {
@@ -960,12 +944,12 @@ namespace TileDB.CSharp
                 if (!(dataType== DataType.StringAscii && (typeof(T)==typeof(byte) || typeof(T) == typeof(sbyte) || typeof(T) == typeof(string)))
                    && !(dataType == DataType.Boolean && typeof(T) == typeof(byte)))
                 {
-                    throw new System.ArgumentException("T " + typeof(T).Name + " doesnot match " + dataType.ToString());
+                    throw new ArgumentException("T " + typeof(T).Name + " doesnot match " + dataType.ToString());
                 }
             }
         }
 
-        private DataType GetDataType(string name, ArraySchema schema, Domain domain)
+        private static DataType GetDataType(string name, ArraySchema schema, Domain domain)
         {
             if (schema.HasAttribute(name))
             {
@@ -986,7 +970,6 @@ namespace TileDB.CSharp
             throw new ArgumentException("No datatype for " + name);
         }
 
-        #region buffers
         /// <summary>
         /// Returns the number of elements read into result buffers from a read query.
         ///
@@ -1090,6 +1073,5 @@ namespace TileDB.CSharp
             }
             _validityBufferHandles[name] = new BufferHandle(handle, size);
         }
-        #endregion
     }
 }
