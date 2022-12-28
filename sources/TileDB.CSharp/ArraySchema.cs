@@ -239,6 +239,10 @@ namespace TileDB.CSharp
                 {
                     handle.InitHandle(filter_list_p);
                 }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
             }
 
             return new FilterList(_ctx, handle);
@@ -268,6 +272,10 @@ namespace TileDB.CSharp
                 {
                     handle.InitHandle(filter_list_p);
                 }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
             }
 
             return new FilterList(_ctx, handle);
@@ -296,6 +304,10 @@ namespace TileDB.CSharp
                 if (successful)
                 {
                     handle.InitHandle(domain_p);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
                 }
             }
 
@@ -353,6 +365,10 @@ namespace TileDB.CSharp
                 {
                     handle.InitHandle(attribute_p);
                 }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
             }
 
             return new Attribute(_ctx, handle);
@@ -383,6 +399,10 @@ namespace TileDB.CSharp
                 if (successful)
                 {
                     handle.InitHandle(attribute_p);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
                 }
             }
 
@@ -429,6 +449,10 @@ namespace TileDB.CSharp
                 if (successful)
                 {
                     handle.InitHandle(array_schema_p);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
                 }
             }
             return new ArraySchema(ctx, handle);

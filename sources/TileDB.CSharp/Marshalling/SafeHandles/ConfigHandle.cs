@@ -27,6 +27,10 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
                 {
                     handle.InitHandle(config);
                 }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
             }
 
             return handle;

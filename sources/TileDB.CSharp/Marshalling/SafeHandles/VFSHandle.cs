@@ -28,6 +28,10 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
                 {
                     handle.InitHandle(vfs);
                 }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
             }
 
             return handle;

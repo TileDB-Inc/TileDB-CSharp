@@ -29,6 +29,10 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
                 {
                     handle.InitHandle(context);
                 }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
             }
 
             return handle;
@@ -50,6 +54,10 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
                 if (successful)
                 {
                     handle.InitHandle(context);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
                 }
             }
 

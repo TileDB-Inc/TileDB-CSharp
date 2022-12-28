@@ -116,6 +116,10 @@ namespace TileDB.CSharp
                 {
                     handle.InitHandle(dimension_p);
                 }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
             }
 
             return new Dimension(_ctx, handle);
@@ -146,6 +150,10 @@ namespace TileDB.CSharp
                 if (successful)
                 {
                     handle.InitHandle(dimension_p);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
                 }
             }
 
