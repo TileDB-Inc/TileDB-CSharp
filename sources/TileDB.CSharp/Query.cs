@@ -278,13 +278,13 @@ namespace TileDB.CSharp
             SetDataBuffer(name, PinArray(data), (ulong)data.Length * (ulong)sizeof(T));
         }
 
-        private void SetDataBuffer(string name, MemoryHandle memoryHandle, ulong size)
+        private void SetDataBuffer(string name, MemoryHandle memoryHandle, ulong byteSize)
         {
             BufferHandle? handle = null;
             bool successful = false;
             try
             {
-                handle = new BufferHandle(ref memoryHandle, size);
+                handle = new BufferHandle(ref memoryHandle, byteSize);
 
                 SetDataBuffer(name, handle.DataPointer, handle.SizePointer);
 
@@ -321,7 +321,7 @@ namespace TileDB.CSharp
                 throw new ArgumentException("Query.set_offsets_buffer, buffer is null or empty!");
             }
 
-            SetOffsetsBuffer(name, PinArray(data), (ulong)data.Length * sizeof(ulong));
+            SetOffsetsBuffer(name, PinArray(data), (ulong)data.Length);
         }
 
         private void SetOffsetsBuffer(string name, MemoryHandle memoryHandle, ulong size)
@@ -330,7 +330,7 @@ namespace TileDB.CSharp
             bool successful = false;
             try
             {
-                handle = new BufferHandle(ref memoryHandle, size);
+                handle = new BufferHandle(ref memoryHandle, size * sizeof(ulong));
 
                 SetOffsetsBuffer(name, (ulong*)handle.DataPointer, handle.SizePointer);
 
