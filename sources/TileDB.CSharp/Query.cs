@@ -168,18 +168,28 @@ namespace TileDB.CSharp
 
         #region capi functions
         /// <summary>
-        /// Get statistic string.
+        /// Gets a JSON string with statistics about the query.
         /// </summary>
-        /// <returns></returns>
         public string Stats()
         {
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            sbyte* result;
-            _ctx.handle_error(Methods.tiledb_query_get_stats(ctxHandle, handle, &result));
+            sbyte* result = null;
+            try
+            {
+                using var ctxHandle = _ctx.Handle.Acquire();
+                using var handle = _handle.Acquire();
+                ErrorHandling.ThrowOnError(Methods.tiledb_query_get_stats(ctxHandle, handle, &result));
 
-            return MarshaledStringOut.GetStringFromNullTerminated(result);
+                return MarshaledStringOut.GetStringFromNullTerminated(result);
+            }
+            finally
+            {
+                if (result is not null)
+                {
+                    ErrorHandling.ThrowOnError(Methods.tiledb_stats_free_str(&result));
+                }
+            }
         }
+
         /// <summary>
         /// Set config.
         /// </summary>

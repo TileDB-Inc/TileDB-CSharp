@@ -60,15 +60,25 @@ namespace TileDB.CSharp
         public static Context GetDefault() => _default;
 
         /// <summary>
-        /// Gets the <see cref="Context"/>'s statistics.
+        /// Gets a JSON string with statistics about the context.
         /// </summary>
         public string Stats()
         {
-            using var handle = _handle.Acquire();
-            sbyte* result;
-            handle_error(Methods.tiledb_ctx_get_stats(handle, &result));
+            sbyte* result = null;
+            try
+            {
+                using var handle = _handle.Acquire();
+                ErrorHandling.ThrowOnError(Methods.tiledb_ctx_get_stats(handle, &result));
 
-            return MarshaledStringOut.GetStringFromNullTerminated(result);
+                return MarshaledStringOut.GetStringFromNullTerminated(result);
+            }
+            finally
+            {
+                if (result is not null)
+                {
+                    ErrorHandling.ThrowOnError(Methods.tiledb_stats_free_str(&result));
+                }
+            }
         }
 
         /// <summary>
