@@ -1,5 +1,7 @@
-﻿using System.Diagnostics;
+using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using TileDB.Interop;
 
 namespace TileDB.CSharp
@@ -35,6 +37,18 @@ namespace TileDB.CSharp
                 Methods.tiledb_error_free(error);
                 throw new TileDBException(message) { StatusCode = status };
             }
+        }
+
+        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is managed.</exception>
+        public static void ThrowIfManagedType<T>()
+        {
+            if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
+            {
+                Throw();
+            }
+
+            static void Throw() =>
+                throw new NotSupportedException("Types with managed references are not supported.");
         }
     }
 }
