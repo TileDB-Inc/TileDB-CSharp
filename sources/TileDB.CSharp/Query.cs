@@ -275,12 +275,6 @@ namespace TileDB.CSharp
                 throw new ArgumentException("Query.SetDataBuffer, buffer is null or empty!");
             }
 
-            if (data is bool[] boolData && QueryType() == CSharp.QueryType.Write)
-            {
-                SetDataBuffer(name, System.Array.ConvertAll(boolData, d => d ? (byte)1 : (byte)0));
-                return;
-            }
-
             SetDataBuffer(name, PinArray(data), (ulong)data.Length * (ulong)sizeof(T));
         }
 
