@@ -1,50 +1,57 @@
 using System;
-using System.Runtime.InteropServices;
 using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
+    /// <summary>
+    /// Contains methods related to collecting statistics of TileDB Embedded.
+    /// </summary>
     public static unsafe class Stats
     {
-        private static readonly Context _ctx = Context.GetDefault();
-
         /// <summary>
-        /// Enable statistic gathering
+        /// Enables statistic gathering
         /// </summary>
-        public static void Enable() => _ctx.handle_error(Methods.tiledb_stats_enable());
+        public static void Enable() => ErrorHandling.ThrowOnError(Methods.tiledb_stats_enable());
 
         /// <summary>
-        /// Disable statistic gathering
+        /// Disables statistic gathering
         /// </summary>
-        public static void Disable() => _ctx.handle_error(Methods.tiledb_stats_disable());
+        public static void Disable() => ErrorHandling.ThrowOnError(Methods.tiledb_stats_disable());
 
         /// <summary>
-        /// Reset all statistics previously gathered
+        /// Resets all previously gathered statistics.
         /// </summary>
-        public static void Reset() => _ctx.handle_error(Methods.tiledb_stats_reset());
+        public static void Reset() => ErrorHandling.ThrowOnError(Methods.tiledb_stats_reset());
 
         /// <summary>
-        /// Dump TileDB statistics to stdout
+        /// Writes statistics to standard output.
         /// </summary>
         public static void Dump() => Console.WriteLine(Get());
 
         /// <summary>
-        /// Dump TileDB statistics to a file
+        /// Writes TileDB statistics to a file.
         /// </summary>
         /// <param name="filePath">Path to file to dump statistics</param>
         public static void Dump(string filePath) => System.IO.File.WriteAllText(filePath, Get());
 
         /// <summary>
-        /// Get TileDB statistics as string
+        /// Gets a JSON string with statistics about TileDB Embedded.
         /// </summary>
-        /// <returns>string object containing dumped TileDB statistics</returns>
         public static string Get()
         {
-            sbyte* result;
-            _ctx.handle_error(Methods.tiledb_stats_dump_str(&result));
-            string stats = MarshaledStringOut.GetStringFromNullTerminated(result);
-            _ctx.handle_error(Methods.tiledb_stats_free_str(&result));
-            return stats;
+            sbyte* result = null;
+            try
+            {
+                ErrorHandling.ThrowOnError(Methods.tiledb_stats_dump_str(&result));
+                return MarshaledStringOut.GetStringFromNullTerminated(result);
+            }
+            finally
+            {
+                if (result is not null)
+                {
+                    ErrorHandling.ThrowOnError(Methods.tiledb_stats_free_str(&result));
+                }
+            }
         }
     }
 }
