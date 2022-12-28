@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using TileDB.Interop;
 
@@ -20,7 +19,7 @@ namespace TileDB.CSharp
         {
             if (status == (int)Status.TILEDB_OK)
             {
-                Methods.tiledb_error_free(error);
+                Debug.Assert(*error is null);
                 return;
             }
 
