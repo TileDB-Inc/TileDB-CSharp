@@ -256,12 +256,33 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Sets the data for a fixed/var-sized attribute/dimension.
+        /// Sets the data buffer for an attribute or dimension to an array.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="name"></param>
-        /// <param name="data"></param>
+        /// <typeparam name="T">The buffer's type.</typeparam>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">An array where the data will be read or written.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty or <typeparamref name="T"/>
+        /// does not match the excepted data type.</exception>
         public void SetDataBuffer<T>(string name, T[] data) where T : struct
+        {
+            if (data is null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
+            SetDataBuffer(name, data.AsMemory());
+        }
+
+        /// <summary>
+        /// Sets the data buffer for an attribute or dimension to a <see cref="Memory{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The buffer's type.</typeparam>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">An <see cref="Memory{T}"/> where the data will be read or written.</param>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty or <typeparamref name="T"/>
+        /// does not match the excepted data type.</exception>
+        public void SetDataBuffer<T>(string name, Memory<T> data) where T : struct
         {
             // check datatype
             using (var schema = _array.Schema())
@@ -270,14 +291,55 @@ namespace TileDB.CSharp
                 CheckDataType<T>(GetDataType(name, schema, domain));
             }
 
-            if (data == null || data.Length == 0)
+            if (data.IsEmpty)
             {
-                throw new ArgumentException("Query.SetDataBuffer, buffer is null or empty!");
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(data));
             }
 
-            SetDataBuffer(name, PinArray(data), (ulong)data.Length * (ulong)sizeof(T));
+            SetDataBuffer(name, data.Pin(), (ulong)data.Length * (ulong)sizeof(T));
         }
 
+        /// <summary>
+        /// Sets the data buffer for an attribute or dimension to an unmanaged memory buffer.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A pointer to the memory buffer.</param>
+        /// <param name="byteSize">The buffer's size <em>in bytes</em>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="byteSize"/> is zero.</exception>
+        public void SetDataBuffer(string name, void* data, ulong byteSize)
+        {
+            if (data is null)
+            {
+                ThrowHelpers.ThrowArgumentNullException(nameof(data));
+            }
+
+            if (byteSize == 0)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(byteSize));
+            }
+
+            SetDataBuffer(name, new MemoryHandle(data), byteSize);
+        }
+
+        /// <summary>
+        /// Sets the data buffer for an attribute or dimension
+        /// to a pinned memory buffer pointed by a <see cref="MemoryHandle"/>.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="memoryHandle">A <see cref="MemoryHandle"/> pointing to the buffer.</param>
+        /// <param name="byteSize">The buffer's size <em>in bytes</em>.</param>
+        /// <exception cref="ArgumentException"><paramref name="byteSize"/> is zero.</exception>
+        /// <remarks>
+        /// <para>After calling this method, user code must not use <paramref name="memoryHandle"/>;
+        /// its ownership is transferred to this <see cref="Query"/> object.</para>
+        /// <para><paramref name="memoryHandle"/> will be disposed when one of the following happens:
+        /// <list type="bullet">
+        /// <item>The <see cref="Dispose"/> method is called.</item>
+        /// <item>The buffer for <paramref name="name"/> is reassigned through subsequent calls to this method.</item>
+        /// <item>This method call throws an exception.</item>
+        /// </list></para>
+        /// </remarks>
         private void SetDataBuffer(string name, MemoryHandle memoryHandle, ulong byteSize)
         {
             BufferHandle? handle = null;
@@ -310,20 +372,99 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Sets the offset buffer for a var-sized attribute/dimension.
+        /// Sets the data buffer for an attribute or dimension to a <see cref="ReadOnlyMemory{T}"/>.
+        /// Not supported for <see cref="QueryType.Read"/> queries.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="data"></param>
-        public void SetOffsetsBuffer(string name, ulong[] data)
+        /// <typeparam name="T">The buffer's type.</typeparam>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A <see cref="ReadOnlyMemory{T}"/> from where the data will be written.</param>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty or <typeparamref name="T"/>
+        /// does not match the excepted data type.</exception>
+        /// <exception cref="NotSupportedException">The query's type is <see cref="QueryType.Read"/></exception>
+        public void SetDataWriteBuffer<T>(string name, ReadOnlyMemory<T> data) where T : struct
         {
-            if (data == null || data.Length == 0)
+            if (QueryType() == CSharp.QueryType.Read)
             {
-                throw new ArgumentException("Query.set_offsets_buffer, buffer is null or empty!");
+                ThrowHelpers.ThrowOperationNotAllowedOnReadQueries();
             }
 
-            SetOffsetsBuffer(name, PinArray(data), (ulong)data.Length);
+            SetDataBuffer(name, MemoryMarshal.AsMemory(data));
         }
 
+        /// <summary>
+        /// Sets the offsets buffer for a variable-sized attribute or dimension to an array.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">An array where the offsets will be read or written.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
+        public void SetOffsetsBuffer(string name, ulong[] data)
+        {
+            if (data is null)
+            {
+                ThrowHelpers.ThrowArgumentNullException(nameof(data));
+            }
+
+            SetOffsetsBuffer(name, data.AsMemory());
+        }
+
+        /// <summary>
+        /// Sets the offsets buffer for a variable-sized attribute or dimension to a <see cref="Memory{T}"/>.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A <see cref="Memory{T}"/> where the offsets will be read or written.</param>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
+        public void SetOffsetsBuffer(string name, Memory<ulong> data)
+        {
+            if (data.IsEmpty)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(data));
+            }
+
+            SetOffsetsBuffer(name, data.Pin(), (ulong)data.Length);
+        }
+
+        /// <summary>
+        /// Sets the offsets buffer for a variable-sized attribute or dimension to an unmanaged memory buffer.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A pointer to the memory buffer.</param>
+        /// <param name="size">The buffer's size <em>in 64-bit integers</em>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="size"/> is zero.</exception>
+        public void SetOffsetsBuffer(string name, ulong* data, ulong size)
+        {
+            if (data is null)
+            {
+                ThrowHelpers.ThrowArgumentNullException(nameof(data));
+            }
+
+            if (size == 0)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(size));
+            }
+
+            SetOffsetsBuffer(name, new MemoryHandle(data), size);
+        }
+
+        /// <summary>
+        /// Sets the offsets buffer for a variable-sized attribute or dimension
+        /// to a pinned memory buffer pointed by a <see cref="MemoryHandle"/>.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="memoryHandle">A <see cref="MemoryHandle"/> pointing to the buffer.</param>
+        /// <param name="size">The buffer's size <em>in 64-bit integers</em>.</param>
+        /// <exception cref="ArgumentException"><paramref name="size"/> is zero.</exception>
+        /// <remarks>
+        /// <para>After calling this method, user code must not use <paramref name="memoryHandle"/>;
+        /// its ownership is transferred to this <see cref="Query"/> object.</para>
+        /// <para><paramref name="memoryHandle"/> will be disposed when one of the following happens:
+        /// <list type="bullet">
+        /// <item>The <see cref="Dispose"/> method is called.</item>
+        /// <item>The buffer for <paramref name="name"/> is reassigned through subsequent calls to this method.</item>
+        /// <item>This method call throws an exception.</item>
+        /// </list></para>
+        /// </remarks>
         private void SetOffsetsBuffer(string name, MemoryHandle memoryHandle, ulong size)
         {
             BufferHandle? handle = null;
@@ -356,27 +497,114 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Sets the validity buffer for nullable attribute/dimension.
+        /// Sets the offsets buffer for a variable-sized attribute or dimension to a <see cref="ReadOnlyMemory{T}"/>.
+        /// Not supported for <see cref="QueryType.Read"/> queries.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="data"></param>
-        public void SetValidityBuffer(string name, byte[] data)
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A <see cref="ReadOnlyMemory{T}"/> from where the offsets will be written.</param>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
+        /// <exception cref="NotSupportedException">The query's type is <see cref="QueryType.Read"/></exception>
+        public void SetOffsetsWriteBuffer(string name, ReadOnlyMemory<ulong> data)
         {
-            if (data == null || data.Length == 0)
+            if (QueryType() != CSharp.QueryType.Read)
             {
-                throw new ArgumentException("Query.set_validity_buffer, buffer is null or empty!");
+                ThrowHelpers.ThrowOperationNotAllowedOnReadQueries();
             }
 
-            SetValidityBuffer(name, PinArray(data), (ulong)data.Length * sizeof(byte));
+            SetOffsetsBuffer(name, MemoryMarshal.AsMemory(data));
         }
 
+        /// <summary>
+        /// Sets the validity buffer for a nullable attribute or dimension to an array.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">An array where the validities will be read or written.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
+        /// <remarks>
+        /// Each value corresponds to whether an element exists (1) or not (0).
+        /// </remarks>
+        public void SetValidityBuffer(string name, byte[] data)
+        {
+            if (data is null)
+            {
+                ThrowHelpers.ThrowArgumentNullException(nameof(data));
+            }
+
+            SetValidityBuffer(name, data.AsMemory());
+        }
+
+        /// <summary>
+        /// Sets the validity buffer for a nullable attribute or dimension to a <see cref="Memory{T}"/>.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A <see cref="Memory{T}"/> where the validities will be read or written.</param>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
+        /// <remarks>
+        /// Each value corresponds to whether an element exists (1) or not (0).
+        /// </remarks>
+        public void SetValidityBuffer(string name, Memory<byte> data)
+        {
+            if (data.IsEmpty)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(data));
+            }
+
+            SetValidityBuffer(name, data.Pin(), (ulong)data.Length);
+        }
+
+        /// <summary>
+        /// Sets the validity buffer for a nullable attribute or dimension to an unmanaged memory buffer.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A pointer to the memory buffer.</param>
+        /// <param name="size">The buffer's size.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="size"/> is zero.</exception>
+        /// <remarks>
+        /// Each value corresponds to whether an element exists (1) or not (0).
+        /// </remarks>
+        public void SetValidityBuffer(string name, byte* data, ulong size)
+        {
+            if (data is null)
+            {
+                ThrowHelpers.ThrowArgumentNullException(nameof(data));
+            }
+
+            if (size == 0)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(size));
+            }
+
+            SetValidityBuffer(name, new MemoryHandle(data), size);
+        }
+
+        /// <summary>
+        /// Sets the validity buffer for a nullable attribute or dimension
+        /// to a pinned memory buffer pointed by a <see cref="MemoryHandle"/>.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="memoryHandle">A <see cref="MemoryHandle"/> pointing to the buffer.</param>
+        /// <param name="size">The buffer's size.</param>
+        /// <exception cref="ArgumentException"><paramref name="size"/> is zero.</exception>
+        /// <remarks>
+        /// <para>Each value corresponds to whether an element exists (1) or not (0).</para>
+        /// <para>After calling this method, user code must not use <paramref name="memoryHandle"/>;
+        /// its ownership is transferred to this <see cref="Query"/> object.</para>
+        /// <para><paramref name="memoryHandle"/> will be disposed when one of the following happens:
+        /// <list type="bullet">
+        /// <item>The <see cref="Dispose"/> method is called.</item>
+        /// <item>The buffer for <paramref name="name"/> is reassigned through subsequent calls to this method.</item>
+        /// <item>This method call throws an exception.</item>
+        /// </list></para>
+        /// </remarks>
         private void SetValidityBuffer(string name, MemoryHandle memoryHandle, ulong size)
         {
             BufferHandle? handle = null;
             bool successful = false;
             try
             {
-                handle = new BufferHandle(ref memoryHandle, size);
+                handle = new BufferHandle(ref memoryHandle, size * sizeof(byte));
 
                 SetValidityBuffer(name, (byte*)handle.DataPointer, handle.SizePointer);
 
@@ -399,6 +627,27 @@ namespace TileDB.CSharp
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(name);
             _ctx.handle_error(Methods.tiledb_query_set_validity_buffer(ctxHandle, handle, ms_name, data, size));
+        }
+
+        /// <summary>
+        /// Sets the validity buffer for a nullable attribute or dimension to a <see cref="ReadOnlyMemory{T}"/>.
+        /// Not supported for <see cref="QueryType.Read"/> queries.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A <see cref="ReadOnlyMemory{T}"/> from where the validities will be written.</param>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
+        /// <exception cref="NotSupportedException">The query's type is <see cref="QueryType.Read"/></exception>
+        /// <remarks>
+        /// Each value corresponds to whether an element exists (1) or not (0).
+        /// </remarks>
+        public void SetValidityWriteBuffer(string name, ReadOnlyMemory<byte> data)
+        {
+            if (QueryType() == CSharp.QueryType.Read)
+            {
+                ThrowHelpers.ThrowOperationNotAllowedOnReadQueries();
+            }
+
+            SetValidityBuffer(name, MemoryMarshal.AsMemory(data));
         }
 
         /// <summary>
@@ -1074,13 +1323,6 @@ namespace TileDB.CSharp
                 }
                 handles.Clear();
             }
-        }
-
-        private static MemoryHandle PinArray<T>(T[] array) where T : struct
-        {
-            var gcHandle = GCHandle.Alloc(array, GCHandleType.Pinned);
-            var pointer = (void*)gcHandle.AddrOfPinnedObject();
-            return new(pointer, gcHandle);
         }
 
         private static void AddOrReplaceBufferHandle(Dictionary<string, BufferHandle> dict, string name, BufferHandle handle)
