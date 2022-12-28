@@ -29,7 +29,7 @@ namespace TileDB.CSharp.Test
             var dimension2 = Dimension.Create(context, "testint", bound_lower2, bound_upper2, extent2);
             domain.AddDimension(dimension2);
             Assert.AreEqual(true, domain.HasDimension("testint"));
-            Assert.ThrowsException<Exception>(() => domain.Type());
+            Assert.ThrowsException<TileDBException>(() => domain.Type());
             Assert.AreEqual<uint>(2, domain.NDim());
 
             var dim1 = domain.Dimension(0);

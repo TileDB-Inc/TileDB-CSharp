@@ -80,3 +80,53 @@ To reduce the library's public API surface and improve its ability to evolve, th
 Use the high-level APIs in the `TileDB.CSharp` namespace; they are easier and safer to use.
 
 > The eventual goal is to expose all features of TileDB in a high-level API. Until that happens, please contact us if you need to use a particular feature to help us prioritize.
+
+## <span id="TILEDB0004">`TILEDB0004` - The `Context.ErrorHappened` event is obsolete.</span>
+
+Due to a programming mistake the `Context.ErrorHappened` event never worked as expected. Given its limited utility it was marked as obsolete in version 5.3.0.
+
+### Version introduced
+
+5.3.0
+
+### Recommended action
+
+Stop subscribing to `Context.ErrorHappened`. If you want to react to errors, you can now catch exceptions of type `TileDBException` which was introduced in version 5.3.0.
+
+## <span id="TILEDB0005">`TILEDB0005` - The `ErrorException` type is obsolete.</span>
+
+The `ErrorException` type is badly named and was thrown only in limited circumstances. It was marked as obsolete in version 5.3.0 and replaced by the `TileDBException` type, which is thrown in any error reported by TileDB Embedded.
+
+### Version introduced
+
+5.3.0
+
+### Recommended action
+
+Catch exceptions of type `TileDBException` instead of `ErrorException`.
+
+### Existing code
+
+```csharp
+try
+{
+    // �
+}
+catch (ErrorException e)
+{
+    Console.WriteLine(e.Message);
+}
+```
+
+### New code
+
+```csharp
+try
+{
+    // �
+}
+catch (TileDBException e)
+{
+    Console.WriteLine(e.Message);
+}
+```

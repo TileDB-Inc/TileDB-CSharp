@@ -20,11 +20,11 @@ namespace TileDB.CSharp.Test
 
             // Put metadata on a group that is not opened
             int v = 5;
-            Assert.ThrowsException<Exception>(() => group.PutMetadata("key", v));
+            Assert.ThrowsException<TileDBException>(() => group.PutMetadata("key", v));
 
             // Write metadata on a group opened in READ mode
             group.Open(QueryType.Read);
-            Assert.ThrowsException<Exception>(() => group.PutMetadata("key", v));
+            Assert.ThrowsException<TileDBException>(() => group.PutMetadata("key", v));
 
             // Close and reopen in WRITE mode
             group.Close();

@@ -530,11 +530,6 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public (string, string, bool) NonEmptyDomainVar(uint index)
         {
-            var dim = Schema().Domain().Dimension(index);
-            if (!EnumUtil.IsStringType(dim.Type()))
-            {
-                throw new ErrorException("Array.NonEmptyDomainVar, not string dimension for index:" + index);
-            }
             ulong start_size;
             ulong end_size;
             var int_empty = 1;
@@ -572,11 +567,6 @@ namespace TileDB.CSharp
 
         public (string, string, bool) NonEmptyDomainVar(string name)
         {
-            var dim = Schema().Domain().Dimension(name);
-            if (!EnumUtil.IsStringType(dim.Type()))
-            {
-                throw new ErrorException("Array.NonEmptyDomainVar, not string dimension for name:" + name);
-            }
             ulong start_size;
             ulong end_size;
             var int_empty = 1;

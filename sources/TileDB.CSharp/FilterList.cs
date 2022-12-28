@@ -94,7 +94,6 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="filterIndex"></param>
         /// <returns></returns>
-        /// <exception cref="ErrorException"></exception>
         public Filter Filter(uint filterIndex)
         {
             var handle = new FilterHandle();
