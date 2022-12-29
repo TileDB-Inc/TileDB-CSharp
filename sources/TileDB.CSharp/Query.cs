@@ -296,7 +296,7 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(data));
             }
 
-            SetDataBuffer(name, data.Pin(), (ulong)data.Length * (ulong)sizeof(T));
+            UnsafeSetDataBuffer(name, data.Pin(), (ulong)data.Length * (ulong)sizeof(T));
         }
 
         /// <summary>
@@ -319,56 +319,7 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(byteSize));
             }
 
-            SetDataBuffer(name, new MemoryHandle(data), byteSize);
-        }
-
-        /// <summary>
-        /// Sets the data buffer for an attribute or dimension
-        /// to a pinned memory buffer pointed by a <see cref="MemoryHandle"/>.
-        /// </summary>
-        /// <param name="name">The name of the attribute or the dimension.</param>
-        /// <param name="memoryHandle">A <see cref="MemoryHandle"/> pointing to the buffer.</param>
-        /// <param name="byteSize">The buffer's size <em>in bytes</em>.</param>
-        /// <exception cref="ArgumentException"><paramref name="byteSize"/> is zero.</exception>
-        /// <remarks>
-        /// <para>After calling this method, user code must not use <paramref name="memoryHandle"/>;
-        /// its ownership is transferred to this <see cref="Query"/> object.</para>
-        /// <para><paramref name="memoryHandle"/> will be disposed when one of the following happens:
-        /// <list type="bullet">
-        /// <item>The <see cref="Dispose"/> method is called.</item>
-        /// <item>The buffer for <paramref name="name"/> is reassigned through subsequent calls to this method.</item>
-        /// <item>This method call throws an exception.</item>
-        /// </list></para>
-        /// </remarks>
-        private void SetDataBuffer(string name, MemoryHandle memoryHandle, ulong byteSize)
-        {
-            BufferHandle? handle = null;
-            bool successful = false;
-            try
-            {
-                handle = new BufferHandle(ref memoryHandle, byteSize);
-
-                SetDataBuffer(name, handle.DataPointer, handle.SizePointer);
-
-                AddOrReplaceBufferHandle(_dataBufferHandles, name, handle);
-                successful = true;
-            }
-            finally
-            {
-                if (!successful)
-                {
-                    memoryHandle.Dispose();
-                    handle?.Dispose();
-                }
-            }
-        }
-
-        private void SetDataBuffer(string name, void* data, ulong* size)
-        {
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            using var ms_name = new MarshaledString(name);
-            _ctx.handle_error(Methods.tiledb_query_set_data_buffer(ctxHandle, handle, ms_name, data, size));
+            UnsafeSetDataBuffer(name, new MemoryHandle(data), byteSize);
         }
 
         /// <summary>
@@ -389,6 +340,55 @@ namespace TileDB.CSharp
             }
 
             SetDataBuffer(name, MemoryMarshal.AsMemory(data));
+        }
+
+        /// <summary>
+        /// Sets the data buffer for an attribute or dimension
+        /// to a pinned memory buffer pointed by a <see cref="MemoryHandle"/>.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="memoryHandle">A <see cref="MemoryHandle"/> pointing to the buffer.</param>
+        /// <param name="byteSize">The buffer's size <em>in bytes</em>.</param>
+        /// <exception cref="ArgumentException"><paramref name="byteSize"/> is zero.</exception>
+        /// <remarks>
+        /// <para>After calling this method, user code must not use <paramref name="memoryHandle"/>;
+        /// its ownership is transferred to this <see cref="Query"/> object.</para>
+        /// <para><paramref name="memoryHandle"/> will be disposed when one of the following happens:
+        /// <list type="bullet">
+        /// <item>The <see cref="Dispose"/> method is called.</item>
+        /// <item>The buffer for <paramref name="name"/> is reassigned through subsequent calls to this method.</item>
+        /// <item>This method call throws an exception.</item>
+        /// </list></para>
+        /// </remarks>
+        public void UnsafeSetDataBuffer(string name, MemoryHandle memoryHandle, ulong byteSize)
+        {
+            BufferHandle? handle = null;
+            bool successful = false;
+            try
+            {
+                handle = new BufferHandle(ref memoryHandle, byteSize);
+
+                SetDataBufferCore(name, handle.DataPointer, handle.SizePointer);
+
+                AddOrReplaceBufferHandle(_dataBufferHandles, name, handle);
+                successful = true;
+            }
+            finally
+            {
+                if (!successful)
+                {
+                    memoryHandle.Dispose();
+                    handle?.Dispose();
+                }
+            }
+        }
+
+        private void SetDataBufferCore(string name, void* data, ulong* size)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var ms_name = new MarshaledString(name);
+            _ctx.handle_error(Methods.tiledb_query_set_data_buffer(ctxHandle, handle, ms_name, data, size));
         }
 
         /// <summary>
@@ -421,7 +421,7 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(data));
             }
 
-            SetOffsetsBuffer(name, data.Pin(), (ulong)data.Length);
+            UnsafeSetOffsetsBuffer(name, data.Pin(), (ulong)data.Length);
         }
 
         /// <summary>
@@ -444,7 +444,7 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(size));
             }
 
-            SetOffsetsBuffer(name, new MemoryHandle(data), size);
+            UnsafeSetOffsetsBuffer(name, new MemoryHandle(data), size);
         }
 
         /// <summary>
@@ -465,7 +465,7 @@ namespace TileDB.CSharp
         /// <item>This method call throws an exception.</item>
         /// </list></para>
         /// </remarks>
-        private void SetOffsetsBuffer(string name, MemoryHandle memoryHandle, ulong size)
+        public void UnsafeSetOffsetsBuffer(string name, MemoryHandle memoryHandle, ulong size)
         {
             BufferHandle? handle = null;
             bool successful = false;
@@ -473,7 +473,7 @@ namespace TileDB.CSharp
             {
                 handle = new BufferHandle(ref memoryHandle, size * sizeof(ulong));
 
-                SetOffsetsBuffer(name, (ulong*)handle.DataPointer, handle.SizePointer);
+                SetOffsetsBufferCore(name, (ulong*)handle.DataPointer, handle.SizePointer);
 
                 AddOrReplaceBufferHandle(_offsetsBufferHandles, name, handle);
                 successful = true;
@@ -488,7 +488,7 @@ namespace TileDB.CSharp
             }
         }
 
-        private void SetOffsetsBuffer(string name, ulong* data, ulong* size)
+        private void SetOffsetsBufferCore(string name, ulong* data, ulong* size)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -550,7 +550,7 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(data));
             }
 
-            SetValidityBuffer(name, data.Pin(), (ulong)data.Length);
+            UnsafeSetValidityBuffer(name, data.Pin(), (ulong)data.Length);
         }
 
         /// <summary>
@@ -576,57 +576,7 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(size));
             }
 
-            SetValidityBuffer(name, new MemoryHandle(data), size);
-        }
-
-        /// <summary>
-        /// Sets the validity buffer for a nullable attribute or dimension
-        /// to a pinned memory buffer pointed by a <see cref="MemoryHandle"/>.
-        /// </summary>
-        /// <param name="name">The name of the attribute or the dimension.</param>
-        /// <param name="memoryHandle">A <see cref="MemoryHandle"/> pointing to the buffer.</param>
-        /// <param name="size">The buffer's size.</param>
-        /// <exception cref="ArgumentException"><paramref name="size"/> is zero.</exception>
-        /// <remarks>
-        /// <para>Each value corresponds to whether an element exists (1) or not (0).</para>
-        /// <para>After calling this method, user code must not use <paramref name="memoryHandle"/>;
-        /// its ownership is transferred to this <see cref="Query"/> object.</para>
-        /// <para><paramref name="memoryHandle"/> will be disposed when one of the following happens:
-        /// <list type="bullet">
-        /// <item>The <see cref="Dispose"/> method is called.</item>
-        /// <item>The buffer for <paramref name="name"/> is reassigned through subsequent calls to this method.</item>
-        /// <item>This method call throws an exception.</item>
-        /// </list></para>
-        /// </remarks>
-        private void SetValidityBuffer(string name, MemoryHandle memoryHandle, ulong size)
-        {
-            BufferHandle? handle = null;
-            bool successful = false;
-            try
-            {
-                handle = new BufferHandle(ref memoryHandle, size * sizeof(byte));
-
-                SetValidityBuffer(name, (byte*)handle.DataPointer, handle.SizePointer);
-
-                AddOrReplaceBufferHandle(_validityBufferHandles, name, handle);
-                successful = true;
-            }
-            finally
-            {
-                if (!successful)
-                {
-                    memoryHandle.Dispose();
-                    handle?.Dispose();
-                }
-            }
-        }
-
-        private void SetValidityBuffer(string name, byte* data, ulong* size)
-        {
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            using var ms_name = new MarshaledString(name);
-            _ctx.handle_error(Methods.tiledb_query_set_validity_buffer(ctxHandle, handle, ms_name, data, size));
+            UnsafeSetValidityBuffer(name, new MemoryHandle(data), size);
         }
 
         /// <summary>
@@ -648,6 +598,56 @@ namespace TileDB.CSharp
             }
 
             SetValidityBuffer(name, MemoryMarshal.AsMemory(data));
+        }
+
+        /// <summary>
+        /// Sets the validity buffer for a nullable attribute or dimension
+        /// to a pinned memory buffer pointed by a <see cref="MemoryHandle"/>.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="memoryHandle">A <see cref="MemoryHandle"/> pointing to the buffer.</param>
+        /// <param name="size">The buffer's size.</param>
+        /// <exception cref="ArgumentException"><paramref name="size"/> is zero.</exception>
+        /// <remarks>
+        /// <para>Each value corresponds to whether an element exists (1) or not (0).</para>
+        /// <para>After calling this method, user code must not use <paramref name="memoryHandle"/>;
+        /// its ownership is transferred to this <see cref="Query"/> object.</para>
+        /// <para><paramref name="memoryHandle"/> will be disposed when one of the following happens:
+        /// <list type="bullet">
+        /// <item>The <see cref="Dispose"/> method is called.</item>
+        /// <item>The buffer for <paramref name="name"/> is reassigned through subsequent calls to this method.</item>
+        /// <item>This method call throws an exception.</item>
+        /// </list></para>
+        /// </remarks>
+        public void UnsafeSetValidityBuffer(string name, MemoryHandle memoryHandle, ulong size)
+        {
+            BufferHandle? handle = null;
+            bool successful = false;
+            try
+            {
+                handle = new BufferHandle(ref memoryHandle, size * sizeof(byte));
+
+                SetValidityBufferCore(name, (byte*)handle.DataPointer, handle.SizePointer);
+
+                AddOrReplaceBufferHandle(_validityBufferHandles, name, handle);
+                successful = true;
+            }
+            finally
+            {
+                if (!successful)
+                {
+                    memoryHandle.Dispose();
+                    handle?.Dispose();
+                }
+            }
+        }
+
+        private void SetValidityBufferCore(string name, byte* data, ulong* size)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var ms_name = new MarshaledString(name);
+            _ctx.handle_error(Methods.tiledb_query_set_validity_buffer(ctxHandle, handle, ms_name, data, size));
         }
 
         /// <summary>
