@@ -1196,7 +1196,7 @@ namespace TileDB.CSharp
                     return new ResultSize(offsetsSize, dataSize, validitySize);
                 case (true, false):
                     (offsetsSize, dataSize) = GetEstimatedResultSizeVar(name);
-                    return new ResultSize(offsetsSize, dataSize);
+                    return new ResultSize(dataSize, offsetsSize);
                 case (false, true):
                     (dataSize, validitySize) = GetEstimatedResultSizeNullable(name);
                     return new ResultSize(dataSize, null, validitySize);
