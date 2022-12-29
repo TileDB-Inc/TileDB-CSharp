@@ -179,3 +179,31 @@ qc.Init("attr1", 15, QueryConditionOperatorType.GreaterThan);
 ```csharp
 using QueryCondition qc = QueryCondition.Create(Context.GetDefault(), "attr1", 15, QueryConditionOperatorType.GreaterThan);
 ```
+
+## <span id="TILEDB0008">`TILEDB0008` - The `QueryCondition.Combine` method is obsolete.</span>
+
+The `QueryCondition.Combine` method is verbose and does not clearly signify which combination operator types are unary or binary. For these reasons it was marked as obsolete in version 5.3.0 and replaced with operator overloading.
+
+### Version introduced
+
+5.3.0
+
+### Recommended action
+
+Use the `&`, `|` or `!` operators to combine query conditions.
+
+### Existing code
+
+```csharp
+using QueryCondition qc1 = QueryCondition.Create(Context.GetDefault(), "attr1", 15, QueryConditionOperatorType.GreaterThan);
+using QueryCondition qc2 = QueryCondition.Create(Context.GetDefault(), "attr2", 12, QueryConditionOperatorType.LessThan);
+using QueryCondition qc = qc1.Combine(qc2, QueryConditionCombinationOperatorType.And);
+```
+
+### New code
+
+```csharp
+using QueryCondition qc1 = QueryCondition.Create(Context.GetDefault(), "attr1", 15, QueryConditionOperatorType.GreaterThan);
+using QueryCondition qc2 = QueryCondition.Create(Context.GetDefault(), "attr2", 12, QueryConditionOperatorType.LessThan);
+using QueryCondition qc = qc1 & qc2;
+```

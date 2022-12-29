@@ -26,5 +26,8 @@ namespace TileDB.CSharp
 
         public const string QueryConditionInitMessage = "The constructor and Init method of the QueryCondition classes is obsolete. Use the static Create methods instead.";
         public const string QueryConditionInitDiagId = "TILEDB0007";
+
+        public const string QueryConditionCombineMessage = "The QueryCondition.Combine method is obsolete. Use the '&', '|' and '!' operators instead.";
+        public const string QueryConditionCombineDiagId = "TILEDB0008";
     }
 }

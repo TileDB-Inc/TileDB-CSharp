@@ -100,6 +100,7 @@ namespace TileDB.CSharp
         /// <returns>A new query condition that combines this one with <paramref name="rhs"/>.</returns>
         /// <exception cref="InvalidOperationException">This query condition and <paramref name="rhs"/>
         /// are associated with a different <see cref="Context"/>.</exception>
+        [Obsolete(Obsoletions.QueryConditionCombineMessage, DiagnosticId = Obsoletions.QueryConditionCombineDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public QueryCondition Combine(QueryCondition? rhs, QueryConditionCombinationOperatorType combination_optype) =>
             Combine(this, rhs, combination_optype);
 
