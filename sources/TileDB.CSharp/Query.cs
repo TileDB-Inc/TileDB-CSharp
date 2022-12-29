@@ -277,7 +277,7 @@ namespace TileDB.CSharp
         {
             if (data is null)
             {
-                throw new ArgumentNullException(nameof(data));
+                ThrowHelpers.ThrowArgumentNullException(nameof(data));
             }
 
             SetDataBuffer(name, data.AsMemory());
