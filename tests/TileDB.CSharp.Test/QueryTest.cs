@@ -56,13 +56,13 @@ namespace TileDB.CSharp.Test
                 Assert.AreEqual((1, 2), subarray.GetRange<int>(1, 0));
                 Assert.ThrowsException<InvalidOperationException>(() => subarray.GetRange<long>(1, 0));
                 queryWrite.SetSubarray(subarray);
-                queryWrite.SetDataBuffer("a1", new[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+                queryWrite.SetDataWriteBuffer<int>("a1", new[] { 1, 2, 3, 4, 5, 6, 7, 8 }.AsMemory());
             }
             else // Sparse
             {
-                queryWrite.SetDataBuffer("rows", new[] { 1, 2, 2, 3, 4, 4 });
-                queryWrite.SetDataBuffer("cols", new[] { 1, 1, 4, 1, 1, 4 });
-                queryWrite.SetDataBuffer("a1", new[] { 1, 2, 3, 4, 5, 6 });
+                queryWrite.SetDataWriteBuffer<int>("rows", new[] { 1, 2, 2, 3, 4, 4 }.AsMemory());
+                queryWrite.SetDataWriteBuffer<int>("cols", new[] { 1, 1, 4, 1, 1, 4 }.AsMemory());
+                queryWrite.SetDataWriteBuffer<int>("a1", new[] { 1, 2, 3, 4, 5, 6 }.AsMemory());
             }
             queryWrite.Submit();
             Assert.AreEqual(QueryStatus.Completed, queryWrite.Status());
@@ -364,7 +364,7 @@ namespace TileDB.CSharp.Test
         }
 
         [TestMethod]
-        public void TestNullableAttributeArrayQuery()
+        public unsafe void TestNullableAttributeArrayQuery()
         {
             var context = Context.GetDefault();
             Assert.IsNotNull(context);
@@ -442,21 +442,24 @@ namespace TileDB.CSharp.Test
             byte[] a2_validity = new byte[4] { 0, 1, 1, 0 };
             byte[] a3_validity = new byte[4] { 1, 0, 0, 1 };
 
-            using (var array_write = new Array(context, tmpArrayPath))
+            fixed (int* a2_data_ptr = &a2_data[0])
+            fixed (ulong* a2_off_ptr = &a2_off[0])
+            fixed (byte* a2_validity_ptr = &a2_validity[0])
             {
+                using var array_write = new Array(context, tmpArrayPath);
                 Assert.IsNotNull(array_write);
 
                 array_write.Open(QueryType.Write);
 
-                var query_write = new Query(context, array_write);
+                using var query_write = new Query(context, array_write);
                 query_write.SetLayout(LayoutType.RowMajor);
 
                 query_write.SetDataBuffer("a1", a1_data);
                 query_write.SetValidityBuffer("a1", a1_validity);
 
-                query_write.SetDataBuffer("a2", a2_data);
-                query_write.SetOffsetsBuffer("a2", a2_off);
-                query_write.SetValidityBuffer("a2", a2_validity);
+                query_write.SetDataBuffer("a2", a2_data_ptr, (ulong)a2_data.Length * sizeof(int));
+                query_write.SetOffsetsBuffer("a2", a2_off_ptr, (ulong)a2_off.Length);
+                query_write.SetValidityBuffer("a2", a2_validity_ptr, (ulong)a2_validity.Length);
 
                 query_write.SetDataBuffer("a3", a3_data);
                 query_write.SetOffsetsBuffer("a3", a3_off);
@@ -470,7 +473,6 @@ namespace TileDB.CSharp.Test
 
                 array_write.Close();
             }
-
 
             // Read array
             int[] a1_data_read = new int[4];
@@ -490,23 +492,23 @@ namespace TileDB.CSharp.Test
 
                 array_read.Open(QueryType.Read);
 
-                var query_read = new Query(context, array_read);
+                using var query_read = new Query(context, array_read);
 
                 query_read.SetLayout(LayoutType.RowMajor);
                 using var subarray = new Subarray(array_read);
                 subarray.SetSubarray(1, 2, 1, 2);
                 query_read.SetSubarray(subarray);
 
-                query_read.SetDataBuffer("a1", a1_data_read);
-                query_read.SetValidityBuffer("a1", a1_validity_read);
+                query_read.UnsafeSetDataBuffer("a1", a1_data_read.AsMemory().Pin(), (ulong)a1_data_read.Length * sizeof(int));
+                query_read.UnsafeSetValidityBuffer("a1", a1_validity_read.AsMemory().Pin(), (ulong)a1_validity_read.Length);
 
-                query_read.SetDataBuffer("a2", a2_data_read);
-                query_read.SetOffsetsBuffer("a2", a2_off_read);
-                query_read.SetValidityBuffer("a2", a2_validity_read);
+                query_read.UnsafeSetDataBuffer("a2", a2_data_read.AsMemory().Pin(), (ulong)a2_data_read.Length * sizeof(int));
+                query_read.UnsafeSetOffsetsBuffer("a2", a2_off_read.AsMemory().Pin(), (ulong)a2_off_read.Length);
+                query_read.UnsafeSetValidityBuffer("a2", a2_validity_read.AsMemory().Pin(), (ulong)a2_validity_read.Length);
 
-                query_read.SetDataBuffer("a3", a3_data_read);
-                query_read.SetOffsetsBuffer("a3", a3_off_read);
-                query_read.SetValidityBuffer("a3", a3_validity_read);
+                query_read.UnsafeSetDataBuffer("a3", a3_data_read.AsMemory().Pin(), (ulong)a3_data_read.Length * sizeof(byte));
+                query_read.UnsafeSetOffsetsBuffer("a3", a3_off_read.AsMemory().Pin(), (ulong)a3_off_read.Length);
+                query_read.UnsafeSetValidityBuffer("a3", a3_validity_read.AsMemory().Pin(), (ulong)a3_validity_read.Length);
 
                 query_read.Submit();
                 var status_read = query_read.Status();
