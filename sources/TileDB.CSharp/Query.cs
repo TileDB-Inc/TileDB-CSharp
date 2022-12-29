@@ -281,9 +281,30 @@ namespace TileDB.CSharp
                 return;
             }
 
-            ulong size = (ulong)data.Length * (ulong)sizeof(T);
-            var bufferHandle = AddDataBufferHandle(name, PinArray(data), size);
-            SetDataBuffer(name, bufferHandle.DataPointer, bufferHandle.SizePointer);
+            SetDataBuffer(name, PinArray(data), (ulong)data.Length * (ulong)sizeof(T));
+        }
+
+        private void SetDataBuffer(string name, MemoryHandle memoryHandle, ulong size)
+        {
+            BufferHandle? handle = null;
+            bool successful = false;
+            try
+            {
+                handle = new BufferHandle(ref memoryHandle, size);
+
+                SetDataBuffer(name, handle.DataPointer, handle.SizePointer);
+
+                AddOrReplaceBufferHandle(_dataBufferHandles, name, handle);
+                successful = true;
+            }
+            finally
+            {
+                if (!successful)
+                {
+                    memoryHandle.Dispose();
+                    handle?.Dispose();
+                }
+            }
         }
 
         private void SetDataBuffer(string name, void* data, ulong* size)
@@ -306,10 +327,30 @@ namespace TileDB.CSharp
                 throw new ArgumentException("Query.set_offsets_buffer, buffer is null or empty!");
             }
 
-            ulong size = (ulong)data.Length * sizeof(ulong);
-            var bufferHandle = AddOffsetsBufferHandle(name, PinArray(data), size);
+            SetOffsetsBuffer(name, PinArray(data), (ulong)data.Length * sizeof(ulong));
+        }
 
-            SetOffsetsBuffer(name, (ulong*)bufferHandle.DataPointer, bufferHandle.SizePointer);
+        private void SetOffsetsBuffer(string name, MemoryHandle memoryHandle, ulong size)
+        {
+            BufferHandle? handle = null;
+            bool successful = false;
+            try
+            {
+                handle = new BufferHandle(ref memoryHandle, size);
+
+                SetOffsetsBuffer(name, (ulong*)handle.DataPointer, handle.SizePointer);
+
+                AddOrReplaceBufferHandle(_offsetsBufferHandles, name, handle);
+                successful = true;
+            }
+            finally
+            {
+                if (!successful)
+                {
+                    memoryHandle.Dispose();
+                    handle?.Dispose();
+                }
+            }
         }
 
         private void SetOffsetsBuffer(string name, ulong* data, ulong* size)
@@ -331,9 +372,31 @@ namespace TileDB.CSharp
             {
                 throw new ArgumentException("Query.set_validity_buffer, buffer is null or empty!");
             }
-            ulong size = (ulong)data.Length * sizeof(byte);
-            var bufferHandle = AddValidityBufferHandle(name, PinArray(data), size);
-            SetValidityBuffer(name, (byte*)bufferHandle.DataPointer, bufferHandle.SizePointer);
+
+            SetValidityBuffer(name, PinArray(data), (ulong)data.Length * sizeof(byte));
+        }
+
+        private void SetValidityBuffer(string name, MemoryHandle memoryHandle, ulong size)
+        {
+            BufferHandle? handle = null;
+            bool successful = false;
+            try
+            {
+                handle = new BufferHandle(ref memoryHandle, size);
+
+                SetValidityBuffer(name, (byte*)handle.DataPointer, handle.SizePointer);
+
+                AddOrReplaceBufferHandle(_validityBufferHandles, name, handle);
+                successful = true;
+            }
+            finally
+            {
+                if (!successful)
+                {
+                    memoryHandle.Dispose();
+                    handle?.Dispose();
+                }
+            }
         }
 
         private void SetValidityBuffer(string name, byte* data, ulong* size)
@@ -1026,27 +1089,14 @@ namespace TileDB.CSharp
             return new(pointer, gcHandle);
         }
 
-        private static BufferHandle AddBufferHandle(Dictionary<string, BufferHandle> dict, string name, MemoryHandle handle, ulong size)
+        private static void AddOrReplaceBufferHandle(Dictionary<string, BufferHandle> dict, string name, BufferHandle handle)
         {
-            if (dict.TryGetValue(name, out var bufferHandle))
+            if (dict.TryGetValue(name, out var existingHandle))
             {
-                bufferHandle.Reset(handle, size);
+                existingHandle.Dispose();
             }
-            else
-            {
-                dict[name] = bufferHandle = new BufferHandle(handle, size);
-            }
-            return bufferHandle;
+            dict[name] = handle;
         }
-
-        private BufferHandle AddDataBufferHandle(string name, MemoryHandle handle, ulong size) =>
-            AddBufferHandle(_dataBufferHandles, name, handle, size);
-
-        private BufferHandle AddOffsetsBufferHandle(string name, MemoryHandle handle, ulong size) =>
-            AddBufferHandle(_offsetsBufferHandles, name, handle, size);
-
-        private BufferHandle AddValidityBufferHandle(string name, MemoryHandle handle, ulong size) =>
-            AddBufferHandle(_validityBufferHandles, name, handle, size);
 
         private sealed class BufferHandle : IDisposable
         {
@@ -1069,17 +1119,23 @@ namespace TileDB.CSharp
                 }
             }
 
-            public BufferHandle(MemoryHandle handle, ulong size)
+            public BufferHandle(ref MemoryHandle handle, ulong size)
             {
                 DataHandle = handle;
-                SizePointer = (ulong*)Marshal.AllocHGlobal(sizeof(ulong));
-                Size = size;
-            }
-
-            public void Reset(MemoryHandle handle, ulong size)
-            {
-                DataHandle.Dispose();
-                DataHandle = handle;
+                handle = default;
+                bool successful = false;
+                try
+                {
+                    SizePointer = (ulong*)Marshal.AllocHGlobal(sizeof(ulong));
+                    successful = true;
+                }
+                finally
+                {
+                    if (!successful)
+                    {
+                        DataHandle.Dispose();
+                    }
+                }
                 Size = size;
             }
 
