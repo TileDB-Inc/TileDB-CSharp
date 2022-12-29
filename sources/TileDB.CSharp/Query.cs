@@ -49,44 +49,29 @@ namespace TileDB.CSharp
         /// <summary>
         /// Returns if the result is about a variable-length attribute or dimension.
         /// </summary>
-        public bool IsVarSize()
-        {
-            return OffsetsBytesSize.HasValue;
-        }
+        public bool IsVarSize() => OffsetsBytesSize.HasValue;
 
         /// <summary>
         /// Returns if the result is about a nullable attribute.
         /// </summary>
-        public bool IsNullable()
-        {
-            return ValidityBytesSize.HasValue;
-        }
+        public bool IsNullable() => ValidityBytesSize.HasValue;
 
         /// <summary>
         /// Gets the number of data elements.
         /// </summary>
         /// <param name="dataType">The data type of the attribute or dimension.</param>
-        public ulong DataSize(DataType dataType)
-        {
-            tiledb_datatype_t tiledb_datatype = (tiledb_datatype_t)dataType;
-            return DataBytesSize / Methods.tiledb_datatype_size(tiledb_datatype);
-        }
+        public ulong DataSize(DataType dataType) =>
+            DataBytesSize / Methods.tiledb_datatype_size((tiledb_datatype_t)dataType);
 
         /// <summary>
         /// Gets the number of offsets.
         /// </summary>
-        public ulong OffsetsSize()
-        {
-            return OffsetsBytesSize.HasValue ? OffsetsBytesSize.Value/Methods.tiledb_datatype_size(tiledb_datatype_t.TILEDB_UINT64) : 0;
-        }
+        public ulong OffsetsSize() => OffsetsBytesSize is ulong size ? size / sizeof(ulong) : 0;
 
         /// <summary>
         /// Gets the number of validities.
         /// </summary>
-        public ulong ValiditySize()
-        {
-            return ValidityBytesSize.HasValue ? ValidityBytesSize.Value / Methods.tiledb_datatype_size(tiledb_datatype_t.TILEDB_UINT8) : 0;
-        }
+        public ulong ValiditySize() => ValidityBytesSize.GetValueOrDefault();
     }
 
     /// <summary>
@@ -1113,12 +1098,7 @@ namespace TileDB.CSharp
 
         }
 
-        /// <summary>
-        /// Retrieves the estimated result size for a fixed-size attribute.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        private ulong est_result_size(string name)
+        private ulong GetEstimatedResultSize(string name)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -1128,12 +1108,7 @@ namespace TileDB.CSharp
             return size;
         }
 
-        /// <summary>
-        /// Retrieves the estimated result size for a variable-size attribute tuple(size_off,size_val).
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        private Tuple<ulong, ulong> est_result_size_var(string name)
+        private (ulong OffsetSize, ulong DataSize) GetEstimatedResultSizeVar(string name)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -1142,15 +1117,10 @@ namespace TileDB.CSharp
             ulong size_val;
             _ctx.handle_error(Methods.tiledb_query_get_est_result_size_var(ctxHandle, handle, ms_name, &size_off, &size_val));
 
-            return new Tuple<ulong, ulong>(size_off, size_val);
+            return (size_off, size_val);
         }
 
-        /// <summary>
-        /// Retrieves the estimated result size for a fixed-size, nullable attribute tuple(size_val,size_validity).
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        private Tuple<ulong, ulong> est_result_size_nullable(string name)
+        private (ulong DataSize, ulong ValiditySize) GetEstimatedResultSizeNullable(string name)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -1158,15 +1128,10 @@ namespace TileDB.CSharp
             ulong size_val;
             ulong size_validity;
             _ctx.handle_error(Methods.tiledb_query_get_est_result_size_nullable(ctxHandle, handle, ms_name, &size_val, &size_validity));
-            return new Tuple<ulong, ulong>(size_val, size_validity);
+            return (size_val, size_validity);
         }
 
-        /// <summary>
-        /// Retrieves the estimated result size for a variable-size, nullable attribute tuple(size_off,size_val,size_validity).
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        private Tuple<ulong, ulong, ulong> est_result_size_var_nullable(string name)
+        private (ulong OffsetsSize, ulong DataSize, ulong ValiditySize) GetEstimatedResultSizeVarNullable(string name)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -1177,41 +1142,35 @@ namespace TileDB.CSharp
 
             _ctx.handle_error(Methods.tiledb_query_get_est_result_size_var_nullable(ctxHandle, handle, ms_name, &size_off, &size_val, &size_validity));
 
-            return new Tuple<ulong, ulong, ulong>(size_off, size_val, size_validity);
+            return (size_off, size_val, size_validity);
         }
 
         /// <summary>
-        /// Get estimated result size.
+        /// Estimates the result size for an attribute or dimension.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">The name of the attribute or dimension.</param>
         public ResultSize EstResultSize(string name)
         {
-            bool isVar = _array.Schema().IsVarSize(name);
-            bool isNullable = _array.Schema().IsNullable(name);
-            if (isVar)
+            bool isVar, isNullable;
+            using (var schema = _array.Schema())
             {
-                if (isNullable)
-                {
-                    var t = est_result_size_var_nullable(name);
-                    return new ResultSize(t.Item2, t.Item1, t.Item3);
-                }
-                else
-                {
-                    var t = est_result_size_var(name);
-                    return new ResultSize(t.Item2, t.Item1, 0);
-
-                }
+                isVar = schema.IsVarSize(name);
+                isNullable = schema.IsNullable(name);
             }
-            else if (isNullable)
+            switch (isVar, isNullable)
             {
-                var t = est_result_size_nullable(name);
-                return new ResultSize(t.Item1, 0, t.Item2);
-            }
-            else
-            {
-                var t = est_result_size(name);
-                return new ResultSize(t, 0, 0);
+                case (true, true):
+                    (var offsetsSize, var dataSize, var validitySize) = GetEstimatedResultSizeVarNullable(name);
+                    return new ResultSize(offsetsSize, dataSize, validitySize);
+                case (true, false):
+                    (offsetsSize, dataSize) = GetEstimatedResultSizeVar(name);
+                    return new ResultSize(offsetsSize, dataSize);
+                case (false, true):
+                    (dataSize, validitySize) = GetEstimatedResultSizeNullable(name);
+                    return new ResultSize(dataSize, null, validitySize);
+                case (false, false):
+                    dataSize = GetEstimatedResultSize(name);
+                    return new ResultSize(dataSize);
             }
         }
 
