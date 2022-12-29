@@ -556,9 +556,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Sets the validity buffer for a nullable attribute or dimension to an array.
+        /// Sets the validity buffer for a nullable attribute to an array.
         /// </summary>
-        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="name">The name of the attribute.</param>
         /// <param name="data">An array where the validities will be read or written.</param>
         /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
@@ -576,9 +576,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Sets the validity buffer for a nullable attribute or dimension to a <see cref="Memory{T}"/>.
+        /// Sets the validity buffer for a nullable attribute to a <see cref="Memory{T}"/>.
         /// </summary>
-        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="name">The name of the attribute.</param>
         /// <param name="data">A <see cref="Memory{T}"/> where the validities will be read or written.</param>
         /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
         /// <remarks>
@@ -595,9 +595,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Sets the validity buffer for a nullable attribute or dimension to an unmanaged memory buffer.
+        /// Sets the validity buffer for a nullable attribute to an unmanaged memory buffer.
         /// </summary>
-        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="name">The name of the attribute.</param>
         /// <param name="data">A pointer to the memory buffer.</param>
         /// <param name="size">The buffer's size.</param>
         /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
@@ -621,10 +621,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Sets the validity buffer for a nullable attribute or dimension to a <see cref="ReadOnlyMemory{T}"/>.
+        /// Sets the validity buffer for a nullable attribute to a <see cref="ReadOnlyMemory{T}"/>.
         /// Not supported for <see cref="QueryType.Read"/> queries.
         /// </summary>
-        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="name">The name of the attribute.</param>
         /// <param name="data">A <see cref="ReadOnlyMemory{T}"/> from where the validities will be written.</param>
         /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
         /// <exception cref="NotSupportedException">The query's type is <see cref="QueryType.Read"/></exception>
@@ -642,10 +642,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Sets the validity buffer for a nullable attribute or dimension
+        /// Sets the validity buffer for a nullable attribute
         /// to a pinned memory buffer pointed by a <see cref="MemoryHandle"/>.
         /// </summary>
-        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="name">The name of the attribute.</param>
         /// <param name="memoryHandle">A <see cref="MemoryHandle"/> pointing to the buffer.</param>
         /// <param name="size">The buffer's size.</param>
         /// <exception cref="ArgumentException"><paramref name="size"/> is zero.</exception>
