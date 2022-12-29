@@ -313,6 +313,38 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="name">The name of the attribute or the dimension.</param>
         /// <param name="data">A pointer to the memory buffer.</param>
+        /// <param name="size">The buffer's size <em>in <typeparamref name="T"/> values</em>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="size"/> is zero or <typeparamref name="T"/>
+        /// does not match the excepted data type.</exception>
+        public void SetDataBuffer<T>(string name, T* data, ulong size) where T : struct
+        {
+            if (data is null)
+            {
+                ThrowHelpers.ThrowArgumentNullException(nameof(data));
+            }
+
+            if (size == 0)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(size));
+            }
+
+            // check datatype
+            using (var schema = _array.Schema())
+            using (var domain = schema.Domain())
+            {
+                CheckDataType<T>(GetDataType(name, schema, domain));
+            }
+
+            UnsafeSetDataBuffer(name, new MemoryHandle(data), size * (ulong)sizeof(T));
+        }
+
+        /// <summary>
+        /// Sets the data buffer for an attribute or dimension to an
+        /// unmanaged memory buffer without performing type validation.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A pointer to the memory buffer.</param>
         /// <param name="byteSize">The buffer's size <em>in bytes</em>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException"><paramref name="byteSize"/> is zero.</exception>
