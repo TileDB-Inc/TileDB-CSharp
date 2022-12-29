@@ -1,5 +1,7 @@
 using System;
+using System.Buffers;
 using System.IO;
+using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace TileDB.CSharp.Test
 {
@@ -576,6 +578,7 @@ namespace TileDB.CSharp.Test
             var status = query_write.Status();
             Assert.AreEqual(status, QueryStatus.Completed);
             query_write.FinalizeQuery();
+            query_write.Dispose();
             array_write.Close();
 
             // Read from array into bool[]
@@ -600,6 +603,7 @@ namespace TileDB.CSharp.Test
             CollectionAssert.AreEqual(a1_data, a1_data_read);
 
             query_read.FinalizeQuery();
+            query_read.Dispose();
 
             // Read from array into byte[]
             query_read = new Query(context, array_read);
@@ -619,7 +623,86 @@ namespace TileDB.CSharp.Test
             CollectionAssert.AreEqual(a1_data, System.Array.ConvertAll(a1_data_read_bytes, b => b == 1));
 
             query_read.FinalizeQuery();
+            query_read.Dispose();
             array_read.Close();
+        }
+
+        [TestMethod]
+        public void TestMemoryHandleGetsUnpinned()
+        {
+            // Create array
+            var context = Context.GetDefault();
+            Assert.IsNotNull(context);
+
+            using var dim1 = Dimension.Create(context, "rows", 1, 2, 2);
+            using var dim2 = Dimension.Create(context, "cols", 1, 2, 2);
+            using var domain = new Domain(context);
+            domain.AddDimensions(dim1, dim2);
+
+            using var a1 = new Attribute(context, "a1", DataType.Boolean);
+
+            using var array_schema = new ArraySchema(context, ArrayType.Dense);
+            array_schema.AddAttribute(a1);
+            array_schema.SetDomain(domain);
+            array_schema.Check();
+
+            using var tmpArrayPath = new TemporaryDirectory("query_unpin");
+
+            var disposalCanary = new DisposalCanary();
+
+            using var array = new Array(context, tmpArrayPath);
+            array.Create(array_schema);
+            array.Open(QueryType.Read);
+
+            // From the documentation, the memory will be unpinned if:
+
+            // the query is disposed,
+            using (var q = new Query(context, array))
+            {
+                q.UnsafeSetDataBuffer("rows", disposalCanary.Memory.Pin(), 1 * sizeof(int));
+            }
+            Assert.AreEqual(1, disposalCanary.UnpinCount);
+
+            // the buffer is reassigned,
+            using (var q = new Query(context, array))
+            {
+                q.UnsafeSetDataBuffer("rows", disposalCanary.Memory.Pin(), 1 * sizeof(int));
+                q.SetDataBuffer("rows", new int[1]);
+                Assert.AreEqual(2, disposalCanary.UnpinCount);
+            }
+
+            // or setting the buffer fails.
+            using (var q = new Query(context, array))
+            {
+                Assert.ThrowsException<TileDBException>(() => q.UnsafeSetDataBuffer("foo", disposalCanary.Memory.Pin(), 1 * sizeof(int)));
+                Assert.AreEqual(3, disposalCanary.UnpinCount);
+            }
+        }
+
+        /// <summary>
+        /// Holds an array and tracks how many times it was unpinned.
+        /// </summary>
+        private sealed unsafe class DisposalCanary : MemoryManager<int>
+        {
+            private readonly int[] _array = new int[1];
+
+            public int UnpinCount { get; private set; }
+
+            public override Span<int> GetSpan() => _array;
+
+            public override MemoryHandle Pin(int elementIndex = 0)
+            {
+                var gcHandle = GCHandle.Alloc(_array, GCHandleType.Pinned);
+                var ptr = (void*)gcHandle.AddrOfPinnedObject();
+                return new(ptr, gcHandle, this);
+            }
+
+            public override void Unpin()
+            {
+                UnpinCount++;
+            }
+
+            protected override void Dispose(bool disposing) { }
         }
     }
 }
