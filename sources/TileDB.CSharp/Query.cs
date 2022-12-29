@@ -13,10 +13,24 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
+    /// <summary>
+    /// Contains estimates for the result's size.
+    /// </summary>
     public class ResultSize
     {
+        /// <summary>
+        /// The data size in bytes.
+        /// </summary>
         public ulong DataBytesSize;
+
+        /// <summary>
+        /// The offsets size in bytes.
+        /// </summary>
         public ulong? OffsetsBytesSize;
+
+        /// <summary>
+        /// The validities size in bytes.
+        /// </summary>
         public ulong? ValidityBytesSize;
 
         /// <summary>
@@ -33,28 +47,25 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Test if it is variable length.
+        /// Returns if the result is about a variable-length attribute or dimension.
         /// </summary>
-        /// <returns></returns>
         public bool IsVarSize()
         {
             return OffsetsBytesSize.HasValue;
         }
 
         /// <summary>
-        /// Test if it is nullable.
+        /// Returns if the result is about a nullable attribute.
         /// </summary>
-        /// <returns></returns>
         public bool IsNullable()
         {
             return ValidityBytesSize.HasValue;
         }
 
         /// <summary>
-        /// Get number of data elements.
+        /// Gets the number of data elements.
         /// </summary>
-        /// <param name="dataType"></param>
-        /// <returns></returns>
+        /// <param name="dataType">The data type of the attribute or dimension.</param>
         public ulong DataSize(DataType dataType)
         {
             tiledb_datatype_t tiledb_datatype = (tiledb_datatype_t)dataType;
@@ -62,24 +73,25 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get number of offsets.
+        /// Gets the number of offsets.
         /// </summary>
-        /// <returns></returns>
         public ulong OffsetsSize()
         {
             return OffsetsBytesSize.HasValue ? OffsetsBytesSize.Value/Methods.tiledb_datatype_size(tiledb_datatype_t.TILEDB_UINT64) : 0;
         }
 
         /// <summary>
-        /// Get number of validities.
+        /// Gets the number of validities.
         /// </summary>
-        /// <returns></returns>
         public ulong ValiditySize()
         {
             return ValidityBytesSize.HasValue ? ValidityBytesSize.Value / Methods.tiledb_datatype_size(tiledb_datatype_t.TILEDB_UINT8) : 0;
         }
     }
 
+    /// <summary>
+    /// Used in <see cref="Query.SubmitAsync"/>.
+    /// </summary>
     [Obsolete(Obsoletions.QuerySubmitAsyncMessage, DiagnosticId = Obsoletions.QuerySubmitAsyncDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     public class QueryEventArgs : EventArgs
     {
@@ -88,10 +100,15 @@ namespace TileDB.CSharp
             Status = status;
             Message = message;
         }
+
         public int Status { get; set; }
+
         public string Message { get; set; }
     }
 
+    /// <summary>
+    /// Represents a TileDB query object.
+    /// </summary>
     public sealed unsafe class Query : IDisposable
     {
         private readonly Array _array;
@@ -103,6 +120,12 @@ namespace TileDB.CSharp
         private readonly Dictionary<string, BufferHandle> _offsetsBufferHandles = new Dictionary<string, BufferHandle>();
         private readonly Dictionary<string, BufferHandle> _validityBufferHandles = new Dictionary<string, BufferHandle>();
 
+        /// <summary>
+        /// Creates a <see cref="Query"/>.
+        /// </summary>
+        /// <param name="ctx">The context associated with this query.</param>
+        /// <param name="array">The array on which the query will operate.</param>
+        /// <param name="queryType">The query's type.</param>
         public Query(Context ctx, Array array, QueryType queryType)
         {
             _ctx = ctx;
@@ -110,6 +133,11 @@ namespace TileDB.CSharp
             _handle = QueryHandle.Create(ctx, array.Handle, (tiledb_query_type_t)queryType);
         }
 
+        /// <summary>
+        /// Creates a <see cref="Query"/> with an implicit <see cref="CSharp.QueryType"/>.
+        /// </summary>
+        /// <param name="ctx">The context associated with this query.</param>
+        /// <param name="array">The array on which the query will operate. Its <see cref="Array.QueryType"/> will be used for the query.</param>
         public Query(Context ctx, Array array)
         {
             _ctx = ctx;
@@ -117,13 +145,9 @@ namespace TileDB.CSharp
             _handle = QueryHandle.Create(ctx, array.Handle, (tiledb_query_type_t)array.QueryType());
         }
 
-        internal Query(Context ctx, Array array, QueryHandle handle)
-        {
-            _ctx = ctx;
-            _array = array;
-            _handle = handle;
-        }
-
+        /// <summary>
+        /// Disposes this <see cref="Query"/>.
+        /// </summary>
         public void Dispose()
         {
             if (_disposed) return;
