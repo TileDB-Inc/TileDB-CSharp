@@ -8,6 +8,14 @@ namespace TileDB.CSharp.Test
     [TestClass]
     public class VFSTest
     {
+        private static void WriteRandomData(VFS vfs, string fileUri, int byteCount, out byte[] data)
+        {
+            data = new byte[byteCount];
+            RandomNumberGenerator.Fill(data);
+            using var f = vfs.Open(fileUri, VfsMode.Write);
+            f.Write(data);
+        }
+
         [TestMethod]
         public void TestDir()
         {
@@ -21,6 +29,7 @@ namespace TileDB.CSharp.Test
 
             vfs.CreateDir(dirname);
             Assert.IsTrue(vfs.IsDir(dirname));
+            Assert.IsTrue(Directory.Exists(dirname));
 
             vfs.RemoveDir(dirname);
         }
@@ -35,13 +44,8 @@ namespace TileDB.CSharp.Test
 
             using var vfs = new VFS();
 
-            byte[] dataWrite = new byte[DataSize];
-            RandomNumberGenerator.Fill(dataWrite);
-
-            using (var f = vfs.Open(fileUri, VfsMode.Write))
-            {
-                f.Write(dataWrite);
-            }
+            WriteRandomData(vfs, fileUri, DataSize, out var dataWrite);
+            Assert.AreEqual((ulong)DataSize, vfs.FileSize(fileUri));
 
             using (var f = vfs.Open(fileUri, VfsMode.Read))
             {
@@ -49,6 +53,36 @@ namespace TileDB.CSharp.Test
                 f.ReadExactly(0, dataRead);
                 CollectionAssert.AreEqual(dataWrite, dataRead);
             }
+        }
+
+        [TestMethod]
+        public void TestCopyMove()
+        {
+            const int DataSize = 4096;
+
+            using var dir = new TemporaryDirectory("vfs-copy-move");
+            var file1Uri = Path.Combine(dir, "file1");
+            var file2Uri = Path.Combine(dir, "file2");
+
+            using var vfs = new VFS();
+
+            WriteRandomData(vfs, file1Uri, DataSize, out var dataWrite);
+            Assert.AreEqual((ulong)DataSize, vfs.FileSize(file1Uri));
+            vfs.MoveFile(file1Uri, file2Uri);
+            Assert.IsFalse(vfs.IsFile(file1Uri));
+            Assert.AreEqual((ulong)DataSize, vfs.FileSize(file2Uri));
+            if (OperatingSystem.IsWindows())
+            {
+                // Copying files on Windows is not yet supported.
+                System.IO.File.Copy(file2Uri, file1Uri);
+            }
+            else
+            {
+                vfs.CopyFile(file2Uri, file1Uri);
+            }
+            Assert.IsTrue(vfs.IsFile(file1Uri));
+            Assert.IsTrue(vfs.IsFile(file2Uri));
+            Assert.AreEqual((ulong)DataSize * 2, vfs.DirSize(dir));
         }
 
         [TestMethod]
