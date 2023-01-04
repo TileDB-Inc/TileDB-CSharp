@@ -24,9 +24,9 @@ namespace TileDB.CSharp.Test
             Assert.IsNotNull(ctx);
 
             // Create array
-            var rows = Dimension.Create<int>(ctx, "rows", new[] { 1, 4 }, 2);
+            var rows = Dimension.Create(ctx, "rows", 1, 4, 2);
             Assert.IsNotNull(rows);
-            var cols = Dimension.Create<int>(ctx, "cols", new[] { 1, 4 }, 2);
+            var cols = Dimension.Create(ctx, "cols", 1, 4, 2);
             Assert.IsNotNull(cols);
             using var domain = new Domain(ctx);
             Assert.IsNotNull(domain);
@@ -97,10 +97,10 @@ namespace TileDB.CSharp.Test
             {
                 a1Expected = new[]
                 {
-                    1, 2, Int32.MinValue, Int32.MinValue,
-                    3, 4, Int32.MinValue, Int32.MinValue,
-                    5, 6, Int32.MinValue, Int32.MinValue,
-                    7, 8, Int32.MinValue, Int32.MinValue
+                    1, 2, int.MinValue, int.MinValue,
+                    3, 4, int.MinValue, int.MinValue,
+                    5, 6, int.MinValue, int.MinValue,
+                    7, 8, int.MinValue, int.MinValue
                 };
                 rowsExpected = new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 };
                 colsExpected = new[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 };
@@ -122,9 +122,10 @@ namespace TileDB.CSharp.Test
             var context = Context.GetDefault();
             Assert.IsNotNull(context);
 
-            var bound = new sbyte[] { 0, 9 };
+            const sbyte boundLower = 0;
+            const sbyte boundUpper = 9;
             const sbyte extent = 2;
-            var dimension = Dimension.Create<sbyte>(context, "dim1", bound, extent);
+            var dimension = Dimension.Create(context, "dim1", boundLower, boundUpper, extent);
             Assert.IsNotNull(dimension);
 
             var domain = new Domain(context);
@@ -171,13 +172,13 @@ namespace TileDB.CSharp.Test
 
             var a1_data_buffer = new int[2] { 1, 2 };
 
-            query.SetDataBuffer<int>("a1", a1_data_buffer);
+            query.SetDataBuffer("a1", a1_data_buffer);
 
             var a2_data_buffer = new float[5] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f };
 
-            query.SetDataBuffer<float>("a2", a2_data_buffer );
+            query.SetDataBuffer("a2", a2_data_buffer );
 
-            var a2_offset_buffer = new UInt64[2] { 0, 3 };
+            var a2_offset_buffer = new ulong[2] { 0, 3 };
 
             query.SetOffsetsBuffer("a2", a2_offset_buffer);
 
@@ -205,13 +206,13 @@ namespace TileDB.CSharp.Test
 
             var a1_data_buffer_read = new int[2];
 
-            query_read.SetDataBuffer<int>("a1", a1_data_buffer_read);
+            query_read.SetDataBuffer("a1", a1_data_buffer_read);
 
             var a2_data_buffer_read = new float[5];
 
-            query_read.SetDataBuffer<float>("a2", a2_data_buffer_read);
+            query_read.SetDataBuffer("a2", a2_data_buffer_read);
 
-            var a2_offset_buffer_read = new UInt64[2];
+            var a2_offset_buffer_read = new ulong[2];
 
             query_read.SetOffsetsBuffer("a2", a2_offset_buffer_read);
 
@@ -238,13 +239,15 @@ namespace TileDB.CSharp.Test
             Assert.IsNotNull(context);
 
             // Create array
-            int[] dim1_bound = new int[] { 1, 4 };
+            int dim1_bound_lower = 1;
+            int dim1_bound_upper = 4;
             int dim1_extent = 4;
-            var dim1 = Dimension.Create<int>(context, "rows", dim1_bound, dim1_extent);
+            var dim1 = Dimension.Create(context, "rows", dim1_bound_lower, dim1_bound_upper, dim1_extent);
 
-            int[] dim2_bound = new int[] { 1, 4 };
+            int dim2_bound_lower = 1;
+            int dim2_bound_upper = 4;
             int dim2_extent = 4;
-            var dim2 = Dimension.Create<int>(context, "cols", dim2_bound, dim2_extent);
+            var dim2 = Dimension.Create(context, "cols", dim2_bound_lower, dim2_bound_upper, dim2_extent);
 
             var domain = new Domain(context);
             Assert.IsNotNull(domain);
@@ -288,9 +291,9 @@ namespace TileDB.CSharp.Test
 
                 query_write.SetLayout(LayoutType.Unordered);
 
-                query_write.SetDataBuffer<int>("rows", dim1_data_buffer);
-                query_write.SetDataBuffer<int>("cols", dim2_data_buffer);
-                query_write.SetDataBuffer<int>("a", attr_data_buffer);
+                query_write.SetDataBuffer("rows", dim1_data_buffer);
+                query_write.SetDataBuffer("cols", dim2_data_buffer);
+                query_write.SetDataBuffer("a", attr_data_buffer);
 
                 query_write.Submit();
 
@@ -317,11 +320,11 @@ namespace TileDB.CSharp.Test
 
                 query_read.SetLayout(LayoutType.RowMajor);
 
-                query_read.SetDataBuffer<int>("rows", dim1_data_buffer_read);
+                query_read.SetDataBuffer("rows", dim1_data_buffer_read);
 
-                query_read.SetDataBuffer<int>("cols", dim2_data_buffer_read);
+                query_read.SetDataBuffer("cols", dim2_data_buffer_read);
 
-                query_read.SetDataBuffer<int>("a", attr_data_buffer_read);
+                query_read.SetDataBuffer("a", attr_data_buffer_read);
 
                 query_read.Submit();
                 var status_read = query_read.Status();
@@ -346,13 +349,15 @@ namespace TileDB.CSharp.Test
             Assert.IsNotNull(context);
 
             // Create array
-            int[] dim1_bound = new int[] { 1, 2 };
+            int dim1_bound_lower = 1;
+            int dim1_bound_upper = 2;
             int dim1_extent = 2;
-            var dim1 = Dimension.Create<int>(context, "rows", dim1_bound, dim1_extent);
+            var dim1 = Dimension.Create(context, "rows", dim1_bound_lower, dim1_bound_upper, dim1_extent);
 
-            int[] dim2_bound = new int[] { 1, 2 };
+            int dim2_bound_lower = 1;
+            int dim2_bound_upper = 2;
             int dim2_extent = 2;
-            var dim2 = Dimension.Create<int>(context, "cols", dim2_bound, dim2_extent);
+            var dim2 = Dimension.Create(context, "cols", dim2_bound_lower, dim2_bound_upper, dim2_extent);
 
             var domain = new Domain(context);
             Assert.IsNotNull(domain);
@@ -404,7 +409,7 @@ namespace TileDB.CSharp.Test
                 a2_off[i] = a2_el_off[i] * EnumUtil.DataTypeSize(DataType.Int32);
             }
 
-            byte[] a3_data = new byte[9] { Convert.ToByte('a'), Convert.ToByte('b'), Convert.ToByte('c'), Convert.ToByte('d'), Convert.ToByte('e'), Convert.ToByte('w'), Convert.ToByte('x'), Convert.ToByte('y'), Convert.ToByte('z') };
+            byte[] a3_data = "abcdewxyz"u8.ToArray();
             ulong[] a3_el_off = new ulong[4] { 0, 3, 4, 5 };
             ulong[] a3_off = new ulong[4];
             for (int i = 0; i < a3_el_off.Length; ++i)
@@ -425,14 +430,14 @@ namespace TileDB.CSharp.Test
                 var query_write = new Query(context, array_write);
                 query_write.SetLayout(LayoutType.RowMajor);
 
-                query_write.SetDataBuffer<int>("a1", a1_data);
+                query_write.SetDataBuffer("a1", a1_data);
                 query_write.SetValidityBuffer("a1", a1_validity);
 
-                query_write.SetDataBuffer<int>("a2", a2_data);
+                query_write.SetDataBuffer("a2", a2_data);
                 query_write.SetOffsetsBuffer("a2", a2_off);
                 query_write.SetValidityBuffer("a2", a2_validity);
 
-                query_write.SetDataBuffer<byte>("a3", a3_data);
+                query_write.SetDataBuffer("a3", a3_data);
                 query_write.SetOffsetsBuffer("a3", a3_off);
                 query_write.SetValidityBuffer("a3", a3_validity);
 
@@ -469,16 +474,16 @@ namespace TileDB.CSharp.Test
                 var query_read = new Query(context, array_read);
 
                 query_read.SetLayout(LayoutType.RowMajor);
-                query_read.SetSubarray<int>(subarray);
+                query_read.SetSubarray(subarray);
 
-                query_read.SetDataBuffer<int>("a1", a1_data_read);
+                query_read.SetDataBuffer("a1", a1_data_read);
                 query_read.SetValidityBuffer("a1", a1_validity_read);
 
-                query_read.SetDataBuffer<int>("a2", a2_data_read);
+                query_read.SetDataBuffer("a2", a2_data_read);
                 query_read.SetOffsetsBuffer("a2", a2_off_read);
                 query_read.SetValidityBuffer("a2", a2_validity_read);
 
-                query_read.SetDataBuffer<byte>("a3", a3_data_read);
+                query_read.SetDataBuffer("a3", a3_data_read);
                 query_read.SetOffsetsBuffer("a3", a3_off_read);
                 query_read.SetValidityBuffer("a3", a3_validity_read);
 
@@ -509,8 +514,8 @@ namespace TileDB.CSharp.Test
             var context = Context.GetDefault();
             Assert.IsNotNull(context);
 
-            var dim1 = Dimension.Create<int>(context, "rows", new [] { 1, 2 }, 2);
-            var dim2 = Dimension.Create<int>(context, "cols", new [] { 1, 2 }, 2);
+            var dim1 = Dimension.Create(context, "rows", 1, 2, 2);
+            var dim2 = Dimension.Create(context, "cols", 1, 2, 2);
             var domain = new Domain(context);
             domain.AddDimensions(dim1, dim2);
 
@@ -538,7 +543,7 @@ namespace TileDB.CSharp.Test
             query_write.SetLayout(LayoutType.RowMajor);
 
             var a1_data = new bool[] { false, true, true, false };
-            query_write.SetDataBuffer<bool>("a1", a1_data);
+            query_write.SetDataBuffer("a1", a1_data);
 
             query_write.Submit();
             var status = query_write.Status();
@@ -556,7 +561,7 @@ namespace TileDB.CSharp.Test
             query_read.SetLayout(LayoutType.RowMajor);
 
             var a1_data_read = new bool[4];
-            query_read.SetDataBuffer<bool>("a1", a1_data_read);
+            query_read.SetDataBuffer("a1", a1_data_read);
 
             query_read.Submit();
             status = query_read.Status();
@@ -571,7 +576,7 @@ namespace TileDB.CSharp.Test
             query_read.SetLayout(LayoutType.RowMajor);
 
             var a1_data_read_bytes = new byte[4];
-            query_read.SetDataBuffer<byte>("a1", a1_data_read_bytes);
+            query_read.SetDataBuffer("a1", a1_data_read_bytes);
 
             query_read.Submit();
             status = query_read.Status();

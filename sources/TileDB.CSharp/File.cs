@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
+using System.ComponentModel;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
@@ -65,34 +60,38 @@ namespace TileDB.CSharp
 
         public void BufferImport<T>(string arrayURI, T value, ulong size, MIMEType mimeType) where T : struct
         {
+            ErrorHandling.ThrowIfManagedType<T>();
+            if (size > (ulong)sizeof(T))
+            {
+                ThrowHelpers.ThrowTooBigSize(size);
+            }
             using var ctxHandle = _ctx.Handle.Acquire();
             using var ms_arrayURI = new MarshaledString(arrayURI);
-            var data = new[] { value };
-            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
             var tiledb_mime_type = (tiledb_mime_type_t)mimeType;
             _ctx.handle_error(Methods.tiledb_filestore_buffer_import(
                 ctxHandle,
                 ms_arrayURI,
-                (void*)dataGcHandle.AddrOfPinnedObject(),
+                &value,
                 checked((nuint)size),
                 tiledb_mime_type));
         }
 
         public T BufferExport<T>(string arrayURI, ulong offset, ulong size) where T : struct
         {
+            ErrorHandling.ThrowIfManagedType<T>();
+            if (size > (ulong)sizeof(T))
+            {
+                ThrowHelpers.ThrowTooBigSize(size);
+            }
             using var ctxHandle = _ctx.Handle.Acquire();
             using var ms_arrayURI = new MarshaledString(arrayURI);
-            var data = new T[1];
-            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
+            T result;
             _ctx.handle_error(Methods.tiledb_filestore_buffer_export(
                 ctxHandle,
                 ms_arrayURI,
                 checked((nuint)offset),
-                (void*)dataGcHandle.AddrOfPinnedObject(),
+                &result,
                 checked((nuint)size)));
-
-            var result = data[0];
-            dataGcHandle.Free();
 
             return result;
         }
@@ -110,6 +109,7 @@ namespace TileDB.CSharp
             return size;
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public string MIMETypeToStr(MIMEType mimeType)
         {
             var tiledb_mime_type = (tiledb_mime_type_t)mimeType;
@@ -119,7 +119,8 @@ namespace TileDB.CSharp
             return MarshaledStringOut.GetStringFromNullTerminated(result);
         }
 
-        public MIMEType MIMETypeFromStr(string str)
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static MIMEType MIMETypeFromStr(string str)
         {
             tiledb_mime_type_t mimeType;
             using var ms_str = new MarshaledString(str);

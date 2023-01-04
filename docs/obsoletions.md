@@ -130,3 +130,27 @@ catch (TileDBException e)
     Console.WriteLine(e.Message);
 }
 ```
+
+## <span id="TILEDB0006">`TILEDB0006` - The overload of `Dimension.Create` method that takes an array is obsolete.</span>
+
+The `Dimension.Create<T>(Context, string, T[], T)` method is problematic because only the first two values of the array parameter are actually being used. For this reason it was marked as obsolete in version 5.3.0.
+
+### Version introduced
+
+5.3.0
+
+### Recommended action
+
+Use the `Dimension.Create<T>(Context, string, T, T, T)` overload which explicitly accepts the lower and upper bound and better represents the intended usage.
+
+### Existing code
+
+```csharp
+Dimension dimension = Dimension.Create(context, "test", new int[] { 1, 10 }, 5);
+```
+
+### New code
+
+```csharp
+Dimension dimension = Dimension.Create(context, "test", 1, 10, 5);
+```

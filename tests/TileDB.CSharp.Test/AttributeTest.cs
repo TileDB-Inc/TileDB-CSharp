@@ -163,11 +163,11 @@ namespace TileDB.CSharp.Test
             var domain = new Domain(context);
             Assert.IsNotNull(domain);
 
-            var dim_rows = Dimension.Create(context, "rows", new[] { 1, 4 }, 4);
+            var dim_rows = Dimension.Create(context, "rows", 1, 4, 4);
             Assert.IsNotNull(dim_rows);
             domain.AddDimension(dim_rows);
 
-            var dim_cols = Dimension.Create(context, "cols", new[] { 1, 4 }, 4);
+            var dim_cols = Dimension.Create(context, "cols", 1, 4, 4);
             Assert.IsNotNull(dim_cols);
             domain.AddDimension(dim_cols);
 

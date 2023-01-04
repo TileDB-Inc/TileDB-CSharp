@@ -11,12 +11,8 @@ namespace TileDB.CSharp.Examples
         private static void CreateArray()
         {
             // Create array
-            int[] dim1_bound = new int[] { 1, 4 };
-            int dim1_extent = 4;
-            var dim1 = Dimension.Create<int>(Ctx, "rows", dim1_bound, dim1_extent);
-            int[] dim2_bound = new int[] { 1, 4 };
-            int dim2_extent = 4;
-            var dim2 = Dimension.Create<int>(Ctx, "cols", dim2_bound, dim2_extent);
+            var dim1 = Dimension.Create(Ctx, "rows", boundLower: 1, boundUpper: 4, extent: 4);
+            var dim2 = Dimension.Create(Ctx, "cols", boundLower: 1, boundUpper: 4, extent: 4);
             var domain = new Domain(Ctx);
             domain.AddDimension(dim1);
             domain.AddDimension(dim2);
@@ -27,8 +23,7 @@ namespace TileDB.CSharp.Examples
             array_schema.Check();
 
             Array.Create(Ctx, ArrayPath, array_schema);
-
-        } //private void CreateArray()
+        }
 
         private static void WriteArray()
         {
@@ -41,13 +36,12 @@ namespace TileDB.CSharp.Examples
                 array_write.Open(QueryType.Write);
                 var query_write = new Query(Ctx, array_write);
                 query_write.SetLayout(LayoutType.Unordered);
-                query_write.SetDataBuffer<int>("rows", dim1_data_buffer);
-                query_write.SetDataBuffer<int>("cols", dim2_data_buffer);
-                query_write.SetDataBuffer<int>("a", attr_data_buffer);
+                query_write.SetDataBuffer("rows", dim1_data_buffer);
+                query_write.SetDataBuffer("cols", dim2_data_buffer);
+                query_write.SetDataBuffer("a", attr_data_buffer);
                 query_write.Submit();
                 array_write.Close();
-            }//array_write
-
+            }
         }
 
         private static void ReadArray()
@@ -61,21 +55,21 @@ namespace TileDB.CSharp.Examples
                 array_read.Open(QueryType.Read);
                 var query_read = new Query(Ctx, array_read);
                 query_read.SetLayout(LayoutType.RowMajor);
-                query_read.SetDataBuffer<int>("rows", dim1_data_buffer_read);
-                query_read.SetDataBuffer<int>("cols", dim2_data_buffer_read);
-                query_read.SetDataBuffer<int>("a", attr_data_buffer_read);
+                query_read.SetDataBuffer("rows", dim1_data_buffer_read);
+                query_read.SetDataBuffer("cols", dim2_data_buffer_read);
+                query_read.SetDataBuffer("a", attr_data_buffer_read);
                 query_read.Submit();
                 array_read.Close();
             }
 
-            System.Console.WriteLine("dim1:{0},{1},{2}", dim1_data_buffer_read[0], dim1_data_buffer_read[1], dim1_data_buffer_read[2]);
-            System.Console.WriteLine("dim2:{0},{1},{2}", dim2_data_buffer_read[0], dim2_data_buffer_read[1], dim2_data_buffer_read[2]);
-            System.Console.WriteLine("attr:{0},{1},{2}", attr_data_buffer_read[0], attr_data_buffer_read[1], attr_data_buffer_read[2]);
+            Console.WriteLine("dim1:{0},{1},{2}", dim1_data_buffer_read[0], dim1_data_buffer_read[1], dim1_data_buffer_read[2]);
+            Console.WriteLine("dim2:{0},{1},{2}", dim2_data_buffer_read[0], dim2_data_buffer_read[1], dim2_data_buffer_read[2]);
+            Console.WriteLine("attr:{0},{1},{2}", attr_data_buffer_read[0], attr_data_buffer_read[1], attr_data_buffer_read[2]);
         }
 
         private static void OnReadCompleted(object sender, QueryEventArgs args)
         {
-            System.Console.WriteLine("Read completed!");
+            Console.WriteLine("Read completed!");
         }
 
         private static void ReadArrayAsync()
@@ -88,9 +82,9 @@ namespace TileDB.CSharp.Examples
             array_read.Open(QueryType.Read);
             var query_read = new Query(Ctx, array_read);
             query_read.SetLayout(LayoutType.RowMajor);
-            query_read.SetDataBuffer<int>("rows", dim1_data_buffer_read);
-            query_read.SetDataBuffer<int>("cols", dim2_data_buffer_read);
-            query_read.SetDataBuffer<int>("a", attr_data_buffer_read);
+            query_read.SetDataBuffer("rows", dim1_data_buffer_read);
+            query_read.SetDataBuffer("cols", dim2_data_buffer_read);
+            query_read.SetDataBuffer("a", attr_data_buffer_read);
             query_read.QueryCompleted += OnReadCompleted!;
             query_read.SubmitAsync();
         }
@@ -107,5 +101,5 @@ namespace TileDB.CSharp.Examples
             ReadArray();
             ReadArrayAsync();
         }
-    }//class
-}//namespace
+    }
+}

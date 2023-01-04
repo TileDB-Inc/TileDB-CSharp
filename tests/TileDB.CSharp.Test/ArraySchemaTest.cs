@@ -11,9 +11,7 @@ namespace TileDB.CSharp.Test
 		{
 			var context = Context.GetDefault();
 
-			var bound = new[] { 1, 10 };
-			const int extent = 5;
-			var dimension = Dimension.Create(context, "test", bound, extent);
+			var dimension = Dimension.Create(context, "test", 1, 10, 5);
 			Assert.IsNotNull(dimension);
 
 			var domain = new Domain(context);
@@ -86,11 +84,11 @@ namespace TileDB.CSharp.Test
 			var domain = new Domain(context);
 			Assert.IsNotNull(domain);
 
-			var dim_rows = Dimension.Create(context, "rows", new[] { 0, 4 }, 4);
+			var dim_rows = Dimension.Create(context, "rows", 0, 4, 4);
 			Assert.IsNotNull(dim_rows);
 			domain.AddDimension(dim_rows);
 
-			var dim_cols = Dimension.Create(context, "cols", new[] { 0, 4 }, 4);
+			var dim_cols = Dimension.Create(context, "cols", 0, 4, 4);
 			Assert.IsNotNull(dim_cols);
 			domain.AddDimension(dim_cols);
 
@@ -114,10 +112,10 @@ namespace TileDB.CSharp.Test
 			var config = new Config();
 			var context = new Context(config);
 
-			var d1 = Dimension.Create(context, "d1", new[] { 0, 100 }, 5);
+			var d1 = Dimension.Create(context, "d1", 0, 100, 5);
 			Assert.IsNotNull(d1);
 
-			var d2 = Dimension.Create(context, "d2", new[] { 0, 200 }, 5);
+			var d2 = Dimension.Create(context, "d2", 0, 200, 5);
 			Assert.IsNotNull(d1);
 
 			var domain = new Domain(context);
@@ -146,10 +144,10 @@ namespace TileDB.CSharp.Test
 			var config = new Config();
 			var context = new Context(config);
 
-			var d1 = Dimension.Create(context, "d1", new[] { 0, 100 }, 5);
+			var d1 = Dimension.Create(context, "d1", 0, 100, 5);
 			Assert.IsNotNull(d1);
 
-			var d2 = Dimension.Create(context, "d2", new[] { 0, 200 }, 5);
+			var d2 = Dimension.Create(context, "d2", 0, 200, 5);
 			Assert.IsNotNull(d1);
 
 			var domain = new Domain(context);
@@ -180,10 +178,10 @@ namespace TileDB.CSharp.Test
 			var config = new Config();
 			var context = new Context(config);
 
-			var d1 = Dimension.Create(context, "d1", new[] { -50, 50 }, 5);
+			var d1 = Dimension.Create(context, "d1", -50, 50, 5);
 			Assert.IsNotNull(d1);
 
-			var d2 = Dimension.Create(context, "d2", new[] { -100, 100 }, 5);
+			var d2 = Dimension.Create(context, "d2", -100, 100, 5);
 			Assert.IsNotNull(d1);
 
 			var domain = new Domain(context);
@@ -212,10 +210,10 @@ namespace TileDB.CSharp.Test
 			var config = new Config();
 			var context = new Context(config);
 
-			var d1 = Dimension.Create(context, "d1", new[] { 0.0f, 1.0f }, 0.01f);
+			var d1 = Dimension.Create(context, "d1", 0.0f, 1.0f, 0.01f);
 			Assert.IsNotNull(d1);
 
-			var d2 = Dimension.Create(context, "d2", new[] { 0.0f, 2.0f }, 0.01f);
+			var d2 = Dimension.Create(context, "d2", 0.0f, 2.0f, 0.01f);
 			Assert.IsNotNull(d1);
 
 			var domain = new Domain(context);

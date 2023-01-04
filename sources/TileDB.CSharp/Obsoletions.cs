@@ -20,5 +20,8 @@ namespace TileDB.CSharp
 
         public const string ErrorExceptionMessage = "The ErrorException type is obsolete and will not be thrown. Catch TileDBException instead.";
         public const string ErrorExceptionDiagId = "TILEDB0005";
+
+        public const string DimensionCreateMessage = "The overload of Dimension.Create that accepts an array is obsolete. Use the overload that explicitly accepts the lower and upper bounds instead.";
+        public const string DimensionCreateDiagId = "TILEDB0006";
     }
 }

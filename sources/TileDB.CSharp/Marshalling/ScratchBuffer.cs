@@ -16,6 +16,7 @@ namespace TileDB.CSharp.Marshalling
     internal ref struct ScratchBuffer<T>
     {
         public Span<T> Span { get; private set; }
+
         private T[]? _arrayToReturn;
 
         /// <summary>
@@ -24,16 +25,23 @@ namespace TileDB.CSharp.Marshalling
         /// <param name="minimumLength">The buffer's minimum length.</param>
         /// <param name="preAllocatedSpan">A pre-allocated <see cref="Span{T}"/> that will
         /// be preferred if it has at least <paramref name="minimumLength"/> elements.</param>
+        /// <param name="exactSize">Whether to make <see cref="Span"/> be
+        /// exactly of length <paramref name="minimumLength"/>. Defaults to <see langword="false"/>.</param>
         /// <remarks>
         /// <paramref name="preAllocatedSpan"/> could be allocated from the stack using
         /// the <see langword="stackalloc"/> keyword. If it is too small, <see cref="Span"/>
-        /// will come from the array pool.</remarks>
-        /// <seealso cref="ScratchBuffer{T}(Int32)"/>
-        public ScratchBuffer(int minimumLength, Span<T> preAllocatedSpan)
+        /// will come from the array pool.
+        /// </remarks>
+        /// <seealso cref="ScratchBuffer{T}(int, bool)"/>
+        public ScratchBuffer(int minimumLength, Span<T> preAllocatedSpan, bool exactSize = false)
         {
             if (preAllocatedSpan.Length >= minimumLength)
             {
                 Span = preAllocatedSpan;
+                if (exactSize)
+                {
+                    Span = Span[..minimumLength];
+                }
                 _arrayToReturn = null;
             }
             else
@@ -44,11 +52,17 @@ namespace TileDB.CSharp.Marshalling
         /// Creates a <see cref="ScratchBuffer{T}"/> of length at least <paramref name="minimumLength"/>.
         /// </summary>
         /// <param name="minimumLength">The buffer's minimum length.</param>
+        /// <param name="exactSize">Whether to make <see cref="Span"/> be
+        /// exactly of length <paramref name="minimumLength"/>. Defaults to <see langword="false"/>.</param>
         /// <remarks>The created instance's <see cref="Span"/>
         /// will always come from the array pool.</remarks>
-        public ScratchBuffer(int minimumLength)
+        public ScratchBuffer(int minimumLength, bool exactSize = false)
         {
             Span = _arrayToReturn = ArrayPool<T>.Shared.Rent(minimumLength);
+            if (exactSize)
+            {
+                Span = Span[..minimumLength];
+            }
         }
 
         /// <summary>

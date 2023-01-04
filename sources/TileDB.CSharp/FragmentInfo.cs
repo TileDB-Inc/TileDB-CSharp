@@ -482,16 +482,16 @@ namespace TileDB.CSharp
                 handle, fragmentIndex, minimumBoundedRectangleIndex, dimensionIndex, &startSize64, &endSize64));
             int startSize = checked((int)startSize64);
             int endSize = checked((int)endSize64);
-            using var startBuf = new ScratchBuffer<byte>(startSize, stackalloc byte[128]);
-            using var endBuf = new ScratchBuffer<byte>(endSize, stackalloc byte[128]);
+            using var startBuf = new ScratchBuffer<byte>(startSize, stackalloc byte[128], exactSize: true);
+            using var endBuf = new ScratchBuffer<byte>(endSize, stackalloc byte[128], exactSize: true);
             fixed (byte* startBufPtr = startBuf, endBufPtr = endBuf)
             {
                 _ctx.handle_error(Methods.tiledb_fragment_info_get_mbr_var_from_index(ctxHandle,
                     handle, fragmentIndex, minimumBoundedRectangleIndex, dimensionIndex, startBufPtr, endBufPtr));
             }
 
-            string startStr = MarshaledStringOut.GetString(startBuf.Span[0..startSize], dataType);
-            string endStr = MarshaledStringOut.GetString(endBuf.Span[0..endSize], dataType);
+            string startStr = MarshaledStringOut.GetString(startBuf.Span, dataType);
+            string endStr = MarshaledStringOut.GetString(endBuf.Span, dataType);
             return (startStr, endStr);
         }
 
@@ -505,16 +505,16 @@ namespace TileDB.CSharp
                 handle, fragmentIndex, minimumBoundedRectangleIndex, ms_dimensionName, &startSize64, &endSize64));
             int startSize = checked((int)startSize64);
             int endSize = checked((int)endSize64);
-            using var startBuf = new ScratchBuffer<byte>(startSize, stackalloc byte[128]);
-            using var endBuf = new ScratchBuffer<byte>(endSize, stackalloc byte[128]);
+            using var startBuf = new ScratchBuffer<byte>(startSize, stackalloc byte[128], exactSize: true);
+            using var endBuf = new ScratchBuffer<byte>(endSize, stackalloc byte[128], exactSize: true);
             fixed (byte* startBufPtr = startBuf, endBufPtr = endBuf)
             {
                 _ctx.handle_error(Methods.tiledb_fragment_info_get_mbr_var_from_name(ctxHandle, handle,
                     fragmentIndex, minimumBoundedRectangleIndex, ms_dimensionName, startBufPtr, endBufPtr));
             }
 
-            string startStr = MarshaledStringOut.GetString(startBuf.Span[0..startSize], dataType);
-            string endStr = MarshaledStringOut.GetString(endBuf.Span[0..endSize], dataType);
+            string startStr = MarshaledStringOut.GetString(startBuf.Span, dataType);
+            string endStr = MarshaledStringOut.GetString(endBuf.Span, dataType);
             return (startStr, endStr);
         }
 
@@ -605,8 +605,8 @@ namespace TileDB.CSharp
                 handle, fragmentIndex, dimensionIndex, &startSize64, &endSize64));
             int startSize = checked((int)startSize64);
             int endSize = checked((int)endSize64);
-            using var startBuf = new ScratchBuffer<byte>(startSize, stackalloc byte[128]);
-            using var endBuf = new ScratchBuffer<byte>(endSize, stackalloc byte[128]);
+            using var startBuf = new ScratchBuffer<byte>(startSize, stackalloc byte[128], exactSize: true);
+            using var endBuf = new ScratchBuffer<byte>(endSize, stackalloc byte[128], exactSize: true);
             fixed (byte* startBufPtr = startBuf, endBufPtr = endBuf)
             {
                 _ctx.handle_error(Methods.tiledb_fragment_info_get_non_empty_domain_var_from_index(ctxHandle,
@@ -628,8 +628,8 @@ namespace TileDB.CSharp
                 handle, fragmentIndex, ms_dimensionName, &startSize64, &endSize64));
             int startSize = checked((int)startSize64);
             int endSize = checked((int)endSize64);
-            using var startBuf = new ScratchBuffer<byte>(startSize, stackalloc byte[128]);
-            using var endBuf = new ScratchBuffer<byte>(endSize, stackalloc byte[128]);
+            using var startBuf = new ScratchBuffer<byte>(startSize, stackalloc byte[128], exactSize: true);
+            using var endBuf = new ScratchBuffer<byte>(endSize, stackalloc byte[128], exactSize: true);
             fixed (byte* startBufPtr = startBuf, endBufPtr = endBuf)
             {
                 _ctx.handle_error(Methods.tiledb_fragment_info_get_non_empty_domain_var_from_name(ctxHandle,

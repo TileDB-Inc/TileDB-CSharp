@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace TileDB.CSharp
 {
@@ -17,5 +18,9 @@ namespace TileDB.CSharp
         [DoesNotReturn]
         public static void ThrowStringTypeMismatch(DataType type) =>
             throw new InvalidOperationException($"Cannot encode data type {type} into strings");
+
+        [DoesNotReturn]
+        public static void ThrowTooBigSize(ulong size, [CallerArgumentExpression(nameof(size))] string? paramName = null) =>
+            throw new ArgumentOutOfRangeException(paramName, size, "Size argument is too big for the type to fit.");
     }
 }
