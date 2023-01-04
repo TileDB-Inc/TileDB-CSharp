@@ -1,4 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Runtime.InteropServices;
 
 namespace TileDB.CSharp.Test
 {
@@ -48,6 +50,17 @@ namespace TileDB.CSharp.Test
             Assert.AreEqual("512000000", config2.Get("sm.memory_budget"));
             Assert.AreEqual("5000", config2.Get("vfs.s3.connect_timeout_ms"));
             Assert.AreEqual("localhost:8888", config2.Get("vfs.s3.endpoint_override"));
+        }
+
+        [TestMethod]
+        public void TestIsFileSystemSupported()
+        {
+            using var ctx = new Context();
+            Assert.AreEqual(!OperatingSystem.IsWindows(), ctx.IsFileSystemSupported(FileSystemType.Hdfs));
+            Assert.IsTrue(ctx.IsFileSystemSupported(FileSystemType.S3));
+            Assert.IsTrue(ctx.IsFileSystemSupported(FileSystemType.Azure));
+            Assert.AreEqual(!(OperatingSystem.IsWindows() || (OperatingSystem.IsMacOS() && RuntimeInformation.ProcessArchitecture is Architecture.Arm64)), ctx.IsFileSystemSupported(FileSystemType.Hdfs));
+            Assert.IsTrue(ctx.IsFileSystemSupported(FileSystemType.InMemory));
         }
     }
 }
