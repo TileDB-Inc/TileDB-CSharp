@@ -460,7 +460,7 @@ namespace TileDB.CSharp.Test
                 query_write.SetDataBuffer("a1", a1_data_ptr, (ulong)a1_data.Length);
                 query_write.SetValidityBuffer("a1", a1_validity);
 
-                query_write.SetDataBuffer("a2", (void*)a2_data_ptr, (ulong)a2_data.Length * sizeof(int));
+                query_write.UnsafeSetDataBuffer("a2", (void*)a2_data_ptr, (ulong)a2_data.Length * sizeof(int));
                 query_write.SetOffsetsBuffer("a2", a2_off_ptr, (ulong)a2_off.Length);
                 query_write.SetValidityBuffer("a2", a2_validity_ptr, (ulong)a2_validity.Length);
 
@@ -503,15 +503,15 @@ namespace TileDB.CSharp.Test
                 query_read.SetSubarray(subarray);
 
                 query_read.UnsafeSetDataBuffer("a1", a1_data_read.AsMemory().Pin(), (ulong)a1_data_read.Length * sizeof(int));
-                query_read.UnsafeSetValidityBuffer("a1", a1_validity_read.AsMemory().Pin(), (ulong)a1_validity_read.Length);
+                query_read.SetValidityBuffer("a1", a1_validity_read);
 
                 query_read.UnsafeSetDataBuffer("a2", a2_data_read.AsMemory().Pin(), (ulong)a2_data_read.Length * sizeof(int));
-                query_read.UnsafeSetOffsetsBuffer("a2", a2_off_read.AsMemory().Pin(), (ulong)a2_off_read.Length);
-                query_read.UnsafeSetValidityBuffer("a2", a2_validity_read.AsMemory().Pin(), (ulong)a2_validity_read.Length);
+                query_read.SetOffsetsBuffer("a2", a2_off_read);
+                query_read.SetValidityBuffer("a2", a2_validity_read);
 
                 query_read.UnsafeSetDataBuffer("a3", a3_data_read.AsMemory().Pin(), (ulong)a3_data_read.Length * sizeof(byte));
-                query_read.UnsafeSetOffsetsBuffer("a3", a3_off_read.AsMemory().Pin(), (ulong)a3_off_read.Length);
-                query_read.UnsafeSetValidityBuffer("a3", a3_validity_read.AsMemory().Pin(), (ulong)a3_validity_read.Length);
+                query_read.SetOffsetsBuffer("a3", a3_off_read);
+                query_read.SetValidityBuffer("a3", a3_validity_read);
 
                 query_read.Submit();
                 var status_read = query_read.Status();

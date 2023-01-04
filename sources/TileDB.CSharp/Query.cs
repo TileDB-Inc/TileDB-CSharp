@@ -340,30 +340,6 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Sets the data buffer for an attribute or dimension to an
-        /// unmanaged memory buffer without performing type validation.
-        /// </summary>
-        /// <param name="name">The name of the attribute or the dimension.</param>
-        /// <param name="data">A pointer to the memory buffer.</param>
-        /// <param name="byteSize">The buffer's size <em>in bytes</em>.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException"><paramref name="byteSize"/> is zero.</exception>
-        public void SetDataBuffer(string name, void* data, ulong byteSize)
-        {
-            if (data is null)
-            {
-                ThrowHelpers.ThrowArgumentNullException(nameof(data));
-            }
-
-            if (byteSize == 0)
-            {
-                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(byteSize));
-            }
-
-            UnsafeSetDataBuffer(name, new MemoryHandle(data), byteSize);
-        }
-
-        /// <summary>
         /// Sets the data buffer for an attribute or dimension to a <see cref="ReadOnlyMemory{T}"/>.
         /// Not supported for <see cref="QueryType.Read"/> queries.
         /// </summary>
@@ -384,8 +360,33 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Sets the data buffer for an attribute or dimension to an
+        /// unmanaged memory buffer without performing type validation.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A pointer to the memory buffer.</param>
+        /// <param name="byteSize">The buffer's size <em>in bytes</em>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="byteSize"/> is zero.</exception>
+        public void UnsafeSetDataBuffer(string name, void* data, ulong byteSize)
+        {
+            if (data is null)
+            {
+                ThrowHelpers.ThrowArgumentNullException(nameof(data));
+            }
+
+            if (byteSize == 0)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(byteSize));
+            }
+
+            UnsafeSetDataBuffer(name, new MemoryHandle(data), byteSize);
+        }
+
+        /// <summary>
         /// Sets the data buffer for an attribute or dimension
         /// to a pinned memory buffer pointed by a <see cref="MemoryHandle"/>.
+        /// This method does not perform type validation.
         /// </summary>
         /// <param name="name">The name of the attribute or the dimension.</param>
         /// <param name="memoryHandle">A <see cref="MemoryHandle"/> pointing to the buffer.</param>
@@ -506,7 +507,7 @@ namespace TileDB.CSharp
         /// <item>This method call throws an exception.</item>
         /// </list></para>
         /// </remarks>
-        public void UnsafeSetOffsetsBuffer(string name, MemoryHandle memoryHandle, ulong size)
+        private void UnsafeSetOffsetsBuffer(string name, MemoryHandle memoryHandle, ulong size)
         {
             BufferHandle? handle = null;
             bool successful = false;
@@ -660,7 +661,7 @@ namespace TileDB.CSharp
         /// <item>This method call throws an exception.</item>
         /// </list></para>
         /// </remarks>
-        public void UnsafeSetValidityBuffer(string name, MemoryHandle memoryHandle, ulong size)
+        private void UnsafeSetValidityBuffer(string name, MemoryHandle memoryHandle, ulong size)
         {
             BufferHandle? handle = null;
             bool successful = false;
