@@ -140,6 +140,18 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Checks whether the given <see cref="FileSystemType"/> is supported.
+        /// </summary>
+        /// <param name="fileSystem">The file system type to check.</param>
+        public bool IsFileSystemSupported(FileSystemType fileSystem)
+        {
+            using var handle = _handle.Acquire();
+            int result;
+            handle_error(Methods.tiledb_ctx_is_supported_fs(handle, (tiledb_filesystem_t)fileSystem, &result));
+            return result != 0;
+        }
+
+        /// <summary>
         /// Sets a string key-value “tag” on the given context.
         /// </summary>
         /// <param name="key">The tag's key.</param>

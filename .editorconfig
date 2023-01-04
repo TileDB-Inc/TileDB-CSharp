@@ -13,6 +13,11 @@ csharp_style_var_for_built_in_types=true:silent
 csharp_style_var_when_type_is_apparent=true:silent
 csharp_style_var_elsewhere=true:silent
 
+# This takes the address of, gets the size of, or declares a pointer to a managed type.
+# We check at runtime that generic types are not managed, and either way we can't take
+# a pointer to the heap by accident without using fixed or Unsafe.AsPointer.
+dotnet_diagnostic.CS8500.severity = None
+
 ##
 ## SonarAnalyzers.CSharp
 ##

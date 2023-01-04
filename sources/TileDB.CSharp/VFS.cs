@@ -1,286 +1,371 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
+using System.Runtime.InteropServices;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
-    public unsafe class VFS : IDisposable
+    /// <summary>
+    /// Represents a TileDB VFS (Virtual File System) object.
+    /// </summary>
+    public unsafe sealed class VFS : IDisposable
     {
         private readonly VFSHandle handle_;
         private readonly Context ctx_;
-        private bool disposed_ = false;
 
+        /// <summary>
+        /// Creates a <see cref="VFS"/>.
+        /// </summary>
         public VFS() : this(Context.GetDefault()) { }
 
-        public VFS(Context ctx) 
+        /// <summary>
+        /// Creates a <see cref="VFS"/> associated with the given <see cref="Context"/>.
+        /// </summary>
+        /// <param name="ctx">The context to associate the VFS.</param>
+        public VFS(Context ctx)
         {
             ctx_ = ctx;
             handle_ = VFSHandle.Create(ctx_, ctx_.Config().Handle);
         }
 
-        internal VFS(Context ctx, VFSHandle handle) 
+        internal VFS(Context ctx, VFSHandle handle)
         {
             ctx_ = ctx;
             handle_ = handle;
         }
 
+        /// <summary>
+        /// Disposes this <see cref="VFS"/>.
+        /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            handle_.Dispose();
         }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposed_)
-            {
-                if (disposing && (!handle_.IsInvalid))
-                {
-                    handle_.Dispose();
-                }
-
-                disposed_ = true;
-            }
-        }
-
-        #region capi functions 
 
         /// <summary>
-        /// Get config.
+        /// Gets the <see cref="Config"/> associated with this <see cref="VFS"/>.
         /// </summary>
-        /// <returns></returns>
-        public Config Config() {
+        public Config Config()
+        {
             return ctx_.Config();
         }
 
         /// <summary>
-        /// Create bucket.
+        /// Creates an object-store bucket.
         /// </summary>
-        /// <param name="uri"></param>
-        public void CreateBucket(string uri) {
+        /// <param name="uri">The URI of the bucket to be created.</param>
+        public void CreateBucket(string uri)
+        {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
-            MarshaledString ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             ctx_.handle_error(Methods.tiledb_vfs_create_bucket(ctxHandle, handle, ms_uri));
         }
 
         /// <summary>
-        /// Remove bucket.
+        /// Removes an object-store bucket.
         /// </summary>
-        /// <param name="uri"></param>
+        /// <param name="uri">The URI of the bucket to be removed.</param>
         public void RemoveBucket(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
-            MarshaledString ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             ctx_.handle_error(Methods.tiledb_vfs_remove_bucket(ctxHandle, handle, ms_uri));
         }
 
         /// <summary>
-        /// Empty bucket.
+        /// Deletes the contents of an object-store bucket.
         /// </summary>
-        /// <param name="uri"></param>
+        /// <param name="uri">The URI of the bucket to be emptied.</param>
         public void EmptyBucket(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
-            MarshaledString ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             ctx_.handle_error(Methods.tiledb_vfs_empty_bucket(ctxHandle, handle, ms_uri));
         }
 
         /// <summary>
-        /// Test if a bucket is empty or not.
+        /// Checks whether a bucket is empty or not.
         /// </summary>
-        /// <param name="uri"></param>
-        /// <returns></returns>
+        /// <param name="uri">The URI of the bucket to be checked.</param>
         public bool IsEmptyBucket(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
-            MarshaledString ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             int is_empty = 0;
             ctx_.handle_error(Methods.tiledb_vfs_is_empty_bucket(ctxHandle, handle, ms_uri, &is_empty));
             return is_empty > 0;
         }
 
         /// <summary>
-        /// Test if it is bucket or not.
+        /// Checks whether a URI points to a bucket.
         /// </summary>
-        /// <param name="uri"></param>
-        /// <returns></returns>
+        /// <param name="uri">The URI to check.</param>
         public bool IsBucket(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
-            MarshaledString ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             int is_bucket = 0;
             ctx_.handle_error(Methods.tiledb_vfs_is_bucket(ctxHandle, handle, ms_uri, &is_bucket));
             return is_bucket > 0;
         }
 
         /// <summary>
-        /// Create directory.
+        /// Creates a directory.
         /// </summary>
-        /// <param name="uri"></param>
+        /// <param name="uri">The directory's URI.</param>
         public void CreateDir(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
-            MarshaledString ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             ctx_.handle_error(Methods.tiledb_vfs_create_dir(ctxHandle, handle, ms_uri));
         }
 
         /// <summary>
-        /// Test if it is directory or not.
+        /// Checks whether a URI points to a directory.
         /// </summary>
-        /// <param name="uri"></param>
-        /// <returns></returns>
+        /// <param name="uri">The URI to check.</param>
         public bool IsDir(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
-            MarshaledString ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             int is_dir = 0;
             ctx_.handle_error(Methods.tiledb_vfs_is_dir(ctxHandle, handle, ms_uri, &is_dir));
             return is_dir > 0;
         }
 
         /// <summary>
-        /// Remove a directory.
+        /// Removes a directory.
         /// </summary>
-        /// <param name="uri"></param>
+        /// <param name="uri">The directory's URI.</param>
         public void RemoveDir(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
-            MarshaledString ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             ctx_.handle_error(Methods.tiledb_vfs_remove_dir(ctxHandle, handle, ms_uri));
         }
 
         /// <summary>
-        /// Test if it is file or not.
+        /// Checks whether a URI points to a file.
         /// </summary>
-        /// <param name="uri"></param>
-        /// <returns></returns>
+        /// <param name="uri">The URI to check.</param>
         public bool IsFile(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
-            MarshaledString ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             int is_file = 0;
             ctx_.handle_error(Methods.tiledb_vfs_is_file(ctxHandle, handle, ms_uri, &is_file));
             return is_file > 0;
         }
 
         /// <summary>
-        /// Remove a file.
+        /// Removes a file.
         /// </summary>
-        /// <param name="uri"></param>
+        /// <param name="uri">The file's URI.</param>
         public void RemoveFile(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
-            MarshaledString ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             ctx_.handle_error(Methods.tiledb_vfs_remove_file(ctxHandle, handle, ms_uri));
         }
 
         /// <summary>
-        /// Get directory size.
+        /// Gets the size of a directory.
         /// </summary>
-        /// <param name="uri"></param>
-        /// <returns></returns>
-        public UInt64 DirSize(string uri)
+        /// <param name="uri">The directory's URI.</param>
+        public ulong DirSize(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
-            MarshaledString ms_uri = new MarshaledString(uri);
-            UInt64 size = 0;
+            using var ms_uri = new MarshaledString(uri);
+            ulong size = 0;
             ctx_.handle_error(Methods.tiledb_vfs_dir_size(ctxHandle, handle, ms_uri, &size));
             return size;
         }
 
         /// <summary>
-        /// Get file size.
+        /// Gets the size of a file.
         /// </summary>
-        /// <param name="uri"></param>
-        /// <returns></returns>
-        public UInt64 FileSize(string uri)
+        /// <param name="uri">The file's URI.</param>
+        public ulong FileSize(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
-            MarshaledString ms_uri = new MarshaledString(uri);
-            UInt64 size = 0;
+            using var ms_uri = new MarshaledString(uri);
+            ulong size = 0;
             ctx_.handle_error(Methods.tiledb_vfs_file_size(ctxHandle, handle, ms_uri, &size));
             return size;
         }
 
         /// <summary>
-        /// Move file.
+        /// Renames a file.
         /// </summary>
-        /// <param name="old_uri"></param>
-        /// <param name="new_uri"></param>
+        /// <param name="old_uri">The source URI of the file.</param>
+        /// <param name="new_uri">The destination URI of the file. Will be overwritten if it exists.</param>
         public void MoveFile(string old_uri, string new_uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
-            MarshaledString ms_old_uri = new MarshaledString(old_uri);
-            MarshaledString ms_new_uri = new MarshaledString(new_uri);
+            using var ms_old_uri = new MarshaledString(old_uri);
+            using var ms_new_uri = new MarshaledString(new_uri);
             ctx_.handle_error(Methods.tiledb_vfs_move_file(ctxHandle, handle, ms_old_uri, ms_new_uri));
         }
 
         /// <summary>
-        /// Move directory.
+        /// Renames a directory.
         /// </summary>
-        /// <param name="old_uri"></param>
-        /// <param name="new_uri"></param>
+        /// <param name="old_uri">The source URI of the directory.</param>
+        /// <param name="new_uri">The destination URI of the directory. Will be overwritten if it exists.</param>
         public void MoveDir(string old_uri, string new_uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
-            MarshaledString ms_old_uri = new MarshaledString(old_uri);
-            MarshaledString ms_new_uri = new MarshaledString(new_uri);
+            using var ms_old_uri = new MarshaledString(old_uri);
+            using var ms_new_uri = new MarshaledString(new_uri);
             ctx_.handle_error(Methods.tiledb_vfs_move_dir(ctxHandle, handle, ms_old_uri, ms_new_uri));
         }
 
         /// <summary>
-        /// Copy file.
+        /// Copies a file.
         /// </summary>
-        /// <param name="old_uri"></param>
-        /// <param name="new_uri"></param>
+        /// <param name="old_uri">The source URI of the file.</param>
+        /// <param name="new_uri">The destination URI of the file. Will be overwritten if it exists.</param>
         public void CopyFile(string old_uri, string new_uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
-            MarshaledString ms_old_uri = new MarshaledString(old_uri);
-            MarshaledString ms_new_uri = new MarshaledString(new_uri);
+            using var ms_old_uri = new MarshaledString(old_uri);
+            using var ms_new_uri = new MarshaledString(new_uri);
             ctx_.handle_error(Methods.tiledb_vfs_copy_file(ctxHandle, handle, ms_old_uri, ms_new_uri));
         }
 
         /// <summary>
-        /// Copy directory.
+        /// Copies a directory.
         /// </summary>
-        /// <param name="old_uri"></param>
-        /// <param name="new_uri"></param>
+        /// <param name="old_uri">The source URI of the directory.</param>
+        /// <param name="new_uri">The destination URI of the directory. Will be overwritten if it exists.</param>
         public void CopyDir(string old_uri, string new_uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
-            MarshaledString ms_old_uri = new MarshaledString(old_uri);
-            MarshaledString ms_new_uri = new MarshaledString(new_uri);
+            using var ms_old_uri = new MarshaledString(old_uri);
+            using var ms_new_uri = new MarshaledString(new_uri);
             ctx_.handle_error(Methods.tiledb_vfs_copy_dir(ctxHandle, handle, ms_old_uri, ms_new_uri));
         }
 
         /// <summary>
-        /// Touch a file.
+        /// Touches a file, i.e., creates a new empty file.
         /// </summary>
-        /// <param name="uri"></param>
+        /// <param name="uri">The file's URI.</param>
         public void Touch(string uri)
         {
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
-            MarshaledString ms_uri = new MarshaledString(uri);
+            using var ms_uri = new MarshaledString(uri);
             ctx_.handle_error(Methods.tiledb_vfs_touch(ctxHandle, handle, ms_uri));
         }
-        #endregion capi functions
+
+        /// <summary>
+        /// Opens a file.
+        /// </summary>
+        /// <param name="uri">The file's URI.</param>
+        /// <param name="mode">The mode in which the file is opened.</param>
+        /// <returns>A <see cref="VFSFile"/> object that can be used to perform operations on the file.</returns>
+        public VFSFile Open(string uri, VfsMode mode)
+        {
+            VFSFileHandle handle = VFSFileHandle.Open(ctx_, handle_, uri, (tiledb_vfs_mode_t)mode);
+            return new(ctx_, handle);
+        }
+
+        [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
+        private static int VisitCallback(sbyte* uriPtr, void* data)
+        {
+            string uri = MarshaledStringOut.GetStringFromNullTerminated(uriPtr);
+            VisitCallbackData* callbackData = (VisitCallbackData*)data;
+            Debug.Assert(callbackData->Exception is null);
+            bool shouldContinue;
+            try
+            {
+                shouldContinue = callbackData->Invoke(uri);
+            }
+            catch (Exception e)
+            {
+                callbackData->Exception = ExceptionDispatchInfo.Capture(e);
+                shouldContinue = false;
+            }
+            return shouldContinue ? 1 : 0;
+        }
+
+        /// <summary>
+        /// Lists the top-level children of a directory.
+        /// </summary>
+        /// <param name="uri">The URI of the directory.</param>
+        /// <returns>A <see cref="List{T}"/> containing the children of the directory in <paramref name="uri"/>.</returns>
+        /// <remarks>
+        /// This function does not visit the children recursively; only the
+        /// top-level children of <paramref name="uri"/> will be visited.
+        /// </remarks>
+        public List<string> GetChildren(string uri)
+        {
+            var list = new List<string>();
+            VisitChildren(uri, static (uri, list) =>
+            {
+                ((List<string>)list!).Add(uri);
+                return true;
+            }, list);
+            return list;
+        }
+
+        /// <summary>
+        /// Visits the top-level children of a directory.
+        /// </summary>
+        /// <param name="uri">The URI of the directory to visit.</param>
+        /// <param name="callback">A callback delegate that will be called with the URI of each child and
+        /// <paramref name="callbackArg"/>, and returns whether to continue visiting.</param>
+        /// <param name="callbackArg">An argument that will be passed to <paramref name="callback"/>.</param>
+        /// <remarks>
+        /// This function does not visit the children recursively; only the
+        /// top-level children of <paramref name="uri"/> will be visited.
+        /// </remarks>
+        public void VisitChildren(string uri, Func<string, object?, bool> callback, object? callbackArg)
+        {
+            using var ctxHandle = ctx_.Handle.Acquire();
+            using var handle = handle_.Acquire();
+            using var ms_uri = new MarshaledString(uri);
+            var callbackData = new VisitCallbackData() { Callback = callback, CallbackArgument = callbackArg };
+            // Taking a pointer to callbackData is safe; the callback will be invoked only
+            // during the call to tiledb_vfs_ls. Contrast this with tiledb_query_submit_async where we
+            // had to use a GCHandle because the callback might be invoked after we return from it.
+            // We also are not susceptible to GC holes; callbackData is in the stack and won't be moved around.
+            ctx_.handle_error(Methods.tiledb_vfs_ls(ctxHandle, handle, ms_uri, &VisitCallback, &callbackData));
+            callbackData.Exception?.Throw();
+        }
+
+        private struct VisitCallbackData
+        {
+            public Func<string, object?, bool> Callback;
+
+            public object? CallbackArgument;
+
+            // If the callback threw an exception we will save it here and rethrow it once we leave native code.
+            // The reason we do this is that throwing exceptions in P/Invoke is not portable (works only on Windows
+            // and because the native library is compiled with MSVC).
+            public ExceptionDispatchInfo? Exception;
+
+            public bool Invoke(string uri) => Callback(uri, CallbackArgument);
+        }
     }
 }
