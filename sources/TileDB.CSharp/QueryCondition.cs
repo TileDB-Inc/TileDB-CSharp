@@ -1,20 +1,30 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
+// We are allowed to construct and initialize query conditions.
+#pragma warning disable TILEDB0006
+
 namespace TileDB.CSharp
 {
+    /// <summary>
+    /// Represents a TileDB query condition object.
+    /// </summary>
     public sealed unsafe class QueryCondition : IDisposable
     {
         private readonly QueryConditionHandle _handle;
         private readonly Context _ctx;
-        private bool _disposed;
 
-
+        /// <summary>
+        /// Creates a <see cref="QueryCondition"/>.
+        /// </summary>
+        /// <param name="ctx">The <see cref="Context"/> associated with this query condition.</param>
+        /// <remarks>
+        /// The query condition must be initialized by calling
+        /// <see cref="Init(string, string, QueryConditionOperatorType)"/>
+        /// or <see cref="Init{T}(string, T, QueryConditionOperatorType)"/>.
+        /// </remarks>
+        [Obsolete(Obsoletions.QueryConditionInitMessage, DiagnosticId = Obsoletions.QueryConditionInitDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public QueryCondition(Context ctx)
         {
             _ctx = ctx;
@@ -26,88 +36,92 @@ namespace TileDB.CSharp
             _ctx = ctx;
             _handle = handle;
         }
+
+        /// <summary>
+        /// Disposes this <see cref="QueryCondition"/>.
+        /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed) return;
-            if (disposing && (!_handle.IsInvalid))
-            {
-                _handle.Dispose();
-            }
-
-            _disposed = true;
-
+            _handle.Dispose();
         }
 
         internal QueryConditionHandle Handle => _handle;
 
-        #region capi functions
         /// <summary>
-        /// Initialize a TileDB query condition object.
+        /// Initializes this <see cref="QueryCondition"/> with a value of type <typeparamref name="T"/>.
         /// </summary>
-        /// <param name="attribute_name"></param>
-        /// <param name="condition_value"></param>
-        /// <param name="optype"></param>
+        /// <param name="attribute_name">The name of the attribute the query condition refers to.</param>
+        /// <param name="condition_value">The value to compare the attribute with.</param>
+        /// <param name="optype">The type of the relationship between the attribute with
+        /// the name <paramref name="attribute_name"/> and <paramref name="condition_value"/>.</param>
+        /// <remarks>
+        /// Query conditions created with <see cref="Create(Context, string, string, QueryConditionOperatorType)"/>
+        /// must not call this method.
+        /// </remarks>
+        [Obsolete(Obsoletions.QueryConditionInitMessage, DiagnosticId = Obsoletions.QueryConditionInitDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public void Init<T>(string attribute_name, T condition_value, QueryConditionOperatorType optype) where T : struct
         {
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            using var ms_attribute_name = new MarshaledString(attribute_name);
-            T[] data = new T[1] { condition_value };
-            ulong size = (ulong)Marshal.SizeOf(data[0]);
-            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            try
-            {
-                _ctx.handle_error(Methods.tiledb_query_condition_init(ctxHandle, handle, ms_attribute_name,
-                    (void*)dataGcHandle.AddrOfPinnedObject(), size, (tiledb_query_condition_op_t)optype));
-            }
-            finally
-            {
-                dataGcHandle.Free();
-            }
+            ErrorHandling.ThrowIfManagedType<T>();
+            Init(attribute_name, &condition_value, (ulong)sizeof(T), optype);
         }
 
         /// <summary>
-        /// Initialize a TileDB query string condition object.
+        /// Initializes this <see cref="QueryCondition"/> with a string.
         /// </summary>
-        /// <param name="attribute_name"></param>
-        /// <param name="condition_value"></param>
-        /// <param name="optype"></param>
+        /// <param name="attribute_name">The name of the attribute the query condition refers to.</param>
+        /// <param name="condition_value">The string to compare the attribute with.</param>
+        /// <param name="optype">The type of the relationship between the attribute with
+        /// the name <paramref name="attribute_name"/> and <paramref name="condition_value"/>.</param>
+        /// <remarks>
+        /// Query conditions created with <see cref="Create(Context, string, string, QueryConditionOperatorType)"/>
+        /// must not call this method.
+        /// </remarks>
+        [Obsolete(Obsoletions.QueryConditionInitMessage, DiagnosticId = Obsoletions.QueryConditionInitDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public void Init(string attribute_name, string condition_value, QueryConditionOperatorType optype)
+        {
+            using var ms_condition_value = new MarshaledString(condition_value);
+            Init(attribute_name, ms_condition_value, (ulong)ms_condition_value.Length, optype);
+        }
+
+        private void Init(string attribute_name, void* condition_value, ulong condition_value_size, QueryConditionOperatorType optype)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_attribute_name = new MarshaledString(attribute_name);
-            byte[] data = Encoding.ASCII.GetBytes(condition_value);
-            ulong size = (ulong)data.Length;
-            var dataGcHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            try
-            {
-                _ctx.handle_error(Methods.tiledb_query_condition_init(ctxHandle, handle, ms_attribute_name,
-                    (void*)dataGcHandle.AddrOfPinnedObject(), size, (tiledb_query_condition_op_t)optype));
-            }
-            finally
-            {
-                dataGcHandle.Free();
-            }
+            _ctx.handle_error(Methods.tiledb_query_condition_init(ctxHandle, handle, ms_attribute_name, condition_value, condition_value_size, (tiledb_query_condition_op_t)optype));
         }
 
-        public QueryCondition Combine(QueryCondition rhs, QueryConditionCombinationOperatorType combination_optype)
+        /// <summary>
+        /// Combines this <see cref="QueryCondition"/> with another one.
+        /// </summary>
+        /// <param name="rhs">The other query condition to combine. Must be null
+        /// if <paramref name="combination_optype"/> is <see cref="QueryConditionCombinationOperatorType.Not"/>.</param>
+        /// <param name="combination_optype">The type of the combination.</param>
+        /// <returns>A new query condition that combines this one with <paramref name="rhs"/>.</returns>
+        /// <exception cref="InvalidOperationException">This query condition and <paramref name="rhs"/>
+        /// are associated with a different <see cref="Context"/>.</exception>
+        [Obsolete(Obsoletions.QueryConditionCombineMessage, DiagnosticId = Obsoletions.QueryConditionCombineDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        public QueryCondition Combine(QueryCondition? rhs, QueryConditionCombinationOperatorType combination_optype) =>
+            Combine(this, rhs, combination_optype);
+
+        private static QueryCondition Combine(QueryCondition lhs, QueryCondition? rhs, QueryConditionCombinationOperatorType combination_optype)
         {
+            var ctx = lhs._ctx;
+            if (rhs is { _ctx: Context rhsCtx } && ctx != rhsCtx)
+            {
+                ThrowHelpers.ThrowQueryConditionDifferentContexts();
+            }
+
             var handle = new QueryConditionHandle();
             var successful = false;
             tiledb_query_condition_t* condition_p = null;
             try
             {
-                using (var ctxHandle = _ctx.Handle.Acquire())
-                using (var lhsHandle = _handle.Acquire())
-                using (var rhsHandle = rhs.Handle.Acquire())
+                using (var ctxHandle = ctx.Handle.Acquire())
+                using (var lhsHandle = lhs.Handle.Acquire())
+                using (var rhsHandle = rhs?.Handle?.Acquire() ?? default)
                 {
-                    _ctx.handle_error(Methods.tiledb_query_condition_combine(ctxHandle, lhsHandle, rhsHandle,
+                    ctx.handle_error(Methods.tiledb_query_condition_combine(ctxHandle, lhsHandle, rhsHandle,
                         (tiledb_query_condition_combination_op_t)combination_optype, &condition_p));
                 }
                 successful = true;
@@ -124,18 +138,17 @@ namespace TileDB.CSharp
                 }
             }
 
-            return new QueryCondition(_ctx, handle);
+            return new QueryCondition(ctx, handle);
         }
-        #endregion capi functions
 
         /// <summary>
-        /// Create a new query condition with a string.
+        /// Creates a new <see cref="QueryCondition"/> with a string.
         /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="attribute_name"></param>
-        /// <param name="value"></param>
-        /// <param name="optype"></param>
-        /// <returns></returns>
+        /// <param name="ctx">The <see cref="Context"/> associated with the query condition.</param>
+        /// <param name="attribute_name">The name of the attribute the query condition refers to.</param>
+        /// <param name="value">The value to compare the attribute with.</param>
+        /// <param name="optype">The type of the relationship between the attribute with
+        /// the name <paramref name="attribute_name"/> and <paramref name="value"/>.</param>
         public static QueryCondition Create(Context ctx, string attribute_name, string value, QueryConditionOperatorType optype)
         {
             var ret = new QueryCondition(ctx);
@@ -144,19 +157,47 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Create a new query condition with datatype T.
+        /// Creates a new query condition with datatype <typeparamref name="T"/>.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ctx"></param>
-        /// <param name="attribute_name"></param>
-        /// <param name="value"></param>
-        /// <param name="optype"></param>
-        /// <returns></returns>
+        /// <param name="ctx">The <see cref="Context"/> associated with the query condition.</param>
+        /// <param name="attribute_name">The name of the attribute the query condition refers to.</param>
+        /// <param name="value">The value to compare the attribute with.</param>
+        /// <param name="optype">The type of the relationship between the attribute with
+        /// the name <paramref name="attribute_name"/> and <paramref name="value"/>.</param>
         public static QueryCondition Create<T>(Context ctx, string attribute_name, T value, QueryConditionOperatorType optype) where T : struct
         {
             var ret = new QueryCondition(ctx);
             ret.Init(attribute_name, value, optype);
             return ret;
         }
+
+        /// <summary>
+        /// Creates the conjunction of two <see cref="QueryCondition"/>s.
+        /// </summary>
+        /// <param name="lhs">The first query condition.</param>
+        /// <param name="rhs">The second query condition.</param>
+        /// <returns>A query condition that will be satisfied if both
+        /// <paramref name="lhs"/> and <paramref name="rhs"/> are satisfied.</returns>
+        public static QueryCondition operator &(QueryCondition lhs, QueryCondition rhs) =>
+            Combine(lhs, rhs, QueryConditionCombinationOperatorType.And);
+
+        /// <summary>
+        /// Creates the disjunction of two <see cref="QueryCondition"/>s.
+        /// </summary>
+        /// <param name="lhs">The first query condition.</param>
+        /// <param name="rhs">The second query condition.</param>
+        /// <returns>A query condition that will be satisfied if at least one of
+        /// <paramref name="lhs"/> or <paramref name="rhs"/> are satisfied.</returns>
+        public static QueryCondition operator |(QueryCondition lhs, QueryCondition rhs) =>
+            Combine(lhs, rhs, QueryConditionCombinationOperatorType.Or);
+
+        /// <summary>
+        /// Creates the negation of a <see cref="QueryCondition"/>.
+        /// </summary>
+        /// <param name="condition">The query condition to negate.</param>
+        /// <returns>A query condition that will be satisfied if
+        /// <paramref name="condition"/> is not satisfied.</returns>
+        public static QueryCondition operator !(QueryCondition condition) =>
+            Combine(condition, null, QueryConditionCombinationOperatorType.Not);
     }
 }

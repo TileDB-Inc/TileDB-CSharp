@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace TileDB.CSharp.Test
@@ -17,17 +18,17 @@ namespace TileDB.CSharp.Test
             var dimension2 = Dimension.Create(context, "cols", 1, 4, 2);
             Assert.IsNotNull(dimension2);
 
-            var domain = new Domain(context);
+            using var domain = new Domain(context);
             Assert.IsNotNull(domain);
 
             domain.AddDimension(dimension1);
             domain.AddDimension(dimension2);
 
-            var array_schema = new ArraySchema(context, ArrayType.Dense);
+            using var array_schema = new ArraySchema(context, ArrayType.Dense);
             Assert.IsNotNull(array_schema);
 
 
-            var attr1 = new Attribute(context, "a1", DataType.Int32);
+            using var attr1 = new Attribute(context, "a1", DataType.Int32);
             Assert.IsNotNull(attr1);
 
             array_schema.AddAttribute(attr1);
@@ -46,12 +47,12 @@ namespace TileDB.CSharp.Test
             Array.Create(context, tmpArrayPath, array_schema);
 
             //Write array
-            var array_write = new Array(context, tmpArrayPath);
+            using var array_write = new Array(context, tmpArrayPath);
             Assert.IsNotNull(array_write);
 
             array_write.Open(QueryType.Write);
 
-            var query_write = new Query(context, array_write);
+            using var query_write = new Query(context, array_write);
 
             var attr1_data_buffer = new int[16] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
             query_write.SetDataBuffer("a1", attr1_data_buffer);
@@ -63,21 +64,21 @@ namespace TileDB.CSharp.Test
 
             array_write.Close();
 
-            var array_read = new Array(context, tmpArrayPath);
+            using var array_read = new Array(context, tmpArrayPath);
             Assert.IsNotNull(array_read);
 
             array_read.Open(QueryType.Read);
 
-            var query_read = new Query(context, array_read);
+            using var query_read = new Query(context, array_read);
 
             query_read.SetLayout(LayoutType.RowMajor);
 
             int[] subarray = new int[4] { 1, 4, 1, 4 };
             query_read.SetSubarray(subarray);
 
-            QueryCondition qc1 = QueryCondition.Create(context, "a1", 3, QueryConditionOperatorType.GreaterThan);
-            QueryCondition qc2 = QueryCondition.Create(context, "a1", 7, QueryConditionOperatorType.LessThan);
-            var qc = qc1.Combine(qc2, QueryConditionCombinationOperatorType.And);
+            using QueryCondition qc1 = QueryCondition.Create(context, "a1", 3, QueryConditionOperatorType.GreaterThan);
+            using QueryCondition qc2 = QueryCondition.Create(context, "a1", 7, QueryConditionOperatorType.LessThan);
+            using QueryCondition qc = qc1 & qc2;
 
             query_read.SetCondition(qc);
 
@@ -95,6 +96,18 @@ namespace TileDB.CSharp.Test
             // Assert.AreEqual<int>(4, attr_data_buffer_read[0]);
             // Assert.AreEqual<int>(5, attr_data_buffer_read[1]);
             // Assert.AreEqual<int>(6, attr_data_buffer_read[2]);
+        }
+
+        [TestMethod]
+        public void TestCombineDifferentContexts()
+        {
+            using var context1 = new Context();
+            using var context2 = new Context();
+
+            using var qc1 = QueryCondition.Create(context1, "a1", 5, QueryConditionOperatorType.GreaterThan);
+            using var qc2 = QueryCondition.Create(context2, "a1", 8, QueryConditionOperatorType.LessThan);
+
+            Assert.ThrowsException<InvalidOperationException>(() => qc1 | qc2);
         }
     }
 }

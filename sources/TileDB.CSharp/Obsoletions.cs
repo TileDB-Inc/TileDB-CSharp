@@ -23,5 +23,11 @@ namespace TileDB.CSharp
 
         public const string DimensionCreateMessage = "The overload of Dimension.Create that accepts an array is obsolete. Use the overload that explicitly accepts the lower and upper bounds instead.";
         public const string DimensionCreateDiagId = "TILEDB0006";
+
+        public const string QueryConditionInitMessage = "The constructor and Init method of the QueryCondition classes is obsolete. Use the static Create methods instead.";
+        public const string QueryConditionInitDiagId = "TILEDB0007";
+
+        public const string QueryConditionCombineMessage = "The QueryCondition.Combine method is obsolete. Use the '&', '|' and '!' operators instead.";
+        public const string QueryConditionCombineDiagId = "TILEDB0008";
     }
 }
