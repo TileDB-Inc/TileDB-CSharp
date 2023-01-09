@@ -3,7 +3,7 @@ using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
 // We are allowed to construct and initialize query conditions.
-#pragma warning disable TILEDB0006
+#pragma warning disable TILEDB0007
 
 namespace TileDB.CSharp
 {
