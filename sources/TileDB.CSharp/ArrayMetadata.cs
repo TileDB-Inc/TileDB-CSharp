@@ -167,6 +167,7 @@ namespace TileDB.CSharp
         /// <param name="ctx"></param>
         /// <param name="uri"></param>
         /// <param name="config"></param>
+        [Obsolete(Obsoletions.ConsolidateMetadataMessage, DiagnosticId = Obsoletions.ConsolidateMetadataDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public static void ConsolidateMetadata(Context ctx, string uri, Config config)
         {
             using var ctxHandle = ctx.Handle.Acquire();

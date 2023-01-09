@@ -207,3 +207,31 @@ using QueryCondition qc1 = QueryCondition.Create(Context.GetDefault(), "attr1", 
 using QueryCondition qc2 = QueryCondition.Create(Context.GetDefault(), "attr2", 12, QueryConditionOperatorType.LessThan);
 using QueryCondition qc = qc1 & qc2;
 ```
+
+## <span id="TILEDB0009">`TILEDB0009` - The `Array.ConsolidateMetadata` and `ArrayMetadata.ConsolidateMetadata` methods are obsolete.</span>
+
+Following changes to the native API of TileDB Embedded, the `Array.ConsolidateMetadata` and `ArrayMetadata.ConsolidateMetadata` methods became obsolete.
+
+In accordance with [TileDB Embedded's deprecation policy](https://github.com/TileDB-Inc/TileDB/blob/dev/doc/policy/api_changes.md), they will be removed in a future version and calling them will fail.
+
+### Version introduced
+
+5.3.0
+
+### Recommended action
+
+Use the `Array.Consolidate` method with the config value `sm.consolidation.mode` set to `array_meta` instead.
+
+### Existing code
+
+```csharp
+Array.ConsolidateMetadata(Context.GetDefault(), "my_array");
+```
+
+### New code
+
+```csharp
+using Config config = new Config();
+config.Set("sm.consolidation.mode", "array_meta");
+Array.Consolidate(Context.GetDefault(), "my_array", config);
+```
