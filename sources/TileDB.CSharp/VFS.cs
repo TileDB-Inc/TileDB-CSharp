@@ -51,7 +51,28 @@ namespace TileDB.CSharp
         /// </summary>
         public Config Config()
         {
-            return ctx_.Config();
+            var handle = new ConfigHandle();
+            tiledb_config_t* config = null;
+            var successful = false;
+            try
+            {
+                using var ctxHandle = ctx_.Handle.Acquire();
+                using var vfsHandle = handle_.Acquire();
+                ctx_.handle_error(Methods.tiledb_vfs_get_config(ctxHandle, vfsHandle, &config));
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(config);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
+            }
+            return new Config(handle);
         }
 
         /// <summary>
