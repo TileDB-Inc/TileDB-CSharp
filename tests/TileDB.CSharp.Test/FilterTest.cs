@@ -82,7 +82,6 @@ namespace TileDB.CSharp.Test
         }
 
         [TestMethod]
-        [Ignore("2.13.0 binaries were built without WebP support.")]
         public void NewWebpFilterIsValid()
         {
             var ctx = Context.GetDefault();
@@ -91,11 +90,11 @@ namespace TileDB.CSharp.Test
 
             const float quality = 59.0f;
             filter.SetOption(FilterOption.WebpQuality, quality);
-            Assert.AreEqual(quality, filter.GetOption<double>(FilterOption.WebpQuality));
+            Assert.AreEqual(quality, filter.GetOption<float>(FilterOption.WebpQuality));
 
             const WebpInputFormat inputFormat = WebpInputFormat.Bgra;
             filter.SetOption(FilterOption.WebpInputFormat, inputFormat);
-            Assert.AreEqual(inputFormat, filter.GetOption<WebpInputFormat>(FilterOption.ScaleFloatOffset));
+            Assert.AreEqual(inputFormat, filter.GetOption<WebpInputFormat>(FilterOption.WebpInputFormat));
 
             const bool lossless = false;
             filter.SetOption(FilterOption.WebpLossless, lossless);
