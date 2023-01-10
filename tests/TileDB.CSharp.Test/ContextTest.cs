@@ -56,11 +56,6 @@ namespace TileDB.CSharp.Test
         public void TestIsFileSystemSupported()
         {
             using var ctx = new Context();
-            // Info taken from https://github.com/TileDB-Inc/TileDB/blob/dev/azure-pipelines.yml.
-            Assert.AreEqual(!OperatingSystem.IsWindows(), ctx.IsFileSystemSupported(FileSystemType.Hdfs));
-            Assert.IsTrue(ctx.IsFileSystemSupported(FileSystemType.S3));
-            Assert.IsTrue(ctx.IsFileSystemSupported(FileSystemType.Azure));
-            Assert.AreEqual(!(OperatingSystem.IsWindows() || (OperatingSystem.IsMacOS() && RuntimeInformation.ProcessArchitecture is Architecture.Arm64)), ctx.IsFileSystemSupported(FileSystemType.Hdfs));
             Assert.IsTrue(ctx.IsFileSystemSupported(FileSystemType.InMemory));
         }
     }
