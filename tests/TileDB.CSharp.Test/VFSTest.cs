@@ -97,15 +97,16 @@ namespace TileDB.CSharp.Test
 
             int i = 0;
 
-            vfs.VisitChildren(dir, (uri, _) =>
+            vfs.VisitChildren(dir, (uri, arg) =>
             {
                 string path = new Uri(uri).LocalPath;
                 Assert.IsTrue(System.IO.File.Exists(path));
                 Assert.AreEqual((string)dir, Path.GetDirectoryName(path));
+                Assert.AreEqual(555, arg);
 
                 i++;
                 return i != 2;
-            }, null);
+            }, 555);
 
             Assert.AreEqual(2, i);
         }
@@ -130,7 +131,7 @@ namespace TileDB.CSharp.Test
                 {
                     i++;
                     throw new Exception(ExceptionKey);
-                }, null);
+                }, 0);
             }
             catch (Exception e)
             {
