@@ -29,5 +29,8 @@ namespace TileDB.CSharp
 
         public const string QueryConditionCombineMessage = "The QueryCondition.Combine method is obsolete. Use the '&', '|' and '!' operators instead.";
         public const string QueryConditionCombineDiagId = "TILEDB0008";
+
+        public const string ConsolidateMetadataMessage = "The Array.ConsolidateMetadata and ArrayMetadata.ConsolidateMetadata methods are obsolete. Call Array.Consolidate with the config value 'sm.consolidation.mode' set to 'array_meta' instead.";
+        public const string ConsolidateMetadataDiagId = "TILEDB0009";
     }
 }
