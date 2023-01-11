@@ -48,6 +48,8 @@ namespace TileDB.CSharp.Test
             {
                 using var subarray = new Subarray(array);
                 subarray.AddRange("rows", 1, 4);
+                Assert.AreEqual((1, 4), subarray.GetRange<int>("rows", 0));
+                Assert.ThrowsException<InvalidOperationException>(() => subarray.GetRange<long>("rows", 0));
                 subarray.AddRange("cols", 1, 2);
                 queryWrite.SetSubarray(subarray);
                 queryWrite.SetDataBuffer("a1", new[] { 1, 2, 3, 4, 5, 6, 7, 8 });

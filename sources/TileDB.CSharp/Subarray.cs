@@ -138,6 +138,32 @@ namespace TileDB.CSharp
             }
         }
 
+        private void ValidateType<T>(string name) where T : struct
+        {
+            ErrorHandling.ThrowIfManagedType<T>();
+            var dataType = EnumUtil.TypeToDataType(typeof(T));
+            using var schema = _array.Schema();
+            using var domain = schema.Domain();
+            using var dimension = domain.Dimension(name);
+            if (dimension.Type() != dataType)
+            {
+                ThrowHelpers.ThrowTypeMismatch(dataType);
+            }
+        }
+
+        private void ValidateType<T>(uint index) where T : struct
+        {
+            ErrorHandling.ThrowIfManagedType<T>();
+            var dataType = EnumUtil.TypeToDataType(typeof(T));
+            using var schema = _array.Schema();
+            using var domain = schema.Domain();
+            using var dimension = domain.Dimension(index);
+            if (dimension.Type() != dataType)
+            {
+                ThrowHelpers.ThrowTypeMismatch(dataType);
+            }
+        }
+
         /// <summary>
         /// Adds a 1D range along a subarray dimension index, in the form (start, end).
         /// </summary>
@@ -148,8 +174,7 @@ namespace TileDB.CSharp
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
         public void AddRange<T>(uint dimensionIndex, T start, T end) where T : struct
         {
-            // It will throw if we are on an unsupported type.
-            _ = EnumUtil.TypeToDataType(typeof(T));
+            ValidateType<T>(dimensionIndex);
             AddRange(dimensionIndex, &start, &end, null);
         }
 
@@ -163,7 +188,7 @@ namespace TileDB.CSharp
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
         public void AddRange<T>(string dimensionName, T start, T end) where T : struct
         {
-            _ = EnumUtil.TypeToDataType(typeof(T));
+            ValidateType<T>(dimensionName);
             AddRange(dimensionName, &start, &end, null);
         }
 
@@ -179,7 +204,7 @@ namespace TileDB.CSharp
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
         private void AddRange<T>(uint dimensionIndex, T start, T end, T stride) where T : struct
         {
-            _ = EnumUtil.TypeToDataType(typeof(T));
+            ValidateType<T>(dimensionIndex);
             AddRange(dimensionIndex, &start, &end, &stride);
         }
 
@@ -195,7 +220,7 @@ namespace TileDB.CSharp
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
         private void AddRange<T>(string dimensionName, T start, T end, T stride) where T : struct
         {
-            _ = EnumUtil.TypeToDataType(typeof(T));
+            ValidateType<T>(dimensionName);
             AddRange(dimensionName, &start, &end, &stride);
         }
 
@@ -282,7 +307,7 @@ namespace TileDB.CSharp
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
         public (T Start, T End) GetRange<T>(uint dimensionIndex, uint rangeIndex) where T : struct
         {
-            _ = EnumUtil.TypeToDataType(typeof(T));
+            ValidateType<T>(dimensionIndex);
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             void* startPtr, endPtr, stridePtr_unused;
@@ -300,7 +325,7 @@ namespace TileDB.CSharp
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
         public (T Start, T End) GetRange<T>(string dimensionName, uint rangeIndex) where T : struct
         {
-            _ = EnumUtil.TypeToDataType(typeof(T));
+            ValidateType<T>(dimensionName);
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_dimensionName = new MarshaledString(dimensionName);
