@@ -67,28 +67,6 @@ namespace TileDB.CSharp.Examples
             Console.WriteLine("attr:{0},{1},{2}", attr_data_buffer_read[0], attr_data_buffer_read[1], attr_data_buffer_read[2]);
         }
 
-        private static void OnReadCompleted(object sender, QueryEventArgs args)
-        {
-            Console.WriteLine("Read completed!");
-        }
-
-        private static void ReadArrayAsync()
-        {
-            var dim1_data_buffer_read = new int[3];
-            var dim2_data_buffer_read = new int[3];
-            var attr_data_buffer_read = new int[3];
-
-            var array_read = new Array(Ctx, ArrayPath);
-            array_read.Open(QueryType.Read);
-            var query_read = new Query(Ctx, array_read);
-            query_read.SetLayout(LayoutType.RowMajor);
-            query_read.SetDataBuffer("rows", dim1_data_buffer_read);
-            query_read.SetDataBuffer("cols", dim2_data_buffer_read);
-            query_read.SetDataBuffer("a", attr_data_buffer_read);
-            query_read.QueryCompleted += OnReadCompleted!;
-            query_read.SubmitAsync();
-        }
-
         public static void Run()
         {
             if (Directory.Exists(ArrayPath))
@@ -99,7 +77,6 @@ namespace TileDB.CSharp.Examples
             CreateArray();
             WriteArray();
             ReadArray();
-            ReadArrayAsync();
         }
     }
 }

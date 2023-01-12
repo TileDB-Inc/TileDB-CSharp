@@ -235,3 +235,15 @@ using Config config = new Config();
 config.Set("sm.consolidation.mode", "array_meta");
 Array.Consolidate(Context.GetDefault(), "my_array", config);
 ```
+
+## <span id="TILEDB0010">`TILEDB0010` - The `Query.SubmitAsync` method is obsolete.</span>
+
+The `Query.SubmitAsync` method uses the legacy [Event Asynchronous Pattern](https://learn.microsoft.com/en-us/dotnet/standard/asynchronous-programming-patterns/event-based-asynchronous-pattern-eap) and its implementation in TileDB Embedded has several known reliability issues.
+
+### Version introduced
+
+5.3.0
+
+### Recommended action
+
+Use `Query.SubmitAsync`. Until a native async API becomes available, you can use the `Task.Run` method to submit the query on a background thread.
