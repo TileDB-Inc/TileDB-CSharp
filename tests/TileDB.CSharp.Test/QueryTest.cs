@@ -58,13 +58,13 @@ namespace TileDB.CSharp.Test
                 Assert.AreEqual((1, 2), subarray.GetRange<int>(1, 0));
                 Assert.ThrowsException<InvalidOperationException>(() => subarray.GetRange<long>(1, 0));
                 queryWrite.SetSubarray(subarray);
-                queryWrite.SetDataWriteBuffer<int>("a1", new[] { 1, 2, 3, 4, 5, 6, 7, 8 }.AsMemory());
+                queryWrite.SetDataReadOnlyBuffer<int>("a1", new[] { 1, 2, 3, 4, 5, 6, 7, 8 }.AsMemory());
             }
             else // Sparse
             {
-                queryWrite.SetDataWriteBuffer<int>("rows", new[] { 1, 2, 2, 3, 4, 4 }.AsMemory());
-                queryWrite.SetDataWriteBuffer<int>("cols", new[] { 1, 1, 4, 1, 1, 4 }.AsMemory());
-                queryWrite.SetDataWriteBuffer<int>("a1", new[] { 1, 2, 3, 4, 5, 6 }.AsMemory());
+                queryWrite.SetDataReadOnlyBuffer<int>("rows", new[] { 1, 2, 2, 3, 4, 4 }.AsMemory());
+                queryWrite.SetDataReadOnlyBuffer<int>("cols", new[] { 1, 1, 4, 1, 1, 4 }.AsMemory());
+                queryWrite.SetDataReadOnlyBuffer<int>("a1", new[] { 1, 2, 3, 4, 5, 6 }.AsMemory());
             }
             queryWrite.Submit();
             Assert.AreEqual(QueryStatus.Completed, queryWrite.Status());

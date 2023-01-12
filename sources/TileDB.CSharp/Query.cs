@@ -370,7 +370,7 @@ namespace TileDB.CSharp
         /// <exception cref="ArgumentException"><paramref name="data"/> is empty or <typeparamref name="T"/>
         /// does not match the excepted data type.</exception>
         /// <exception cref="NotSupportedException">The query's type is <see cref="QueryType.Read"/></exception>
-        public void SetDataWriteBuffer<T>(string name, ReadOnlyMemory<T> data) where T : struct
+        public void SetDataReadOnlyBuffer<T>(string name, ReadOnlyMemory<T> data) where T : struct
         {
             if (QueryType() == CSharp.QueryType.Read)
             {
@@ -567,7 +567,7 @@ namespace TileDB.CSharp
         /// <param name="data">A <see cref="ReadOnlyMemory{T}"/> from where the offsets will be written.</param>
         /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
         /// <exception cref="NotSupportedException">The query's type is <see cref="QueryType.Read"/></exception>
-        public void SetOffsetsWriteBuffer(string name, ReadOnlyMemory<ulong> data)
+        public void SetOffsetsReadOnlyBuffer(string name, ReadOnlyMemory<ulong> data)
         {
             if (QueryType() != CSharp.QueryType.Read)
             {
@@ -653,7 +653,7 @@ namespace TileDB.CSharp
         /// <remarks>
         /// Each value corresponds to whether an element exists (1) or not (0).
         /// </remarks>
-        public void SetValidityWriteBuffer(string name, ReadOnlyMemory<byte> data)
+        public void SetValidityReadOnlyBuffer(string name, ReadOnlyMemory<byte> data)
         {
             if (QueryType() == CSharp.QueryType.Read)
             {
