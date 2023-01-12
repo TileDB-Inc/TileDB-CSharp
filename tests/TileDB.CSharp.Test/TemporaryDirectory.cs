@@ -21,7 +21,7 @@ namespace TileDB.CSharp.Test
 
         public static implicit operator string(TemporaryDirectory directory) => directory._path;
 
-        private static void DeleteDirectory(string directory)
+        public static void DeleteDirectory(string directory)
         {
             try
             {
