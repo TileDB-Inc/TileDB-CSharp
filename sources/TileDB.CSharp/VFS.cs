@@ -51,7 +51,28 @@ namespace TileDB.CSharp
         /// </summary>
         public Config Config()
         {
-            return ctx_.Config();
+            var handle = new ConfigHandle();
+            tiledb_config_t* config = null;
+            var successful = false;
+            try
+            {
+                using var ctxHandle = ctx_.Handle.Acquire();
+                using var vfsHandle = handle_.Acquire();
+                ctx_.handle_error(Methods.tiledb_vfs_get_config(ctxHandle, vfsHandle, &config));
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(config);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
+            }
+            return new Config(handle);
         }
 
         /// <summary>
@@ -323,7 +344,7 @@ namespace TileDB.CSharp
             var list = new List<string>();
             VisitChildren(uri, static (uri, list) =>
             {
-                ((List<string>)list!).Add(uri);
+                list.Add(uri);
                 return true;
             }, list);
             return list;
@@ -336,16 +357,27 @@ namespace TileDB.CSharp
         /// <param name="callback">A callback delegate that will be called with the URI of each child and
         /// <paramref name="callbackArg"/>, and returns whether to continue visiting.</param>
         /// <param name="callbackArg">An argument that will be passed to <paramref name="callback"/>.</param>
+        /// <typeparam name="T">The type of <paramref name="callbackArg"/>.</typeparam>
         /// <remarks>
         /// This function does not visit the children recursively; only the
         /// top-level children of <paramref name="uri"/> will be visited.
         /// </remarks>
-        public void VisitChildren(string uri, Func<string, object?, bool> callback, object? callbackArg)
+        public void VisitChildren<T>(string uri, Func<string, T, bool> callback, T callbackArg)
         {
+            ValueTuple<Func<string, T, bool>, T> data = (callback, callbackArg);
+            var callbackData = new VisitCallbackData()
+            {
+                Callback = static (uri, arg) =>
+                {
+                    var dataPtr = (ValueTuple<Func<string, T, bool>, T>*)arg;
+                    return dataPtr->Item1(uri, dataPtr->Item2);
+                },
+                CallbackArgument = (IntPtr)(&data)
+            };
+
             using var ctxHandle = ctx_.Handle.Acquire();
             using var handle = handle_.Acquire();
             using var ms_uri = new MarshaledString(uri);
-            var callbackData = new VisitCallbackData() { Callback = callback, CallbackArgument = callbackArg };
             // Taking a pointer to callbackData is safe; the callback will be invoked only
             // during the call to tiledb_vfs_ls. Contrast this with tiledb_query_submit_async where we
             // had to use a GCHandle because the callback might be invoked after we return from it.
@@ -356,9 +388,9 @@ namespace TileDB.CSharp
 
         private struct VisitCallbackData
         {
-            public Func<string, object?, bool> Callback;
+            public Func<string, IntPtr, bool> Callback;
 
-            public object? CallbackArgument;
+            public IntPtr CallbackArgument;
 
             // If the callback threw an exception we will save it here and rethrow it once we leave native code.
             // The reason we do this is that throwing exceptions in P/Invoke is not portable (works only on Windows
