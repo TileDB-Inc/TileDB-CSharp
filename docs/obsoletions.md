@@ -1,6 +1,8 @@
 # Obsoletion warnings in `TileDB.CSharp`
 
-## <span id="TILEDB0001">`TILEDB0001` - Enum value names that start with `TILEDB_` were replaced with C#-friendly names.</span>
+## `TILEDB0001` - Enum value names that start with `TILEDB_` were replaced with C#-friendly names.
+
+<a name="TILEDB0001"></a>
 
 Prior to version 5.3.0, the library's various enum values had names identical with the C API, meaning that they were in all-caps and started with `TILEDB_`.
 
@@ -52,7 +54,9 @@ using (Array array_write = new Array(Context.GetDefault(), "my_array"))
 }
 ```
 
-## <span id="TILEDB0002">`TILEDB0002` - Data type is obsolete.</span>
+## `TILEDB0002` - Data type is obsolete.
+
+<a name="TILEDB0002"></a>
 
 In version 5.3.0 some members of the `DataType` enum became obsolete and should not be used.
 
@@ -67,7 +71,9 @@ The following table lists the obsolete types, along with recommended replacement
 |`Char`|`Byte` or `StringAscii`|The meaning of `Char` is ambiguous.|
 |`TILEDB_ANY`|_a more specific type, depending on the situation_||
 
-## <span id="TILEDB0003">`TILEDB0003` - Members of the `TileDB.Interop` namespace will become internal in a future version and should not be used by user code.</span>
+## `TILEDB0003` - Members of the `TileDB.Interop` namespace will become internal in a future version and should not be used by user code.
+
+<a name="TILEDB0003"></a>
 
 To reduce the library's public API surface and improve its ability to evolve, the low-level interop APIs in the `TileDB.Interop` namespace will become internal in a future release. In version 5.3.0 they were marked as obsolete to warn any 3rd-party users of them.
 
@@ -81,7 +87,9 @@ Use the high-level APIs in the `TileDB.CSharp` namespace; they are easier and sa
 
 > The eventual goal is to expose all features of TileDB in a high-level API. Until that happens, please contact us if you need to use a particular feature to help us prioritize.
 
-## <span id="TILEDB0004">`TILEDB0004` - The `Context.ErrorHappened` event is obsolete.</span>
+## `TILEDB0004` - The `Context.ErrorHappened` event is obsolete.
+
+<a name="TILEDB0004"></a>
 
 Due to a programming mistake the `Context.ErrorHappened` event never worked as expected. Given its limited utility it was marked as obsolete in version 5.3.0.
 
@@ -93,7 +101,9 @@ Due to a programming mistake the `Context.ErrorHappened` event never worked as e
 
 Stop subscribing to `Context.ErrorHappened`. If you want to react to errors, you can now catch exceptions of type `TileDBException` which was introduced in version 5.3.0.
 
-## <span id="TILEDB0005">`TILEDB0005` - The `ErrorException` type is obsolete.</span>
+## `TILEDB0005` - The `ErrorException` type is obsolete.
+
+<a name="TILEDB0005"></a>
 
 The `ErrorException` type is badly named and was thrown only in limited circumstances. It was marked as obsolete in version 5.3.0 and replaced by the `TileDBException` type, which is thrown in any error reported by TileDB Embedded.
 
@@ -131,7 +141,9 @@ catch (TileDBException e)
 }
 ```
 
-## <span id="TILEDB0006">`TILEDB0006` - The overload of `Dimension.Create` method that takes an array is obsolete.</span>
+## `TILEDB0006` - The overload of `Dimension.Create` method that takes an array is obsolete.
+
+<a name="TILEDB0006"></a>
 
 The `Dimension.Create<T>(Context, string, T[], T)` method is problematic because only the first two values of the array parameter are actually being used. For this reason it was marked as obsolete in version 5.3.0.
 
@@ -155,7 +167,9 @@ Dimension dimension = Dimension.Create(context, "test", new int[] { 1, 10 }, 5);
 Dimension dimension = Dimension.Create(context, "test", 1, 10, 5);
 ```
 
-## <span id="TILEDB0007">`TILEDB0007` - The constructor and `Init` methods of the `QueryCondition` class are obsolete.</span>
+## `TILEDB0007` - The constructor and `Init` methods of the `QueryCondition` class are obsolete.
+
+<a name="TILEDB0007"></a>
 
 There are two ways to create query conditions: by constructing `QueryCondition` objects and calling the `Init` method, or by calling the `QueryCondition.Create` static methods. The former way is prone to bugs because it unnecessarily requires two methods and so in version 5.3.0 the public constructor and `Init` methods of the `QueryCondition` class were marked as obsolete.
 
@@ -180,7 +194,9 @@ qc.Init("attr1", 15, QueryConditionOperatorType.GreaterThan);
 using QueryCondition qc = QueryCondition.Create(Context.GetDefault(), "attr1", 15, QueryConditionOperatorType.GreaterThan);
 ```
 
-## <span id="TILEDB0008">`TILEDB0008` - The `QueryCondition.Combine` method is obsolete.</span>
+## `TILEDB0008` - The `QueryCondition.Combine` method is obsolete.
+
+<a name="TILEDB0008"></a>
 
 The `QueryCondition.Combine` method is verbose and does not clearly signify which combination operator types are unary or binary. For these reasons it was marked as obsolete in version 5.3.0 and replaced with operator overloading.
 
@@ -208,7 +224,9 @@ using QueryCondition qc2 = QueryCondition.Create(Context.GetDefault(), "attr2", 
 using QueryCondition qc = qc1 & qc2;
 ```
 
-## <span id="TILEDB0009">`TILEDB0009` - The `Array.ConsolidateMetadata` and `ArrayMetadata.ConsolidateMetadata` methods are obsolete.</span>
+## `TILEDB0009` - The `Array.ConsolidateMetadata` and `ArrayMetadata.ConsolidateMetadata` methods are obsolete.
+
+<a name="TILEDB0009"></a>
 
 Following changes to the native API of TileDB Embedded, the `Array.ConsolidateMetadata` and `ArrayMetadata.ConsolidateMetadata` methods became obsolete.
 
@@ -236,7 +254,9 @@ config.Set("sm.consolidation.mode", "array_meta");
 Array.Consolidate(Context.GetDefault(), "my_array", config);
 ```
 
-## <span id="TILEDB0010">`TILEDB0010` - The `Query.SubmitAsync` method is obsolete.</span>
+## `TILEDB0010` - The `Query.SubmitAsync` method is obsolete.
+
+<a name="TILEDB0010"></a>
 
 The `Query.SubmitAsync` method uses the legacy [Event Asynchronous Pattern](https://learn.microsoft.com/en-us/dotnet/standard/asynchronous-programming-patterns/event-based-asynchronous-pattern-eap) and its implementation in TileDB Embedded has several known reliability issues.
 
@@ -248,7 +268,9 @@ The `Query.SubmitAsync` method uses the legacy [Event Asynchronous Pattern](http
 
 Use `Query.SubmitAsync`. Until a native async API becomes available, you can use the `Task.Run` method to submit the query on a background thread.
 
-## <span id="TILEDB0011">`TILEDB0011` - Subarray-related methods on the `Query` class are obsolete.</span>
+## `TILEDB0011` - Subarray-related methods on the `Query` class are obsolete.
+
+<a name="TILEDB0011"></a>
 
 Following changes to the native API of TileDB Embedded, certain methods of the `Query` class such as `AddRange`, `Range` and `RangeVar` are now exposed through the newly introduced `Subarray` class.
 
