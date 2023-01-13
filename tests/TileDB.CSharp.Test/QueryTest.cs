@@ -1,5 +1,7 @@
 using System;
+using System.Buffers;
 using System.IO;
+using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace TileDB.CSharp.Test
 {
@@ -56,13 +58,13 @@ namespace TileDB.CSharp.Test
                 Assert.AreEqual((1, 2), subarray.GetRange<int>(1, 0));
                 Assert.ThrowsException<InvalidOperationException>(() => subarray.GetRange<long>(1, 0));
                 queryWrite.SetSubarray(subarray);
-                queryWrite.SetDataBuffer("a1", new[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+                queryWrite.SetDataReadOnlyBuffer<int>("a1", new[] { 1, 2, 3, 4, 5, 6, 7, 8 }.AsMemory());
             }
             else // Sparse
             {
-                queryWrite.SetDataBuffer("rows", new[] { 1, 2, 2, 3, 4, 4 });
-                queryWrite.SetDataBuffer("cols", new[] { 1, 1, 4, 1, 1, 4 });
-                queryWrite.SetDataBuffer("a1", new[] { 1, 2, 3, 4, 5, 6 });
+                queryWrite.SetDataReadOnlyBuffer<int>("rows", new[] { 1, 2, 2, 3, 4, 4 }.AsMemory());
+                queryWrite.SetDataReadOnlyBuffer<int>("cols", new[] { 1, 1, 4, 1, 1, 4 }.AsMemory());
+                queryWrite.SetDataReadOnlyBuffer<int>("a1", new[] { 1, 2, 3, 4, 5, 6 }.AsMemory());
             }
             queryWrite.Submit();
             Assert.AreEqual(QueryStatus.Completed, queryWrite.Status());
@@ -364,7 +366,7 @@ namespace TileDB.CSharp.Test
         }
 
         [TestMethod]
-        public void TestNullableAttributeArrayQuery()
+        public unsafe void TestNullableAttributeArrayQuery()
         {
             var context = Context.GetDefault();
             Assert.IsNotNull(context);
@@ -442,21 +444,25 @@ namespace TileDB.CSharp.Test
             byte[] a2_validity = new byte[4] { 0, 1, 1, 0 };
             byte[] a3_validity = new byte[4] { 1, 0, 0, 1 };
 
-            using (var array_write = new Array(context, tmpArrayPath))
+            fixed (int* a1_data_ptr = &a1_data[0])
+            fixed (int* a2_data_ptr = &a2_data[0])
+            fixed (ulong* a2_off_ptr = &a2_off[0])
+            fixed (byte* a2_validity_ptr = &a2_validity[0])
             {
+                using var array_write = new Array(context, tmpArrayPath);
                 Assert.IsNotNull(array_write);
 
                 array_write.Open(QueryType.Write);
 
-                var query_write = new Query(context, array_write);
+                using var query_write = new Query(context, array_write);
                 query_write.SetLayout(LayoutType.RowMajor);
 
-                query_write.SetDataBuffer("a1", a1_data);
+                query_write.SetDataBuffer("a1", a1_data_ptr, (ulong)a1_data.Length);
                 query_write.SetValidityBuffer("a1", a1_validity);
 
-                query_write.SetDataBuffer("a2", a2_data);
-                query_write.SetOffsetsBuffer("a2", a2_off);
-                query_write.SetValidityBuffer("a2", a2_validity);
+                query_write.UnsafeSetDataBuffer("a2", (void*)a2_data_ptr, (ulong)a2_data.Length * sizeof(int));
+                query_write.SetOffsetsBuffer("a2", a2_off_ptr, (ulong)a2_off.Length);
+                query_write.SetValidityBuffer("a2", a2_validity_ptr, (ulong)a2_validity.Length);
 
                 query_write.SetDataBuffer("a3", a3_data);
                 query_write.SetOffsetsBuffer("a3", a3_off);
@@ -470,7 +476,6 @@ namespace TileDB.CSharp.Test
 
                 array_write.Close();
             }
-
 
             // Read array
             int[] a1_data_read = new int[4];
@@ -490,21 +495,21 @@ namespace TileDB.CSharp.Test
 
                 array_read.Open(QueryType.Read);
 
-                var query_read = new Query(context, array_read);
+                using var query_read = new Query(context, array_read);
 
                 query_read.SetLayout(LayoutType.RowMajor);
                 using var subarray = new Subarray(array_read);
                 subarray.SetSubarray(1, 2, 1, 2);
                 query_read.SetSubarray(subarray);
 
-                query_read.SetDataBuffer("a1", a1_data_read);
+                query_read.UnsafeSetDataBuffer("a1", a1_data_read.AsMemory().Pin(), (ulong)a1_data_read.Length * sizeof(int));
                 query_read.SetValidityBuffer("a1", a1_validity_read);
 
-                query_read.SetDataBuffer("a2", a2_data_read);
+                query_read.UnsafeSetDataBuffer("a2", a2_data_read.AsMemory().Pin(), (ulong)a2_data_read.Length * sizeof(int));
                 query_read.SetOffsetsBuffer("a2", a2_off_read);
                 query_read.SetValidityBuffer("a2", a2_validity_read);
 
-                query_read.SetDataBuffer("a3", a3_data_read);
+                query_read.UnsafeSetDataBuffer("a3", a3_data_read.AsMemory().Pin(), (ulong)a3_data_read.Length * sizeof(byte));
                 query_read.SetOffsetsBuffer("a3", a3_off_read);
                 query_read.SetValidityBuffer("a3", a3_validity_read);
 
@@ -574,6 +579,7 @@ namespace TileDB.CSharp.Test
             var status = query_write.Status();
             Assert.AreEqual(status, QueryStatus.Completed);
             query_write.FinalizeQuery();
+            query_write.Dispose();
             array_write.Close();
 
             // Read from array into bool[]
@@ -598,6 +604,7 @@ namespace TileDB.CSharp.Test
             CollectionAssert.AreEqual(a1_data, a1_data_read);
 
             query_read.FinalizeQuery();
+            query_read.Dispose();
 
             // Read from array into byte[]
             query_read = new Query(context, array_read);
@@ -617,7 +624,86 @@ namespace TileDB.CSharp.Test
             CollectionAssert.AreEqual(a1_data, System.Array.ConvertAll(a1_data_read_bytes, b => b == 1));
 
             query_read.FinalizeQuery();
+            query_read.Dispose();
             array_read.Close();
+        }
+
+        [TestMethod]
+        public void TestMemoryHandleGetsUnpinned()
+        {
+            // Create array
+            var context = Context.GetDefault();
+            Assert.IsNotNull(context);
+
+            using var dim1 = Dimension.Create(context, "rows", 1, 2, 2);
+            using var dim2 = Dimension.Create(context, "cols", 1, 2, 2);
+            using var domain = new Domain(context);
+            domain.AddDimensions(dim1, dim2);
+
+            using var a1 = new Attribute(context, "a1", DataType.Boolean);
+
+            using var array_schema = new ArraySchema(context, ArrayType.Dense);
+            array_schema.AddAttribute(a1);
+            array_schema.SetDomain(domain);
+            array_schema.Check();
+
+            using var tmpArrayPath = new TemporaryDirectory("query_unpin");
+
+            var disposalCanary = new DisposalCanary();
+
+            using var array = new Array(context, tmpArrayPath);
+            array.Create(array_schema);
+            array.Open(QueryType.Read);
+
+            // From the documentation, the memory will be unpinned if:
+
+            // the query is disposed,
+            using (var q = new Query(context, array))
+            {
+                q.UnsafeSetDataBuffer("rows", disposalCanary.Memory.Pin(), 1 * sizeof(int));
+            }
+            Assert.AreEqual(1, disposalCanary.UnpinCount);
+
+            // the buffer is reassigned,
+            using (var q = new Query(context, array))
+            {
+                q.UnsafeSetDataBuffer("rows", disposalCanary.Memory.Pin(), 1 * sizeof(int));
+                q.SetDataBuffer("rows", new int[1]);
+                Assert.AreEqual(2, disposalCanary.UnpinCount);
+            }
+
+            // or setting the buffer fails.
+            using (var q = new Query(context, array))
+            {
+                Assert.ThrowsException<TileDBException>(() => q.UnsafeSetDataBuffer("foo", disposalCanary.Memory.Pin(), 1 * sizeof(int)));
+                Assert.AreEqual(3, disposalCanary.UnpinCount);
+            }
+        }
+
+        /// <summary>
+        /// Holds an array and tracks how many times it was unpinned.
+        /// </summary>
+        private sealed unsafe class DisposalCanary : MemoryManager<int>
+        {
+            private readonly int[] _array = new int[1];
+
+            public int UnpinCount { get; private set; }
+
+            public override Span<int> GetSpan() => _array;
+
+            public override MemoryHandle Pin(int elementIndex = 0)
+            {
+                var gcHandle = GCHandle.Alloc(_array, GCHandleType.Pinned);
+                var ptr = (void*)gcHandle.AddrOfPinnedObject();
+                return new(ptr, gcHandle, this);
+            }
+
+            public override void Unpin()
+            {
+                UnpinCount++;
+            }
+
+            protected override void Dispose(bool disposing) { }
         }
     }
 }

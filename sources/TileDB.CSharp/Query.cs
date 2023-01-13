@@ -1,6 +1,8 @@
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -11,10 +13,24 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
+    /// <summary>
+    /// Contains estimates for the result's size.
+    /// </summary>
     public class ResultSize
     {
+        /// <summary>
+        /// The data size in bytes.
+        /// </summary>
         public ulong DataBytesSize;
+
+        /// <summary>
+        /// The offsets size in bytes.
+        /// </summary>
         public ulong? OffsetsBytesSize;
+
+        /// <summary>
+        /// The validities size in bytes.
+        /// </summary>
         public ulong? ValidityBytesSize;
 
         /// <summary>
@@ -31,53 +47,36 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Test if it is variable length.
+        /// Returns if the result is about a variable-length attribute or dimension.
         /// </summary>
-        /// <returns></returns>
-        public bool IsVarSize()
-        {
-            return OffsetsBytesSize.HasValue;
-        }
+        public bool IsVarSize() => OffsetsBytesSize.HasValue;
 
         /// <summary>
-        /// Test if it is nullable.
+        /// Returns if the result is about a nullable attribute.
         /// </summary>
-        /// <returns></returns>
-        public bool IsNullable()
-        {
-            return ValidityBytesSize.HasValue;
-        }
+        public bool IsNullable() => ValidityBytesSize.HasValue;
 
         /// <summary>
-        /// Get number of data elements.
+        /// Gets the number of data elements.
         /// </summary>
-        /// <param name="dataType"></param>
-        /// <returns></returns>
-        public ulong DataSize(DataType dataType)
-        {
-            tiledb_datatype_t tiledb_datatype = (tiledb_datatype_t)dataType;
-            return DataBytesSize / Methods.tiledb_datatype_size(tiledb_datatype);
-        }
+        /// <param name="dataType">The data type of the attribute or dimension.</param>
+        public ulong DataSize(DataType dataType) =>
+            DataBytesSize / Methods.tiledb_datatype_size((tiledb_datatype_t)dataType);
 
         /// <summary>
-        /// Get number of offsets.
+        /// Gets the number of offsets.
         /// </summary>
-        /// <returns></returns>
-        public ulong OffsetsSize()
-        {
-            return OffsetsBytesSize.HasValue ? OffsetsBytesSize.Value/Methods.tiledb_datatype_size(tiledb_datatype_t.TILEDB_UINT64) : 0;
-        }
+        public ulong OffsetsSize() => OffsetsBytesSize is ulong size ? size / sizeof(ulong) : 0;
 
         /// <summary>
-        /// Get number of validities.
+        /// Gets the number of validities.
         /// </summary>
-        /// <returns></returns>
-        public ulong ValiditySize()
-        {
-            return ValidityBytesSize.HasValue ? ValidityBytesSize.Value / Methods.tiledb_datatype_size(tiledb_datatype_t.TILEDB_UINT8) : 0;
-        }
+        public ulong ValiditySize() => ValidityBytesSize.GetValueOrDefault();
     }
 
+    /// <summary>
+    /// Used in <see cref="Query.SubmitAsync"/>.
+    /// </summary>
     [Obsolete(Obsoletions.QuerySubmitAsyncMessage, DiagnosticId = Obsoletions.QuerySubmitAsyncDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     public class QueryEventArgs : EventArgs
     {
@@ -86,36 +85,15 @@ namespace TileDB.CSharp
             Status = status;
             Message = message;
         }
+
         public int Status { get; set; }
+
         public string Message { get; set; }
     }
 
-    internal class BufferHandle
-    {
-        public GCHandle DataHandle;
-        public ulong BytesSize;
-        public GCHandle SizeHandle;
-
-        public BufferHandle(GCHandle handle, ulong size)
-        {
-            DataHandle = handle;
-            BytesSize = size;
-            SizeHandle = GCHandle.Alloc(BytesSize, GCHandleType.Pinned);
-        }
-
-        public void Free()
-        {
-            if (DataHandle.IsAllocated)
-            {
-                DataHandle.Free();
-            }
-            if (SizeHandle.IsAllocated)
-            {
-                SizeHandle.Free();
-            }
-        }
-    }
-
+    /// <summary>
+    /// Represents a TileDB query object.
+    /// </summary>
     public sealed unsafe class Query : IDisposable
     {
         private readonly Array _array;
@@ -127,6 +105,12 @@ namespace TileDB.CSharp
         private readonly Dictionary<string, BufferHandle> _offsetsBufferHandles = new Dictionary<string, BufferHandle>();
         private readonly Dictionary<string, BufferHandle> _validityBufferHandles = new Dictionary<string, BufferHandle>();
 
+        /// <summary>
+        /// Creates a <see cref="Query"/>.
+        /// </summary>
+        /// <param name="ctx">The context associated with this query.</param>
+        /// <param name="array">The array on which the query will operate.</param>
+        /// <param name="queryType">The query's type.</param>
         public Query(Context ctx, Array array, QueryType queryType)
         {
             _ctx = ctx;
@@ -134,6 +118,11 @@ namespace TileDB.CSharp
             _handle = QueryHandle.Create(ctx, array.Handle, (tiledb_query_type_t)queryType);
         }
 
+        /// <summary>
+        /// Creates a <see cref="Query"/> with an implicit <see cref="CSharp.QueryType"/>.
+        /// </summary>
+        /// <param name="ctx">The context associated with this query.</param>
+        /// <param name="array">The array on which the query will operate. Its <see cref="Array.QueryType"/> will be used for the query.</param>
         public Query(Context ctx, Array array)
         {
             _ctx = ctx;
@@ -141,34 +130,19 @@ namespace TileDB.CSharp
             _handle = QueryHandle.Create(ctx, array.Handle, (tiledb_query_type_t)array.QueryType());
         }
 
-        internal Query(Context ctx, Array array, QueryHandle handle)
-        {
-            _ctx = ctx;
-            _array = array;
-            _handle = handle;
-        }
-
+        /// <summary>
+        /// Disposes this <see cref="Query"/>.
+        /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
             if (_disposed) return;
-            if (disposing && (!_handle.IsInvalid))
-            {
-                _handle.Dispose();
-            }
+            _handle.Dispose();
             FreeAllBufferHandles();
-
             _disposed = true;
-
         }
 
         internal QueryHandle Handle => _handle;
 
-        #region capi functions
         /// <summary>
         /// Gets a JSON string with statistics about the query.
         /// </summary>
@@ -210,7 +184,28 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public Config Config()
         {
-            return _ctx.Config();
+            var handle = new ConfigHandle();
+            var successful = false;
+            tiledb_config_t* config = null;
+            try
+            {
+                using var ctxHandle = _ctx.Handle.Acquire();
+                using var queryHandle = _handle.Acquire();
+                _ctx.handle_error(Methods.tiledb_query_get_config(ctxHandle, queryHandle, &config));
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(config);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
+            }
+            return new Config(handle);
         }
 
         /// <summary>
@@ -267,13 +262,13 @@ namespace TileDB.CSharp
             var dim_datatype = _array.Schema().Domain().Type();
             if (EnumUtil.TypeToDataType(typeof(T)) != dim_datatype)
             {
-                throw new System.ArgumentException("Query.SetSubarray, datatype mismatch!");
+                throw new ArgumentException("Query.SetSubarray, datatype mismatch!");
             }
 
             var expected_size = _array.Schema().Domain().NDim() * 2;
             if (data == null || expected_size != data.Length)
             {
-                throw new System.ArgumentException("Query.SetSubarray, the length of data is not equal to num_dims*2!");
+                throw new ArgumentException("Query.SetSubarray, the length of data is not equal to num_dims*2!");
             }
 
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -291,83 +286,431 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Sets the data for a fixed/var-sized attribute/dimension.
+        /// Sets the data buffer for an attribute or dimension to an array.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="name"></param>
-        /// <param name="data"></param>
-        /// <param name="size"></param>
+        /// <typeparam name="T">The buffer's type.</typeparam>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">An array where the data will be read or written.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty or <typeparamref name="T"/>
+        /// does not match the excepted data type.</exception>
         public void SetDataBuffer<T>(string name, T[] data) where T : struct
         {
-            // check datatype
-            CheckDataType<T>(GetDataType(name));
-
-            if (data == null || data.Length == 0)
+            if (data is null)
             {
-                throw new ArgumentException("Query.SetDataBuffer, buffer is null or empty!");
+                ThrowHelpers.ThrowArgumentNullException(nameof(data));
             }
 
-            if (data is bool[] boolData && QueryType() == CSharp.QueryType.Write)
-            {
-                SetDataBuffer<byte>(name, System.Array.ConvertAll(boolData as bool[], d => d ? (byte)1 : (byte)0));
-                return;
-            }
-
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            using var ms_name = new MarshaledString(name);
-            ulong size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
-            AddDataBufferHandle(name, GCHandle.Alloc(data, GCHandleType.Pinned), size);
-            _ctx.handle_error(Methods.tiledb_query_set_data_buffer(ctxHandle, handle, ms_name,
-                _dataBufferHandles[name].DataHandle.AddrOfPinnedObject().ToPointer(),
-                (ulong*)_dataBufferHandles[name].SizeHandle.AddrOfPinnedObject().ToPointer()));
+            SetDataBuffer(name, data.AsMemory());
         }
 
         /// <summary>
-        /// Sets the offset buffer for a var-sized attribute/dimension.
+        /// Sets the data buffer for an attribute or dimension to a <see cref="Memory{T}"/>.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="data"></param>
-        /// <param name="size"></param>
-        public void SetOffsetsBuffer(string name, UInt64[] data)
+        /// <typeparam name="T">The buffer's type.</typeparam>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">An <see cref="Memory{T}"/> where the data will be read or written.</param>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty or <typeparamref name="T"/>
+        /// does not match the excepted data type.</exception>
+        public void SetDataBuffer<T>(string name, Memory<T> data) where T : struct
         {
-            if (data == null || data.Length == 0)
+            // check datatype
+            using (var schema = _array.Schema())
+            using (var domain = schema.Domain())
             {
-                throw new ArgumentException("Query.set_offsets_buffer, buffer is null or empty!");
+                CheckDataType<T>(GetDataType(name, schema, domain));
             }
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var handle = _handle.Acquire();
-            using var ms_name = new MarshaledString(name);
-            ulong size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
-            var bufferHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            AddOffsetsBufferHandle(name, bufferHandle, size);
 
-            _ctx.handle_error(Methods.tiledb_query_set_offsets_buffer(ctxHandle, handle, ms_name,
-                (ulong*)_offsetsBufferHandles[name].DataHandle.AddrOfPinnedObject().ToPointer(),
-                (ulong*)_offsetsBufferHandles[name].SizeHandle.AddrOfPinnedObject().ToPointer()));
+            if (data.IsEmpty)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(data));
+            }
+
+            UnsafeSetDataBuffer(name, data.Pin(), (ulong)data.Length * (ulong)sizeof(T));
         }
 
         /// <summary>
-        /// Sets the validity buffer for nullable attribute/dimension.
+        /// Sets the data buffer for an attribute or dimension to an unmanaged memory buffer.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="data"></param>
-        /// <param name="size"></param>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A pointer to the memory buffer.</param>
+        /// <param name="size">The buffer's size <em>in <typeparamref name="T"/> values</em>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="size"/> is zero or <typeparamref name="T"/>
+        /// does not match the excepted data type.</exception>
+        public void SetDataBuffer<T>(string name, T* data, ulong size) where T : struct
+        {
+            if (data is null)
+            {
+                ThrowHelpers.ThrowArgumentNullException(nameof(data));
+            }
+
+            if (size == 0)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(size));
+            }
+
+            // check datatype
+            using (var schema = _array.Schema())
+            using (var domain = schema.Domain())
+            {
+                CheckDataType<T>(GetDataType(name, schema, domain));
+            }
+
+            UnsafeSetDataBuffer(name, new MemoryHandle(data), size * (ulong)sizeof(T));
+        }
+
+        /// <summary>
+        /// Sets the data buffer for an attribute or dimension to a <see cref="ReadOnlyMemory{T}"/>.
+        /// Not supported for <see cref="QueryType.Read"/> queries.
+        /// </summary>
+        /// <typeparam name="T">The buffer's type.</typeparam>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A <see cref="ReadOnlyMemory{T}"/> from where the data will be written.</param>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty or <typeparamref name="T"/>
+        /// does not match the excepted data type.</exception>
+        /// <exception cref="NotSupportedException">The query's type is <see cref="QueryType.Read"/></exception>
+        public void SetDataReadOnlyBuffer<T>(string name, ReadOnlyMemory<T> data) where T : struct
+        {
+            if (QueryType() == CSharp.QueryType.Read)
+            {
+                ThrowHelpers.ThrowOperationNotAllowedOnReadQueries();
+            }
+
+            SetDataBuffer(name, MemoryMarshal.AsMemory(data));
+        }
+
+        /// <summary>
+        /// Sets the data buffer for an attribute or dimension to an
+        /// unmanaged memory buffer without performing type validation.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A pointer to the memory buffer.</param>
+        /// <param name="byteSize">The buffer's size <em>in bytes</em>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="byteSize"/> is zero.</exception>
+        public void UnsafeSetDataBuffer(string name, void* data, ulong byteSize)
+        {
+            if (data is null)
+            {
+                ThrowHelpers.ThrowArgumentNullException(nameof(data));
+            }
+
+            if (byteSize == 0)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(byteSize));
+            }
+
+            UnsafeSetDataBuffer(name, new MemoryHandle(data), byteSize);
+        }
+
+        /// <summary>
+        /// Sets the data buffer for an attribute or dimension
+        /// to a pinned memory buffer pointed by a <see cref="MemoryHandle"/>.
+        /// This method does not perform type validation.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="memoryHandle">A <see cref="MemoryHandle"/> pointing to the buffer.</param>
+        /// <param name="byteSize">The buffer's size <em>in bytes</em>.</param>
+        /// <exception cref="ArgumentException"><paramref name="byteSize"/> is zero.</exception>
+        /// <remarks>
+        /// <para>After calling this method, user code must not use <paramref name="memoryHandle"/>;
+        /// its ownership is transferred to this <see cref="Query"/> object.</para>
+        /// <para><paramref name="memoryHandle"/> will be disposed when one of the following happens:
+        /// <list type="bullet">
+        /// <item>The <see cref="Dispose"/> method is called.</item>
+        /// <item>The buffer for <paramref name="name"/> is reassigned through subsequent calls to this method.</item>
+        /// <item>This method call throws an exception.</item>
+        /// </list></para>
+        /// </remarks>
+        public void UnsafeSetDataBuffer(string name, MemoryHandle memoryHandle, ulong byteSize)
+        {
+            BufferHandle? handle = null;
+            bool successful = false;
+            try
+            {
+                handle = new BufferHandle(ref memoryHandle, byteSize);
+
+                SetDataBufferCore(name, handle.DataPointer, handle.SizePointer);
+
+                AddOrReplaceBufferHandle(_dataBufferHandles, name, handle);
+                successful = true;
+            }
+            finally
+            {
+                if (!successful)
+                {
+                    memoryHandle.Dispose();
+                    handle?.Dispose();
+                }
+            }
+        }
+
+        private void SetDataBufferCore(string name, void* data, ulong* size)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var ms_name = new MarshaledString(name);
+            _ctx.handle_error(Methods.tiledb_query_set_data_buffer(ctxHandle, handle, ms_name, data, size));
+        }
+
+        /// <summary>
+        /// Sets the offsets buffer for a variable-sized attribute or dimension to an array.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">An array where the offsets will be read or written.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
+        public void SetOffsetsBuffer(string name, ulong[] data)
+        {
+            if (data is null)
+            {
+                ThrowHelpers.ThrowArgumentNullException(nameof(data));
+            }
+
+            SetOffsetsBuffer(name, data.AsMemory());
+        }
+
+        /// <summary>
+        /// Sets the offsets buffer for a variable-sized attribute or dimension to a <see cref="Memory{T}"/>.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A <see cref="Memory{T}"/> where the offsets will be read or written.</param>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
+        public void SetOffsetsBuffer(string name, Memory<ulong> data)
+        {
+            if (data.IsEmpty)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(data));
+            }
+
+            UnsafeSetOffsetsBuffer(name, data.Pin(), (ulong)data.Length);
+        }
+
+        /// <summary>
+        /// Sets the offsets buffer for a variable-sized attribute or dimension to an unmanaged memory buffer.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A pointer to the memory buffer.</param>
+        /// <param name="size">The buffer's size <em>in 64-bit integers</em>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="size"/> is zero.</exception>
+        public void SetOffsetsBuffer(string name, ulong* data, ulong size)
+        {
+            if (data is null)
+            {
+                ThrowHelpers.ThrowArgumentNullException(nameof(data));
+            }
+
+            if (size == 0)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(size));
+            }
+
+            UnsafeSetOffsetsBuffer(name, new MemoryHandle(data), size);
+        }
+
+        /// <summary>
+        /// Sets the offsets buffer for a variable-sized attribute or dimension
+        /// to a pinned memory buffer pointed by a <see cref="MemoryHandle"/>.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="memoryHandle">A <see cref="MemoryHandle"/> pointing to the buffer.</param>
+        /// <param name="size">The buffer's size <em>in 64-bit integers</em>.</param>
+        /// <exception cref="ArgumentException"><paramref name="size"/> is zero.</exception>
+        /// <remarks>
+        /// <para>After calling this method, user code must not use <paramref name="memoryHandle"/>;
+        /// its ownership is transferred to this <see cref="Query"/> object.</para>
+        /// <para><paramref name="memoryHandle"/> will be disposed when one of the following happens:
+        /// <list type="bullet">
+        /// <item>The <see cref="Dispose"/> method is called.</item>
+        /// <item>The buffer for <paramref name="name"/> is reassigned through subsequent calls to this method.</item>
+        /// <item>This method call throws an exception.</item>
+        /// </list></para>
+        /// </remarks>
+        private void UnsafeSetOffsetsBuffer(string name, MemoryHandle memoryHandle, ulong size)
+        {
+            BufferHandle? handle = null;
+            bool successful = false;
+            try
+            {
+                handle = new BufferHandle(ref memoryHandle, size * sizeof(ulong));
+
+                SetOffsetsBufferCore(name, (ulong*)handle.DataPointer, handle.SizePointer);
+
+                AddOrReplaceBufferHandle(_offsetsBufferHandles, name, handle);
+                successful = true;
+            }
+            finally
+            {
+                if (!successful)
+                {
+                    memoryHandle.Dispose();
+                    handle?.Dispose();
+                }
+            }
+        }
+
+        private void SetOffsetsBufferCore(string name, ulong* data, ulong* size)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var ms_name = new MarshaledString(name);
+            _ctx.handle_error(Methods.tiledb_query_set_offsets_buffer(ctxHandle, handle, ms_name, data, size));
+        }
+
+        /// <summary>
+        /// Sets the offsets buffer for a variable-sized attribute or dimension to a <see cref="ReadOnlyMemory{T}"/>.
+        /// Not supported for <see cref="QueryType.Read"/> queries.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A <see cref="ReadOnlyMemory{T}"/> from where the offsets will be written.</param>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
+        /// <exception cref="NotSupportedException">The query's type is <see cref="QueryType.Read"/></exception>
+        public void SetOffsetsReadOnlyBuffer(string name, ReadOnlyMemory<ulong> data)
+        {
+            if (QueryType() != CSharp.QueryType.Read)
+            {
+                ThrowHelpers.ThrowOperationNotAllowedOnReadQueries();
+            }
+
+            SetOffsetsBuffer(name, MemoryMarshal.AsMemory(data));
+        }
+
+        /// <summary>
+        /// Sets the validity buffer for a nullable attribute to an array.
+        /// </summary>
+        /// <param name="name">The name of the attribute.</param>
+        /// <param name="data">An array where the validities will be read or written.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
+        /// <remarks>
+        /// Each value corresponds to whether an element exists (1) or not (0).
+        /// </remarks>
         public void SetValidityBuffer(string name, byte[] data)
         {
-            if (data == null || data.Length == 0)
+            if (data is null)
             {
-                throw new ArgumentException("Query.set_validity_buffer, buffer is null or empty!");
+                ThrowHelpers.ThrowArgumentNullException(nameof(data));
             }
+
+            SetValidityBuffer(name, data.AsMemory());
+        }
+
+        /// <summary>
+        /// Sets the validity buffer for a nullable attribute to a <see cref="Memory{T}"/>.
+        /// </summary>
+        /// <param name="name">The name of the attribute.</param>
+        /// <param name="data">A <see cref="Memory{T}"/> where the validities will be read or written.</param>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
+        /// <remarks>
+        /// Each value corresponds to whether an element exists (1) or not (0).
+        /// </remarks>
+        public void SetValidityBuffer(string name, Memory<byte> data)
+        {
+            if (data.IsEmpty)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(data));
+            }
+
+            UnsafeSetValidityBuffer(name, data.Pin(), (ulong)data.Length);
+        }
+
+        /// <summary>
+        /// Sets the validity buffer for a nullable attribute to an unmanaged memory buffer.
+        /// </summary>
+        /// <param name="name">The name of the attribute.</param>
+        /// <param name="data">A pointer to the memory buffer.</param>
+        /// <param name="size">The buffer's size.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="size"/> is zero.</exception>
+        /// <remarks>
+        /// Each value corresponds to whether an element exists (1) or not (0).
+        /// </remarks>
+        public void SetValidityBuffer(string name, byte* data, ulong size)
+        {
+            if (data is null)
+            {
+                ThrowHelpers.ThrowArgumentNullException(nameof(data));
+            }
+
+            if (size == 0)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(size));
+            }
+
+            UnsafeSetValidityBuffer(name, new MemoryHandle(data), size);
+        }
+
+        /// <summary>
+        /// Sets the validity buffer for a nullable attribute to a <see cref="ReadOnlyMemory{T}"/>.
+        /// Not supported for <see cref="QueryType.Read"/> queries.
+        /// </summary>
+        /// <param name="name">The name of the attribute.</param>
+        /// <param name="data">A <see cref="ReadOnlyMemory{T}"/> from where the validities will be written.</param>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
+        /// <exception cref="NotSupportedException">The query's type is <see cref="QueryType.Read"/></exception>
+        /// <remarks>
+        /// Each value corresponds to whether an element exists (1) or not (0).
+        /// </remarks>
+        public void SetValidityReadOnlyBuffer(string name, ReadOnlyMemory<byte> data)
+        {
+            if (QueryType() == CSharp.QueryType.Read)
+            {
+                ThrowHelpers.ThrowOperationNotAllowedOnReadQueries();
+            }
+
+            SetValidityBuffer(name, MemoryMarshal.AsMemory(data));
+        }
+
+        /// <summary>
+        /// Sets the validity buffer for a nullable attribute
+        /// to a pinned memory buffer pointed by a <see cref="MemoryHandle"/>.
+        /// </summary>
+        /// <param name="name">The name of the attribute.</param>
+        /// <param name="memoryHandle">A <see cref="MemoryHandle"/> pointing to the buffer.</param>
+        /// <param name="size">The buffer's size.</param>
+        /// <exception cref="ArgumentException"><paramref name="size"/> is zero.</exception>
+        /// <remarks>
+        /// <para>Each value corresponds to whether an element exists (1) or not (0).</para>
+        /// <para>After calling this method, user code must not use <paramref name="memoryHandle"/>;
+        /// its ownership is transferred to this <see cref="Query"/> object.</para>
+        /// <para><paramref name="memoryHandle"/> will be disposed when one of the following happens:
+        /// <list type="bullet">
+        /// <item>The <see cref="Dispose"/> method is called.</item>
+        /// <item>The buffer for <paramref name="name"/> is reassigned through subsequent calls to this method.</item>
+        /// <item>This method call throws an exception.</item>
+        /// </list></para>
+        /// </remarks>
+        private void UnsafeSetValidityBuffer(string name, MemoryHandle memoryHandle, ulong size)
+        {
+            BufferHandle? handle = null;
+            bool successful = false;
+            try
+            {
+                handle = new BufferHandle(ref memoryHandle, size * sizeof(byte));
+
+                SetValidityBufferCore(name, (byte*)handle.DataPointer, handle.SizePointer);
+
+                AddOrReplaceBufferHandle(_validityBufferHandles, name, handle);
+                successful = true;
+            }
+            finally
+            {
+                if (!successful)
+                {
+                    memoryHandle.Dispose();
+                    handle?.Dispose();
+                }
+            }
+        }
+
+        private void SetValidityBufferCore(string name, byte* data, ulong* size)
+        {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(name);
-            ulong size = (ulong)(data.Length * Marshal.SizeOf(data[0]));
-            var bufferHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-            AddValidityBufferHandle(name, bufferHandle, size);
-            _ctx.handle_error(Methods.tiledb_query_set_validity_buffer(ctxHandle, handle, ms_name,
-                (byte*)_validityBufferHandles[name].DataHandle.AddrOfPinnedObject().ToPointer(),
-                (ulong*)_validityBufferHandles[name].SizeHandle.AddrOfPinnedObject().ToPointer()));
+            _ctx.handle_error(Methods.tiledb_query_set_validity_buffer(ctxHandle, handle, ms_name, data, size));
         }
 
         /// <summary>
@@ -394,10 +737,10 @@ namespace TileDB.CSharp
             return (LayoutType)layout;
         }
 
-        ///// <summary>
-        ///// Sets the query condition to be applied on a read.
-        ///// </summary>
-        ///// <param name="condition"></param>
+        /// <summary>
+        /// Sets the query condition to be applied on a read.
+        /// </summary>
+        /// <param name="condition"></param>
         public void SetCondition(QueryCondition condition)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -440,7 +783,7 @@ namespace TileDB.CSharp
             _ctx.handle_error(Methods.tiledb_query_submit_and_finalize(ctxHandle, handle));
         }
 
-        [UnmanagedCallersOnly(CallConvs = new [] {typeof(CallConvCdecl)})]
+        [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
         [Obsolete(Obsoletions.QuerySubmitAsyncMessage, DiagnosticId = Obsoletions.QuerySubmitAsyncDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         private static void QueryCallback(void* ptr)
         {
@@ -496,7 +839,7 @@ namespace TileDB.CSharp
             using var handle = _handle.Acquire();
             int ret;
             _ctx.handle_error(Methods.tiledb_query_has_results(ctxHandle, handle, &ret));
-            return (ret > 0);
+            return ret > 0;
         }
 
         /// <summary>
@@ -539,7 +882,7 @@ namespace TileDB.CSharp
         /// </summary>
         [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.AddRange on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void AddRange<T>(UInt32 index, T start, T end) where T : struct
+        public void AddRange<T>(uint index, T start, T end) where T : struct
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -596,7 +939,7 @@ namespace TileDB.CSharp
         /// </summary>
         [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.AddRange on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void AddRange(UInt32 index, string start, string end)
+        public void AddRange(uint index, string start, string end)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -649,11 +992,11 @@ namespace TileDB.CSharp
         /// </summary>
         [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.GetRangeCount on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public UInt64 RangeNum(UInt32 index)
+        public ulong RangeNum(uint index)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            UInt64 range_num;
+            ulong range_num;
             _ctx.handle_error(Methods.tiledb_query_get_range_num(ctxHandle, handle, index, &range_num));
             return range_num;
         }
@@ -663,18 +1006,18 @@ namespace TileDB.CSharp
         /// </summary>
         [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.GetRangeCount on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public UInt64 RangeNumFromName(string name)
+        public ulong RangeNumFromName(string name)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            UInt64 range_num;
+            ulong range_num;
             using var ms_name = new MarshaledString(name);
             _ctx.handle_error(Methods.tiledb_query_get_range_num_from_name(ctxHandle, handle, ms_name, &range_num));
             return range_num;
         }
 
         [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-        private (byte[] start_bytes, byte[] end_bytes, byte[] stride_bytes) get_range<T>(UInt32 dim_idx, UInt32 range_idx) where T : struct
+        private (byte[] start_bytes, byte[] end_bytes, byte[] stride_bytes) get_range<T>(uint dim_idx, uint range_idx) where T : struct
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -695,7 +1038,7 @@ namespace TileDB.CSharp
         /// </summary>
         [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.GetRange on the query's assigned Subarray instead. Note that it does not return a stride.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public System.Tuple<T, T, T> Range<T>(UInt32 dim_idx, UInt32 range_idx) where T : struct
+        public Tuple<T, T, T> Range<T>(uint dim_idx, uint range_idx) where T : struct
         {
             var (start_bytes, end_bytes, stride_bytes) = get_range<T>(dim_idx, range_idx);
             var start_span = MemoryMarshal.Cast<byte, T>(start_bytes);
@@ -706,7 +1049,7 @@ namespace TileDB.CSharp
         }
 
         [Obsolete(Obsoletions.QuerySubarrayMessage, DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-        private (byte[] start_bytes, byte[] end_bytes, byte[] stride_bytes) get_range<T>(string dim_name, UInt32 range_idx) where T : struct
+        private (byte[] start_bytes, byte[] end_bytes, byte[] stride_bytes) get_range<T>(string dim_name, uint range_idx) where T : struct
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -728,7 +1071,7 @@ namespace TileDB.CSharp
         /// </summary>
         [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.GetRange on the query's assigned Subarray instead. Note that it does not return a stride.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public System.Tuple<T, T, T> Range<T>(string dim_name, UInt32 range_idx) where T : struct
+        public Tuple<T, T, T> Range<T>(string dim_name, uint range_idx) where T : struct
         {
             var (start_bytes, end_bytes, stride_bytes) = get_range<T>(dim_name, range_idx);
             var start_span = MemoryMarshal.Cast<byte, T>(start_bytes);
@@ -743,12 +1086,12 @@ namespace TileDB.CSharp
         /// </summary>
         [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.GetStringRange on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public System.Tuple<string, string> RangeVar(UInt32 dim_idx, UInt32 range_idx)
+        public Tuple<string, string> RangeVar(uint dim_idx, uint range_idx)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            UInt64 start_size = 0;
-            UInt64 end_size = 0;
+            ulong start_size;
+            ulong end_size;
             _ctx.handle_error(Methods.tiledb_query_get_range_var_size(ctxHandle, handle, dim_idx, range_idx, &start_size, &end_size));
 
             byte[] startData = Enumerable.Repeat(default(byte), (int)start_size).ToArray();
@@ -778,13 +1121,13 @@ namespace TileDB.CSharp
         /// </summary>
         [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.GetStringRange on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public System.Tuple<string, string> RangeVar(string dim_name, UInt32 range_idx)
+        public Tuple<string, string> RangeVar(string dim_name, uint range_idx)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(dim_name);
-            UInt64 start_size = 0;
-            UInt64 end_size = 0;
+            ulong start_size;
+            ulong end_size;
             _ctx.handle_error(Methods.tiledb_query_get_range_var_size_from_name(ctxHandle, handle, ms_name, range_idx, &start_size, &end_size));
 
             byte[] startData = Enumerable.Repeat(default(byte), (int)start_size).ToArray();
@@ -809,106 +1152,79 @@ namespace TileDB.CSharp
 
         }
 
-        /// <summary>
-        /// Retrieves the estimated result size for a fixed-size attribute.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        private UInt64 est_result_size(string name)
+        private ulong GetEstimatedResultSize(string name)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(name);
-            UInt64 size = 0;
+            ulong size;
             _ctx.handle_error(Methods.tiledb_query_get_est_result_size(ctxHandle, handle, ms_name, &size));
             return size;
         }
 
-        /// <summary>
-        /// Retrieves the estimated result size for a variable-size attribute tuple(size_off,size_val).
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        private Tuple<UInt64, UInt64> est_result_size_var(string name)
+        private (ulong OffsetSize, ulong DataSize) GetEstimatedResultSizeVar(string name)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(name);
-            UInt64 size_off = 0;
-            UInt64 size_val = 0;
+            ulong size_off;
+            ulong size_val;
             _ctx.handle_error(Methods.tiledb_query_get_est_result_size_var(ctxHandle, handle, ms_name, &size_off, &size_val));
 
-            return new Tuple<UInt64, UInt64>(size_off, size_val);
+            return (size_off, size_val);
         }
 
-        /// <summary>
-        /// Retrieves the estimated result size for a fixed-size, nullable attribute tuple(size_val,size_validity).
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        private Tuple<UInt64, UInt64> est_result_size_nullable(string name)
+        private (ulong DataSize, ulong ValiditySize) GetEstimatedResultSizeNullable(string name)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(name);
-            UInt64 size_val = 0;
-            UInt64 size_validity = 0;
+            ulong size_val;
+            ulong size_validity;
             _ctx.handle_error(Methods.tiledb_query_get_est_result_size_nullable(ctxHandle, handle, ms_name, &size_val, &size_validity));
-            List<UInt64> ret = new List<ulong>();
-            return new Tuple<UInt64, UInt64>(size_val, size_validity);
+            return (size_val, size_validity);
         }
 
-        /// <summary>
-        /// Retrieves the estimated result size for a variable-size, nullable attribute tuple(size_off,size_val,size_validity).
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        private Tuple<UInt64, UInt64, UInt64> est_result_size_var_nullable(string name)
+        private (ulong OffsetsSize, ulong DataSize, ulong ValiditySize) GetEstimatedResultSizeVarNullable(string name)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(name);
-            UInt64 size_off = 0;
-            UInt64 size_val = 0;
-            UInt64 size_validity = 0;
+            ulong size_off;
+            ulong size_val;
+            ulong size_validity;
 
             _ctx.handle_error(Methods.tiledb_query_get_est_result_size_var_nullable(ctxHandle, handle, ms_name, &size_off, &size_val, &size_validity));
 
-            return new Tuple<UInt64, UInt64, UInt64>(size_off, size_val, size_validity);
+            return (size_off, size_val, size_validity);
         }
 
         /// <summary>
-        /// Get estimated result size.
+        /// Estimates the result size for an attribute or dimension.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">The name of the attribute or dimension.</param>
         public ResultSize EstResultSize(string name)
         {
-            bool isVar = _array.Schema().IsVarSize(name);
-            bool isNullable = _array.Schema().IsNullable(name);
-            if (isVar)
+            bool isVar, isNullable;
+            using (var schema = _array.Schema())
             {
-                if (isNullable)
-                {
-                    var t = est_result_size_var_nullable(name);
-                    return new ResultSize(t.Item2, t.Item1, t.Item3);
-                }
-                else
-                {
-                    var t = est_result_size_var(name);
-                    return new ResultSize(t.Item2, t.Item1, 0);
-
-                }
+                isVar = schema.IsVarSize(name);
+                isNullable = schema.IsNullable(name);
             }
-            else if (isNullable)
+            switch (isVar, isNullable)
             {
-                var t = est_result_size_nullable(name);
-                return new ResultSize(t.Item1, 0, t.Item2);
-            }
-            else
-            {
-                var t = est_result_size(name);
-                return new ResultSize(t, 0, 0);
+                case (true, true):
+                    (var offsetsSize, var dataSize, var validitySize) = GetEstimatedResultSizeVarNullable(name);
+                    return new ResultSize(offsetsSize, dataSize, validitySize);
+                case (true, false):
+                    (offsetsSize, dataSize) = GetEstimatedResultSizeVar(name);
+                    return new ResultSize(dataSize, offsetsSize);
+                case (false, true):
+                    (dataSize, validitySize) = GetEstimatedResultSizeNullable(name);
+                    return new ResultSize(dataSize, null, validitySize);
+                case (false, false):
+                    dataSize = GetEstimatedResultSize(name);
+                    return new ResultSize(dataSize);
             }
         }
 
@@ -944,16 +1260,15 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="idx"></param>
         /// <returns></returns>
-        public System.Tuple<UInt64, UInt64> FragmentTimestampRange(ulong idx)
+        public Tuple<ulong, ulong> FragmentTimestampRange(ulong idx)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            ulong t1 = 0;
-            ulong t2 = 0;
+            ulong t1;
+            ulong t2;
             _ctx.handle_error(Methods.tiledb_query_get_fragment_timestamp_range(ctxHandle, handle, idx, &t1, &t2));
             return new Tuple<ulong, ulong>(t1, t2);
         }
-        #endregion
 
         private void CheckDataType<T>(DataType dataType)
         {
@@ -962,34 +1277,32 @@ namespace TileDB.CSharp
                 if (!(dataType== DataType.StringAscii && (typeof(T)==typeof(byte) || typeof(T) == typeof(sbyte) || typeof(T) == typeof(string)))
                    && !(dataType == DataType.Boolean && typeof(T) == typeof(byte)))
                 {
-                    throw new System.ArgumentException("T " + typeof(T).Name + " doesnot match " + dataType.ToString());
+                    throw new ArgumentException("T " + typeof(T).Name + " doesnot match " + dataType.ToString());
                 }
             }
         }
 
-        private DataType GetDataType(string name)
+        private static DataType GetDataType(string name, ArraySchema schema, Domain domain)
         {
-            bool is_attr = _array.Schema().HasAttribute(name);
-            bool is_dim = _array.Schema().Domain().HasDimension(name);
-            if (_array.Schema().HasAttribute(name))
+            if (schema.HasAttribute(name))
             {
-                return _array.Schema().Attribute(name).Type();
+                using var attribute = schema.Attribute(name);
+                return attribute.Type();
             }
-            else if (_array.Schema().Domain().HasDimension(name))
+            else if (domain.HasDimension(name))
             {
-                return _array.Schema().Domain().Dimension(name).Type();
+                using var dimension = domain.Dimension(name);
+                return dimension.Type();
             }
-            else if (name == "__coords")
+
+            if (name == "__coords")
             {
-                return _array.Schema().Domain().Type();
+                return domain.Type();
             }
-            else
-            {
-                throw new ArgumentException("No datatype for " + name);
-            }
+
+            throw new ArgumentException("No datatype for " + name);
         }
 
-        #region buffers
         /// <summary>
         /// Returns the number of elements read into result buffers from a read query.
         ///
@@ -1004,22 +1317,24 @@ namespace TileDB.CSharp
         /// <returns>Dictionary mapping buffer name to number of results</returns>
         public Dictionary<string, Tuple<ulong, ulong?, ulong?>> ResultBufferElements()
         {
+            using var schema = _array.Schema();
+            using var domain = schema.Domain();
             var buffers = new Dictionary<string, Tuple<ulong, ulong?, ulong?>>();
-            foreach (var key in _dataBufferHandles.Keys)
+            foreach ((string key, BufferHandle dataHandle) in _dataBufferHandles)
             {
                 ulong? offsetNum = null;
                 ulong? validityNum = null;
 
-                ulong typeSize = EnumUtil.DataTypeSize(GetDataType(key));
-                ulong dataNum = (ulong)_dataBufferHandles[key].SizeHandle.Target! / typeSize;
+                ulong typeSize = EnumUtil.DataTypeSize(GetDataType(key, schema, domain));
+                ulong dataNum = dataHandle.Size / typeSize;
 
-                if (_offsetsBufferHandles.ContainsKey(key))
+                if (_offsetsBufferHandles.TryGetValue(key, out BufferHandle? offsetHandle))
                 {
-                    offsetNum = (ulong)_offsetsBufferHandles[key].SizeHandle.Target! / sizeof(ulong);
+                    offsetNum = offsetHandle.Size / sizeof(ulong);
                 }
-                if (_validityBufferHandles.ContainsKey(key))
+                if (_validityBufferHandles.TryGetValue(key, out BufferHandle? validityHandle))
                 {
-                    validityNum = (ulong)_validityBufferHandles[key].SizeHandle.Target!;
+                    validityNum = validityHandle.Size;
                 }
 
                 buffers.Add(key, new(dataNum, offsetNum, validityNum));
@@ -1033,66 +1348,79 @@ namespace TileDB.CSharp
         /// </summary>
         private void FreeAllBufferHandles()
         {
-            foreach (var bh in _dataBufferHandles)
-            {
-                bh.Value.Free();
-            }
+            DisposeValuesAndClear(_dataBufferHandles);
+            DisposeValuesAndClear(_offsetsBufferHandles);
+            DisposeValuesAndClear(_validityBufferHandles);
 
-            foreach (var bh in _offsetsBufferHandles)
+            static void DisposeValuesAndClear(Dictionary<string, BufferHandle> handles)
             {
-                bh.Value.Free();
-            }
-
-            foreach (var bh in _validityBufferHandles)
-            {
-                bh.Value.Free();
+                foreach (var bh in handles)
+                {
+                    bh.Value.Dispose();
+                }
+                handles.Clear();
             }
         }
 
-        /// <summary>
-        /// Add data buffer handle.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="handle"></param>
-        /// <param name="size"></param>
-        private void AddDataBufferHandle(string name, GCHandle handle, ulong size)
+        private static void AddOrReplaceBufferHandle(Dictionary<string, BufferHandle> dict, string name, BufferHandle handle)
         {
-            if (_dataBufferHandles.ContainsKey(name))
+            if (dict.TryGetValue(name, out var existingHandle))
             {
-                _dataBufferHandles[name].Free();
+                existingHandle.Dispose();
             }
-            _dataBufferHandles[name] = new BufferHandle(handle, size);
+            dict[name] = handle;
         }
 
-        /// <summary>
-        /// Add offset buffer handle.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="handle"></param>
-        /// <param name="size"></param>
-        private void AddOffsetsBufferHandle(string name, GCHandle handle, ulong size)
+        private sealed class BufferHandle : IDisposable
         {
-            if (_offsetsBufferHandles.ContainsKey(name))
-            {
-                _offsetsBufferHandles[name].Free();
-            }
-            _offsetsBufferHandles[name] = new BufferHandle(handle, size);
-        }
+            private MemoryHandle DataHandle;
+            public ulong* SizePointer { get; private set; }
 
-        /// <summary>
-        /// Add validity buffer handle.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="handle"></param>
-        /// <param name="size"></param>
-        private void AddValidityBufferHandle(string name, GCHandle handle, ulong size)
-        {
-            if (_validityBufferHandles.ContainsKey(name))
+            public void* DataPointer => DataHandle.Pointer;
+
+            public ulong Size
             {
-                _validityBufferHandles[name].Free();
+                get
+                {
+                    Debug.Assert(SizePointer is not null);
+                    return *SizePointer;
+                }
+                set
+                {
+                    Debug.Assert(SizePointer is not null);
+                    *SizePointer = value;
+                }
             }
-            _validityBufferHandles[name] = new BufferHandle(handle, size);
+
+            public BufferHandle(ref MemoryHandle handle, ulong size)
+            {
+                DataHandle = handle;
+                handle = default;
+                bool successful = false;
+                try
+                {
+                    SizePointer = (ulong*)Marshal.AllocHGlobal(sizeof(ulong));
+                    successful = true;
+                }
+                finally
+                {
+                    if (!successful)
+                    {
+                        DataHandle.Dispose();
+                    }
+                }
+                Size = size;
+            }
+
+            public void Dispose()
+            {
+                DataHandle.Dispose();
+                if (SizePointer != null)
+                {
+                    Marshal.FreeHGlobal((IntPtr)SizePointer);
+                }
+                SizePointer = null;
+            }
         }
-        #endregion
     }
 }

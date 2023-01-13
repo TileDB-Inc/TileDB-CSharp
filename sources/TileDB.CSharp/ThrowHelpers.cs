@@ -38,5 +38,17 @@ namespace TileDB.CSharp
         [DoesNotReturn]
         public static void ThrowManagedType() =>
             throw new NotSupportedException("Types with managed references are not supported.");
+
+        [DoesNotReturn]
+        public static void ThrowOperationNotAllowedOnReadQueries() =>
+            throw new NotSupportedException("The operation is not allowed on read queries.");
+
+        [DoesNotReturn]
+        public static void ThrowBufferCannotBeEmpty(string paramName) =>
+            throw new ArgumentException("Buffer cannot be empty.", paramName);
+
+        [DoesNotReturn]
+        public static void ThrowArgumentNullException(string paramName) =>
+            throw new ArgumentNullException(paramName);
     }
 }
