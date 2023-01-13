@@ -77,6 +77,7 @@ namespace TileDB.CSharp
         }
     }
 
+    [Obsolete(Obsoletions.QuerySubmitAsyncMessage, DiagnosticId = Obsoletions.QuerySubmitAsyncDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     public class QueryEventArgs : EventArgs
     {
         public QueryEventArgs(int status, string message)
@@ -396,6 +397,7 @@ namespace TileDB.CSharp
         }
 
         [UnmanagedCallersOnly(CallConvs = new [] {typeof(CallConvCdecl)})]
+        [Obsolete(Obsoletions.QuerySubmitAsyncMessage, DiagnosticId = Obsoletions.QuerySubmitAsyncDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         private static void QueryCallback(void* ptr)
         {
             GCHandle gcHandle = GCHandle.FromIntPtr((IntPtr)ptr);
@@ -413,6 +415,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// Submits the query asynchronously.
         /// </summary>
+        [Obsolete(Obsoletions.QuerySubmitAsyncMessage, DiagnosticId = Obsoletions.QuerySubmitAsyncDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public void SubmitAsync()
         {
             GCHandle gcHandle = GCHandle.Alloc(this);
@@ -436,6 +439,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// Default event handler is empty
         /// </summary>
+        [Obsolete(Obsoletions.QuerySubmitAsyncMessage, DiagnosticId = Obsoletions.QuerySubmitAsyncDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public event EventHandler<QueryEventArgs>? QueryCompleted;
 
         /// <summary>

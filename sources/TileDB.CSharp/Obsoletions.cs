@@ -32,5 +32,8 @@ namespace TileDB.CSharp
 
         public const string ConsolidateMetadataMessage = "The Array.ConsolidateMetadata and ArrayMetadata.ConsolidateMetadata methods are obsolete. Call Array.Consolidate with the config value 'sm.consolidation.mode' set to 'array_meta' instead.";
         public const string ConsolidateMetadataDiagId = "TILEDB0009";
+
+        public const string QuerySubmitAsyncMessage = "The Query.SubmitAsync method is obsolete due to reliability problems and will be removed in a future release";
+        public const string QuerySubmitAsyncDiagId = "TILEDB0010";
     }
 }
