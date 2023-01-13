@@ -260,7 +260,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// Deprecated, use <see cref="Subarray.SetSubarray{T}(T[])"/> instead and assign the subarray with <see cref="SetSubarray(Subarray)"/>.
         /// </summary>
-        [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.SetSubarray instead on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+        [Obsolete(Obsoletions.QuerySubarrayMessage + " Use Subarray.SetSubarray on the query's assigned Subarray instead.", DiagnosticId = Obsoletions.QuerySubarrayDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void SetSubarray<T>(T[] data) where T : struct
         {
