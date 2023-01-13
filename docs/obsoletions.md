@@ -22,7 +22,7 @@ var attr_data_buffer = new int[3] { 1, 2, 3 };
 using (Array array_write = new Array(Context.GetDefault(), "my_array"))
 {
     array_write.Open(QueryType.TILEDB_WRITE);
-    var query_write = new Query(Ctx, array_write);
+    using var query_write = new Query(Ctx, array_write);
     query_write.SetLayout(LayoutType.TILEDB_UNORDERED);
     query_write.SetDataBuffer<int>("rows", dim1_data_buffer);
     query_write.SetDataBuffer<int>("cols", dim2_data_buffer);
@@ -42,7 +42,7 @@ var attr_data_buffer = new int[3] { 1, 2, 3 };
 using (Array array_write = new Array(Context.GetDefault(), "my_array"))
 {
     array_write.Open(QueryType.Write);
-    var query_write = new Query(Ctx, array_write);
+    using var query_write = new Query(Ctx, array_write);
     query_write.SetLayout(LayoutType.Unordered);
     query_write.SetDataBuffer<int>("rows", dim1_data_buffer);
     query_write.SetDataBuffer<int>("cols", dim2_data_buffer);
@@ -110,7 +110,7 @@ Catch exceptions of type `TileDBException` instead of `ErrorException`.
 ```csharp
 try
 {
-    // �
+    // ...
 }
 catch (ErrorException e)
 {
@@ -123,7 +123,7 @@ catch (ErrorException e)
 ```csharp
 try
 {
-    // �
+    // ...
 }
 catch (TileDBException e)
 {
@@ -247,3 +247,28 @@ The `Query.SubmitAsync` method uses the legacy [Event Asynchronous Pattern](http
 ### Recommended action
 
 Use `Query.SubmitAsync`. Until a native async API becomes available, you can use the `Task.Run` method to submit the query on a background thread.
+
+## <span id="TILEDB0011">`TILEDB0011` - Subarray-related methods on the `Query` class are obsolete.</span>
+
+Following changes to the native API of TileDB Embedded, certain methods of the `Query` class such as `AddRange`, `Range` and `RangeVar` are now exposed through the newly introduced `Subarray` class.
+
+Some of these methods were renamed or had their signature changed (for example those who returned tuples now return value tuples). Here is a table with the name changes:
+
+|`Query` method|`Subarray` method|
+|--------------|-----------------|
+|`RangeNum`|`GetRangeCount(uint)`|
+|`RangeNumFromName`|`GetRangeCount(string)`|
+|`Range` (all overloads)|`GetRange`\*|
+|`RangeVar` (all overloads)|`GetStringRange`|
+
+> \* Because of lack of support by TileDB Embedded, the `Subarray.GetRange` methods will return a tuple with two members instead of three. The deprecated `Query.Range` methods have never actually been usable because of it.
+
+In accordance with [TileDB Embedded's deprecation policy](https://github.com/TileDB-Inc/TileDB/blob/dev/doc/policy/api_changes.md), the methods on `Query` will be removed in a future version and calling them will fail.
+
+### Version introduced
+
+5.3.0
+
+### Recommended action
+
+Instead of setting ranges and subarrays on the `Query`, create and configure a `Subarray` object, and assign it to the query using the `Query.SetSubarray` method.

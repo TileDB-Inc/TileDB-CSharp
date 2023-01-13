@@ -13,8 +13,8 @@ namespace TileDB.CSharp.Test
     {
         private static void InitTest(Context ctx, string arrayName, LayoutType layout, bool duplicates)
         {
-            using var rows = Dimension.Create(ctx, "rows", new[] { 1, 4 }, 4);
-            using var cols = Dimension.Create(ctx, "cols", new[] { 1, 4 }, 4);
+            using var rows = Dimension.Create(ctx, "rows", 1, 4, 4);
+            using var cols = Dimension.Create(ctx, "cols", 1, 4, 4);
             using var domain = new Domain(ctx);
             domain.AddDimensions(rows, cols);
             // Deletes are only supported for sparse arrays
@@ -46,15 +46,14 @@ namespace TileDB.CSharp.Test
             TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
         }
 
-        private void DeleteFour(Context ctx, Array array, LayoutType layout, bool duplicates)
+        private static void DeleteFour(Context ctx, Array array, LayoutType layout, bool duplicates)
         {
             // Delete multiple cells at once
             array.Open(QueryType.Delete);
             using var deleteQuery = new Query(ctx, array, QueryType.Delete);
             using var notCondition = QueryCondition.Create(ctx, "cols", 3, QueryConditionOperatorType.NotEqual);
-            using var andCondition = new QueryCondition(ctx);
-            andCondition.Init("cols", 2, QueryConditionOperatorType.GreaterThan);
-            using var queryCondition = notCondition.Combine(andCondition, QueryConditionCombinationOperatorType.And);
+            using var andCondition = QueryCondition.Create(ctx, "cols", 2, QueryConditionOperatorType.GreaterThan);
+            using var queryCondition = notCondition & andCondition;
             deleteQuery.SetCondition(queryCondition);
             deleteQuery.Submit();
             Assert.AreEqual(QueryStatus.Completed, deleteQuery.Status());
@@ -128,11 +127,9 @@ namespace TileDB.CSharp.Test
             // Delete one cell
             array.Open(QueryType.Delete);
             using var deleteQuery = new Query(ctx, array, QueryType.Delete);
-            using var colsCondition = new QueryCondition(ctx);
-            colsCondition.Init("cols", 1, QueryConditionOperatorType.Equal);
-            using var rowsCondition = new QueryCondition(ctx);
-            rowsCondition.Init("rows", 1, QueryConditionOperatorType.Equal);
-            using var andCondition = colsCondition.Combine(rowsCondition, QueryConditionCombinationOperatorType.And);
+            using var colsCondition = QueryCondition.Create(ctx, "cols", 1, QueryConditionOperatorType.Equal);
+            using var rowsCondition = QueryCondition.Create(ctx, "rows", 1, QueryConditionOperatorType.Equal);
+            using var andCondition = colsCondition & rowsCondition;
             deleteQuery.SetCondition(andCondition);
             deleteQuery.Submit();
             array.Close();
@@ -182,11 +179,9 @@ namespace TileDB.CSharp.Test
             // Delete 1 cell
             array.Open(QueryType.Delete);
             using var deleteQuery = new Query(ctx, array, QueryType.Delete);
-            using var colsCondition = new QueryCondition(ctx);
-            colsCondition.Init("cols", 1, QueryConditionOperatorType.Equal);
-            using var rowsCondition = new QueryCondition(ctx);
-            rowsCondition.Init("rows", 1, QueryConditionOperatorType.Equal);
-            using var andCondition = colsCondition.Combine(rowsCondition, QueryConditionCombinationOperatorType.And);
+            using var colsCondition = QueryCondition.Create(ctx, "cols", 1, QueryConditionOperatorType.Equal);
+            using var rowsCondition = QueryCondition.Create(ctx, "rows", 1, QueryConditionOperatorType.Equal);
+            using var andCondition = colsCondition & rowsCondition;
             deleteQuery.SetCondition(andCondition);
             deleteQuery.Submit();
             array.Close();
@@ -207,11 +202,9 @@ namespace TileDB.CSharp.Test
             // + (3, 2) was deleted by a previous delete query
             array.Open(QueryType.Delete);
             using var deleteQuery2 = new Query(ctx, array, QueryType.Delete);
-            using var colsCondition2 = new QueryCondition(ctx);
-            colsCondition2.Init("cols", 4, QueryConditionOperatorType.Equal);
-            using var rowsCondition2 = new QueryCondition(ctx);
-            rowsCondition2.Init("rows", 3, QueryConditionOperatorType.Equal);
-            using var orCondition = colsCondition2.Combine(rowsCondition2, QueryConditionCombinationOperatorType.Or);
+            using var colsCondition2 = QueryCondition.Create(ctx, "cols", 4, QueryConditionOperatorType.Equal);
+            using var rowsCondition2 = QueryCondition.Create(ctx, "rows", 3, QueryConditionOperatorType.Equal);
+            using var orCondition = colsCondition2 | rowsCondition2;
             deleteQuery2.SetCondition(orCondition);
             deleteQuery2.Submit();
             array.Close();
@@ -252,11 +245,9 @@ namespace TileDB.CSharp.Test
             // Delete single cell
             array.Open(QueryType.Delete);
             using var deleteQuery = new Query(ctx, array, QueryType.Delete);
-            using var rowsCondition = new QueryCondition(ctx);
-            rowsCondition.Init("rows", 1, QueryConditionOperatorType.Equal);
-            using var colsCondition = new QueryCondition(ctx);
-            colsCondition.Init("cols", 1, QueryConditionOperatorType.Equal);
-            using var andCondition = rowsCondition.Combine(colsCondition, QueryConditionCombinationOperatorType.And);
+            using var rowsCondition = QueryCondition.Create(ctx, "rows", 1, QueryConditionOperatorType.Equal);
+            using var colsCondition = QueryCondition.Create(ctx, "cols", 1, QueryConditionOperatorType.Equal);
+            using var andCondition = rowsCondition & colsCondition;
             deleteQuery.SetCondition(andCondition);
             deleteQuery.Submit();
             array.Close();
@@ -443,11 +434,9 @@ namespace TileDB.CSharp.Test
             delArray.SetOpenTimestampEnd(deleteTime);
             delArray.Open(QueryType.Delete);
             using var deleteQuery = new Query(ctx, delArray, QueryType.Delete);
-            using var rowsCondition = new QueryCondition(ctx);
-            rowsCondition.Init("rows", 1, QueryConditionOperatorType.Equal);
-            using var colsCondition = new QueryCondition(ctx);
-            colsCondition.Init("cols", 1, QueryConditionOperatorType.Equal);
-            using var andCondition = rowsCondition.Combine(colsCondition, QueryConditionCombinationOperatorType.And);
+            using var rowsCondition = QueryCondition.Create(ctx, "rows", 1, QueryConditionOperatorType.Equal);
+            using var colsCondition = QueryCondition.Create(ctx, "cols", 1, QueryConditionOperatorType.Equal);
+            using var andCondition = rowsCondition & colsCondition;
             deleteQuery.SetCondition(andCondition);
             deleteQuery.Submit();
             Logger.LogMessage($"Delete timestamp: {deleteTime}");
@@ -585,8 +574,7 @@ namespace TileDB.CSharp.Test
             // Make a delete condition on an attribute
             array.Open(QueryType.Delete);
             using var deleteQuery2 = new Query(ctx, array, QueryType.Delete);
-            using var attrCondition = new QueryCondition(ctx);
-            attrCondition.Init("a1", 10, QueryConditionOperatorType.LessThan);
+            using var attrCondition = QueryCondition.Create(ctx, "a1", 10, QueryConditionOperatorType.LessThan);
             deleteQuery2.SetCondition(attrCondition);
             deleteQuery2.Submit();
             array.Close();
@@ -681,8 +669,7 @@ namespace TileDB.CSharp.Test
             array.Open(QueryType.Delete);
             Logger.LogMessage($"Array opened at between {array.OpenTimestampStart()} and {array.OpenTimestampEnd()}");
             using var deleteQuery = new Query(ctx, array, QueryType.Delete);
-            using var attrCondition = new QueryCondition(ctx);
-            attrCondition.Init("a1", 17, QueryConditionOperatorType.Equal);
+            using var attrCondition = QueryCondition.Create(ctx, "a1", 17, QueryConditionOperatorType.Equal);
             deleteQuery.SetCondition(attrCondition);
             deleteQuery.Submit();
             array.Close();
@@ -775,8 +762,7 @@ namespace TileDB.CSharp.Test
 
             array.Open(QueryType.Delete);
             using var deleteQuery = new Query(ctx, array, QueryType.Delete);
-            using var attrCondition = new QueryCondition(ctx);
-            attrCondition.Init("a0", 4, QueryConditionOperatorType.Equal);
+            using var attrCondition = QueryCondition.Create(ctx, "a0", 4, QueryConditionOperatorType.Equal);
             deleteQuery.SetCondition(attrCondition);
             deleteQuery.Submit();
             array.Close();
@@ -867,8 +853,7 @@ namespace TileDB.CSharp.Test
 
             array.Open(QueryType.Delete);
             using var deleteQuery = new Query(ctx, array, QueryType.Delete);
-            using var colsCondition = new QueryCondition(ctx);
-            colsCondition.Init("cols", 1, QueryConditionOperatorType.Equal);
+            using var colsCondition = QueryCondition.Create(ctx, "cols", 1, QueryConditionOperatorType.Equal);
             deleteQuery.SetCondition(colsCondition);
             deleteQuery.Submit();
             array.Close();

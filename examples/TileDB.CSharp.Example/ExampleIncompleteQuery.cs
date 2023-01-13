@@ -75,7 +75,6 @@ namespace TileDB.CSharp.Examples
                 arrayRead.Open(QueryType.Read);
                 var queryRead = new Query(Ctx, arrayRead);
                 queryRead.SetLayout(LayoutType.Unordered);
-                queryRead.SetSubarray(new[] { 1, 100, 1, 100 });
 
                 queryRead.SetDataBuffer("rows", rowsRead);
                 queryRead.SetDataBuffer("cols", colsRead);

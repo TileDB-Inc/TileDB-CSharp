@@ -8,6 +8,14 @@ namespace TileDB.CSharp
 {
     internal static class ErrorHandling
     {
+        public static void ThrowIfNull([NotNull] object? obj, [CallerArgumentExpression(nameof(obj))] string? paramName = null)
+        {
+            if (obj == null)
+            {
+                ThrowHelpers.ThrowArgumentNull(paramName);
+            }
+        }
+
         public static void ThrowOnError(int errorCode)
         {
             if (errorCode == (int)Status.TILEDB_OK)
@@ -44,11 +52,8 @@ namespace TileDB.CSharp
         {
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
-                Throw();
+                ThrowHelpers.ThrowManagedType();
             }
-
-            static void Throw() =>
-                throw new NotSupportedException("Types with managed references are not supported.");
         }
     }
 }

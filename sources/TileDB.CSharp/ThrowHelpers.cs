@@ -7,6 +7,10 @@ namespace TileDB.CSharp
     internal static class ThrowHelpers
     {
         [DoesNotReturn]
+        public static void ThrowArgumentNull(string? paramName) =>
+            throw new ArgumentNullException(paramName);
+
+        [DoesNotReturn]
         public static void ThrowTypeNotSupported() =>
             throw new NotSupportedException("Type is not supported");
 
@@ -26,5 +30,13 @@ namespace TileDB.CSharp
         [DoesNotReturn]
         public static void ThrowQueryConditionDifferentContexts() =>
             throw new InvalidOperationException("Cannot combine query conditions associated with different contexts.");
+
+        [DoesNotReturn]
+        public static void ThrowSubarrayLengthMismatch(string paramName) =>
+            throw new ArgumentException("The length of the data is not equal to double the length of dimensions.", paramName);
+
+        [DoesNotReturn]
+        public static void ThrowManagedType() =>
+            throw new NotSupportedException("Types with managed references are not supported.");
     }
 }

@@ -58,7 +58,9 @@ namespace TileDB.CSharp.Examples
             using var array = new Array(Ctx, ArrayPath);
             array.Open(QueryType.Read);
             using var readQuery = new Query(Ctx, array, QueryType.Read);
-            readQuery.SetSubarray(new[] { 1, 4, 1, 4 });
+            using var subarray = new Subarray(array);
+            subarray.SetSubarray(1, 4, 1, 4);
+            readQuery.SetSubarray(subarray);
 
             var rowsRead = new int[6];
             var colsRead = new int[6];

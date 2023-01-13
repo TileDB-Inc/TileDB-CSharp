@@ -424,12 +424,13 @@ namespace TileDB.CSharp.Test
         private void WriteDenseArray(string arrayUri)
         {
             int[] data = { 1, 2, 3, 4, 5, 6, 7, 8 };
-            int[] subarray = { 1, 2, 1, 4 };
 
             using Array array = new Array(_ctx, arrayUri);
             array.Open(QueryType.Write);
             using Query query = new Query(_ctx, array);
             query.SetDataBuffer("a", data);
+            using Subarray subarray = new Subarray(array);
+            subarray.SetSubarray(1, 2, 1, 4);
             query.SetSubarray(subarray);
 
             query.Submit();

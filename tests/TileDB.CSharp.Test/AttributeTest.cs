@@ -213,7 +213,8 @@ namespace TileDB.CSharp.Test
 
             var query_write = new Query(context, array_write);
             query_write.SetLayout(LayoutType.RowMajor);
-            // query_write.SetSubarray<int>(new int[] { 1, 4, 4, 4 });
+            // using var subarray = new Subarray(array_write);
+            // subarray.SetSubarray(new int[] { 1, 4, 4, 4 });
 
             query_write.SetDataBuffer("a1", a1_data);
             query_write.SetOffsetsBuffer("a1", a1_offsets);
@@ -241,7 +242,9 @@ namespace TileDB.CSharp.Test
             var query_read = new Query(context, array_read);
 
             // Slice only rows 1,2 and cols 2,3,4
-            query_read.SetSubarray(new int[] { 1, 4, 1, 4});
+            using var subarray = new Subarray(array_read);
+            subarray.SetSubarray(1, 4, 1, 4);
+            query_read.SetSubarray(subarray);
 
             query_read.SetLayout(LayoutType.RowMajor);
 
