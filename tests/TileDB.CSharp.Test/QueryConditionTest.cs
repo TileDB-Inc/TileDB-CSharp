@@ -73,7 +73,7 @@ namespace TileDB.CSharp.Test
 
             query_read.SetLayout(LayoutType.RowMajor);
 
-            var subarray = new Subarray(array_read);
+            using var subarray = new Subarray(array_read);
             subarray.SetSubarray(1, 4, 1, 4);
             query_read.SetSubarray(subarray);
 
