@@ -5,12 +5,19 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
+    /// <summary>
+    /// Represents a TileDB array schema object.
+    /// </summary>
     public sealed unsafe class ArraySchema : IDisposable
     {
         private readonly ArraySchemaHandle _handle;
         private readonly Context _ctx;
-        private bool _disposed;
 
+        /// <summary>
+        /// Creates a new <see cref="ArraySchema"/>.
+        /// </summary>
+        /// <param name="ctx">The <see cref="Context"/> associated with this schema.</param>
+        /// <param name="arrayType">The array's type.</param>
         public ArraySchema(Context ctx, ArrayType arrayType)
         {
             _ctx = ctx;
@@ -24,31 +31,20 @@ namespace TileDB.CSharp
             _handle = handle;
         }
 
+        /// <summary>
+        /// Disposes this <see cref="ArraySchema"/>
+        /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed) return;
-            if (disposing && (!_handle.IsInvalid))
-            {
-                _handle.Dispose();
-            }
-
-            _disposed = true;
+            _handle.Dispose();
         }
 
         internal ArraySchemaHandle Handle => _handle;
 
-
-        #region capi functions
-
         /// <summary>
-        /// Add an attribute.
+        /// Adds an <see cref="CSharp.Attribute"/> in the <see cref="ArraySchema"/>.
         /// </summary>
-        /// <param name="attr"></param>
+        /// <param name="attr">The attribute to add.</param>
         public void AddAttribute(Attribute attr)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -57,6 +53,10 @@ namespace TileDB.CSharp
             _ctx.handle_error(Methods.tiledb_array_schema_add_attribute(ctxHandle, handle, attrHandle));
         }
 
+        /// <summary>
+        /// Adds an array of <see cref="CSharp.Attribute"/>s in the <see cref="ArraySchema"/>.
+        /// </summary>
+        /// <param name="attrs">The attributes to add.</param>
         public void AddAttributes(params Attribute[] attrs)
         {
             foreach (var t in attrs)
@@ -66,24 +66,28 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set if duplicate is allowed or not
+        /// Sets whether cells with duplicate coordinates are allowed in the <see cref="ArraySchema"/>.
         /// </summary>
-        /// <param name="allowsDups"></param>
+        /// <remarks>
+        /// Applicable to only <see cref="ArrayType.Sparse"/> arrays.
+        /// </remarks>
         public void SetAllowsDups(bool allowsDups)
         {
-            var int_allow_dups = allowsDups ? 1 : 0;
+            int int_allow_dups = allowsDups ? 1 : 0;
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             _ctx.handle_error(Methods.tiledb_array_schema_set_allows_dups(ctxHandle, handle, int_allow_dups));
         }
 
         /// <summary>
-        /// Get if duplicate is allowed or not.
+        /// Gets whether cells with duplicate coordinates are allowed in the <see cref="ArraySchema"/>.
         /// </summary>
-        /// <returns></returns>
+        /// <remarks>
+        /// Applicable to only <see cref="ArrayType.Sparse"/> arrays.
+        /// </remarks>
         public bool AllowsDups()
         {
-            var allowDups = 0;
+            int allowDups;
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             _ctx.handle_error(Methods.tiledb_array_schema_get_allows_dups(ctxHandle, handle, &allowDups));
@@ -91,9 +95,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set domain.
+        /// Sets the <see cref="ArraySchema"/>'s <see cref="Domain"/>.
         /// </summary>
-        /// <param name="domain"></param>
+        /// <param name="domain">The domain to set</param>
         public void SetDomain(Domain domain)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -103,9 +107,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set capacity.
+        /// Sets the <see cref="ArraySchema"/>'s sparse fragment capacity.
         /// </summary>
-        /// <param name="capacity"></param>
+        /// <param name="capacity">The capacity.</param>
         public void SetCapacity(ulong capacity)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -114,9 +118,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set cell order.
+        /// Sets the <see cref="ArraySchema"/>'s cell order.
         /// </summary>
-        /// <param name="layoutType"></param>
+        /// <param name="layoutType">The cell order.</param>
         public void SetCellOrder(LayoutType layoutType)
         {
             var tiledb_layout = (tiledb_layout_t)layoutType;
@@ -126,9 +130,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set tile order.
+        /// Sets the <see cref="ArraySchema"/>'s tile order.
         /// </summary>
-        /// <param name="layoutType"></param>
+        /// <param name="layoutType">The tile order.</param>
         public void SetTileOrder(LayoutType layoutType)
         {
             var tiledb_layout = (tiledb_layout_t)layoutType;
@@ -138,9 +142,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set coordinates filter list.
+        /// Sets the <see cref="FilterList"/> of filters that will be applied in the <see cref="ArraySchema"/>'s coordinates.
         /// </summary>
-        /// <param name="filterList"></param>
+        /// <param name="filterList">The filter list.</param>
         public void SetCoordsFilterList(FilterList filterList)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -150,9 +154,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set offsets filter list.
+        /// Sets the <see cref="FilterList"/> of filters that will be applied in the <see cref="ArraySchema"/>'s
+        /// offsets of variable-sized <see cref="CSharp.Attribute"/>s or <see cref="Dimension"/>s.
         /// </summary>
-        /// <param name="filterList"></param>
+        /// <param name="filterList">The filter list.</param>
         public void SetOffsetsFilterList(FilterList filterList)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -162,9 +167,21 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Check if it is valid or not.
+        /// Sets the <see cref="FilterList"/> of filters that will be applied in the <see cref="ArraySchema"/>'s
+        /// the validity array of nullable <see cref="CSharp.Attribute"/> values.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="filterList">The filter list.</param>
+        public void SetValidityFilterList(FilterList filterList)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var filterListHandle = filterList.Handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_schema_set_validity_filter_list(ctxHandle, handle, filterListHandle));
+        }
+
+        /// <summary>
+        /// Performs validity checks in the <see cref="ArraySchema"/>.
+        /// </summary>
         public void Check()
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -172,12 +189,9 @@ namespace TileDB.CSharp
             _ctx.handle_error(Methods.tiledb_array_schema_check(ctxHandle, handle));
         }
 
-
-
         /// <summary>
-        /// Get ArrayType.
+        /// Gets the <see cref="ArraySchema"/>'s <see cref="CSharp.ArrayType"/>.
         /// </summary>
-        /// <returns></returns>
         public ArrayType ArrayType()
         {
             tiledb_array_type_t tiledb_array_type;
@@ -189,9 +203,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get capacity.
+        /// Gets the <see cref="ArraySchema"/>'s sparse fragment capacity.
         /// </summary>
-        /// <returns></returns>
         public ulong Capacity()
         {
             ulong capacity;
@@ -203,9 +216,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get cell order.
+        /// Gets the <see cref="ArraySchema"/>'s cell order.
         /// </summary>
-        /// <returns></returns>
         public LayoutType CellOrder()
         {
             tiledb_layout_t tiledb_layout;
@@ -216,9 +228,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get coordinates filter list.
+        /// Gets the <see cref="FilterList"/> of filters that will be applied in the <see cref="ArraySchema"/>'s coordinates.
         /// </summary>
-        /// <returns></returns>
         public FilterList CoordsFilterList()
         {
             var handle = new FilterListHandle();
@@ -249,9 +260,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get offsets filter list.
+        /// Gets the <see cref="FilterList"/> of filters that will be applied in the <see cref="ArraySchema"/>'s
+        /// offsets of variable-sized <see cref="CSharp.Attribute"/>s or <see cref="Dimension"/>s.
         /// </summary>
-        /// <returns></returns>
         public FilterList OffsetsFilterList()
         {
             var handle = new FilterListHandle();
@@ -282,9 +293,41 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get domain.
+        /// Gets the <see cref="FilterList"/> of filters that will be applied in the <see cref="ArraySchema"/>'s
+        /// the validity array of nullable <see cref="CSharp.Attribute"/> values.
         /// </summary>
-        /// <returns></returns>
+        public FilterList ValidityFilterList()
+        {
+            var handle = new FilterListHandle();
+            var successful = false;
+            tiledb_filter_list_t* filter_list_p = null;
+            try
+            {
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var schemaHandle = _handle.Acquire())
+                {
+                    _ctx.handle_error(Methods.tiledb_array_schema_get_validity_filter_list(ctxHandle, schemaHandle, &filter_list_p));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(filter_list_p);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
+            }
+
+            return new FilterList(_ctx, handle);
+        }
+
+        /// <summary>
+        /// Gets the <see cref="ArraySchema"/>'s <see cref="Domain"/>.
+        /// </summary>
         public Domain Domain()
         {
             var handle = new DomainHandle();
@@ -315,9 +358,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get tile order.
+        /// Gets the <see cref="ArraySchema"/>'s tile order.
         /// </summary>
-        /// <returns></returns>
         public LayoutType TileOrder()
         {
             tiledb_layout_t tiledb_layout;
@@ -328,12 +370,24 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get number of attributes.
+        /// Gets the <see cref="ArraySchema"/>'s format version.
+        /// </summary>
+        public uint FormatVersion()
+        {
+            uint num;
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_schema_get_version(ctxHandle, handle, &num));
+            return num;
+        }
+
+        /// <summary>
+        /// Gets the number of <see cref="CSharp.Attribute"/>s in the <see cref="ArraySchema"/>.
         /// </summary>
         /// <returns></returns>
         public uint AttributeNum()
         {
-            uint num = 0;
+            uint num;
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             _ctx.handle_error(Methods.tiledb_array_schema_get_attribute_num(ctxHandle, handle, &num));
@@ -341,10 +395,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get attribute from index.
+        /// Gets an <see cref="CSharp.Attribute"/> from the <see cref="ArraySchema"/> by index.
         /// </summary>
-        /// <param name="i"></param>
-        /// <returns></returns>
+        /// <param name="i">The attribute's index.</param>
         public Attribute Attribute(uint i)
         {
             var handle = new AttributeHandle();
@@ -375,10 +428,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get attribute from name.
+        /// Gets an <see cref="CSharp.Attribute"/> from the <see cref="ArraySchema"/> by name.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">The attribute's name.</param>
         public Attribute Attribute(string name)
         {
             var handle = new AttributeHandle();
@@ -410,26 +462,24 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Test if an attribute with name exists or not.
+        /// Checks if an <see cref="CSharp.Attribute"/> with the given name exists in the <see cref="ArraySchema"/> or not.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">The name to check.</param>
         public bool HasAttribute(string name)
         {
-            var has_attr = 0;
+            int has_attr;
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(name);
             _ctx.handle_error(Methods.tiledb_array_schema_has_attribute(ctxHandle, handle, ms_name, &has_attr));
-            return has_attr>0;
+            return has_attr > 0;
         }
 
         /// <summary>
-        /// Load an array schema from uri.
+        /// Load an <see cref="ArraySchema"/> from a URI.
         /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="uri"></param>
-        /// <returns></returns>
+        /// <param name="ctx">The <see cref="Context"/> associated with this schema.</param>
+        /// <param name="uri">The array's URI.</param>
         public static ArraySchema Load(Context ctx, string uri)
         {
             var handle = new ArraySchemaHandle();
@@ -457,16 +507,14 @@ namespace TileDB.CSharp
             }
             return new ArraySchema(ctx, handle);
         }
-        #endregion capi functions
 
         /// <summary>
-        /// Get attributes dictionary.
+        /// Gets a collection with all <see cref="CSharp.Attribute"/>s of the <see cref="ArraySchema"/>.
         /// </summary>
-        /// <returns></returns>
         public SortedDictionary<string, Attribute> Attributes()
         {
             var ret = new SortedDictionary<string, Attribute>();
-            var attribute_num = this.AttributeNum();
+            var attribute_num = AttributeNum();
             for (uint i = 0; i < attribute_num; ++i)
             {
                 var attr = Attribute(i);
@@ -476,13 +524,12 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get dimension dictionary.
+        /// Gets a collection with all <see cref="Dimension"/>s of the <see cref="ArraySchema"/>.
         /// </summary>
-        /// <returns></returns>
         public SortedDictionary<string, Dimension> Dimensions()
         {
             var ret = new SortedDictionary<string, Dimension>();
-            var domain = this.Domain();
+            using var domain = Domain();
             var ndim = domain.NDim();
             for (uint i = 0; i < ndim; ++i)
             {
@@ -493,39 +540,40 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Test if an attribute or dimenision is nullable.
+        /// Checks if an <see cref="CSharp.Attribute"/> or <see cref="Dimension"/> in the <see cref="ArraySchema"/> is nullable.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">The attribute or dimension's name.</param>
         public bool IsNullable(string name)
         {
             if (HasAttribute(name))
             {
-                var attr = Attribute(name);
+                using var attr = Attribute(name);
                 return attr.Nullable();
             }
             return false;
         }
 
         /// <summary>
-        /// Test if an attribute or dimension is variable length.
+        /// Checks if an <see cref="CSharp.Attribute"/> or <see cref="Dimension"/> in the <see cref="ArraySchema"/> has variable size.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">The attribute or dimension's name.</param>
         public bool IsVarSize(string name)
         {
             if (string.Equals(name, "coords"))
             {
                 return false;
             }
+
             if (HasAttribute(name))
             {
-                var attr = Attribute(name);
+                using Attribute attr = Attribute(name);
                 return attr.CellValNum() == TileDB.CSharp.Attribute.VariableSized;
             }
-            else if (Domain().HasDimension(name))
+
+            using Domain domain = Domain();
+            if (domain.HasDimension(name))
             {
-                var dim = Domain().Dimension(name);
+                using Dimension dim = domain.Dimension(name);
                 return dim.CellValNum() == Dimension.VariableSized;
             }
 
