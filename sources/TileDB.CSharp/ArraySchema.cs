@@ -167,6 +167,19 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Sets the <see cref="FilterList"/> of filters that will be applied in the <see cref="ArraySchema"/>'s
+        /// the validity array of nullable <see cref="CSharp.Attribute"/> values.
+        /// </summary>
+        /// <param name="filterList">The filter list.</param>
+        public void SetValidityFilterList(FilterList filterList)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var filterListHandle = filterList.Handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_schema_set_validity_filter_list(ctxHandle, handle, filterListHandle));
+        }
+
+        /// <summary>
         /// Performs validity checks in the <see cref="ArraySchema"/>.
         /// </summary>
         public void Check()
@@ -280,6 +293,39 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Gets the <see cref="FilterList"/> of filters that will be applied in the <see cref="ArraySchema"/>'s
+        /// the validity array of nullable <see cref="CSharp.Attribute"/> values.
+        /// </summary>
+        public FilterList ValidityFilterList()
+        {
+            var handle = new FilterListHandle();
+            var successful = false;
+            tiledb_filter_list_t* filter_list_p = null;
+            try
+            {
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var schemaHandle = _handle.Acquire())
+                {
+                    _ctx.handle_error(Methods.tiledb_array_schema_get_validity_filter_list(ctxHandle, schemaHandle, &filter_list_p));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(filter_list_p);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
+            }
+
+            return new FilterList(_ctx, handle);
+        }
+
+        /// <summary>
         /// Gets the <see cref="ArraySchema"/>'s <see cref="Domain"/>.
         /// </summary>
         public Domain Domain()
@@ -321,6 +367,18 @@ namespace TileDB.CSharp
             using var handle = _handle.Acquire();
             _ctx.handle_error(Methods.tiledb_array_schema_get_tile_order(ctxHandle, handle, &tiledb_layout));
             return (LayoutType)tiledb_layout;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="ArraySchema"/>'s format version.
+        /// </summary>
+        public uint FormatVersion()
+        {
+            uint num;
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_schema_get_version(ctxHandle, handle, &num));
+            return num;
         }
 
         /// <summary>
