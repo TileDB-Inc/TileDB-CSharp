@@ -89,10 +89,29 @@ namespace TileDB.CSharp
         /// <summary>
         /// Gets the <see cref="Context"/>'s <see cref="Config"/>.
         /// </summary>
-
         public Config Config()
         {
-            return _config;
+            var handle = new ConfigHandle();
+            tiledb_config_t* config = null;
+            var successful = false;
+            try
+            {
+                using var ctxHandle = _handle.Acquire();
+                handle_error(Methods.tiledb_ctx_get_config(ctxHandle, &config));
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(config);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
+            }
+            return new Config(handle);
         }
 
         /// <summary>

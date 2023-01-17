@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using TileDB.CSharp.Marshalling;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
@@ -198,7 +196,28 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public Config Config()
         {
-            return _ctx.Config();
+            var handle = new ConfigHandle();
+            tiledb_config_t* config = null;
+            var successful = false;
+            try
+            {
+                using var ctxHandle = _ctx.Handle.Acquire();
+                using var arrayHandle = _handle.Acquire();
+                _ctx.handle_error(Methods.tiledb_array_get_config(ctxHandle, arrayHandle, &config));
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(config);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
+            }
+            return new Config(handle);
         }
 
         /// <summary>
