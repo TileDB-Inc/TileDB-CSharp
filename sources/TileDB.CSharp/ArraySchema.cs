@@ -12,7 +12,6 @@ namespace TileDB.CSharp
     {
         private readonly ArraySchemaHandle _handle;
         private readonly Context _ctx;
-        private bool _disposed;
 
         /// <summary>
         /// Creates a new <see cref="ArraySchema"/>.
@@ -37,24 +36,10 @@ namespace TileDB.CSharp
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed) return;
-            if (disposing && (!_handle.IsInvalid))
-            {
-                _handle.Dispose();
-            }
-
-            _disposed = true;
+            _handle.Dispose();
         }
 
         internal ArraySchemaHandle Handle => _handle;
-
-
-        #region capi functions
 
         /// <summary>
         /// Adds an <see cref="CSharp.Attribute"/> in the <see cref="ArraySchema"/>.
@@ -88,7 +73,7 @@ namespace TileDB.CSharp
         /// </remarks>
         public void SetAllowsDups(bool allowsDups)
         {
-            var int_allow_dups = allowsDups ? 1 : 0;
+            int int_allow_dups = allowsDups ? 1 : 0;
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             _ctx.handle_error(Methods.tiledb_array_schema_set_allows_dups(ctxHandle, handle, int_allow_dups));
@@ -102,7 +87,7 @@ namespace TileDB.CSharp
         /// </remarks>
         public bool AllowsDups()
         {
-            var allowDups = 0;
+            int allowDups;
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             _ctx.handle_error(Methods.tiledb_array_schema_get_allows_dups(ctxHandle, handle, &allowDups));
@@ -344,7 +329,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public uint AttributeNum()
         {
-            uint num = 0;
+            uint num;
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             _ctx.handle_error(Methods.tiledb_array_schema_get_attribute_num(ctxHandle, handle, &num));
@@ -424,7 +409,7 @@ namespace TileDB.CSharp
         /// <param name="name">The name to check.</param>
         public bool HasAttribute(string name)
         {
-            var has_attr = 0;
+            int has_attr;
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             using var ms_name = new MarshaledString(name);
@@ -471,7 +456,7 @@ namespace TileDB.CSharp
         public SortedDictionary<string, Attribute> Attributes()
         {
             var ret = new SortedDictionary<string, Attribute>();
-            var attribute_num = this.AttributeNum();
+            var attribute_num = AttributeNum();
             for (uint i = 0; i < attribute_num; ++i)
             {
                 var attr = Attribute(i);
@@ -486,7 +471,7 @@ namespace TileDB.CSharp
         public SortedDictionary<string, Dimension> Dimensions()
         {
             var ret = new SortedDictionary<string, Dimension>();
-            var domain = this.Domain();
+            using var domain = Domain();
             var ndim = domain.NDim();
             for (uint i = 0; i < ndim; ++i)
             {
@@ -504,7 +489,7 @@ namespace TileDB.CSharp
         {
             if (HasAttribute(name))
             {
-                var attr = Attribute(name);
+                using var attr = Attribute(name);
                 return attr.Nullable();
             }
             return false;
@@ -520,14 +505,17 @@ namespace TileDB.CSharp
             {
                 return false;
             }
+
             if (HasAttribute(name))
             {
-                var attr = Attribute(name);
+                using Attribute attr = Attribute(name);
                 return attr.CellValNum() == TileDB.CSharp.Attribute.VariableSized;
             }
-            else if (Domain().HasDimension(name))
+
+            using Domain domain = Domain();
+            if (domain.HasDimension(name))
             {
-                var dim = Domain().Dimension(name);
+                using Dimension dim = domain.Dimension(name);
                 return dim.CellValNum() == Dimension.VariableSized;
             }
 
