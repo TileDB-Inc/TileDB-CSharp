@@ -1308,16 +1308,34 @@ namespace TileDB.CSharp
 
         /// <summary>
         /// Returns the number of elements read into result buffers from a read query.
-        ///
-        /// Dictionary key: Name of buffer used in call to SetDataBuffer, SetOffsetBuffer, or SetValidityBuffer
-        /// Tuple Item1: Number of elements read by the query
-        /// Tuple Item2: Number of offset elements read by the query
-        /// Tuple Item3: Number of validity bytes read by the query
-        ///
-        /// If the buffer is not variable-sized, Tuple.Item2 will be set to null
-        /// If the buffer is not nullable, Tuple.Item3 will be set to null
+        /// <list type="table">
+        /// <item>
+        /// <term>Dictionary key</term>
+        /// <description>Name of buffer used in call to <see cref="SetDataBuffer{T}(string, T[])"/>,
+        /// <see cref="SetOffsetsBuffer(string, ulong[])"/>, or <see cref="SetValidityBuffer(string, byte[])"/>.</description>
+        /// </item>
+        /// <item>
+        /// <term>Tuple <see cref="Tuple{T1, T2, T3}.Item1"/></term>
+        /// <description>Number of elements read by the query</description>
+        /// </item>
+        /// <item>
+        /// <term>Tuple <see cref="Tuple{T1, T2, T3}.Item2"/></term>
+        /// <description>Number of offset elements read by the query
+        /// or <see langword="null"/> if the buffer is not variable-sized.</description>
+        /// </item>
+        /// <item>
+        /// <term>Tuple <see cref="Tuple{T1, T2, T3}.Item3"/></term>
+        /// <description>Number of validity bytes read by the query
+        /// or <see langword="null"/> if the buffer is not nullable.</description>
+        /// </item>
+        /// </list>
         /// </summary>
         /// <returns>Dictionary mapping buffer name to number of results</returns>
+        /// <remarks>
+        /// This method exhibits poor performance characteristics. Consider using
+        /// <see cref="GetResultDataElements"/>, <see cref="GetResultDataBytes"/>,
+        /// <see cref="GetResultOffsets"/> and <see cref="GetResultValidities"/> instead.
+        /// </remarks>
         public Dictionary<string, Tuple<ulong, ulong?, ulong?>> ResultBufferElements()
         {
             using var schema = _array.Schema();
