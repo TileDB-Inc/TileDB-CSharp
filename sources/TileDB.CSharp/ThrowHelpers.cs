@@ -12,16 +12,16 @@ namespace TileDB.CSharp
 
         [DoesNotReturn]
         public static void ThrowTypeNotSupported() =>
-            throw new NotSupportedException("Type is not supported");
+            throw new NotSupportedException("Type is not supported.");
 
         // We don't have to specify the type in the type argument, it can be seen from the stacktrace.
         [DoesNotReturn]
         public static void ThrowTypeMismatch(DataType type) =>
-            throw new InvalidOperationException($"Type is not compatible with data type {type}");
+            throw new InvalidOperationException($"Type is not compatible with data type {type}.");
 
         [DoesNotReturn]
         public static void ThrowStringTypeMismatch(DataType type) =>
-            throw new InvalidOperationException($"Cannot encode data type {type} into strings");
+            throw new InvalidOperationException($"Cannot encode data type {type} into strings.");
 
         [DoesNotReturn]
         public static void ThrowTooBigSize(ulong size, [CallerArgumentExpression(nameof(size))] string? paramName = null) =>
@@ -50,5 +50,9 @@ namespace TileDB.CSharp
         [DoesNotReturn]
         public static void ThrowArgumentNullException(string paramName) =>
             throw new ArgumentNullException(paramName);
+
+        [DoesNotReturn]
+        public static void ThrowBufferUnsafelySet() =>
+            throw new InvalidOperationException("Cannot get the number of elements read into a buffer set with the 'Query.UnsafeSetDataBuffer' method.");
     }
 }
