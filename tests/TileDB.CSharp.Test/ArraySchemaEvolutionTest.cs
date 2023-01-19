@@ -63,7 +63,7 @@ namespace TileDB.CSharp.Test
             schemaEvolution = new ArraySchemaEvolution(ctx);
             schemaEvolution.DropAttribute("a1");
             Console.WriteLine("Removing attribute `a1` using Array.Evolve");
-            array.Evolve(ctx, schemaEvolution);
+            array.Evolve(schemaEvolution);
 
             array.Open(QueryType.Read);
             schema = array.Schema();

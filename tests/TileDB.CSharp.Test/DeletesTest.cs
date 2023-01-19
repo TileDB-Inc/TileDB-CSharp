@@ -341,7 +341,7 @@ namespace TileDB.CSharp.Test
             using var a2 = new Attribute(ctx, "a2", DataType.Float64);
             a2.SetFillValue(-1.0);
             schemaEvolution.AddAttribute(a2);
-            array.Evolve(ctx, schemaEvolution);
+            array.Evolve(schemaEvolution);
             Logger.LogMessage("Initial array schema: ");
             TestUtil.PrintLocalSchema(arrayName);
             array.Open(QueryType.Read);
@@ -485,7 +485,7 @@ namespace TileDB.CSharp.Test
             // Remove attribute (a2)
             using var schemaEvolution2 = new ArraySchemaEvolution(ctx);
             schemaEvolution2.DropAttribute("a2");
-            array.Evolve(ctx, schemaEvolution2);
+            array.Evolve(schemaEvolution2);
             Logger.LogMessage($"Schema after removing attribute (a2)");
             TestUtil.PrintLocalSchema(array.Uri());
             array.Open(QueryType.Read);

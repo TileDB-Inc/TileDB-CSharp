@@ -299,16 +299,37 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Apply an ArraySchemaEvolution to the schema of an array
+        /// Applies an <see cref="ArraySchemaEvolution"/> to the schema of an array.
         /// </summary>
-        /// <param name="ctx">Current TileDB Context</param>
-        /// <param name="schemaEvolution">Fully constructed ArraySchemaEvolution to apply</param>
-        public void Evolve(Context ctx, ArraySchemaEvolution schemaEvolution)
+        /// <param name="ctx">The <see cref="Context"/> to use.</param>
+        /// <param name="uri">The array's URI.</param>
+        /// <param name="schemaEvolution">The <see cref="ArraySchemaEvolution"/> to use.</param>
+        public static void Evolve(Context ctx, string uri, ArraySchemaEvolution schemaEvolution)
         {
-            using var msUri = new MarshaledString(_uri);
+            using var msUri = new MarshaledString(uri);
             using var ctxHandle = ctx.Handle.Acquire();
             using var schemaEvolutionHandle = schemaEvolution.Handle.Acquire();
-            _ctx.handle_error(Methods.tiledb_array_evolve(ctxHandle, msUri, schemaEvolutionHandle));
+            ctx.handle_error(Methods.tiledb_array_evolve(ctxHandle, msUri, schemaEvolutionHandle));
+        }
+
+        /// <summary>
+        /// Applies an <see cref="ArraySchemaEvolution"/> to the schema of this array.
+        /// </summary>
+        /// <param name="ctx">The <see cref="Context"/> to use.</param>
+        /// <param name="schemaEvolution">The <see cref="ArraySchemaEvolution"/> to use.</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void Evolve(Context ctx, ArraySchemaEvolution schemaEvolution)
+        {
+            Evolve(ctx, _uri, schemaEvolution);
+        }
+
+        /// <summary>
+        /// Applies an <see cref="ArraySchemaEvolution"/> to the schema of this array.
+        /// </summary>
+        /// <param name="schemaEvolution">The <see cref="ArraySchemaEvolution"/> to use.</param>
+        public void Evolve(ArraySchemaEvolution schemaEvolution)
+        {
+            Evolve(_ctx, _uri, schemaEvolution);
         }
 
         /// <summary>
