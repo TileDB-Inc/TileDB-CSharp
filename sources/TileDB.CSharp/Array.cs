@@ -295,10 +295,7 @@ namespace TileDB.CSharp
         /// <param name="schema"></param>
         public void Create(ArraySchema schema)
         {
-            using var ms_uri = new MarshaledString(_uri);
-            using var ctxHandle = _ctx.Handle.Acquire();
-            using var schemaHandle = schema.Handle.Acquire();
-            _ctx.handle_error(Methods.tiledb_array_create(ctxHandle, ms_uri, schemaHandle));
+            Create(_ctx, _uri, schema);
         }
 
         /// <summary>
@@ -361,8 +358,10 @@ namespace TileDB.CSharp
         public (NonEmptyDomain, bool) NonEmptyDomain()
         {
             NonEmptyDomain nonEmptyDomain = new();
+            using ArraySchema schema = Schema();
+            using Domain domain = schema.Domain();
 
-            var ndim = Schema().Domain().NDim();
+            var ndim = domain.NDim();
             if (ndim == 0)
             {
                 return (nonEmptyDomain, true);
@@ -371,99 +370,41 @@ namespace TileDB.CSharp
             bool isEmptyDomain = true;
             for (uint i = 0; i < ndim; ++i)
             {
-                var dim = Schema().Domain().Dimension(i);
+                using var dim = domain.Dimension(i);
                 var dimName = dim.Name();
                 var dimType = EnumUtil.DataTypeToType(dim.Type());
 
                 switch (Type.GetTypeCode(dimType))
                 {
+                    case TypeCode.SByte:
+                        GetDomain<sbyte>(this, dimName, i, nonEmptyDomain, ref isEmptyDomain);
+                        break;
                     case TypeCode.Int16:
-                        {
-                            (short data0, short data1, bool isEmpty) = NonEmptyDomain<short>(i);
-                            if (!isEmpty)
-                            {
-                                isEmptyDomain = false;
-                            }
-
-                            nonEmptyDomain.Add(dimName, new Tuple<short, short>(data0, data1));
-                        }
+                        GetDomain<short>(this, dimName, i, nonEmptyDomain, ref isEmptyDomain);
                         break;
                     case TypeCode.Int32:
-                        {
-                            (int data0, int data1, bool isEmpty) = NonEmptyDomain<int>(i);
-                            if (!isEmpty)
-                            {
-                                isEmptyDomain = false;
-                            }
-
-                            nonEmptyDomain.Add(dimName, new Tuple<int, int>(data0, data1));
-                        }
+                        GetDomain<int>(this, dimName, i, nonEmptyDomain, ref isEmptyDomain);
                         break;
                     case TypeCode.Int64:
-                        {
-                            (long data0, long data1, bool isEmpty) = NonEmptyDomain<long>(i);
-                            if (!isEmpty)
-                            {
-                                isEmptyDomain = false;
-                            }
-
-                            nonEmptyDomain.Add(dimName, new Tuple<long, long>(data0, data1));
-                        }
+                        GetDomain<long>(this, dimName, i, nonEmptyDomain, ref isEmptyDomain);
+                        break;
+                    case TypeCode.Byte:
+                        GetDomain<byte>(this, dimName, i, nonEmptyDomain, ref isEmptyDomain);
                         break;
                     case TypeCode.UInt16:
-                        {
-                            (ushort data0, ushort data1, bool isEmpty) = NonEmptyDomain<ushort>(i);
-                            if (!isEmpty)
-                            {
-                                isEmptyDomain = false;
-                            }
-
-                            nonEmptyDomain.Add(dimName, new Tuple<ushort, ushort>(data0, data1));
-                        }
+                        GetDomain<ushort>(this, dimName, i, nonEmptyDomain, ref isEmptyDomain);
                         break;
                     case TypeCode.UInt32:
-                        {
-                            (uint data0, uint data1, bool isEmpty) = NonEmptyDomain<uint>(i);
-                            if (!isEmpty)
-                            {
-                                isEmptyDomain = false;
-                            }
-
-                            nonEmptyDomain.Add(dimName, new Tuple<uint, uint>(data0, data1));
-                        }
+                        GetDomain<uint>(this, dimName, i, nonEmptyDomain, ref isEmptyDomain);
                         break;
                     case TypeCode.UInt64:
-                        {
-                            (ulong data0, ulong data1, bool isEmpty) = NonEmptyDomain<ulong>(i);
-                            if (!isEmpty)
-                            {
-                                isEmptyDomain = false;
-                            }
-
-                            nonEmptyDomain.Add(dimName, new Tuple<ulong, ulong>(data0, data1));
-                        }
+                        GetDomain<ulong>(this, dimName, i, nonEmptyDomain, ref isEmptyDomain);
                         break;
                     case TypeCode.Single:
-                        {
-                            (float data0, float data1, bool isEmpty) = NonEmptyDomain<float>(i);
-                            if (!isEmpty)
-                            {
-                                isEmptyDomain = false;
-                            }
-
-                            nonEmptyDomain.Add(dimName, new Tuple<float, float>(data0, data1));
-                        }
+                        GetDomain<float>(this, dimName, i, nonEmptyDomain, ref isEmptyDomain);
                         break;
                     case TypeCode.Double:
-                        {
-                            (double data0, double data1, bool isEmpty) = NonEmptyDomain<double>(i);
-                            if (!isEmpty)
-                            {
-                                isEmptyDomain = false;
-                            }
-
-                            nonEmptyDomain.Add(dimName, new Tuple<double, double>(data0, data1));
-                        }
+                        GetDomain<double>(this, dimName, i, nonEmptyDomain, ref isEmptyDomain);
                         break;
                     case TypeCode.String:
                         {
@@ -480,6 +421,16 @@ namespace TileDB.CSharp
             }
 
             return (nonEmptyDomain, isEmptyDomain);
+
+            static void GetDomain<T>(Array array, string dimName, uint i, NonEmptyDomain nonEmptyDomain, ref bool isEmptyDomain) where T : struct
+            {
+                (T data0, T data1, bool isEmpty) = array.NonEmptyDomain<T>(i);
+                if (!isEmpty)
+                {
+                    isEmptyDomain = false;
+                }
+                nonEmptyDomain.Add(dimName, new Tuple<T, T>(data0, data1));
+            }
         }
 
         /// <summary>
@@ -491,9 +442,14 @@ namespace TileDB.CSharp
         public (T, T, bool) NonEmptyDomain<T>(uint index) where T : struct
         {
             var datatype = EnumUtil.TypeToDataType(typeof(T));
-            if (datatype != Schema().Domain().Dimension(index).Type())
+            using (var schema = Schema())
+            using (var domain = schema.Domain())
+            using (var dimension = domain.Dimension(index))
             {
-                throw new ArgumentException("Array.NonEmptyDomain, not valid datatype!");
+                if (datatype != dimension.Type())
+                {
+                    throw new ArgumentException("Array.NonEmptyDomain, not valid datatype!");
+                }
             }
 
             SequentialPair<T> data;
@@ -515,9 +471,14 @@ namespace TileDB.CSharp
         public (T, T, bool) NonEmptyDomain<T>(string name) where T : struct
         {
             var datatype = EnumUtil.TypeToDataType(typeof(T));
-            if (datatype != Schema().Domain().Dimension(name).Type())
+            using (var schema = Schema())
+            using (var domain = schema.Domain())
+            using (var dimension = domain.Dimension(name))
             {
-                throw new ArgumentException("Array.NonEmptyDomain, not valid datatype!");
+                if (datatype != dimension.Type())
+                {
+                    throw new ArgumentException("Array.NonEmptyDomain, not valid datatype!");
+                }
             }
 
             using var ms_name = new MarshaledString(name);
@@ -558,9 +519,11 @@ namespace TileDB.CSharp
 
             using (var ctxHandle = _ctx.Handle.Acquire())
             using (var handle = _handle.Acquire())
-            fixed (byte* startPtr = start, endPtr = end)
-                _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_from_index(ctxHandle, handle, index,
-                    startPtr, endPtr, &int_empty));
+            {
+                fixed (byte* startPtr = start, endPtr = end)
+                    _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_from_index(ctxHandle, handle, index,
+                        startPtr, endPtr, &int_empty));
+            }
 
             return (MarshaledStringOut.GetString(start.Span), MarshaledStringOut.GetString(end.Span), false);
         }
@@ -591,9 +554,11 @@ namespace TileDB.CSharp
 
             using (var ctxHandle = _ctx.Handle.Acquire())
             using (var handle = _handle.Acquire())
-            fixed (byte* startPtr = start, endPtr = end)
-                _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_from_name(ctxHandle, handle, ms_name,
-                    startPtr, endPtr, &int_empty));
+            {
+                fixed (byte* startPtr = start, endPtr = end)
+                    _ctx.handle_error(Methods.tiledb_array_get_non_empty_domain_var_from_name(ctxHandle, handle, ms_name,
+                        startPtr, endPtr, &int_empty));
+            }
 
             return new(MarshaledStringOut.GetString(start.Span), MarshaledStringOut.GetString(end.Span), false);
         }
