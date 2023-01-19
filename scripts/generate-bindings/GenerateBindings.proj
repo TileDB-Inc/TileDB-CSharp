@@ -18,12 +18,14 @@
     <InputFileBefore Include="tiledb/api/c_api/api_external_common.h" />
     <InputFile Include="tiledb/tiledb_experimental.h" />
     <InputFile Include="tiledb/tiledb.h" />
+    <RemapHandleType Include="buffer" />
     <RemapHandleType Include="config" />
     <RemapHandleType Include="config_iter" />
     <RemapHandleType Include="ctx" />
     <RemapHandleType Include="error" />
     <RemapHandleType Include="filter" />
     <RemapHandleType Include="filter_list" />
+    <RemapHandleType Include="group" />
     <Remap Include="@(RemapHandleType->'tiledb_%(Identity)_handle_t=tiledb_%(Identity)_t')" />
     <Remap Include="tiledb_experimental_query_status_details_t=tiledb_query_status_details_t" />
     <ExcludeDump Include="attribute" />
@@ -68,6 +70,7 @@
 
     <ItemGroup>
       <ApiExternalHeaders Include="$(ExtractDir)/include/tiledb/api/c_api/**/*_api_external.h" />
+      <ApiExternalExperimentalHeaders Include="$(ExtractDir)/include/tiledb/api/c_api/**/*_api_external_experimental.h" />
     </ItemGroup>
   </Target>
 
@@ -81,6 +84,7 @@
       <PInvokeGeneratorArg Include="--file" />
       <PInvokeGeneratorArg Condition="'@(InputFileBefore)' != ''" Include="@(InputFileBefore)" />
       <PInvokeGeneratorArg Condition="'@(ApiExternalHeaders)' != ''" Include="@(ApiExternalHeaders->'%(FullPath)')" />
+      <PInvokeGeneratorArg Condition="'@(ApiExternalExperimentalHeaders)' != ''" Include="@(ApiExternalExperimentalHeaders->'%(FullPath)')" />
       <PInvokeGeneratorArg Include="@(InputFile)" />
       <PInvokeGeneratorArg Include="--output;$(OutDir)" />
       <PInvokeGeneratorArg Include="--headerFile;$(HeaderFile)" />
