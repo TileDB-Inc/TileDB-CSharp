@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Runtime.CompilerServices;
 using TileDB.CSharp.Marshalling;
 using TileDB.CSharp.Marshalling.SafeHandles;
@@ -249,10 +248,11 @@ namespace TileDB.CSharp
         /// <seealso cref="Array.ConsolidateFragments"/>
         public string GetFragmentName(uint fragmentIndex)
         {
-            var fragmentUri = new Uri(GetFragmentUri(fragmentIndex));
-            string localPath = fragmentUri.LocalPath;
-            string fileName = Path.GetFileName(localPath);
-            return fileName;
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            sbyte* name;
+            _ctx.handle_error(Methods.tiledb_fragment_info_get_fragment_name(ctxHandle, handle, fragmentIndex, &name));
+            return MarshaledStringOut.GetStringFromNullTerminated(name);
         }
 
         /// <summary>
