@@ -72,6 +72,7 @@ namespace TileDB.CSharp.Test
 
             array.Open(QueryType.Read);
             Assert.AreEqual(12UL, readQuery.ResultBufferElements()["a1"].Item1);
+            Assert.AreEqual(12UL, readQuery.GetResultDataElements("a1"));
             array.Close();
             TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
         }
@@ -142,6 +143,7 @@ namespace TileDB.CSharp.Test
 
             array.Open(QueryType.Read);
             Assert.AreEqual(15UL, readQuery.ResultBufferElements()["a1"].Item1);
+            Assert.AreEqual(15UL, readQuery.GetResultDataElements("a1"));
             array.Close();
             var expectedData = new Dictionary<string, System.Array>()
             {
@@ -259,6 +261,7 @@ namespace TileDB.CSharp.Test
             using (var readQuery = TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx)) {
                 array.Open(QueryType.Read);
                 Assert.AreEqual(15UL, readQuery.ResultBufferElements()["a1"].Item1);
+                Assert.AreEqual(15UL, readQuery.GetResultDataElements("a1"));
                 array.Close();
             }
             var expectedData = new Dictionary<string, System.Array>()
@@ -296,6 +299,7 @@ namespace TileDB.CSharp.Test
                 array.Open(QueryType.Read);
                 // For duplicates we allocate for 17 values including deleted cell, but we only retrieve 16 valid results
                 Assert.AreEqual(16UL, readQuery.ResultBufferElements()["a1"].Item1);
+                Assert.AreEqual(16UL, readQuery.GetResultDataElements("a1"));
                 array.Close();
             }
             TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
@@ -838,7 +842,9 @@ namespace TileDB.CSharp.Test
                 var bufferElements = readQuery.ResultBufferElements();
                 array.Close();
                 var elementCount = (int)bufferElements["a1"].Item1;
+                Assert.AreEqual((ulong)elementCount, readQuery.GetResultDataElements("a1"));
                 var offsetCount = (int)bufferElements["a1"].Item2!;
+                Assert.AreEqual((ulong)offsetCount, readQuery.GetResultOffsets("a1"));
                 var a1Data = new List<string>();
                 for (int i = 0; i < offsetCount; i++)
                 {
@@ -869,7 +875,9 @@ namespace TileDB.CSharp.Test
                 array.Close();
 
                 var elementCount = (int)bufferElements["a1"].Item1;
+                Assert.AreEqual((ulong)elementCount, readQuery.GetResultDataElements("a1"));
                 var offsetCount = (int)bufferElements["a1"].Item2!;
+                Assert.AreEqual((ulong)offsetCount, readQuery.GetResultOffsets("a1"));
                 var a1Data = new List<string>();
                 for (int i = 0; i < offsetCount; i++)
                 {

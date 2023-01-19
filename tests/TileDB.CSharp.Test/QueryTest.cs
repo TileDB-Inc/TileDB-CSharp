@@ -517,6 +517,18 @@ namespace TileDB.CSharp.Test
                 var status_read = query_read.Status();
 
                 Assert.AreEqual(QueryStatus.Completed, status_read);
+                Assert.AreEqual((ulong)a1_data_read.Length * sizeof(int), query_read.GetResultDataBytes("a1"));
+                Assert.AreEqual((ulong)a2_data_read.Length * sizeof(int), query_read.GetResultDataBytes("a2"));
+                Assert.AreEqual((ulong)a3_data_read.Length * sizeof(byte), query_read.GetResultDataBytes("a3"));
+                Assert.ThrowsException<InvalidOperationException>(() => query_read.GetResultDataElements("a1"));
+                Assert.ThrowsException<InvalidOperationException>(() => query_read.GetResultDataElements("a2"));
+                Assert.ThrowsException<InvalidOperationException>(() => query_read.GetResultDataElements("a3"));
+
+                Assert.AreEqual((ulong)a2_off_read.Length, query_read.GetResultOffsets("a2"));
+                Assert.AreEqual((ulong)a3_off_read.Length, query_read.GetResultOffsets("a3"));
+
+                Assert.AreEqual((ulong)a2_validity_read.Length, query_read.GetResultValidities("a2"));
+                Assert.AreEqual((ulong)a3_validity_read.Length, query_read.GetResultValidities("a3"));
 
                 array_read.Close();
             }

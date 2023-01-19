@@ -86,13 +86,12 @@ namespace TileDB.CSharp.Examples
                 do
                 {
                     queryRead.Submit();
-                    var resultBufferElements = queryRead.ResultBufferElements();
 
-                    var rowDataElements = (int)resultBufferElements["rows"].Item1;
-                    var rowOffsetElements = (int)resultBufferElements["rows"].Item2!;
+                    var rowDataElements = (int)queryRead.GetResultDataElements("rows");
+                    var rowOffsetElements = (int)queryRead.GetResultOffsets("rows");
 
-                    var colDataElements = (int)resultBufferElements["cols"].Item1;
-                    var colOffsetElements = (int)resultBufferElements["cols"].Item2!;
+                    var colDataElements = (int)queryRead.GetResultDataElements("cols");
+                    var colOffsetElements = (int)queryRead.GetResultOffsets("cols");
 
                     // Copy rows data into string buffer
                     List<string> rowsData = new();

@@ -326,7 +326,7 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(data));
             }
 
-            UnsafeSetDataBuffer(name, data.Pin(), (ulong)data.Length * (ulong)sizeof(T));
+            UnsafeSetDataBuffer(name, data.Pin(), (ulong)data.Length * (ulong)sizeof(T), sizeof(T));
         }
 
         /// <summary>
@@ -357,7 +357,7 @@ namespace TileDB.CSharp
                 CheckDataType<T>(GetDataType(name, schema, domain));
             }
 
-            UnsafeSetDataBuffer(name, new MemoryHandle(data), size * (ulong)sizeof(T));
+            UnsafeSetDataBuffer(name, new MemoryHandle(data), size * (ulong)sizeof(T), sizeof(T));
         }
 
         /// <summary>
@@ -423,13 +423,16 @@ namespace TileDB.CSharp
         /// <item>This method call throws an exception.</item>
         /// </list></para>
         /// </remarks>
-        public void UnsafeSetDataBuffer(string name, MemoryHandle memoryHandle, ulong byteSize)
+        public void UnsafeSetDataBuffer(string name, MemoryHandle memoryHandle, ulong byteSize) =>
+            UnsafeSetDataBuffer(name, memoryHandle, byteSize, 0);
+
+        private void UnsafeSetDataBuffer(string name, MemoryHandle memoryHandle, ulong byteSize, int elementSize)
         {
             BufferHandle? handle = null;
             bool successful = false;
             try
             {
-                handle = new BufferHandle(ref memoryHandle, byteSize);
+                handle = new BufferHandle(ref memoryHandle, byteSize, elementSize);
 
                 SetDataBufferCore(name, handle.DataPointer, handle.SizePointer);
 
@@ -534,7 +537,7 @@ namespace TileDB.CSharp
             bool successful = false;
             try
             {
-                handle = new BufferHandle(ref memoryHandle, size * sizeof(ulong));
+                handle = new BufferHandle(ref memoryHandle, size * sizeof(ulong), sizeof(ulong));
 
                 SetOffsetsBufferCore(name, (ulong*)handle.DataPointer, handle.SizePointer);
 
@@ -688,7 +691,7 @@ namespace TileDB.CSharp
             bool successful = false;
             try
             {
-                handle = new BufferHandle(ref memoryHandle, size * sizeof(byte));
+                handle = new BufferHandle(ref memoryHandle, size * sizeof(byte), sizeof(byte));
 
                 SetValidityBufferCore(name, (byte*)handle.DataPointer, handle.SizePointer);
 
@@ -1305,16 +1308,34 @@ namespace TileDB.CSharp
 
         /// <summary>
         /// Returns the number of elements read into result buffers from a read query.
-        ///
-        /// Dictionary key: Name of buffer used in call to SetDataBuffer, SetOffsetBuffer, or SetValidityBuffer
-        /// Tuple Item1: Number of elements read by the query
-        /// Tuple Item2: Number of offset elements read by the query
-        /// Tuple Item3: Number of validity bytes read by the query
-        ///
-        /// If the buffer is not variable-sized, Tuple.Item2 will be set to null
-        /// If the buffer is not nullable, Tuple.Item3 will be set to null
+        /// <list type="table">
+        /// <item>
+        /// <term>Dictionary key</term>
+        /// <description>Name of buffer used in call to <see cref="SetDataBuffer{T}(string, T[])"/>,
+        /// <see cref="SetOffsetsBuffer(string, ulong[])"/>, or <see cref="SetValidityBuffer(string, byte[])"/>.</description>
+        /// </item>
+        /// <item>
+        /// <term>Tuple <see cref="Tuple{T1, T2, T3}.Item1"/></term>
+        /// <description>Number of elements read by the query</description>
+        /// </item>
+        /// <item>
+        /// <term>Tuple <see cref="Tuple{T1, T2, T3}.Item2"/></term>
+        /// <description>Number of offset elements read by the query
+        /// or <see langword="null"/> if the buffer is not variable-sized.</description>
+        /// </item>
+        /// <item>
+        /// <term>Tuple <see cref="Tuple{T1, T2, T3}.Item3"/></term>
+        /// <description>Number of validity bytes read by the query
+        /// or <see langword="null"/> if the buffer is not nullable.</description>
+        /// </item>
+        /// </list>
         /// </summary>
         /// <returns>Dictionary mapping buffer name to number of results</returns>
+        /// <remarks>
+        /// This method exhibits poor performance characteristics. Consider using
+        /// <see cref="GetResultDataElements"/>, <see cref="GetResultDataBytes"/>,
+        /// <see cref="GetResultOffsets"/> and <see cref="GetResultValidities"/> instead.
+        /// </remarks>
         public Dictionary<string, Tuple<ulong, ulong?, ulong?>> ResultBufferElements()
         {
             using var schema = _array.Schema();
@@ -1326,15 +1347,15 @@ namespace TileDB.CSharp
                 ulong? validityNum = null;
 
                 ulong typeSize = EnumUtil.DataTypeSize(GetDataType(key, schema, domain));
-                ulong dataNum = dataHandle.Size / typeSize;
+                ulong dataNum = dataHandle.SizeInBytes / typeSize;
 
                 if (_offsetsBufferHandles.TryGetValue(key, out BufferHandle? offsetHandle))
                 {
-                    offsetNum = offsetHandle.Size / sizeof(ulong);
+                    offsetNum = offsetHandle.SizeInBytes / sizeof(ulong);
                 }
                 if (_validityBufferHandles.TryGetValue(key, out BufferHandle? validityHandle))
                 {
-                    validityNum = validityHandle.Size;
+                    validityNum = validityHandle.SizeInBytes;
                 }
 
                 buffers.Add(key, new(dataNum, offsetNum, validityNum));
@@ -1342,6 +1363,44 @@ namespace TileDB.CSharp
 
             return buffers;
         }
+
+        /// <summary>
+        /// Returns the number of elements read into the data buffer of an attribute or dimension.
+        /// </summary>
+        /// <param name="name">The name of the attribute or dimension.</param>
+        /// <exception cref="KeyNotFoundException">No data buffer has
+        /// been registered with <paramref name="name"/>.</exception>
+        /// <exception cref="InvalidOperationException">The data buffer had been
+        /// set with an overload of <c>UnsafeSetDataBuffer</c>.</exception>
+        public ulong GetResultDataElements(string name) => _dataBufferHandles[name].SizeInElements;
+
+        /// <summary>
+        /// Returns the number of bytes read into the data buffer of an attribute or dimension.
+        /// </summary>
+        /// <param name="name">The name of the attribute or dimension.</param>
+        /// <returns>
+        /// The number of elements read, or the number of bytes read if the data buffer had been
+        /// assigned with an overload of the <c>Query.UnsafeSetDataBuffer</c> method.
+        /// </returns>
+        /// <exception cref="KeyNotFoundException">No data buffer has
+        /// been registered with <paramref name="name"/>.</exception>
+        public ulong GetResultDataBytes(string name) => _dataBufferHandles[name].SizeInBytes;
+
+        /// <summary>
+        /// Returns the number of offsets read into the offsets buffer of a variable-sized attribute or dimension.
+        /// </summary>
+        /// <param name="name">The name of the attribute or dimension.</param>
+        /// <exception cref="KeyNotFoundException">No offsets buffer has
+        /// been registered with <paramref name="name"/>.</exception>
+        public ulong GetResultOffsets(string name) => _offsetsBufferHandles[name].SizeInElements;
+
+        /// <summary>
+        /// Returns the number of validity bytes read into the validity buffer of a nullable attribute.
+        /// </summary>
+        /// <param name="name">The name of the attribute or dimension.</param>
+        /// <exception cref="KeyNotFoundException">No validity buffer has
+        /// been registered with <paramref name="name"/>.</exception>
+        public ulong GetResultValidities(string name) => _validityBufferHandles[name].SizeInElements;
 
         /// <summary>
         /// Free all handles.
@@ -1373,29 +1432,33 @@ namespace TileDB.CSharp
 
         private sealed class BufferHandle : IDisposable
         {
+            private readonly int _elementSize;
+
             private MemoryHandle DataHandle;
+
             public ulong* SizePointer { get; private set; }
 
             public void* DataPointer => DataHandle.Pointer;
 
-            public ulong Size
+            public ulong SizeInBytes => *SizePointer;
+
+            public ulong SizeInElements
             {
                 get
                 {
-                    Debug.Assert(SizePointer is not null);
-                    return *SizePointer;
-                }
-                set
-                {
-                    Debug.Assert(SizePointer is not null);
-                    *SizePointer = value;
+                    if (_elementSize == 0)
+                    {
+                        ThrowHelpers.ThrowBufferUnsafelySet();
+                    }
+                    return *SizePointer / (ulong)_elementSize;
                 }
             }
 
-            public BufferHandle(ref MemoryHandle handle, ulong size)
+            public BufferHandle(ref MemoryHandle handle, ulong size, int elementSize)
             {
                 DataHandle = handle;
                 handle = default;
+                _elementSize = elementSize;
                 bool successful = false;
                 try
                 {
@@ -1409,7 +1472,7 @@ namespace TileDB.CSharp
                         DataHandle.Dispose();
                     }
                 }
-                Size = size;
+                *SizePointer = size;
             }
 
             public void Dispose()
