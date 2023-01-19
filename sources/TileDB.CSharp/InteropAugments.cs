@@ -23,6 +23,8 @@ namespace TileDB.Interop
     partial struct tiledb_config_iter_t {}
     [Obsolete(Obsoletions.TileDBInteropMessage + " Use the TileDB.CSharp.Config type instead.", DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     partial struct tiledb_config_t {}
+    [Obsolete(Obsoletions.TileDBInteropMessage + " Use the TileDB.CSharp.Config type instead.", DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    partial struct tiledb_consolidation_plan_t {}
     [Obsolete(Obsoletions.TileDBInteropMessage + " Use the TileDB.CSharp.Context type instead.", DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     partial struct tiledb_ctx_t {}
     [Obsolete(Obsoletions.TileDBInteropMessage + " Use the TileDB.CSharp.Dimension type instead.", DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
