@@ -1,53 +1,85 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using TileDB.CSharp.Marshalling;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
+    /// <summary>
+    /// Represents the non-empty domain of all dimensions of an <see cref="Array"/>.
+    /// </summary>
     public class NonEmptyDomain
     {
         private readonly Dictionary<string, object> _dict = new();
 
-        public void Add<T>(string key, T value)
+        /// <summary>
+        /// Adds a value to the <see cref="NonEmptyDomain"/>.
+        /// </summary>
+        /// <typeparam name="T">The dimension's type. Usually is <see cref="Tuple{T1, T2}"/>
+        /// of a primitive integer type or <see cref="string"/>.</typeparam>
+        /// <param name="key">The dimension's name.</param>
+        /// <param name="value">The dimension's non-empty domain.</param>
+        public void Add<T>(string key, T? value)
         {
             if (value != null) _dict.Add(key, value);
         }
 
+        /// <summary>
+        /// Gets the non-empty domain of a dimension.
+        /// </summary>
+        /// <typeparam name="T">The dimension's type. Usually is <see cref="Tuple{T1, T2}"/>
+        /// of a primitive integer type or <see cref="string"/>.</typeparam>
+        /// <param name="key">The dimension's name.</param>
         public T Get<T>(string key)
         {
             return (T)_dict[key];
         }
 
-        public bool TryGet<T>(string key, out T? value)
+        /// <summary>
+        /// Tries to get the non-empty domain of a dimension, if it exists.
+        /// </summary>
+        /// <typeparam name="T">The dimension's type. Usually is <see cref="Tuple{T1, T2}"/>
+        /// of a primitive integer type or <see cref="string"/>.</typeparam>
+        /// <param name="key">The dimension's name.</param>
+        /// <param name="value">A reference where the dimension's non-empty domain will be written to.</param>
+        /// <returns>Whether a dimension named <paramref name="key"/> has a non-empty domain.</returns>
+        public bool TryGet<T>(string key, [NotNullWhen(true)] out T? value)
         {
             if (_dict.TryGetValue(key, out var result) && result is T value1)
             {
                 value = value1;
                 return true;
             }
-            value = default(T);
+            value = default;
             return false;
         }
     }
 
+    /// <summary>
+    /// Represents a TileDB array object.
+    /// </summary>
     public sealed unsafe class Array : IDisposable
     {
         private readonly ArrayHandle _handle;
         private readonly Context _ctx;
         private readonly string _uri;
-        private bool _disposed;
 
         private readonly ArrayMetadata _metadata;
 
+        /// <summary>
+        /// Creates an <see cref="Array"/>.
+        /// </summary>
+        /// <param name="ctx">The <see cref="CSharp.Context"/> associated with the array.</param>
+        /// <param name="uri">The array's URI.</param>
         public Array(Context ctx, string uri)
         {
             _ctx = ctx;
             _uri = uri;
             using var ms_uri = new MarshaledString(_uri);
             _handle = ArrayHandle.Create(_ctx, ms_uri);
-            _disposed = false;
             _metadata = new ArrayMetadata(this);
         }
 
@@ -56,50 +88,43 @@ namespace TileDB.CSharp
             _ctx = ctx;
             _handle = handle;
             _uri = Uri();
-            _disposed = false;
             _metadata = new ArrayMetadata(this);
         }
 
+        /// <summary>
+        /// Disposes the <see cref="Array"/>.
+        /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed) return;
-            if (disposing && (!_handle.IsInvalid))
-            {
-                _handle.Dispose();
-            }
-
-            _disposed = true;
+            _handle.Dispose();
         }
 
         internal ArrayHandle Handle => _handle;
 
         /// <summary>
-        /// Get context.
+        /// Gets the <see cref="CSharp.Context"/> associated with this <see cref="Array"/>.
         /// </summary>
-        /// <returns></returns>
         public Context Context()
         {
             return _ctx;
         }
 
         /// <summary>
-        /// Get metadata.
+        /// Gets the <see cref="ArrayMetadata"/> object for this <see cref="Array"/>.
         /// </summary>
-        /// <returns></returns>
         public ArrayMetadata Metadata()
         {
             return _metadata;
         }
 
         /// <summary>
-        /// Set open timestamp start, sets the subsequent Open call to use the start_timestamp of the passed value.
+        /// Sets the starting timestamp to use when <see cref="Open"/>ing (and <see cref="Reopen"/>ing) the <see cref="Array"/>.
         /// </summary>
-        /// <param name="timestampStart"></param>
+        /// <param name="timestampStart">The starting timestamp, inclusive.</param>
+        /// <remarks>
+        /// If not set, the default value is zero.
+        /// </remarks>
+        /// <seealso cref="OpenTimestampStart"/>
         public void SetOpenTimestampStart(ulong timestampStart)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -108,9 +133,13 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set open timestamp end.
+        /// Sets the ending timestamp to use when <see cref="Open"/>ing (and <see cref="Reopen"/>ing) the <see cref="Array"/>.
         /// </summary>
-        /// <param name="timestampEnd"></param>
+        /// <param name="timestampEnd">The ending timestamp, inclusive.</param>
+        /// <remarks>
+        /// If not set, the default value is <see cref="ulong.MaxValue"/> which signifies the current time.
+        /// </remarks>
+        /// <seealso cref="OpenTimestampEnd"/>
         public void SetOpenTimestampEnd(ulong timestampEnd)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -119,9 +148,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get open timestamp start.
+        /// Gets the starting timestamp to use when <see cref="Open"/>ing (and <see cref="Reopen"/>ing) the <see cref="Array"/>.
         /// </summary>
-        /// <returns></returns>
+        /// <seealso cref="SetOpenTimestampStart"/>
         public ulong OpenTimestampStart()
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -132,9 +161,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get timestamp end.
+        /// Sets the ending timestamp to use when <see cref="Open"/>ing (and <see cref="Reopen"/>ing) the <see cref="Array"/>.
         /// </summary>
-        /// <returns></returns>
+        /// <seealso cref="SetOpenTimestampEnd"/>
         public ulong OpenTimestampEnd()
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -145,9 +174,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Open the array.
+        /// Opens the <see cref="Array"/>.
         /// </summary>
-        /// <param name="queryType"></param>
+        /// <param name="queryType">The default query type if <see cref="Query(CSharp.Context, Array)"/> is called with this array.</param>
         public void Open(QueryType queryType)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -155,8 +184,9 @@ namespace TileDB.CSharp
             var tiledb_query_type = (tiledb_query_type_t)queryType;
             _ctx.handle_error(Methods.tiledb_array_open(ctxHandle, handle, tiledb_query_type));
         }
+
         /// <summary>
-        /// ReOpen the array.
+        /// Reopens the <see cref="Array"/>.
         /// </summary>
         public void Reopen()
         {
@@ -166,9 +196,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Tes if the array is open or not.
+        /// Checks whether the <see cref="Array"/> is open or not.
         /// </summary>
-        /// <returns></returns>
         public bool IsOpen()
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -179,9 +208,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set config.
+        /// Sets the <see cref="CSharp.Config"/> to the <see cref="Array"/>.
         /// </summary>
-        /// <param name="config"></param>
+        /// <param name="config">The config to use</param>
         public void SetConfig(Config config)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -191,9 +220,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get config.
+        /// Gets the <see cref="CSharp.Config"/> of the <see cref="Array"/>.
         /// </summary>
-        /// <returns></returns>
         public Config Config()
         {
             var handle = new ConfigHandle();
@@ -221,7 +249,7 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Close the array.
+        /// Closes the <see cref="Array"/>.
         /// </summary>
         public void Close()
         {
@@ -231,9 +259,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get array schema.
+        /// Gets the <see cref="Array"/>'s <see cref="ArraySchema"/>.
         /// </summary>
-        /// <returns></returns>
         public ArraySchema Schema()
         {
             var handle = new ArraySchemaHandle();
@@ -263,9 +290,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get query type.
+        /// Gets the <see cref="CSharp.QueryType"/> with which the <see cref="Array"/> was <see cref="Open"/>ed.
         /// </summary>
-        /// <returns></returns>
         public QueryType QueryType()
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -276,11 +302,12 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Create an array.
+        /// Creates an <see cref="Array"/> at a given URI.
         /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="uri"></param>
-        /// <param name="schema"></param>
+        /// <param name="ctx">The <see cref="CSharp.Context"/> to use.</param>
+        /// <param name="uri">The array's URI.</param>
+        /// <param name="schema">The array's schema.</param>
+        /// <seealso cref="Create(ArraySchema)"/>
         public static void Create(Context ctx, string uri, ArraySchema schema)
         {
             using var ms_uri = new MarshaledString(uri);
@@ -290,9 +317,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Create an array.
+        /// Creates the <see cref="Array"/> at <see cref="Uri"/>.
         /// </summary>
-        /// <param name="schema"></param>
+        /// <param name="schema">The array's <see cref="ArraySchema"/>.</param>
+        /// <seealso cref="Create(CSharp.Context, string, ArraySchema)"/>
         public void Create(ArraySchema schema)
         {
             Create(_ctx, _uri, schema);
@@ -301,9 +329,10 @@ namespace TileDB.CSharp
         /// <summary>
         /// Applies an <see cref="ArraySchemaEvolution"/> to the schema of an array.
         /// </summary>
-        /// <param name="ctx">The <see cref="Context"/> to use.</param>
+        /// <param name="ctx">The <see cref="CSharp.Context"/> to use.</param>
         /// <param name="uri">The array's URI.</param>
-        /// <param name="schemaEvolution">The <see cref="ArraySchemaEvolution"/> to use.</param>
+        /// <param name="schemaEvolution">The schema evolution to use.</param>
+        /// <seealso cref="Evolve(ArraySchemaEvolution)"/>
         public static void Evolve(Context ctx, string uri, ArraySchemaEvolution schemaEvolution)
         {
             using var msUri = new MarshaledString(uri);
@@ -313,10 +342,12 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Applies an <see cref="ArraySchemaEvolution"/> to the schema of this array.
+        /// Applies an <see cref="ArraySchemaEvolution"/> to the schema of this <see cref="Array"/>.
         /// </summary>
-        /// <param name="ctx">The <see cref="Context"/> to use.</param>
-        /// <param name="schemaEvolution">The <see cref="ArraySchemaEvolution"/> to use.</param>
+        /// <param name="ctx">The <see cref="CSharp.Context"/> to use.</param>
+        /// <param name="schemaEvolution">The schema evolution to use.</param>
+        /// <seealso cref="Evolve(ArraySchemaEvolution)"/>
+        /// <seealso cref="Evolve(CSharp.Context, string, ArraySchemaEvolution)"/>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void Evolve(Context ctx, ArraySchemaEvolution schemaEvolution)
         {
@@ -324,9 +355,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Applies an <see cref="ArraySchemaEvolution"/> to the schema of this array.
+        /// Applies an <see cref="ArraySchemaEvolution"/> to the schema of this <see cref="Array"/>.
         /// </summary>
-        /// <param name="schemaEvolution">The <see cref="ArraySchemaEvolution"/> to use.</param>
+        /// <param name="schemaEvolution">The schema evolution to use.</param>
+        /// <seealso cref="Evolve(CSharp.Context, string, ArraySchemaEvolution)"/>
         public void Evolve(ArraySchemaEvolution schemaEvolution)
         {
             Evolve(_ctx, _uri, schemaEvolution);
@@ -335,7 +367,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// Consolidates an array.
         /// </summary>
-        /// <param name="ctx">The <see cref="Context"/> to use.</param>
+        /// <param name="ctx">The <see cref="CSharp.Context"/> to use.</param>
         /// <param name="uri">The array's URI.</param>
         /// <param name="config">Configuration parameters for the consolidation. Optional.</param>
         public static void Consolidate(Context ctx, string uri, Config? config = null)
@@ -349,7 +381,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// Consolidates the given fragments of an array into a single fragment.
         /// </summary>
-        /// <param name="ctx">The <see cref="Context"/> to use.</param>
+        /// <param name="ctx">The <see cref="CSharp.Context"/> to use.</param>
         /// <param name="uri">The array's URI.</param>
         /// <param name="fragments">The names of the fragments to consolidate. They can be retrieved using <see cref="FragmentInfo.GetFragmentName"/>.</param>
         /// <param name="config">Configuration parameters for the consolidation. Optional.</param>
@@ -365,7 +397,7 @@ namespace TileDB.CSharp
         /// <summary>
         /// Vacuums an array.
         /// </summary>
-        /// <param name="ctx">The <see cref="Context"/> to use.</param>
+        /// <param name="ctx">The <see cref="CSharp.Context"/> to use.</param>
         /// <param name="uri">The array's URI.</param>
         /// <param name="config">Configuration parameters for the consolidation. Optional.</param>
         public static void Vacuum(Context ctx, string uri, Config? config = null)
@@ -376,6 +408,9 @@ namespace TileDB.CSharp
             ctx.handle_error(Methods.tiledb_array_vacuum(ctxHandle, ms_uri, configHandle));
         }
 
+        /// <summary>
+        /// Gets the non-empty domain of all dimensions of the <see cref="Array"/>.
+        /// </summary>
         public (NonEmptyDomain, bool) NonEmptyDomain()
         {
             NonEmptyDomain nonEmptyDomain = new();
@@ -455,12 +490,13 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get non-empty domain from index.
+        /// Gets the non-empty domain from a dimension of the <see cref="Array"/>, identified by its index.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public (T, T, bool) NonEmptyDomain<T>(uint index) where T : struct
+        /// <typeparam name="T">The dimension's type.</typeparam>
+        /// <param name="index">The dimension's index.</param>
+        /// <returns>The domain's start and end values, along with whether it is empty.</returns>
+        /// <exception cref="ArgumentException"><typeparamref name="T"/> is not the dimension's type.</exception>
+        public (T Start, T End, bool IsEmpty) NonEmptyDomain<T>(uint index) where T : struct
         {
             var datatype = EnumUtil.TypeToDataType(typeof(T));
             using (var schema = Schema())
@@ -484,12 +520,13 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get non-empty domain from name.
+        /// Gets the non-empty domain from a dimension of the <see cref="Array"/>, identified by its name.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public (T, T, bool) NonEmptyDomain<T>(string name) where T : struct
+        /// <typeparam name="T">The dimension's type.</typeparam>
+        /// <param name="name">The dimension's name.</param>
+        /// <returns>The domain's start and end values, along with whether it is empty.</returns>
+        /// <exception cref="ArgumentException"><typeparamref name="T"/> is not the dimension's type.</exception>
+        public (T Start, T End, bool IsEmpty) NonEmptyDomain<T>(string name) where T : struct
         {
             var datatype = EnumUtil.TypeToDataType(typeof(T));
             using (var schema = Schema())
@@ -513,11 +550,11 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get string dimension domain from index.
+        /// Gets the non-empty domain from a variable-sized dimension of the <see cref="Array"/>, identified by its index.
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public (string, string, bool) NonEmptyDomainVar(uint index)
+        /// <param name="index">The dimension's index.</param>
+        /// <returns>The domain's start and end values, along with whether it is empty.</returns>
+        public (string Start, string End, bool IsEmpty) NonEmptyDomainVar(uint index)
         {
             ulong start_size64;
             ulong end_size64;
@@ -549,7 +586,12 @@ namespace TileDB.CSharp
             return (MarshaledStringOut.GetString(start.Span), MarshaledStringOut.GetString(end.Span), false);
         }
 
-        public (string, string, bool) NonEmptyDomainVar(string name)
+        /// <summary>
+        /// Gets the non-empty domain from a variable-sized dimension of the <see cref="Array"/>, identified by its name.
+        /// </summary>
+        /// <param name="name">The dimension's name.</param>
+        /// <returns>The domain's start and end values, along with whether it is empty.</returns>
+        public (string Start, string End, bool IsEmpty) NonEmptyDomainVar(string name)
         {
             ulong start_size64;
             ulong end_size64;
@@ -585,9 +627,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get uri.
+        /// Gets the array's URI.
         /// </summary>
-        /// <returns></returns>
         public string Uri()
         {
             sbyte* result;
@@ -599,11 +640,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get encryption type of an array.
+        /// Gets the <see cref="CSharp.EncryptionType"/> with which an array was encrypted.
         /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="uri"></param>
-        /// <returns></returns>
+        /// <param name="ctx">The <see cref="CSharp.Context"/> to use.</param>
+        /// <param name="uri">The array's URI.</param>
         public static EncryptionType EncryptionType(Context ctx, string uri)
         {
             using var ms_uri = new MarshaledString(uri);
@@ -614,113 +654,107 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Put metadata array.
+        /// Puts a multi-value metadata to the <see cref="Array"/>.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="data"></param>
+        /// <typeparam name="T">The metadata's type.</typeparam>
+        /// <param name="key">THe metadata's key.</param>
+        /// <param name="data">The metadata's value.</param>
         public void PutMetadata<T>(string key, T[] data) where T : struct
         {
             _metadata.PutMetadata<T>(key, data);
         }
 
         /// <summary>
-        /// Put a sigle value metadata.
+        /// Puts a single-value metadata to the <see cref="Array"/>.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="v"></param>
+        /// <typeparam name="T">The metadata's type.</typeparam>
+        /// <param name="key">THe metadata's key.</param>
+        /// <param name="v">The metadata's value.</param>
         public void PutMetadata<T>(string key, T v) where T : struct
         {
             _metadata.PutMetadata<T>(key, v);
         }
 
         /// <summary>
-        /// Put string metadata.
+        /// Puts a string-typed metadata to the <see cref="Array"/>.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
+        /// <param name="key">THe metadata's key.</param>
+        /// <param name="value">The metadata's value.</param>
         public void PutMetadata(string key, string value)
         {
             _metadata.PutMetadata(key, value);
         }
 
         /// <summary>
-        /// Delete metadata.
+        /// Deletes a metadata from the <see cref="Array"/>.
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="key">The metadata's ket.</param>
         public void DeleteMetadata(string key)
         {
             _metadata.DeleteMetadata(key);
         }
 
         /// <summary>
-        /// Get metadata list.
+        /// Gets metadata from the <see cref="Array"/>.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">The metadata's type.</typeparam>
+        /// <param name="key">The metadata's key.</param>
+        /// <returns>An array with the metadata values.</returns>
         public T[] GetMetadata<T>(string key) where T : struct
         {
             return _metadata.GetMetadata<T>(key);
         }
 
         /// <summary>
-        /// Get string metadata
+        /// Gets string-typed metadata from the <see cref="Array"/>.
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">The metadata's key.</param>
         public string GetMetadata(string key)
         {
             return _metadata.GetMetadata(key);
         }
 
         /// <summary>
-        /// Get number of metadata.
+        /// Gets the number of metadata of the <see cref="Array"/>.
         /// </summary>
-        /// <returns></returns>
         public ulong MetadataNum()
         {
             return _metadata.MetadataNum();
         }
 
-
         /// <summary>
-        /// Get metadata from index.
+        /// Gets the <see cref="Array"/>'s metadata key and value by index.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">The metadata's type.</typeparam>
+        /// <param name="index">The metadata's index. Must be between zero and <see cref="MetadataNum"/> minus one.</param>
+        /// <returns>A tuple with the metadata's key and value.</returns>
         public (string key, T[] data) GetMetadataFromIndex<T>(ulong index) where T : struct
         {
             return _metadata.GetMetadataFromIndex<T>(index);
         }
 
         /// <summary>
-        /// Get metadata keys.
+        /// Gets the <see cref="Array"/>'s metadata keys.
         /// </summary>
-        /// <returns></returns>
         public string[] MetadataKeys()
         {
             return _metadata.MetadataKeys();
         }
 
         /// <summary>
-        /// Test if a metadata with key exists or not.
+        /// Checks whether a metadata with a given key exists in the <see cref="Array"/>.
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">The metadata's key</param>
+        /// <returns>A tuple of whether the metadata exists, and its type.</returns>
         public (bool has_key, DataType datatype) HasMetadata(string key)
         {
             return _metadata.HasMetadata(key);
         }
 
         /// <summary>
-        /// Consolidate metadata.
+        /// Consolidates the <see cref="Array"/>'s metadata.
+        /// Deprecated, use <see cref="Consolidate"/> with the config value <c>sm.consolidation.mode</c> set to <c>metadata</c>.
         /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="uri"></param>
-        /// <param name="config"></param>
         [Obsolete(Obsoletions.ConsolidateMetadataMessage, DiagnosticId = Obsoletions.ConsolidateMetadataDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public static void ConsolidateMetadata(Context ctx, string uri, Config config)
         {
@@ -728,10 +762,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Load array schema at a given path
+        /// Loads the <see cref="ArraySchema"/> of an array at the given path.
         /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="path"></param>
+        /// <param name="ctx">The <see cref="CSharp.Context"/> to use.</param>
+        /// <param name="path">The array's path.</param>
         public static ArraySchema LoadArraySchema(Context ctx, string path) => ArraySchema.Load(ctx, path);
     }
 }
