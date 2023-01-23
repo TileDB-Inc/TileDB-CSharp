@@ -172,6 +172,30 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Creates a new query condition that is satisfied where the given attribute is null.
+        /// </summary>
+        /// <param name="ctx">The <see cref="Context"/> associated with the query condition.</param>
+        /// <param name="attribute_name">The name of the attribute the query condition refers to.</param>
+        public static QueryCondition CreateIsNull(Context ctx, string attribute_name)
+        {
+            var ret = new QueryCondition(ctx);
+            ret.Init(attribute_name, null, 0, QueryConditionOperatorType.Equal);
+            return ret;
+        }
+
+        /// <summary>
+        /// Creates a new query condition that is satisfied where the given attribute is not null.
+        /// </summary>
+        /// <param name="ctx">The <see cref="Context"/> associated with the query condition.</param>
+        /// <param name="attribute_name">The name of the attribute the query condition refers to.</param>
+        public static QueryCondition CreateIsNotNull(Context ctx, string attribute_name)
+        {
+            var ret = new QueryCondition(ctx);
+            ret.Init(attribute_name, null, 0, QueryConditionOperatorType.NotEqual);
+            return ret;
+        }
+
+        /// <summary>
         /// Creates the conjunction of two <see cref="QueryCondition"/>s.
         /// </summary>
         /// <param name="lhs">The first query condition.</param>
