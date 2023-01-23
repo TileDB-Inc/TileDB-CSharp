@@ -12,10 +12,10 @@ namespace TileDB.CSharp.Test
             var context = Context.GetDefault();
             Assert.IsNotNull(context);
 
-            var dimension1 = Dimension.Create(context, "rows", 1, 4, 2);
+            using var dimension1 = Dimension.Create(context, "rows", 1, 4, 2);
             Assert.IsNotNull(dimension1);
 
-            var dimension2 = Dimension.Create(context, "cols", 1, 4, 2);
+            using var dimension2 = Dimension.Create(context, "cols", 1, 4, 2);
             Assert.IsNotNull(dimension2);
 
             using var domain = new Domain(context);
@@ -97,6 +97,80 @@ namespace TileDB.CSharp.Test
             // Assert.AreEqual<int>(4, attr_data_buffer_read[0]);
             // Assert.AreEqual<int>(5, attr_data_buffer_read[1]);
             // Assert.AreEqual<int>(6, attr_data_buffer_read[2]);
+        }
+
+        [TestMethod]
+        public void TestIsNotNullCondition()
+        {
+            var context = Context.GetDefault();
+
+            using var dimension = Dimension.Create(context, "dim", 1, 5, 5);
+
+            using var domain = new Domain(context);
+
+            domain.AddDimension(dimension);
+
+            using var array_schema = new ArraySchema(context, ArrayType.Sparse);
+
+            using var attr = new Attribute(context, "a1", DataType.Int32);
+            attr.SetNullable(true);
+
+            array_schema.AddAttribute(attr);
+
+            array_schema.SetDomain(domain);
+
+            array_schema.Check();
+
+            using var tmpArrayPath = new TemporaryDirectory("query_condition_is_not_null");
+
+            Array.Create(context, tmpArrayPath, array_schema);
+
+            //Write array
+            using var array_write = new Array(context, tmpArrayPath);
+
+            array_write.Open(QueryType.Write);
+
+            using var query_write = new Query(context, array_write);
+
+            var attr_data_buffer = new int[] { 1, 2, 3, 4, 5 };
+            var attr_validity_buffer = new byte[] { 1, 1, 0, 1, 1 };
+            query_write.SetDataBuffer("dim", attr_data_buffer);
+            query_write.SetDataBuffer("a1", attr_data_buffer);
+            query_write.SetValidityBuffer("a1", attr_validity_buffer);
+            query_write.Submit();
+
+            var status = query_write.Status();
+
+            Assert.AreEqual(QueryStatus.Completed, status);
+
+            array_write.Close();
+
+            using var array_read = new Array(context, tmpArrayPath);
+
+            array_read.Open(QueryType.Read);
+
+            using var query_read = new Query(context, array_read);
+
+            query_read.SetLayout(LayoutType.RowMajor);
+
+            using QueryCondition qc = QueryCondition.CreateIsNotNull(context, "a1");
+
+            query_read.SetCondition(qc);
+
+            var attr_data_buffer_read = new int[5];
+            query_read.SetDataBuffer("dim", attr_data_buffer);
+            query_read.SetDataBuffer("a1", attr_data_buffer_read);
+            query_read.SetValidityBuffer("a1", new byte[5]);
+
+            query_read.Submit();
+            var status_read = query_read.Status();
+
+            Assert.AreEqual(QueryStatus.Completed, status_read);
+
+            Assert.AreEqual(4UL, query_read.GetResultDataElements("a1"));
+            CollectionAssert.AreEqual(new int[] { 1, 2, 4, 5, 0 }, attr_data_buffer_read);
+
+            array_read.Close();
         }
 
         [TestMethod]
