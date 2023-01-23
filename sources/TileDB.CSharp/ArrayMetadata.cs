@@ -2,54 +2,46 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
+    /// <summary>
+    /// Provides a view of an <see cref="Array"/>'s metadata.
+    /// </summary>
     public unsafe class ArrayMetadata : IDictionary<string, byte[]>
     {
+        /// <summary>
+        /// The <see cref="Array"/> to get the metadata from.
+        /// </summary>
         protected Array _array;
 
-        #region Constructors
+        /// <summary>
+        /// Creates an <see cref="ArrayMetadata"/> object from an <see cref="Array"/>.
+        /// </summary>
+        /// <param name="array">The array to get the metadata from.</param>
         public ArrayMetadata(Array array)
         {
             _array = array;
         }
-        #endregion
 
-        #region User api
-        /// <summary>
-        /// Put metadata array.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="data"></param>
+        /// <inheritdoc cref="Array.PutMetadata{T}(string, T[])"/>
         public void PutMetadata<T>(string key, T[] data) where T : struct
         {
             var tiledb_datatype = (tiledb_datatype_t)EnumUtil.TypeToDataType(typeof(T));
             put_metadata<T>(key, data, tiledb_datatype, (uint)data.Length);
         }
 
-        /// <summary>
-        /// Put a single value metadata.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="v"></param>
+        /// <inheritdoc cref="Array.PutMetadata{T}(string, T)"/>
         public void PutMetadata<T>(string key, T v) where T : struct
         {
             T[] data = new T[1] { v };
             PutMetadata<T>(key, data);
         }
 
-        /// <summary>
-        /// Put string metadata.
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
+        /// <inheritdoc cref="Array.PutMetadata(string, string)"/>
         public void PutMetadata(string key, string value)
         {
             var tiledb_datatype = tiledb_datatype_t.TILEDB_STRING_ASCII;
@@ -58,10 +50,7 @@ namespace TileDB.CSharp
             put_metadata<byte>(key, data, tiledb_datatype, val_num);
         }
 
-        /// <summary>
-        /// Delete metadata.
-        /// </summary>
-        /// <param name="key"></param>
+        /// <inheritdoc cref="Array.DeleteMetadata"/>
         public void DeleteMetadata(string key)
         {
             var ctx = _array.Context();
@@ -71,12 +60,7 @@ namespace TileDB.CSharp
             ctx.handle_error(Methods.tiledb_array_delete_metadata(ctxHandle, arrayHandle, ms_key));
         }
 
-        /// <summary>
-        /// Get metadata list.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <inheritdoc cref="Array.GetMetadata{T}(string)"/>
         public T[] GetMetadata<T>(string key) where T : struct
         {
             var (k, value, dataType, valueNum) = get_metadata(key);
@@ -86,21 +70,14 @@ namespace TileDB.CSharp
             return span.ToArray();
         }
 
-        /// <summary>
-        /// Get string metadata
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <inheritdoc cref="Array.GetMetadata(string)"/>
         public string GetMetadata(string key)
         {
             var (_, byte_array, _, _) = get_metadata(key);
             return MarshaledStringOut.GetString(byte_array);
         }
 
-        /// <summary>
-        /// Get number of metadata.
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc cref="Array.MetadataNum"/>
         public ulong MetadataNum()
         {
             var ctx = _array.Context();
@@ -111,12 +88,7 @@ namespace TileDB.CSharp
             return num;
         }
 
-        /// <summary>
-        /// Get metadata from index.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        /// <inheritdoc cref="Array.GetMetadataFromIndex"/>
         public (string key, T[] data) GetMetadataFromIndex<T>(ulong index) where T : struct
         {
             var (key, value, dataType, valueNum) = get_metadata_from_index(index);
@@ -127,10 +99,7 @@ namespace TileDB.CSharp
 
         }
 
-        /// <summary>
-        /// Get metadata keys.
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc cref="Array.MetadataKeys"/>
         public string[] MetadataKeys()
         {
             var num = MetadataNum();
@@ -143,11 +112,7 @@ namespace TileDB.CSharp
             return ret;
         }
 
-        /// <summary>
-        /// Test if a metadata with key exists or not.
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <inheritdoc cref="Array.HasMetadata"/>
         public (bool has_key, DataType datatype) HasMetadata(string key)
         {
             var ctx = _array.Context();
@@ -161,12 +126,7 @@ namespace TileDB.CSharp
             return (has_key > 0, (DataType)tiledb_datatype);
         }
 
-        /// <summary>
-        /// Consolidate metadata.
-        /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="uri"></param>
-        /// <param name="config"></param>
+        /// <inheritdoc cref="Array.ConsolidateMetadata"/>
         [Obsolete(Obsoletions.ConsolidateMetadataMessage, DiagnosticId = Obsoletions.ConsolidateMetadataDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public static void ConsolidateMetadata(Context ctx, string uri, Config config)
         {
@@ -175,9 +135,8 @@ namespace TileDB.CSharp
             using var configHandle = config.Handle.Acquire();
             ctx.handle_error(Methods.tiledb_array_consolidate_metadata(ctxHandle, ms_uri, configHandle));
         }
-        #endregion User api
 
-        #region IDictionary interface
+        /// <inheritdoc cref="P:System.Collections.Generic.IDictionary`2.Item(`0)"/>
         public byte[] this[string key]
         {
             get
@@ -216,6 +175,7 @@ namespace TileDB.CSharp
             }
         }
 
+        /// <inheritdoc cref="IDictionary{TKey, TValue}.Keys"/>
         public ICollection<string> Keys
         {
             get
@@ -239,6 +199,7 @@ namespace TileDB.CSharp
             }
         }
 
+        /// <inheritdoc cref="IDictionary{TKey, TValue}.Values"/>
         public ICollection<byte[]> Values
         {
             get
@@ -255,6 +216,7 @@ namespace TileDB.CSharp
             }
         }
 
+        /// <inheritdoc cref="ICollection{T}.Count"/>
         public int Count
         {
             get
@@ -264,6 +226,7 @@ namespace TileDB.CSharp
             }
         }
 
+        /// <inheritdoc cref="ICollection{T}.IsReadOnly"/>
         public bool IsReadOnly
         {
             get
@@ -273,53 +236,63 @@ namespace TileDB.CSharp
             }
         }
 
+        /// <inheritdoc cref="IDictionary{TKey, TValue}.Add"/>
         public void Add(string key, byte[] value)
         {
             put_metadata<byte>(key, value, tiledb_datatype_t.TILEDB_UINT8, (uint)value.Length);
         }
 
+        /// <inheritdoc cref="ICollection{T}.Add"/>
         public void Add(KeyValuePair<string, byte[]> item)
         {
             Add(item.Key, item.Value);
         }
 
+        /// <inheritdoc cref="ICollection{T}.IsReadOnly"/>
         public void Clear()
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc cref="ICollection{T}.IsReadOnly"/>
         public bool Contains(KeyValuePair<string, byte[]> item)
         {
             return ContainsKey(item.Key);
         }
 
+        /// <inheritdoc cref="ICollection{T}.IsReadOnly"/>
         public bool ContainsKey(string key)
         {
             var (has_key, _) = HasMetadata(key);
             return has_key;
         }
 
+        /// <inheritdoc cref="ICollection{T}.CopyTo"/>
         public void CopyTo(KeyValuePair<string, byte[]>[] array, int arrayIndex)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
         public IEnumerator<KeyValuePair<string, byte[]>> GetEnumerator()
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc cref="IDictionary{TKey, TValue}.Remove"/>
         public bool Remove(string key)
         {
             DeleteMetadata(key);
             return true;
         }
 
+        /// <inheritdoc cref="ICollection{T}.Remove"/>
         public bool Remove(KeyValuePair<string, byte[]> item)
         {
             return Remove(item.Key);
         }
 
+        /// <inheritdoc cref="IDictionary{TKey, TValue}.TryGetValue"/>
         public bool TryGetValue(string key, [MaybeNullWhen(false)] out byte[] value)
         {
             if (!ContainsKey(key))
@@ -336,9 +309,7 @@ namespace TileDB.CSharp
         {
             throw new NotImplementedException();
         }
-        #endregion IDictionary interface
 
-        #region Private methods
         private void put_metadata<T>(string key, T[] value, tiledb_datatype_t tiledb_datatype, uint value_num) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
@@ -386,6 +357,5 @@ namespace TileDB.CSharp
             var fill_span = new ReadOnlySpan<byte>(value_p, size);
             return (MarshaledStringOut.GetStringFromNullTerminated(key), fill_span.ToArray(), dataType, valueNum);
         }
-        #endregion
     }
 }
