@@ -5,11 +5,16 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
+    /// <summary>
+    /// Represents a TileDB config object.
+    /// </summary>
     public sealed unsafe class Config : IDisposable
     {
         private readonly ConfigHandle _handle;
-        private bool _disposed;
 
+        /// <summary>
+        /// Creates a <see cref="Config"/>.
+        /// </summary>
         public Config()
         {
             _handle = ConfigHandle.Create();
@@ -20,31 +25,22 @@ namespace TileDB.CSharp
             _handle = handle;
         }
 
+        /// <summary>
+        /// Disposes this <see cref="Config"/>.
+        /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed) return;
-            if (disposing && (!_handle.IsInvalid))
-            {
-                _handle.Dispose();
-            }
-
-            _disposed = true;
-
+            _handle.Dispose();
         }
 
         internal ConfigHandle Handle => _handle;
 
         /// <summary>
-        /// Set parameter value.
+        /// Sets a parameter.
         /// </summary>
-        /// <param name="param"></param>
-        /// <param name="value"></param>
-        /// <exception cref="System.ArgumentException"></exception>
+        /// <param name="param">The parameter's name.</param>
+        /// <param name="value">The parameter's value.</param>
+        /// <exception cref="ArgumentException"><paramref name="param"/> is <see langword="null"/> or empty.</exception>
         public void Set(string param, string value)
         {
             if (string.IsNullOrEmpty(param) || string.IsNullOrEmpty(value))
@@ -65,11 +61,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get parameter value.
+        /// Gets the value of a parameter.
         /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
-        /// <exception cref="System.ArgumentException"></exception>
+        /// <param name="param">The parameter's name</param>
+        /// <exception cref="ArgumentException"><paramref name="param"/> is <see langword="null"/> or empty.</exception>
         public string Get(string param)
         {
             if (string.IsNullOrEmpty(param))
@@ -92,10 +87,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Unset a parameter.
+        /// Unsets a parameter.
         /// </summary>
-        /// <param name="param"></param>
-        /// <exception cref="System.ArgumentException"></exception>
+        /// <param name="param">The parameter's name.</param>
+        /// <exception cref="ArgumentException"><paramref name="param"/> is <see langword="null"/> or empty.</exception>
         public void Unset(string param)
         {
             if (string.IsNullOrEmpty(param))
@@ -115,10 +110,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Load from a file.
+        /// Loads the options from a file.
         /// </summary>
-        /// <param name="filename"></param>
-        /// <exception cref="System.ArgumentException"></exception>
+        /// <param name="filename">The file's name.</param>
+        /// <exception cref="ArgumentException"><paramref name="filename"/> is <see langword="null"/> or empty.</exception>
         public void LoadFromFile(string filename)
         {
             if (string.IsNullOrEmpty(filename))
@@ -138,10 +133,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Save to a file.
+        /// Saves the options from a file.
         /// </summary>
-        /// <param name="filename"></param>
-        /// <exception cref="System.ArgumentException"></exception>
+        /// <param name="filename">The file's name.</param>
+        /// <exception cref="ArgumentException"><paramref name="filename"/> is <see langword="null"/> or empty.</exception>
         public void SaveToFile(string filename)
         {
             if (string.IsNullOrEmpty(filename))
@@ -161,20 +156,18 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get iterator with prefix.
+        /// Gets a <see cref="ConfigIterator"/> that enumerates over all options whose parameter namess start with a given prefix.
         /// </summary>
-        /// <param name="prefix"></param>
-        /// <returns></returns>
+        /// <param name="prefix">The parameters' name's prefix.</param>
         public ConfigIterator Iterate(string prefix)
         {
             return new ConfigIterator(_handle, prefix);
         }
 
         /// <summary>
-        /// Compare with other.
+        /// Checks if two <see cref="Config"/>s have the same content.
         /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
+        /// <param name="other">The config to compare this one with.</param>
         public bool Cmp(ref Config other)
         {
             using var handle = Handle.Acquire();
