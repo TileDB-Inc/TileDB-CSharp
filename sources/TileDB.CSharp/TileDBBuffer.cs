@@ -26,12 +26,12 @@
 #pragma warning disable S1104 // Fields should not have public accessibility
 
 using System;
-using System.Text;
-using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace TileDB.CSharp
 {
     [Obsolete("Will be deprecated, Please use helper functions in CoreUtil.",false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public class TileDBBuffer<T> where T: struct
     {
         #region Fields
@@ -134,6 +134,7 @@ namespace TileDB.CSharp
     }//class TileDBBuffer
 
 #pragma warning disable 612, 618
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public class TileDBStringBuffer : TileDBBuffer<byte>
     {
 #pragma warning restore 612, 618
