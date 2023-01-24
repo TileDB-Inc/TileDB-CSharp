@@ -33,20 +33,14 @@
     "resource": [
       {
         "files": [
-          "images/**",
           "logo.svg"
         ]
-      }
-    ],
-    "overwrite": [
+      },
       {
         "files": [
-          "apidoc/**.md"
+          "art/**.svg"
         ],
-        "exclude": [
-          "obj/**",
-          "_site/**"
-        ]
+        "src": ".."
       }
     ],
     "dest": "_site",
