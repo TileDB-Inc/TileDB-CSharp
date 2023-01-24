@@ -1,5 +1,7 @@
-- name: Articles
-  href: articles/
+- name: Quick start
+  href: https://docs.tiledb.com/main/how-to/installation/quick-install
 - name: API Documentation
   href: api/
   homepage: api/index.md
+- name: Obsoletions
+  href: obsoletions.md

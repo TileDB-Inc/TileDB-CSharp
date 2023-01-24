@@ -25,17 +25,9 @@
       },
       {
         "files": [
-          "articles/**.md",
-          "articles/**/toc.yml",
           "toc.yml",
           "*.md"
         ]
-      },
-      {
-        "files": [
-          "README.md"
-        ],
-        "src": ".."
       }
     ],
     "resource": [
