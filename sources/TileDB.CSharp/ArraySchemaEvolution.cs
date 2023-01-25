@@ -4,33 +4,30 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
+    /// <summary>
+    /// Represents a TileDB array schema evolution.
+    /// </summary>
     public sealed unsafe class ArraySchemaEvolution : IDisposable
     {
         private readonly Context _ctx;
-        private bool _disposed;
         private readonly ArraySchemaEvolutionHandle _handle;
 
+        /// <summary>
+        /// Creates an <see cref="ArraySchemaEvolution"/>
+        /// </summary>
+        /// <param name="ctx">The <see cref="CSharp.Context"/> associated with this array schema evolution.</param>
         public ArraySchemaEvolution(Context ctx)
         {
             _ctx = ctx;
             _handle = ArraySchemaEvolutionHandle.Create(_ctx);
-            _disposed = false;
         }
 
+        /// <summary>
+        /// Disposes this <see cref="ArraySchemaEvolution"/>.
+        /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed) return;
-            if (disposing && !_handle.IsInvalid)
-            {
-                _handle.Dispose();
-            }
-
-            _disposed = true;
+            _handle.Dispose();
         }
 
         internal ArraySchemaEvolutionHandle Handle => _handle;
@@ -42,9 +39,9 @@ namespace TileDB.CSharp
         public Context Context() => _ctx;
 
         /// <summary>
-        /// Add an attribute to an ArraySchemaEvolution object
+        /// Adds an <see cref="Attribute"/> to the <see cref="ArraySchemaEvolution"/>.
         /// </summary>
-        /// <param name="attr">Fully constructed Attribute to add to the schema</param>
+        /// <param name="attr">A fully constructed <see cref="Attribute"/> that will be added to the schema.</param>
         public void AddAttribute(Attribute attr)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -54,9 +51,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Drop an attribute from an ArraySchemaEvolution object
+        /// Drops an attribute with the given name from the <see cref="ArraySchemaEvolution"/>.
         /// </summary>
-        /// <param name="attrName">String name of attribute to drop from the schema</param>
+        /// <param name="attrName">The name of the attribute that will be dropped from the schema.</param>
         public void DropAttribute(string attrName)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -66,17 +63,16 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Drop an attribute from ArraySchemaEvolution.
-        /// Calls DropAttribute(string) using Name property of attr
+        /// Drops an <see cref="Attribute"/> from the <see cref="ArraySchemaEvolution"/>.
         /// </summary>
-        /// <param name="attr">Fully constructed attribute to drop</param>
+        /// <param name="attr">The <see cref="Attribute"/> whose name will be dropped from the schema.</param>
         public void DropAttribute(Attribute attr) => DropAttribute(attr.Name());
 
         /// <summary>
-        /// Set timestamp range for ArraySchemaEvolution
+        /// Sets the timestamp range of this <see cref="ArraySchemaEvolution"/>.
         /// </summary>
-        /// <param name="high">High value of timestamp range</param>
-        /// <param name="low">Low value of timestamp range</param>
+        /// <param name="high">High value of timestamp range.</param>
+        /// <param name="low">Low value of timestamp range.</param>
         public void SetTimeStampRange(ulong high, ulong low)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -86,9 +82,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Apply the ArraySchemaEvolution to an existing array
+        /// Applies the <see cref="ArraySchemaEvolution"/> to an existing array.
         /// </summary>
-        /// <param name="uri">Uri of existing array to apply evolution</param>
+        /// <param name="uri">The array's URI.</param>
         public void EvolveArray(string uri)
         {
             using var ctxHandle = _ctx.Handle.Acquire();

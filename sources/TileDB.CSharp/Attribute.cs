@@ -7,11 +7,13 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp
 {
+    /// <summary>
+    /// Represents a TileDB attribute object.
+    /// </summary>
     public sealed unsafe class Attribute : IDisposable
     {
         private readonly AttributeHandle _handle;
         private readonly Context _ctx;
-        private bool _disposed;
 
         /// <summary>
         /// This value indicates a variable-sized attribute.
@@ -20,6 +22,12 @@ namespace TileDB.CSharp
         /// </summary>
         public const uint VariableSized = Constants.VariableSizedImpl;
 
+        /// <summary>
+        /// Creates an <see cref="Attribute"/>.
+        /// </summary>
+        /// <param name="ctx">The <see cref="Context"/> associated with the attribute.</param>
+        /// <param name="name">The attribute's name.</param>
+        /// <param name="dataType">The attribute's data type.</param>
         public Attribute(Context ctx, string name, DataType dataType)
         {
             _ctx = ctx;
@@ -37,29 +45,19 @@ namespace TileDB.CSharp
             _handle = handle;
         }
 
+        /// <summary>
+        /// Disposes this <see cref="Attribute"/>.
+        /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed) return;
-            if (disposing && (!_handle.IsInvalid))
-            {
-                _handle.Dispose();
-            }
-
-            _disposed = true;
+            _handle.Dispose();
         }
 
         internal AttributeHandle Handle => _handle;
 
-        #region
         /// <summary>
-        /// Set nullable.
+        /// Sets whether this <see cref="Attribute"/> can take null values.
         /// </summary>
-        /// <param name="nullable"></param>
         public void SetNullable(bool nullable)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -69,9 +67,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set filter list.
+        /// Sets the <see cref="CSharp.FilterList"/> of <see cref="Filter"/>s that will be applied to this <see cref="Attribute"/>.
         /// </summary>
-        /// <param name="filterList"></param>
         public void SetFilterList(FilterList filterList)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -106,9 +103,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get type of the attribute.
+        /// Gets the data type of this <see cref="Attribute"/>.
         /// </summary>
-        /// <returns></returns>
         public DataType Type()
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -119,9 +115,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get nullable of the attribute.
+        /// Gets whether this <see cref="Attribute"/> can take null values.
         /// </summary>
-        /// <returns></returns>
         public bool Nullable()
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -131,9 +126,8 @@ namespace TileDB.CSharp
             return nullable > 0;
         }
 
-
         /// <summary>
-        /// Get filter list of the attribute.
+        /// Gets the <see cref="CSharp.FilterList"/> of <see cref="Filter"/>s that will be applied to this <see cref="Attribute"/>.
         /// </summary>
         public FilterList FilterList()
         {
@@ -165,9 +159,11 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Returns the number of values per cell for this attribute.
-        /// For variable-sized attributes the result is <see cref="VariableSized"/>.
+        /// Gets the number of values per cell for this attribute.
         /// </summary>
+        /// <remarks>
+        /// For variable-sized attributes the result is <see cref="VariableSized"/>.
+        /// </remarks>
         public uint CellValNum()
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -178,9 +174,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get cell size.
+        /// Gets the cell size of this <see cref="Attribute"/>.
         /// </summary>
-        /// <returns></returns>
         public ulong CellSize()
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -190,16 +185,17 @@ namespace TileDB.CSharp
             return cell_size;
         }
 
-
         /// <summary>
-        /// Set fill value by an array.
+        /// Sets the fill value of a nullable multi-valued <see cref="Attribute"/>.
+        /// Used when the fill value is multi-valued.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="data"></param>
-        private void SetFillValue<T>(T[] data) where T: struct
+        /// <typeparam name="T">The attribute's data type.</typeparam>
+        /// <param name="data">An array of values that will be used as the fill value.</param>
+        private void SetFillValue<T>(T[] data) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
-            if (data.Length == 0) {
+            if (data.Length == 0)
+            {
                 throw new ArgumentException("Attribute.SetFillValue, data is empty!");
             }
 
@@ -211,9 +207,11 @@ namespace TileDB.CSharp
             }
 
             ulong size;
-            if (cell_val_num == VariableSized) {
+            if (cell_val_num == VariableSized)
+            {
                 size = (ulong)(data.Length* Marshal.SizeOf(data[0]));
-            } else
+            }
+            else
             {
                 size = cell_val_num * (ulong)(Marshal.SizeOf(data[0]));
             }
@@ -225,11 +223,11 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set fill value by a scalar value.
+        /// Sets the fill value of a nullable <see cref="Attribute"/>.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
-        public void SetFillValue<T>(T value) where T: struct
+        /// <typeparam name="T">The attribute's data type.</typeparam>
+        /// <param name="value">The attribute's fill value.</param>
+        public void SetFillValue<T>(T value) where T : struct
         {
             if (typeof(T) == typeof(bool))
             {
@@ -245,19 +243,15 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set string fill value.
+        /// Sets the fill value of a variable-sized <see cref="Attribute"/> to a string.
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="value">The attribute's fill value.</param>
         public void SetFillValue(string value)
         {
             var str_bytes = Encoding.ASCII.GetBytes(value);
             SetFillValue(str_bytes);
         }
 
-        /// <summary>
-        /// Get fill value bytes array.
-        /// </summary>
-        /// <returns></returns>
         private ReadOnlySpan<byte> get_fill_value()
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -270,11 +264,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get fill value.
+        /// Gets the fill value of the <see cref="Attribute"/>.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public T[] FillValue<T>() where T: struct
+        /// <typeparam name="T">The attribute's data type.</typeparam>
+        public T[] FillValue<T>() where T : struct
         {
             if (typeof(T) == typeof(char))
             {
@@ -286,10 +279,9 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get string fill value.
+        /// Gets the fill value of the attribute rendered as a string.
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.NotSupportedException"></exception>
+        /// <exception cref="NotSupportedException">The attribute is not string-typed.</exception>
         public string FillValue()
         {
             var datatype = Type();
@@ -302,12 +294,13 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set fill array value and validity.
+        /// Sets the fill value and validity of a nullable <see cref="Attribute"/>.
+        /// Used when the fill value is multi-valued.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="data"></param>
-        /// <param name="valid"></param>
-        private void SetFillValueNullable<T>(T[] data, bool valid) where T: struct
+        /// <typeparam name="T">The attribute's data type.</typeparam>
+        /// <param name="data">The attribute's fill value.</param>
+        /// <param name="valid">Whether the fill value will be non-null.</param>
+        private void SetFillValueNullable<T>(T[] data, bool valid) where T : struct
         {
             if (data.Length == 0)
             {
@@ -339,12 +332,13 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set fill scalar value and validity.
+        /// Sets the fill value and validity of a nullable <see cref="Attribute"/>.
+        /// Used when the attribute is single-valued or all its values are the same.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
-        /// <param name="valid"></param>
-        public void SetFillValueNullable<T>(T value, bool valid) where T: struct
+        /// <typeparam name="T">The attribute's data type.</typeparam>
+        /// <param name="value">The attribute's fill value.</param>
+        /// <param name="valid">Whether the fill value will be non-null.</param>
+        public void SetFillValueNullable<T>(T value, bool valid) where T : struct
         {
             var cell_val_num = this.CellValNum();
             var data = cell_val_num == VariableSized ? new[] { value } : Enumerable.Repeat(value, (int)cell_val_num).ToArray();
@@ -352,10 +346,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Set string fill value and validity.
+        /// Sets the fill value and validity of a string-typed <see cref="Attribute"/>.
         /// </summary>
-        /// <param name="value"></param>
-        /// <param name="valid"></param>
+        /// <param name="value">The attribute's fill value.</param>
+        /// <param name="valid">Whether the fill value will be non-null.</param>
         public void SetFillValueNullable(string value, bool valid)
         {
             var str_bytes = Encoding.ASCII.GetBytes(value);
@@ -363,9 +357,8 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get fill value bytes array and validity.
+        /// Gets the <see cref="Attribute"/>'s fill value as an array of bytes, and its validity.
         /// </summary>
-        /// <returns></returns>
         private (byte[] bytearray, bool valid) get_fill_value_nullable()
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -380,23 +373,20 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Get fill scalar value and validity.
+        /// Gets the <see cref="Attribute"/>'s fill value and validity.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public Tuple<T[],bool> FillValueNullable<T>() where T : struct
+        /// <typeparam name="T">The attribute's data type.</typeparam>
+        public Tuple<T[], bool> FillValueNullable<T>() where T : struct
         {
             var fill_value = get_fill_value_nullable();
             Span<byte> byteSpan = fill_value.bytearray;
             var span = MemoryMarshal.Cast<byte, T>(byteSpan);
-            return new Tuple<T[], bool>(span.ToArray(),fill_value.valid);
+            return new Tuple<T[], bool>(span.ToArray(), fill_value.valid);
         }
 
         /// <summary>
-        /// Get string fill value and validity.
+        /// Gets the <see cref="Attribute"/>'s fill value as a string.
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="NotSupportedException"></exception>
         public string FillValueNullable()
         {
             var datatype = Type();
@@ -404,18 +394,16 @@ namespace TileDB.CSharp
             {
                 throw new NotSupportedException("Attribute.FillValueNullable, please use fill_value<T> for non-string attribute!");
             }
-            var(fill_bytes,_) = get_fill_value_nullable();
+            var (fill_bytes, _) = get_fill_value_nullable();
             return MarshaledStringOut.GetString(fill_bytes);
         }
-        #endregion
 
         /// <summary>
-        /// Create an attribute.
+        /// Creates an <see cref="Attribute"/>.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ctx"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">The attribute's data type.</typeparam>
+        /// <param name="ctx">The <see cref="Context"/> associated with the attribute.</param>
+        /// <param name="name">The attribute's name.</param>
         public static Attribute Create<T>(Context ctx, string name)
         {
             var datatype = EnumUtil.TypeToDataType(typeof(T));

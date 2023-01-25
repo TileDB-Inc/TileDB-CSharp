@@ -1,0 +1,69 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "sources/**.csproj"
+          ],
+          "src": ".."
+        }
+      ],
+      "dest": "api",
+      "disableGitFeatures": false,
+      "disableDefaultFilter": false,
+      "filter": "filterConfig.yml"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "api/**.yml",
+          "api/index.md"
+        ]
+      },
+      {
+        "files": [
+          "toc.yml",
+          "*.md"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "logo.svg"
+        ]
+      },
+      {
+        "files": [
+          "art/**.svg"
+        ],
+        "src": ".."
+      }
+    ],
+    "dest": "_site",
+    "xrefService": [
+      "https://xref.docs.microsoft.com/query?uid={uid}"
+    ],
+    "globalMetadataFiles": [],
+    "globalMetadata" :
+    {
+      "_appTitle" : "TileDB C# API",
+      "_appFooter" : "Copyright &copy; 2018-2023 TileDB Inc.",
+      "_enableSearch": false
+    },
+    "fileMetadataFiles": [],
+    "template": [
+      "default",
+      "template"
+    ],
+    "postProcessors": [],
+    "markdownEngineName": "markdig",
+    "noLangKeyword": false,
+    "keepFileLink": false,
+    "cleanupCacheHistory": false,
+    "disableGitFeatures": false
+  }
+}

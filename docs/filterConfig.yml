@@ -1,0 +1,7 @@
+apiRules:
+- exclude:
+    uidRegex: ^TileDB\.Interop
+    type: Namespace
+- exclude:
+    uidRegex: ^System\.Object
+    type: member # Avoid list of inherited Object members for each type.

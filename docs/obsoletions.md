@@ -266,7 +266,7 @@ The `Query.SubmitAsync` method uses the legacy [Event Asynchronous Pattern](http
 
 ### Recommended action
 
-Use `Query.SubmitAsync`. Until a native async API becomes available, you can use the `Task.Run` method to submit the query on a background thread.
+Use `Query.Submit`. Until a native async API becomes available, you can use the `Task.Run` method to submit the query on a background thread.
 
 ## `TILEDB0011` - Subarray-related methods on the `Query` class are obsolete.
 

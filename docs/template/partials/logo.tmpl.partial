@@ -1,0 +1,9 @@
+<style>
+#logo {
+    max-height: 100%;
+    padding: 5px;
+}
+</style>
+<a class="navbar-brand" href="{{_rel}}index.html">
+  <img id="logo" class="svg" src="{{_rel}}{{{_appLogoPath}}}{{^_appLogoPath}}logo.svg{{/_appLogoPath}}" alt="{{_appName}}" >
+</a>
