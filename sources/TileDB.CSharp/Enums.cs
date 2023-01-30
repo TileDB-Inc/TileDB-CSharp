@@ -97,6 +97,25 @@ namespace TileDB.CSharp
     }
 
     /// <summary>
+    /// Specifies the reason a <see cref="Query"/> cannot proceed.
+    /// </summary>
+    public enum QueryStatusDetailsReason : uint
+    {
+        /// <summary>
+        /// There is no reason. This is the default value.
+        /// </summary>
+        None = tiledb_query_status_details_reason_t.TILEDB_REASON_NONE,
+        /// <summary>
+        /// The user-provided buffers are too small and need to be resized.
+        /// </summary>
+        UserBufferSize = tiledb_query_status_details_reason_t.TILEDB_REASON_USER_BUFFER_SIZE,
+        /// <summary>
+        /// The memory budget was exceeded. The query can be submitted again without resizing the buffers.
+        /// </summary>
+        MemoryBudget = tiledb_query_status_details_reason_t.TILEDB_REASON_MEMORY_BUDGET,
+    }
+
+    /// <summary>
     /// Specifies the relation type of a <see cref="QueryCondition"/> between its attribute and its value.
     /// </summary>
     public enum QueryConditionOperatorType : uint

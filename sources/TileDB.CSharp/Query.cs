@@ -846,6 +846,18 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Returns a <see cref="QueryStatusDetails"/> value describing this <see cref="Query"/>.
+        /// </summary>
+        public QueryStatusDetails GetStatusDetails()
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            QueryStatusDetails statusDetails;
+            _ctx.handle_error(Methods.tiledb_query_get_status_details(ctxHandle, handle, &statusDetails._details));
+            return statusDetails;
+        }
+
+        /// <summary>
         /// Returns the query status.
         /// </summary>
         /// <returns></returns>
