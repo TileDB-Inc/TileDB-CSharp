@@ -176,12 +176,6 @@ namespace TileDB.CSharp
         /// </summary>
         Float64 = tiledb_datatype_t.TILEDB_FLOAT64,
         /// <summary>
-        /// A sequence of characters. Deprecated.
-        /// </summary>
-        [Obsolete(Obsoletions.ObsoleteDataTypeMessage + " Use Byte or StringAscii instead.", DiagnosticId = Obsoletions.ObsoleteDataTypeDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-        // https://github.com/TileDB-Inc/TileDB/pull/2742
-        Char = tiledb_datatype_t.TILEDB_CHAR,
-        /// <summary>
         /// A signed 8-bit integer.
         /// </summary>
         Int8 = tiledb_datatype_t.TILEDB_INT8,
@@ -221,18 +215,6 @@ namespace TileDB.CSharp
         /// A UTF-32 string.
         /// </summary>
         StringUtf32 = tiledb_datatype_t.TILEDB_STRING_UTF32,
-        /// <summary>
-        /// A UCS-2 string. Deprecated.
-        /// </summary>
-        [Obsolete(Obsoletions.ObsoleteDataTypeMessage + " Use StringUtf16 instead.", DiagnosticId = Obsoletions.ObsoleteDataTypeDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-        // https://github.com/TileDB-Inc/TileDB/pull/2812
-        StringUcs2 = tiledb_datatype_t.TILEDB_STRING_UCS2,
-        /// <summary>
-        /// A UCS-4 string. Deprecated.
-        /// </summary>
-        [Obsolete(Obsoletions.ObsoleteDataTypeMessage + " Use StringUtf32 instead.", DiagnosticId = Obsoletions.ObsoleteDataTypeDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-        // https://github.com/TileDB-Inc/TileDB/pull/2812
-        StringUcs4 = tiledb_datatype_t.TILEDB_STRING_UCS4,
         /// <summary>
         /// A date and time, counted as the signed 64-bit number of
         /// years since the Unix epoch (January 1 1970 at midnight).
@@ -1009,11 +991,8 @@ namespace TileDB.CSharp
 
         public static Type DataTypeToType(DataType datatype)
         {
-#pragma warning disable TILEDB0002 // Data type is obsolete
             switch (datatype)
             {
-                case DataType.Char:
-                    return typeof(sbyte);
                 case DataType.DateTimeAttosecond:
                 case DataType.DateTimeDay:
                 case DataType.DateTimeFemtosecond:
@@ -1041,8 +1020,6 @@ namespace TileDB.CSharp
                 case DataType.Int8:
                     return typeof(sbyte);
                 case DataType.StringAscii:
-                case DataType.StringUcs2:
-                case DataType.StringUcs4:
                 case DataType.StringUtf16:
                 case DataType.StringUtf32:
                 case DataType.StringUtf8:
@@ -1072,19 +1049,14 @@ namespace TileDB.CSharp
                 default:
                     return typeof(byte);
             }
-#pragma warning restore TILEDB0002 // Data type is obsolete
         }
 
         public static bool IsStringType(DataType datatype)
         {
-#pragma warning disable TILEDB0002 // Data type is obsolete
             return datatype == DataType.StringAscii
-                || datatype == DataType.StringUcs2
-                || datatype == DataType.StringUcs4
                 || datatype == DataType.StringUtf16
                 || datatype == DataType.StringUtf32
                 || datatype == DataType.StringUtf8;
-#pragma warning restore TILEDB0002 // Data type is obsolete
         }
 
         public static ulong DataTypeSize(DataType datatype) =>
