@@ -2,12 +2,9 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
@@ -72,23 +69,6 @@ namespace TileDB.CSharp
         /// Gets the number of validities.
         /// </summary>
         public ulong ValiditySize() => ValidityBytesSize.GetValueOrDefault();
-    }
-
-    /// <summary>
-    /// Used in <see cref="Query.SubmitAsync"/>.
-    /// </summary>
-    [Obsolete(Obsoletions.QuerySubmitAsyncMessage, DiagnosticId = Obsoletions.QuerySubmitAsyncDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-    public class QueryEventArgs : EventArgs
-    {
-        public QueryEventArgs(int status, string message)
-        {
-            Status = status;
-            Message = message;
-        }
-
-        public int Status { get; set; }
-
-        public string Message { get; set; }
     }
 
     /// <summary>
@@ -785,52 +765,6 @@ namespace TileDB.CSharp
             using var handle = _handle.Acquire();
             _ctx.handle_error(Methods.tiledb_query_submit_and_finalize(ctxHandle, handle));
         }
-
-        [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
-        [Obsolete(Obsoletions.QuerySubmitAsyncMessage, DiagnosticId = Obsoletions.QuerySubmitAsyncDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-        private static void QueryCallback(void* ptr)
-        {
-            GCHandle gcHandle = GCHandle.FromIntPtr((IntPtr)ptr);
-            var query = (Query)gcHandle.Target!;
-            gcHandle.Free();
-            // Fire the event on the thread pool.
-            // This yields the TileDB native thread and prevents any excpetions by the callback to reach it.
-            Task.Run(() =>
-            {
-                var args = new QueryEventArgs((int)QueryStatus.Completed, "query completed");
-                query.QueryCompleted?.Invoke(query, args);
-            });
-        }
-
-        /// <summary>
-        /// Submits the query asynchronously.
-        /// </summary>
-        [Obsolete(Obsoletions.QuerySubmitAsyncMessage, DiagnosticId = Obsoletions.QuerySubmitAsyncDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-        public void SubmitAsync()
-        {
-            GCHandle gcHandle = GCHandle.Alloc(this);
-            bool successful = false;
-            try
-            {
-                using var ctxHandle = _ctx.Handle.Acquire();
-                using var handle = _handle.Acquire();
-                _ctx.handle_error(Methods.tiledb_query_submit_async(ctxHandle, handle, &QueryCallback, (void*)GCHandle.ToIntPtr(gcHandle)));
-                successful = true;
-            }
-            finally
-            {
-                if (!successful)
-                {
-                    gcHandle.Free();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Default event handler is empty
-        /// </summary>
-        [Obsolete(Obsoletions.QuerySubmitAsyncMessage, DiagnosticId = Obsoletions.QuerySubmitAsyncDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-        public event EventHandler<QueryEventArgs>? QueryCompleted;
 
         /// <summary>
         /// Returns `true` if the query has results. Applicable only to read; false for write queries.
