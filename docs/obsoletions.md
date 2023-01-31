@@ -1,5 +1,13 @@
 # Obsoletion warnings in `TileDB.CSharp`
 
+This document lists the obsolete APIs in the `TileDB.CSharp` library by their diagnostic code, along with migration instructions.
+
+Following [the deprecation policy of TileDB Embedded][core-deprecation], obsolete APIs will be removed after two minor releases of `TileDB.CSharp`. This is better illustrated in the following table:
+
+|Diagnostic codes|Deprecated in version|Removed in version|
+|----------------|---------------------|------------------|
+|[`TILEDB0001`](#TILEDB0001) …[`TILEDB0011`](#TILEDB0011)|5.3.0|5.5.0|
+
 ## `TILEDB0001` - Enum value names that start with `TILEDB_` were replaced with C#-friendly names.
 
 <a name="TILEDB0001"></a>
@@ -230,8 +238,6 @@ using QueryCondition qc = qc1 & qc2;
 
 Following changes to the native API of TileDB Embedded, the `Array.ConsolidateMetadata` and `ArrayMetadata.ConsolidateMetadata` methods became obsolete.
 
-In accordance with [TileDB Embedded's deprecation policy](https://github.com/TileDB-Inc/TileDB/blob/dev/doc/policy/api_changes.md), they will be removed in a future version and calling them will fail.
-
 ### Version introduced
 
 5.3.0
@@ -285,8 +291,6 @@ Some of these methods were renamed or had their signature changed (for example t
 
 > \* Because of lack of support by TileDB Embedded, the `Subarray.GetRange` methods will return a tuple with two members instead of three. The deprecated `Query.Range` methods have never actually been usable because of it.
 
-In accordance with [TileDB Embedded's deprecation policy](https://github.com/TileDB-Inc/TileDB/blob/dev/doc/policy/api_changes.md), the methods on `Query` will be removed in a future version and calling them will fail.
-
 ### Version introduced
 
 5.3.0
@@ -294,3 +298,5 @@ In accordance with [TileDB Embedded's deprecation policy](https://github.com/Til
 ### Recommended action
 
 Instead of setting ranges and subarrays on the `Query`, create and configure a `Subarray` object, and assign it to the query using the `Query.SetSubarray` method.
+
+[core-deprecation]: https://github.com/TileDB-Inc/TileDB/blob/dev/doc/policy/api_changes.md
