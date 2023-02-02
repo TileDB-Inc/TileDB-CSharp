@@ -10,7 +10,7 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
 
         public VFSHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
 
-        public static VFSHandle Create(Context context, ConfigHandle configHandle)
+        public static VFSHandle Create(Context context, ConfigHandle? configHandle)
         {
             var handle = new VFSHandle();
             var successful = false;
@@ -18,7 +18,7 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
             try
             {
                 using var contextHandle = context.Handle.Acquire();
-                using var configHandleHolder = configHandle.Acquire();
+                using var configHandleHolder = configHandle?.Acquire() ?? default;
                 context.handle_error(Methods.tiledb_vfs_alloc(contextHandle, configHandleHolder, &vfs));
                 successful = true;
             }

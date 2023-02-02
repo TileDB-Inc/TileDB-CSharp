@@ -20,22 +20,25 @@ namespace TileDB.CSharp
         /// <summary>
         /// Creates a <see cref="VFS"/>.
         /// </summary>
-        public VFS() : this(Context.GetDefault()) { }
+        public VFS() : this(null, null) { }
 
         /// <summary>
         /// Creates a <see cref="VFS"/> associated with the given <see cref="Context"/>.
         /// </summary>
-        /// <param name="ctx">The context to associate the VFS.</param>
-        public VFS(Context ctx)
-        {
-            ctx_ = ctx;
-            handle_ = VFSHandle.Create(ctx_, ctx_.Config().Handle);
-        }
+        /// <param name="ctx">The context to associate the VFS with.</param>
+        public VFS(Context ctx) : this(ctx, null) { }
 
-        internal VFS(Context ctx, VFSHandle handle)
+        /// <summary>
+        /// Creates a <see cref="VFS"/> associated with the given <see cref="Context"/>.
+        /// </summary>
+        /// <param name="ctx">The context to associate the VFS with. Defaults to <see cref="Context.GetDefault"/></param>
+        /// <param name="config">The <see cref="VFS"/>' <see cref="CSharp.Config"/>. Defaults to <paramref name="ctx"/>'s config.</param>
+#pragma warning disable S3427 // Method overloads with default parameter values should not overlap 
+        public VFS(Context? ctx = null, Config? config = null)
+#pragma warning restore S3427 // Method overloads with default parameter values should not overlap 
         {
-            ctx_ = ctx;
-            handle_ = handle;
+            ctx_ = ctx ?? Context.GetDefault();
+            handle_ = VFSHandle.Create(ctx_, config?.Handle);
         }
 
         /// <summary>
