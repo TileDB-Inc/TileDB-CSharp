@@ -29,10 +29,10 @@ namespace TileDB.CSharp.Examples
 
         private static void WriteArray()
         {
-            var dim1_data_buffer = new int[] { 1, 2, 3 };
-            var dim2_data_buffer = new int[] { 1, 3, 4 };
-            var attr_data_buffer = new int[] { 1, 10, 100, 2, 20, 200, 3, 30, 300 };
-            var attr_data_offsets_buffer = new ulong[] { 0, 3 * sizeof(int), 6 * sizeof(int) };
+            var dim1_data_buffer = new int[] { 1, 2, 3, 4 };
+            var dim2_data_buffer = new int[] { 1, 3, 4, 5 };
+            var attr_data_buffer = new int[] { 1, 2, 20, 3, 30, 300, 4, 40, 400, 4000 };
+            var attr_data_offsets_buffer = new ulong[] { 0, 1 * sizeof(int), 3 * sizeof(int), 6 * sizeof(int) };
 
             using (var array_write = new Array(Ctx, ArrayPath))
             {
@@ -74,10 +74,11 @@ namespace TileDB.CSharp.Examples
                     status = query_read.Status();
 
                     var resultNum = (int)query_read.GetResultDataElements("rows");
+                    var attrNum = (int)query_read.GetResultDataElements("a");
 
                     Console.WriteLine($"Batch #{batchNum++}");
 
-                    if (status == QueryStatus.Incomplete && resultNum == 0)
+                    if (status == QueryStatus.Incomplete && resultNum == 0 && query_read.GetStatusDetails().Reason == QueryStatusDetailsReason.UserBufferSize)
                     {
                         dim1_data_buffer_read = new int[dim1_data_buffer_read.Length * 2];
                         query_read.SetDataBuffer("rows", dim1_data_buffer_read);
@@ -95,9 +96,10 @@ namespace TileDB.CSharp.Examples
                     {
                         for (int i = 0; i < resultNum; i++)
                         {
-                            var attrOffset = (int)attr_data_offsets_buffer[i] / sizeof(int);
-                            var attrLength = 3;
-                            var attrData = string.Join(", ", attr_data_buffer_read.Skip(attrOffset).Take(attrLength));
+                            var attrOffsetStart = (int)attr_data_offsets_buffer[i] / sizeof(int);
+                            var attrOffsetEnd = i == resultNum - 1 ? attrNum : (int)attr_data_offsets_buffer[i + 1] / sizeof(int);
+                            var attrLength = attrOffsetEnd - attrOffsetStart;
+                            var attrData = string.Join(", ", attr_data_buffer_read.Skip(attrOffsetStart).Take(attrLength));
                             Console.WriteLine($"Cell ({dim1_data_buffer_read[i]}, {dim2_data_buffer_read[i]}) = [{attrData}]");
                         }
                     }
