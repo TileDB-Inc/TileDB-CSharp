@@ -17,6 +17,16 @@ namespace TileDB.CSharp.Test
         }
 
         [TestMethod]
+        public void TestCreateWithConfig()
+        {
+            using var config = new Config();
+            config.Set("test", "test");
+            using var vfs = new VFS(config: config);
+            using var retrievedConfig = vfs.Config();
+            Assert.AreEqual("test", retrievedConfig.Get("test"));
+        }
+
+        [TestMethod]
         public void TestDir()
         {
             using var vfs = new VFS();
