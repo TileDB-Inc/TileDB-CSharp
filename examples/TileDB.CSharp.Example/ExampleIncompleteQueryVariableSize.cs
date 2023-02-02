@@ -50,10 +50,10 @@ namespace TileDB.CSharp.Examples
 
         private static void ReadArray()
         {
-            var dim1_data_buffer_read = new int[6];
-            var dim2_data_buffer_read = new int[6];
-            var attr_data_buffer_read = new int[6];
-            var attr_data_offsets_buffer = new ulong[3];
+            var dim1_data_buffer_read = new int[1];
+            var dim2_data_buffer_read = new int[1];
+            var attr_data_buffer_read = new int[1];
+            var attr_data_offsets_buffer = new ulong[1];
 
             using (var array_read = new Array(Ctx, ArrayPath))
             {
@@ -80,6 +80,7 @@ namespace TileDB.CSharp.Examples
 
                     if (status == QueryStatus.Incomplete && resultNum == 0 && query_read.GetStatusDetails().Reason == QueryStatusDetailsReason.UserBufferSize)
                     {
+                        Console.WriteLine("Resizing buffers...");
                         dim1_data_buffer_read = new int[dim1_data_buffer_read.Length * 2];
                         query_read.SetDataBuffer("rows", dim1_data_buffer_read);
 
