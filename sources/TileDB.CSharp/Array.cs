@@ -752,16 +752,6 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Consolidates the <see cref="Array"/>'s metadata.
-        /// Deprecated, use <see cref="Consolidate"/> with the config value <c>sm.consolidation.mode</c> set to <c>metadata</c>.
-        /// </summary>
-        [Obsolete(Obsoletions.ConsolidateMetadataMessage, DiagnosticId = Obsoletions.ConsolidateMetadataDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-        public static void ConsolidateMetadata(Context ctx, string uri, Config config)
-        {
-            ArrayMetadata.ConsolidateMetadata(ctx, uri, config);
-        }
-
-        /// <summary>
         /// Loads the <see cref="ArraySchema"/> of an array at the given path.
         /// </summary>
         /// <param name="ctx">The <see cref="CSharp.Context"/> to use.</param>

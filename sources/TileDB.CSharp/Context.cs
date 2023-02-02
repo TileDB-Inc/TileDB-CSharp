@@ -322,12 +322,6 @@ namespace TileDB.CSharp
             return list;
         }
 
-        /// <summary>
-        /// Deprecated.
-        /// </summary>
-        [Obsolete(Obsoletions.ContextErrorHappenedMessage, DiagnosticId = Obsoletions.ContextErrorHappenedDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-        public event EventHandler<ErrorEventArgs>? ErrorHappened;
-
         internal void handle_error(int rc)
         {
             var status = (Status)Methods.tiledb_status_code(rc);

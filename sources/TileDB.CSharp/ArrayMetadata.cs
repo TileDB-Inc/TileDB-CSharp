@@ -126,16 +126,6 @@ namespace TileDB.CSharp
             return (has_key > 0, (DataType)tiledb_datatype);
         }
 
-        /// <inheritdoc cref="Array.ConsolidateMetadata"/>
-        [Obsolete(Obsoletions.ConsolidateMetadataMessage, DiagnosticId = Obsoletions.ConsolidateMetadataDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-        public static void ConsolidateMetadata(Context ctx, string uri, Config config)
-        {
-            using var ctxHandle = ctx.Handle.Acquire();
-            using var ms_uri = new MarshaledString(uri);
-            using var configHandle = config.Handle.Acquire();
-            ctx.handle_error(Methods.tiledb_array_consolidate_metadata(ctxHandle, ms_uri, configHandle));
-        }
-
         /// <inheritdoc cref="P:System.Collections.Generic.IDictionary`2.Item(`0)"/>
         public byte[] this[string key]
         {
