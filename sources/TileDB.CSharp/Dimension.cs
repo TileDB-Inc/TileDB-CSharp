@@ -155,17 +155,6 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Gets the allowed starting and ending values of the dimension, inclusive.
-        /// Deprecated, use <see cref="GetDomain"/> instead.
-        /// </summary>
-        [Obsolete("Use GetDomain instead.")]
-        public T[] Domain<T>() where T : struct
-        {
-            (T start, T end) = GetDomain<T>();
-            return new T[] { start, end };
-        }
-
-        /// <summary>
         /// Gets the dimension's tile extent.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -254,24 +243,6 @@ namespace TileDB.CSharp
             SequentialPair<T> data = (boundLower, boundUpper);
             var handle = DimensionHandle.Create(ctx, name, tiledb_datatype, &data, &extent);
             return new Dimension(ctx, handle);
-        }
-
-        /// <summary>
-        /// Creates a <see cref="Dimension"/>. Deprecated, use <see cref="Create{T}(Context, string, T, T, T)"/> instead.
-        /// </summary>
-        [Obsolete(Obsoletions.DimensionCreateMessage, DiagnosticId = Obsoletions.DimensionCreateDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-        public static Dimension Create<T>(Context ctx, string name, T[] bound, T extent)
-        {
-            var tiledb_datatype = (tiledb_datatype_t)EnumUtil.TypeToDataType(typeof(T));
-            if (tiledb_datatype == tiledb_datatype_t.TILEDB_STRING_ASCII)
-            {
-                throw new NotSupportedException("Use CreateString for string dimensions.");
-            }
-            if (bound is not [T boundLower, T boundUpper, ..])
-            {
-                throw new ArgumentException("Length of bound array is less than 2!");
-            }
-            return Create(ctx, name, boundLower, boundUpper, extent);
         }
 
         /// <summary>

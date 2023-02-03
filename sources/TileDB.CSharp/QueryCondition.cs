@@ -2,9 +2,6 @@ using System;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 
-// We are allowed to construct and initialize query conditions.
-#pragma warning disable TILEDB0007
-
 namespace TileDB.CSharp
 {
     /// <summary>
@@ -24,14 +21,13 @@ namespace TileDB.CSharp
         /// <see cref="Init(string, string, QueryConditionOperatorType)"/>
         /// or <see cref="Init{T}(string, T, QueryConditionOperatorType)"/>.
         /// </remarks>
-        [Obsolete(Obsoletions.QueryConditionInitMessage, DiagnosticId = Obsoletions.QueryConditionInitDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-        public QueryCondition(Context ctx)
+        private QueryCondition(Context ctx)
         {
             _ctx = ctx;
             _handle = QueryConditionHandle.Create(_ctx);
         }
 
-        internal QueryCondition(Context ctx, QueryConditionHandle handle)
+        private QueryCondition(Context ctx, QueryConditionHandle handle)
         {
             _ctx = ctx;
             _handle = handle;
@@ -58,8 +54,7 @@ namespace TileDB.CSharp
         /// Query conditions created with <see cref="Create(Context, string, string, QueryConditionOperatorType)"/>
         /// must not call this method.
         /// </remarks>
-        [Obsolete(Obsoletions.QueryConditionInitMessage, DiagnosticId = Obsoletions.QueryConditionInitDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-        public void Init<T>(string attribute_name, T condition_value, QueryConditionOperatorType optype) where T : struct
+        private void Init<T>(string attribute_name, T condition_value, QueryConditionOperatorType optype) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
             Init(attribute_name, &condition_value, (ulong)sizeof(T), optype);
@@ -76,8 +71,7 @@ namespace TileDB.CSharp
         /// Query conditions created with <see cref="Create(Context, string, string, QueryConditionOperatorType)"/>
         /// must not call this method.
         /// </remarks>
-        [Obsolete(Obsoletions.QueryConditionInitMessage, DiagnosticId = Obsoletions.QueryConditionInitDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-        public void Init(string attribute_name, string condition_value, QueryConditionOperatorType optype)
+        private void Init(string attribute_name, string condition_value, QueryConditionOperatorType optype)
         {
             using var ms_condition_value = new MarshaledString(condition_value);
             Init(attribute_name, ms_condition_value, (ulong)ms_condition_value.Length, optype);
@@ -90,19 +84,6 @@ namespace TileDB.CSharp
             using var ms_attribute_name = new MarshaledString(attribute_name);
             _ctx.handle_error(Methods.tiledb_query_condition_init(ctxHandle, handle, ms_attribute_name, condition_value, condition_value_size, (tiledb_query_condition_op_t)optype));
         }
-
-        /// <summary>
-        /// Combines this <see cref="QueryCondition"/> with another one.
-        /// </summary>
-        /// <param name="rhs">The other query condition to combine. Must be null
-        /// if <paramref name="combination_optype"/> is <see cref="QueryConditionCombinationOperatorType.Not"/>.</param>
-        /// <param name="combination_optype">The type of the combination.</param>
-        /// <returns>A new query condition that combines this one with <paramref name="rhs"/>.</returns>
-        /// <exception cref="InvalidOperationException">This query condition and <paramref name="rhs"/>
-        /// are associated with a different <see cref="Context"/>.</exception>
-        [Obsolete(Obsoletions.QueryConditionCombineMessage, DiagnosticId = Obsoletions.QueryConditionCombineDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-        public QueryCondition Combine(QueryCondition? rhs, QueryConditionCombinationOperatorType combination_optype) =>
-            Combine(this, rhs, combination_optype);
 
         private static QueryCondition Combine(QueryCondition lhs, QueryCondition? rhs, QueryConditionCombinationOperatorType combination_optype)
         {
