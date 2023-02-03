@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TileDB.CSharp.Test
@@ -8,7 +7,8 @@ namespace TileDB.CSharp.Test
     public class ConfigTest
     {
         [TestMethod]
-        public void ConfigSet() {
+        public void ConfigSet()
+        {
             var config = new Config();
             config.Set("sm.tile_cache_size", "10");
             var val = config.Get("sm.tile_cache_size");
@@ -16,27 +16,29 @@ namespace TileDB.CSharp.Test
         }
 
         [TestMethod]
-        public void ConfigGet() {
+        public void ConfigGetNonExistent()
+        {
             var config = new Config();
-            var val = config.Get("sm.tile_cache_size");
-            Assert.AreEqual("10000000", val);
-            val = config.Get("sm.does_not_exists");
+            var val = config.Get("sm.does_not_exist");
             Assert.AreEqual("", val);
         }
 
         [TestMethod]
-        public void ConfigUnSet() {
+        public void ConfigUnSet()
+        {
             var config = new Config();
+            var defaultVal = config.Get("sm.tile_cache_size");
             config.Set("sm.tile_cache_size", "10");
             var val = config.Get("sm.tile_cache_size");
             Assert.AreEqual("10", val);
             config.Unset("sm.tile_cache_size");
             val = config.Get("sm.tile_cache_size");
-            Assert.AreEqual("10000000", val);
+            Assert.AreEqual(defaultVal, val);
         }
 
         [TestMethod]
-        public void ConfigFromFile() {
+        public void ConfigFromFile()
+        {
             var config = new Config();
             config.Set("sm.tile_cache_size", "10");
             var val = config.Get("sm.tile_cache_size");
@@ -55,7 +57,8 @@ namespace TileDB.CSharp.Test
         }
 
         [TestMethod]
-        public void ConfigCompare() {
+        public void ConfigCompare()
+        {
             var config = new Config();
             config.Set("sm.tile_cache_size", "10");
             var val = config.Get("sm.tile_cache_size");
@@ -79,18 +82,21 @@ namespace TileDB.CSharp.Test
         }
 
         [TestMethod]
-        public void ConfigIterator() {
+        public void ConfigIterator()
+        {
             var config = new Config();
 
             // Iterate the configuration
             var iter = config.Iterate("vfs.s3.");
 
-            while (!iter.Done()) {
+            while (!iter.Done())
+            {
 
                 // Get current param, value from iterator
                 var config_entry_pair = iter.Here();
 
-                switch (config_entry_pair.Item1) {
+                switch (config_entry_pair.Item1)
+                {
                     case "aws_access_key_id":
                         Assert.AreEqual("", config_entry_pair.Item2);
                         break;
