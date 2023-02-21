@@ -5,6 +5,7 @@
     <RuntimeJson>$(TempDir)/runtime.json</RuntimeJson>
     <MetapackageProject>./TileDB.Native.proj</MetapackageProject>
     <NativePackageTemplateProject>./TileDB.Native.runtime.template.proj</NativePackageTemplateProject>
+    <PackageVersion>$(Version.Replace('-rc','-rc.'))</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(DevelopmentBuild) == true">
@@ -78,7 +79,7 @@
       Projects="@(ProjectsToBuild)"
       BuildInParallel="true"
       Targets="Pack"
-      Properties="PackageIdPrefix=$(PackageIdPrefix);PackageOutputPath=$(OutDir);Version=$(Version)" />
+      Properties="PackageIdPrefix=$(PackageIdPrefix);PackageOutputPath=$(OutDir);Version=$(PackageVersion)" />
   </Target>
 
   <Target Name="WriteRuntimeJson">
@@ -99,7 +100,7 @@
     <MSBuild
       Projects="$(MetapackageProject)"
       Targets="Pack"
-      Properties="PackageIdPrefix=$(PackageIdPrefix);PackageOutputPath=$(OutDir);Version=$(Version)" />
+      Properties="PackageIdPrefix=$(PackageIdPrefix);PackageOutputPath=$(OutDir);Version=$(PackageVersion)" />
   </Target>
 
   <Target Name="Pack"
