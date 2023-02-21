@@ -250,12 +250,9 @@ namespace TileDB.CSharp
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            sbyte* name;
-#pragma warning disable CS0612 // Type or member is obsolete
-            // TODO: Use the string handle API once it's available.
-            _ctx.handle_error(Methods.tiledb_fragment_info_get_fragment_name(ctxHandle, handle, fragmentIndex, &name));
-#pragma warning restore CS0612 // Type or member is obsolete
-            return MarshaledStringOut.GetStringFromNullTerminated(name);
+            using var nameHolder = new StringHandleHolder();
+            _ctx.handle_error(Methods.tiledb_fragment_info_get_fragment_name_v2(ctxHandle, handle, fragmentIndex, &nameHolder._handle));
+            return nameHolder.ToString();
         }
 
         /// <summary>
