@@ -2,7 +2,7 @@
 
 namespace TileDB.Interop
 {
-    public partial struct tiledb_query_t
+    internal partial struct tiledb_query_t
     {
     }
 }

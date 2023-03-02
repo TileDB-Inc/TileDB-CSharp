@@ -8,6 +8,7 @@
     <TempDir>./temp</TempDir>
     <InputDir>$(TempDir)/download/include</InputDir>
     <RspFile>$(TempDir)/generate.rsp</RspFile>
+    <AccessSpecifier>%2A=internal</AccessSpecifier>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,10 +22,14 @@
     <RemapHandleType Include="config" />
     <RemapHandleType Include="config_iter" />
     <RemapHandleType Include="ctx" />
+    <RemapHandleType Include="dimension_label" />
     <RemapHandleType Include="error" />
     <RemapHandleType Include="filter" />
     <RemapHandleType Include="filter_list" />
     <RemapHandleType Include="group" />
+    <RemapHandleType Include="string" />
+    <RemapHandleType Include="vfs" />
+    <RemapHandleType Include="vfs_fh" />
     <Remap Include="@(RemapHandleType->'tiledb_%(Identity)_handle_t=tiledb_%(Identity)_t')" />
     <Remap Include="tiledb_experimental_query_status_details_t=tiledb_query_status_details_t" />
     <ExcludeDump Include="attribute" />
@@ -89,6 +94,7 @@
       <PInvokeGeneratorArg Include="--headerFile;$(HeaderFile)" />
       <PInvokeGeneratorArg Include="--exclude;@(ExcludeMethod)" />
       <PInvokeGeneratorArg Include="--remap;@(Remap)" />
+      <PInvokeGeneratorArg Include="--with-access-specifier;$(AccessSpecifier)" />
       <PInvokeGeneratorArg Include="-l$(LibraryName)" />
       <PInvokeGeneratorArg Include="-F;$(InputDir)" />
       <PInvokeGeneratorArg Include="-I;$(InputDir)" />

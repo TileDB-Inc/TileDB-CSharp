@@ -2,7 +2,7 @@
 
 namespace TileDB.Interop
 {
-    public partial struct tiledb_buffer_list_t
+    internal partial struct tiledb_buffer_list_t
     {
     }
 }
