@@ -14,7 +14,6 @@
     <ConfigOption Include="latest-codegen" />
     <ConfigOption Include="unix-types" />
     <ConfigOption Include="multi-file" />
-    <ConfigOption Include="generate-helper-types" />
     <InputFileBefore Include="tiledb/api/c_api/api_external_common.h" />
     <InputFile Include="tiledb/tiledb_experimental.h" />
     <InputFile Include="tiledb/tiledb.h" />
