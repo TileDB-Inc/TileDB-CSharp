@@ -15,9 +15,8 @@
     <ConfigOption Include="latest-codegen" />
     <ConfigOption Include="unix-types" />
     <ConfigOption Include="multi-file" />
-    <InputFileBefore Include="tiledb/api/c_api/api_external_common.h" />
     <InputFile Include="tiledb/tiledb_experimental.h" />
-    <InputFile Include="tiledb/tiledb.h" />
+    <TraversePaths Include="$(InputDir)/**/*.h" />
     <RemapHandleType Include="buffer" />
     <RemapHandleType Include="config" />
     <RemapHandleType Include="config_iter" />
@@ -86,12 +85,10 @@
       <PInvokeGeneratorArg Include="--methodClassName;$(MethodClass)" />
       <PInvokeGeneratorArg Include="--namespace;$(Namespace)" />
       <PInvokeGeneratorArg Include="--file" />
-      <PInvokeGeneratorArg Condition="'@(InputFileBefore)' != ''" Include="@(InputFileBefore)" />
-      <PInvokeGeneratorArg Condition="'@(ApiExternalHeaders)' != ''" Include="@(ApiExternalHeaders->'%(FullPath)')" />
-      <PInvokeGeneratorArg Condition="'@(ApiExternalExperimentalHeaders)' != ''" Include="@(ApiExternalExperimentalHeaders->'%(FullPath)')" />
       <PInvokeGeneratorArg Include="@(InputFile)" />
       <PInvokeGeneratorArg Include="--output;$(OutDir)" />
       <PInvokeGeneratorArg Include="--headerFile;$(HeaderFile)" />
+      <PInvokeGeneratorArg Include="--traverse;@(TraversePaths)" />
       <PInvokeGeneratorArg Include="--exclude;@(ExcludeMethod)" />
       <PInvokeGeneratorArg Include="--remap;@(Remap)" />
       <PInvokeGeneratorArg Include="--with-access-specifier;$(AccessSpecifier)" />
