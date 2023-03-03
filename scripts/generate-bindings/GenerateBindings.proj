@@ -39,7 +39,6 @@
     <ExcludeDump Include="stats_raw" />
     <ExcludeDump Include="fragment_info" />
     <ExcludeMethod Include="@(ExcludeDump->'tiledb_%(Identity)_dump')" />
-    <ExcludeMethod Include="tiledb_status" />
   </ItemGroup>
 
   <Target Name="CleanOutput">

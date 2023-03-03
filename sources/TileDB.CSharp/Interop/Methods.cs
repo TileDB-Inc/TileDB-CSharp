@@ -7,6 +7,16 @@ namespace TileDB.Interop
 {
     internal static unsafe partial class Methods
     {
+        [return: NativeTypeName("capi_status_t")]
+        public static int tiledb_status([NativeTypeName("capi_return_t")] int x)
+        {
+            return x;
+        }
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("capi_status_t")]
+        public static extern int tiledb_status_code([NativeTypeName("capi_return_t")] int x);
+
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("capi_return_t")]
         public static extern int tiledb_error_message(tiledb_error_t* err, [NativeTypeName("const char **")] sbyte** errmsg);
