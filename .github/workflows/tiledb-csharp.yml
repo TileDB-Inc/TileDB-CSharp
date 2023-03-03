@@ -13,8 +13,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Will be checking following versions
-        dotnet: ['net5.0', 'net6.0']
         # Repeat this test for each os
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
@@ -41,9 +39,14 @@ jobs:
       # DotNet test
       - name: Test TileDB.CSharp
         run: |
-          dotnet test -c Release tests/TileDB.CSharp.Test -f ${{ matrix.dotnet }}
+          dotnet test -c Release tests/TileDB.CSharp.Test
 
-      - name: Run examples
+      - name: Run examples (.NET 5)
         shell: bash
         run: |
-          find examples/ -name *.csproj | xargs -I{} dotnet run --project {} -f ${{ matrix.dotnet }}
+          find examples/ -name *.csproj | xargs -I{} dotnet run --project {} -f net5.0
+
+      - name: Run examples (.NET 6)
+        shell: bash
+        run: |
+          find examples/ -name *.csproj | xargs -I{} dotnet run --project {} -f net5.0
