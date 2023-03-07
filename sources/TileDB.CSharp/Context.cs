@@ -324,7 +324,7 @@ namespace TileDB.CSharp
 
         internal void handle_error(int rc)
         {
-            var status = (Status)Methods.tiledb_status_code(rc);
+            var status = (Status)Methods.tiledb_status(rc);
 
             if (status == Status.TILEDB_OK)
             {
@@ -335,12 +335,12 @@ namespace TileDB.CSharp
             tiledb_error_t* p_tiledb_error;
             using (var handle = _handle.Acquire())
             {
-                status = (Status)Methods.tiledb_status_code(Methods.tiledb_ctx_get_last_error(handle, &p_tiledb_error));
+                status = (Status)Methods.tiledb_status(Methods.tiledb_ctx_get_last_error(handle, &p_tiledb_error));
             }
             if (status == Status.TILEDB_OK)
             {
                 sbyte* messagePtr;
-                status = (Status)Methods.tiledb_status_code(Methods.tiledb_error_message(p_tiledb_error, &messagePtr));
+                status = (Status)Methods.tiledb_status(Methods.tiledb_error_message(p_tiledb_error, &messagePtr));
 
                 if (status == Status.TILEDB_OK)
                 {

@@ -2,7 +2,7 @@
 
 namespace TileDB.Interop
 {
-    public enum tiledb_filter_webp_format_t
+    internal enum tiledb_filter_webp_format_t
     {
         TILEDB_WEBP_NONE = 0,
         TILEDB_WEBP_RGB = 1,

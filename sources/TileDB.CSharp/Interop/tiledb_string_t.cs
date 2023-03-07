@@ -2,7 +2,7 @@
 
 namespace TileDB.Interop
 {
-    internal partial struct tiledb_array_schema_t
+    internal partial struct tiledb_string_t
     {
     }
 }

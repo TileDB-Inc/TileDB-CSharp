@@ -8,24 +8,27 @@
     <TempDir>./temp</TempDir>
     <InputDir>$(TempDir)/download/include</InputDir>
     <RspFile>$(TempDir)/generate.rsp</RspFile>
+    <AccessSpecifier>%2A=internal</AccessSpecifier>
   </PropertyGroup>
 
   <ItemGroup>
     <ConfigOption Include="latest-codegen" />
     <ConfigOption Include="unix-types" />
     <ConfigOption Include="multi-file" />
-    <ConfigOption Include="generate-helper-types" />
-    <InputFileBefore Include="tiledb/api/c_api/api_external_common.h" />
     <InputFile Include="tiledb/tiledb_experimental.h" />
-    <InputFile Include="tiledb/tiledb.h" />
+    <TraversePaths Include="$(InputDir)/**/*.h" />
     <RemapHandleType Include="buffer" />
     <RemapHandleType Include="config" />
     <RemapHandleType Include="config_iter" />
     <RemapHandleType Include="ctx" />
+    <RemapHandleType Include="dimension_label" />
     <RemapHandleType Include="error" />
     <RemapHandleType Include="filter" />
     <RemapHandleType Include="filter_list" />
     <RemapHandleType Include="group" />
+    <RemapHandleType Include="string" />
+    <RemapHandleType Include="vfs" />
+    <RemapHandleType Include="vfs_fh" />
     <Remap Include="@(RemapHandleType->'tiledb_%(Identity)_handle_t=tiledb_%(Identity)_t')" />
     <Remap Include="tiledb_experimental_query_status_details_t=tiledb_query_status_details_t" />
     <ExcludeDump Include="attribute" />
@@ -36,7 +39,6 @@
     <ExcludeDump Include="stats_raw" />
     <ExcludeDump Include="fragment_info" />
     <ExcludeMethod Include="@(ExcludeDump->'tiledb_%(Identity)_dump')" />
-    <ExcludeMethod Include="tiledb_status" />
   </ItemGroup>
 
   <Target Name="CleanOutput">
@@ -82,14 +84,13 @@
       <PInvokeGeneratorArg Include="--methodClassName;$(MethodClass)" />
       <PInvokeGeneratorArg Include="--namespace;$(Namespace)" />
       <PInvokeGeneratorArg Include="--file" />
-      <PInvokeGeneratorArg Condition="'@(InputFileBefore)' != ''" Include="@(InputFileBefore)" />
-      <PInvokeGeneratorArg Condition="'@(ApiExternalHeaders)' != ''" Include="@(ApiExternalHeaders->'%(FullPath)')" />
-      <PInvokeGeneratorArg Condition="'@(ApiExternalExperimentalHeaders)' != ''" Include="@(ApiExternalExperimentalHeaders->'%(FullPath)')" />
       <PInvokeGeneratorArg Include="@(InputFile)" />
       <PInvokeGeneratorArg Include="--output;$(OutDir)" />
       <PInvokeGeneratorArg Include="--headerFile;$(HeaderFile)" />
+      <PInvokeGeneratorArg Include="--traverse;@(TraversePaths)" />
       <PInvokeGeneratorArg Include="--exclude;@(ExcludeMethod)" />
       <PInvokeGeneratorArg Include="--remap;@(Remap)" />
+      <PInvokeGeneratorArg Include="--with-access-specifier;$(AccessSpecifier)" />
       <PInvokeGeneratorArg Include="-l$(LibraryName)" />
       <PInvokeGeneratorArg Include="-F;$(InputDir)" />
       <PInvokeGeneratorArg Include="-I;$(InputDir)" />

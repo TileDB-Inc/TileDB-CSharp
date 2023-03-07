@@ -2,7 +2,7 @@
 
 namespace TileDB.Interop
 {
-    public partial struct tiledb_fragment_info_t
+    internal partial struct tiledb_fragment_info_t
     {
     }
 }
