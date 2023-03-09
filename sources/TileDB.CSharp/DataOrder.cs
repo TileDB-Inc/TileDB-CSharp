@@ -5,6 +5,7 @@ namespace TileDB.CSharp
     /// <summary>
     /// Specifies the order of data in dimension labels.
     /// </summary>
+    /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
     public enum DataOrder
     {
         /// <summary>

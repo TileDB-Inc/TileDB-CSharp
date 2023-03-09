@@ -77,6 +77,7 @@ namespace TileDB.CSharp
         /// <param name="name">The dimension label's name.</param>
         /// <param name="labelOrder">The data order of the dimension label.</param>
         /// <param name="labelType">The dimension lable's data type.</param>
+        /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
         public void AddDimensionLabel(uint dimensionIndex, string name, DataOrder labelOrder, DataType labelType)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -94,6 +95,7 @@ namespace TileDB.CSharp
         /// <param name="labelType">The dimension lable's data type.</param>
         /// <param name="extent">The dimension label's tile extent.</param>
         /// <exception cref="InvalidOperationException"><typeparamref name="T"/> and <paramref name="labelType"/> do not match.</exception>
+        /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
         public void AddDimensionLabel<T>(uint dimensionIndex, string name, DataOrder labelOrder, DataType labelType, T extent) where T : struct
         {
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>() || typeof(T) != EnumUtil.DataTypeToType(labelType))
@@ -177,6 +179,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="name">The dimension label's name.</param>
         /// <param name="filterList">The dimension label's filter list.</param>
+        /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
         public void SetDimensionLabelFilterList(string name, FilterList filterList)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -536,6 +539,7 @@ namespace TileDB.CSharp
         /// Gets a <see cref="CSharp.DimensionLabel"/> from the <see cref="ArraySchema"/> by name.
         /// </summary>
         /// <param name="name">The dimension label's name.</param>
+        /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
         public DimensionLabel DimensionLabel(string name)
         {
             var handle = new DimensionLabelHandle();
@@ -570,6 +574,7 @@ namespace TileDB.CSharp
         /// Checks if a dimension label with the given name exists in the <see cref="ArraySchema"/> or not.
         /// </summary>
         /// <param name="name">The name to check.</param>
+        /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
         public bool HasDimensionLabel(string name)
         {
             int has_attr;

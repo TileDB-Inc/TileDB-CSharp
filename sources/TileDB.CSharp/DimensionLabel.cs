@@ -7,6 +7,7 @@ namespace TileDB.CSharp
     /// <summary>
     /// Represents a TileDB dimension label object.
     /// </summary>
+    /// <remarks>This API is experimental and susceptible to breaking changes without advance notice.</remarks>
     /// <seealso cref="ArraySchema.DimensionLabel"/>
     public sealed unsafe class DimensionLabel : IDisposable
     {

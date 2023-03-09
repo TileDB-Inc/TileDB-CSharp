@@ -168,6 +168,7 @@ namespace TileDB.CSharp
         /// <param name="start">The start of the dimension's range.</param>
         /// <param name="end">The end of the dimension's range.</param>
         /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
+        /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
         public void AddLabelRange<T>(string labelName, T start, T end) where T : struct
         {
             ValidateLabelType<T>(labelName);
@@ -188,6 +189,7 @@ namespace TileDB.CSharp
         /// <param name="labelName">The dimension label's name.</param>
         /// <param name="start">The start of the dimension label's range.</param>
         /// <param name="end">The end of the dimension label's range.</param>
+        /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
         public void AddLabelRange(string labelName, string start, string end)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
