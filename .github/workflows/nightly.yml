@@ -27,6 +27,8 @@ jobs:
           - os: windows-latest
             platform: windows-x86_64
             BOOTSTRAP: ../bootstrap.ps1 -EnableS3 -EnableSerialization -EnableBuildDeps
+          - tag: dev
+            DIST_PREFIX: build/
         tag: [release-2.15, dev]
     runs-on: ${{ matrix.os }}
     steps:
@@ -45,7 +47,7 @@ jobs:
           cmake --build . --config Release --target install-tiledb
           cd ../
           mkdir -p artifacts/${{ matrix.platform }}
-          mv dist/* artifacts/${{ matrix.platform }}
+          mv ${{ matrix.DIST_PREFIX }}dist/* artifacts/${{ matrix.platform }}
 
       # We combine the binaries of the many platforms per tag by uploading them to the same artifact.
       - name: Upload native artifacts
@@ -53,6 +55,7 @@ jobs:
         with:
           name: tiledb-native-${{ matrix.tag }}
           path: artifacts/
+          retention-days: 1
 
   Pack-NuGet:
     needs: Build-Native
@@ -91,6 +94,7 @@ jobs:
         with:
           name: tiledb-nuget-${{ matrix.tag }}
           path: scripts/nuget/packages/
+          retention-days: 5
 
   Test-NuGet:
     needs: Pack-NuGet
