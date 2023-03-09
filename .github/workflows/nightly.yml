@@ -55,6 +55,7 @@ jobs:
         with:
           name: tiledb-native-${{ matrix.tag }}
           path: artifacts/
+          retention-days: 1
 
   Pack-NuGet:
     needs: Build-Native
@@ -93,6 +94,7 @@ jobs:
         with:
           name: tiledb-nuget-${{ matrix.tag }}
           path: scripts/nuget/packages/
+          retention-days: 5
 
   Test-NuGet:
     needs: Pack-NuGet
