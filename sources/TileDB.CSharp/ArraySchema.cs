@@ -533,6 +533,40 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Gets a <see cref="CSharp.DimensionLabel"/> from the <see cref="ArraySchema"/> by name.
+        /// </summary>
+        /// <param name="name">The dimension label's name.</param>
+        public DimensionLabel DimensionLabel(string name)
+        {
+            var handle = new DimensionLabelHandle();
+            var successful = false;
+            tiledb_dimension_label_t* dimension_label_p = null;
+            try
+            {
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var schemaHandle = _handle.Acquire())
+                using (var ms_name = new MarshaledString(name))
+                {
+                    _ctx.handle_error(Methods.tiledb_array_schema_get_dimension_label_from_name(ctxHandle, schemaHandle, ms_name, &dimension_label_p));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if(successful)
+                {
+                    handle.InitHandle(dimension_label_p);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
+            }
+
+            return new DimensionLabel(_ctx, handle);
+        }
+
+        /// <summary>
         /// Checks if a dimension label with the given name exists in the <see cref="ArraySchema"/> or not.
         /// </summary>
         /// <param name="name">The name to check.</param>
