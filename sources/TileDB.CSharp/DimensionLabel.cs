@@ -129,7 +129,7 @@ namespace TileDB.CSharp
         /// <inheritdoc/>
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _handle.Dispose();
         }
     }
 }
