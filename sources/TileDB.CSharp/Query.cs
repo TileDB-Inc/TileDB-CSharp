@@ -986,6 +986,11 @@ namespace TileDB.CSharp
                 using var dimension = domain.Dimension(name);
                 return dimension.Type();
             }
+            else if (schema.HasDimensionLabel(name))
+            {
+                using var label = schema.DimensionLabel(name);
+                return label.DataType;
+            }
 
             if (name == "__coords")
             {
