@@ -16,7 +16,6 @@ namespace TileDB.CSharp
     public sealed unsafe class Context : IDisposable
     {
         private readonly ContextHandle _handle;
-        private readonly Config _config;
 
         private bool IsDefault { get; init; }
 
@@ -26,7 +25,7 @@ namespace TileDB.CSharp
         public Context()
         {
             _handle = ContextHandle.Create();
-            _config = new Config();
+            SetDefaultTags();
         }
 
         /// <summary>
@@ -36,7 +35,12 @@ namespace TileDB.CSharp
         public Context(Config config)
         {
             _handle = ContextHandle.Create(config.Handle);
-            _config = config;
+            SetDefaultTags();
+        }
+
+        private void SetDefaultTags()
+        {
+            SetTag("x-tiledb-api-language", "csharp");
         }
 
         /// <summary>
