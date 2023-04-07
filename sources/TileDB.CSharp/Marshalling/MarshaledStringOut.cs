@@ -10,7 +10,7 @@ namespace TileDB.Interop
         /// Encodes a read-only span of bytes into a string, using the default encoding.
         /// </summary>
         public static string GetString(ReadOnlySpan<byte> span) =>
-            Encoding.ASCII.GetString(span);
+            Encoding.UTF8.GetString(span);
 
         public static string GetString(ReadOnlySpan<byte> span, DataType dataType) =>
             dataType switch
