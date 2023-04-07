@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using TileDB.Interop;
@@ -30,7 +29,7 @@ namespace TileDB.CSharp
         public void PutMetadata<T>(string key, T[] data) where T : struct
         {
             var tiledb_datatype = (tiledb_datatype_t)EnumUtil.TypeToDataType(typeof(T));
-            put_metadata(key, data, tiledb_datatype, (uint)data.Length);
+            put_metadata(key, data, tiledb_datatype);
         }
 
         /// <summary>
@@ -42,7 +41,7 @@ namespace TileDB.CSharp
         public void PutMetadata<T>(string key, T v) where T : struct
         {
             T[] data = new T[1] { v };
-            PutMetadata<T>(key, data);
+            PutMetadata(key, data);
         }
 
         /// <summary>
@@ -52,10 +51,9 @@ namespace TileDB.CSharp
         /// <param name="value"></param>
         public void PutMetadata(string key, string value)
         {
-            var tiledb_datatype = tiledb_datatype_t.TILEDB_STRING_ASCII;
-            var data = Encoding.ASCII.GetBytes(value);
-            var val_num = (uint)data.Length;
-            put_metadata<byte>(key, data, tiledb_datatype, val_num);
+            var tiledb_datatype = tiledb_datatype_t.TILEDB_STRING_UTF8;
+            var data = Encoding.UTF8.GetBytes(value);
+            put_metadata(key, data, tiledb_datatype);
         }
 
         /// <summary>
@@ -266,7 +264,7 @@ namespace TileDB.CSharp
 
         public void Add(string key, byte[] value)
         {
-            put_metadata<byte>(key, value, tiledb_datatype_t.TILEDB_UINT8, (uint)value.Length);
+            put_metadata(key, value, tiledb_datatype_t.TILEDB_UINT8);
         }
 
         public void Add(KeyValuePair<string, byte[]> item)
@@ -330,7 +328,7 @@ namespace TileDB.CSharp
         #endregion
 
         #region Private methods
-        private void put_metadata<T>(string key, T[] value, tiledb_datatype_t tiledb_datatype, uint value_num) where T : struct
+        private void put_metadata<T>(string key, T[] value, tiledb_datatype_t tiledb_datatype) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
             if (string.IsNullOrEmpty(key) || value.Length == 0)
@@ -342,7 +340,7 @@ namespace TileDB.CSharp
             using var ctxHandle = ctx.Handle.Acquire();
             using var groupHandle = _group.Handle.Acquire();
             fixed (T* dataPtr = &value[0])
-                ctx.handle_error(Methods.tiledb_group_put_metadata(ctxHandle, groupHandle, ms_key, tiledb_datatype, value_num, dataPtr));
+                ctx.handle_error(Methods.tiledb_group_put_metadata(ctxHandle, groupHandle, ms_key, tiledb_datatype, (uint)value.Length, dataPtr));
         }
 
         private (string key, byte[] data, tiledb_datatype_t tiledb_datatype, uint value_num) get_metadata(string key)

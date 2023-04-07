@@ -31,7 +31,7 @@ namespace TileDB.CSharp
         public void PutMetadata<T>(string key, T[] data) where T : struct
         {
             var tiledb_datatype = (tiledb_datatype_t)EnumUtil.TypeToDataType(typeof(T));
-            put_metadata<T>(key, data, tiledb_datatype, (uint)data.Length);
+            put_metadata(key, data, tiledb_datatype);
         }
 
         /// <inheritdoc cref="Array.PutMetadata{T}(string, T)"/>
@@ -44,10 +44,8 @@ namespace TileDB.CSharp
         /// <inheritdoc cref="Array.PutMetadata(string, string)"/>
         public void PutMetadata(string key, string value)
         {
-            var tiledb_datatype = tiledb_datatype_t.TILEDB_STRING_ASCII;
-            var data = Encoding.ASCII.GetBytes(value);
-            var val_num = (uint)data.Length;
-            put_metadata<byte>(key, data, tiledb_datatype, val_num);
+            var data = Encoding.UTF8.GetBytes(value);
+            put_metadata(key, data, tiledb_datatype_t.TILEDB_STRING_UTF8);
         }
 
         /// <inheritdoc cref="Array.DeleteMetadata"/>
@@ -229,7 +227,7 @@ namespace TileDB.CSharp
         /// <inheritdoc cref="IDictionary{TKey, TValue}.Add"/>
         public void Add(string key, byte[] value)
         {
-            put_metadata<byte>(key, value, tiledb_datatype_t.TILEDB_UINT8, (uint)value.Length);
+            put_metadata(key, value, tiledb_datatype_t.TILEDB_UINT8);
         }
 
         /// <inheritdoc cref="ICollection{T}.Add"/>
@@ -300,7 +298,7 @@ namespace TileDB.CSharp
             throw new NotImplementedException();
         }
 
-        private void put_metadata<T>(string key, T[] value, tiledb_datatype_t tiledb_datatype, uint value_num) where T : struct
+        private void put_metadata<T>(string key, T[] value, tiledb_datatype_t tiledb_datatype) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
             if (string.IsNullOrEmpty(key) || value.Length == 0)
@@ -312,7 +310,7 @@ namespace TileDB.CSharp
             using var ctxHandle = ctx.Handle.Acquire();
             using var arrayHandle = _array.Handle.Acquire();
             fixed (T* dataPtr = &value[0])
-                ctx.handle_error(Methods.tiledb_array_put_metadata(ctxHandle, arrayHandle, ms_key, tiledb_datatype, value_num, dataPtr));
+                ctx.handle_error(Methods.tiledb_array_put_metadata(ctxHandle, arrayHandle, ms_key, tiledb_datatype, (uint)value.Length, dataPtr));
         }
 
         private (string key, byte[] data, tiledb_datatype_t tiledb_datatype, uint value_num) get_metadata(string key)

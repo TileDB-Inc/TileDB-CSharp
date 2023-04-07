@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -74,7 +74,7 @@ namespace TileDB.CSharp.Test
 
             array.PutMetadata<float>("key4", new float[] { 25.1f, 26.2f, 27.3f, 28.4f });
 
-            array.PutMetadata("key5", "This is TileDB array metadata");
+            array.PutMetadata("key5", "This is TileDB array metadata, that supports Unicode characters! 🥳");
 
             array.Close();
         }
@@ -101,7 +101,7 @@ namespace TileDB.CSharp.Test
             CollectionAssert.AreEqual(new float[]{ 25.1f, 26.2f, 27.3f, 28.4f }, v4);
 
             var s = array.GetMetadata("key5");
-            Assert.AreEqual("This is TileDB array metadata", s);
+            Assert.AreEqual("This is TileDB array metadata, that supports Unicode characters! 🥳", s);
 
             var num = array.MetadataNum();
             Assert.AreEqual((ulong)5,  num);
