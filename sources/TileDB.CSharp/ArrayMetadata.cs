@@ -73,8 +73,8 @@ namespace TileDB.CSharp
         /// <inheritdoc cref="Array.GetMetadata(string)"/>
         public string GetMetadata(string key)
         {
-            var (_, byte_array, _, _) = get_metadata(key);
-            return MarshaledStringOut.GetString(byte_array);
+            var (_, byte_array, datatype, _) = get_metadata(key);
+            return MarshaledStringOut.GetString(byte_array, (DataType)datatype);
         }
 
         /// <inheritdoc cref="Array.MetadataNum"/>
