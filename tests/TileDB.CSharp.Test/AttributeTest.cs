@@ -211,7 +211,7 @@ namespace TileDB.CSharp.Test
             ulong[] a2_el_off = new ulong[16] { 0, 2, 4, 5, 6, 7, 9, 11, 14, 16, 17, 18, 20, 21, 24, 25};
             ulong[] a2_off = CoreUtil.ElementOffsetsToByteOffsets(a2_el_off, DataType.Int32);
 
-            var query_write = new Query(context, array_write);
+            var query_write = new Query(array_write);
             query_write.SetLayout(LayoutType.RowMajor);
             // using var subarray = new Subarray(array_write);
             // subarray.SetSubarray(new int[] { 1, 4, 4, 4 });
@@ -239,7 +239,7 @@ namespace TileDB.CSharp.Test
             Assert.IsNotNull(array_read);
             array_read.Open(QueryType.Read);
 
-            var query_read = new Query(context, array_read);
+            var query_read = new Query(array_read);
 
             // Slice only rows 1,2 and cols 2,3,4
             using var subarray = new Subarray(array_read);

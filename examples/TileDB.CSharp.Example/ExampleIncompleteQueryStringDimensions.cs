@@ -43,7 +43,7 @@ namespace TileDB.CSharp.Examples
             {
                 arrayWrite.Open(QueryType.Write);
 
-                var queryWrite = new Query(Ctx, arrayWrite);
+                var queryWrite = new Query(arrayWrite);
                 queryWrite.SetLayout(LayoutType.Unordered);
                 queryWrite.SetDataBuffer("rows", rowsData);
                 queryWrite.SetOffsetsBuffer("rows", rowsOffsets);
@@ -62,7 +62,7 @@ namespace TileDB.CSharp.Examples
             using (var arrayRead = new Array(Ctx, ArrayPath))
             {
                 arrayRead.Open(QueryType.Read);
-                var queryRead = new Query(Ctx, arrayRead);
+                var queryRead = new Query(arrayRead);
                 queryRead.SetLayout(LayoutType.Unordered);
                 var subarray = new Subarray(arrayRead);
                 subarray.AddRange("rows", "a", "eeeee");

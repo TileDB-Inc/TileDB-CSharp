@@ -34,7 +34,7 @@ namespace TileDB.CSharp.Examples
             using (var array_write = new Array(Ctx, ArrayPath))
             {
                 array_write.Open(QueryType.Write);
-                var query_write = new Query(Ctx, array_write);
+                var query_write = new Query(array_write);
                 query_write.SetLayout(LayoutType.Unordered);
                 query_write.SetDataBuffer("rows", dim1_data_buffer);
                 query_write.SetDataBuffer("cols", dim2_data_buffer);
@@ -53,7 +53,7 @@ namespace TileDB.CSharp.Examples
             using (var array_read = new Array(Ctx, ArrayPath))
             {
                 array_read.Open(QueryType.Read);
-                var query_read = new Query(Ctx, array_read);
+                var query_read = new Query(array_read);
                 query_read.SetLayout(LayoutType.RowMajor);
                 query_read.SetDataBuffer("rows", dim1_data_buffer_read);
                 query_read.SetDataBuffer("cols", dim2_data_buffer_read);

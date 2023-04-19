@@ -44,7 +44,7 @@ namespace TileDB.CSharp.Test
             // Write array
             array.Open(QueryType.Write);
             Assert.IsTrue(array.IsOpen());
-            using var queryWrite = new Query(ctx, array);
+            using var queryWrite = new Query(array);
             queryWrite.SetLayout(layoutType);
             if (arrayType == ArrayType.Dense)
             {
@@ -74,7 +74,7 @@ namespace TileDB.CSharp.Test
             // Read array
             array.Open(QueryType.Read);
             Assert.IsTrue(array.IsOpen());
-            using var queryRead = new Query(ctx, array);
+            using var queryRead = new Query(array);
             // Initially allocate buffers for dense read
             var a1Read = new int[16];
             var rowsRead = new int[16];
@@ -176,7 +176,7 @@ namespace TileDB.CSharp.Test
 
             array.Open(QueryType.Write);
 
-            var query = new Query(context, array);
+            var query = new Query(array);
 
             using (var subarray = new Subarray(array))
             {
@@ -216,7 +216,7 @@ namespace TileDB.CSharp.Test
 
             array_read.Open(QueryType.Read);
 
-            var query_read = new Query(context, array_read);
+            var query_read = new Query(array_read);
 
             using (var subarray = new Subarray(array_read))
             {
@@ -310,7 +310,7 @@ namespace TileDB.CSharp.Test
 
                 array_write.Open(QueryType.Write);
 
-                var query_write = new Query(context, array_write);
+                var query_write = new Query(array_write);
 
                 query_write.SetLayout(LayoutType.Unordered);
 
@@ -339,7 +339,7 @@ namespace TileDB.CSharp.Test
 
                 array_read.Open(QueryType.Read);
 
-                var query_read = new Query(context, array_read);
+                var query_read = new Query(array_read);
 
                 query_read.SetLayout(LayoutType.RowMajor);
 
@@ -454,7 +454,7 @@ namespace TileDB.CSharp.Test
 
                 array_write.Open(QueryType.Write);
 
-                using var query_write = new Query(context, array_write);
+                using var query_write = new Query(array_write);
                 query_write.SetLayout(LayoutType.RowMajor);
 
                 query_write.SetDataBuffer("a1", a1_data_ptr, (ulong)a1_data.Length);
@@ -495,7 +495,7 @@ namespace TileDB.CSharp.Test
 
                 array_read.Open(QueryType.Read);
 
-                using var query_read = new Query(context, array_read);
+                using var query_read = new Query(array_read);
 
                 query_read.SetLayout(LayoutType.RowMajor);
                 using var subarray = new Subarray(array_read);
@@ -576,7 +576,7 @@ namespace TileDB.CSharp.Test
             array_write.Create(array_schema);
             array_write.Open(QueryType.Write);
 
-            var query_write = new Query(context, array_write);
+            var query_write = new Query(array_write);
             using (var subarray = new Subarray(array_write))
             {
                 subarray.SetSubarray(1, 2, 1, 2);
@@ -599,7 +599,7 @@ namespace TileDB.CSharp.Test
             Assert.IsNotNull(array_read);
             array_read.Open(QueryType.Read);
 
-            var query_read = new Query(context, array_read);
+            var query_read = new Query(array_read);
             using (var subarray = new Subarray(array_read))
             {
                 subarray.SetSubarray(1, 2, 1, 2);
@@ -619,7 +619,7 @@ namespace TileDB.CSharp.Test
             query_read.Dispose();
 
             // Read from array into byte[]
-            query_read = new Query(context, array_read);
+            query_read = new Query(array_read);
             using (var subarray = new Subarray(array_read))
             {
                 subarray.SetSubarray(1, 2, 1, 2);
@@ -670,14 +670,14 @@ namespace TileDB.CSharp.Test
             // From the documentation, the memory will be unpinned if:
 
             // the query is disposed,
-            using (var q = new Query(context, array))
+            using (var q = new Query(array))
             {
                 q.UnsafeSetDataBuffer("rows", disposalCanary.Memory.Pin(), 1 * sizeof(int));
             }
             Assert.AreEqual(1, disposalCanary.UnpinCount);
 
             // the buffer is reassigned,
-            using (var q = new Query(context, array))
+            using (var q = new Query(array))
             {
                 q.UnsafeSetDataBuffer("rows", disposalCanary.Memory.Pin(), 1 * sizeof(int));
                 q.SetDataBuffer("rows", new int[1]);
@@ -685,7 +685,7 @@ namespace TileDB.CSharp.Test
             }
 
             // or setting the buffer fails.
-            using (var q = new Query(context, array))
+            using (var q = new Query(array))
             {
                 Assert.ThrowsException<TileDBException>(() => q.UnsafeSetDataBuffer("foo", disposalCanary.Memory.Pin(), 1 * sizeof(int)));
                 Assert.AreEqual(3, disposalCanary.UnpinCount);

@@ -427,7 +427,7 @@ namespace TileDB.CSharp.Test
 
             using Array array = new Array(_ctx, arrayUri);
             array.Open(QueryType.Write);
-            using Query query = new Query(_ctx, array);
+            using Query query = new Query(array);
             query.SetDataBuffer("a", data);
             using Subarray subarray = new Subarray(array);
             subarray.SetSubarray(1, 2, 1, 4);
@@ -463,7 +463,7 @@ namespace TileDB.CSharp.Test
 
             using Array array = new Array(_ctx, arrayUri);
             array.Open(QueryType.Write);
-            using Query query = new Query(_ctx, array);
+            using Query query = new Query(array);
             query.SetLayout(LayoutType.GlobalOrder);
 
             query.SetDataBuffer("d1", dData);
@@ -529,7 +529,7 @@ namespace TileDB.CSharp.Test
 
             void WriteImpl(long[] d1, long[] d2, int[] a1)
             {
-                using Query query = new Query(_ctx, a);
+                using Query query = new Query(a);
                 query.SetLayout(LayoutType.Unordered);
                 query.SetDataBuffer("d1", d1);
                 query.SetDataBuffer("d2", d2);
@@ -551,7 +551,7 @@ namespace TileDB.CSharp.Test
 
             void WriteImpl(int[] d1, int[] d2, int[] a1)
             {
-                using Query query = new Query(_ctx, a);
+                using Query query = new Query(a);
                 query.SetLayout(LayoutType.Unordered);
                 query.SetDataBuffer("d1", d1);
                 query.SetDataBuffer("d2", d2);
@@ -588,7 +588,7 @@ namespace TileDB.CSharp.Test
 
             using Array array = new Array(_ctx, arrayUri);
             array.Open(QueryType.Write);
-            using Query query = new Query(_ctx, array);
+            using Query query = new Query(array);
             query.SetLayout(LayoutType.Unordered);
 
             query.SetDataBuffer("d", dData);

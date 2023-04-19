@@ -52,7 +52,7 @@ namespace TileDB.CSharp.Test
 
             array_write.Open(QueryType.Write);
 
-            using var query_write = new Query(context, array_write);
+            using var query_write = new Query(array_write);
 
             var attr1_data_buffer = new int[16] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
             query_write.SetDataBuffer("a1", attr1_data_buffer);
@@ -69,7 +69,7 @@ namespace TileDB.CSharp.Test
 
             array_read.Open(QueryType.Read);
 
-            using var query_read = new Query(context, array_read);
+            using var query_read = new Query(array_read);
 
             query_read.SetLayout(LayoutType.RowMajor);
 
@@ -130,7 +130,7 @@ namespace TileDB.CSharp.Test
 
             array_write.Open(QueryType.Write);
 
-            using var query_write = new Query(context, array_write);
+            using var query_write = new Query(array_write);
 
             var attr_data_buffer = new int[] { 1, 2, 3, 4, 5 };
             var attr_validity_buffer = new byte[] { 1, 1, 0, 1, 1 };
@@ -149,7 +149,7 @@ namespace TileDB.CSharp.Test
 
             array_read.Open(QueryType.Read);
 
-            using var query_read = new Query(context, array_read);
+            using var query_read = new Query(array_read);
 
             query_read.SetLayout(LayoutType.RowMajor);
 

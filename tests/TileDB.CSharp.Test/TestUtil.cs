@@ -91,7 +91,7 @@ namespace TileDB.CSharp.Test
             // Use context if provided; Else get default context
             ctx ??= Context.GetDefault();
 
-            var writeQuery = new Query(ctx, array, QueryType.Write);
+            var writeQuery = new Query(array, QueryType.Write);
             // Sparse arrays can't write using row major; Can read using row-major, but not preferred for performance
             if (array.Schema().ArrayType() == ArrayType.Sparse && layout == LayoutType.RowMajor)
             {
@@ -165,7 +165,7 @@ namespace TileDB.CSharp.Test
             // Use context if provided; Else get default context
             ctx ??= Context.GetDefault();
 
-            var readQuery = new Query(ctx, array, QueryType.Read);
+            var readQuery = new Query(array, QueryType.Read);
             readQuery.SetLayout(layout);
             foreach (var buffer in buffers)
             {

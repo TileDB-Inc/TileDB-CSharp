@@ -91,6 +91,11 @@ namespace TileDB.CSharp
         /// <param name="ctx">The context associated with this query.</param>
         /// <param name="array">The array on which the query will operate.</param>
         /// <param name="queryType">The query's type.</param>
+        /// <remarks>
+        /// This overload is not recommended for use in new code.
+        /// You should use <see cref="Query(CSharp.Array, CSharp.QueryType)"/> instead.
+        /// </remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public Query(Context ctx, Array array, QueryType queryType)
         {
             _ctx = ctx;
@@ -103,12 +108,25 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="ctx">The context associated with this query.</param>
         /// <param name="array">The array on which the query will operate. Its <see cref="Array.QueryType"/> will be used for the query.</param>
-        public Query(Context ctx, Array array)
-        {
-            _ctx = ctx;
-            _array = array;
-            _handle = QueryHandle.Create(ctx, array.Handle, (tiledb_query_type_t)array.QueryType());
-        }
+        /// <remarks>
+        /// This overload is not recommended for use in new code.
+        /// You should use <see cref="Query(CSharp.Array)"/> instead.
+        /// </remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public Query(Context ctx, Array array) : this(ctx, array, array.QueryType()) { }
+
+        /// <summary>
+        /// Creates a <see cref="Query"/>.
+        /// </summary>
+        /// <param name="array">The array on which the query will operate.</param>
+        /// <param name="queryType">The query's type.</param>
+        public Query(Array array, QueryType queryType) : this(array.Context(), array, queryType) { }
+
+        /// <summary>
+        /// Creates a <see cref="Query"/> with an implicit <see cref="CSharp.QueryType"/>.
+        /// </summary>
+        /// <param name="array">The array on which the query will operate. Its <see cref="Array.QueryType"/> will be used for the query.</param>
+        public Query(Array array) : this(array.Context(), array) { }
 
         /// <summary>
         /// Disposes this <see cref="Query"/>.
