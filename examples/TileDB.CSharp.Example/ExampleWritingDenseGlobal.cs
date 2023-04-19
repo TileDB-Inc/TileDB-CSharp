@@ -29,7 +29,7 @@ namespace TileDB.CSharp.Examples
             using var array = new Array(Ctx, ArrayPath);
             array.Open(QueryType.Write);
 
-            using var queryWrite = new Query(Ctx, array, QueryType.Write);
+            using var queryWrite = new Query(array, QueryType.Write);
             queryWrite.SetLayout(LayoutType.GlobalOrder);
             // Slice rows 1-4, columns 1-2 for a total of 8 cells
             using var subarray = new Subarray(array);
@@ -56,7 +56,7 @@ namespace TileDB.CSharp.Examples
         {
             using var array = new Array(Ctx, ArrayPath);
             array.Open(QueryType.Read);
-            using var readQuery = new Query(Ctx, array, QueryType.Read);
+            using var readQuery = new Query(array, QueryType.Read);
             using var subarray = new Subarray(array);
             subarray.SetSubarray(1, 4, 1, 4);
             readQuery.SetSubarray(subarray);

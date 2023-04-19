@@ -25,7 +25,7 @@ namespace TileDB.CSharp.Test
 
             var array = new Array(ctx, ArrayUri);
             array.Open(QueryType.Write);
-            var query = new Query(ctx, array);
+            var query = new Query(array);
             query.SetLayout(LayoutType.RowMajor);
             var subarray = new Subarray(array);
             subarray.SetSubarray(1, 4, 1, 4);

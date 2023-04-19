@@ -147,7 +147,7 @@ namespace TileDB.CSharp.Test
                 using var array = new Array(context, uri);
                 array.Open(QueryType.Write);
 
-                using var query = new Query(context, array, QueryType.Write);
+                using var query = new Query(array, QueryType.Write);
                 query.SetDataBuffer("a1", a1Data);
                 query.SetDataBuffer("a2", a2Data);
                 query.SetOffsetsBuffer("a2", a2Offsets);
