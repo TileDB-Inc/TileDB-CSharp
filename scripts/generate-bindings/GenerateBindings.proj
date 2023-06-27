@@ -18,9 +18,11 @@
     <InputFile Include="tiledb/tiledb_experimental.h" />
     <TraversePaths Include="$(InputDir)/**/*.h" />
     <RemapHandleType Include="buffer" />
+    <RemapHandleType Include="buffer_list" />
     <RemapHandleType Include="config" />
     <RemapHandleType Include="config_iter" />
     <RemapHandleType Include="ctx" />
+    <RemapHandleType Include="dimension" />
     <RemapHandleType Include="dimension_label" />
     <RemapHandleType Include="error" />
     <RemapHandleType Include="filter" />

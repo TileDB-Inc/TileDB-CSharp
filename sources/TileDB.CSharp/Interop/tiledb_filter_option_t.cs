@@ -13,5 +13,6 @@ namespace TileDB.Interop
         TILEDB_WEBP_QUALITY = 6,
         TILEDB_WEBP_INPUT_FORMAT = 7,
         TILEDB_WEBP_LOSSLESS = 8,
+        TILEDB_COMPRESSION_REINTERPRET_DATATYPE = 9,
     }
 }
