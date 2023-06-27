@@ -25,12 +25,12 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="$(TileDBNativePackageName)" Version="$(TileDBNativePackageVersion)" />
-    <PackageVersion Include="GitHubActionsTestLogger" Version="2.0.1" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
-    <PackageVersion Include="MSTest.TestAdapter" Version="3.0.2" />
-    <PackageVersion Include="MSTest.TestFramework" Version="3.0.2" />
-    <PackageVersion Include="coverlet.collector" Version="3.2.0" PrivateAssets="all" />
-    <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="8.51.0.59060" />
+    <PackageVersion Include="GitHubActionsTestLogger" Version="2.3.2" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
+    <PackageVersion Include="MSTest.TestAdapter" Version="3.0.4" />
+    <PackageVersion Include="MSTest.TestFramework" Version="3.0.4" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.0" PrivateAssets="all" />
+    <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="9.3.0.71466" />
     <GlobalPackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" />
   </ItemGroup>
 </Project>
