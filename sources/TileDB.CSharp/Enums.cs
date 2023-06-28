@@ -73,7 +73,11 @@ namespace TileDB.CSharp
         /// <summary>
         /// The query is not initialized.
         /// </summary>
-        Uninitialized = tiledb_query_status_t.TILEDB_UNINITIALIZED
+        Uninitialized = tiledb_query_status_t.TILEDB_UNINITIALIZED,
+        /// <summary>
+        /// The query is initialized.
+        /// </summary>
+        Initialized = tiledb_query_status_t.TILEDB_INITIALIZED
     }
 
     /// <summary>
@@ -470,7 +474,11 @@ namespace TileDB.CSharp
         /// <summary>
         /// WebP filter.
         /// </summary>
-        Webp = tiledb_filter_type_t.TILEDB_FILTER_WEBP
+        Webp = tiledb_filter_type_t.TILEDB_FILTER_WEBP,
+        /// <summary>
+        /// Delta filter.
+        /// </summary>
+        Delta = tiledb_filter_type_t.TILEDB_FILTER_DELTA
     }
 
     public enum FilterOption : uint
@@ -501,7 +509,16 @@ namespace TileDB.CSharp
         /// <remarks>
         /// Must be a <see cref="bool"/>.
         /// </remarks>
-        WebpLossless = tiledb_filter_option_t.TILEDB_WEBP_LOSSLESS
+        WebpLossless = tiledb_filter_option_t.TILEDB_WEBP_LOSSLESS,
+        /// <summary>
+        /// The type to reinterpret data prior to compression.
+        /// </summary>
+        /// <remarks>
+        /// Must be a <see cref="DataType"/>.
+        /// </remarks>
+        // Documentation of the C API says this is a uint8_t. In the C# API, DataType is a UInt32
+        // but passing a pointer to the latter as the former will work on little-endian systems.
+        CompressionReinterpretDatatype = tiledb_filter_option_t.TILEDB_COMPRESSION_REINTERPRET_DATATYPE
     }
 
     /// <summary>

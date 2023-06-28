@@ -76,7 +76,8 @@ namespace TileDB.CSharp
                 (filterOption == FilterOption.ScaleFloatOffset && typeof(T) == typeof(double)) ||
                 (filterOption == FilterOption.WebpQuality && typeof(T) == typeof(float)) ||
                 (filterOption == FilterOption.WebpInputFormat && typeof(T) == typeof(WebpInputFormat)) ||
-                (filterOption == FilterOption.WebpLossless && typeof(T) == typeof(bool));
+                (filterOption == FilterOption.WebpLossless && typeof(T) == typeof(bool)) ||
+                (filterOption == FilterOption.CompressionReinterpretDatatype && typeof(T) == typeof(DataType));
 
             if (!ok)
             {
