@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <TileDBNativePackageName>TileDB.Native</TileDBNativePackageName>
-    <TileDBNativePackageVersion>[2.15.0,2.16.0)</TileDBNativePackageVersion>
+    <TileDBNativePackageVersion>[2.16.0,2.17.0)</TileDBNativePackageVersion>
 
     <!-- The DevelopmentBuild property switches to the locally built native packages.
     They have a different name to avoid publishing them by mistake, and to
