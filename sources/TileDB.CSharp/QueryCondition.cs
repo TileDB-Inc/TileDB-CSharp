@@ -202,7 +202,35 @@ namespace TileDB.CSharp
         /// <param name="condition">The query condition to negate.</param>
         /// <returns>A query condition that will be satisfied if
         /// <paramref name="condition"/> is not satisfied.</returns>
-        public static QueryCondition operator !(QueryCondition condition) =>
-            Combine(condition, null, QueryConditionCombinationOperatorType.Not);
+        public static QueryCondition operator !(QueryCondition condition)
+        {
+            var ctx = condition._ctx;
+
+            var handle = new QueryConditionHandle();
+            var successful = false;
+            tiledb_query_condition_t* condition_p = null;
+            try
+            {
+                using (var ctxHandle = ctx.Handle.Acquire())
+                using (var conditionHandle = condition.Handle.Acquire())
+                {
+                    ctx.handle_error(Methods.tiledb_query_condition_negate(ctxHandle, conditionHandle, &condition_p));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(condition_p);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
+            }
+
+            return new QueryCondition(ctx, handle);
+        }
     }
 }

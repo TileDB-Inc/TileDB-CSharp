@@ -9,5 +9,6 @@ namespace TileDB.Interop
         TILEDB_INPROGRESS = 2,
         TILEDB_INCOMPLETE = 3,
         TILEDB_UNINITIALIZED = 4,
+        TILEDB_INITIALIZED = 5,
     }
 }

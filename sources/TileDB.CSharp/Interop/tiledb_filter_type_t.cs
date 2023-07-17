@@ -22,5 +22,6 @@ namespace TileDB.Interop
         TILEDB_FILTER_XOR = 16,
         TILEDB_FILTER_DEPRECATED = 17,
         TILEDB_FILTER_WEBP = 18,
+        TILEDB_FILTER_DELTA = 19,
     }
 }

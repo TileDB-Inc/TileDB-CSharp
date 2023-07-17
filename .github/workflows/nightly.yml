@@ -29,7 +29,7 @@ jobs:
             BOOTSTRAP: ../bootstrap.ps1 -EnableS3 -EnableSerialization -EnableBuildDeps
           - tag: dev
             DIST_PREFIX: build/
-        tag: [release-2.15, dev]
+        tag: [release-2.16, dev]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout TileDB
@@ -62,7 +62,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tag: [release-2.15, dev]
+        tag: [release-2.16, dev]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout TileDB-CSharp
@@ -102,7 +102,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        tag: [release-2.15, dev]
+        tag: [release-2.16, dev]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout TileDB-CSharp
