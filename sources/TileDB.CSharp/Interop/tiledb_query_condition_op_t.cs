@@ -10,5 +10,7 @@ namespace TileDB.Interop
         TILEDB_GE = 3,
         TILEDB_EQ = 4,
         TILEDB_NE = 5,
+        TILEDB_IN = 6,
+        TILEDB_NOT_IN = 7,
     }
 }
