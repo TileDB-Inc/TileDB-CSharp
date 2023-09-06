@@ -7,6 +7,15 @@ namespace TileDB.Interop
 {
     [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     [EditorBrowsable(EditorBrowsableState.Never)]
+    public unsafe class LibC
+    {
+        // public struct handle_t {}
+        // [DllImport(LibDllImport.LibCPath)]
+        // public static extern void free(void* p);
+    }
+
+    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public unsafe class MarshaledStringOut
     {
         public sbyte* Value;
