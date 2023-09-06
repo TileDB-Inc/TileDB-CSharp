@@ -9,6 +9,28 @@ on:
   workflow_call:
 
 jobs:
+  Validate-Package:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks out repository
+      - uses: actions/checkout@v3
+
+      - name: Remove existing .NET versions
+        shell: bash
+        run: |
+          rm -rf $DOTNET_ROOT
+
+      - name: Set up .NET SDK from global.json
+        uses: actions/setup-dotnet@v3
+
+      - name: Display .NET versions
+        run: dotnet --info
+
+      # Package validation runs as part of packing.
+      - name: Dotnet pack for TileDB.CSharp
+        run: |
+          dotnet pack -c Release sources/TileDB.CSharp
+
   Run-Tests:
     strategy:
       fail-fast: false
