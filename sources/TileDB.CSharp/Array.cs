@@ -5,6 +5,8 @@ using System.Text;
 using TileDB.CSharp.Marshalling;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
+using ArrayHandle = TileDB.CSharp.Marshalling.SafeHandles.ArrayHandle;
+using ArraySchemaHandle = TileDB.CSharp.Marshalling.SafeHandles.ArraySchemaHandle;
 
 namespace TileDB.CSharp
 {
