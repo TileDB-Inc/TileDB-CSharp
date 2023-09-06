@@ -241,13 +241,12 @@ namespace TileDB.CSharp
         /// Gets the name of a fragment.
         /// </summary>
         /// <param name="fragmentIndex">The index of the fragment of interest.</param>
-        /// <param name="test">A dummy parameter to test the package validator.</param>
         /// <remarks>
         /// The maximum value <paramref name="fragmentIndex"/> can take
         /// is determined by the <see cref="FragmentCount"/> property.
         /// </remarks>
         /// <seealso cref="Array.ConsolidateFragments"/>
-        public string GetFragmentName(uint fragmentIndex, int test = 0)
+        public string GetFragmentName(uint fragmentIndex)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
