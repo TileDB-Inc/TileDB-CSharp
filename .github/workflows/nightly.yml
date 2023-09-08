@@ -29,7 +29,6 @@ jobs:
             platform: windows-x86_64
             BOOTSTRAP: ../bootstrap.ps1 -EnableS3 -EnableSerialization -EnableBuildDeps -EnableVcpkg
           - tag: dev
-            DIST_PREFIX: build/
         tag: [release-2.16, dev]
     runs-on: ${{ matrix.os }}
     steps:
@@ -53,7 +52,7 @@ jobs:
           cmake --build . --config Release --target install-tiledb
           cd ../
           mkdir -p artifacts/${{ matrix.platform }}
-          mv ${{ matrix.DIST_PREFIX }}dist/* artifacts/${{ matrix.platform }}
+          mv build/dist/* artifacts/${{ matrix.platform }}
 
       # We combine the binaries of the many platforms per tag by uploading them to the same artifact.
       - name: Upload native artifacts
