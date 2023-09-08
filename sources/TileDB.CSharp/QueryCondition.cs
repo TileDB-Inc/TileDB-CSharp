@@ -1,6 +1,7 @@
 using System;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
+using QueryConditionHandle = TileDB.CSharp.Marshalling.SafeHandles.QueryConditionHandle;
 
 // We are allowed to construct and initialize query conditions.
 #pragma warning disable TILEDB0007
