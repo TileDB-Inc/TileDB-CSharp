@@ -7,6 +7,7 @@ using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 using ArrayHandle = TileDB.CSharp.Marshalling.SafeHandles.ArrayHandle;
 using ArraySchemaHandle = TileDB.CSharp.Marshalling.SafeHandles.ArraySchemaHandle;
+using ConfigHandle = TileDB.CSharp.Marshalling.SafeHandles.ConfigHandle;
 
 namespace TileDB.CSharp
 {

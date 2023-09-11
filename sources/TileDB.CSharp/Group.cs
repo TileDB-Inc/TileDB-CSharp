@@ -2,6 +2,7 @@ using System;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 using GroupHandle = TileDB.CSharp.Marshalling.SafeHandles.GroupHandle;
+using ConfigHandle = TileDB.CSharp.Marshalling.SafeHandles.ConfigHandle;
 
 namespace TileDB.CSharp
 {
