@@ -1,13 +1,17 @@
 // Copyright (c) .NET Foundation and Contributors. All Rights Reserved. Licensed under the MIT License (MIT). See License.md in the repository root for more information.
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
+using TileDB.CSharp;
 
 namespace TileDB.Interop
 {
-    internal unsafe struct MarshaledString : IDisposable
+    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public unsafe struct MarshaledString : IDisposable
     {
         public MarshaledString(string input)
         {
@@ -15,7 +19,7 @@ namespace TileDB.Interop
             Value = (sbyte*)ptr;
         }
 
-        public static (IntPtr Pointer, int Length) AllocNullTerminated(string str)
+        internal static (IntPtr Pointer, int Length) AllocNullTerminated(string str)
         {
             if (str is null)
             {
@@ -30,7 +34,9 @@ namespace TileDB.Interop
             return ((IntPtr)ptr, length);
         }
 
-        public static void FreeNullTerminated(IntPtr ptr) => Marshal.FreeHGlobal(ptr);
+        internal static void FreeNullTerminated(IntPtr ptr) => Marshal.FreeHGlobal(ptr);
+
+        public ReadOnlySpan<byte> AsSpan() => new ReadOnlySpan<byte>(Value, Length);
 
         public int Length { get; private set; }
 

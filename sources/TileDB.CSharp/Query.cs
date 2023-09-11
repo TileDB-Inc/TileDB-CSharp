@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
+using QueryHandle = TileDB.CSharp.Marshalling.SafeHandles.QueryHandle;
+using ConfigHandle = TileDB.CSharp.Marshalling.SafeHandles.ConfigHandle;
 
 namespace TileDB.CSharp
 {

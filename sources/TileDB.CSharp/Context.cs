@@ -7,6 +7,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
+using ContextHandle = TileDB.CSharp.Marshalling.SafeHandles.ContextHandle;
+using ConfigHandle = TileDB.CSharp.Marshalling.SafeHandles.ConfigHandle;
 
 namespace TileDB.CSharp
 {
