@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../NuGet.props" />
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -6,7 +6,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Nullable>enable</Nullable>
     <RootNamespace>TileDB.CSharp</RootNamespace>
-    <Version>5.4.0</Version>
+    <Version>5.4.1</Version>
     <Description>C# wrapper of the TileDB Embedded universal data engine.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
