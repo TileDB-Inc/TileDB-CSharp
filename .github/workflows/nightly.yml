@@ -2,6 +2,7 @@ name: Nightly-Build
 
 env:
   TILEDB_NIGHTLY_BUILD: 1
+  VCPKG_BINARY_SOURCES: 'clear;x-gha,readwrite'
 
 on:
   schedule:
@@ -19,16 +20,15 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         include:
-          - BOOTSTRAP: ../bootstrap --enable-s3 --enable-serialization --force-build-all-deps
+          - BOOTSTRAP: ../bootstrap --enable-s3 --enable-serialization --force-build-all-deps --enable-vcpkg
           - os: ubuntu-latest
             platform: linux-x86_64
           - os: macos-latest
             platform: macos-x86_64
           - os: windows-latest
             platform: windows-x86_64
-            BOOTSTRAP: ../bootstrap.ps1 -EnableS3 -EnableSerialization -EnableBuildDeps
+            BOOTSTRAP: ../bootstrap.ps1 -EnableS3 -EnableSerialization -EnableBuildDeps -EnableVcpkg
           - tag: dev
-            DIST_PREFIX: build/
         tag: [release-2.16, dev]
     runs-on: ${{ matrix.os }}
     steps:
@@ -37,7 +37,12 @@ jobs:
         with:
           repository: TileDB-Inc/TileDB
           ref: ${{ matrix.tag }}
-
+      - name: Export GitHub Actions cache variables
+        uses: actions/github-script@v6
+        with:
+          script: |
+            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
       - name: Build TileDB
         run: |
           mkdir -p build
@@ -47,7 +52,7 @@ jobs:
           cmake --build . --config Release --target install-tiledb
           cd ../
           mkdir -p artifacts/${{ matrix.platform }}
-          mv ${{ matrix.DIST_PREFIX }}dist/* artifacts/${{ matrix.platform }}
+          mv build/dist/* artifacts/${{ matrix.platform }}
 
       # We combine the binaries of the many platforms per tag by uploading them to the same artifact.
       - name: Upload native artifacts
