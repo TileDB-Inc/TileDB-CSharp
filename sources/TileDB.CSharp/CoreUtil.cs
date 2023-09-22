@@ -16,7 +16,7 @@ namespace TileDB.CSharp
         private static string? _buildConfiguration;
 
         /// <summary>
-        /// Returns the version of TileDB Embedded binary being used.
+        /// Returns the version of the TileDB Embedded binary being used.
         /// </summary>
         public static Version GetCoreLibVersion()
         {
