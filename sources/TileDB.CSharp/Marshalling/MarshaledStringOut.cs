@@ -14,7 +14,7 @@ namespace TileDB.Interop
         // public static extern void free(void* p);
     }
 
-    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public unsafe class MarshaledStringOut
     {

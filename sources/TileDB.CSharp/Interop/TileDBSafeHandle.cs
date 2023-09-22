@@ -5,8 +5,7 @@ using TileDB.CSharp;
 
 namespace TileDB.Interop
 {
-
-    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public unsafe class ConfigHandle : SafeHandle
     {
@@ -49,7 +48,7 @@ namespace TileDB.Interop
         public static implicit operator ConfigHandle(tiledb_config_t* value) => new ConfigHandle((IntPtr)value);
     }//public unsafe partial class ConfigHandle
 
-    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public unsafe class ConfigIteratorHandle : SafeHandle
     {
@@ -93,7 +92,7 @@ namespace TileDB.Interop
         public static implicit operator ConfigIteratorHandle(tiledb_config_iter_t* value) => new ConfigIteratorHandle((IntPtr)value);
     }//public unsafe partial class ConfigHandle
 
-    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public unsafe class ContextHandle : SafeHandle
     {
@@ -147,7 +146,7 @@ namespace TileDB.Interop
         public static implicit operator ContextHandle(tiledb_ctx_t* value) => new ContextHandle((IntPtr)value);
     }//public unsafe partial class ContextHandle
 
-    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public unsafe class FilterHandle : SafeHandle
     {
@@ -191,7 +190,7 @@ namespace TileDB.Interop
     }//public unsafe partial class FilterHandle
 
 
-    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public unsafe class FilterListHandle : SafeHandle
     {
@@ -233,7 +232,7 @@ namespace TileDB.Interop
         public static implicit operator FilterListHandle(tiledb_filter_list_t* value) => new FilterListHandle((IntPtr)value);
     }//public unsafe partial class FilterListHandle
 
-    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public unsafe partial class VFSHandle : SafeHandle
     {
@@ -277,7 +276,7 @@ namespace TileDB.Interop
     }//public unsafe partial class VFSHandle
 
 
-    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public unsafe class AttributeHandle : SafeHandle
     {
@@ -320,7 +319,7 @@ namespace TileDB.Interop
         public static implicit operator AttributeHandle(tiledb_attribute_t* value) => new AttributeHandle((IntPtr)value);
     }//public unsafe partial class AttributeHandle
 
-    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public unsafe class DimensionHandle : SafeHandle
     {
@@ -366,7 +365,7 @@ namespace TileDB.Interop
     }//public unsafe partial class DimensionHandle
 
 
-    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public unsafe class DomainHandle : SafeHandle
     {
@@ -410,7 +409,7 @@ namespace TileDB.Interop
     }//public unsafe partial class DomainHandle
 
 
-    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public unsafe class ArraySchemaHandle : SafeHandle
     {
@@ -452,7 +451,7 @@ namespace TileDB.Interop
         public static implicit operator ArraySchemaHandle(tiledb_array_schema_t* value) => new ArraySchemaHandle((IntPtr)value);
     }//public unsafe partial class ArraySchemaHandle
 
-    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public unsafe class ArrayHandle : SafeHandle
     {
@@ -494,7 +493,7 @@ namespace TileDB.Interop
         public static implicit operator ArrayHandle(tiledb_array_t* value) => new ArrayHandle((IntPtr)value);
     }//public unsafe partial class ArrayHandle
 
-    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public unsafe class ArraySchemaEvolutionHandle : SafeHandle
     {
@@ -534,7 +533,7 @@ namespace TileDB.Interop
             new ArraySchemaEvolutionHandle((IntPtr)value);
     }//public unsafe class ArraySchemaEvolutionHandle
 
-    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public unsafe class QueryHandle : SafeHandle
     {
@@ -577,7 +576,7 @@ namespace TileDB.Interop
     }//public unsafe partial class QueryHandle
 
 
-    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public unsafe class QueryConditionHandle : SafeHandle
     {
@@ -619,7 +618,7 @@ namespace TileDB.Interop
         public static implicit operator QueryConditionHandle(tiledb_query_condition_t* value) => new QueryConditionHandle((IntPtr)value);
     }//public unsafe partial class QueryConditionHandle
 
-    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public unsafe class GroupHandle : SafeHandle
     {
