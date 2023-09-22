@@ -1,6 +1,7 @@
 using System;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
+using ArraySchemaEvolutionHandle = TileDB.CSharp.Marshalling.SafeHandles.ArraySchemaEvolutionHandle;
 
 namespace TileDB.CSharp
 {
