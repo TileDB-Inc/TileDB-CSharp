@@ -17,6 +17,7 @@
     <ConfigOption Include="multi-file" />
     <InputFile Include="tiledb/tiledb_experimental.h" />
     <TraversePaths Include="$(InputDir)/**/*.h" />
+    <RemapHandleType Include="attribute" />
     <RemapHandleType Include="buffer" />
     <RemapHandleType Include="buffer_list" />
     <RemapHandleType Include="config" />
@@ -24,6 +25,8 @@
     <RemapHandleType Include="ctx" />
     <RemapHandleType Include="dimension" />
     <RemapHandleType Include="dimension_label" />
+    <RemapHandleType Include="domain" />
+    <RemapHandleType Include="enumeration" />
     <RemapHandleType Include="error" />
     <RemapHandleType Include="filter" />
     <RemapHandleType Include="filter_list" />
@@ -33,10 +36,11 @@
     <RemapHandleType Include="vfs_fh" />
     <Remap Include="@(RemapHandleType->'tiledb_%(Identity)_handle_t=tiledb_%(Identity)_t')" />
     <Remap Include="tiledb_experimental_query_status_details_t=tiledb_query_status_details_t" />
-    <ExcludeDump Include="attribute" />
-    <ExcludeDump Include="domain" />
-    <ExcludeDump Include="dimension" />
     <ExcludeDump Include="array_schema" />
+    <ExcludeDump Include="attribute" />
+    <ExcludeDump Include="dimension" />
+    <ExcludeDump Include="domain" />
+    <ExcludeDump Include="enumeration" />
     <ExcludeDump Include="stats" />
     <ExcludeDump Include="stats_raw" />
     <ExcludeDump Include="fragment_info" />

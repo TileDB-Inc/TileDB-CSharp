@@ -2,18 +2,21 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using TileDB.Interop;
+using TileDB.CSharp.Marshalling;
 
 namespace TileDB.CSharp
 {
     /// <summary>
-    /// General utility functions.
+    /// Contains general utility functions.
     /// </summary>
     public static class CoreUtil
     {
         private static Version? _coreLibVersion;
 
+        private static string? _buildConfiguration;
+
         /// <summary>
-        /// Returns the version of TileDB Embedded.
+        /// Returns the version of the TileDB Embedded binary being used.
         /// </summary>
         public static Version GetCoreLibVersion()
         {
@@ -24,6 +27,24 @@ namespace TileDB.CSharp
                 int major, minor, rev;
                 Methods.tiledb_version(&major, &minor, &rev);
                 return new Version(major, minor, rev);
+            }
+        }
+
+        /// <summary>
+        /// Returns a string describing the build configuration of the TileDB Embedded binary being used.
+        /// </summary>
+        /// <remarks>
+        /// This method exposes the <c>tiledb_as_built_dump</c> function of the TileDB Embedded C API.
+        /// </remarks>
+        public static string GetBuildConfiguration()
+        {
+            return _buildConfiguration ??= Create();
+
+            static unsafe string Create()
+            {
+                using var resultHolder = new StringHandleHolder();
+                ErrorHandling.ThrowOnError(Methods.tiledb_as_built_dump(&resultHolder._handle));
+                return resultHolder.ToString();
             }
         }
 
