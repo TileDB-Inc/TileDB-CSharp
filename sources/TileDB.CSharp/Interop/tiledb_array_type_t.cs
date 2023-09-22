@@ -2,7 +2,7 @@
 
 namespace TileDB.Interop
 {
-    internal enum tiledb_array_type_t
+    public enum tiledb_array_type_t
     {
         TILEDB_DENSE = 0,
         TILEDB_SPARSE = 1,

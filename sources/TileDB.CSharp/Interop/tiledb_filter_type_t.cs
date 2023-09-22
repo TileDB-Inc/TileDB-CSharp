@@ -2,7 +2,7 @@
 
 namespace TileDB.Interop
 {
-    internal enum tiledb_filter_type_t
+    public enum tiledb_filter_type_t
     {
         TILEDB_FILTER_NONE = 0,
         TILEDB_FILTER_GZIP = 1,

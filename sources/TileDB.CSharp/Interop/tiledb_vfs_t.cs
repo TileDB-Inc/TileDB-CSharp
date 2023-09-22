@@ -2,7 +2,7 @@
 
 namespace TileDB.Interop
 {
-    internal partial struct tiledb_vfs_t
+    public partial struct tiledb_vfs_t
     {
     }
 }
