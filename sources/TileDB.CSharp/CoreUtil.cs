@@ -7,7 +7,7 @@ using TileDB.CSharp.Marshalling;
 namespace TileDB.CSharp
 {
     /// <summary>
-    /// General utility functions.
+    /// Contains general utility functions.
     /// </summary>
     public static class CoreUtil
     {
@@ -31,10 +31,10 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Dumps the TileDB build configuration of the TileDB Embedded binary being used to a string.
+        /// Returns a string describing the build configuration of the TileDB Embedded binary being used.
         /// </summary>
         /// <remarks>
-        /// This method exposes the <c>tiledb_as_built_dump</c> method of the TileDB Embedded C API.
+        /// This method exposes the <c>tiledb_as_built_dump</c> function of the TileDB Embedded C API.
         /// </remarks>
         public static string GetBuildConfiguration()
         {
