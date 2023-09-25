@@ -1,18 +1,36 @@
 using System;
+using System.ComponentModel;
 using System.Text;
 using TileDB.CSharp;
 
 namespace TileDB.Interop
 {
-    internal static class MarshaledStringOut
+    [Obsolete(Obsoletions.TileDBInteropMessage, DiagnosticId = Obsoletions.TileDBInteropDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public unsafe class LibC
     {
+        // public struct handle_t {}
+        // [DllImport(LibDllImport.LibCPath)]
+        // public static extern void free(void* p);
+    }
+
+    [Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public unsafe class MarshaledStringOut
+    {
+        public sbyte* Value;
+        public MarshaledStringOut()
+        {
+            Value = null;
+        }
+
         /// <summary>
         /// Encodes a read-only span of bytes into a string, using the default encoding.
         /// </summary>
-        public static string GetString(ReadOnlySpan<byte> span) =>
-            Encoding.UTF8.GetString(span);
+        internal static string GetString(ReadOnlySpan<byte> span) =>
+            Encoding.ASCII.GetString(span);
 
-        public static string GetString(ReadOnlySpan<byte> span, DataType dataType) =>
+        internal static string GetString(ReadOnlySpan<byte> span, DataType dataType) =>
             dataType switch
             {
                 DataType.StringAscii => Encoding.ASCII.GetString(span),
@@ -25,7 +43,7 @@ namespace TileDB.Interop
         /// <summary>
         /// Encodes a null-terminated pointer of bytes into a string, using the default encoding.
         /// </summary>
-        public static unsafe string GetStringFromNullTerminated(sbyte* ptr)
+        internal static unsafe string GetStringFromNullTerminated(sbyte* ptr)
         {
             if (ptr == null)
             {
@@ -36,5 +54,7 @@ namespace TileDB.Interop
             span = span[0..span.IndexOf((byte)0)];
             return GetString(span);
         }
+
+        public static implicit operator string(MarshaledStringOut s) => GetStringFromNullTerminated(s.Value);
     }
 }

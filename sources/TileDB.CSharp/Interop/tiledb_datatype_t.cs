@@ -2,7 +2,7 @@
 
 namespace TileDB.Interop
 {
-    internal enum tiledb_datatype_t
+    public enum tiledb_datatype_t
     {
         TILEDB_INT32 = 0,
         TILEDB_INT64 = 1,

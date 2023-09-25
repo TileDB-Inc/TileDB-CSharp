@@ -38,5 +38,8 @@ namespace TileDB.CSharp
 
         public const string QuerySubarrayMessage = "Subarray-related methods of the Query class are obsolete and will become unavailable in a future version.";
         public const string QuerySubarrayDiagId = "TILEDB0011";
+
+        public const string TileDBInterop2Message = "Members of the TileDB.Interop namespace should not be used by user code and will become internal in a future version.";
+        public const string TileDBInterop2DiagId = "TILEDB0012";
     }
 }

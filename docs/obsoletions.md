@@ -7,6 +7,7 @@ Following [the deprecation policy of TileDB Embedded][core-deprecation], obsolet
 |Diagnostic codes|Deprecated in version|Removed in version|
 |----------------|---------------------|------------------|
 |[`TILEDB0001`](#TILEDB0001) …[`TILEDB0011`](#TILEDB0011)|5.3.0|5.5.0|
+|[`TILEDB0012`](#TILEDB0012) …[`TILEDB0012`](#TILEDB0012)|5.7.0|5.9.0|
 
 ## `TILEDB0001` - Enum value names that start with `TILEDB_` were replaced with C#-friendly names.
 
@@ -298,5 +299,24 @@ Some of these methods were renamed or had their signature changed (for example t
 ### Recommended action
 
 Instead of setting ranges and subarrays on the `Query`, create and configure a `Subarray` object, and assign it to the query using the `Query.SetSubarray` method.
+
+## `TILEDB0012` - Members of the `TileDB.Interop` namespace will become internal in a future version and should not be used by user code.
+
+<a name="TILEDB0012"></a>
+
+Some APIs in the `TileDB.Interop` namespace that were inadvertently removed in version 5.3.0 were reintroduced in version 5.7.0. They are marked as obsolete and hidden from IntelliSense and will be removed from the public API for good in version 5.9.0. They were also reintroduced in patch releases 5.3.1 and 5.4.1, obsoleted under the [`TILEDB0003`](#TILEDB0003) code.
+
+### Version introduced
+
+5.7.0
+
+### Recommended action
+
+The obsoleted APIs fall into the following categories:
+
+- The `MarshaledString` and `MarshaledStringOut` types are used to help convert strings from and to ASCII and pass them to native code. If you are using them in user code for native code interop, you should use .NET's [built-in P/Invoke](https://learn.microsoft.com/en-us/dotnet/standard/native-interop/charset) marshaling instead. For other kinds of encoding conversions, you should use APIs from the [`System.Text.Encoding`](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding) class.
+- The `__sFile` and `LibC` types have no members and there is no reason to use them anyway.
+- The types that derive from `SafeHandle` are used to safely manage the lifetime of native TileDB objects. With the APIs in the `TileDB.CSharp` namespace providing broad coverage of TileDB's functionalities while also being safer and easier to sue, these types provide limited utility. You should use the APIs in the `TileDB.CSharp` namespace instead.
+- Types with the name `tiledb_***_t` were made public again only to support the APIs of the safe handles above. They have little other use on their own. You should use APIs in the `TileDB.CSharp` namespace instead.
 
 [core-deprecation]: https://github.com/TileDB-Inc/TileDB/blob/dev/doc/policy/api_changes.md

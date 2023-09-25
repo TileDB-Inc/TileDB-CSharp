@@ -1,6 +1,7 @@
 using System;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
+using QueryConditionHandle = TileDB.CSharp.Marshalling.SafeHandles.QueryConditionHandle;
 
 namespace TileDB.CSharp
 {

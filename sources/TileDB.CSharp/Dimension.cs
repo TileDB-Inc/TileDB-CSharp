@@ -4,6 +4,8 @@ using System.Runtime.CompilerServices;
 using TileDB.CSharp.Marshalling;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
+using DimensionHandle = TileDB.CSharp.Marshalling.SafeHandles.DimensionHandle;
+using FilterListHandle = TileDB.CSharp.Marshalling.SafeHandles.FilterListHandle;
 
 namespace TileDB.CSharp
 {

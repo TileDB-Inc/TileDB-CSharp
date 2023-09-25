@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
+using FilterHandle = TileDB.CSharp.Marshalling.SafeHandles.FilterHandle;
 
 namespace TileDB.CSharp
 {
