@@ -657,6 +657,54 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Gets an <see cref="Enumeration"/> from the <see cref="Array"/> by name.
+        /// </summary>
+        /// <param name="name">The enumeration's name.</param>
+        /// <seealso cref="LoadAllEnumerations"/>
+        public Enumeration GetEnumeration(string name)
+        {
+            var handle = new EnumerationHandle();
+            var successful = false;
+            tiledb_enumeration_t* enumeration_p = null;
+            try
+            {
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var arrayHandle = _handle.Acquire())
+                using (var ms_name = new MarshaledString(name))
+                {
+                    _ctx.handle_error(Methods.tiledb_array_get_enumeration(ctxHandle, arrayHandle, ms_name, &enumeration_p));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(enumeration_p);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
+            }
+
+            return new Enumeration(_ctx, handle);
+        }
+
+        /// <summary>
+        /// Loads all enumerations of the <see cref="Array"/>.
+        /// </summary>
+        /// <seealso cref="GetEnumeration"/>
+        public void LoadAllEnumerations()
+        {
+            using (var ctxHandle = _ctx.Handle.Acquire())
+            using (var arrayHandle = _handle.Acquire())
+            {
+                _ctx.handle_error(Methods.tiledb_array_load_all_enumerations(ctxHandle, arrayHandle));
+            }
+        }
+
+        /// <summary>
         /// Puts a multi-value metadata to the <see cref="Array"/>.
         /// </summary>
         /// <typeparam name="T">The metadata's type.</typeparam>

@@ -64,6 +64,32 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Adds an <see cref="Enumeration"/> to the <see cref="ArraySchemaEvolution"/>.
+        /// </summary>
+        /// <param name="enumeration">A fully constructed <see cref="Enumeration"/> that will be added to the schema.</param>
+        /// <seealso cref="DropEnumeration"/>
+        public void AddEnumeration(Enumeration enumeration)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var enumHandle = enumeration.Handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_schema_evolution_add_enumeration(ctxHandle, handle, enumHandle));
+        }
+
+        /// <summary>
+        /// Drops an enumeration with the given name from the <see cref="ArraySchemaEvolution"/>.
+        /// </summary>
+        /// <param name="enumerationName">The name of the attribute that will be dropped from the schema.</param>
+        /// <seealso cref="AddEnumeration"/>
+        public void DropEnumeration(string enumerationName)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var msEnumerationName = new MarshaledString(enumerationName);
+            _ctx.handle_error(Methods.tiledb_array_schema_evolution_drop_enumeration(ctxHandle, handle, msEnumerationName));
+        }
+
+        /// <summary>
         /// Drops an <see cref="Attribute"/> from the <see cref="ArraySchemaEvolution"/>.
         /// </summary>
         /// <param name="attr">The <see cref="Attribute"/> whose name will be dropped from the schema.</param>

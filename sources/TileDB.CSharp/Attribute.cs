@@ -3,6 +3,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using TileDB.Interop;
+using TileDB.CSharp.Marshalling;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using AttributeHandle = TileDB.CSharp.Marshalling.SafeHandles.AttributeHandle;
 using FilterListHandle = TileDB.CSharp.Marshalling.SafeHandles.FilterListHandle;
@@ -88,6 +89,17 @@ namespace TileDB.CSharp
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             _ctx.handle_error(Methods.tiledb_attribute_set_cell_val_num(ctxHandle, handle, cellValNum));
+        }
+        
+        /// <summary>
+        /// Sets the name of the <see cref="Attribute"/>'s enumeration.
+        /// </summary>
+        public void SetEnumerationName(string enumerationName)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var ms_enumerationName = new MarshaledString(enumerationName);
+            _ctx.handle_error(Methods.tiledb_attribute_set_enumeration_name(ctxHandle, handle, ms_enumerationName));
         }
 
         /// <summary>
@@ -185,6 +197,23 @@ namespace TileDB.CSharp
             ulong cell_size;
             _ctx.handle_error(Methods.tiledb_attribute_get_cell_size(ctxHandle, handle, &cell_size));
             return cell_size;
+        }
+
+        /// <summary>
+        /// Gets the name of the <see cref="Attribute"/>'s enumeration.
+        /// </summary>
+        /// <returns>
+        /// A string with the name of the attribute's enumeration, or an
+        /// empty string if the attribute does not have an enumeration.
+        /// </returns>
+        public string EnumerationName()
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var nameHolder = new StringHandleHolder();
+            _ctx.handle_error(Methods.tiledb_attribute_get_enumeration_name(ctxHandle, handle, &nameHolder._handle));
+
+            return nameHolder.ToString();
         }
 
         /// <summary>
