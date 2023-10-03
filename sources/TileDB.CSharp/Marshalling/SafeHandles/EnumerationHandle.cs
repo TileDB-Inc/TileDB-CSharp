@@ -20,7 +20,7 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
                 using var contextHandle = context.Handle.Acquire();
                 using var ms_name = new MarshaledString(name);
                 context.handle_error(Methods.tiledb_enumeration_alloc(contextHandle, ms_name, datatype, cellValNum,
-                    ordered ? 1 : 0, data, dataSize, offsets, offsetsSize * sizeof(ulong), &enumeration));
+                    ordered ? 1 : 0, data, dataSize, offsets, offsetsSize, &enumeration));
                 successful = true;
             }
             finally

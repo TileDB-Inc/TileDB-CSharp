@@ -34,11 +34,12 @@ namespace TileDB.CSharp.Marshalling
                 }
 
                 Data = (byte*)Marshal.AllocHGlobal((IntPtr)DataCount);
-                currentOffset = 0;
+                int i = 0;
                 foreach (var str in strings)
                 {
+                    currentOffset = Offsets[i];
                     encoding.GetBytes(str, new Span<byte>(Data + currentOffset, checked((int)(DataCount - currentOffset))));
-                    currentOffset += Offsets[currentOffset];
+                    i++;
                 }
             }
             catch
