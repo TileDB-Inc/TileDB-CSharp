@@ -5,7 +5,7 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp.Marshalling
 {
-    internal unsafe struct MarshaledStringCollection : IDisposable
+    internal unsafe ref struct MarshaledStringCollection
     {
         public IntPtr* Strings { get; private set; }
 

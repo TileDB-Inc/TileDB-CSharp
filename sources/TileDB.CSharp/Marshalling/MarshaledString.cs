@@ -19,6 +19,23 @@ namespace TileDB.Interop
             Value = (sbyte*)ptr;
         }
 
+        internal static Encoding GetEncoding(DataType dataType)
+        {
+            switch (dataType)
+            {
+                case DataType.StringAscii:
+                    return Encoding.ASCII;
+                case DataType.StringUtf8:
+                    return Encoding.UTF8;
+                case DataType.StringUtf16:
+                    return Encoding.Unicode;
+                case DataType.StringUtf32:
+                    return Encoding.UTF32;
+            }
+            ThrowHelpers.ThrowInvalidDataType(dataType);
+            return null;
+        }
+
         internal static (IntPtr Pointer, int Length) AllocNullTerminated(string str)
         {
             if (str is null)
