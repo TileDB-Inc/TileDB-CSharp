@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using TileDB.CSharp.Marshalling;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
@@ -29,6 +30,65 @@ namespace TileDB.CSharp
         }
 
         internal EnumerationHandle Handle => _handle;
+
+        /// <summary>
+        /// Creates an <see cref="Enumeration"/> with fixed-sized members.
+        /// </summary>
+        /// <typeparam name="T">The type of the enumeration's members.</typeparam>
+        /// <param name="ctx">The <see cref="Context"/> to use.</param>
+        /// <param name="name">The name of the enumeration.</param>
+        /// <param name="ordered">The value of <see cref="IsOrdered"/>.</param>
+        /// <param name="values">A <see cref="ReadOnlySpan{T}"/> of the enumeration's values.</param>
+        /// <param name="cellValNum">The number of values per member in the enumeration. Optional,
+        /// defaults to 1. If specified, its value must divide the length of <paramref name="values"/>.</param>
+        /// <param name="dataType">The data type of the enumeration. Defaults to the
+        /// default data type of <typeparamref name="T"/>.</param>
+        /// <exception cref="InvalidOperationException"><paramref name="dataType"/> has a different
+        /// size from <typeparamref name="T"/>.</exception>
+        public static Enumeration Create<T>(Context ctx, string name, bool ordered, ReadOnlySpan<T> values, uint cellValNum = 1, DataType? dataType = null) where T : struct
+        {
+            DataType dataTypeActual = dataType ??= EnumUtil.TypeToDataType(typeof(T));
+            if (EnumUtil.DataTypeToType(dataTypeActual) != typeof(T))
+            {
+                ThrowHelpers.ThrowTypeMismatch(dataTypeActual);
+            }
+
+            fixed (T* valuesPtr = &MemoryMarshal.GetReference(values))
+            {
+                EnumerationHandle handle = EnumerationHandle.Create(ctx, name, (tiledb_datatype_t)dataTypeActual, cellValNum, ordered, (byte*)valuesPtr, (ulong)values.Length * (ulong)sizeof(T), null, 0);
+                return new Enumeration(ctx, handle);
+            }
+        }
+
+        /// <summary>
+        /// Creates an <see cref="Enumeration"/> with variable-sized members.
+        /// </summary>
+        /// <typeparam name="T">The type of the enumeration's members.</typeparam>
+        /// <param name="ctx">The <see cref="Context"/> to use.</param>
+        /// <param name="name">The name of the enumeration.</param>
+        /// <param name="ordered">The value of <see cref="IsOrdered"/>.</param>
+        /// <param name="values">A <see cref="ReadOnlySpan{T}"/> of all values of each member of the enumeration, concatenated.</param>
+        /// <param name="offsets">A <see cref="ReadOnlySpan{T}"/> of the offsets to the first byte of each member of the enumeration.</param>
+        /// <param name="dataType">The data type of the enumeration. Defaults to the
+        /// default data type of <typeparamref name="T"/>.</param>
+        /// <exception cref="InvalidOperationException"><paramref name="dataType"/> has a different
+        /// size from <typeparamref name="T"/>.</exception>
+        public static Enumeration Create<T>(Context ctx, string name, bool ordered, ReadOnlySpan<T> values, ReadOnlySpan<ulong> offsets, DataType? dataType = null) where T : struct
+        {
+            DataType dataTypeActual = dataType ??= EnumUtil.TypeToDataType(typeof(T));
+            if (EnumUtil.DataTypeToType(dataTypeActual) != typeof(T))
+            {
+                ThrowHelpers.ThrowTypeMismatch(dataTypeActual);
+            }
+
+            EnumerationHandle handle;
+            fixed (T* valuesPtr = &MemoryMarshal.GetReference(values))
+            fixed (ulong* offsetsPtr = &MemoryMarshal.GetReference(offsets))
+            {
+                handle = EnumerationHandle.Create(ctx, name, (tiledb_datatype_t)dataTypeActual, VariableSized, ordered, (byte*)valuesPtr, (ulong)values.Length * (ulong)sizeof(T), offsetsPtr, (ulong)offsets.Length * sizeof(ulong));
+            }
+            return new Enumeration(ctx, handle);
+        }
 
         /// <summary>
         /// Creates an <see cref="Enumeration"/> from a collection of strings.
@@ -245,6 +305,40 @@ namespace TileDB.CSharp
 
                 return result;
             }
+        }
+
+        /// <summary>
+        /// Returns a byte array with the raw data of the <see cref="Enumeration"/>'s members.
+        /// </summary>
+        /// <seealso cref="GetValues"/>
+        /// <seealso cref="GetRawOffsets"/>
+        public byte[] GetRawData()
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            void* data;
+            ulong dataSize;
+            _ctx.handle_error(Methods.tiledb_enumeration_get_data(ctxHandle, handle, &data, &dataSize));
+            return new ReadOnlySpan<byte>(data, checked((int)dataSize)).ToArray();
+        }
+
+        /// <summary>
+        /// Returns an array with the offsets to the first byte of each member of the <see cref="Enumeration"/>.
+        /// </summary>
+        /// <remarks>
+        /// In enumerations with fixed-size members (i.e. <see cref="ValuesPerMember"/> is not equal
+        /// to <see cref="VariableSized"/>, this method will return an empty array, as each member has the same size.
+        /// </remarks>
+        /// <seealso cref="GetValues"/>
+        /// <seealso cref="GetRawData"/>
+        public ulong[] GetRawOffsets()
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            void* data;
+            ulong dataSize;
+            _ctx.handle_error(Methods.tiledb_enumeration_get_offsets(ctxHandle, handle, &data, &dataSize));
+            return new ReadOnlySpan<ulong>(data, checked((int)(dataSize / sizeof(ulong)))).ToArray();
         }
     }
 }
