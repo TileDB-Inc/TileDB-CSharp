@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using TileDB.CSharp.Marshalling;
@@ -281,22 +281,8 @@ namespace TileDB.CSharp
                     return new ReadOnlySpan<T>(dataPtr, checked((int)(dataSize / (ulong)sizeof(T)))).ToArray();
                 }
 
-                T[][] result;
-                if (cellValNum != VariableSized)
-                {
-                    result = new T[checked((int)offsetsSize)][];
-                    int i;
-                    ulong j;
-                    for (i = 0, j = 0; i < result.Length; i++, j += cellValNum)
-                    {
-                        result[i] = new ReadOnlySpan<T>((T*)dataPtr + j, checked((int)cellValNum)).ToArray();
-                    }
-
-                    return result;
-                }
-
                 ReadOnlySpan<ulong> offsets = new(offsetsPtr, checked((int)(offsetsSize / sizeof(ulong))));
-                result = new T[offsets.Length][];
+                T[][] result = new T[offsets.Length][];
                 for (int i = 0; i < offsets.Length; i++)
                 {
                     ulong nextOffset = i == offsets.Length - 1 ? dataSize : offsets[i + 1];
