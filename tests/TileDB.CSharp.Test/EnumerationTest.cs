@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Runtime.InteropServices;
 
 namespace TileDB.CSharp.Test
 {
@@ -52,11 +53,11 @@ namespace TileDB.CSharp.Test
         public void TestVarSize()
         {
             int[] expectedValues = new int[] { 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 };
-            ulong[] expectedOffsets = new ulong[] { 0, 4, 12, 24, 40 };
+            ulong[] expectedOffsets = new ulong[] { 0, 4, 12, 24 };
 
             using Enumeration e = Enumeration.Create<int>(Context.GetDefault(), "test_var", false, expectedValues, expectedOffsets);
 
-            System.Array values = e.GetValues();
+            int[][]? values = e.GetValues() as int[][];
             byte[] rawData = e.GetRawData();
             ulong[] rawOffsets = e.GetRawOffsets();
 
@@ -64,9 +65,13 @@ namespace TileDB.CSharp.Test
             Assert.IsFalse(e.IsOrdered);
             Assert.AreEqual(DataType.Int32, e.DataType);
             Assert.AreEqual(Enumeration.VariableSized, e.ValuesPerMember);
-            CollectionAssert.AreEqual(expectedValues, values);
-            CollectionAssert.AreEqual(new byte[] { 1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 4, 0, 0, 0 }, rawData);
-            Assert.AreEqual(0, rawOffsets.Length);
+            Assert.IsNotNull(values);
+            CollectionAssert.AreEqual(new int[] { 1 }, values[0]);
+            CollectionAssert.AreEqual(new int[] { 2, 2 }, values[1]);
+            CollectionAssert.AreEqual(new int[] { 3, 3, 3 }, values[2]);
+            CollectionAssert.AreEqual(new int[] { 4, 4, 4, 4 }, values[3]);
+            CollectionAssert.AreEqual(MemoryMarshal.AsBytes(expectedValues.AsSpan()).ToArray(), rawData);
+            Assert.AreEqual(4, rawOffsets.Length);
         }
     }
 }
