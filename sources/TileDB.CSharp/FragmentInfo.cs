@@ -409,7 +409,6 @@ namespace TileDB.CSharp
         public (T Start, T End) GetMinimumBoundedRectangle<T>(uint fragmentIndex, uint minimumBoundedRectangleIndex, uint dimensionIndex)
         {
             DataType dataType = GetDimensionType(fragmentIndex, dimensionIndex);
-            ValidateDomainType<T>(dataType);
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
                 if (typeof(T) == typeof(string))
@@ -421,6 +420,7 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowTypeNotSupported();
                 return default;
             }
+            ValidateDomainType<T>(dataType);
 
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -448,7 +448,6 @@ namespace TileDB.CSharp
         public (T Start, T End) GetMinimumBoundedRectangle<T>(uint fragmentIndex, uint minimumBoundedRectangleIndex, string dimensionName)
         {
             DataType dataType = GetDimensionType(fragmentIndex, dimensionName);
-            ValidateDomainType<T>(dataType);
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
                 if (typeof(T) == typeof(string))
@@ -460,6 +459,7 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowTypeNotSupported();
                 return default;
             }
+            ValidateDomainType<T>(dataType);
 
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -534,7 +534,6 @@ namespace TileDB.CSharp
         public (T Start, T End) GetNonEmptyDomain<T>(uint fragmentIndex, uint dimensionIndex)
         {
             DataType dataType = GetDimensionType(fragmentIndex, dimensionIndex);
-            ValidateDomainType<T>(dataType);
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
                 if (typeof(T) == typeof(string))
@@ -545,6 +544,7 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowTypeNotSupported();
                 return default;
             }
+            ValidateDomainType<T>(dataType);
 
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -572,7 +572,6 @@ namespace TileDB.CSharp
         public (T Start, T End) GetNonEmptyDomain<T>(uint fragmentIndex, string dimensionName)
         {
             DataType dataType = GetDimensionType(fragmentIndex, dimensionName);
-            ValidateDomainType<T>(dataType);
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
                 if (typeof(T) == typeof(string))
@@ -583,6 +582,7 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowTypeNotSupported();
                 return default;
             }
+            ValidateDomainType<T>(dataType);
 
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -653,10 +653,7 @@ namespace TileDB.CSharp
             {
                 ThrowHelpers.ThrowStringTypeMismatch(dataType);
             }
-            if (dataType != EnumUtil.TypeToDataType(typeof(T)))
-            {
-                ThrowHelpers.ThrowTypeMismatch(dataType);
-            }
+            ErrorHandling.CheckDataType<T>(dataType);
         }
 
         private DataType GetDimensionType(uint fragmentIndex, uint dimensionIndex)
