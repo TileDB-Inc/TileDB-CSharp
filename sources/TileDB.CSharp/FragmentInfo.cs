@@ -411,13 +411,13 @@ namespace TileDB.CSharp
             DataType dataType = GetDimensionType(fragmentIndex, dimensionIndex);
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
-                if (typeof(T) == typeof(string))
+                if (typeof(T) == typeof(string) && EnumUtil.IsStringType(dataType))
                 {
                     (string startStr, string endStr) =
                         GetStringMinimumBoundedRectangle(fragmentIndex, minimumBoundedRectangleIndex, dimensionIndex, dataType);
                     return ((T)(object)startStr, (T)(object)endStr);
                 }
-                ThrowHelpers.ThrowTypeNotSupported();
+                ThrowHelpers.ThrowTypeMismatch(dataType);
                 return default;
             }
             ValidateDomainType<T>(dataType);
@@ -450,13 +450,13 @@ namespace TileDB.CSharp
             DataType dataType = GetDimensionType(fragmentIndex, dimensionName);
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
-                if (typeof(T) == typeof(string))
+                if (typeof(T) == typeof(string) && EnumUtil.IsStringType(dataType))
                 {
                     (string startStr, string endStr) =
                         GetStringMinimumBoundedRectangle(fragmentIndex, minimumBoundedRectangleIndex, dimensionName, dataType);
                     return ((T)(object)startStr, (T)(object)endStr);
                 }
-                ThrowHelpers.ThrowTypeNotSupported();
+                ThrowHelpers.ThrowTypeMismatch(dataType);
                 return default;
             }
             ValidateDomainType<T>(dataType);
@@ -536,12 +536,12 @@ namespace TileDB.CSharp
             DataType dataType = GetDimensionType(fragmentIndex, dimensionIndex);
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
-                if (typeof(T) == typeof(string))
+                if (typeof(T) == typeof(string) && EnumUtil.IsStringType(dataType))
                 {
                     (string startStr, string endStr) = GetStringNonEmptyDomain(fragmentIndex, dimensionIndex, dataType);
                     return ((T)(object)startStr, (T)(object)endStr);
                 }
-                ThrowHelpers.ThrowTypeNotSupported();
+                ThrowHelpers.ThrowTypeMismatch(dataType);
                 return default;
             }
             ValidateDomainType<T>(dataType);
@@ -574,12 +574,12 @@ namespace TileDB.CSharp
             DataType dataType = GetDimensionType(fragmentIndex, dimensionName);
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
-                if (typeof(T) == typeof(string))
+                if (typeof(T) == typeof(string) && EnumUtil.IsStringType(dataType))
                 {
                     (string startStr, string endStr) = GetStringNonEmptyDomain(fragmentIndex, dimensionName, dataType);
                     return ((T)(object)startStr, (T)(object)endStr);
                 }
-                ThrowHelpers.ThrowTypeNotSupported();
+                ThrowHelpers.ThrowTypeMismatch(dataType);
                 return default;
             }
             ValidateDomainType<T>(dataType);
