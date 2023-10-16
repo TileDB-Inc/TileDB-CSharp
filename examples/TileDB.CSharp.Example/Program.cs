@@ -15,6 +15,7 @@ namespace TileDB.CSharp.Examples
             ExampleIncompleteQueryVariableSize.Run();
             ExampleWritingDenseGlobal.Run();
             ExampleWritingSparseGlobal.Run();
+            ExampleDimensionLabels.Run();
 
             ExampleFile.RunLocal();
             // ExampleFile.RunCloud("tiledb_api_token", "tiledb_namespace", "new_cloud_array_name", "s3://bucket/prefix/");
