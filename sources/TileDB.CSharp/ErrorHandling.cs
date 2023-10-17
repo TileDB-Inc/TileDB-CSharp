@@ -63,7 +63,7 @@ namespace TileDB.CSharp
         /// </summary>
         private static unsafe bool AreTypesCompatible<T>(DataType dataType)
         {
-            if (EnumUtil.DataTypeToType(dataType) == typeof(T))
+            if (EnumUtil.DataTypeToNumericType(dataType) == typeof(T))
             {
                 return true;
             }

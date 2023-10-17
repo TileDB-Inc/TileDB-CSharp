@@ -7,7 +7,7 @@ Following [the deprecation policy of TileDB Embedded][core-deprecation], obsolet
 |Diagnostic codes|Deprecated in version|Removed in version|
 |----------------|---------------------|------------------|
 |[`TILEDB0001`](#TILEDB0001) …[`TILEDB0011`](#TILEDB0011)|5.3.0|5.5.0|
-|[`TILEDB0012`](#TILEDB0012) …[`TILEDB0012`](#TILEDB0012)|5.7.0|5.9.0|
+|[`TILEDB0012`](#TILEDB0012) …[`TILEDB0013`](#TILEDB0013)|5.7.0|5.9.0|
 
 ## `TILEDB0001` - Enum value names that start with `TILEDB_` were replaced with C#-friendly names.
 
@@ -320,3 +320,17 @@ The obsoleted APIs fall into the following categories:
 - Types with the name `tiledb_***_t` were made public again only to support the APIs of the safe handles above. They have little other use on their own. You should use APIs in the `TileDB.CSharp` namespace instead.
 
 [core-deprecation]: https://github.com/TileDB-Inc/TileDB/blob/dev/doc/policy/api_changes.md
+
+## `TILEDB0013` - The `EnumUtils.TypeToDataType` and `EnumUtils.DataTypeToType` methods are obsolete and will be removed in a future version.
+
+<a name="TILEDB0013"></a>
+
+The `EnumUtils.TypeToDataType` and `EnumUtils.DataTypeToType` methods convert between TileDB data types and .NET types. Given that there is no one-to-one correspondence between these two and for legacy reasons, these methods sometimes return wrong results and were obsoleted.
+
+### Version introduced
+
+5.7.0
+
+### Recommended action
+
+If you are performing queries on arrays of unknown schema, you can use the `Query.UnsafeSetDataBuffer` and `Query.UnsafeSetWriteDataBuffer` methods to set a data buffer to a query without type validation.
