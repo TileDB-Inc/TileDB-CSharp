@@ -285,7 +285,7 @@ namespace TileDB.CSharp
             using (var schema = _array.Schema())
             using (var domain = schema.Domain())
             {
-                CheckDataType<T>(GetDataType(name, schema, domain));
+                ErrorHandling.CheckDataType<T>(GetDataType(name, schema, domain));
             }
 
             if (data.IsEmpty)
@@ -321,7 +321,7 @@ namespace TileDB.CSharp
             using (var schema = _array.Schema())
             using (var domain = schema.Domain())
             {
-                CheckDataType<T>(GetDataType(name, schema, domain));
+                ErrorHandling.CheckDataType<T>(GetDataType(name, schema, domain));
             }
 
             UnsafeSetDataBuffer(name, new MemoryHandle(data), size * (ulong)sizeof(T), sizeof(T));
@@ -929,18 +929,6 @@ namespace TileDB.CSharp
             ulong t2;
             _ctx.handle_error(Methods.tiledb_query_get_fragment_timestamp_range(ctxHandle, handle, idx, &t1, &t2));
             return new Tuple<ulong, ulong>(t1, t2);
-        }
-
-        private void CheckDataType<T>(DataType dataType)
-        {
-            if (EnumUtil.TypeToDataType(typeof(T)) != dataType)
-            {
-                if (!(dataType== DataType.StringAscii && (typeof(T)==typeof(byte) || typeof(T) == typeof(sbyte) || typeof(T) == typeof(string)))
-                   && !(dataType == DataType.Boolean && typeof(T) == typeof(byte)))
-                {
-                    throw new ArgumentException("T " + typeof(T).Name + " doesnot match " + dataType.ToString());
-                }
-            }
         }
 
         private static DataType GetDataType(string name, ArraySchema schema, Domain domain)

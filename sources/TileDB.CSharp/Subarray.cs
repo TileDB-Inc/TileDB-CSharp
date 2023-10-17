@@ -118,13 +118,9 @@ namespace TileDB.CSharp
         public void SetSubarray<T>(ReadOnlySpan<T> data) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
-            var dataType = EnumUtil.TypeToDataType(typeof(T));
             (var domainType, var nDim) = GetDomainInfo();
 
-            if (dataType != domainType)
-            {
-                ThrowHelpers.ThrowTypeMismatch(dataType);
-            }
+            ErrorHandling.CheckDataType<T>(domainType);
             if (data.Length != nDim * 2)
             {
                 ThrowHelpers.ThrowSubarrayLengthMismatch(nameof(data));
@@ -141,27 +137,19 @@ namespace TileDB.CSharp
         private void ValidateType<T>(string name) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
-            var dataType = EnumUtil.TypeToDataType(typeof(T));
             using var schema = _array.Schema();
             using var domain = schema.Domain();
             using var dimension = domain.Dimension(name);
-            if (dimension.Type() != dataType)
-            {
-                ThrowHelpers.ThrowTypeMismatch(dataType);
-            }
+            ErrorHandling.CheckDataType<T>(dimension.Type());
         }
 
         private void ValidateType<T>(uint index) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
-            var dataType = EnumUtil.TypeToDataType(typeof(T));
             using var schema = _array.Schema();
             using var domain = schema.Domain();
             using var dimension = domain.Dimension(index);
-            if (dimension.Type() != dataType)
-            {
-                ThrowHelpers.ThrowTypeMismatch(dataType);
-            }
+            ErrorHandling.CheckDataType<T>(dimension.Type());
         }
 
         /// <summary>

@@ -146,7 +146,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public (T Start, T End) GetDomain<T>() where T : struct
         {
-            ErrorHandling.ThrowIfManagedType<T>();
+            ErrorHandling.CheckDataType<T>(Type());
             void* value_p;
 
             using var ctxHandle = _ctx.Handle.Acquire();
@@ -163,7 +163,7 @@ namespace TileDB.CSharp
         /// <returns></returns>
         public T TileExtent<T>() where T : struct
         {
-            ErrorHandling.ThrowIfManagedType<T>();
+            ErrorHandling.CheckDataType<T>(Type());
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             void* value_p;

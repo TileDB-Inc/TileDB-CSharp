@@ -41,5 +41,8 @@ namespace TileDB.CSharp
 
         public const string TileDBInterop2Message = "Members of the TileDB.Interop namespace should not be used by user code and will become internal in a future version.";
         public const string TileDBInterop2DiagId = "TILEDB0012";
+
+        public const string DataTypeTypeConversionsMessage = "The EnumUtils.TypeToDataType and EnumUtils.DataTypeToType methods are obsolete and will be removed in a future version.";
+        public const string DataTypeTypeConversionsDiagId = "TILEDB0013";
     }
 }
