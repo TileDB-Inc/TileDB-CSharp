@@ -368,7 +368,7 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(byteSize));
             }
 
-            UnsafeSetDataBuffer(name, new MemoryHandle(data), byteSize);
+            UnsafeSetDataBuffer(name, new MemoryHandle(data), byteSize, 0);
         }
 
         /// <summary>
@@ -390,8 +390,15 @@ namespace TileDB.CSharp
         /// <item>This method call throws an exception.</item>
         /// </list></para>
         /// </remarks>
-        public void UnsafeSetDataBuffer(string name, MemoryHandle memoryHandle, ulong byteSize) =>
+        public void UnsafeSetDataBuffer(string name, MemoryHandle memoryHandle, ulong byteSize)
+        {
+            if (byteSize == 0)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(byteSize));
+            }
+
             UnsafeSetDataBuffer(name, memoryHandle, byteSize, 0);
+        }
 
         private void UnsafeSetDataBuffer(string name, MemoryHandle memoryHandle, ulong byteSize, int elementSize)
         {
