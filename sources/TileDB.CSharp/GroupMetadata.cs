@@ -330,7 +330,7 @@ namespace TileDB.CSharp
         #region Private methods
         private void put_metadata<T>(string key, T[] value, tiledb_datatype_t tiledb_datatype) where T : struct
         {
-            ErrorHandling.ThrowIfManagedType<T>();
+            ErrorHandling.CheckDataType<T>((DataType)tiledb_datatype);
             if (string.IsNullOrEmpty(key) || value.Length == 0)
             {
                 throw new ArgumentException("ArrayMetadata.put_metadata, null or empty key-value!");
