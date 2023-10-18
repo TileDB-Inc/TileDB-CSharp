@@ -459,6 +459,7 @@ namespace TileDB.CSharp.Test
 
                 query_write.SetDataBuffer("a1", a1_data_ptr, (ulong)a1_data.Length);
                 query_write.SetValidityBuffer("a1", a1_validity);
+                Assert.ThrowsException<ArgumentException>(() => query_write.UnsafeSetDataReadOnlyBuffer("a1", ReadOnlyMemory<byte>.Empty));
 
                 query_write.UnsafeSetDataBuffer("a2", (void*)a2_data_ptr, (ulong)a2_data.Length * sizeof(int));
                 query_write.SetOffsetsBuffer("a2", a2_off_ptr, (ulong)a2_off.Length);
@@ -509,7 +510,8 @@ namespace TileDB.CSharp.Test
                 query_read.SetOffsetsBuffer("a2", a2_off_read);
                 query_read.SetValidityBuffer("a2", a2_validity_read);
 
-                query_read.UnsafeSetDataBuffer("a3", a3_data_read.AsMemory().Pin(), (ulong)a3_data_read.Length * sizeof(byte));
+                query_read.UnsafeSetDataBuffer("a3", a3_data_read.AsMemory());
+                Assert.ThrowsException<ArgumentException>(() => query_read.UnsafeSetDataBuffer("a3", default(MemoryHandle), 0));
                 query_read.SetOffsetsBuffer("a3", a3_off_read);
                 query_read.SetValidityBuffer("a3", a3_validity_read);
 

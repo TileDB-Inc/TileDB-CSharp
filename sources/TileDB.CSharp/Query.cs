@@ -368,7 +368,24 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(byteSize));
             }
 
-            UnsafeSetDataBuffer(name, new MemoryHandle(data), byteSize);
+            UnsafeSetDataBuffer(name, new MemoryHandle(data), byteSize, 0);
+        }
+
+        /// <summary>
+        /// Sets the data buffer for an attribute or dimension to a
+        /// byte buffer without performing type validation.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A <see cref="Memory{T}"/> of bytes pointing to the buffer.</param>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
+        public void UnsafeSetDataBuffer(string name, Memory<byte> data)
+        {
+            if (data.IsEmpty)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(data));
+            }
+
+            UnsafeSetDataBuffer(name, data.Pin(), (ulong)data.Length, 0);
         }
 
         /// <summary>
@@ -390,8 +407,15 @@ namespace TileDB.CSharp
         /// <item>This method call throws an exception.</item>
         /// </list></para>
         /// </remarks>
-        public void UnsafeSetDataBuffer(string name, MemoryHandle memoryHandle, ulong byteSize) =>
+        public void UnsafeSetDataBuffer(string name, MemoryHandle memoryHandle, ulong byteSize)
+        {
+            if (byteSize == 0)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(byteSize));
+            }
+
             UnsafeSetDataBuffer(name, memoryHandle, byteSize, 0);
+        }
 
         private void UnsafeSetDataBuffer(string name, MemoryHandle memoryHandle, ulong byteSize, int elementSize)
         {
@@ -414,6 +438,25 @@ namespace TileDB.CSharp
                     handle?.Dispose();
                 }
             }
+        }
+
+        /// <summary>
+        /// Sets the data buffer for an attribute or dimension to a
+        /// read-only byte buffer without performing type validation.
+        /// Not supported for <see cref="QueryType.Read"/> queries.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A <see cref="ReadOnlyMemory{T}"/> of bytes pointing to the buffer.</param>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
+        /// <exception cref="NotSupportedException">The query's type is <see cref="QueryType.Read"/></exception>
+        public void UnsafeSetDataReadOnlyBuffer(string name, ReadOnlyMemory<byte> data)
+        {
+            if (QueryType() == CSharp.QueryType.Read)
+            {
+                ThrowHelpers.ThrowOperationNotAllowedOnReadQueries();
+            }
+
+            UnsafeSetDataBuffer(name, MemoryMarshal.AsMemory(data));
         }
 
         private void SetDataBufferCore(string name, void* data, ulong* size)
