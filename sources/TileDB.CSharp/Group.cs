@@ -249,15 +249,17 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
-        /// Remove a member
+        /// Remove a member of the group
         /// </summary>
-        /// <param name="uri"></param>
-        public void RemoveMember(string uri)
+        /// <param name="name">Name of member to remove. If the member has no name, this
+        /// parameter should be set to the URI of the member.In that case, only the
+        /// unnamed member with the given URI will be removed.</param>
+        public void RemoveMember(string name)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            using var ms_uri = new MarshaledString(uri);
-            _ctx.handle_error(Methods.tiledb_group_remove_member(ctxHandle, handle, ms_uri));
+            using var ms_name = new MarshaledString(name);
+            _ctx.handle_error(Methods.tiledb_group_remove_member(ctxHandle, handle, ms_name));
         }
 
         /// <summary>
