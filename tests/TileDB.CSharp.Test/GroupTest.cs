@@ -77,7 +77,7 @@ namespace TileDB.CSharp.Test
 
             //Reopen in write mode
             group1.Open(QueryType.Write);
-            group1.RemoveMember(array1_uri);
+            group1.RemoveMember("array1");
             group1.Close();
 
             //Reopen in read mode
