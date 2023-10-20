@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using TileDB.CSharp.Marshalling;
@@ -134,6 +134,14 @@ namespace TileDB.CSharp
             }
         }
 
+        private void ValidateLabelType<T>(string name) where T : struct
+        {
+            ErrorHandling.ThrowIfManagedType<T>();
+            using var schema = _array.Schema();
+            using var label = schema.DimensionLabel(name);
+            ErrorHandling.CheckDataType<T>(label.DataType);
+        }
+
         private void ValidateType<T>(string name) where T : struct
         {
             ErrorHandling.ThrowIfManagedType<T>();
@@ -150,6 +158,44 @@ namespace TileDB.CSharp
             using var domain = schema.Domain();
             using var dimension = domain.Dimension(index);
             ErrorHandling.CheckDataType<T>(dimension.Type());
+        }
+
+        /// <summary>
+        /// Adds a 1D range along a subarray dimension index, in the form (start, end).
+        /// </summary>
+        /// <typeparam name="T">The dimension's type.</typeparam>
+        /// <param name="labelName">The dimension's index.</param>
+        /// <param name="start">The start of the dimension's range.</param>
+        /// <param name="end">The end of the dimension's range.</param>
+        /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
+        public void AddLabelRange<T>(string labelName, T start, T end) where T : struct
+        {
+            ValidateLabelType<T>(labelName);
+            AddLabelRange(labelName, &start, &end, null);
+        }
+
+        private void AddLabelRange(string labelName, void* start, void* end, void* stride)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var ms_name = new MarshaledString(labelName);
+            _ctx.handle_error(Methods.tiledb_subarray_add_label_range(ctxHandle, handle, ms_name, start, end, stride));
+        }
+
+        /// <summary>
+        /// Adds a 1D string range along a variable-sized subarray dimension label, in the form (start, end).
+        /// </summary>
+        /// <param name="labelName">The dimension label's name.</param>
+        /// <param name="start">The start of the dimension label's range.</param>
+        /// <param name="end">The end of the dimension label's range.</param>
+        public void AddLabelRange(string labelName, string start, string end)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var ms_name = new MarshaledString(labelName);
+            using var ms_start = new MarshaledString(start);
+            using var ms_end = new MarshaledString(end);
+            _ctx.handle_error(Methods.tiledb_subarray_add_label_range_var(ctxHandle, handle, ms_name, ms_start, (ulong)ms_start.Length, ms_end, (ulong)ms_end.Length));
         }
 
         /// <summary>
