@@ -84,11 +84,16 @@ namespace TileDB.CSharp.Examples
             query.SetOffsetsBuffer("name", nameOffsets);
             query.SetDataBuffer("dob", dobs);
             ulong currentId = idStart;
+            // Loop until the query completes or fails.
             while (query.Status() is not (QueryStatus.Failed or QueryStatus.Completed))
             {
                 query.Submit();
                 var dataCount = (int)query.GetResultDataBytes("name");
+                // The count of offsets for the variable-length attribute "name"
+                // essentially tells us how many cells were returned.
                 var offsetCount = (int)query.GetResultOffsets("name");
+                // If zero cells were returned, check if the reason was that the
+                // buffers were too small, resize them, and try again.
                 if (offsetCount == 0 && query.GetStatusDetails().Reason == QueryStatusDetailsReason.UserBufferSize)
                 {
                     System.Array.Resize(ref nameData, nameData.Length * 2);
