@@ -33,7 +33,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout TileDB
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: TileDB-Inc/TileDB
           ref: ${{ matrix.tag }}
@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout TileDB-CSharp
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # GitHub runners come with several versions of .NET preinstalled; Remove them to target version
       - name: Remove existing .NET versions
@@ -111,7 +111,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout TileDB-CSharp
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # GitHub runners come with several versions of .NET preinstalled; Remove them to target version
       - name: Remove existing .NET versions
@@ -150,7 +150,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout TileDB-CSharp
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Create issue for failed build
         uses: JasonEtco/create-an-issue@v2
