@@ -48,10 +48,7 @@ namespace TileDB.CSharp
         public static Enumeration Create<T>(Context ctx, string name, bool ordered, ReadOnlySpan<T> values, uint cellValNum = 1, DataType? dataType = null) where T : struct
         {
             DataType dataTypeActual = dataType ??= EnumUtil.TypeToDataType(typeof(T));
-            if (EnumUtil.DataTypeToType(dataTypeActual) != typeof(T))
-            {
-                ThrowHelpers.ThrowTypeMismatch(dataTypeActual);
-            }
+            ErrorHandling.CheckDataType<T>(dataTypeActual);
 
             fixed (T* valuesPtr = &MemoryMarshal.GetReference(values))
             {
@@ -76,10 +73,7 @@ namespace TileDB.CSharp
         public static Enumeration Create<T>(Context ctx, string name, bool ordered, ReadOnlySpan<T> values, ReadOnlySpan<ulong> offsets, DataType? dataType = null) where T : struct
         {
             DataType dataTypeActual = dataType ??= EnumUtil.TypeToDataType(typeof(T));
-            if (EnumUtil.DataTypeToType(dataTypeActual) != typeof(T))
-            {
-                ThrowHelpers.ThrowTypeMismatch(dataTypeActual);
-            }
+            ErrorHandling.CheckDataType<T>(dataTypeActual);
 
             EnumerationHandle handle;
             fixed (T* valuesPtr = &MemoryMarshal.GetReference(values))
