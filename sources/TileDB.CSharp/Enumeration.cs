@@ -121,7 +121,9 @@ namespace TileDB.CSharp
         /// Returns the number of values for each member of the <see cref="Enumeration"/>.
         /// </summary>
         /// <remarks>
-        /// If this property has a value of <see cref="VariableSized"/>, each value has a different size.
+        /// <para>If this property has a value of <see cref="VariableSized"/>,
+        /// each value has a different size.</para>
+        /// <para>This method exposes the <c>tiledb_enumeration_get_cell_val_num</c> function of the TileDB Embedded C API.</para>
         /// </remarks>
         public uint ValuesPerMember
         {
