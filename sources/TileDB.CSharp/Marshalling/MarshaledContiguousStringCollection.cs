@@ -8,8 +8,6 @@ namespace TileDB.CSharp.Marshalling
 {
     internal unsafe ref struct MarshaledContiguousStringCollection
     {
-        private int _dataCount, _offsetsCount;
-
         public byte* Data { get; private set; }
 
         public ulong* Offsets { get; private set; }
