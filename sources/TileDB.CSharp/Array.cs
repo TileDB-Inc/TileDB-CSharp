@@ -501,15 +501,11 @@ namespace TileDB.CSharp
         /// <exception cref="ArgumentException"><typeparamref name="T"/> is not the dimension's type.</exception>
         public (T Start, T End, bool IsEmpty) NonEmptyDomain<T>(uint index) where T : struct
         {
-            var datatype = EnumUtil.TypeToDataType(typeof(T));
             using (var schema = Schema())
             using (var domain = schema.Domain())
             using (var dimension = domain.Dimension(index))
             {
-                if (datatype != dimension.Type())
-                {
-                    throw new ArgumentException("Array.NonEmptyDomain, not valid datatype!");
-                }
+                ErrorHandling.CheckDataType<T>(dimension.Type());
             }
 
             SequentialPair<T> data;
@@ -531,15 +527,11 @@ namespace TileDB.CSharp
         /// <exception cref="ArgumentException"><typeparamref name="T"/> is not the dimension's type.</exception>
         public (T Start, T End, bool IsEmpty) NonEmptyDomain<T>(string name) where T : struct
         {
-            var datatype = EnumUtil.TypeToDataType(typeof(T));
             using (var schema = Schema())
             using (var domain = schema.Domain())
             using (var dimension = domain.Dimension(name))
             {
-                if (datatype != dimension.Type())
-                {
-                    throw new ArgumentException("Array.NonEmptyDomain, not valid datatype!");
-                }
+                ErrorHandling.CheckDataType<T>(dimension.Type());
             }
 
             using var ms_name = new MarshaledString(name);

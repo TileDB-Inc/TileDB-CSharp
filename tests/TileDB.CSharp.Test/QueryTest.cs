@@ -50,13 +50,13 @@ namespace TileDB.CSharp.Test
             {
                 using var subarray = new Subarray(array);
                 subarray.AddRange("rows", 1, 4);
-                Assert.ThrowsException<InvalidOperationException>(() => subarray.AddRange<long>("rows", 1, 4));
+                Assert.ThrowsException<ArgumentException>(() => subarray.AddRange<long>("rows", 1, 4));
                 Assert.AreEqual((1, 4), subarray.GetRange<int>("rows", 0));
-                Assert.ThrowsException<InvalidOperationException>(() => subarray.GetRange<long>("rows", 0));
+                Assert.ThrowsException<ArgumentException>(() => subarray.GetRange<long>("rows", 0));
                 subarray.AddRange(1, 1, 2); // cols
-                Assert.ThrowsException<InvalidOperationException>(() => subarray.AddRange<long>(1, 1, 2));
+                Assert.ThrowsException<ArgumentException>(() => subarray.AddRange<long>(1, 1, 2));
                 Assert.AreEqual((1, 2), subarray.GetRange<int>(1, 0));
-                Assert.ThrowsException<InvalidOperationException>(() => subarray.GetRange<long>(1, 0));
+                Assert.ThrowsException<ArgumentException>(() => subarray.GetRange<long>(1, 0));
                 queryWrite.SetSubarray(subarray);
                 queryWrite.SetDataReadOnlyBuffer<int>("a1", new[] { 1, 2, 3, 4, 5, 6, 7, 8 }.AsMemory());
             }
@@ -181,8 +181,8 @@ namespace TileDB.CSharp.Test
             using (var subarray = new Subarray(array))
             {
                 subarray.SetSubarray<sbyte>(0, 1);
-                Assert.ThrowsException<InvalidOperationException>(() => subarray.SetSubarray(0, 1));
-                Assert.ThrowsException<InvalidOperationException>(() => subarray.SetSubarray(0));
+                Assert.ThrowsException<ArgumentException>(() => subarray.SetSubarray(0, 1));
+                Assert.ThrowsException<ArgumentException>(() => subarray.SetSubarray(0));
                 query.SetSubarray(subarray);
             }
 
@@ -459,6 +459,7 @@ namespace TileDB.CSharp.Test
 
                 query_write.SetDataBuffer("a1", a1_data_ptr, (ulong)a1_data.Length);
                 query_write.SetValidityBuffer("a1", a1_validity);
+                Assert.ThrowsException<ArgumentException>(() => query_write.UnsafeSetDataReadOnlyBuffer("a1", ReadOnlyMemory<byte>.Empty));
 
                 query_write.UnsafeSetDataBuffer("a2", (void*)a2_data_ptr, (ulong)a2_data.Length * sizeof(int));
                 query_write.SetOffsetsBuffer("a2", a2_off_ptr, (ulong)a2_off.Length);
@@ -509,7 +510,8 @@ namespace TileDB.CSharp.Test
                 query_read.SetOffsetsBuffer("a2", a2_off_read);
                 query_read.SetValidityBuffer("a2", a2_validity_read);
 
-                query_read.UnsafeSetDataBuffer("a3", a3_data_read.AsMemory().Pin(), (ulong)a3_data_read.Length * sizeof(byte));
+                query_read.UnsafeSetDataBuffer("a3", a3_data_read.AsMemory());
+                Assert.ThrowsException<ArgumentException>(() => query_read.UnsafeSetDataBuffer("a3", default(MemoryHandle), 0));
                 query_read.SetOffsetsBuffer("a3", a3_off_read);
                 query_read.SetValidityBuffer("a3", a3_validity_read);
 

@@ -285,7 +285,7 @@ namespace TileDB.CSharp
             using (var schema = _array.Schema())
             using (var domain = schema.Domain())
             {
-                CheckDataType<T>(GetDataType(name, schema, domain));
+                ErrorHandling.CheckDataType<T>(GetDataType(name, schema, domain));
             }
 
             if (data.IsEmpty)
@@ -321,7 +321,7 @@ namespace TileDB.CSharp
             using (var schema = _array.Schema())
             using (var domain = schema.Domain())
             {
-                CheckDataType<T>(GetDataType(name, schema, domain));
+                ErrorHandling.CheckDataType<T>(GetDataType(name, schema, domain));
             }
 
             UnsafeSetDataBuffer(name, new MemoryHandle(data), size * (ulong)sizeof(T), sizeof(T));
@@ -368,7 +368,24 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(byteSize));
             }
 
-            UnsafeSetDataBuffer(name, new MemoryHandle(data), byteSize);
+            UnsafeSetDataBuffer(name, new MemoryHandle(data), byteSize, 0);
+        }
+
+        /// <summary>
+        /// Sets the data buffer for an attribute or dimension to a
+        /// byte buffer without performing type validation.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A <see cref="Memory{T}"/> of bytes pointing to the buffer.</param>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
+        public void UnsafeSetDataBuffer(string name, Memory<byte> data)
+        {
+            if (data.IsEmpty)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(data));
+            }
+
+            UnsafeSetDataBuffer(name, data.Pin(), (ulong)data.Length, 0);
         }
 
         /// <summary>
@@ -390,8 +407,15 @@ namespace TileDB.CSharp
         /// <item>This method call throws an exception.</item>
         /// </list></para>
         /// </remarks>
-        public void UnsafeSetDataBuffer(string name, MemoryHandle memoryHandle, ulong byteSize) =>
+        public void UnsafeSetDataBuffer(string name, MemoryHandle memoryHandle, ulong byteSize)
+        {
+            if (byteSize == 0)
+            {
+                ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(byteSize));
+            }
+
             UnsafeSetDataBuffer(name, memoryHandle, byteSize, 0);
+        }
 
         private void UnsafeSetDataBuffer(string name, MemoryHandle memoryHandle, ulong byteSize, int elementSize)
         {
@@ -414,6 +438,25 @@ namespace TileDB.CSharp
                     handle?.Dispose();
                 }
             }
+        }
+
+        /// <summary>
+        /// Sets the data buffer for an attribute or dimension to a
+        /// read-only byte buffer without performing type validation.
+        /// Not supported for <see cref="QueryType.Read"/> queries.
+        /// </summary>
+        /// <param name="name">The name of the attribute or the dimension.</param>
+        /// <param name="data">A <see cref="ReadOnlyMemory{T}"/> of bytes pointing to the buffer.</param>
+        /// <exception cref="ArgumentException"><paramref name="data"/> is empty.</exception>
+        /// <exception cref="NotSupportedException">The query's type is <see cref="QueryType.Read"/></exception>
+        public void UnsafeSetDataReadOnlyBuffer(string name, ReadOnlyMemory<byte> data)
+        {
+            if (QueryType() == CSharp.QueryType.Read)
+            {
+                ThrowHelpers.ThrowOperationNotAllowedOnReadQueries();
+            }
+
+            UnsafeSetDataBuffer(name, MemoryMarshal.AsMemory(data));
         }
 
         private void SetDataBufferCore(string name, void* data, ulong* size)
@@ -929,18 +972,6 @@ namespace TileDB.CSharp
             ulong t2;
             _ctx.handle_error(Methods.tiledb_query_get_fragment_timestamp_range(ctxHandle, handle, idx, &t1, &t2));
             return new Tuple<ulong, ulong>(t1, t2);
-        }
-
-        private void CheckDataType<T>(DataType dataType)
-        {
-            if (EnumUtil.TypeToDataType(typeof(T)) != dataType)
-            {
-                if (!(dataType== DataType.StringAscii && (typeof(T)==typeof(byte) || typeof(T) == typeof(sbyte) || typeof(T) == typeof(string)))
-                   && !(dataType == DataType.Boolean && typeof(T) == typeof(byte)))
-                {
-                    throw new ArgumentException("T " + typeof(T).Name + " doesnot match " + dataType.ToString());
-                }
-            }
         }
 
         private static DataType GetDataType(string name, ArraySchema schema, Domain domain)

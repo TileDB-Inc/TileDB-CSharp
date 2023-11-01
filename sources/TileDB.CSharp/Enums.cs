@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Text;
 using TileDB.Interop;
 
 namespace TileDB.CSharp
@@ -185,115 +186,217 @@ namespace TileDB.CSharp
         /// <summary>
         /// A signed 32-bit integer.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="int"/>.
+        /// </remarks>
         Int32 = tiledb_datatype_t.TILEDB_INT32,
         /// <summary>
         /// A signed 64-bit integer.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </remarks>
         Int64 = tiledb_datatype_t.TILEDB_INT64,
         /// <summary>
         /// A 32-bit floating-point number.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="float"/>.
+        /// </remarks>
         Float32 = tiledb_datatype_t.TILEDB_FLOAT32,
         /// <summary>
         /// A 64-bit floating-point number.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="double"/>.
+        /// </remarks>
         Float64 = tiledb_datatype_t.TILEDB_FLOAT64,
         /// <summary>
         /// A signed 8-bit integer.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="sbyte"/>.
+        /// </remarks>
         Int8 = tiledb_datatype_t.TILEDB_INT8,
         /// <summary>
         /// An unsigned 8-bit integer.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="byte"/>.
+        /// </remarks>
         UInt8 = tiledb_datatype_t.TILEDB_UINT8,
         /// <summary>
         /// A signed 16-bit integer.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="short"/>.
+        /// </remarks>
         Int16 = tiledb_datatype_t.TILEDB_INT16,
         /// <summary>
         /// An unsigned 16-bit integer.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="ushort"/>.
+        /// </remarks>
         UInt16 = tiledb_datatype_t.TILEDB_UINT16,
         /// <summary>
         /// An unsigned 32-bit integer.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="uint"/>.
+        /// </remarks>
         UInt32 = tiledb_datatype_t.TILEDB_UINT32,
         /// <summary>
         /// An unsigned 64-bit integer.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="ulong"/>.
+        /// </remarks>
         UInt64 = tiledb_datatype_t.TILEDB_UINT64,
         /// <summary>
         /// An ASCII string.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="byte"/>.
+        /// </remarks>
         StringAscii = tiledb_datatype_t.TILEDB_STRING_ASCII,
         /// <summary>
         /// A UTF-8 string.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="byte"/>.
+        /// </remarks>
         StringUtf8 = tiledb_datatype_t.TILEDB_STRING_UTF8,
         /// <summary>
         /// A UTF-16 string.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="ushort"/> or <see cref="char"/>.
+        /// </remarks>
         StringUtf16 = tiledb_datatype_t.TILEDB_STRING_UTF16,
         /// <summary>
         /// A UTF-32 string.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="uint"/>.
+        /// </remarks>
         StringUtf32 = tiledb_datatype_t.TILEDB_STRING_UTF32,
         /// <summary>
         /// A date and time, counted as the signed 64-bit number of
         /// years since the Unix epoch (January 1 1970 at midnight).
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </remarks>
         DateTimeYear = tiledb_datatype_t.TILEDB_DATETIME_YEAR,
         /// <summary>
         /// A date and time, counted as the signed 64-bit number of
         /// months since the Unix epoch (January 1 1970 at midnight).
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </remarks>
         DateTimeMonth = tiledb_datatype_t.TILEDB_DATETIME_MONTH,
         /// <summary>
         /// A date and time, counted as the signed 64-bit number of
         /// weeks since the Unix epoch (January 1 1970 at midnight).
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </remarks>
         DateTimeWeek = tiledb_datatype_t.TILEDB_DATETIME_WEEK,
         /// <summary>
         /// A date and time, counted as the signed 64-bit number of
         /// days since the Unix epoch (January 1 1970 at midnight).
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </remarks>
         DateTimeDay = tiledb_datatype_t.TILEDB_DATETIME_DAY,
         /// <summary>
         /// A date and time, counted as the signed 64-bit number of
         /// hours since the Unix epoch (January 1 1970 at midnight).
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </remarks>
         DateTimeHour = tiledb_datatype_t.TILEDB_DATETIME_HR,
         /// <summary>
         /// A date and time, counted as the signed 64-bit number of
         /// minutes since the Unix epoch (January 1 1970 at midnight).
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </remarks>
         DateTimeMinute = tiledb_datatype_t.TILEDB_DATETIME_MIN,
         /// <summary>
         /// A date and time, counted as the signed 64-bit number of
         /// seconds since the Unix epoch (January 1 1970 at midnight).
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </remarks>
         DateTimeSecond = tiledb_datatype_t.TILEDB_DATETIME_SEC,
         /// <summary>
         /// A date and time, counted as the signed 64-bit number of
         /// milliseconds since the Unix epoch (January 1 1970 at midnight).
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </remarks>
         DateTimeMillisecond = tiledb_datatype_t.TILEDB_DATETIME_MS,
         /// <summary>
         /// A date and time, counted as the signed 64-bit number of
         /// microseconds since the Unix epoch (January 1 1970 at midnight).
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </remarks>
         DateTimeMicrosecond = tiledb_datatype_t.TILEDB_DATETIME_US,
         /// <summary>
         /// A date and time, counted as the signed 64-bit number of
         /// nanoseconds since the Unix epoch (January 1 1970 at midnight).
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </remarks>
         DateTimeNanosecond = tiledb_datatype_t.TILEDB_DATETIME_NS,
         /// <summary>
         /// A date and time, counted as the signed 64-bit number of
         /// picoseconds since the Unix epoch (January 1 1970 at midnight).
         /// </summary>
         /// <remarks>
+        /// <para>
         /// One second consists of one trillion picoseconds.
+        /// </para>
+        /// <para>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </para>
         /// </remarks>
         DateTimePicosecond = tiledb_datatype_t.TILEDB_DATETIME_PS,
         /// <summary>
@@ -301,7 +404,13 @@ namespace TileDB.CSharp
         /// femtoseconds since the Unix epoch (January 1 1970 at midnight).
         /// </summary>
         /// <remarks>
+        /// <para>
         /// One second consists of one quadrillion femtoseconds.
+        /// </para>
+        /// <para>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </para>
         /// </remarks>
         DateTimeFemtosecond = tiledb_datatype_t.TILEDB_DATETIME_FS,
         /// <summary>
@@ -309,32 +418,62 @@ namespace TileDB.CSharp
         /// attoseconds since the Unix epoch (January 1 1970 at midnight).
         /// </summary>
         /// <remarks>
+        /// <para>
         /// One second consists of one quintillion attoseconds.
+        /// </para>
+        /// <para>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </para>
         /// </remarks>
         DateTimeAttosecond = tiledb_datatype_t.TILEDB_DATETIME_AS,
         /// <summary>
         /// A time of day counted in hours.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </remarks>
         TimeHour = tiledb_datatype_t.TILEDB_TIME_HR,
         /// <summary>
         /// A time of day counted in minutes.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </remarks>
         TimeMinute = tiledb_datatype_t.TILEDB_TIME_MIN,
         /// <summary>
         /// A time of day counted in seconds.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </remarks>
         TimeSecond = tiledb_datatype_t.TILEDB_TIME_SEC,
         /// <summary>
         /// A time of day counted in milliseconds.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </remarks>
         TimeMillisecond = tiledb_datatype_t.TILEDB_TIME_MS,
         /// <summary>
         /// A time of day counted in microseconds.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </remarks>
         TimeMicrosecond = tiledb_datatype_t.TILEDB_TIME_US,
         /// <summary>
         /// A time of day counted in nanoseconds.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="long"/>.
+        /// </remarks>
         TimeNanosecond = tiledb_datatype_t.TILEDB_TIME_NS,
         /// <summary>
         /// A time of day counted in picoseconds.
@@ -349,12 +488,20 @@ namespace TileDB.CSharp
         /// </summary>
         TimeAttosecond = tiledb_datatype_t.TILEDB_TIME_AS,
         /// <summary>
-        /// A binary blob.
+        /// Binary data.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="byte"/>.
+        /// </remarks>
         Blob = tiledb_datatype_t.TILEDB_BLOB,
         /// <summary>
         /// A boolean value.
         /// </summary>
+        /// <remarks>
+        /// On generic methods operating to objects of this datatype,
+        /// this datatype can be used with <see cref="byte"/> or <see cref="bool"/>.
+        /// </remarks>
         Boolean = tiledb_datatype_t.TILEDB_BOOL
     }
 
@@ -968,6 +1115,7 @@ namespace TileDB.CSharp
         /// </summary>
         /// <param name="t">The type to convert.</param>
         /// <exception cref="NotSupportedException"><paramref name="t"/> is unsupported.</exception>
+        [Obsolete(Obsoletions.DataTypeTypeConversionsMessage, DiagnosticId = Obsoletions.DataTypeTypeConversionsDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public static DataType TypeToDataType(Type t)
         {
             if (t == typeof(int))
@@ -1025,6 +1173,7 @@ namespace TileDB.CSharp
             }
         }
 
+        [Obsolete(Obsoletions.DataTypeTypeConversionsMessage, DiagnosticId = Obsoletions.DataTypeTypeConversionsDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
         public static Type DataTypeToType(DataType datatype)
         {
             switch (datatype)
@@ -1060,6 +1209,71 @@ namespace TileDB.CSharp
                 case DataType.StringUtf32:
                 case DataType.StringUtf8:
                     return typeof(sbyte);
+                case DataType.TimeAttosecond:
+                case DataType.TimeFemtosecond:
+                case DataType.TimeHour:
+                case DataType.TimeMinute:
+                case DataType.TimeMillisecond:
+                case DataType.TimeNanosecond:
+                case DataType.TimePicosecond:
+                case DataType.TimeSecond:
+                case DataType.TimeMicrosecond:
+                    return typeof(long);
+                case DataType.UInt16:
+                    return typeof(ushort);
+                case DataType.UInt32:
+                    return typeof(uint);
+                case DataType.UInt64:
+                    return typeof(ulong);
+                case DataType.UInt8:
+                    return typeof(byte);
+                case DataType.Blob:
+                    return typeof(byte);
+                case DataType.Boolean:
+                    return typeof(byte);
+                default:
+                    return typeof(byte);
+            }
+        }
+
+        // Same with DataTypeToType, but returns the correct corresponding numeric type for strings.
+        internal static Type DataTypeToNumericType(DataType datatype)
+        {
+            switch (datatype)
+            {
+                case DataType.DateTimeAttosecond:
+                case DataType.DateTimeDay:
+                case DataType.DateTimeFemtosecond:
+                case DataType.DateTimeHour:
+                case DataType.DateTimeMinute:
+                case DataType.DateTimeMonth:
+                case DataType.DateTimeMillisecond:
+                case DataType.DateTimeNanosecond:
+                case DataType.DateTimePicosecond:
+                case DataType.DateTimeSecond:
+                case DataType.DateTimeMicrosecond:
+                case DataType.DateTimeWeek:
+                case DataType.DateTimeYear:
+                    return typeof(long);
+                case DataType.Float32:
+                    return typeof(float);
+                case DataType.Float64:
+                    return typeof(double);
+                case DataType.Int16:
+                    return typeof(short);
+                case DataType.Int32:
+                    return typeof(int);
+                case DataType.Int64:
+                    return typeof(long);
+                case DataType.Int8:
+                    return typeof(sbyte);
+                case DataType.StringAscii:
+                case DataType.StringUtf8:
+                    return typeof(byte);
+                case DataType.StringUtf16:
+                    return typeof(ushort);
+                case DataType.StringUtf32:
+                    return typeof(uint);
                 case DataType.TimeAttosecond:
                 case DataType.TimeFemtosecond:
                 case DataType.TimeHour:

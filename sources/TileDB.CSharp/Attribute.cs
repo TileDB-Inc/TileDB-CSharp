@@ -224,7 +224,7 @@ namespace TileDB.CSharp
         /// <param name="data">An array of values that will be used as the fill value.</param>
         private void SetFillValue<T>(T[] data) where T : struct
         {
-            ErrorHandling.ThrowIfManagedType<T>();
+            ErrorHandling.CheckDataType<T>(Type());
             if (data.Length == 0)
             {
                 throw new ArgumentException("Attribute.SetFillValue, data is empty!");

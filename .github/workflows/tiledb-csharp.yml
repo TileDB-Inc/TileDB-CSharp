@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checks out repository
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Remove existing .NET versions
         shell: bash
@@ -40,7 +40,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       # Checks out repository
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Remove existing .NET versions
         shell: bash

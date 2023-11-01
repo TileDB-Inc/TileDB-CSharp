@@ -112,7 +112,7 @@ namespace TileDB.CSharp
                 }
                 else
                 {
-                    bytes_size = Encoding.ASCII.GetByteCount(strarray[i]);
+                    bytes_size = Encoding.UTF8.GetByteCount(strarray[i]);
                 }
                 totsize += bytes_size;
             }
@@ -140,7 +140,7 @@ namespace TileDB.CSharp
                 }
                 else
                 {
-                    bytes = Encoding.ASCII.GetBytes(strarray[i]);
+                    bytes = Encoding.UTF8.GetBytes(strarray[i]);
                 }
                 bytes.CopyTo(data, idx);
                 idx += bytes.Length;
