@@ -43,3 +43,8 @@ dotnet_diagnostic.S112.severity = None
 # Native methods should be wrapped
 # For some reason this warning shows even on auto-generated files.
 dotnet_diagnostic.S4200.severity = None
+
+# S3427: Method overloads with default parameter values should not overlap
+# If we oblige to this rule and remove the overload without the default parameter,
+# the package validator will complain.
+dotnet_diagnostic.S3427.severity = none

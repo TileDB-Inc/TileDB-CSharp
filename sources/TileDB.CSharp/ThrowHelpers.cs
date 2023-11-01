@@ -11,6 +11,10 @@ namespace TileDB.CSharp
             throw new ArgumentNullException(paramName);
 
         [DoesNotReturn]
+        public static void ThrowInvalidDataType(DataType dataType, [CallerArgumentExpression(nameof(dataType))] string? paramName = null) =>
+            throw new ArgumentOutOfRangeException(nameof(dataType), dataType, "Invalid data type.");
+
+        [DoesNotReturn]
         public static void ThrowTypeNotSupported() =>
             throw new NotSupportedException("Type is not supported.");
 

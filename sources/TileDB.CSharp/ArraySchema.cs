@@ -70,6 +70,18 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Adds an <see cref="Enumeration"/> in the <see cref="ArraySchema"/>.
+        /// </summary>
+        /// <param name="enumeration">The enumeration to add.</param>
+        public void AddEnumeration(Enumeration enumeration)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var enumHandle = enumeration.Handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_schema_add_enumeration(ctxHandle, handle, enumHandle));
+        }
+
+        /// <summary>
         /// Sets whether cells with duplicate coordinates are allowed in the <see cref="ArraySchema"/>.
         /// </summary>
         /// <remarks>

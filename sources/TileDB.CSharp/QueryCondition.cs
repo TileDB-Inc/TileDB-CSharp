@@ -86,6 +86,13 @@ namespace TileDB.CSharp
             _ctx.handle_error(Methods.tiledb_query_condition_init(ctxHandle, handle, ms_attribute_name, condition_value, condition_value_size, (tiledb_query_condition_op_t)optype));
         }
 
+        private void SetUseEnumeration(bool value)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_query_condition_set_use_enumeration(ctxHandle, handle, value ? 1 : 0));
+        }
+
         private static QueryCondition Combine(QueryCondition lhs, QueryCondition? rhs, QueryConditionCombinationOperatorType combination_optype)
         {
             var ctx = lhs._ctx;
@@ -148,8 +155,28 @@ namespace TileDB.CSharp
         /// the name <paramref name="attribute_name"/> and <paramref name="value"/>.</param>
         public static QueryCondition Create<T>(Context ctx, string attribute_name, T value, QueryConditionOperatorType optype) where T : struct
         {
+            return Create(ctx, attribute_name, value, optype, true);
+        }
+
+        /// <summary>
+        /// Creates a new query condition with datatype <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="ctx">The <see cref="Context"/> associated with the query condition.</param>
+        /// <param name="attribute_name">The name of the attribute the query condition refers to.</param>
+        /// <param name="value">The value to compare the attribute with.</param>
+        /// <param name="optype">The type of the relationship between the attribute with
+        /// the name <paramref name="attribute_name"/> and <paramref name="value"/>.</param>
+        /// <param name="useEnumeration">Whether to match the query condition on the
+        /// enumerated value instead of the underlying value. Optional, defaults to
+        /// <see langword="true"/>.</param>
+        public static QueryCondition Create<T>(Context ctx, string attribute_name, T value, QueryConditionOperatorType optype, bool useEnumeration = true) where T : struct
+        {
             var ret = new QueryCondition(ctx);
             ret.Init(attribute_name, value, optype);
+            if (!useEnumeration)
+            {
+                ret.SetUseEnumeration(false);
+            }
             return ret;
         }
 
