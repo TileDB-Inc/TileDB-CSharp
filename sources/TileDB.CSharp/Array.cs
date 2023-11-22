@@ -738,6 +738,34 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Deletes fragments from an array that fall within the given timestamp range.
+        /// </summary>
+        /// <param name="ctx">The <see cref="Context"/> to use.</param>
+        /// <param name="uri">The URI to the array.</param>
+        /// <param name="timestampStart">The start of the timestamp range, inclusive.</param>
+        /// <param name="timestampEnd">The end of the timestamp range, inclusive.</param>
+        public static void DeleteFragments(Context ctx, string uri, ulong timestampStart, ulong timestampEnd)
+        {
+            using var ms_uri = new MarshaledString(uri);
+            using var ctxHandle = ctx.Handle.Acquire();
+            ctx.handle_error(Methods.tiledb_array_delete_fragments_v2(ctxHandle, ms_uri, timestampStart, timestampEnd));
+        }
+
+        /// <summary>
+        /// Deletes fragments from an array that fall within the given timestamp range.
+        /// </summary>
+        /// <param name="ctx">The <see cref="Context"/> to use.</param>
+        /// <param name="uri">The URI to the array.</param>
+        /// <param name="fragmentUris">A list with the URIs of the fragments to delete.</param>
+        public static void DeleteFragments(Context ctx, string uri, IReadOnlyList<string> fragmentUris)
+        {
+            using var ms_uri = new MarshaledString(uri);
+            using var msc_fragmentUris = new MarshaledStringCollection(fragmentUris);
+            using var ctxHandle = ctx.Handle.Acquire();
+            ctx.handle_error(Methods.tiledb_array_delete_fragments_list(ctxHandle, ms_uri, (sbyte**)msc_fragmentUris.Strings, (nuint)msc_fragmentUris.Count));
+        }
+
+        /// <summary>
         /// Gets metadata from the <see cref="Array"/>.
         /// </summary>
         /// <typeparam name="T">The metadata's type.</typeparam>
