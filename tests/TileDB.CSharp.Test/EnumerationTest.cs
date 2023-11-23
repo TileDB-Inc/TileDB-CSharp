@@ -73,5 +73,26 @@ namespace TileDB.CSharp.Test
             CollectionAssert.AreEqual(MemoryMarshal.AsBytes(expectedValues.AsSpan()).ToArray(), rawData);
             Assert.AreEqual(4, rawOffsets.Length);
         }
+
+        [TestMethod]
+        public void TestExtend()
+        {
+            string[] expectedValues = new[] { "Hello", "World", "👋" };
+            using Enumeration e = Enumeration.Create(Context.GetDefault(), "test_string", true, expectedValues);
+
+            using Enumeration extended = e.Extend(new[] {"👋👋👋"});
+
+            System.Array values = extended.GetValues();
+            byte[] rawData = extended.GetRawData();
+            ulong[] rawOffsets = extended.GetRawOffsets();
+
+            Assert.AreEqual("test_string", extended.GetName());
+            Assert.IsTrue(extended.IsOrdered);
+            Assert.AreEqual(DataType.StringUtf8, extended.DataType);
+            Assert.AreEqual(Enumeration.VariableSized, extended.ValuesPerMember);
+            CollectionAssert.AreEqual(new[] { "Hello", "World", "👋", "👋👋👋" }, values);
+            CollectionAssert.AreEqual("HelloWorld👋👋👋👋"u8.ToArray(), rawData);
+            CollectionAssert.AreEqual(new ulong[] { 0, 5, 10, 14 }, rawOffsets);
+        }
     }
 }

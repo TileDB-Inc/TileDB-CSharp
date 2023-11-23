@@ -77,6 +77,19 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Adds an <see cref="Enumeration"/> to the <see cref="ArraySchemaEvolution"/>.
+        /// </summary>
+        /// <param name="enumeration">A fully constructed <see cref="Enumeration"/> that will be added to the schema.</param>
+        /// <seealso cref="DropEnumeration"/>
+        public void ExtendEnumeration(Enumeration enumeration)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var enumHandle = enumeration.Handle.Acquire();
+            _ctx.handle_error(Methods.tiledb_array_schema_evolution_extend_enumeration(ctxHandle, handle, enumHandle));
+        }
+
+        /// <summary>
         /// Drops an enumeration with the given name from the <see cref="ArraySchemaEvolution"/>.
         /// </summary>
         /// <param name="enumerationName">The name of the attribute that will be dropped from the schema.</param>
