@@ -281,12 +281,7 @@ namespace TileDB.CSharp
         /// does not match the excepted data type.</exception>
         public void SetDataBuffer<T>(string name, Memory<T> data) where T : struct
         {
-            // check datatype
-            using (var schema = _array.Schema())
-            using (var domain = schema.Domain())
-            {
-                ErrorHandling.CheckDataType<T>(GetDataType(name, schema, domain));
-            }
+            CheckDataType<T>(name);
 
             if (data.IsEmpty)
             {
@@ -317,12 +312,7 @@ namespace TileDB.CSharp
                 ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(size));
             }
 
-            // check datatype
-            using (var schema = _array.Schema())
-            using (var domain = schema.Domain())
-            {
-                ErrorHandling.CheckDataType<T>(GetDataType(name, schema, domain));
-            }
+            CheckDataType<T>(name);
 
             UnsafeSetDataBuffer(name, new MemoryHandle(data), size * (ulong)sizeof(T), sizeof(T));
         }
@@ -972,6 +962,46 @@ namespace TileDB.CSharp
             ulong t2;
             _ctx.handle_error(Methods.tiledb_query_get_fragment_timestamp_range(ctxHandle, handle, idx, &t1, &t2));
             return new Tuple<ulong, ulong>(t1, t2);
+        }
+
+        /// <summary>
+        /// Gets information about a field in a query.
+        /// </summary>
+        /// <param name="name">The field's name.</param>
+        public QueryField GetField(string name)
+        {
+            var handle = new QueryFieldHandle();
+            var successful = false;
+            tiledb_query_field_t* field = null;
+            try
+            {
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var queryHandle = _handle.Acquire())
+                using (var ms_name = new MarshaledString(name))
+                {
+                    _ctx.handle_error(Methods.tiledb_query_get_field(ctxHandle, queryHandle, ms_name, &field));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(_ctx, field);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
+            }
+
+            return new QueryField(_ctx, handle, name);
+        }
+
+        private void CheckDataType<T>(string name)
+        {
+            using var @field = GetField(name);
+            ErrorHandling.CheckDataType<T>(@field.DataType);
         }
 
         private static DataType GetDataType(string name, ArraySchema schema, Domain domain)
