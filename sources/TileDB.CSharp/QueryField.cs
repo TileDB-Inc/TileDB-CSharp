@@ -11,11 +11,14 @@ public unsafe sealed class QueryField : IDisposable
 {
     private readonly Context _ctx;
 
+    private readonly Query _query;
+
     private readonly QueryFieldHandle _handle;
 
-    internal QueryField(Context ctx, QueryFieldHandle handle, string name)
+    internal QueryField(Context ctx, Query query, QueryFieldHandle handle, string name)
     {
         _ctx = ctx;
+        _query = query;
         _handle = handle;
         Name = name;
     }
@@ -99,7 +102,7 @@ public unsafe sealed class QueryField : IDisposable
             }
         }
 
-        return new QueryChannel(handle);
+        return new QueryChannel(_ctx, _query, handle);
     }
 
     /// <inheritDoc/>

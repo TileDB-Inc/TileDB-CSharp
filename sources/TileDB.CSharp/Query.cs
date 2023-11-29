@@ -965,6 +965,38 @@ namespace TileDB.CSharp
         }
 
         /// <summary>
+        /// Returns the query's default <see cref="QueryChannel"/>.
+        /// </summary>
+        public QueryChannel GetDefaultChannel()
+        {
+            var handle = new QueryChannelHandle();
+            var successful = false;
+            tiledb_query_channel_t* channel = null;
+            try
+            {
+                using (var ctxHandle = _ctx.Handle.Acquire())
+                using (var queryHandle = _handle.Acquire())
+                {
+                    _ctx.handle_error(Methods.tiledb_query_get_default_channel(ctxHandle, queryHandle, &channel));
+                }
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(_ctx, channel);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
+            }
+
+            return new QueryChannel(_ctx, this, handle);
+        }
+
+        /// <summary>
         /// Gets information about a field in a query.
         /// </summary>
         /// <param name="name">The field's name.</param>
@@ -995,7 +1027,7 @@ namespace TileDB.CSharp
                 }
             }
 
-            return new QueryField(_ctx, handle, name);
+            return new QueryField(_ctx, this, handle, name);
         }
 
         private void CheckDataType<T>(string name)
