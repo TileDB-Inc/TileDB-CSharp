@@ -3,13 +3,24 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp;
 
+/// <summary>
+/// Represents an aggregate operation.
+/// </summary>
 public abstract class AggregateOperation
 {
     // Prevent inheriting the class outside of this assembly.
     private protected AggregateOperation() { }
 
+    /// <summary>
+    /// Creates a unary aggregate operation.
+    /// </summary>
+    /// <param name="op">The <see cref="AggregateOperator"/> to apply.</param>
+    /// <param name="fieldName">The name of the field to apply the operator to.</param>
     public static AggregateOperation Unary(AggregateOperator op, string fieldName) => new UnaryAggregateOperation(op, fieldName);
 
+    /// <summary>
+    /// An <see cref="AggregateOperation"/> returning the number of values in the channel.
+    /// </summary>
     public static AggregateOperation Count { get; } = new CountAggregateOperation();
 
     internal abstract unsafe ChannelOperationHandle CreateHandle(Context ctx, Query q);

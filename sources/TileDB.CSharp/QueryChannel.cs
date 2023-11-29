@@ -30,6 +30,11 @@ public unsafe sealed class QueryChannel : IDisposable
         _handle.Dispose();
     }
 
+    /// <summary>
+    /// Adds an aggregate field to the <see cref="QueryChannel"/>.
+    /// </summary>
+    /// <param name="operation">The operation to apply.</param>
+    /// <param name="name">The name under which the result of the operation will be available in the query.</param>
     public void ApplyAggregate(AggregateOperation operation, string name)
     {
         using var ctxHandle = _ctx.Handle.Acquire();

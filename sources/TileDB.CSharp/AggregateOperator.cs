@@ -3,6 +3,9 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp;
 
+/// <summary>
+/// Represents an aggregate operator that can be applied over a query field.
+/// </summary>
 public abstract class AggregateOperator
 {
     // Prevent inheriting the class outside of this assembly.
@@ -10,14 +13,29 @@ public abstract class AggregateOperator
 
     internal abstract unsafe tiledb_channel_operator_t* GetHandle(tiledb_ctx_t* ctx);
 
+    /// <summary>
+    /// Computes the sum of all values in the field.
+    /// </summary>
     public static AggregateOperator Sum { get; } = new SimpleAggregateOperator(OperatorKind.Sum);
 
+    /// <summary>
+    /// Computes the minimum value in the field.
+    /// </summary>
     public static AggregateOperator Min { get; } = new SimpleAggregateOperator(OperatorKind.Min);
 
+    /// <summary>
+    /// Computes the maximum value in the field.
+    /// </summary>
     public static AggregateOperator Max { get; } = new SimpleAggregateOperator(OperatorKind.Max);
 
+    /// <summary>
+    /// Computes the mean of all values in the field.
+    /// </summary>
     public static AggregateOperator Mean { get; } = new SimpleAggregateOperator(OperatorKind.Mean);
 
+    /// <summary>
+    /// Counts the number of null values in the field.
+    /// </summary>
     public static AggregateOperator NullCount { get; } = new SimpleAggregateOperator(OperatorKind.NullCount);
 
     private enum OperatorKind
