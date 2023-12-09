@@ -492,6 +492,8 @@ namespace TileDB.CSharp.Test
             array.Evolve(schemaEvolution2);
             Logger.LogMessage($"Schema after removing attribute (a2)");
             TestUtil.PrintLocalSchema(array.Uri());
+            array.SetOpenTimestampStart(0);
+            array.SetOpenTimestampEnd(ulong.MaxValue);
             array.Open(QueryType.Read);
             Assert.IsFalse(array.Schema().HasAttribute("a2"));
             array.Close();
