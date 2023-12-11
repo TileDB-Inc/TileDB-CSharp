@@ -79,7 +79,7 @@ jobs:
         run: rm -rf $DOTNET_ROOT
 
       - name: Set up .NET SDK from global.json
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
 
       - name: Display dotnet versions
         run: dotnet --info
@@ -119,7 +119,7 @@ jobs:
         run: rm -rf $DOTNET_ROOT
 
       - name: Set up .NET SDK from global.json
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
 
       - name: Display dotnet versions
         run: dotnet --info
