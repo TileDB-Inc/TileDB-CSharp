@@ -54,6 +54,7 @@ namespace TileDB.CSharp.Test
                 Assert.AreEqual(nameof(count), countField.Name);
                 Assert.AreEqual(DataType.UInt64, countField.DataType);
                 Assert.AreEqual(1u, countField.ValuesPerCell);
+                Assert.AreEqual(QueryFieldOrigin.Aggregate, countField.Origin);
 
                 query.SetDataBuffer("a1", dataRead);
                 query.SetDataBuffer(nameof(count), &count, 1);
