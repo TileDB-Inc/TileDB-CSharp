@@ -6,6 +6,9 @@ namespace TileDB.CSharp;
 /// <summary>
 /// Represents an aggregate operation.
 /// </summary>
+/// <remarks>
+/// This class abstracts the <c>tiledb_channel_operation_t</c> type of the TileDB C API.
+/// </remarks>
 public abstract class AggregateOperation
 {
     // Prevent inheriting the class outside of this assembly.
