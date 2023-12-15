@@ -24,7 +24,7 @@ public unsafe sealed class QueryField : IDisposable
     }
 
     /// <summary>
-    /// Gets the number of values per cell for the <see cref="QueryField"/>.
+    /// Gets the number of values per cell of the <see cref="QueryField"/>.
     /// </summary>
     public uint ValuesPerCell
     {
@@ -39,7 +39,7 @@ public unsafe sealed class QueryField : IDisposable
     }
 
     /// <summary>
-    /// Gets the number of values per cell for the <see cref="QueryField"/>.
+    /// Gets the data type of the <see cref="QueryField"/>.
     /// </summary>
     public DataType DataType
     {
