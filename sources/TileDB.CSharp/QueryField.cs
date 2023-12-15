@@ -33,7 +33,7 @@ public unsafe sealed class QueryField : IDisposable
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             uint result;
-            Methods.tiledb_field_cell_val_num(ctxHandle, handle, &result);
+            _ctx.handle_error(Methods.tiledb_field_cell_val_num(ctxHandle, handle, &result));
             return result;
         }
     }
@@ -48,7 +48,7 @@ public unsafe sealed class QueryField : IDisposable
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             tiledb_datatype_t result;
-            Methods.tiledb_field_datatype(ctxHandle, handle, &result);
+            _ctx.handle_error(Methods.tiledb_field_datatype(ctxHandle, handle, &result));
             return (DataType)result;
         }
     }
@@ -63,7 +63,7 @@ public unsafe sealed class QueryField : IDisposable
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
             tiledb_field_origin_t result;
-            Methods.tiledb_field_origin(ctxHandle, handle, &result);
+            _ctx.handle_error(Methods.tiledb_field_origin(ctxHandle, handle, &result));
             return (QueryFieldOrigin)result;
         }
     }

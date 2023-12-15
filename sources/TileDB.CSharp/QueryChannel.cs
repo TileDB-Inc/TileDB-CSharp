@@ -42,6 +42,6 @@ public unsafe sealed class QueryChannel : IDisposable
         using var ms_name = new MarshaledString(name);
         using var operationHandle = operation.CreateHandle(_ctx, _query);
         using var operationHandlePtr = operationHandle.Acquire();
-        ErrorHandling.ThrowOnError(Methods.tiledb_channel_apply_aggregate(ctxHandle, handle, ms_name, operationHandlePtr));
+        _ctx.handle_error(Methods.tiledb_channel_apply_aggregate(ctxHandle, handle, ms_name, operationHandlePtr));
     }
 }
