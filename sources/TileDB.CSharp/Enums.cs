@@ -772,6 +772,25 @@ namespace TileDB.CSharp
         AutoDetect = tiledb_mime_type_t.TILEDB_MIME_AUTODETECT
     }
 
+    /// <summary>
+    /// Specifies where a <see cref="QueryField"/> came from.
+    /// </summary>
+    public enum QueryFieldOrigin : uint
+    {
+        /// <summary>
+        /// The field is an attribute from the array schema.
+        /// </summary>
+        Attribute,
+        /// <summary>
+        /// The field is a dimension from the array schema.
+        /// </summary>
+        Dimension,
+        /// <summary>
+        /// The field is an aggregate value, computed at the time the query is executed.
+        /// </summary>
+        Aggregate
+    }
+
     public static class Constants
     {
         /// <summary>

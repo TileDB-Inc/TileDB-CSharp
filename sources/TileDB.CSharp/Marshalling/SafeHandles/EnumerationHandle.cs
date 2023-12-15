@@ -38,6 +38,34 @@ namespace TileDB.CSharp.Marshalling.SafeHandles
             return handle;
         }
 
+        public EnumerationHandle Extend(Context context, byte* data, ulong dataSize, ulong* offsets, ulong offsetsSize)
+        {
+            var handle = new EnumerationHandle();
+            var successful = false;
+            tiledb_enumeration_t* enumeration = null;
+            try
+            {
+                using var contextHandle = context.Handle.Acquire();
+                using var old_enumeration_handle = Acquire();
+                context.handle_error(Methods.tiledb_enumeration_extend(contextHandle, old_enumeration_handle, data,
+                    dataSize, offsets, offsetsSize, &enumeration));
+                successful = true;
+            }
+            finally
+            {
+                if (successful)
+                {
+                    handle.InitHandle(enumeration);
+                }
+                else
+                {
+                    handle.SetHandleAsInvalid();
+                }
+            }
+
+            return handle;
+        }
+
         protected override bool ReleaseHandle()
         {
             fixed (IntPtr* p = &handle)

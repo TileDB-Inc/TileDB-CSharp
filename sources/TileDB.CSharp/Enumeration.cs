@@ -43,8 +43,8 @@ namespace TileDB.CSharp
         /// defaults to 1. If specified, its value must divide the length of <paramref name="values"/>.</param>
         /// <param name="dataType">The data type of the enumeration. Defaults to the
         /// default data type of <typeparamref name="T"/>.</param>
-        /// <exception cref="InvalidOperationException"><paramref name="dataType"/> has a different
-        /// size from <typeparamref name="T"/>.</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="dataType"/> does not
+        /// match <typeparamref name="T"/>.</exception>
         public static Enumeration Create<T>(Context ctx, string name, bool ordered, ReadOnlySpan<T> values, uint cellValNum = 1, DataType? dataType = null) where T : struct
         {
             DataType dataTypeActual = dataType ??= EnumUtil.TypeToDataType(typeof(T));
@@ -68,8 +68,8 @@ namespace TileDB.CSharp
         /// <param name="offsets">A <see cref="ReadOnlySpan{T}"/> of the offsets to the first byte of each member of the enumeration.</param>
         /// <param name="dataType">The data type of the enumeration. Defaults to the
         /// default data type of <typeparamref name="T"/>.</param>
-        /// <exception cref="InvalidOperationException"><paramref name="dataType"/> has a different
-        /// size from <typeparamref name="T"/>.</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="dataType"/> does not
+        /// match <typeparamref name="T"/>.</exception>
         public static Enumeration Create<T>(Context ctx, string name, bool ordered, ReadOnlySpan<T> values, ReadOnlySpan<ulong> offsets, DataType? dataType = null) where T : struct
         {
             DataType dataTypeActual = dataType ??= EnumUtil.TypeToDataType(typeof(T));
@@ -101,6 +101,68 @@ namespace TileDB.CSharp
             var handle = EnumerationHandle.Create(ctx, name, (tiledb_datatype_t)dataType, VariableSized,
                 ordered, marshaledStrings.Data, marshaledStrings.DataCount, marshaledStrings.Offsets, marshaledStrings.OffsetsCount);
             return new Enumeration(ctx, handle);
+        }
+
+        /// <summary>
+        /// Adds additional values to an <see cref="Enumeration"/> with fixed-sized members.
+        /// </summary>
+        /// <typeparam name="T">The type of the enumeration's members.</typeparam>
+        /// <param name="values">A <see cref="ReadOnlySpan{T}"/> of the enumeration's values.</param>
+        /// <exception cref="InvalidOperationException">The enumeration's
+        /// <see cref="DataType"/> does not match <typeparamref name="T"/>.</exception>
+        public Enumeration Extend<T>(ReadOnlySpan<T> values) where T : struct
+        {
+            ErrorHandling.CheckDataType<T>(DataType);
+
+            fixed (T* valuesPtr = &MemoryMarshal.GetReference(values))
+            {
+                EnumerationHandle handle = _handle.Extend(_ctx, (byte*)valuesPtr, (ulong)values.Length * (ulong)sizeof(T), null, 0);
+                return new Enumeration(_ctx, handle);
+            }
+        }
+
+        /// <summary>
+        /// Extends an <see cref="Enumeration"/> with variable-sized members.
+        /// </summary>
+        /// <typeparam name="T">The type of the enumeration's members.</typeparam>
+        /// <param name="values">A <see cref="ReadOnlySpan{T}"/> of all values of each additional member of the enumeration, concatenated.</param>
+        /// <param name="offsets">A <see cref="ReadOnlySpan{T}"/> of the offsets to the first byte of each member of the enumeration.</param>
+        /// <exception cref="InvalidOperationException">The enumeration's
+        /// <see cref="DataType"/> does not match <typeparamref name="T"/>.</exception>
+        public Enumeration Extend<T>(ReadOnlySpan<T> values, ReadOnlySpan<ulong> offsets) where T : struct
+        {
+            ErrorHandling.CheckDataType<T>(DataType);
+
+            EnumerationHandle handle;
+            fixed (T* valuesPtr = &MemoryMarshal.GetReference(values))
+            fixed (ulong* offsetsPtr = &MemoryMarshal.GetReference(offsets))
+            {
+                handle = _handle.Extend(_ctx, (byte*)valuesPtr, (ulong)values.Length * (ulong)sizeof(T), offsetsPtr, (ulong)offsets.Length * sizeof(ulong));
+            }
+            return new Enumeration(_ctx, handle);
+        }
+
+        /// <summary>
+        /// Extends an <see cref="Enumeration"/> of strings.
+        /// </summary>
+        /// <param name="values">The strings to add to the enumeration.</param>
+        /// <exception cref="InvalidOperationException">The enumeration has a non-string data
+        /// type, or its members are fixed-size.</exception>
+        public Enumeration Extend(IReadOnlyCollection<string> values)
+        {
+            if (ValuesPerMember != VariableSized)
+            {
+                throw new InvalidOperationException("Enumeration must have variable-sized members.");
+            }
+            DataType dataType = DataType;
+            if (!EnumUtil.IsStringType(dataType))
+            {
+                throw new InvalidOperationException($"Cannot extend enumeration with non-string data type, got {dataType}.");
+            }
+
+            using MarshaledContiguousStringCollection marshaledStrings = new(values, dataType);
+            var handle = _handle.Extend(_ctx, marshaledStrings.Data, marshaledStrings.DataCount, marshaledStrings.Offsets, marshaledStrings.OffsetsCount);
+            return new Enumeration(_ctx, handle);
         }
 
         /// <summary>
