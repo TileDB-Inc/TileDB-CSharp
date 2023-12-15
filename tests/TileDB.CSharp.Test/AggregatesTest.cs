@@ -38,6 +38,7 @@ namespace TileDB.CSharp.Test
             ulong count;
             long sum;
             double mean;
+            int min, max;
             using (var query = new Query(array))
             {
                 query.SetLayout(LayoutType.RowMajor);
@@ -49,6 +50,8 @@ namespace TileDB.CSharp.Test
                 channel.ApplyAggregate(AggregateOperation.Count, nameof(count));
                 channel.ApplyAggregate(AggregateOperation.Unary(AggregateOperator.Sum, "a1"), nameof(sum));
                 channel.ApplyAggregate(AggregateOperation.Unary(AggregateOperator.Mean, "a1"), nameof(mean));
+                channel.ApplyAggregate(AggregateOperation.Unary(AggregateOperator.Min, "a1"), nameof(min));
+                channel.ApplyAggregate(AggregateOperation.Unary(AggregateOperator.Max, "a1"), nameof(max));
 
                 using var countField = query.GetField(nameof(count));
                 Assert.AreEqual(nameof(count), countField.Name);
@@ -60,6 +63,8 @@ namespace TileDB.CSharp.Test
                 query.SetDataBuffer(nameof(count), &count, 1);
                 query.SetDataBuffer(nameof(sum), &sum, 1);
                 query.SetDataBuffer(nameof(mean), &mean, 1);
+                query.SetDataBuffer(nameof(min), &min, 1);
+                query.SetDataBuffer(nameof(max), &max, 1);
 
                 query.Submit();
 
@@ -67,6 +72,8 @@ namespace TileDB.CSharp.Test
                 Assert.AreEqual((ulong)data.Length, count);
                 Assert.AreEqual(605, sum);
                 Assert.AreEqual(60.5, mean);
+                Assert.AreEqual(25, min);
+                Assert.AreEqual(93, max);
             }
         }
 
