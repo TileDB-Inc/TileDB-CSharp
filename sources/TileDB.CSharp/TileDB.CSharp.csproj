@@ -12,7 +12,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <EnablePackageValidation>true</EnablePackageValidation>
     <PackageValidationBaselineVersion>5.6.0</PackageValidationBaselineVersion>
-    <NoWarn>$(NoWarn);TILEDB0012;TILEDB0013</NoWarn>
+    <NoWarn>$(NoWarn);TILEDB0012;TILEDB0013;TILEDB0014</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
