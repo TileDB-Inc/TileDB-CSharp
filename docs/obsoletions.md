@@ -8,6 +8,7 @@ Following [the deprecation policy of TileDB Embedded][core-deprecation], obsolet
 |----------------|---------------------|------------------|
 |[`TILEDB0001`](#TILEDB0001) …[`TILEDB0011`](#TILEDB0011)|5.3.0|5.5.0|
 |[`TILEDB0012`](#TILEDB0012) …[`TILEDB0013`](#TILEDB0013)|5.7.0|5.9.0|
+|[`TILEDB0012`](#TILEDB0014) …[`TILEDB0013`](#TILEDB0014)|5.8.0|5.10.0|
 
 ## `TILEDB0001` - Enum value names that start with `TILEDB_` were replaced with C#-friendly names.
 
@@ -319,8 +320,6 @@ The obsoleted APIs fall into the following categories:
 - The types that derive from `SafeHandle` are used to safely manage the lifetime of native TileDB objects. With the APIs in the `TileDB.CSharp` namespace providing broad coverage of TileDB's functionalities while also being safer and easier to sue, these types provide limited utility. You should use the APIs in the `TileDB.CSharp` namespace instead.
 - Types with the name `tiledb_***_t` were made public again only to support the APIs of the safe handles above. They have little other use on their own. You should use APIs in the `TileDB.CSharp` namespace instead.
 
-[core-deprecation]: https://github.com/TileDB-Inc/TileDB/blob/dev/doc/policy/api_changes.md
-
 ## `TILEDB0013` - The `EnumUtils.TypeToDataType` and `EnumUtils.DataTypeToType` methods are obsolete and will be removed in a future version.
 
 <a name="TILEDB0013"></a>
@@ -334,3 +333,19 @@ The `EnumUtils.TypeToDataType` and `EnumUtils.DataTypeToType` methods convert be
 ### Recommended action
 
 If you are performing queries on arrays of unknown schema, you can use the `Query.UnsafeSetDataBuffer` and `Query.UnsafeSetWriteDataBuffer` methods to set a data buffer to a query without type validation.
+
+## `TILEDB0014` - Members of the `TileDB.Interop` namespace will become internal in a future version and should not be used by user code.
+
+<a name="TILEDB0014"></a>
+
+Some APIs in the `TileDB.Interop` namespace that were inadvertently removed in version 5.3.0 were reintroduced in version 5.7.0. They are marked as obsolete in version 5.8.0 and hidden from IntelliSense and will be removed from the public API for good in version 5.10.0. They were also reintroduced in patch releases 5.3.1 and 5.4.1, obsoleted under the [`TILEDB0003`](#TILEDB0003) code.
+
+### Version introduced
+
+5.8.0
+
+### Recommended action
+
+Stop using the obsoleted APIs. No other public API of `TileDB.CSharp` depends on them.
+
+[core-deprecation]: https://github.com/TileDB-Inc/TileDB/blob/dev/doc/policy/api_changes.md
