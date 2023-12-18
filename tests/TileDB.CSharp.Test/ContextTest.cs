@@ -58,10 +58,9 @@ namespace TileDB.CSharp.Test
         {
             using var ctx = new Context();
             Assert.IsTrue(ctx.IsFileSystemSupported(FileSystemType.InMemory));
-            Assert.IsTrue(ctx.IsFileSystemSupported(FileSystemType.S3));
-            Assert.IsTrue(ctx.IsFileSystemSupported(FileSystemType.Azure));
-            Assert.IsTrue(ctx.IsFileSystemSupported(FileSystemType.GoogleCloudStorage));
-            Assert.AreEqual(!OperatingSystem.IsWindows(), ctx.IsFileSystemSupported(FileSystemType.Hdfs));
+            // While the release binaries support all other filesystems (except for
+            // HDFS), binaries from nightly builds and other custom builds may not.
+            // MemFS is the only filesystem that is known to be always supported.
         }
 
         [TestMethod]
