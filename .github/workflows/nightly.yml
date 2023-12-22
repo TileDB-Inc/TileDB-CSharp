@@ -27,7 +27,7 @@ jobs:
             platform: macos-x86_64
           - os: windows-latest
             platform: windows-x86_64
-            BOOTSTRAP: ../bootstrap.ps1 -EnableS3 -EnableSerialization -EnableBuildDeps -EnableVcpkg
+            BOOTSTRAP: ../bootstrap.ps1 -EnableS3 -EnableSerialization -EnableVcpkg
           - tag: dev
         tag: [release-2.18, dev]
     runs-on: ${{ matrix.os }}
