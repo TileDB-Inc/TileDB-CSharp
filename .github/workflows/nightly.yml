@@ -20,14 +20,14 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         include:
-          - BOOTSTRAP: ../bootstrap --enable-s3 --enable-serialization --force-build-all-deps --enable-vcpkg
+          - BOOTSTRAP: ../bootstrap --enable-s3 --enable-serialization --disable-avx2 --enable-vcpkg
           - os: ubuntu-latest
             platform: linux-x86_64
           - os: macos-latest
             platform: macos-x86_64
           - os: windows-latest
             platform: windows-x86_64
-            BOOTSTRAP: ../bootstrap.ps1 -EnableS3 -EnableSerialization -EnableBuildDeps -EnableVcpkg
+            BOOTSTRAP: ../bootstrap.ps1 -EnableS3 -EnableSerialization -EnableVcpkg
           - tag: dev
         tag: [release-2.18, dev]
     runs-on: ${{ matrix.os }}
