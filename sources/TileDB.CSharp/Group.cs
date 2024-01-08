@@ -3,6 +3,7 @@ using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 using GroupHandle = TileDB.CSharp.Marshalling.SafeHandles.GroupHandle;
 using ConfigHandle = TileDB.CSharp.Marshalling.SafeHandles.ConfigHandle;
+using TileDB.CSharp.Marshalling;
 
 namespace TileDB.CSharp
 {
@@ -278,21 +279,38 @@ namespace TileDB.CSharp
         /// <summary>
         /// Get member by index.
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        /// <param name="index">The member's index.</param>
         (string uri, ObjectType object_type, string name) MemberByIndex(ulong index)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
-            sbyte* uriPtr;
-            sbyte* namePtr;
+            using StringHandleHolder uriPtr = new();
+            using StringHandleHolder namePtr = new();
             tiledb_object_t tiledb_objecttype;
-            _ctx.handle_error(Methods.tiledb_group_get_member_by_index(
-                ctxHandle, handle, index, &uriPtr, &tiledb_objecttype, &namePtr));
+            _ctx.handle_error(Methods.tiledb_group_get_member_by_index_v2(
+                ctxHandle, handle, index, &uriPtr._handle, &tiledb_objecttype, &namePtr._handle));
 
-            string uri = MarshaledStringOut.GetStringFromNullTerminated(uriPtr);
-            string name = MarshaledStringOut.GetStringFromNullTerminated(namePtr);
+            string uri = uriPtr.ToString();
+            string name = namePtr.ToString();
             return (uri, (ObjectType)tiledb_objecttype, name);
+        }
+
+        /// <summary>
+        /// Get member by name.
+        /// </summary>
+        /// <param name="name">The member's name.</param>
+        (string uri, ObjectType object_type) MemberByName(string name)
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            using var ms_name = new MarshaledString(name);
+            using StringHandleHolder uriPtr = new();
+            tiledb_object_t tiledb_objecttype;
+            _ctx.handle_error(Methods.tiledb_group_get_member_by_name_v2(
+                ctxHandle, handle, ms_name, &uriPtr._handle, &tiledb_objecttype));
+
+            string uri = uriPtr.ToString();
+            return (uri, (ObjectType)tiledb_objecttype);
         }
 
         /// <summary>
