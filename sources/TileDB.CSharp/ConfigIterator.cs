@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
-using ConfigHandle = TileDB.CSharp.Marshalling.SafeHandles.ConfigHandle;
-using ConfigIteratorHandle = TileDB.CSharp.Marshalling.SafeHandles.ConfigIteratorHandle;
 
 namespace TileDB.CSharp;
 

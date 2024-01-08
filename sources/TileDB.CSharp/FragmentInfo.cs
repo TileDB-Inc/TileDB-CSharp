@@ -3,8 +3,6 @@ using System.Runtime.CompilerServices;
 using TileDB.CSharp.Marshalling;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
-using ArraySchemaHandle = TileDB.CSharp.Marshalling.SafeHandles.ArraySchemaHandle;
-using ConfigHandle = TileDB.CSharp.Marshalling.SafeHandles.ConfigHandle;
 
 namespace TileDB.CSharp;
 

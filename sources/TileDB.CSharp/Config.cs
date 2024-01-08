@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
-using ConfigHandle = TileDB.CSharp.Marshalling.SafeHandles.ConfigHandle;
 
 namespace TileDB.CSharp;
 
