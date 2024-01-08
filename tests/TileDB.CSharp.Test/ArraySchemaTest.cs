@@ -1,8 +1,8 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace TileDB.CSharp.Test
-{
+namespace TileDB.CSharp.Test;
+
 	[TestClass]
 	public class ArraySchemaTest
 	{
@@ -68,24 +68,24 @@ namespace TileDB.CSharp.Test
 			var filter0 = filter_list_return.Filter(0);
 			Assert.AreEqual(FilterType.Bzip2, filter0.FilterType());
 
-            array_schema.SetOffsetsFilterList(filter_list);
-            filter_list_return = array_schema.OffsetsFilterList();
+        array_schema.SetOffsetsFilterList(filter_list);
+        filter_list_return = array_schema.OffsetsFilterList();
 
-            filter0 = filter_list_return.Filter(0);
-            Assert.AreEqual(FilterType.Bzip2, filter0.FilterType());
+        filter0 = filter_list_return.Filter(0);
+        Assert.AreEqual(FilterType.Bzip2, filter0.FilterType());
 
-            array_schema.SetValidityFilterList(filter_list);
-            filter_list_return = array_schema.ValidityFilterList();
+        array_schema.SetValidityFilterList(filter_list);
+        filter_list_return = array_schema.ValidityFilterList();
 
-            filter0 = filter_list_return.Filter(0);
-            Assert.AreEqual(FilterType.Bzip2, filter0.FilterType());
+        filter0 = filter_list_return.Filter(0);
+        Assert.AreEqual(FilterType.Bzip2, filter0.FilterType());
 
-            array_schema.Check();
+        array_schema.Check();
 		}
 
 		[TestMethod]
 		public void TestArraySchemaInt32Simple()
-        {
+    {
 			var context = Context.GetDefault();
 			var domain = new Domain(context);
 			Assert.IsNotNull(domain);
@@ -274,4 +274,3 @@ namespace TileDB.CSharp.Test
 			array_schema.Check();			
 		}
 	}
-}
