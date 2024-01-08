@@ -241,7 +241,7 @@ namespace TileDB.CSharp
             handle_error(Methods.tiledb_object_move(handle, ms_oldUri, ms_newUri));
         }
 
-        [UnmanagedCallersOnly(CallConvs = new Type[] { typeof(CallConvCdecl) })]
+        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
         private static int VisitCallback(sbyte* uriPtr, tiledb_object_t objectType, void* arg)
         {
             VisitCallbackData* data = (VisitCallbackData*)arg;

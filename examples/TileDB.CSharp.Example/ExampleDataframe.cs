@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,9 +18,17 @@ namespace TileDB.CSharp.Examples
             }
             CreateArray(ctx, arrayUri);
 
-            string[] names = { "Adam", "Bree", "Charles", "Dianna", "Evan", "Fiona", "Gabe", "Hannah", "Isidore", "Julia" };
-            DateTime[] dobs = { new DateTime(1990, 1, 1), new DateTime(1991, 2, 2), new DateTime(1992, 3, 3), new DateTime(1993, 4, 4), new DateTime(1994, 5, 5),
-                new DateTime(1995, 6, 6), new DateTime(1996, 7, 7), new DateTime(1997, 8, 8), new DateTime(1998, 9, 9), new DateTime(1999, 10, 10) };
+            string[] names = ["Adam", "Bree", "Charles", "Dianna", "Evan", "Fiona", "Gabe", "Hannah", "Isidore", "Julia"];
+            DateTime[] dobs = [new DateTime(1990, 1, 1),
+                new DateTime(1991, 2, 2),
+                new DateTime(1992, 3, 3),
+                new DateTime(1993, 4, 4),
+                new DateTime(1994, 5, 5),
+                new DateTime(1995, 6, 6),
+                new DateTime(1996, 7, 7),
+                new DateTime(1997, 8, 8),
+                new DateTime(1998, 9, 9),
+                new DateTime(1999, 10, 10)];
             Write(ctx, arrayUri, 0, names, dobs);
 
             foreach (var x in Read(ctx, arrayUri, 0, 9))

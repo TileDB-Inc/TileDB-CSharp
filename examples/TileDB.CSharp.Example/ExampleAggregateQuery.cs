@@ -48,8 +48,8 @@ namespace TileDB.CSharp.Examples
 
         private static void ReadArray()
         {
-            ulong[] count = { 0 };
-            long[] sum = { 0 };
+            ulong[] count = [0];
+            long[] sum = [0];
 
             using (var array_read = new Array(Ctx, ArrayPath))
             {

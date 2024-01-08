@@ -107,21 +107,21 @@ namespace TileDB.CSharp.Test
             int[] colsExpected;
             if (arrayType == ArrayType.Dense)
             {
-                a1Expected = new[]
-                {
+                a1Expected =
+                [
                     1, 2, int.MinValue, int.MinValue,
                     3, 4, int.MinValue, int.MinValue,
                     5, 6, int.MinValue, int.MinValue,
                     7, 8, int.MinValue, int.MinValue
-                };
-                rowsExpected = new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 };
-                colsExpected = new[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 };
+                ];
+                rowsExpected = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4];
+                colsExpected = [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4];
             }
             else // Sparse
             {
-                a1Expected = new[] { 1, 2, 3, 4, 5, 6 };
-                rowsExpected = new[] { 1, 2, 2, 3, 4, 4 };
-                colsExpected = new[] { 1, 1, 4, 1, 1, 4 };
+                a1Expected = [1, 2, 3, 4, 5, 6];
+                rowsExpected = [1, 2, 2, 3, 4, 4];
+                colsExpected = [1, 1, 4, 1, 1, 4];
             }
             CollectionAssert.AreEqual(a1Expected, a1Read);
             CollectionAssert.AreEqual(colsExpected, colsRead);
@@ -423,9 +423,9 @@ namespace TileDB.CSharp.Test
             Array.Create(context, tmpArrayPath, array_schema);
 
             // Write array
-            int[] a1_data = new int[4] { 100, 200, 300, 400 };
-            int[] a2_data = new int[8] { 10, 10, 20, 30, 30, 30, 40, 40 };
-            ulong[] a2_el_off = new ulong[4] { 0, 2, 3, 6 };
+            int[] a1_data = [100, 200, 300, 400];
+            int[] a2_data = [10, 10, 20, 30, 30, 30, 40, 40];
+            ulong[] a2_el_off = [0, 2, 3, 6];
             ulong[] a2_off = new ulong[4];
             for (int i = 0; i < a2_el_off.Length; ++i)
             {
@@ -433,16 +433,16 @@ namespace TileDB.CSharp.Test
             }
 
             byte[] a3_data = "abcdewxyz"u8.ToArray();
-            ulong[] a3_el_off = new ulong[4] { 0, 3, 4, 5 };
+            ulong[] a3_el_off = [0, 3, 4, 5];
             ulong[] a3_off = new ulong[4];
             for (int i = 0; i < a3_el_off.Length; ++i)
             {
                 a3_off[i] = a3_el_off[i] * EnumUtil.DataTypeSize(DataType.StringAscii);
             }
 
-            byte[] a1_validity = new byte[4] { 1, 0, 0, 1 };
-            byte[] a2_validity = new byte[4] { 0, 1, 1, 0 };
-            byte[] a3_validity = new byte[4] { 1, 0, 0, 1 };
+            byte[] a1_validity = [1, 0, 0, 1];
+            byte[] a2_validity = [0, 1, 1, 0];
+            byte[] a3_validity = [1, 0, 0, 1];
 
             fixed (int* a1_data_ptr = &a1_data[0])
             fixed (int* a2_data_ptr = &a2_data[0])

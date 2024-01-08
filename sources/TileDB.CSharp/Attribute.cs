@@ -268,7 +268,7 @@ namespace TileDB.CSharp
 
             var cell_val_num = this.CellValNum();
             var data = cell_val_num == VariableSized
-                ? new[] { value }
+                ? [value]
                 : Enumerable.Repeat(value, (int)cell_val_num).ToArray();
             SetFillValue(data);
         }
@@ -372,7 +372,7 @@ namespace TileDB.CSharp
         public void SetFillValueNullable<T>(T value, bool valid) where T : struct
         {
             var cell_val_num = this.CellValNum();
-            var data = cell_val_num == VariableSized ? new[] { value } : Enumerable.Repeat(value, (int)cell_val_num).ToArray();
+            var data = cell_val_num == VariableSized ? [value] : Enumerable.Repeat(value, (int)cell_val_num).ToArray();
             SetFillValueNullable(data, valid);
         }
 

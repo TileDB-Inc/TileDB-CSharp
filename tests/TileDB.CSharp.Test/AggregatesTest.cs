@@ -22,8 +22,8 @@ namespace TileDB.CSharp.Test
 
             array.Open(QueryType.Write);
 
-            int[] data = new int[10] { 62, 26, 81, 86, 93, 0, 60, 25, 68, 28 };
-            byte[] validity = new byte[10] { 1, 1, 1, 1, 1, 0, 1, 1, 1, 1 };
+            int[] data = [62, 26, 81, 86, 93, 0, 60, 25, 68, 28];
+            byte[] validity = [1, 1, 1, 1, 1, 0, 1, 1, 1, 1];
 
             using (var query = new Query(array))
             {

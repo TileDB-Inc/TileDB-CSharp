@@ -141,7 +141,7 @@ namespace TileDB.CSharp.Test
 
             int[] a1Data = Enumerable.Range(1, 10).Select(x => x * x).ToArray();
             byte[] a2Data = "aabbcccdeffggghhhhijj"u8.ToArray();
-            ulong[] a2Offsets = { 0, 2, 4, 7, 8, 9, 11, 14, 17, 18 };
+            ulong[] a2Offsets = [0, 2, 4, 7, 8, 9, 11, 14, 17, 18];
             for (uint i = 0; i < FragmentCount; i++)
             {
                 using var array = new Array(context, uri);

@@ -316,7 +316,7 @@ namespace TileDB.CSharp
             return new(ctx_, handle);
         }
 
-        [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
+        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
         private static int VisitCallback(sbyte* uriPtr, void* data)
         {
             string uri = MarshaledStringOut.GetStringFromNullTerminated(uriPtr);

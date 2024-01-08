@@ -66,13 +66,13 @@ namespace TileDB.CSharp.Test
 
             array.Open(QueryType.Write);
 
-            array.PutMetadata<int>("key1", new int[] { 25 });
+            array.PutMetadata<int>("key1", [25]);
 
-            array.PutMetadata<int>("key2", new int[] { 25, 26, 27, 28 });
+            array.PutMetadata<int>("key2", [25, 26, 27, 28]);
 
-            array.PutMetadata<float>("key3", new float[] { 25.1f });
+            array.PutMetadata<float>("key3", [25.1f]);
 
-            array.PutMetadata<float>("key4", new float[] { 25.1f, 26.2f, 27.3f, 28.4f });
+            array.PutMetadata<float>("key4", [25.1f, 26.2f, 27.3f, 28.4f]);
 
             array.PutMetadata("key5", "This is TileDB array metadata, that supports Unicode characters! 🥳");
 

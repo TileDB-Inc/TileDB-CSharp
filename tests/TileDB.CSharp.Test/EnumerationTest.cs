@@ -10,7 +10,7 @@ namespace TileDB.CSharp.Test
         [TestMethod]
         public void TestString()
         {
-            string[] expectedValues = new[] { "Hello", "World", "👋" };
+            string[] expectedValues = ["Hello", "World", "👋"];
             using Enumeration e = Enumeration.Create(Context.GetDefault(), "test_string", true, expectedValues);
 
             System.Array values = e.GetValues();
@@ -32,7 +32,7 @@ namespace TileDB.CSharp.Test
         [DataRow(4u)]
         public void TestFixedSize(uint cellValNum)
         {
-            int[] expectedValues = new[] { 1, 2, 3, 4 };
+            int[] expectedValues = [1, 2, 3, 4];
 
             using Enumeration e = Enumeration.Create<int>(Context.GetDefault(), "test_fixed", false, expectedValues, cellValNum);
 
@@ -52,8 +52,8 @@ namespace TileDB.CSharp.Test
         [TestMethod]
         public void TestVarSize()
         {
-            int[] expectedValues = new int[] { 1, 2, 2, 3, 3, 3, 4, 4, 4, 4 };
-            ulong[] expectedOffsets = new ulong[] { 0, 4, 12, 24 };
+            int[] expectedValues = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4];
+            ulong[] expectedOffsets = [0, 4, 12, 24];
 
             using Enumeration e = Enumeration.Create<int>(Context.GetDefault(), "test_var", false, expectedValues, expectedOffsets);
 
@@ -77,7 +77,7 @@ namespace TileDB.CSharp.Test
         [TestMethod]
         public void TestExtend()
         {
-            string[] expectedValues = new[] { "Hello", "World", "👋" };
+            string[] expectedValues = ["Hello", "World", "👋"];
             using Enumeration e = Enumeration.Create(Context.GetDefault(), "test_string", true, expectedValues);
 
             using Enumeration extended = e.Extend(new[] {"👋👋👋"});

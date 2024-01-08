@@ -423,7 +423,7 @@ namespace TileDB.CSharp.Test
 
         private void WriteDenseArray(string arrayUri)
         {
-            int[] data = { 1, 2, 3, 4, 5, 6, 7, 8 };
+            int[] data = [1, 2, 3, 4, 5, 6, 7, 8];
 
             using Array array = new Array(_ctx, arrayUri);
             array.Open(QueryType.Write);
@@ -457,9 +457,9 @@ namespace TileDB.CSharp.Test
         private void WriteSparseVarDimArray(string arrayUri)
         {
             byte[] dData = Encoding.ASCII.GetBytes("abbccddee");
-            ulong[] dOffsets = { 0, 2, 4, 6, 8 };
+            ulong[] dOffsets = [0, 2, 4, 6, 8];
 
-            int[] a1 = { 1, 2, 3, 4, 5 };
+            int[] a1 = [1, 2, 3, 4, 5];
 
             using Array array = new Array(_ctx, arrayUri);
             array.Open(QueryType.Write);
@@ -523,9 +523,9 @@ namespace TileDB.CSharp.Test
             using Array a = new Array(_ctx, arrayUri);
             a.Open(QueryType.Write);
 
-            WriteImpl(new long[] { 1, 2 }, new long[] { 1, 2 }, new int[] { 1, 2 });
-            WriteImpl(new long[] { 1, 2, 7, 8 }, new long[] { 1, 2, 7, 8 }, new int[] { 9, 10, 11, 12 });
-            WriteImpl(new long[] { 1, 2, 7, 1 }, new long[] { 1, 2, 7, 8 }, new int[] { 5, 6, 7, 8 });
+            WriteImpl([1, 2], [1, 2], [1, 2]);
+            WriteImpl([1, 2, 7, 8], [1, 2, 7, 8], [9, 10, 11, 12]);
+            WriteImpl([1, 2, 7, 1], [1, 2, 7, 8], [5, 6, 7, 8]);
 
             void WriteImpl(long[] d1, long[] d2, int[] a1)
             {
@@ -545,9 +545,9 @@ namespace TileDB.CSharp.Test
             using Array a = new Array(_ctx, arrayUri);
             a.Open(QueryType.Write);
 
-            WriteImpl(new int[] { 1, 2 }, new int[] { 1, 2 }, new int[] { 1, 2 });
-            WriteImpl(new int[] { 1, 2, 7, 8 }, new int[] { 1, 2, 7, 8 }, new int[] { 9, 10, 11, 12 });
-            WriteImpl(new int[] { 1, 2, 7, 1 }, new int[] { 1, 2, 7, 8 }, new int[] { 5, 6, 7, 8 });
+            WriteImpl([1, 2], [1, 2], [1, 2]);
+            WriteImpl([1, 2, 7, 8], [1, 2, 7, 8], [9, 10, 11, 12]);
+            WriteImpl([1, 2, 7, 1], [1, 2, 7, 8], [5, 6, 7, 8]);
 
             void WriteImpl(int[] d1, int[] d2, int[] a1)
             {
@@ -582,9 +582,9 @@ namespace TileDB.CSharp.Test
         private void WriteSparseVarDimArrayForMbrTesting(string arrayUri)
         {
             byte[] dData = Encoding.ASCII.GetBytes("abbcddd");
-            ulong[] dOffsets = { 0, 1, 3, 4 };
+            ulong[] dOffsets = [0, 1, 3, 4];
 
-            int[] a = { 11, 12, 13, 14 };
+            int[] a = [11, 12, 13, 14];
 
             using Array array = new Array(_ctx, arrayUri);
             array.Open(QueryType.Write);

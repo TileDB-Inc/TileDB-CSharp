@@ -121,13 +121,13 @@ namespace TileDB.CSharp.Test
         {
             using var path = new TemporaryDirectory("incomplete-query-variable");
 
-            Entry[] entries = new Entry[]
-            {
-                new(1, 1, new int[] { 1 }),
-                new(2, 3, new int[] { 2, 20 }),
-                new(3, 4, new int[] { 3, 30, 300 }),
-                new(4, 5, new int[] { 4, 40, 400, 4000 })
-            };
+            Entry[] entries =
+            [
+                new(1, 1, [1]),
+                new(2, 3, [2, 20]),
+                new(3, 4, [3, 30, 300]),
+                new(4, 5, [4, 40, 400, 4000])
+            ];
 
             CreateArray(path);
             WriteArray(path, entries);

@@ -37,7 +37,7 @@ namespace TileDB.CSharp
         /// <inheritdoc cref="Array.PutMetadata{T}(string, T)"/>
         public void PutMetadata<T>(string key, T v) where T : struct
         {
-            T[] data = new T[1] { v };
+            T[] data = [v];
             PutMetadata<T>(key, data);
         }
 

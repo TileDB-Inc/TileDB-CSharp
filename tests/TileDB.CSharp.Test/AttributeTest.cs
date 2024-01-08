@@ -202,13 +202,13 @@ namespace TileDB.CSharp.Test
 
             array_write.Open(QueryType.Write);
 
-            string[] a1_str = new string[16] { "a","b","c","d", "aa","bb","cc","dd"
-                ,"aaa","bbb","ccc","ddd","aaaa","bbbb","cccc","dddd" };
+            string[] a1_str = [ "a","b","c","d", "aa","bb","cc","dd"
+                ,"aaa","bbb","ccc","ddd","aaaa","bbbb","cccc","dddd" ];
             var (a1_data, a1_offsets) = CoreUtil.PackStringArray(a1_str);
 
-            int[] a2_data = new int[26] {1, 1, 2, 2,  3,  4,  5,  6,  6,  7,  7,  8,  8,
-                              8, 9, 9, 10, 11, 12, 12, 13, 14, 14, 14, 15, 16 };
-            ulong[] a2_el_off = new ulong[16] { 0, 2, 4, 5, 6, 7, 9, 11, 14, 16, 17, 18, 20, 21, 24, 25};
+            int[] a2_data = [1, 1, 2, 2,  3,  4,  5,  6,  6,  7,  7,  8,  8,
+                              8, 9, 9, 10, 11, 12, 12, 13, 14, 14, 14, 15, 16 ];
+            ulong[] a2_el_off = [0, 2, 4, 5, 6, 7, 9, 11, 14, 16, 17, 18, 20, 21, 24, 25];
             ulong[] a2_off = CoreUtil.ElementOffsetsToByteOffsets(a2_el_off, DataType.Int32);
 
             var query_write = new Query(array_write);
