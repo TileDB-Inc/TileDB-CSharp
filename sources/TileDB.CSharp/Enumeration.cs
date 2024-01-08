@@ -287,7 +287,7 @@ public sealed unsafe class Enumeration : IDisposable
             return result;
         }
 
-        Type type = EnumUtil.DataTypeToType(datatype);
+        Type type = EnumUtil.DataTypeToNumericType(datatype);
         if (type == typeof(sbyte))
         {
             return GetValues<sbyte>(dataPtr, dataSize, offsetsPtr, offsetsSize);

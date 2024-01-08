@@ -457,7 +457,7 @@ public sealed unsafe class Array : IDisposable
         {
             using var dim = domain.Dimension(i);
             var dimName = dim.Name();
-            var dimType = EnumUtil.DataTypeToType(dim.Type());
+            var dimType = EnumUtil.DataTypeToNumericType(dim.Type());
 
             switch (Type.GetTypeCode(dimType))
             {

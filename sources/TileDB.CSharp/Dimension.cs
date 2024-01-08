@@ -178,7 +178,7 @@ public sealed unsafe class Dimension : IDisposable
     public string TileExtentToStr()
     {
         var datatype = Type();
-        var t = EnumUtil.DataTypeToType(datatype);
+        var t = EnumUtil.DataTypeToNumericType(datatype);
         return System.Type.GetTypeCode(t) switch
         {
             TypeCode.Int16 => Format<short>(),
@@ -201,7 +201,7 @@ public sealed unsafe class Dimension : IDisposable
     public string DomainToStr()
     {
         var datatype = Type();
-        var t = EnumUtil.DataTypeToType(datatype);
+        var t = EnumUtil.DataTypeToNumericType(datatype);
         return System.Type.GetTypeCode(t) switch
         {
             TypeCode.Int16 => Format<short>(),
