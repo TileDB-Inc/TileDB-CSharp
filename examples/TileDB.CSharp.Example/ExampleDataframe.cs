@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,6 +6,8 @@ using System.Text;
 
 namespace TileDB.CSharp.Examples
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S6562:Always set the \"DateTimeKind\" when creating new \"DateTime\" instances", Justification = "Excessive for this example; the dates' kind will not be converted")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S6588:Use the \"UnixEpoch\" field instead of creating \"DateTime\" instances that point to the beginning of the Unix epoch", Justification = "DateTime.UnixEpoch is unavailable in .NET 5")]
     internal static class ExampleDataframe
     {
         public static void Run()
