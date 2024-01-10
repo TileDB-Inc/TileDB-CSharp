@@ -2,54 +2,53 @@ using System;
 using System.Runtime.InteropServices;
 using TileDB.Interop;
 
-namespace TileDB.CSharp.Marshalling.SafeHandles
+namespace TileDB.CSharp.Marshalling.SafeHandles;
+
+internal unsafe sealed class ArrayHandle : SafeHandle
 {
-    internal unsafe sealed class ArrayHandle : SafeHandle
+    public ArrayHandle() : base(IntPtr.Zero, true) { }
+
+    public ArrayHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
+
+    public static ArrayHandle Create(Context context, sbyte* uri)
     {
-        public ArrayHandle() : base(IntPtr.Zero, true) { }
-
-        public ArrayHandle(IntPtr handle, bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { SetHandle(handle); }
-
-        public static ArrayHandle Create(Context context, sbyte* uri)
+        var handle = new ArrayHandle();
+        var successful = false;
+        tiledb_array_t* array = null;
+        try
         {
-            var handle = new ArrayHandle();
-            var successful = false;
-            tiledb_array_t* array = null;
-            try
+            using (var ctx = context.Handle.Acquire())
             {
-                using (var ctx = context.Handle.Acquire())
-                {
-                    context.handle_error(Methods.tiledb_array_alloc(ctx, uri, &array));
-                }
-                successful = true;
+                context.handle_error(Methods.tiledb_array_alloc(ctx, uri, &array));
             }
-            finally
+            successful = true;
+        }
+        finally
+        {
+            if (successful)
             {
-                if (successful)
-                {
-                    handle.InitHandle(array);
-                }
-                else
-                {
-                    handle.SetHandleAsInvalid();
-                }
+                handle.InitHandle(array);
             }
-
-            return handle;
+            else
+            {
+                handle.SetHandleAsInvalid();
+            }
         }
 
-        protected override bool ReleaseHandle()
-        {
-            fixed (IntPtr* p = &handle)
-            {
-                Methods.tiledb_array_free((tiledb_array_t**)p);
-            }
-            return true;
-        }
-
-        internal void InitHandle(tiledb_array_t* h) { SetHandle((IntPtr)h); }
-        public override bool IsInvalid => handle == IntPtr.Zero;
-
-        public SafeHandleHolder<tiledb_array_t> Acquire() => new(this);
+        return handle;
     }
+
+    protected override bool ReleaseHandle()
+    {
+        fixed (IntPtr* p = &handle)
+        {
+            Methods.tiledb_array_free((tiledb_array_t**)p);
+        }
+        return true;
+    }
+
+    internal void InitHandle(tiledb_array_t* h) { SetHandle((IntPtr)h); }
+    public override bool IsInvalid => handle == IntPtr.Zero;
+
+    public SafeHandleHolder<tiledb_array_t> Acquire() => new(this);
 }
