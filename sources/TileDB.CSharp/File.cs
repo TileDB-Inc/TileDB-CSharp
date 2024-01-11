@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
-using ArraySchemaHandle = TileDB.CSharp.Marshalling.SafeHandles.ArraySchemaHandle;
 
 namespace TileDB.CSharp;
 

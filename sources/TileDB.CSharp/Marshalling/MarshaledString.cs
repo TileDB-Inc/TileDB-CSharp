@@ -9,9 +9,7 @@ using TileDB.CSharp;
 
 namespace TileDB.Interop;
 
-[Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-[EditorBrowsable(EditorBrowsableState.Never)]
-public unsafe struct MarshaledString : IDisposable
+internal unsafe struct MarshaledString : IDisposable
 {
     public MarshaledString(string input)
     {

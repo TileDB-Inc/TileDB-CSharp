@@ -1134,8 +1134,7 @@ public static unsafe class EnumUtil
     /// </summary>
     /// <param name="t">The type to convert.</param>
     /// <exception cref="NotSupportedException"><paramref name="t"/> is unsupported.</exception>
-    [Obsolete(Obsoletions.DataTypeTypeConversionsMessage, DiagnosticId = Obsoletions.DataTypeTypeConversionsDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-    public static DataType TypeToDataType(Type t)
+    internal static DataType TypeToDataType(Type t)
     {
         if (t == typeof(int))
         {
@@ -1192,8 +1191,7 @@ public static unsafe class EnumUtil
         }
     }
 
-    [Obsolete(Obsoletions.DataTypeTypeConversionsMessage, DiagnosticId = Obsoletions.DataTypeTypeConversionsDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-    public static Type DataTypeToType(DataType datatype)
+    internal static Type DataTypeToType(DataType datatype)
     {
         switch (datatype)
         {

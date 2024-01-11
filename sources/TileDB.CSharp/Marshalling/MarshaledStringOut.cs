@@ -5,18 +5,7 @@ using TileDB.CSharp;
 
 namespace TileDB.Interop;
 
-[Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-[EditorBrowsable(EditorBrowsableState.Never)]
-public unsafe class LibC
-{
-    // public struct handle_t {}
-    // [DllImport(LibDllImport.LibCPath)]
-    // public static extern void free(void* p);
-}
-
-[Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-[EditorBrowsable(EditorBrowsableState.Never)]
-public unsafe class MarshaledStringOut
+internal unsafe class MarshaledStringOut
 {
     public sbyte* Value;
     public MarshaledStringOut()
