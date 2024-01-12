@@ -73,6 +73,8 @@ namespace TileDB.CSharp.Test
             //Reopen in read mode
             group1.Open(QueryType.Read);
             Assert.AreEqual<ulong>(2, group1.MemberCount());
+            Assert.AreEqual("array1", group1.GetMemberByIndex(0).Name);
+            Assert.AreEqual(ObjectType.Array, group1.GetMemberByName("array2").ObjectType);
             group1.Close();
 
             //Reopen in write mode

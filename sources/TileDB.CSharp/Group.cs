@@ -280,7 +280,7 @@ namespace TileDB.CSharp
         /// Get member by index.
         /// </summary>
         /// <param name="index">The member's index.</param>
-        (string uri, ObjectType object_type, string name) MemberByIndex(ulong index)
+        public (string Uri, ObjectType ObjectType, string Name) GetMemberByIndex(ulong index)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
@@ -299,7 +299,7 @@ namespace TileDB.CSharp
         /// Get member by name.
         /// </summary>
         /// <param name="name">The member's name.</param>
-        (string uri, ObjectType object_type) MemberByName(string name)
+        public (string Uri, ObjectType ObjectType) GetMemberByName(string name)
         {
             using var ctxHandle = _ctx.Handle.Acquire();
             using var handle = _handle.Acquire();
