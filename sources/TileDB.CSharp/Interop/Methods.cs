@@ -384,7 +384,6 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("capi_return_t")]
-        [Obsolete]
         public static extern int tiledb_group_create(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* group_uri);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -1417,11 +1416,21 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("capi_return_t")]
+        [Obsolete]
         public static extern int tiledb_group_get_member_by_index(tiledb_ctx_t* ctx, tiledb_group_t* group, [NativeTypeName("uint64_t")] ulong index, [NativeTypeName("char **")] sbyte** uri, tiledb_object_t* type, [NativeTypeName("char **")] sbyte** name);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("capi_return_t")]
+        public static extern int tiledb_group_get_member_by_index_v2(tiledb_ctx_t* ctx, tiledb_group_t* group, [NativeTypeName("uint64_t")] ulong index, tiledb_string_t** uri, tiledb_object_t* type, tiledb_string_t** name);
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("capi_return_t")]
+        [Obsolete]
         public static extern int tiledb_group_get_member_by_name(tiledb_ctx_t* ctx, tiledb_group_t* group, [NativeTypeName("const char *")] sbyte* name, [NativeTypeName("char **")] sbyte** uri, tiledb_object_t* type);
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("capi_return_t")]
+        public static extern int tiledb_group_get_member_by_name_v2(tiledb_ctx_t* ctx, tiledb_group_t* group, [NativeTypeName("const char *")] sbyte* name, tiledb_string_t** uri, tiledb_object_t* type);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("capi_return_t")]
