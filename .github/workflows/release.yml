@@ -11,13 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: Run-Tests
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Remove existing .NET versions
         shell: bash
         run: |
           rm -rf $DOTNET_ROOT
       - name: Set up .NET SDK from global.json
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
       - name: Display .NET versions
         run: dotnet --info
       - name: Pack TileDB.CSharp

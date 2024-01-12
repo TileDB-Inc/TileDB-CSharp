@@ -18,22 +18,26 @@
     <InputFile Include="tiledb/tiledb_experimental.h" />
     <TraversePaths Include="$(InputDir)/**/*.h" />
     <RemapHandleType Include="attribute" />
-    <RemapHandleType Include="buffer" />
     <RemapHandleType Include="buffer_list" />
-    <RemapHandleType Include="config" />
+    <RemapHandleType Include="buffer" />
+    <RemapHandleType Include="channel_operation" />
+    <RemapHandleType Include="channel_operator" />
     <RemapHandleType Include="config_iter" />
+    <RemapHandleType Include="config" />
     <RemapHandleType Include="ctx" />
-    <RemapHandleType Include="dimension" />
     <RemapHandleType Include="dimension_label" />
+    <RemapHandleType Include="dimension" />
     <RemapHandleType Include="domain" />
     <RemapHandleType Include="enumeration" />
     <RemapHandleType Include="error" />
-    <RemapHandleType Include="filter" />
     <RemapHandleType Include="filter_list" />
+    <RemapHandleType Include="filter" />
     <RemapHandleType Include="group" />
+    <RemapHandleType Include="query_channel" />
+    <RemapHandleType Include="query_field" />
     <RemapHandleType Include="string" />
-    <RemapHandleType Include="vfs" />
     <RemapHandleType Include="vfs_fh" />
+    <RemapHandleType Include="vfs" />
     <Remap Include="@(RemapHandleType->'tiledb_%(Identity)_handle_t=tiledb_%(Identity)_t')" />
     <Remap Include="tiledb_experimental_query_status_details_t=tiledb_query_status_details_t" />
     <ExcludeDump Include="array_schema" />
