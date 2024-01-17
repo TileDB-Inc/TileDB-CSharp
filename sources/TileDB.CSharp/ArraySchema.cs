@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 using ArraySchemaHandle = TileDB.CSharp.Marshalling.SafeHandles.ArraySchemaHandle;
@@ -82,6 +83,46 @@ public sealed unsafe class ArraySchema : IDisposable
     }
 
     /// <summary>
+    /// Adds a dimension label to the <see cref="ArraySchema"/>.
+    /// </summary>
+    /// <param name="dimensionIndex">The dimension's index.</param>
+    /// <param name="name">The dimension label's name.</param>
+    /// <param name="labelOrder">The data order of the dimension label.</param>
+    /// <param name="labelType">The dimension lable's data type.</param>
+    /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
+    public void AddDimensionLabel(uint dimensionIndex, string name, DataOrder labelOrder, DataType labelType)
+    {
+        using var ctxHandle = _ctx.Handle.Acquire();
+        using var handle = _handle.Acquire();
+        using var ms_name = new MarshaledString(name);
+        _ctx.handle_error(Methods.tiledb_array_schema_add_dimension_label(ctxHandle, handle, dimensionIndex, ms_name, (tiledb_data_order_t)labelOrder, (tiledb_datatype_t)labelType));
+    }
+
+    /// <summary>
+    /// Adds a dimension label to the <see cref="ArraySchema"/>, that has a specified tile extent.
+    /// </summary>
+    /// <param name="dimensionIndex">The dimension's index.</param>
+    /// <param name="name">The dimension label's name.</param>
+    /// <param name="labelOrder">The data order of the dimension label.</param>
+    /// <param name="labelType">The dimension lable's data type.</param>
+    /// <param name="extent">The dimension label's tile extent.</param>
+    /// <exception cref="InvalidOperationException"><typeparamref name="T"/> and <paramref name="labelType"/> do not match.</exception>
+    /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
+    public void AddDimensionLabel<T>(uint dimensionIndex, string name, DataOrder labelOrder, DataType labelType, T extent) where T : struct
+    {
+        if (RuntimeHelpers.IsReferenceOrContainsReferences<T>() || typeof(T) != EnumUtil.DataTypeToType(labelType))
+        {
+            ThrowHelpers.ThrowTypeMismatch(labelType);
+        }
+
+        using var ctxHandle = _ctx.Handle.Acquire();
+        using var handle = _handle.Acquire();
+        using var ms_name = new MarshaledString(name);
+        _ctx.handle_error(Methods.tiledb_array_schema_add_dimension_label(ctxHandle, handle, dimensionIndex, ms_name, (tiledb_data_order_t)labelOrder, (tiledb_datatype_t)labelType));
+        _ctx.handle_error(Methods.tiledb_array_schema_set_dimension_label_tile_extent(ctxHandle, handle, ms_name, (tiledb_datatype_t)labelType, &extent));
+    }
+
+    /// <summary>
     /// Sets whether cells with duplicate coordinates are allowed in the <see cref="ArraySchema"/>.
     /// </summary>
     /// <remarks>
@@ -143,6 +184,21 @@ public sealed unsafe class ArraySchema : IDisposable
         using var ctxHandle = _ctx.Handle.Acquire();
         using var handle = _handle.Acquire();
         _ctx.handle_error(Methods.tiledb_array_schema_set_cell_order(ctxHandle, handle, tiledb_layout));
+    }
+
+    /// <summary>
+    /// Sets the <see cref="FilterList"/> of filters that will be applied in one of the <see cref="ArraySchema"/>'s dimension labels.
+    /// </summary>
+    /// <param name="name">The dimension label's name.</param>
+    /// <param name="filterList">The dimension label's filter list.</param>
+    /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
+    public void SetDimensionLabelFilterList(string name, FilterList filterList)
+    {
+        using var ctxHandle = _ctx.Handle.Acquire();
+        using var handle = _handle.Acquire();
+        using var ms_name = new MarshaledString(name);
+        using var filterListHandle = filterList.Handle.Acquire();
+        _ctx.handle_error(Methods.tiledb_array_schema_set_dimension_label_filter_list(ctxHandle, handle, ms_name, filterListHandle));
     }
 
     /// <summary>
@@ -488,6 +544,56 @@ public sealed unsafe class ArraySchema : IDisposable
         using var handle = _handle.Acquire();
         using var ms_name = new MarshaledString(name);
         _ctx.handle_error(Methods.tiledb_array_schema_has_attribute(ctxHandle, handle, ms_name, &has_attr));
+        return has_attr > 0;
+    }
+
+    /// <summary>
+    /// Gets a <see cref="CSharp.DimensionLabel"/> from the <see cref="ArraySchema"/> by name.
+    /// </summary>
+    /// <param name="name">The dimension label's name.</param>
+    /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
+    public DimensionLabel DimensionLabel(string name)
+    {
+        var handle = new DimensionLabelHandle();
+        var successful = false;
+        tiledb_dimension_label_t* dimension_label_p = null;
+        try
+        {
+            using (var ctxHandle = _ctx.Handle.Acquire())
+            using (var schemaHandle = _handle.Acquire())
+            using (var ms_name = new MarshaledString(name))
+            {
+                _ctx.handle_error(Methods.tiledb_array_schema_get_dimension_label_from_name(ctxHandle, schemaHandle, ms_name, &dimension_label_p));
+            }
+            successful = true;
+        }
+        finally
+        {
+            if (successful)
+            {
+                handle.InitHandle(dimension_label_p);
+            }
+            else
+            {
+                handle.SetHandleAsInvalid();
+            }
+        }
+
+        return new DimensionLabel(_ctx, handle);
+    }
+
+    /// <summary>
+    /// Checks if a dimension label with the given name exists in the <see cref="ArraySchema"/> or not.
+    /// </summary>
+    /// <param name="name">The name to check.</param>
+    /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
+    public bool HasDimensionLabel(string name)
+    {
+        int has_attr;
+        using var ctxHandle = _ctx.Handle.Acquire();
+        using var handle = _handle.Acquire();
+        using var ms_name = new MarshaledString(name);
+        _ctx.handle_error(Methods.tiledb_array_schema_has_dimension_label(ctxHandle, handle, ms_name, &has_attr));
         return has_attr > 0;
     }
 

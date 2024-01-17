@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using TileDB.CSharp.Marshalling;
@@ -134,6 +134,14 @@ public sealed unsafe class Subarray : IDisposable
         }
     }
 
+    private void ValidateLabelType<T>(string name) where T : struct
+    {
+        ErrorHandling.ThrowIfManagedType<T>();
+        using var schema = _array.Schema();
+        using var label = schema.DimensionLabel(name);
+        ErrorHandling.CheckDataType<T>(label.DataType);
+    }
+
     private void ValidateType<T>(string name) where T : struct
     {
         ErrorHandling.ThrowIfManagedType<T>();
@@ -150,6 +158,46 @@ public sealed unsafe class Subarray : IDisposable
         using var domain = schema.Domain();
         using var dimension = domain.Dimension(index);
         ErrorHandling.CheckDataType<T>(dimension.Type());
+    }
+
+    /// <summary>
+    /// Adds a 1D range along a subarray dimension index, in the form (start, end).
+    /// </summary>
+    /// <typeparam name="T">The dimension's type.</typeparam>
+    /// <param name="labelName">The dimension's index.</param>
+    /// <param name="start">The start of the dimension's range.</param>
+    /// <param name="end">The end of the dimension's range.</param>
+    /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
+    /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
+    public void AddLabelRange<T>(string labelName, T start, T end) where T : struct
+    {
+        ValidateLabelType<T>(labelName);
+        AddLabelRange(labelName, &start, &end, null);
+    }
+
+    private void AddLabelRange(string labelName, void* start, void* end, void* stride)
+    {
+        using var ctxHandle = _ctx.Handle.Acquire();
+        using var handle = _handle.Acquire();
+        using var ms_name = new MarshaledString(labelName);
+        _ctx.handle_error(Methods.tiledb_subarray_add_label_range(ctxHandle, handle, ms_name, start, end, stride));
+    }
+
+    /// <summary>
+    /// Adds a 1D string range along a variable-sized subarray dimension label, in the form (start, end).
+    /// </summary>
+    /// <param name="labelName">The dimension label's name.</param>
+    /// <param name="start">The start of the dimension label's range.</param>
+    /// <param name="end">The end of the dimension label's range.</param>
+    /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
+    public void AddLabelRange(string labelName, string start, string end)
+    {
+        using var ctxHandle = _ctx.Handle.Acquire();
+        using var handle = _handle.Acquire();
+        using var ms_name = new MarshaledString(labelName);
+        using var ms_start = new MarshaledString(start);
+        using var ms_end = new MarshaledString(end);
+        _ctx.handle_error(Methods.tiledb_subarray_add_label_range_var(ctxHandle, handle, ms_name, ms_start, (ulong)ms_start.Length, ms_end, (ulong)ms_end.Length));
     }
 
     /// <summary>
@@ -256,6 +304,83 @@ public sealed unsafe class Subarray : IDisposable
         using var ms_start = new MarshaledString(start);
         using var ms_end = new MarshaledString(end);
         _ctx.handle_error(Methods.tiledb_subarray_add_range_var_by_name(ctxHandle, handle, ms_name, ms_start, (ulong)ms_start.Length, ms_end, (ulong)ms_end.Length));
+    }
+
+    /// <summary>
+    /// Gets the name of the dimension label for label ranges set on this dimension of the <see cref="Subarray"/>.
+    /// </summary>
+    /// <param name="dimensionIndex">The dimension's index.</param>
+    /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
+    public string GetLabelName(uint dimensionIndex)
+    {
+        using var ctxHandle = _ctx.Handle.Acquire();
+        using var handle = _handle.Acquire();
+        sbyte* result;
+        _ctx.handle_error(Methods.tiledb_subarray_get_label_name(ctxHandle, handle, dimensionIndex, &result));
+        return MarshaledStringOut.GetStringFromNullTerminated(result);
+    }
+
+    /// <summary>
+    /// Gets the range for a given dimension label and range index.
+    /// </summary>
+    /// <typeparam name="T">The dimension label's type.</typeparam>
+    /// <param name="labelName">The dimension label's name.</param>
+    /// <param name="rangeIndex">The range's index.</param>
+    /// <returns>The dimension's start and end values.</returns>
+    /// <exception cref="NotSupportedException"><typeparamref name="T"/> is not supported.</exception>
+    /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
+    public (T Start, T End) GetLabelRange<T>(string labelName, uint rangeIndex) where T : struct
+    {
+        ValidateLabelType<T>(labelName);
+        using var ctxHandle = _ctx.Handle.Acquire();
+        using var handle = _handle.Acquire();
+        using var ms_dimensionName = new MarshaledString(labelName);
+        void* startPtr, endPtr, stridePtr_unused;
+        _ctx.handle_error(Methods.tiledb_subarray_get_label_range(ctxHandle, handle, ms_dimensionName, rangeIndex, &startPtr, &endPtr, &stridePtr_unused));
+        return (Unsafe.ReadUnaligned<T>(startPtr), Unsafe.ReadUnaligned<T>(endPtr));
+    }
+
+    /// <summary>
+    /// Gets the string range for a given dimension label and range index.
+    /// </summary>
+    /// <param name="labelName">The dimension label's name.</param>
+    /// <param name="rangeIndex">The range's index.</param>
+    /// <returns>The dimension's start and end values.</returns>
+    /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
+    public (string Start, string End) GetStringLabelRange(string labelName, uint rangeIndex)
+    {
+        using var ctxHandle = _ctx.Handle.Acquire();
+        using var handle = _handle.Acquire();
+        using var ms_dimensionName = new MarshaledString(labelName);
+        ulong start_size;
+        ulong end_size;
+        _ctx.handle_error(Methods.tiledb_subarray_get_label_range_var_size(ctxHandle, handle, ms_dimensionName, rangeIndex, &start_size, &end_size));
+
+        using var startBuffer = new ScratchBuffer<byte>(checked((int)start_size), stackalloc byte[128]);
+        using var endBuffer = new ScratchBuffer<byte>(checked((int)end_size), stackalloc byte[128]);
+        fixed (byte* startPtr = startBuffer, endPtr = endBuffer)
+        {
+            _ctx.handle_error(Methods.tiledb_subarray_get_label_range_var(ctxHandle, handle, ms_dimensionName, rangeIndex, startPtr, endPtr));
+        }
+
+        var startStr = MarshaledStringOut.GetString(startBuffer.Span);
+        var endStr = MarshaledStringOut.GetString(endBuffer.Span);
+        return (startStr, endStr);
+    }
+
+    /// <summary>
+    /// Gets the number of ranges for a given dimension label name.
+    /// </summary>
+    /// <param name="labelName">The dimension label's name.</param>
+    /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
+    public ulong GetLabelRangeCount(string labelName)
+    {
+        using var ctxHandle = _ctx.Handle.Acquire();
+        using var handle = _handle.Acquire();
+        using var ms_dimensionName = new MarshaledString(labelName);
+        ulong result;
+        _ctx.handle_error(Methods.tiledb_subarray_get_label_range_num(ctxHandle, handle, ms_dimensionName, &result));
+        return result;
     }
 
     /// <summary>
@@ -373,5 +498,19 @@ public sealed unsafe class Subarray : IDisposable
         var startStr = MarshaledStringOut.GetString(startBuffer.Span);
         var endStr = MarshaledStringOut.GetString(endBuffer.Span);
         return (startStr, endStr);
+    }
+
+    /// <summary>
+    /// Checks whether the <see cref="Subarray"/> has label ranges set on the requested dimension.
+    /// </summary>
+    /// <param name="dimensionIndex">The dimension's index.</param>
+    /// <remarks>This API is experimental and subject to breaking changes without advance notice.</remarks>
+    public bool HasLabelRanges(uint dimensionIndex)
+    {
+        using var ctxHandle = _ctx.Handle.Acquire();
+        using var handle = _handle.Acquire();
+        int result;
+        _ctx.handle_error(Methods.tiledb_subarray_has_label_ranges(ctxHandle, handle, dimensionIndex, &result));
+        return result != 0;
     }
 }

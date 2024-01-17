@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using TileDB.CSharp;
 namespace TileDB.CSharp.Examples;
@@ -17,6 +17,7 @@ static class Program
         ExampleWritingSparseGlobal.Run();
         ExampleDataframe.Run();
         ExampleAggregateQuery.Run();
+        ExampleDimensionLabels.Run();
 
         ExampleFile.RunLocal();
         // ExampleFile.RunCloud("tiledb_api_token", "tiledb_namespace", "new_cloud_array_name", "s3://bucket/prefix/");
