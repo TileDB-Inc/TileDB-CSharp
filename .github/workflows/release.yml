@@ -25,7 +25,7 @@ jobs:
       # In case pushing to NuGet fails we upload the packages as artifacts to push them ourselves.
       # We must push these packages GitHub Actions generated because they are marked as deterministic.
       - name: Upload packages as artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: nuget-release
           path: pack/

@@ -56,9 +56,9 @@ jobs:
 
       # We combine the binaries of the many platforms per tag by uploading them to the same artifact.
       - name: Upload native artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: tiledb-native-${{ matrix.tag }}
+          name: tiledb-native-${{ matrix.tag }}-${{ matrix.platform }}
           path: artifacts/
           retention-days: 1
 
@@ -85,9 +85,10 @@ jobs:
         run: dotnet --info
 
       - name: Download native artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: tiledb-native-${{ matrix.tag }}
+          pattern: tiledb-native-${{ matrix.tag }}-*
+          merge-multiple: true
           path: scripts/nuget/temp
 
       - name: Build native NuGet packages
@@ -95,7 +96,7 @@ jobs:
         run: dotnet pack ./scripts/nuget/GenerateNuGetPackages.proj -p:DevelopmentBuild=true -p:VersionTag=${{ matrix.tag }}
 
       - name: Upload native NuGet packages
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: tiledb-nuget-${{ matrix.tag }}
           path: scripts/nuget/packages/
@@ -125,7 +126,7 @@ jobs:
         run: dotnet --info
 
       - name: Download native NuGet packages
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: tiledb-nuget-${{ matrix.tag }}
           path: packages
