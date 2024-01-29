@@ -28,7 +28,7 @@
     <PackageVersion Include="GitHubActionsTestLogger" Version="2.3.3" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageVersion Include="MSTest.TestAdapter" Version="3.1.1" />
-    <PackageVersion Include="MSTest.TestFramework" Version="3.1.1" />
+    <PackageVersion Include="MSTest.TestFramework" Version="3.2.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.0" PrivateAssets="all" />
     <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="9.17.0.82934" />
     <GlobalPackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" />
