@@ -112,7 +112,7 @@ internal unsafe sealed class QueryHandle : SafeHandle
         bool successful = false;
         try
         {
-            bufferHandle = new BufferHandle(ref memoryHandle, size, sizeof(ulong));
+            bufferHandle = new BufferHandle(ref memoryHandle, size * sizeof(ulong), sizeof(ulong));
 
             using var ctxHandle = ctx.Handle.Acquire();
             using var handle = Acquire();
