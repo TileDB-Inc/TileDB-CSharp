@@ -1,6 +1,7 @@
 using System;
 using System.Buffers;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace TileDB.CSharp.Test;
@@ -691,6 +692,58 @@ public class QueryTest
         {
             Assert.ThrowsException<TileDBException>(() => q.UnsafeSetDataBuffer("foo", disposalCanary.Memory.Pin(), 1 * sizeof(int)));
             Assert.AreEqual(3, disposalCanary.UnpinCount);
+        }
+    }
+
+    [TestMethod]
+    public void TestBufferGetsFreedOnNoDispose()
+    {
+        // Create array
+        var context = Context.GetDefault();
+        Assert.IsNotNull(context);
+
+        using var dim1 = Dimension.Create(context, "rows", 1, 2, 2);
+        using var dim2 = Dimension.Create(context, "cols", 1, 2, 2);
+        using var domain = new Domain(context);
+        domain.AddDimensions(dim1, dim2);
+
+        using var a1 = new Attribute(context, "a1", DataType.Boolean);
+
+        using var array_schema = new ArraySchema(context, ArrayType.Dense);
+        array_schema.AddAttribute(a1);
+        array_schema.SetDomain(domain);
+        array_schema.Check();
+
+        using var tmpArrayPath = new TemporaryDirectory("query_unpin");
+
+        Array.Create(context, tmpArrayPath, array_schema);
+
+        using var array = new Array(context, tmpArrayPath);
+        array.Open(QueryType.Read);
+
+        WeakReference bufferWeakRef = CreateQueryAndSetBuffer(array);
+
+        for (int i = 0; i < 10 && bufferWeakRef.IsAlive; i++)
+        {
+#pragma warning disable S1215 // "GC.Collect" should not be called
+            GC.Collect();
+#pragma warning restore S1215 // "GC.Collect" should not be called
+            GC.WaitForPendingFinalizers();
+        }
+
+        Assert.IsFalse(bufferWeakRef.IsAlive, "Buffer was not garbage-collected");
+
+        // Creates a query, sets a buffer to it, does not dispose the query
+        // and returns a weak reference to the buffer, to see if the GC will
+        // collect it. This is placed in a separate function marked with
+        // NoInline to prevent the JIT from extending the buffer's lifetime.
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        static WeakReference CreateQueryAndSetBuffer(Array array)
+        {
+            var q = new Query(array);
+            int[] buffer = new int [16];
+            q.SetDataBuffer("rows", buffer);
+            return new(buffer);
         }
     }
 
