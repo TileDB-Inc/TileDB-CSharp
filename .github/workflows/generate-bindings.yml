@@ -36,7 +36,7 @@ jobs:
         run: dotnet msbuild ./scripts/generate-bindings/GenerateBindings.proj -p:Version=${{ inputs.version }} -p:VersionTag=${{ inputs.commit_id }} /restore
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with:
           branch: bindings-update/${{ inputs.version }}
           draft: true
