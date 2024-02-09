@@ -14,8 +14,8 @@ internal unsafe sealed class QueryHandle : SafeHandle
     // dictionaries are used and to prevent using them after the handle
     // is freed.
     // This does _not_ mean that setting query buffers from multiple threads
-    // is safe (it never was), but freeing the handle while it is being used
-    // _is_ safe, according to the guarantees provided by SafeHandle.
+    // is safe (it never was), but calling Dispose() on the handle while another
+    // thread is using it _is_ safe, according to the guarantees provided by SafeHandle.
     private readonly Dictionary<string, BufferHandle> _dataBufferHandles = [];
     private readonly Dictionary<string, BufferHandle> _offsetsBufferHandles = [];
     private readonly Dictionary<string, BufferHandle> _validityBufferHandles = [];
@@ -53,12 +53,13 @@ internal unsafe sealed class QueryHandle : SafeHandle
 
     protected override bool ReleaseHandle()
     {
+        // Free the native query handle. This must happen first.
         fixed (IntPtr* p = &handle)
         {
             Methods.tiledb_query_free((tiledb_query_t**)p);
         }
-        // Free the handles. ReleaseHandle is guaranteed to run only once
-        // at a point where no one has acquired or can acquire the handle
+        // Free the buffer handles. ReleaseHandle is guaranteed to run only
+        // once at a point where no one has acquired or can acquire the handle
         // anymore so this is safe.
         DisposeValuesAndClear(_dataBufferHandles);
         DisposeValuesAndClear(_offsetsBufferHandles);
@@ -89,6 +90,7 @@ internal unsafe sealed class QueryHandle : SafeHandle
             bufferHandle = new BufferHandle(ref memoryHandle, byteSize, elementSize);
 
             using var ctxHandle = ctx.Handle.Acquire();
+            // This must be in scope while calling AddOrReplaceBufferHandle.
             using var handle = Acquire();
             using var ms_name = new MarshaledString(name);
             ctx.handle_error(Methods.tiledb_query_set_data_buffer(ctxHandle, handle, ms_name, bufferHandle.DataPointer, bufferHandle.SizePointer));
@@ -115,6 +117,7 @@ internal unsafe sealed class QueryHandle : SafeHandle
             bufferHandle = new BufferHandle(ref memoryHandle, size * sizeof(ulong), sizeof(ulong));
 
             using var ctxHandle = ctx.Handle.Acquire();
+            // This must be in scope while calling AddOrReplaceBufferHandle.
             using var handle = Acquire();
             using var ms_name = new MarshaledString(name);
             ctx.handle_error(Methods.tiledb_query_set_offsets_buffer(ctxHandle, handle, ms_name, (ulong*)bufferHandle.DataPointer, bufferHandle.SizePointer));
@@ -141,6 +144,7 @@ internal unsafe sealed class QueryHandle : SafeHandle
             bufferHandle = new BufferHandle(ref memoryHandle, byteSize, sizeof(byte));
 
             using var ctxHandle = ctx.Handle.Acquire();
+            // This must be in scope while calling AddOrReplaceBufferHandle.
             using var handle = Acquire();
             using var ms_name = new MarshaledString(name);
             ctx.handle_error(Methods.tiledb_query_set_validity_buffer(ctxHandle, handle, ms_name, (byte*)bufferHandle.DataPointer, bufferHandle.SizePointer));
@@ -181,6 +185,7 @@ internal unsafe sealed class QueryHandle : SafeHandle
 
     public Dictionary<string, Tuple<ulong, ulong?, ulong?>> ResultBufferElements(Array array)
     {
+        // Do not remove; the handle must be acquired while accessing the buffer dictionaries.
         using var handle = Acquire();
         using var schema = array.Schema();
         using var domain = schema.Domain();
@@ -210,24 +215,28 @@ internal unsafe sealed class QueryHandle : SafeHandle
 
     public ulong GetResultDataElements(string name)
     {
+        // Do not remove; the handle must be acquired while accessing the buffer dictionaries.
         using var handle = Acquire();
         return _dataBufferHandles[name].SizeInElements;
     }
 
     public ulong GetResultDataBytes(string name)
     {
+        // Do not remove; the handle must be acquired while accessing the buffer dictionaries.
         using var handle = Acquire();
         return _dataBufferHandles[name].SizeInBytes;
     }
 
     public ulong GetResultOffsets(string name)
     {
+        // Do not remove; the handle must be acquired while accessing the buffer dictionaries.
         using var handle = Acquire();
         return _offsetsBufferHandles[name].SizeInElements;
     }
 
     public ulong GetResultValidities(string name)
     {
+        // Do not remove; the handle must be acquired while accessing the buffer dictionaries.
         using var handle = Acquire();
         return _validityBufferHandles[name].SizeInElements;
     }
