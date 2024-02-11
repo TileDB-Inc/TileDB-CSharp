@@ -2,9 +2,7 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 using QueryHandle = TileDB.CSharp.Marshalling.SafeHandles.QueryHandle;
@@ -81,11 +79,6 @@ public sealed unsafe class Query : IDisposable
     private readonly Array _array;
     private readonly Context _ctx;
     private readonly QueryHandle _handle;
-    private bool _disposed;
-
-    private readonly Dictionary<string, BufferHandle> _dataBufferHandles = new Dictionary<string, BufferHandle>();
-    private readonly Dictionary<string, BufferHandle> _offsetsBufferHandles = new Dictionary<string, BufferHandle>();
-    private readonly Dictionary<string, BufferHandle> _validityBufferHandles = new Dictionary<string, BufferHandle>();
 
     /// <summary>
     /// Creates a <see cref="Query"/>.
@@ -135,10 +128,7 @@ public sealed unsafe class Query : IDisposable
     /// </summary>
     public void Dispose()
     {
-        if (_disposed) return;
         _handle.Dispose();
-        FreeAllBufferHandles();
-        _disposed = true;
     }
 
     internal QueryHandle Handle => _handle;
@@ -288,7 +278,7 @@ public sealed unsafe class Query : IDisposable
             ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(data));
         }
 
-        UnsafeSetDataBuffer(name, data.Pin(), (ulong)data.Length * (ulong)sizeof(T), sizeof(T));
+        _handle.UnsafeSetDataBuffer(_ctx, name, data.Pin(), (ulong)data.Length * (ulong)sizeof(T), sizeof(T));
     }
 
     /// <summary>
@@ -314,7 +304,7 @@ public sealed unsafe class Query : IDisposable
 
         CheckDataType<T>(name);
 
-        UnsafeSetDataBuffer(name, new MemoryHandle(data), size * (ulong)sizeof(T), sizeof(T));
+        _handle.UnsafeSetDataBuffer(_ctx, name, new MemoryHandle(data), size * (ulong)sizeof(T), sizeof(T));
     }
 
     /// <summary>
@@ -358,7 +348,7 @@ public sealed unsafe class Query : IDisposable
             ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(byteSize));
         }
 
-        UnsafeSetDataBuffer(name, new MemoryHandle(data), byteSize, 0);
+        _handle.UnsafeSetDataBuffer(_ctx, name, new MemoryHandle(data), byteSize, 0);
     }
 
     /// <summary>
@@ -375,7 +365,7 @@ public sealed unsafe class Query : IDisposable
             ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(data));
         }
 
-        UnsafeSetDataBuffer(name, data.Pin(), (ulong)data.Length, 0);
+        _handle.UnsafeSetDataBuffer(_ctx, name, data.Pin(), (ulong)data.Length, 0);
     }
 
     /// <summary>
@@ -404,30 +394,7 @@ public sealed unsafe class Query : IDisposable
             ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(byteSize));
         }
 
-        UnsafeSetDataBuffer(name, memoryHandle, byteSize, 0);
-    }
-
-    private void UnsafeSetDataBuffer(string name, MemoryHandle memoryHandle, ulong byteSize, int elementSize)
-    {
-        BufferHandle? handle = null;
-        bool successful = false;
-        try
-        {
-            handle = new BufferHandle(ref memoryHandle, byteSize, elementSize);
-
-            SetDataBufferCore(name, handle.DataPointer, handle.SizePointer);
-
-            AddOrReplaceBufferHandle(_dataBufferHandles, name, handle);
-            successful = true;
-        }
-        finally
-        {
-            if (!successful)
-            {
-                memoryHandle.Dispose();
-                handle?.Dispose();
-            }
-        }
+        _handle.UnsafeSetDataBuffer(_ctx, name, memoryHandle, byteSize, 0);
     }
 
     /// <summary>
@@ -447,14 +414,6 @@ public sealed unsafe class Query : IDisposable
         }
 
         UnsafeSetDataBuffer(name, MemoryMarshal.AsMemory(data));
-    }
-
-    private void SetDataBufferCore(string name, void* data, ulong* size)
-    {
-        using var ctxHandle = _ctx.Handle.Acquire();
-        using var handle = _handle.Acquire();
-        using var ms_name = new MarshaledString(name);
-        _ctx.handle_error(Methods.tiledb_query_set_data_buffer(ctxHandle, handle, ms_name, data, size));
     }
 
     /// <summary>
@@ -487,7 +446,7 @@ public sealed unsafe class Query : IDisposable
             ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(data));
         }
 
-        UnsafeSetOffsetsBuffer(name, data.Pin(), (ulong)data.Length);
+        _handle.UnsafeSetOffsetsBuffer(_ctx, name, data.Pin(), (ulong)data.Length);
     }
 
     /// <summary>
@@ -510,56 +469,7 @@ public sealed unsafe class Query : IDisposable
             ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(size));
         }
 
-        UnsafeSetOffsetsBuffer(name, new MemoryHandle(data), size);
-    }
-
-    /// <summary>
-    /// Sets the offsets buffer for a variable-sized attribute or dimension
-    /// to a pinned memory buffer pointed by a <see cref="MemoryHandle"/>.
-    /// </summary>
-    /// <param name="name">The name of the attribute or the dimension.</param>
-    /// <param name="memoryHandle">A <see cref="MemoryHandle"/> pointing to the buffer.</param>
-    /// <param name="size">The buffer's size <em>in 64-bit integers</em>.</param>
-    /// <exception cref="ArgumentException"><paramref name="size"/> is zero.</exception>
-    /// <remarks>
-    /// <para>After calling this method, user code must not use <paramref name="memoryHandle"/>;
-    /// its ownership is transferred to this <see cref="Query"/> object.</para>
-    /// <para><paramref name="memoryHandle"/> will be disposed when one of the following happens:
-    /// <list type="bullet">
-    /// <item>The <see cref="Dispose"/> method is called.</item>
-    /// <item>The buffer for <paramref name="name"/> is reassigned through subsequent calls to this method.</item>
-    /// <item>This method call throws an exception.</item>
-    /// </list></para>
-    /// </remarks>
-    private void UnsafeSetOffsetsBuffer(string name, MemoryHandle memoryHandle, ulong size)
-    {
-        BufferHandle? handle = null;
-        bool successful = false;
-        try
-        {
-            handle = new BufferHandle(ref memoryHandle, size * sizeof(ulong), sizeof(ulong));
-
-            SetOffsetsBufferCore(name, (ulong*)handle.DataPointer, handle.SizePointer);
-
-            AddOrReplaceBufferHandle(_offsetsBufferHandles, name, handle);
-            successful = true;
-        }
-        finally
-        {
-            if (!successful)
-            {
-                memoryHandle.Dispose();
-                handle?.Dispose();
-            }
-        }
-    }
-
-    private void SetOffsetsBufferCore(string name, ulong* data, ulong* size)
-    {
-        using var ctxHandle = _ctx.Handle.Acquire();
-        using var handle = _handle.Acquire();
-        using var ms_name = new MarshaledString(name);
-        _ctx.handle_error(Methods.tiledb_query_set_offsets_buffer(ctxHandle, handle, ms_name, data, size));
+        _handle.UnsafeSetOffsetsBuffer(_ctx, name, new MemoryHandle(data), size);
     }
 
     /// <summary>
@@ -616,7 +526,7 @@ public sealed unsafe class Query : IDisposable
             ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(data));
         }
 
-        UnsafeSetValidityBuffer(name, data.Pin(), (ulong)data.Length);
+        _handle.UnsafeSetValidityBuffer(_ctx, name, data.Pin(), (ulong)data.Length);
     }
 
     /// <summary>
@@ -642,7 +552,7 @@ public sealed unsafe class Query : IDisposable
             ThrowHelpers.ThrowBufferCannotBeEmpty(nameof(size));
         }
 
-        UnsafeSetValidityBuffer(name, new MemoryHandle(data), size);
+        _handle.UnsafeSetValidityBuffer(_ctx, name, new MemoryHandle(data), size);
     }
 
     /// <summary>
@@ -664,56 +574,6 @@ public sealed unsafe class Query : IDisposable
         }
 
         SetValidityBuffer(name, MemoryMarshal.AsMemory(data));
-    }
-
-    /// <summary>
-    /// Sets the validity buffer for a nullable attribute
-    /// to a pinned memory buffer pointed by a <see cref="MemoryHandle"/>.
-    /// </summary>
-    /// <param name="name">The name of the attribute.</param>
-    /// <param name="memoryHandle">A <see cref="MemoryHandle"/> pointing to the buffer.</param>
-    /// <param name="size">The buffer's size.</param>
-    /// <exception cref="ArgumentException"><paramref name="size"/> is zero.</exception>
-    /// <remarks>
-    /// <para>Each value corresponds to whether an element exists (1) or not (0).</para>
-    /// <para>After calling this method, user code must not use <paramref name="memoryHandle"/>;
-    /// its ownership is transferred to this <see cref="Query"/> object.</para>
-    /// <para><paramref name="memoryHandle"/> will be disposed when one of the following happens:
-    /// <list type="bullet">
-    /// <item>The <see cref="Dispose"/> method is called.</item>
-    /// <item>The buffer for <paramref name="name"/> is reassigned through subsequent calls to this method.</item>
-    /// <item>This method call throws an exception.</item>
-    /// </list></para>
-    /// </remarks>
-    private void UnsafeSetValidityBuffer(string name, MemoryHandle memoryHandle, ulong size)
-    {
-        BufferHandle? handle = null;
-        bool successful = false;
-        try
-        {
-            handle = new BufferHandle(ref memoryHandle, size * sizeof(byte), sizeof(byte));
-
-            SetValidityBufferCore(name, (byte*)handle.DataPointer, handle.SizePointer);
-
-            AddOrReplaceBufferHandle(_validityBufferHandles, name, handle);
-            successful = true;
-        }
-        finally
-        {
-            if (!successful)
-            {
-                memoryHandle.Dispose();
-                handle?.Dispose();
-            }
-        }
-    }
-
-    private void SetValidityBufferCore(string name, byte* data, ulong* size)
-    {
-        using var ctxHandle = _ctx.Handle.Acquire();
-        using var handle = _handle.Acquire();
-        using var ms_name = new MarshaledString(name);
-        _ctx.handle_error(Methods.tiledb_query_set_validity_buffer(ctxHandle, handle, ms_name, data, size));
     }
 
     /// <summary>
@@ -1036,27 +896,6 @@ public sealed unsafe class Query : IDisposable
         ErrorHandling.CheckDataType<T>(@field.DataType);
     }
 
-    private static DataType GetDataType(string name, ArraySchema schema, Domain domain)
-    {
-        if (schema.HasAttribute(name))
-        {
-            using var attribute = schema.Attribute(name);
-            return attribute.Type();
-        }
-        else if (domain.HasDimension(name))
-        {
-            using var dimension = domain.Dimension(name);
-            return dimension.Type();
-        }
-
-        if (name == "__coords")
-        {
-            return domain.Type();
-        }
-
-        throw new ArgumentException("No datatype for " + name);
-    }
-
     /// <summary>
     /// Returns the number of elements read into result buffers from a read query.
     /// <list type="table">
@@ -1087,33 +926,7 @@ public sealed unsafe class Query : IDisposable
     /// <see cref="GetResultDataElements"/>, <see cref="GetResultDataBytes"/>,
     /// <see cref="GetResultOffsets"/> and <see cref="GetResultValidities"/> instead.
     /// </remarks>
-    public Dictionary<string, Tuple<ulong, ulong?, ulong?>> ResultBufferElements()
-    {
-        using var schema = _array.Schema();
-        using var domain = schema.Domain();
-        var buffers = new Dictionary<string, Tuple<ulong, ulong?, ulong?>>();
-        foreach ((string key, BufferHandle dataHandle) in _dataBufferHandles)
-        {
-            ulong? offsetNum = null;
-            ulong? validityNum = null;
-
-            ulong typeSize = EnumUtil.DataTypeSize(GetDataType(key, schema, domain));
-            ulong dataNum = dataHandle.SizeInBytes / typeSize;
-
-            if (_offsetsBufferHandles.TryGetValue(key, out BufferHandle? offsetHandle))
-            {
-                offsetNum = offsetHandle.SizeInBytes / sizeof(ulong);
-            }
-            if (_validityBufferHandles.TryGetValue(key, out BufferHandle? validityHandle))
-            {
-                validityNum = validityHandle.SizeInBytes;
-            }
-
-            buffers.Add(key, new(dataNum, offsetNum, validityNum));
-        }
-
-        return buffers;
-    }
+    public Dictionary<string, Tuple<ulong, ulong?, ulong?>> ResultBufferElements() => _handle.ResultBufferElements(_array);
 
     /// <summary>
     /// Returns the number of elements read into the data buffer of an attribute or dimension.
@@ -1123,7 +936,7 @@ public sealed unsafe class Query : IDisposable
     /// been registered with <paramref name="name"/>.</exception>
     /// <exception cref="InvalidOperationException">The data buffer had been
     /// set with an overload of <c>UnsafeSetDataBuffer</c>.</exception>
-    public ulong GetResultDataElements(string name) => _dataBufferHandles[name].SizeInElements;
+    public ulong GetResultDataElements(string name) => _handle.GetResultDataElements(name);
 
     /// <summary>
     /// Returns the number of bytes read into the data buffer of an attribute or dimension.
@@ -1135,7 +948,7 @@ public sealed unsafe class Query : IDisposable
     /// </returns>
     /// <exception cref="KeyNotFoundException">No data buffer has
     /// been registered with <paramref name="name"/>.</exception>
-    public ulong GetResultDataBytes(string name) => _dataBufferHandles[name].SizeInBytes;
+    public ulong GetResultDataBytes(string name) => _handle.GetResultDataBytes(name);
 
     /// <summary>
     /// Returns the number of offsets read into the offsets buffer of a variable-sized attribute or dimension.
@@ -1143,7 +956,7 @@ public sealed unsafe class Query : IDisposable
     /// <param name="name">The name of the attribute or dimension.</param>
     /// <exception cref="KeyNotFoundException">No offsets buffer has
     /// been registered with <paramref name="name"/>.</exception>
-    public ulong GetResultOffsets(string name) => _offsetsBufferHandles[name].SizeInElements;
+    public ulong GetResultOffsets(string name) => _handle.GetResultOffsets(name);
 
     /// <summary>
     /// Returns the number of validity bytes read into the validity buffer of a nullable attribute.
@@ -1151,35 +964,7 @@ public sealed unsafe class Query : IDisposable
     /// <param name="name">The name of the attribute or dimension.</param>
     /// <exception cref="KeyNotFoundException">No validity buffer has
     /// been registered with <paramref name="name"/>.</exception>
-    public ulong GetResultValidities(string name) => _validityBufferHandles[name].SizeInElements;
-
-    /// <summary>
-    /// Free all handles.
-    /// </summary>
-    private void FreeAllBufferHandles()
-    {
-        DisposeValuesAndClear(_dataBufferHandles);
-        DisposeValuesAndClear(_offsetsBufferHandles);
-        DisposeValuesAndClear(_validityBufferHandles);
-
-        static void DisposeValuesAndClear(Dictionary<string, BufferHandle> handles)
-        {
-            foreach (var bh in handles)
-            {
-                bh.Value.Dispose();
-            }
-            handles.Clear();
-        }
-    }
-
-    private static void AddOrReplaceBufferHandle(Dictionary<string, BufferHandle> dict, string name, BufferHandle handle)
-    {
-        if (dict.TryGetValue(name, out var existingHandle))
-        {
-            existingHandle.Dispose();
-        }
-        dict[name] = handle;
-    }
+    public ulong GetResultValidities(string name) => _handle.GetResultValidities(name);
 
     private sealed class BufferHandle : IDisposable
     {
