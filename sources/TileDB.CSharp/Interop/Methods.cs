@@ -1533,6 +1533,10 @@ namespace TileDB.Interop
         public static extern int tiledb_query_get_plan(tiledb_ctx_t* ctx, tiledb_query_t* query, tiledb_string_t** plan);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("capi_return_t")]
+        public static extern int tiledb_vfs_ls_recursive(tiledb_ctx_t* ctx, tiledb_vfs_t* vfs, [NativeTypeName("const char *")] sbyte* path, [NativeTypeName("tiledb_ls_callback_t")] delegate* unmanaged[Cdecl]<sbyte*, nuint, ulong, void*, int> callback, void* data);
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void tiledb_dimension_label_free(tiledb_dimension_label_t** dim_label);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
