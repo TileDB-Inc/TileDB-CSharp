@@ -153,4 +153,68 @@ public class VFSTest
 
         Assert.Fail("Exception was not propagated.");
     }
+
+    [TestMethod]
+    public void TestVisitRecursive()
+    {
+        Assert.Inconclusive("VisitChildrenRecursive is currently supported only on S3.");
+
+        using var dir = new TemporaryDirectory("vfs-visit");
+
+        using var vfs = new VFS();
+        vfs.Touch(Path.Combine(dir, "dir1/file1"));
+        vfs.Touch(Path.Combine(dir, "dir2/file2"));
+        vfs.Touch(Path.Combine(dir, "dir3/file3"));
+
+        int i = 0;
+
+        vfs.VisitChildrenRecursive(dir, (uri, size, arg) =>
+        {
+            string path = new Uri(uri).LocalPath;
+            Assert.IsTrue(System.IO.File.Exists(path));
+            Assert.AreEqual((string)dir, Path.GetDirectoryName(path));
+            Assert.AreEqual(0ul, size);
+            Assert.AreEqual(555, arg);
+
+            i++;
+            return i != 2;
+        }, 555);
+
+        Assert.AreEqual(2, i);
+    }
+
+    [TestMethod]
+    public void TestVisitRecursivePropagatesExceptions()
+    {
+        Assert.Inconclusive("VisitChildrenRecursive is currently supported only on S3.");
+
+        using var dir = new TemporaryDirectory("vfs-visit-exceptions");
+
+        const string ExceptionKey = "foo";
+
+        using var vfs = new VFS();
+        vfs.Touch(Path.Combine(dir, "dir1/file1"));
+        vfs.Touch(Path.Combine(dir, "dir2/file2"));
+        vfs.Touch(Path.Combine(dir, "dir3/file3"));
+
+        int i = 0;
+
+        try
+        {
+            vfs.VisitChildrenRecursive(dir, (_, _, _) =>
+            {
+                i++;
+                throw new Exception(ExceptionKey);
+            }, 0);
+        }
+        catch (Exception e)
+        {
+            Assert.AreEqual(1, i);
+            Assert.AreEqual(typeof(Exception), e.GetType());
+            Assert.AreEqual(ExceptionKey, e.Message);
+            return;
+        }
+
+        Assert.Fail("Exception was not propagated.");
+    }
 }
