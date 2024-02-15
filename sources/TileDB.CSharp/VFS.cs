@@ -335,6 +335,25 @@ public unsafe sealed class VFS : IDisposable
         return shouldContinue ? 1 : 0;
     }
 
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    private static int VisitRecursiveCallback(sbyte* uriPtr, nuint uriSize, ulong size, void* data)
+    {
+        string uri = MarshaledStringOut.GetStringFromNullTerminated(uriPtr);
+        VisitRecursiveCallbackData* callbackData = (VisitRecursiveCallbackData*)data;
+        Debug.Assert(callbackData->Exception is null);
+        bool shouldContinue;
+        try
+        {
+            shouldContinue = callbackData->Invoke(uri, size);
+        }
+        catch (Exception e)
+        {
+            callbackData->Exception = ExceptionDispatchInfo.Capture(e);
+            shouldContinue = false;
+        }
+        return shouldContinue ? 1 : 0;
+    }
+
     /// <summary>
     /// Lists the top-level children of a directory.
     /// </summary>
@@ -350,6 +369,23 @@ public unsafe sealed class VFS : IDisposable
         VisitChildren(uri, static (uri, list) =>
         {
             list.Add(uri);
+            return true;
+        }, list);
+        return list;
+    }
+
+    /// <summary>
+    /// Lists all files of a directory and its subdirectories recursively.
+    /// </summary>
+    /// <param name="uri">The URI of the directory.</param>
+    /// <returns>A <see cref="List{T}"/> containing the files of the directory in <paramref name="uri"/>
+    /// and their sizes.</returns>
+    public List<(string Uri, ulong Size)> GetChildrenRecursive(string uri)
+    {
+        var list = new List<(string Uri, ulong Size)>();
+        VisitChildrenRecursive(uri, static (uri, size, list) =>
+        {
+            list.Add((uri, size));
             return true;
         }, list);
         return list;
@@ -391,6 +427,38 @@ public unsafe sealed class VFS : IDisposable
         callbackData.Exception?.Throw();
     }
 
+    /// <summary>
+    /// Visits all files of a directory and its subdirectories recursively.
+    /// </summary>
+    /// <param name="uri">The URI of the directory to visit.</param>
+    /// <param name="callback">A callback delegate that will be called with the URI of each file,
+    /// its size and <paramref name="callbackArg"/>, and returns whether to continue visiting.</param>
+    /// <param name="callbackArg">An argument that will be passed to <paramref name="callback"/>.</param>
+    /// <typeparam name="T">The type of <paramref name="callbackArg"/>.</typeparam>
+    public void VisitChildrenRecursive<T>(string uri, Func<string, ulong, T, bool> callback, T callbackArg)
+    {
+        ValueTuple<Func<string, ulong, T, bool>, T> data = (callback, callbackArg);
+        var callbackData = new VisitRecursiveCallbackData()
+        {
+            Callback = static (uri, size, arg) =>
+            {
+                var dataPtr = (ValueTuple<Func<string, ulong, T, bool>, T>*)arg;
+                return dataPtr->Item1(uri, size, dataPtr->Item2);
+            },
+            CallbackArgument = (IntPtr)(&data)
+        };
+
+        using var ctxHandle = ctx_.Handle.Acquire();
+        using var handle = handle_.Acquire();
+        using var ms_uri = new MarshaledString(uri);
+        // Taking a pointer to callbackData is safe; the callback will be invoked only
+        // during the call to tiledb_vfs_ls_recursive. Contrast this with tiledb_query_submit_async where we
+        // had to use a GCHandle because the callback might be invoked after we return from it.
+        // We also are not susceptible to GC holes; callbackData is in the stack and won't be moved around.
+        ctx_.handle_error(Methods.tiledb_vfs_ls_recursive(ctxHandle, handle, ms_uri, &VisitRecursiveCallback, &callbackData));
+        callbackData.Exception?.Throw();
+    }
+
     private struct VisitCallbackData
     {
         public Func<string, IntPtr, bool> Callback;
@@ -402,6 +470,20 @@ public unsafe sealed class VFS : IDisposable
         // and because the native library is compiled with MSVC).
         public ExceptionDispatchInfo? Exception;
 
-        public bool Invoke(string uri) => Callback(uri, CallbackArgument);
+        public readonly bool Invoke(string uri) => Callback(uri, CallbackArgument);
+    }
+
+    private struct VisitRecursiveCallbackData
+    {
+        public Func<string, ulong, IntPtr, bool> Callback;
+
+        public IntPtr CallbackArgument;
+
+        // If the callback threw an exception we will save it here and rethrow it once we leave native code.
+        // The reason we do this is that throwing exceptions in P/Invoke is not portable (works only on Windows
+        // and because the native library is compiled with MSVC).
+        public ExceptionDispatchInfo? Exception;
+
+        public readonly bool Invoke(string uri, ulong size) => Callback(uri, size, CallbackArgument);
     }
 }
