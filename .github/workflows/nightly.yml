@@ -29,7 +29,7 @@ jobs:
             platform: windows-x86_64
             BOOTSTRAP: ../bootstrap.ps1 -EnableS3 -EnableSerialization -EnableVcpkg
           - tag: dev
-        tag: [release-2.19, dev]
+        tag: [release-2.20, dev]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout TileDB
