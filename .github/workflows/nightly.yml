@@ -147,7 +147,7 @@ jobs:
 
   Create-Issue:
     needs: Test-NuGet
-    if: failure()
+    if: failure() && github.event_name == 'schedule'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout TileDB-CSharp
