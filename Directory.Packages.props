@@ -27,9 +27,9 @@
     <PackageVersion Include="$(TileDBNativePackageName)" Version="$(TileDBNativePackageVersion)" />
     <PackageVersion Include="GitHubActionsTestLogger" Version="2.3.3" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
-    <PackageVersion Include="MSTest.TestAdapter" Version="3.2.0" />
+    <PackageVersion Include="MSTest.TestAdapter" Version="3.2.2" />
     <PackageVersion Include="MSTest.TestFramework" Version="3.2.0" />
-    <PackageVersion Include="coverlet.collector" Version="6.0.0" PrivateAssets="all" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.1" PrivateAssets="all" />
     <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="9.20.0.85982" />
     <GlobalPackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" />
   </ItemGroup>
