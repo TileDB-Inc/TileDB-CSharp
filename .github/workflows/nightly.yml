@@ -20,14 +20,12 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         include:
-          - BOOTSTRAP: ../bootstrap --enable-s3 --enable-serialization --disable-avx2 --enable-vcpkg
           - os: ubuntu-latest
             platform: linux-x86_64
           - os: macos-latest
             platform: macos-x86_64
           - os: windows-latest
             platform: windows-x86_64
-            BOOTSTRAP: ../bootstrap.ps1 -EnableS3 -EnableSerialization -EnableVcpkg
           - tag: dev
         tag: [release-2.20, dev]
     runs-on: ${{ matrix.os }}
@@ -37,6 +35,16 @@ jobs:
         with:
           repository: TileDB-Inc/TileDB
           ref: ${{ matrix.tag }}
+      # This must happen after checking out the repository, because Ninja gets installed
+      # in the repository's directory that gets removed before the checkout/
+      - name: Install Ninja
+        uses: seanmiddleditch/gha-setup-ninja@v4
+      - name: Setup MSVC toolset (VS 2022)
+        uses: TheMrMilchmann/setup-msvc-dev@v3
+        if: matrix.os == 'windows-latest'
+        with:
+          arch: x64
+          toolset: 14.39
       - name: Export GitHub Actions cache variables
         uses: actions/github-script@v7
         with:
@@ -46,13 +54,10 @@ jobs:
       - name: Build TileDB
         run: |
           mkdir -p build
-          cd build
-          ${{ matrix.BOOTSTRAP }}
-          cmake --build . --config Release
-          cmake --build . --config Release --target install-tiledb
-          cd ../
           mkdir -p artifacts/${{ matrix.platform }}
-          mv build/dist/* artifacts/${{ matrix.platform }}
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DTILEDB_SERIALIZATION=ON -DTILEDB_S3=ON -DTILEDB_VCPKG=ON -DCOMPILER_SUPPORTS_AVX2=OFF -DTILEDB_CMAKE_IDE=ON
+          cmake --build build -j --target tiledb
+          cmake --install build --prefix artifacts/${{ matrix.platform }}
 
       # We combine the binaries of the many platforms per tag by uploading them to the same artifact.
       - name: Upload native artifacts
@@ -147,7 +152,7 @@ jobs:
 
   Create-Issue:
     needs: Test-NuGet
-    if: failure()
+    if: failure() && github.event_name == 'schedule'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout TileDB-CSharp
