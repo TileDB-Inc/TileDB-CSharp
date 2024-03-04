@@ -30,7 +30,7 @@
     <PackageVersion Include="MSTest.TestAdapter" Version="3.2.2" />
     <PackageVersion Include="MSTest.TestFramework" Version="3.2.2" />
     <PackageVersion Include="coverlet.collector" Version="6.0.1" PrivateAssets="all" />
-    <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="9.20.0.85982" />
+    <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="9.21.0.86780" />
     <GlobalPackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" />
   </ItemGroup>
 </Project>
