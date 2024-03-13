@@ -9,6 +9,7 @@
     <InputDir>$(TempDir)/download/include</InputDir>
     <RspFile>$(TempDir)/generate.rsp</RspFile>
     <AccessSpecifier>%2A=internal</AccessSpecifier>
+    <GitHubOrganization>TileDB-Inc</GitHubOrganization>
   </PropertyGroup>
 
   <ItemGroup>
@@ -69,7 +70,7 @@
       Text="Version and VersionTag must be specified." />
 
     <PropertyGroup>
-      <DownloadUrl>https://github.com/TileDB-Inc/TileDB/releases/download/$(Version)/TileDB-windows-x86_64-$(Version)-$(VersionTag).zip</DownloadUrl>
+      <DownloadUrl>https://github.com/$(GitHubOrganization)/TileDB/releases/download/$(Version)/TileDB-windows-x86_64-$(Version)-$(VersionTag).zip</DownloadUrl>
       <ExtractDir>$(TempDir)/download</ExtractDir>
     </PropertyGroup>
     <DownloadFile

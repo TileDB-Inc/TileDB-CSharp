@@ -5,6 +5,7 @@
     <RuntimeJson>$(TempDir)/runtime.json</RuntimeJson>
     <MetapackageProject>./TileDB.Native.proj</MetapackageProject>
     <NativePackageTemplateProject>./TileDB.Native.runtime.template.proj</NativePackageTemplateProject>
+    <GitHubOrganization>TileDB-Inc</GitHubOrganization>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(DevelopmentBuild) == true">
@@ -47,7 +48,7 @@
       Text="Version and VersionTag must be specified." />
 
     <PropertyGroup>
-      <DownloadUrl>https://github.com/TileDB-Inc/TileDB/releases/download/$(Version)/TileDB-%(NativePlatform.Identity)-$(Version)-$(VersionTag).%(NativePlatform.ArchiveExtension)</DownloadUrl>
+      <DownloadUrl>https://github.com/$(GitHubOrganization)/TileDB/releases/download/$(Version)/TileDB-%(NativePlatform.Identity)-$(Version)-$(VersionTag).%(NativePlatform.ArchiveExtension)</DownloadUrl>
       <ExtractDir>$(TempDir)/%(NativePlatform.Identity)</ExtractDir>
     </PropertyGroup>
     <DownloadFile
