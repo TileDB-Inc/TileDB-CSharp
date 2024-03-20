@@ -52,5 +52,7 @@ namespace TileDB.Interop
         TILEDB_TIME_AS = 39,
         TILEDB_BLOB = 40,
         TILEDB_BOOL = 41,
+        TILEDB_GEOM_WKB = 42,
+        TILEDB_GEOM_WKT = 43,
     }
 }

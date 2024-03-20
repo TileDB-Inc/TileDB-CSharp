@@ -2,7 +2,9 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <TileDBNativePackageName>TileDB.Native</TileDBNativePackageName>
-    <TileDBNativePackageVersion>[2.20.0,2.21.0)</TileDBNativePackageVersion>
+    <TileDBNativeVersionMajor>2</TileDBNativeVersionMajor>
+    <TileDBNativeVersionMinor>21</TileDBNativeVersionMinor>
+    <TileDBNativePackageVersion>[$(TileDBNativeVersionMajor).$(TileDBNativeVersionMinor).0,$(TileDBNativeVersionMajor).$([MSBuild]::Add($(TileDBNativeVersionMinor), 1)).0)</TileDBNativePackageVersion>
 
     <!-- The DevelopmentBuild property switches to the locally built native packages.
     They have a different name to avoid publishing them by mistake, and to

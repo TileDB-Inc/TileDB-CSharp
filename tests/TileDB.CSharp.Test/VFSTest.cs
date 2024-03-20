@@ -157,23 +157,23 @@ public class VFSTest
     [TestMethod]
     public void TestVisitRecursive()
     {
-        Assert.Inconclusive("VisitChildrenRecursive is currently supported only on S3.");
-
         using var dir = new TemporaryDirectory("vfs-visit");
 
         using var vfs = new VFS();
+        vfs.CreateDir(Path.Combine(dir, "dir1"));
         vfs.Touch(Path.Combine(dir, "dir1/file1"));
+        vfs.CreateDir(Path.Combine(dir, "dir2"));
         vfs.Touch(Path.Combine(dir, "dir2/file2"));
-        vfs.Touch(Path.Combine(dir, "dir3/file3"));
+        vfs.CreateDir(Path.Combine(dir, "dir3"));
+        System.IO.File.WriteAllBytes(Path.Combine(dir, "dir3/file3"), "12345"u8.ToArray());
 
         int i = 0;
 
         vfs.VisitChildrenRecursive(dir, (uri, size, arg) =>
         {
             string path = new Uri(uri).LocalPath;
-            Assert.IsTrue(System.IO.File.Exists(path));
-            Assert.AreEqual((string)dir, Path.GetDirectoryName(path));
-            Assert.AreEqual(0ul, size);
+            Assert.IsTrue(Directory.Exists(path) || System.IO.File.Exists(path));
+            Assert.AreEqual(path.EndsWith("file3") ? 5ul : 0ul, size);
             Assert.AreEqual(555, arg);
 
             i++;
@@ -186,16 +186,13 @@ public class VFSTest
     [TestMethod]
     public void TestVisitRecursivePropagatesExceptions()
     {
-        Assert.Inconclusive("VisitChildrenRecursive is currently supported only on S3.");
-
         using var dir = new TemporaryDirectory("vfs-visit-exceptions");
 
         const string ExceptionKey = "foo";
 
         using var vfs = new VFS();
+        vfs.CreateDir(Path.Combine(dir, "dir1"));
         vfs.Touch(Path.Combine(dir, "dir1/file1"));
-        vfs.Touch(Path.Combine(dir, "dir2/file2"));
-        vfs.Touch(Path.Combine(dir, "dir3/file3"));
 
         int i = 0;
 

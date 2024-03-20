@@ -439,7 +439,7 @@ public unsafe sealed class VFS : IDisposable
     /// <param name="callbackArg">An argument that will be passed to <paramref name="callback"/>.</param>
     /// <typeparam name="T">The type of <paramref name="callbackArg"/>.</typeparam>
     /// <remarks>
-    /// This operation is supported only on URIs to AWS S3.
+    /// This operation is supported only on local filesystem and AWS S3 URIs.
     /// </remarks>
     public void VisitChildrenRecursive<T>(string uri, Func<string, ulong, T, bool> callback, T callbackArg)
     {

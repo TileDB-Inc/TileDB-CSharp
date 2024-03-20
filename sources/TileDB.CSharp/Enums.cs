@@ -502,7 +502,23 @@ public enum DataType : uint
     /// On generic methods operating to objects of this datatype,
     /// this datatype can be used with <see cref="byte"/> or <see cref="bool"/>.
     /// </remarks>
-    Boolean = tiledb_datatype_t.TILEDB_BOOL
+    Boolean = tiledb_datatype_t.TILEDB_BOOL,
+    /// <summary>
+    /// A geometry in Well-Known Binary (WKB) format.
+    /// </summary>
+    /// <remarks>
+    /// On generic methods operating to objects of this datatype,
+    /// this datatype can be used with <see cref="byte"/>.
+    /// </remarks>
+    GeometryWkb = tiledb_datatype_t.TILEDB_GEOM_WKB,
+    /// <summary>
+    /// A geometry in Well-Known Text (WKT) format.
+    /// </summary>
+    /// <remarks>
+    /// On generic methods operating to objects of this datatype,
+    /// this datatype can be used with <see cref="byte"/>.
+    /// </remarks>
+    GeometryWkt = tiledb_datatype_t.TILEDB_GEOM_WKT
 }
 
 /// <summary>
@@ -1314,6 +1330,9 @@ public static unsafe class EnumUtil
             case DataType.Blob:
                 return typeof(byte);
             case DataType.Boolean:
+                return typeof(byte);
+            case DataType.GeometryWkb:
+            case DataType.GeometryWkt:
                 return typeof(byte);
             default:
                 return typeof(byte);
