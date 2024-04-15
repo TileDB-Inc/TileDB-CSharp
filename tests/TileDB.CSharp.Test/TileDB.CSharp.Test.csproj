@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <IsPackable>false</IsPackable>
     <Nullable>enable</Nullable>
@@ -7,7 +7,7 @@
     <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
     <UseCurrentRuntimeIdentifier>true</UseCurrentRuntimeIdentifier>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<VSTestLogger Condition="'$(GITHUB_ACTIONS)' != ''">GitHubActions</VSTestLogger>
+    <VSTestLogger Condition="'$(GITHUB_ACTIONS)' != ''">GitHubActions</VSTestLogger>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,5 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\sources\TileDB.CSharp\TileDB.CSharp.csproj" />
+    <PackageVersion Include="TileDB.Native" Version="$(TileDBNativeVersionMajor).$(TileDBNativeVersionMajor).*" />
   </ItemGroup>
 </Project>
