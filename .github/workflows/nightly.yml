@@ -142,13 +142,7 @@ jobs:
       - name: Test TileDB-CSharp
         run: dotnet test tests/TileDB.CSharp.Test/TileDB.CSharp.Test.csproj -c Release
 
-      - name: Run examples (.NET 5)
-        shell: bash
-        # macos-latest runs on Apple Silicon, which .NET 5 does not support.
-        if: matrix.os != 'macos-latest'
-        run: find examples/ -name *.csproj | xargs -I{} dotnet run --project {} -f net5.0
-
-      - name: Run examples (.NET 6)
+      - name: Run examples
         shell: bash
         run: find examples/ -name *.csproj | xargs -I{} dotnet run --project {} -f net6.0
 

@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <RollForward>Major</RollForward>
     <RootNamespace>TileDB.CSharp.Examples</RootNamespace>
-    <TargetFrameworks>net5.0;net6.0;net7.0</TargetFrameworks>
+    <TargetFramework>net6.0</TargetFramework>
     <UseCurrentRuntimeIdentifier>true</UseCurrentRuntimeIdentifier>
   </PropertyGroup>
 
