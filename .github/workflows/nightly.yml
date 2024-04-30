@@ -23,7 +23,7 @@ jobs:
           - os: ubuntu-latest
             platform: linux-x86_64
           - os: macos-latest
-            platform: macos-x86_64
+            platform: macos-arm64
           - os: windows-latest
             platform: windows-x86_64
           - tag: dev
@@ -142,11 +142,7 @@ jobs:
       - name: Test TileDB-CSharp
         run: dotnet test tests/TileDB.CSharp.Test/TileDB.CSharp.Test.csproj -c Release
 
-      - name: Run examples (.NET 5)
-        shell: bash
-        run: find examples/ -name *.csproj | xargs -I{} dotnet run --project {} -f net5.0
-
-      - name: Run examples (.NET 6)
+      - name: Run examples
         shell: bash
         run: find examples/ -name *.csproj | xargs -I{} dotnet run --project {} -f net6.0
 

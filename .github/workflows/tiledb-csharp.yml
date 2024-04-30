@@ -63,12 +63,7 @@ jobs:
         run: |
           dotnet test -c Release tests/TileDB.CSharp.Test
 
-      - name: Run examples (.NET 5)
+      - name: Run examples
         shell: bash
         run: |
-          find examples/ -name *.csproj | xargs -I{} dotnet run --project {} -f net5.0
-
-      - name: Run examples (.NET 6)
-        shell: bash
-        run: |
-          find examples/ -name *.csproj | xargs -I{} dotnet run --project {} -f net5.0
+          find examples/ -name *.csproj | xargs -I{} dotnet run --project {} -f net6.0
