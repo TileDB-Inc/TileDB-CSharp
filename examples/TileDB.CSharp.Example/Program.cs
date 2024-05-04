@@ -17,6 +17,7 @@ static class Program
         ExampleWritingSparseGlobal.Run();
         ExampleDataframe.Run();
         ExampleAggregateQuery.Run();
+        ExampleVFS.Run();
 
         ExampleFile.RunLocal();
         // ExampleFile.RunCloud("tiledb_api_token", "tiledb_namespace", "new_cloud_array_name", "s3://bucket/prefix/");

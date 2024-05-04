@@ -16,7 +16,7 @@ public class ExampleVFS
         var config = new Config();
 
         // To use S3, set a path starting with `s3://` here:
-        _array_path = "test-example-vfs";
+        _array_path = ExampleUtil.MakeExamplePath("test-example-vfs");
 
         // To use S3, set credentials here (or in AWS_ environment variables)
         //config.Set("vfs.s3.aws_access_key_id", "...");
