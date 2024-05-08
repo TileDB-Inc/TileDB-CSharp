@@ -27,7 +27,7 @@ jobs:
           - os: windows-latest
             platform: windows-x86_64
           - tag: dev
-        tag: [release-2.22, dev]
+        tag: [release-2.23, dev]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout TileDB
@@ -72,7 +72,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tag: [release-2.22, dev]
+        tag: [release-2.23, dev]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout TileDB-CSharp
@@ -113,7 +113,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        tag: [release-2.22, dev]
+        tag: [release-2.23, dev]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout TileDB-CSharp
