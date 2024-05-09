@@ -16,6 +16,7 @@
     <ConfigOption Include="latest-codegen" />
     <ConfigOption Include="unix-types" />
     <ConfigOption Include="multi-file" />
+    <Define Include="TILEDB_REMOVE_DEPRECATIONS" />
     <InputFile Include="tiledb/tiledb_experimental.h" />
     <TraversePaths Include="$(InputDir)/**/*.h" />
     <RemapHandleType Include="attribute" />
@@ -92,6 +93,7 @@
     <ItemGroup>
       <PInvokeGeneratorArg Remove="@(PInvokeGeneratorArg)" />
       <PInvokeGeneratorArg Include="--config;@(ConfigOption)" />
+      <PInvokeGeneratorArg Include="@(Define->'-D%(Identity)')" />
       <PInvokeGeneratorArg Include="--methodClassName;$(MethodClass)" />
       <PInvokeGeneratorArg Include="--namespace;$(Namespace)" />
       <PInvokeGeneratorArg Include="--file" />
