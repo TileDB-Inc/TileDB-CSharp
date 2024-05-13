@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Text;
+using System.Collections;
+using System.Collections.Generic;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 using ConfigHandle = TileDB.CSharp.Marshalling.SafeHandles.ConfigHandle;
@@ -9,7 +10,7 @@ namespace TileDB.CSharp;
 /// <summary>
 /// Represents a TileDB config object.
 /// </summary>
-public sealed unsafe class Config : IDisposable
+public sealed unsafe class Config : IDisposable, IEnumerable<KeyValuePair<string, string>>
 {
     private readonly ConfigHandle _handle;
 
@@ -59,6 +60,23 @@ public sealed unsafe class Config : IDisposable
             status = Methods.tiledb_config_set(handle, ms_param, ms_value, &p_tiledb_error);
         }
         ErrorHandling.CheckLastError(&p_tiledb_error, status);
+    }
+
+    /// <summary>
+    /// Enumerates the config's options.
+    /// </summary>
+    public IEnumerator<KeyValuePair<string, string>> GetEnumerator() => new Enumerator(this, "");
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    /// <summary>
+    /// Enumerates the config's options that start with a specific prefix.
+    /// </summary>
+    /// <param name="prefix">The prefix of the options to enumerate.</param>
+    public IEnumerable<KeyValuePair<string, string>> EnumerateOptions(string prefix)
+    {
+        ErrorHandling.ThrowIfNull(prefix);
+        return new PrefixEnumerable(this, prefix);
     }
 
     /// <summary>
@@ -176,5 +194,45 @@ public sealed unsafe class Config : IDisposable
         byte equal;
         Methods.tiledb_config_compare(handle, otherHandle, &equal);
         return equal == 1;
+    }
+
+    private sealed class PrefixEnumerable(Config config, string prefix) : IEnumerable<KeyValuePair<string, string>>
+    {
+        public IEnumerator<KeyValuePair<string, string>> GetEnumerator() =>
+            new Enumerator(config, prefix);
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+
+    private sealed class Enumerator(Config config, string prefix) : IEnumerator<KeyValuePair<string, string>>
+    {
+        private readonly ConfigIterator _iterator = new(config.Handle, prefix);
+
+        private readonly string _prefix = prefix;
+
+        private KeyValuePair<string, string>? _current;
+
+        public void Dispose() => _iterator.Dispose();
+
+        public bool MoveNext()
+        {
+            if (!_iterator.Done())
+            {
+                return false;
+            }
+            _current = _iterator.HereImpl();
+            _iterator.Next();
+            return true;
+        }
+
+        public KeyValuePair<string, string> Current => _current!.Value; // Will throw if MoveNext has not been called before.
+
+        object IEnumerator.Current => Current;
+
+        public void Reset()
+        {
+            _iterator.Reset(_prefix);
+            _current = null;
+        }
     }
 }

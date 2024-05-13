@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 using ConfigHandle = TileDB.CSharp.Marshalling.SafeHandles.ConfigHandle;
@@ -36,7 +37,8 @@ public sealed unsafe class ConfigIterator : IDisposable
 
     internal ConfigIteratorHandle Handle => _handle;
 
-    public Tuple<string, string> Here()
+    // Internal overload that returns KVP to avoid the Tuple allocation.
+    internal KeyValuePair<string, string> HereImpl()
     {
         tiledb_error_t* p_tiledb_error;
         sbyte* paramPtr;
@@ -51,7 +53,13 @@ public sealed unsafe class ConfigIterator : IDisposable
 
         string param = MarshaledStringOut.GetStringFromNullTerminated(paramPtr);
         string value = MarshaledStringOut.GetStringFromNullTerminated(valuePtr);
-        return new Tuple<string, string>(param, value);
+        return new KeyValuePair<string, string>(param, value);
+    }
+
+    public Tuple<string, string> Here()
+    {
+        var here = HereImpl();
+        return new Tuple<string, string>(here.Key, here.Value);
     }
 
     public void Next()
