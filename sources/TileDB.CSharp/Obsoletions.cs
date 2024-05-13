@@ -47,4 +47,7 @@ internal static class Obsoletions
 
     public const string TileDBInterop3Message = "Members of the TileDB.Interop namespace should not be used by user code and will become internal in a future version.";
     public const string TileDBInterop3DiagId = "TILEDB0014";
+
+    public const string ConfigIteratorMessage = "ConfigIterator is obsolete. Directly enumerate a Config or call its EnumerateOptions method instead.";
+    public const string ConfigIteratorDiagId = "TILEDB0015";
 }

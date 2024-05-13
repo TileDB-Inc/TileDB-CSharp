@@ -206,7 +206,11 @@ public sealed unsafe class Config : IDisposable, IEnumerable<KeyValuePair<string
 
     private sealed class Enumerator(Config config, string prefix) : IEnumerator<KeyValuePair<string, string>>
     {
+#pragma warning disable TILEDB0015 // Type or member is obsolete
+        // We use ConfigIterator as an implementation detail.
+        // In the future, ConfigIterator will become internal and replace this class.
         private readonly ConfigIterator _iterator = new(config.Handle, prefix);
+#pragma warning restore TILEDB0015 // Type or member is obsolete
 
         private readonly string _prefix = prefix;
 

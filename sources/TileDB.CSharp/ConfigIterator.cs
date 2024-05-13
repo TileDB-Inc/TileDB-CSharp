@@ -7,6 +7,7 @@ using ConfigIteratorHandle = TileDB.CSharp.Marshalling.SafeHandles.ConfigIterato
 
 namespace TileDB.CSharp;
 
+[Obsolete(Obsoletions.ConfigIteratorMessage, DiagnosticId = Obsoletions.ConfigIteratorDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
 public sealed unsafe class ConfigIterator : IDisposable
 {
     private readonly ConfigIteratorHandle _handle;
