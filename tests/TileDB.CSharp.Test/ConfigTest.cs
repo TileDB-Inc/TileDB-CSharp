@@ -89,112 +89,108 @@ public class ConfigTest
         // Iterate the configuration
         var iter = config.Iterate("vfs.s3.");
 
-        while (!iter.Done())
+        foreach (var config_entry_pair in config.EnumerateOptions("vfs.s3."))
         {
-
-            // Get current param, value from iterator
-            var config_entry_pair = iter.Here();
-
-            switch (config_entry_pair.Item1)
+            switch (config_entry_pair.Key)
             {
                 case "aws_access_key_id":
-                    Assert.AreEqual("", config_entry_pair.Item2);
+                    Assert.AreEqual("", config_entry_pair.Value);
                     break;
                 case "aws_external_id":
-                    Assert.AreEqual("", config_entry_pair.Item2);
+                    Assert.AreEqual("", config_entry_pair.Value);
                     break;
                 case "aws_load_frequency":
-                    Assert.AreEqual("", config_entry_pair.Item2);
+                    Assert.AreEqual("", config_entry_pair.Value);
                     break;
                 case "aws_role_arn":
-                    Assert.AreEqual("", config_entry_pair.Item2);
+                    Assert.AreEqual("", config_entry_pair.Value);
                     break;
                 case "aws_secret_access_key":
-                    Assert.AreEqual("", config_entry_pair.Item2);
+                    Assert.AreEqual("", config_entry_pair.Value);
                     break;
                 case "aws_session_name":
-                    Assert.AreEqual("", config_entry_pair.Item2);
+                    Assert.AreEqual("", config_entry_pair.Value);
                     break;
                 case "aws_session_token":
-                    Assert.AreEqual("", config_entry_pair.Item2);
+                    Assert.AreEqual("", config_entry_pair.Value);
                     break;
                 case "bucket_canned_acl":
-                    Assert.AreEqual("NOT_SET", config_entry_pair.Item2);
+                    Assert.AreEqual("NOT_SET", config_entry_pair.Value);
                     break;
                 case "ca_file":
-                    Assert.AreEqual("", config_entry_pair.Item2);
+                    Assert.AreEqual("", config_entry_pair.Value);
                     break;
                 case "ca_path":
-                    Assert.AreEqual("", config_entry_pair.Item2);
+                    Assert.AreEqual("", config_entry_pair.Value);
                     break;
                 case "connect_max_tries":
-                    Assert.AreEqual("5", config_entry_pair.Item2);
+                    Assert.AreEqual("5", config_entry_pair.Value);
                     break;
                 case "connect_scale_factor":
-                    Assert.AreEqual("25", config_entry_pair.Item2);
+                    Assert.AreEqual("25", config_entry_pair.Value);
                     break;
                 case "connect_timeout_ms":
-                    Assert.AreEqual("10800", config_entry_pair.Item2);
+                    Assert.AreEqual("10800", config_entry_pair.Value);
                     break;
                 case "endpoint_override":
-                    Assert.AreEqual("", config_entry_pair.Item2);
+                    Assert.AreEqual("", config_entry_pair.Value);
                     break;
                 case "logging_level":
-                    Assert.AreEqual("Off", config_entry_pair.Item2);
+                    Assert.AreEqual("Off", config_entry_pair.Value);
                     break;
                 case "max_parallel_ops":
-                    Assert.AreEqual(Environment.ProcessorCount.ToString(), config_entry_pair.Item2);
+                    Assert.AreEqual(Environment.ProcessorCount.ToString(), config_entry_pair.Value);
                     break;
                 case "multipart_part_size":
-                    Assert.AreEqual("5242880", config_entry_pair.Item2);
+                    Assert.AreEqual("5242880", config_entry_pair.Value);
                     break;
                 case "object_canned_acl":
-                    Assert.AreEqual("NOT_SET", config_entry_pair.Item2);
+                    Assert.AreEqual("NOT_SET", config_entry_pair.Value);
                     break;
                 case "proxy_host":
-                    Assert.AreEqual("", config_entry_pair.Item2);
+                    Assert.AreEqual("", config_entry_pair.Value);
                     break;
                 case "proxy_password":
-                    Assert.AreEqual("", config_entry_pair.Item2);
+                    Assert.AreEqual("", config_entry_pair.Value);
                     break;
                 case "proxy_port":
-                    Assert.AreEqual("0", config_entry_pair.Item2);
+                    Assert.AreEqual("0", config_entry_pair.Value);
                     break;
                 case "proxy_scheme":
-                    Assert.AreEqual("http", config_entry_pair.Item2);
+                    Assert.AreEqual("http", config_entry_pair.Value);
                     break;
                 case "proxy_username":
-                    Assert.AreEqual("", config_entry_pair.Item2);
+                    Assert.AreEqual("", config_entry_pair.Value);
                     break;
                 case "region":
-                    Assert.AreEqual("us-east-1", config_entry_pair.Item2);
+                    Assert.AreEqual("us-east-1", config_entry_pair.Value);
                     break;
                 case "request_timeout_ms":
-                    Assert.AreEqual("3000", config_entry_pair.Item2);
+                    Assert.AreEqual("3000", config_entry_pair.Value);
                     break;
                 case "requester_pays":
-                    Assert.AreEqual("false", config_entry_pair.Item2);
+                    Assert.AreEqual("false", config_entry_pair.Value);
                     break;
                 case "scheme":
-                    Assert.AreEqual("https", config_entry_pair.Item2);
+                    Assert.AreEqual("https", config_entry_pair.Value);
                     break;
                 case "skip_init":
-                    Assert.AreEqual("false", config_entry_pair.Item2);
+                    Assert.AreEqual("false", config_entry_pair.Value);
                     break;
                 case "sse":
-                    Assert.AreEqual("", config_entry_pair.Item2);
+                    Assert.AreEqual("", config_entry_pair.Value);
                     break;
                 case "sse_kms_key_id":
-                    Assert.AreEqual("", config_entry_pair.Item2);
+                    Assert.AreEqual("", config_entry_pair.Value);
                     break;
                 case "use_multipart_upload":
-                    Assert.AreEqual("true", config_entry_pair.Item2);
+                    Assert.AreEqual("true", config_entry_pair.Value);
                     break;
                 case "use_virtual_addressing":
-                    Assert.AreEqual("true", config_entry_pair.Item2);
+                    Assert.AreEqual("true", config_entry_pair.Value);
                     break;
                 case "verify_ssl":
-                    Assert.AreEqual("true", config_entry_pair.Item2);
+                    Assert.AreEqual("true", config_entry_pair.Value);
                     break;
             }
             iter.Next();
