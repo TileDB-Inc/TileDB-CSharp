@@ -8,7 +8,8 @@ Following [the deprecation policy of TileDB Embedded][core-deprecation], obsolet
 |----------------|---------------------|------------------|
 |[`TILEDB0001`](#TILEDB0001) …[`TILEDB0011`](#TILEDB0011)|5.3.0|5.5.0|
 |[`TILEDB0012`](#TILEDB0012) …[`TILEDB0013`](#TILEDB0013)|5.7.0|5.9.0|
-|[`TILEDB0012`](#TILEDB0014) …[`TILEDB0013`](#TILEDB0014)|5.8.0|5.10.0|
+|[`TILEDB0014`](#TILEDB0014) …[`TILEDB0014`](#TILEDB0014)|5.8.0|5.10.0|
+|[`TILEDB0015`](#TILEDB0015) …[`TILEDB0015`](#TILEDB0015)|5.13.0|5.15.0|
 
 ## `TILEDB0001` - Enum value names that start with `TILEDB_` were replaced with C#-friendly names.
 
@@ -347,5 +348,19 @@ Some APIs in the `TileDB.Interop` namespace that were inadvertently removed in v
 ### Recommended action
 
 Stop using the obsoleted APIs. No other public API of `TileDB.CSharp` depends on them.
+
+## `TILEDB0015` - `ConfigIterator` is obsolete.
+
+<a name="TILEDB0015"></a>
+
+The `ConfigIterator` class is unintuitive to use. In version 5.13.0 it was marked as obsolete and replaced by `Config` implementing `IEnumerable<KeyValuePair<string,string>>`.
+
+### Version introduced
+
+5.13.0
+
+### Recommended action
+
+Replace uses of `ConfigIterator` with enumerating the `Config` object directly using a `foreach` loop or LINQ. To get only the config options that start with a specific prefix, call the `Config.EnumerateOptions` method and enumerate its returned object.
 
 [core-deprecation]: https://github.com/TileDB-Inc/TileDB/blob/dev/doc/policy/api_changes.md
