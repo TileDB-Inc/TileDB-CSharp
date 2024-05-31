@@ -381,7 +381,7 @@ public unsafe sealed class VFS : IDisposable
     /// <returns>A <see cref="List{T}"/> containing the files of the directory in <paramref name="uri"/>
     /// and their sizes.</returns>
     /// <remarks>
-    /// This operation is supported only on URIs to AWS S3.
+    /// This operation is supported only on URIs to local file system, S3, Azure and GCS.
     /// </remarks>
     public List<(string Uri, ulong Size)> GetChildrenRecursive(string uri)
     {
@@ -439,7 +439,7 @@ public unsafe sealed class VFS : IDisposable
     /// <param name="callbackArg">An argument that will be passed to <paramref name="callback"/>.</param>
     /// <typeparam name="T">The type of <paramref name="callbackArg"/>.</typeparam>
     /// <remarks>
-    /// This operation is supported only on local filesystem and AWS S3 URIs.
+    /// This operation is supported only on URIs to local file system, S3, Azure and GCS.
     /// </remarks>
     public void VisitChildrenRecursive<T>(string uri, Func<string, ulong, T, bool> callback, T callbackArg)
     {
