@@ -44,7 +44,6 @@ jobs:
         if: matrix.os == 'windows-latest'
         with:
           arch: x64
-          toolset: 14.39
       - name: Export GitHub Actions cache variables
         uses: actions/github-script@v7
         with:
