@@ -23,7 +23,7 @@ public class ArrayTest
         var array = new Array(context, tmpArrayPath);
         Assert.IsNotNull(array);
 
-        var array_schema = BuildDenseArraySchema(context);
+        var array_schema = ArrayTest.BuildDenseArraySchema(context);
         Assert.IsNotNull(array_schema);
 
         array.Create(array_schema);
@@ -75,7 +75,7 @@ public class ArrayTest
         var array = new Array(context, tmpArrayPath);
         Assert.IsNotNull(array);
 
-        var array_schema = BuildSparseArraySchema(context);
+        var array_schema = ArrayTest.BuildSparseArraySchema(context);
         Assert.IsNotNull(array_schema);
 
         array.Create(array_schema);
@@ -133,7 +133,7 @@ public class ArrayTest
 
         using var uri = new TemporaryDirectory("array_consolidate_fragments");
 
-        using (var schema = BuildDenseArraySchema(context))
+        using (var schema = ArrayTest.BuildDenseArraySchema(context))
         using (var array = new Array(context, uri))
         {
             array.Create(schema);
@@ -170,7 +170,43 @@ public class ArrayTest
         Assert.AreEqual(FragmentCount, fragmentInfo.FragmentToVacuumCount);
     }
 
-    private ArraySchema BuildDenseArraySchema(Context context)
+    [TestMethod]
+    public void TestDelete()
+    {
+        var context = Context.GetDefault();
+
+        using var uri = new TemporaryDirectory("array_delete");
+
+        using (var schema = BuildDenseArraySchema(context))
+        {
+            Array.Create(context, uri, schema);
+        }
+
+        Assert.AreEqual(ObjectType.Array, context.GetObjectType(uri));
+
+        Array.Delete(context, uri);
+
+        Assert.AreEqual(ObjectType.Invalid, context.GetObjectType(uri));
+    }
+
+    [TestMethod]
+    public void TestUpgradeVersion()
+    {
+        var context = Context.GetDefault();
+
+        using var uri = new TemporaryDirectory("array_upgrade_version");
+
+        using (var schema = BuildDenseArraySchema(context))
+        {
+            Array.Create(context, uri, schema);
+        }
+
+        Assert.AreEqual(ObjectType.Array, context.GetObjectType(uri));
+
+        Array.UpgradeVersion(context, uri);
+    }
+
+    private static ArraySchema BuildDenseArraySchema(Context context)
     {
         var dimension = Dimension.Create<short>(context, "dim1", 1, 10, 5);
         Assert.IsNotNull(dimension);
@@ -199,7 +235,7 @@ public class ArrayTest
         return array_schema;
     }
 
-    private ArraySchema BuildSparseArraySchema(Context context)
+    private static ArraySchema BuildSparseArraySchema(Context context)
     {
         var dim1 = Dimension.Create<short>(context, "dim1", 1, 10, 5);
         Assert.IsNotNull(dim1);
