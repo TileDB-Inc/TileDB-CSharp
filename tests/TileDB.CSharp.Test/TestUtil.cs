@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.IO.Enumeration;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -243,5 +244,13 @@ public static class TestUtil
             Console.WriteLine($"Attribute: {pair.Key}; Data type: {pair.Value.Type()}; " +
                               $"Nullable: {pair.Value.Nullable()};");
         }
+    }
+
+    public static void UnzipBase64String(string path, string data)
+    {
+        byte[] bytes = Convert.FromBase64String(data);
+        using var stream = new MemoryStream(bytes, writable: false);
+        using var zipFile = new ZipArchive(stream, ZipArchiveMode.Read);
+        zipFile.ExtractToDirectory(path, overwriteFiles: false);
     }
 }
