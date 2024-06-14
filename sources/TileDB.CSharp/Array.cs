@@ -330,6 +330,18 @@ public sealed unsafe class Array : IDisposable
     }
 
     /// <summary>
+    /// Deletes an array from storage.
+    /// </summary>
+    /// <param name="ctx">The <see cref="CSharp.Context"/> to use.</param>
+    /// <param name="uri">The array's URI.</param>
+    public static void Delete(Context ctx, string uri)
+    {
+        using var msUri = new MarshaledString(uri);
+        using var ctxHandle = ctx.Handle.Acquire();
+        ctx.handle_error(Methods.tiledb_array_delete(ctxHandle, msUri));
+    }
+
+    /// <summary>
     /// Applies an <see cref="ArraySchemaEvolution"/> to the schema of an array.
     /// </summary>
     /// <param name="ctx">The <see cref="CSharp.Context"/> to use.</param>
@@ -365,6 +377,20 @@ public sealed unsafe class Array : IDisposable
     public void Evolve(ArraySchemaEvolution schemaEvolution)
     {
         Evolve(_ctx, _uri, schemaEvolution);
+    }
+
+    /// <summary>
+    /// Upgrades the storage format version of an array.
+    /// </summary>
+    /// <param name="ctx">The <see cref="CSharp.Context"/> to use.</param>
+    /// <param name="uri">The array's URI.</param>
+    /// <param name="config">Optional <see cref="CSharp.Config"/> to customize the process.</param>
+    public static void UpgradeVersion(Context ctx, string uri, Config? config = null)
+    {
+        using var msUri = new MarshaledString(uri);
+        using var ctxHandle = ctx.Handle.Acquire();
+        using var configHandle = config?.Handle.Acquire() ?? default;
+        ctx.handle_error(Methods.tiledb_array_upgrade_version(ctxHandle, msUri, configHandle));
     }
 
     /// <summary>
