@@ -38,7 +38,7 @@ jobs:
       # This must happen after checking out the repository, because Ninja gets installed
       # in the repository's directory that gets removed before the checkout/
       - name: Install Ninja
-        uses: seanmiddleditch/gha-setup-ninja@v4
+        uses: seanmiddleditch/gha-setup-ninja@v5
       - name: Setup MSVC toolset (VS 2022)
         uses: TheMrMilchmann/setup-msvc-dev@v3
         if: matrix.os == 'windows-latest'
