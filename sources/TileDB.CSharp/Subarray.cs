@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using TileDB.CSharp.Marshalling;
@@ -180,7 +180,8 @@ public sealed unsafe class Subarray : IDisposable
         AddRange(dimensionName, &start, &end, null);
     }
 
-    // TODO: Make it public once the Core supports strides.
+    // The following two APIs are private until the Core supports strides.
+
     /// <summary>
     /// Adds a 1D range along a subarray dimension index, in the form (start, end, stride).
     /// </summary>
@@ -196,7 +197,6 @@ public sealed unsafe class Subarray : IDisposable
         AddRange(dimensionIndex, &start, &end, &stride);
     }
 
-    // TODO: Make it public once the Core supports strides.
     /// <summary>
     /// Adds a 1D range along a subarray dimension name, specified by its name, in the form(start, end, stride).
     /// </summary>
