@@ -47,6 +47,9 @@ public class EnumerationTest
         CollectionAssert.AreEqual(expectedValues, values);
         CollectionAssert.AreEqual(new byte[] { 1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 4, 0, 0, 0 }, rawData);
         Assert.AreEqual(0, rawOffsets.Length);
+
+        var dump = e.ToString();
+        Assert.IsTrue(dump.Contains("test_fixed", StringComparison.Ordinal));
     }
 
     [TestMethod]

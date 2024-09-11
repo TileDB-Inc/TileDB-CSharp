@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace TileDB.CSharp.Test;
 
@@ -17,6 +18,9 @@ public class DimensionTest
         Assert.AreEqual(extent, dimension.TileExtent<int>());
         var dim_domain = dimension.GetDomain<int>();
         Assert.AreEqual((1, 10), dim_domain);
+
+        var dump = dimension.ToString();
+        Assert.IsTrue(dump.Contains("test", StringComparison.Ordinal));
     }
 
     [TestMethod]
