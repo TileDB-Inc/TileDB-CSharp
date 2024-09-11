@@ -440,4 +440,14 @@ public sealed unsafe class Attribute : IDisposable
         var datatype = EnumUtil.TypeToDataType(typeof(T));
         return new Attribute(ctx, name, datatype);
     }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        using var ctx = _ctx.Handle.Acquire();
+        using var handle = _handle.Acquire();
+        using var strPtr = new StringHandleHolder();
+        _ctx.handle_error(Methods.tiledb_attribute_dump_str(ctx, handle, &strPtr._handle));
+        return strPtr.ToString();
+    }
 }

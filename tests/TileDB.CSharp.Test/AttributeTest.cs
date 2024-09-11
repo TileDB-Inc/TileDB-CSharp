@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.IO;
 
 namespace TileDB.CSharp.Test;
@@ -52,6 +53,9 @@ public class AttributeTest
         attribute.SetFillValue(12);
         var value_size = attribute.FillValue<int>();
         Assert.AreEqual(12, value_size[0]);
+
+        var dump = attribute.ToString();
+        Assert.IsTrue(dump.Contains(nameof(FilterType.Gzip), StringComparison.OrdinalIgnoreCase));
     }
 
     [TestMethod]

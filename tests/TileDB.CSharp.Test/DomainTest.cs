@@ -44,5 +44,8 @@ public class DomainTest
         dim2 = domain.Dimension("testint");
         Assert.AreEqual(DataType.Int32, dim2.Type());
         Assert.AreEqual("testint", dim2.Name());
+
+        var dump = domain.ToString();
+        Assert.IsTrue(dump.Contains("testuint", StringComparison.Ordinal));
     }
 }

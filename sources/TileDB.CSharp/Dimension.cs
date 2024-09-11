@@ -258,4 +258,14 @@ public sealed unsafe class Dimension : IDisposable
         var str_dim_handle = DimensionHandle.Create(ctx, name, tiledb_datatype_t.TILEDB_STRING_ASCII, null, null);
         return new Dimension(ctx, str_dim_handle);
     }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        using var ctx = _ctx.Handle.Acquire();
+        using var handle = _handle.Acquire();
+        using var strPtr = new StringHandleHolder();
+        _ctx.handle_error(Methods.tiledb_dimension_dump_str(ctx, handle, &strPtr._handle));
+        return strPtr.ToString();
+    }
 }

@@ -3,6 +3,7 @@ using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
 using DomainHandle = TileDB.CSharp.Marshalling.SafeHandles.DomainHandle;
 using DimensionHandle = TileDB.CSharp.Marshalling.SafeHandles.DimensionHandle;
+using TileDB.CSharp.Marshalling;
 
 namespace TileDB.CSharp;
 
@@ -175,6 +176,17 @@ public sealed unsafe class Domain : IDisposable
         using var ms_name = new MarshaledString(name);
         _ctx.handle_error(Methods.tiledb_domain_has_dimension(ctxHandle, handle, ms_name, &has_dim));
         return has_dim > 0;
+    }
+    
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        using var ctx = _ctx.Handle.Acquire();
+        using var handle = _handle.Acquire();
+        using var strPtr = new StringHandleHolder();
+        _ctx.handle_error(Methods.tiledb_domain_dump_str(ctx, handle, &strPtr._handle));
+        return strPtr.ToString();
     }
     #endregion
 }

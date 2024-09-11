@@ -384,4 +384,14 @@ public sealed unsafe class Enumeration : IDisposable
         _ctx.handle_error(Methods.tiledb_enumeration_get_offsets(ctxHandle, handle, &data, &dataSize));
         return new ReadOnlySpan<ulong>(data, checked((int)(dataSize / sizeof(ulong)))).ToArray();
     }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        using var ctx = _ctx.Handle.Acquire();
+        using var handle = _handle.Acquire();
+        using var strPtr = new StringHandleHolder();
+        _ctx.handle_error(Methods.tiledb_enumeration_dump_str(ctx, handle, &strPtr._handle));
+        return strPtr.ToString();
+    }
 }

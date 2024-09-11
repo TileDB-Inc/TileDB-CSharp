@@ -6,6 +6,7 @@ using ArraySchemaHandle = TileDB.CSharp.Marshalling.SafeHandles.ArraySchemaHandl
 using FilterListHandle = TileDB.CSharp.Marshalling.SafeHandles.FilterListHandle;
 using DomainHandle = TileDB.CSharp.Marshalling.SafeHandles.DomainHandle;
 using AttributeHandle = TileDB.CSharp.Marshalling.SafeHandles.AttributeHandle;
+using TileDB.CSharp.Marshalling;
 
 namespace TileDB.CSharp;
 
@@ -594,5 +595,15 @@ public sealed unsafe class ArraySchema : IDisposable
         }
 
         return false;
+    }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        using var ctx = _ctx.Handle.Acquire();
+        using var handle = _handle.Acquire();
+        using var strPtr = new StringHandleHolder();
+        _ctx.handle_error(Methods.tiledb_array_schema_dump_str(ctx, handle, &strPtr._handle));
+        return strPtr.ToString();
     }
 }

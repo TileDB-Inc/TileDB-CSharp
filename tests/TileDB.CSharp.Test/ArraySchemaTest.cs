@@ -80,6 +80,13 @@ namespace TileDB.CSharp.Test;
         filter0 = filter_list_return.Filter(0);
         Assert.AreEqual(FilterType.Bzip2, filter0.FilterType());
 
+        // ToString() will call tiledb_array_schema_dump_str, which will return an informative string.
+        // Because the string's format is unspecified, we cannot fully parse it so we just check if
+        // it contains something it should definitely contain. The same applies to the other objects
+		// that can be dumped.
+        var dump = array_schema.ToString();
+		Assert.IsTrue(dump.Contains(nameof(ArrayType.Dense), StringComparison.OrdinalIgnoreCase));
+
         array_schema.Check();
 		}
 
