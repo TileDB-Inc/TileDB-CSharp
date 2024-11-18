@@ -8,3 +8,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      mstest:
+        # Update MSTest packages together, they are sometimes incompatible with each other.
+        patterns: ["MSTest.*"]
