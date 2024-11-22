@@ -21,6 +21,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <NativePlatform Include="linux-x86_64" RuntimeId="linux-x64" LibraryPath="lib/libtiledb.so" />
+    <NativePlatform Include="linux-arm64" RuntimeId="linux-arm64" LibraryPath="lib/libtiledb.so" />
     <NativePlatform Include="macos-x86_64" RuntimeId="osx-x64" LibraryPath="lib/libtiledb.dylib" />
     <NativePlatform Include="macos-arm64" RuntimeId="osx-arm64" LibraryPath="lib/libtiledb.dylib" />
     <NativePlatform Include="windows-x86_64" RuntimeId="win-x64" LibraryPath="bin/tiledb.dll" ArchiveExtension="zip" />
