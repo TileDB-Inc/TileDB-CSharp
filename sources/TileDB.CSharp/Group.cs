@@ -375,11 +375,11 @@ public sealed unsafe class Group : IDisposable
     {
         using var ctxHandle = _ctx.Handle.Acquire();
         using var handle = _handle.Acquire();
-        sbyte* result;
+        using var result = new StringHandleHolder();
         byte int_recursive = (byte)(recursive ? 1 : 0);
-        _ctx.handle_error(Methods.tiledb_group_dump_str(ctxHandle, handle, &result, int_recursive));
+        _ctx.handle_error(Methods.tiledb_group_dump_str_v2(ctxHandle, handle, &result._handle, int_recursive));
 
-        return MarshaledStringOut.GetStringFromNullTerminated(result);
+        return result.ToString();
     }
     #endregion
 }
