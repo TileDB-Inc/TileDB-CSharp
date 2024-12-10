@@ -10,6 +10,7 @@ Following [the deprecation policy of TileDB Embedded][core-deprecation], obsolet
 |[`TILEDB0012`](#TILEDB0012) …[`TILEDB0013`](#TILEDB0013)|5.7.0|5.9.0|
 |[`TILEDB0014`](#TILEDB0014) …[`TILEDB0014`](#TILEDB0014)|5.8.0|5.10.0|
 |[`TILEDB0015`](#TILEDB0015) …[`TILEDB0015`](#TILEDB0015)|5.13.0|5.15.0|
+|[`TILEDB0015`](#TILEDB0016) …[`TILEDB0015`](#TILEDB0016)|5.17.0|5.19.0|
 
 ## `TILEDB0001` - Enum value names that start with `TILEDB_` were replaced with C#-friendly names.
 
@@ -362,5 +363,19 @@ The `ConfigIterator` class is unintuitive to use. In version 5.13.0 it was marke
 ### Recommended action
 
 Replace uses of `ConfigIterator` with enumerating the `Config` object directly using a `foreach` loop or LINQ. To get only the config options that start with a specific prefix, call the `Config.EnumerateOptions` method and enumerate its returned object.
+
+## `TILEDB0016` - `File` is obsolete.
+
+<a name="TILEDB0016"></a>
+
+The TileDB filestore APIs, exposed by the `TileDB.CSharp.File` class are obsolete and will be removed in a future version.
+
+### Version introduced
+
+5.17.0
+
+### Recommended action
+
+There is no direct replacement. You can manually store files in TileDB by representing them as one-dimensional dense arrays of bytes.
 
 [core-deprecation]: https://github.com/TileDB-Inc/TileDB/blob/dev/doc/policy/api_changes.md

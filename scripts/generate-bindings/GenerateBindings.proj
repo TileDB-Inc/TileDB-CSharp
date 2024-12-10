@@ -16,9 +16,11 @@
     <ConfigOption Include="latest-codegen" />
     <ConfigOption Include="unix-types" />
     <ConfigOption Include="multi-file" />
-    <Define Include="TILEDB_REMOVE_DEPRECATIONS" />
+    <!-- <Define Include="TILEDB_REMOVE_DEPRECATIONS" /> -->
     <InputFile Include="tiledb/tiledb_experimental.h" />
     <TraversePaths Include="$(InputDir)/**/*.h" />
+    <RemapHandleType Include="array" />
+    <RemapHandleType Include="array_schema" />
     <RemapHandleType Include="attribute" />
     <RemapHandleType Include="buffer_list" />
     <RemapHandleType Include="buffer" />
@@ -34,10 +36,12 @@
     <RemapHandleType Include="error" />
     <RemapHandleType Include="filter_list" />
     <RemapHandleType Include="filter" />
+    <RemapHandleType Include="fragment_info" />
     <RemapHandleType Include="group" />
     <RemapHandleType Include="query_channel" />
     <RemapHandleType Include="query_field" />
     <RemapHandleType Include="string" />
+    <RemapHandleType Include="subarray" />
     <RemapHandleType Include="vfs_fh" />
     <RemapHandleType Include="vfs" />
     <Remap Include="@(RemapHandleType->'tiledb_%(Identity)_handle_t=tiledb_%(Identity)_t')" />
