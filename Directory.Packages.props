@@ -3,7 +3,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <TileDBNativePackageName>TileDB.Native</TileDBNativePackageName>
     <TileDBNativeVersionMajor>2</TileDBNativeVersionMajor>
-    <TileDBNativeVersionMinor>26</TileDBNativeVersionMinor>
+    <TileDBNativeVersionMinor>27</TileDBNativeVersionMinor>
     <TileDBNativePackageVersion>[$(TileDBNativeVersionMajor).$(TileDBNativeVersionMinor).0,$(TileDBNativeVersionMajor).$([MSBuild]::Add($(TileDBNativeVersionMinor), 1)).0)</TileDBNativePackageVersion>
 
     <!-- The DevelopmentBuild property switches to the locally built native packages.
