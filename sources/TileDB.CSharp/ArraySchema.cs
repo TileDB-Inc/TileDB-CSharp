@@ -375,6 +375,73 @@ public sealed unsafe class ArraySchema : IDisposable
     }
 
     /// <summary>
+    /// Gets the <see cref="Enumeration"/> of the <see cref="ArraySchema"/> with the given name.
+    /// </summary>
+    /// <param name="name">The name of the enumeration.</param>
+    public Enumeration GetEnumeration(string name)
+    {
+        var handle = new EnumerationHandle();
+        var successful = false;
+        tiledb_enumeration_t* enumeration_p = null;
+        try
+        {
+            using (var ctxHandle = _ctx.Handle.Acquire())
+            using (var schemaHandle = _handle.Acquire())
+            using (var ms_name = new MarshaledString(name))
+            {
+                _ctx.handle_error(Methods.tiledb_array_schema_get_enumeration_from_name(ctxHandle, schemaHandle, ms_name, &enumeration_p));
+            }
+            successful = true;
+        }
+        finally
+        {
+            if (successful)
+            {
+                handle.InitHandle(enumeration_p);
+            }
+            else
+            {
+                handle.SetHandleAsInvalid();
+            }
+        }
+        return new Enumeration(_ctx, handle);
+    }
+
+    /// <summary>
+    /// Gets the <see cref="Enumeration"/> attached to the <see cref="CSharp.Attribute"/>
+    /// of the <see cref="ArraySchema"/> with the given name.
+    /// </summary>
+    /// <param name="name">The name of the attribute.</param>
+    public Enumeration GetEnumerationOfAttribute(string name)
+    {
+        var handle = new EnumerationHandle();
+        var successful = false;
+        tiledb_enumeration_t* enumeration_p = null;
+        try
+        {
+            using (var ctxHandle = _ctx.Handle.Acquire())
+            using (var schemaHandle = _handle.Acquire())
+            using (var ms_name = new MarshaledString(name))
+            {
+                _ctx.handle_error(Methods.tiledb_array_schema_get_enumeration_from_attribute_name(ctxHandle, schemaHandle, ms_name, &enumeration_p));
+            }
+            successful = true;
+        }
+        finally
+        {
+            if (successful)
+            {
+                handle.InitHandle(enumeration_p);
+            }
+            else
+            {
+                handle.SetHandleAsInvalid();
+            }
+        }
+        return new Enumeration(_ctx, handle);
+    }
+
+    /// <summary>
     /// Gets the <see cref="ArraySchema"/>'s tile order.
     /// </summary>
     public LayoutType TileOrder()

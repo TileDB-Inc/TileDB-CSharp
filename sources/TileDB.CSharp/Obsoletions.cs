@@ -50,4 +50,7 @@ internal static class Obsoletions
 
     public const string ConfigIteratorMessage = "ConfigIterator is obsolete. Directly enumerate a Config or call its EnumerateOptions method instead.";
     public const string ConfigIteratorDiagId = "TILEDB0015";
+
+    public const string FilestoreApiMessage = "File is obsolete and will be removed in a future version.";
+    public const string FilestoreApiDiagId = "TILEDB0016";
 }

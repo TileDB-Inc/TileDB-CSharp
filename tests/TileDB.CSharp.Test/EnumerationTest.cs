@@ -97,4 +97,25 @@ public class EnumerationTest
         CollectionAssert.AreEqual("HelloWorld👋👋👋👋"u8.ToArray(), rawData);
         CollectionAssert.AreEqual(new ulong[] { 0, 5, 10, 14 }, rawOffsets);
     }
+
+    [TestMethod]
+    public void TestEnumerationFromArraySchema()
+    {
+        using var context = new Context();
+
+        using var schema = new ArraySchema(context, ArrayType.Dense);
+
+        using var enumeration = Enumeration.Create(context, "e", true, ["aaa", "bbb", "ccc"]);
+        schema.AddEnumeration(enumeration);
+
+        using var attr = new Attribute(context, "a1", DataType.Int32);
+        attr.SetEnumerationName(enumeration.GetName());
+        schema.AddAttribute(attr);
+
+        using var enumerationFromSchema = schema.GetEnumeration(enumeration.GetName());
+        Assert.AreEqual(enumeration.GetName(), enumerationFromSchema.GetName());
+
+        using var enumerationFromSchemaAttribute = schema.GetEnumerationOfAttribute(attr.Name());
+        Assert.AreEqual(enumeration.GetName(), enumerationFromSchemaAttribute.GetName());
+    }
 }
