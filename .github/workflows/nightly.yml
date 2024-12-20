@@ -127,7 +127,7 @@ jobs:
 
       - name: Run examples
         shell: bash
-        run: find examples/ -name *.csproj | xargs -I{} dotnet run --project {} -f net6.0
+        run: find examples/ -name *.csproj | xargs -I{} dotnet run --project {}
 
   Create-Issue:
     needs: Test-NuGet
