@@ -3,7 +3,7 @@
   "isRoot": true,
   "tools": {
     "clangsharppinvokegenerator": {
-      "version": "18.1.0.2",
+      "version": "18.1.0.3",
       "commands": [
         "ClangSharpPInvokeGenerator"
       ]
