@@ -15,8 +15,6 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.4xx
-      - name: Display .NET versions
-        run: dotnet --info
       - name: Pack TileDB.CSharp
         run: dotnet pack -c Release ./sources/TileDB.CSharp/TileDB.CSharp.csproj -o pack
       # In case pushing to NuGet fails we upload the packages as artifacts to push them ourselves.

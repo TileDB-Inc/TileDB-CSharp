@@ -19,9 +19,6 @@ jobs:
         with:
           dotnet-version: 8.0.4xx
 
-      - name: Display .NET versions
-        run: dotnet --info
-
       # Package validation runs as part of packing.
       - name: Dotnet pack for TileDB.CSharp
         run: |
@@ -41,9 +38,6 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.4xx
-
-      - name: Display .NET versions
-        run: dotnet --info
 
       # DotNet build
       - name: Dotnet build for TileDB.CSharp
