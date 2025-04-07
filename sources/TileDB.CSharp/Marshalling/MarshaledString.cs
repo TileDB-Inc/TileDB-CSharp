@@ -15,8 +15,8 @@ public unsafe struct MarshaledString : IDisposable
 {
     public MarshaledString(string input)
     {
-        (IntPtr ptr, Length) = AllocNullTerminated(input);
-        Value = (sbyte*)ptr;
+        Value = AllocNullTerminated(input, out int length);
+        Length = length;
     }
 
     internal static Encoding GetEncoding(DataType dataType)
@@ -36,22 +36,23 @@ public unsafe struct MarshaledString : IDisposable
         return null;
     }
 
-    internal static (IntPtr Pointer, int Length) AllocNullTerminated(string str)
+    internal static sbyte* AllocNullTerminated(string str, out int length)
     {
         if (str is null)
         {
-            return ((IntPtr)0, 0);
+            length = 0;
+            return null;
         }
 
-        int length = Encoding.ASCII.GetByteCount(str);
-        var ptr = (sbyte*)Marshal.AllocHGlobal(length + 1);
+        length = Encoding.ASCII.GetByteCount(str);
+        var ptr = (sbyte*)NativeMemory.Alloc((nuint)length + 1);
         int bytesWritten = Encoding.ASCII.GetBytes(str, new Span<byte>(ptr, length));
         Debug.Assert(bytesWritten == length);
         ptr[length] = 0;
-        return ((IntPtr)ptr, length);
+        return ptr;
     }
 
-    internal static void FreeNullTerminated(IntPtr ptr) => Marshal.FreeHGlobal(ptr);
+    internal static void FreeNullTerminated(void* ptr) => NativeMemory.Free(ptr);
 
     public ReadOnlySpan<byte> AsSpan() => new ReadOnlySpan<byte>(Value, Length);
 
@@ -63,7 +64,7 @@ public unsafe struct MarshaledString : IDisposable
     {
         if (Value != null)
         {
-            Marshal.FreeHGlobal((IntPtr)Value);
+            NativeMemory.Free(Value);
             Value = null;
             Length = 0;
         }
