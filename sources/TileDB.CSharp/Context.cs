@@ -146,13 +146,13 @@ public sealed unsafe class Context : IDisposable
             }
             else
             {
-                var message = Enum.IsDefined(typeof(Status), status) ? ((Status)status).ToString() : ("Unknown error with code:" + status);
+                var message = Enum.IsDefined((Status)status) ? ((Status)status).ToString() : ("Unknown error with code:" + status);
                 sb_result.Append(" Context.last_error,caught exception:" + message);
             }
         }
         else
         {
-            var message = Enum.IsDefined(typeof(Status), status) ? ((Status)status).ToString() : ("Unknown error with code:" + status);
+            var message = Enum.IsDefined((Status)status) ? ((Status)status).ToString() : ("Unknown error with code:" + status);
             sb_result.Append(" Context.last_error,caught exception:" + message);
         }
         Methods.tiledb_error_free(&p_tiledb_error);
