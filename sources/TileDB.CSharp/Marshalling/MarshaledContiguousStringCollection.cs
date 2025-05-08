@@ -21,7 +21,7 @@ internal unsafe ref struct MarshaledContiguousStringCollection
         Encoding encoding = MarshaledString.GetEncoding(dataType);
         try
         {
-            Offsets = (ulong*)Marshal.AllocHGlobal(strings.Count * sizeof(ulong));
+            Offsets = (ulong*)NativeMemory.Alloc((nuint)strings.Count, sizeof(ulong));
             OffsetsCount = (ulong)strings.Count * sizeof(ulong);
             ulong currentOffset = 0;
             DataCount = 0;
@@ -31,7 +31,7 @@ internal unsafe ref struct MarshaledContiguousStringCollection
                 DataCount += (ulong)encoding.GetByteCount(str);
             }
 
-            Data = (byte*)Marshal.AllocHGlobal((IntPtr)DataCount);
+            Data = (byte*)NativeMemory.Alloc((nuint)DataCount);
             int i = 0;
             foreach (var str in strings)
             {
@@ -51,13 +51,13 @@ internal unsafe ref struct MarshaledContiguousStringCollection
     {
         if (Data is not null)
         {
-            Marshal.FreeHGlobal((IntPtr)Data);
+            NativeMemory.Free(Data);
             Data = null;
             DataCount = 0;
         }
         if (Offsets is not null)
         {
-            Marshal.FreeHGlobal((IntPtr)Offsets);
+            NativeMemory.Free(Offsets);
             Offsets = null;
             OffsetsCount = 0;
         }

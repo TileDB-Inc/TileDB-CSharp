@@ -7,20 +7,20 @@ namespace TileDB.CSharp.Marshalling;
 
 internal unsafe ref struct MarshaledStringCollection
 {
-    public IntPtr* Strings { get; private set; }
+    public sbyte** Strings { get; private set; }
 
     public int Count { get; }
 
     public MarshaledStringCollection(IReadOnlyList<string> strings)
     {
         Count = strings.Count;
-        Strings = (IntPtr*)Marshal.AllocHGlobal(Count * sizeof(IntPtr));
+        Strings = (sbyte**)NativeMemory.Alloc((nuint)Count, (nuint)sizeof(sbyte*));
 
         try
         {
             for (int i = 0; i < Count; i++)
             {
-                Strings[i] = MarshaledString.AllocNullTerminated(strings[i]).Pointer;
+                Strings[i] = MarshaledString.AllocNullTerminated(strings[i], out _);
             }
         }
         catch
@@ -38,7 +38,7 @@ internal unsafe ref struct MarshaledStringCollection
         {
             MarshaledString.FreeNullTerminated(Strings[i]);
         }
-        Marshal.FreeHGlobal((IntPtr)Strings);
+        NativeMemory.Free(Strings);
         Strings = null;
     }
 }

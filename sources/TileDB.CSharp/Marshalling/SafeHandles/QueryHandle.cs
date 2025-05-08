@@ -282,7 +282,7 @@ internal unsafe sealed class QueryHandle : SafeHandle
             bool successful = false;
             try
             {
-                SizePointer = (ulong*)Marshal.AllocHGlobal(sizeof(ulong));
+                SizePointer = (ulong*)NativeMemory.Alloc(1, sizeof(ulong));
                 successful = true;
             }
             finally
@@ -300,7 +300,7 @@ internal unsafe sealed class QueryHandle : SafeHandle
             DataHandle.Dispose();
             if (SizePointer != null)
             {
-                Marshal.FreeHGlobal((IntPtr)SizePointer);
+                NativeMemory.Free(SizePointer);
             }
             SizePointer = null;
         }
