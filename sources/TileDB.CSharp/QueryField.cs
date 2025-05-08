@@ -54,6 +54,21 @@ public unsafe sealed class QueryField : IDisposable
     }
 
     /// <summary>
+    /// Gets whether the <see cref="QueryField"/> is nullable.
+    /// </summary>
+    public bool IsNullable
+    {
+        get
+        {
+            using var ctxHandle = _ctx.Handle.Acquire();
+            using var handle = _handle.Acquire();
+            byte result;
+            _ctx.handle_error(Methods.tiledb_field_get_nullable(ctxHandle, handle, &result));
+            return result != 0;
+        }
+    }
+
+    /// <summary>
     /// Gets the origin of the <see cref="QueryField"/>.
     /// </summary>
     public QueryFieldOrigin Origin
