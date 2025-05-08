@@ -19,6 +19,20 @@ public static unsafe class Stats
     public static void Disable() => ErrorHandling.ThrowOnError(Methods.tiledb_stats_disable());
 
     /// <summary>
+    /// Gets whether statistics are enabled.
+    /// </summary>
+    /// <seealso cref="Enable"/>
+    /// <seealso cref="Disable"/>
+    public static bool IsEnabled
+    {
+        get {
+            byte val;
+            ErrorHandling.ThrowOnError(Methods.tiledb_stats_is_enabled(&val));
+            return val != 0;
+        }
+    }
+
+    /// <summary>
     /// Resets all previously gathered statistics.
     /// </summary>
     public static void Reset() => ErrorHandling.ThrowOnError(Methods.tiledb_stats_reset());
