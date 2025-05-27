@@ -174,15 +174,6 @@ public sealed unsafe class Config : IDisposable, IEnumerable<KeyValuePair<string
     }
 
     /// <summary>
-    /// Gets a <see cref="ConfigIterator"/> that enumerates over all options whose parameter namess start with a given prefix.
-    /// </summary>
-    /// <param name="prefix">The parameters' name's prefix.</param>
-    public ConfigIterator Iterate(string prefix)
-    {
-        return new ConfigIterator(_handle, prefix);
-    }
-
-    /// <summary>
     /// Checks if two <see cref="Config"/>s have the same content.
     /// </summary>
     /// <param name="other">The config to compare this one with.</param>
@@ -205,11 +196,7 @@ public sealed unsafe class Config : IDisposable, IEnumerable<KeyValuePair<string
 
     private sealed class Enumerator(Config config, string prefix) : IEnumerator<KeyValuePair<string, string>>
     {
-#pragma warning disable TILEDB0015 // Type or member is obsolete
-        // We use ConfigIterator as an implementation detail.
-        // In the future, ConfigIterator will become internal and replace this class.
         private readonly ConfigIterator _iterator = new(config.Handle, prefix);
-#pragma warning restore TILEDB0015 // Type or member is obsolete
 
         private readonly string _prefix = prefix;
 
@@ -223,7 +210,7 @@ public sealed unsafe class Config : IDisposable, IEnumerable<KeyValuePair<string
             {
                 return false;
             }
-            _current = _iterator.HereImpl();
+            _current = _iterator.Here();
             _iterator.Next();
             return true;
         }

@@ -5,12 +5,10 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp;
 
-[Obsolete(Obsoletions.ConfigIteratorMessage, DiagnosticId = Obsoletions.ConfigIteratorDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-public sealed unsafe class ConfigIterator : IDisposable
+internal sealed unsafe class ConfigIterator : IDisposable
 {
     private readonly ConfigIteratorHandle _handle;
     private readonly ConfigHandle _hConfig;
-    private bool _disposed;
 
     internal ConfigIterator(ConfigHandle hConfig, string prefix)
     {
@@ -20,24 +18,11 @@ public sealed unsafe class ConfigIterator : IDisposable
 
     public void Dispose()
     {
-        Dispose(true);
+        _handle.Dispose();
     }
-
-    private void Dispose(bool disposing)
-    {
-        if (_disposed) return;
-        if (disposing && (!_handle.IsInvalid))
-        {
-            _handle.Dispose();
-        }
-
-        _disposed = true;
-    }
-
-    internal ConfigIteratorHandle Handle => _handle;
 
     // Internal overload that returns KVP to avoid the Tuple allocation.
-    internal KeyValuePair<string, string> HereImpl()
+    internal KeyValuePair<string, string> Here()
     {
         tiledb_error_t* p_tiledb_error;
         sbyte* paramPtr;
@@ -53,12 +38,6 @@ public sealed unsafe class ConfigIterator : IDisposable
         string param = MarshaledStringOut.GetStringFromNullTerminated(paramPtr);
         string value = MarshaledStringOut.GetStringFromNullTerminated(valuePtr);
         return new KeyValuePair<string, string>(param, value);
-    }
-
-    public Tuple<string, string> Here()
-    {
-        var here = HereImpl();
-        return new Tuple<string, string>(here.Key, here.Value);
     }
 
     public void Next()
