@@ -5,7 +5,7 @@ using TileDB.Interop;
 
 namespace TileDB.CSharp;
 
-[Obsolete(Obsoletions.FilestoreApiMessage, DiagnosticId = Obsoletions.ConfigIteratorDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
+[Obsolete(Obsoletions.FilestoreApiMessage, DiagnosticId = Obsoletions.FilestoreApiDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
 public sealed unsafe class File
 {
     private readonly Context _ctx;
