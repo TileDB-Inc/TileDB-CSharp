@@ -86,9 +86,6 @@ public class ConfigTest
     {
         var config = new Config();
 
-        // Iterate the configuration
-        var iter = config.Iterate("vfs.s3.");
-
         foreach (var config_entry_pair in config.EnumerateOptions("vfs.s3."))
         {
             switch (config_entry_pair.Key)
@@ -193,7 +190,6 @@ public class ConfigTest
                     Assert.AreEqual("true", config_entry_pair.Value);
                     break;
             }
-            iter.Next();
         }
     }
 }
