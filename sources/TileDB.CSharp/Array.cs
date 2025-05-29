@@ -5,9 +5,6 @@ using System.Diagnostics.CodeAnalysis;
 using TileDB.CSharp.Marshalling;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
-using ArrayHandle = TileDB.CSharp.Marshalling.SafeHandles.ArrayHandle;
-using ArraySchemaHandle = TileDB.CSharp.Marshalling.SafeHandles.ArraySchemaHandle;
-using ConfigHandle = TileDB.CSharp.Marshalling.SafeHandles.ConfigHandle;
 
 namespace TileDB.CSharp;
 
@@ -457,7 +454,7 @@ public sealed unsafe class Array : IDisposable
         {
             using var dim = domain.Dimension(i);
             var dimName = dim.Name();
-            var dimType = EnumUtil.DataTypeToType(dim.Type());
+            var dimType = EnumUtil.DataTypeToNumericType(dim.Type());
 
             switch (Type.GetTypeCode(dimType))
             {

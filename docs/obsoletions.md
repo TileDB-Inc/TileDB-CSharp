@@ -10,7 +10,7 @@ Following [the deprecation policy of TileDB Embedded][core-deprecation], obsolet
 |[`TILEDB0012`](#TILEDB0012) …[`TILEDB0013`](#TILEDB0013)|5.7.0|5.9.0|
 |[`TILEDB0014`](#TILEDB0014) …[`TILEDB0014`](#TILEDB0014)|5.8.0|5.10.0|
 |[`TILEDB0015`](#TILEDB0015) …[`TILEDB0015`](#TILEDB0015)|5.13.0|5.15.0|
-|[`TILEDB0015`](#TILEDB0016) …[`TILEDB0015`](#TILEDB0016)|5.17.0|5.19.0|
+|[`TILEDB0016`](#TILEDB0016) …[`TILEDB0016`](#TILEDB0016)|5.17.0|5.19.0|
 
 ## `TILEDB0001` - Enum value names that start with `TILEDB_` were replaced with C#-friendly names.
 

@@ -5,8 +5,6 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
-using QueryHandle = TileDB.CSharp.Marshalling.SafeHandles.QueryHandle;
-using ConfigHandle = TileDB.CSharp.Marshalling.SafeHandles.ConfigHandle;
 
 namespace TileDB.CSharp;
 

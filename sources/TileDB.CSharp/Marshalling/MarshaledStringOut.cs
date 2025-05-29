@@ -1,29 +1,11 @@
 using System;
-using System.ComponentModel;
 using System.Text;
 using TileDB.CSharp;
 
 namespace TileDB.Interop;
 
-[Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-[EditorBrowsable(EditorBrowsableState.Never)]
-public unsafe class LibC
+internal static unsafe class MarshaledStringOut
 {
-    // public struct handle_t {}
-    // [DllImport(LibDllImport.LibCPath)]
-    // public static extern void free(void* p);
-}
-
-[Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-[EditorBrowsable(EditorBrowsableState.Never)]
-public unsafe class MarshaledStringOut
-{
-    public sbyte* Value;
-    public MarshaledStringOut()
-    {
-        Value = null;
-    }
-
     /// <summary>
     /// Encodes a read-only span of bytes into a string, using the default encoding.
     /// </summary>
@@ -36,7 +18,7 @@ public unsafe class MarshaledStringOut
             DataType.StringAscii => Encoding.ASCII.GetString(span),
             DataType.StringUtf8 => Encoding.UTF8.GetString(span),
             DataType.StringUtf16 => Encoding.Unicode.GetString(span),
-            DataType.StringUtf32=> Encoding.UTF32.GetString(span),
+            DataType.StringUtf32 => Encoding.UTF32.GetString(span),
             _ => throw new ArgumentOutOfRangeException(nameof(dataType), dataType, "Unsupported string data type.")
         };
 
@@ -54,6 +36,4 @@ public unsafe class MarshaledStringOut
         span = span[0..span.IndexOf((byte)0)];
         return GetString(span);
     }
-
-    public static implicit operator string(MarshaledStringOut s) => GetStringFromNullTerminated(s.Value);
 }
