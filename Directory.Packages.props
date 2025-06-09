@@ -28,11 +28,11 @@
   <ItemGroup>
     <PackageVersion Include="$(TileDBNativePackageName)" Version="$(TileDBNativePackageVersion)" />
     <PackageVersion Include="GitHubActionsTestLogger" Version="2.4.1" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
-    <PackageVersion Include="MSTest.TestAdapter" Version="3.8.3" />
-    <PackageVersion Include="MSTest.TestFramework" Version="3.8.3" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageVersion Include="MSTest.TestAdapter" Version="3.9.1" />
+    <PackageVersion Include="MSTest.TestFramework" Version="3.9.1" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" PrivateAssets="all" />
-    <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="10.6.0.109712" />
+    <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="10.11.0.117924" />
     <GlobalPackageReference Include="DotNet.ReproducibleBuilds" Version="1.2.25" />
   </ItemGroup>
 </Project>
