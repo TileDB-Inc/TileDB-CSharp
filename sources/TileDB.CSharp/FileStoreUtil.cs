@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TileDB.CSharp;
 
+[Obsolete(Obsoletions.FilestoreApiMessage, DiagnosticId = Obsoletions.FilestoreApiDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
 public static class FileStoreUtil
 {
     public static void SaveFileToArray(Context ctx, string array_uri, string file)
