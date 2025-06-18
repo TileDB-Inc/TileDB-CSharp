@@ -1150,8 +1150,7 @@ public static unsafe class EnumUtil
     /// </summary>
     /// <param name="t">The type to convert.</param>
     /// <exception cref="NotSupportedException"><paramref name="t"/> is unsupported.</exception>
-    [Obsolete(Obsoletions.DataTypeTypeConversionsMessage, DiagnosticId = Obsoletions.DataTypeTypeConversionsDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-    public static DataType TypeToDataType(Type t)
+    internal static DataType TypeToDataType(Type t)
     {
         if (t == typeof(int))
         {
@@ -1205,69 +1204,6 @@ public static unsafe class EnumUtil
         {
             ThrowHelpers.ThrowTypeNotSupported();
             return default; // unreachable
-        }
-    }
-
-    [Obsolete(Obsoletions.DataTypeTypeConversionsMessage, DiagnosticId = Obsoletions.DataTypeTypeConversionsDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-    public static Type DataTypeToType(DataType datatype)
-    {
-        switch (datatype)
-        {
-            case DataType.DateTimeAttosecond:
-            case DataType.DateTimeDay:
-            case DataType.DateTimeFemtosecond:
-            case DataType.DateTimeHour:
-            case DataType.DateTimeMinute:
-            case DataType.DateTimeMonth:
-            case DataType.DateTimeMillisecond:
-            case DataType.DateTimeNanosecond:
-            case DataType.DateTimePicosecond:
-            case DataType.DateTimeSecond:
-            case DataType.DateTimeMicrosecond:
-            case DataType.DateTimeWeek:
-            case DataType.DateTimeYear:
-                return typeof(long);
-            case DataType.Float32:
-                return typeof(float);
-            case DataType.Float64:
-                return typeof(double);
-            case DataType.Int16:
-                return typeof(short);
-            case DataType.Int32:
-                return typeof(int);
-            case DataType.Int64:
-                return typeof(long);
-            case DataType.Int8:
-                return typeof(sbyte);
-            case DataType.StringAscii:
-            case DataType.StringUtf16:
-            case DataType.StringUtf32:
-            case DataType.StringUtf8:
-                return typeof(sbyte);
-            case DataType.TimeAttosecond:
-            case DataType.TimeFemtosecond:
-            case DataType.TimeHour:
-            case DataType.TimeMinute:
-            case DataType.TimeMillisecond:
-            case DataType.TimeNanosecond:
-            case DataType.TimePicosecond:
-            case DataType.TimeSecond:
-            case DataType.TimeMicrosecond:
-                return typeof(long);
-            case DataType.UInt16:
-                return typeof(ushort);
-            case DataType.UInt32:
-                return typeof(uint);
-            case DataType.UInt64:
-                return typeof(ulong);
-            case DataType.UInt8:
-                return typeof(byte);
-            case DataType.Blob:
-                return typeof(byte);
-            case DataType.Boolean:
-                return typeof(byte);
-            default:
-                return typeof(byte);
         }
     }
 

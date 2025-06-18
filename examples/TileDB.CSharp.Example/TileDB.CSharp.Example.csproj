@@ -6,6 +6,7 @@
     <RootNamespace>TileDB.CSharp.Examples</RootNamespace>
     <TargetFramework>net8.0</TargetFramework>
     <UseCurrentRuntimeIdentifier>true</UseCurrentRuntimeIdentifier>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
