@@ -4,8 +4,6 @@ using System.Runtime.CompilerServices;
 using TileDB.CSharp.Marshalling;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
-using DimensionHandle = TileDB.CSharp.Marshalling.SafeHandles.DimensionHandle;
-using FilterListHandle = TileDB.CSharp.Marshalling.SafeHandles.FilterListHandle;
 
 namespace TileDB.CSharp;
 
@@ -178,7 +176,7 @@ public sealed unsafe class Dimension : IDisposable
     public string TileExtentToStr()
     {
         var datatype = Type();
-        var t = EnumUtil.DataTypeToType(datatype);
+        var t = EnumUtil.DataTypeToNumericType(datatype);
         return System.Type.GetTypeCode(t) switch
         {
             TypeCode.Int16 => Format<short>(),
@@ -201,7 +199,7 @@ public sealed unsafe class Dimension : IDisposable
     public string DomainToStr()
     {
         var datatype = Type();
-        var t = EnumUtil.DataTypeToType(datatype);
+        var t = EnumUtil.DataTypeToNumericType(datatype);
         return System.Type.GetTypeCode(t) switch
         {
             TypeCode.Int16 => Format<short>(),

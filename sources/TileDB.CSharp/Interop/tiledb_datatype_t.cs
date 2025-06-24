@@ -6,9 +6,7 @@ using TileDB.CSharp;
 
 namespace TileDB.Interop
 {
-    [Obsolete(Obsoletions.TileDBInterop3Message, DiagnosticId = Obsoletions.TileDBInterop3DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public enum tiledb_datatype_t
+    internal enum tiledb_datatype_t
     {
         TILEDB_INT32 = 0,
         TILEDB_INT64 = 1,
