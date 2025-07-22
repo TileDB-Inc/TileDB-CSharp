@@ -12,4 +12,13 @@ public class CoreUtilTest
 
         Assert.IsFalse(string.IsNullOrWhiteSpace(buildConfiguration));
     }
+
+    [TestMethod]
+    public void TestStats()
+    {
+        Stats.Disable();
+        Assert.IsFalse(Stats.IsEnabled);
+        Stats.Enable();
+        Assert.IsTrue(Stats.IsEnabled);
+    }
 }
