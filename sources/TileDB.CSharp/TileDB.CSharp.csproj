@@ -6,12 +6,12 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Nullable>enable</Nullable>
     <RootNamespace>TileDB.CSharp</RootNamespace>
-    <Version>5.17.0</Version>
+    <Version>5.18.0</Version>
     <Description>C# wrapper of the TileDB Embedded universal data engine.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <EnablePackageValidation>true</EnablePackageValidation>
-    <PackageValidationBaselineVersion>5.16.0</PackageValidationBaselineVersion>
+    <PackageValidationBaselineVersion>5.17.0</PackageValidationBaselineVersion>
     <NoWarn>$(NoWarn);TILEDB0012;TILEDB0013;TILEDB0014</NoWarn>
   </PropertyGroup>
 

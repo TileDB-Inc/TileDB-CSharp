@@ -63,6 +63,7 @@ public class AggregatesTest
             Assert.AreEqual(DataType.UInt64, countField.DataType);
             Assert.AreEqual(1u, countField.ValuesPerCell);
             Assert.AreEqual(QueryFieldOrigin.Aggregate, countField.Origin);
+            Assert.IsFalse(countField.IsNullable);
 
             query.SetDataBuffer("a1", dataRead);
             query.SetValidityBuffer("a1", validityRead);
