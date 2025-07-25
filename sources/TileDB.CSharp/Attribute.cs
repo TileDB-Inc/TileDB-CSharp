@@ -5,8 +5,6 @@ using System.Text;
 using TileDB.Interop;
 using TileDB.CSharp.Marshalling;
 using TileDB.CSharp.Marshalling.SafeHandles;
-using AttributeHandle = TileDB.CSharp.Marshalling.SafeHandles.AttributeHandle;
-using FilterListHandle = TileDB.CSharp.Marshalling.SafeHandles.FilterListHandle;
 
 namespace TileDB.CSharp;
 

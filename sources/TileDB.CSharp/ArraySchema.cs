@@ -2,10 +2,6 @@ using System;
 using System.Collections.Generic;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
-using ArraySchemaHandle = TileDB.CSharp.Marshalling.SafeHandles.ArraySchemaHandle;
-using FilterListHandle = TileDB.CSharp.Marshalling.SafeHandles.FilterListHandle;
-using DomainHandle = TileDB.CSharp.Marshalling.SafeHandles.DomainHandle;
-using AttributeHandle = TileDB.CSharp.Marshalling.SafeHandles.AttributeHandle;
 using TileDB.CSharp.Marshalling;
 
 namespace TileDB.CSharp;

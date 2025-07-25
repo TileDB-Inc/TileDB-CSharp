@@ -1,9 +1,7 @@
 using System;
+using TileDB.CSharp.Marshalling;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
-using DomainHandle = TileDB.CSharp.Marshalling.SafeHandles.DomainHandle;
-using DimensionHandle = TileDB.CSharp.Marshalling.SafeHandles.DimensionHandle;
-using TileDB.CSharp.Marshalling;
 
 namespace TileDB.CSharp;
 

@@ -6,8 +6,6 @@ using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using TileDB.CSharp.Marshalling.SafeHandles;
 using TileDB.Interop;
-using ConfigHandle = TileDB.CSharp.Marshalling.SafeHandles.ConfigHandle;
-using VFSHandle = TileDB.CSharp.Marshalling.SafeHandles.VFSHandle;
 
 namespace TileDB.CSharp;
 

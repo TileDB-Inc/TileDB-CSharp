@@ -1,7 +1,6 @@
 // Copyright (c) .NET Foundation and Contributors. All Rights Reserved. Licensed under the MIT License (MIT). See License.md in the repository root for more information.
 
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -9,9 +8,7 @@ using TileDB.CSharp;
 
 namespace TileDB.Interop;
 
-[Obsolete(Obsoletions.TileDBInterop2Message, DiagnosticId = Obsoletions.TileDBInterop2DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
-[EditorBrowsable(EditorBrowsableState.Never)]
-public unsafe struct MarshaledString : IDisposable
+internal unsafe struct MarshaledString : IDisposable
 {
     public MarshaledString(string input)
     {
