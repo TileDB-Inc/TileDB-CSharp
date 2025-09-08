@@ -12,7 +12,7 @@ jobs:
     needs: Run-Tests
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 8.0.4xx
       - name: Pack TileDB.CSharp
