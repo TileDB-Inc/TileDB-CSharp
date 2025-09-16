@@ -56,7 +56,7 @@ jobs:
         run: |
           mkdir -p build
           mkdir -p artifacts/${{ matrix.platform }}
-          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DTILEDB_SERIALIZATION=ON -DTILEDB_S3=ON -DTILEDB_VCPKG=ON -DCOMPILER_SUPPORTS_AVX2=OFF -DTILEDB_CMAKE_IDE=ON
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DTILEDB_TESTS=OFF -DCOMPILER_SUPPORTS_AVX2=OFF
           cmake --build build -j --target tiledb
           cmake --install build --prefix artifacts/${{ matrix.platform }}
 
