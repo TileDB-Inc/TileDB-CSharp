@@ -76,7 +76,7 @@ public class VFSTest
 
         using var vfs = new VFS();
 
-        WriteRandomData(vfs, file1Uri, DataSize, out var dataWrite);
+        WriteRandomData(vfs, file1Uri, DataSize, out var _);
         Assert.AreEqual((ulong)DataSize, vfs.FileSize(file1Uri));
         vfs.MoveFile(file1Uri, file2Uri);
         Assert.IsFalse(vfs.IsFile(file1Uri));
@@ -169,10 +169,11 @@ public class VFSTest
 
         int i = 0;
 
-        vfs.VisitChildrenRecursive(dir, (uri, size, arg) =>
+        vfs.VisitChildrenRecursive(dir, (uri, size, isDir, arg) =>
         {
             string path = new Uri(uri).LocalPath;
-            Assert.IsTrue(Directory.Exists(path) || System.IO.File.Exists(path));
+            Assert.AreEqual(isDir, Directory.Exists(path));
+            Assert.AreEqual(!isDir, System.IO.File.Exists(path));
             Assert.AreEqual(path.EndsWith("file3") ? 5ul : 0ul, size);
             Assert.AreEqual(555, arg);
 
