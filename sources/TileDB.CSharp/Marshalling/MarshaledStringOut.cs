@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using System.Text;
 using TileDB.CSharp;
 
@@ -32,8 +33,6 @@ internal static unsafe class MarshaledStringOut
             return string.Empty;
         }
 
-        var span = new ReadOnlySpan<byte>(ptr, int.MaxValue);
-        span = span[0..span.IndexOf((byte)0)];
-        return GetString(span);
+        return GetString(MemoryMarshal.CreateReadOnlySpanFromNullTerminated((byte*)ptr));
     }
 }
