@@ -33,9 +33,7 @@ public unsafe sealed class VFS : IDisposable
     /// </summary>
     /// <param name="ctx">The context to associate the VFS with. Defaults to <see cref="Context.GetDefault"/></param>
     /// <param name="config">The <see cref="VFS"/>' <see cref="CSharp.Config"/>. Defaults to <paramref name="ctx"/>'s config.</param>
-#pragma warning disable S3427 // Method overloads with default parameter values should not overlap 
     public VFS(Context? ctx = null, Config? config = null)
-#pragma warning restore S3427 // Method overloads with default parameter values should not overlap 
     {
         ctx_ = ctx ?? Context.GetDefault();
         handle_ = VFSHandle.Create(ctx_, config?.Handle);
@@ -334,7 +332,7 @@ public unsafe sealed class VFS : IDisposable
     }
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
-    private static int VisitRecursiveCallback(sbyte* uriPtr, nuint uriSize, ulong size, void* data)
+    private static int VisitRecursiveCallback(sbyte* uriPtr, nuint uriSize, ulong size, byte is_dir, void* data)
     {
         string uri = MarshaledStringOut.GetStringFromNullTerminated(uriPtr);
         VisitRecursiveCallbackData* callbackData = (VisitRecursiveCallbackData*)data;
@@ -342,7 +340,7 @@ public unsafe sealed class VFS : IDisposable
         bool shouldContinue;
         try
         {
-            shouldContinue = callbackData->Invoke(uri, size);
+            shouldContinue = callbackData->Invoke(uri, size, is_dir != 0);
         }
         catch (Exception e)
         {
@@ -441,13 +439,32 @@ public unsafe sealed class VFS : IDisposable
     /// </remarks>
     public void VisitChildrenRecursive<T>(string uri, Func<string, ulong, T, bool> callback, T callbackArg)
     {
-        ValueTuple<Func<string, ulong, T, bool>, T> data = (callback, callbackArg);
+        VisitChildrenRecursive<(Func<string, ulong, T, bool>, T)>(uri,
+            static (uri, size, _, state) => state.Item1(uri, size, state.Item2),
+            (callback, callbackArg));
+    }
+
+    /// <summary>
+    /// Visits all files and subdirectories of a directory and its subdirectories recursively.
+    /// </summary>
+    /// <param name="uri">The URI of the directory to visit.</param>
+    /// <param name="callback">A callback delegate that will be called with the URI of each file,
+    /// its size, whether it is a directory and <paramref name="callbackArg"/>, and returns whether
+    /// to continue visiting.</param>
+    /// <param name="callbackArg">An argument that will be passed to <paramref name="callback"/>.</param>
+    /// <typeparam name="T">The type of <paramref name="callbackArg"/>.</typeparam>
+    /// <remarks>
+    /// This operation is supported only on URIs to local file system, S3, Azure and GCS.
+    /// </remarks>
+    public void VisitChildrenRecursive<T>(string uri, Func<string, ulong, bool, T, bool> callback, T callbackArg)
+    {
+        ValueTuple<Func<string, ulong, bool, T, bool>, T> data = (callback, callbackArg);
         var callbackData = new VisitRecursiveCallbackData()
         {
-            Callback = static (uri, size, arg) =>
+            Callback = static (uri, size, is_dir, arg) =>
             {
-                var dataPtr = (ValueTuple<Func<string, ulong, T, bool>, T>*)arg;
-                return dataPtr->Item1(uri, size, dataPtr->Item2);
+                var dataPtr = (ValueTuple<Func<string, ulong, bool, T, bool>, T>*)arg;
+                return dataPtr->Item1(uri, size, is_dir, dataPtr->Item2);
             },
             CallbackArgument = (IntPtr)(&data)
         };
@@ -459,7 +476,7 @@ public unsafe sealed class VFS : IDisposable
         // during the call to tiledb_vfs_ls_recursive. Contrast this with tiledb_query_submit_async where we
         // had to use a GCHandle because the callback might be invoked after we return from it.
         // We also are not susceptible to GC holes; callbackData is in the stack and won't be moved around.
-        ctx_.handle_error(Methods.tiledb_vfs_ls_recursive(ctxHandle, handle, ms_uri, &VisitRecursiveCallback, &callbackData));
+        ctx_.handle_error(Methods.tiledb_vfs_ls_recursive_v2(ctxHandle, handle, ms_uri, &VisitRecursiveCallback, &callbackData));
         callbackData.Exception?.Throw();
     }
 
@@ -479,7 +496,7 @@ public unsafe sealed class VFS : IDisposable
 
     private struct VisitRecursiveCallbackData
     {
-        public Func<string, ulong, IntPtr, bool> Callback;
+        public Func<string, ulong, bool, IntPtr, bool> Callback;
 
         public IntPtr CallbackArgument;
 
@@ -488,6 +505,6 @@ public unsafe sealed class VFS : IDisposable
         // and because the native library is compiled with MSVC).
         public ExceptionDispatchInfo? Exception;
 
-        public readonly bool Invoke(string uri, ulong size) => Callback(uri, size, CallbackArgument);
+        public readonly bool Invoke(string uri, ulong size, bool is_dir) => Callback(uri, size, is_dir, CallbackArgument);
     }
 }
