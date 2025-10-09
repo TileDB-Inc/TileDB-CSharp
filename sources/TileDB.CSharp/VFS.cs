@@ -33,9 +33,7 @@ public unsafe sealed class VFS : IDisposable
     /// </summary>
     /// <param name="ctx">The context to associate the VFS with. Defaults to <see cref="Context.GetDefault"/></param>
     /// <param name="config">The <see cref="VFS"/>' <see cref="CSharp.Config"/>. Defaults to <paramref name="ctx"/>'s config.</param>
-#pragma warning disable S3427 // Method overloads with default parameter values should not overlap 
     public VFS(Context? ctx = null, Config? config = null)
-#pragma warning restore S3427 // Method overloads with default parameter values should not overlap 
     {
         ctx_ = ctx ?? Context.GetDefault();
         handle_ = VFSHandle.Create(ctx_, config?.Handle);
@@ -352,6 +350,25 @@ public unsafe sealed class VFS : IDisposable
         return shouldContinue ? 1 : 0;
     }
 
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    private static int VisitRecursiveV2Callback(sbyte* uriPtr, nuint uriSize, ulong size, byte is_dir, void* data)
+    {
+        string uri = MarshaledStringOut.GetStringFromNullTerminated(uriPtr);
+        VisitRecursiveV2CallbackData* callbackData = (VisitRecursiveV2CallbackData*)data;
+        Debug.Assert(callbackData->Exception is null);
+        bool shouldContinue;
+        try
+        {
+            shouldContinue = callbackData->Invoke(uri, size, is_dir != 0);
+        }
+        catch (Exception e)
+        {
+            callbackData->Exception = ExceptionDispatchInfo.Capture(e);
+            shouldContinue = false;
+        }
+        return shouldContinue ? 1 : 0;
+    }
+
     /// <summary>
     /// Lists the top-level children of a directory.
     /// </summary>
@@ -384,9 +401,12 @@ public unsafe sealed class VFS : IDisposable
     public List<(string Uri, ulong Size)> GetChildrenRecursive(string uri)
     {
         var list = new List<(string Uri, ulong Size)>();
-        VisitChildrenRecursive(uri, static (uri, size, list) =>
+        VisitChildrenRecursive(uri, static (uri, size, isDir, list) =>
         {
-            list.Add((uri, size));
+            if (!isDir)
+            {
+                list.Add((uri, size));
+            }
             return true;
         }, list);
         return list;
@@ -439,6 +459,7 @@ public unsafe sealed class VFS : IDisposable
     /// <remarks>
     /// This operation is supported only on URIs to local file system, S3, Azure and GCS.
     /// </remarks>
+    [Obsolete(Obsoletions.VisitChildrenRecursiveV1Message, DiagnosticId = Obsoletions.VisitChildrenRecursiveV1DiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
     public void VisitChildrenRecursive<T>(string uri, Func<string, ulong, T, bool> callback, T callbackArg)
     {
         ValueTuple<Func<string, ulong, T, bool>, T> data = (callback, callbackArg);
@@ -460,6 +481,42 @@ public unsafe sealed class VFS : IDisposable
         // had to use a GCHandle because the callback might be invoked after we return from it.
         // We also are not susceptible to GC holes; callbackData is in the stack and won't be moved around.
         ctx_.handle_error(Methods.tiledb_vfs_ls_recursive(ctxHandle, handle, ms_uri, &VisitRecursiveCallback, &callbackData));
+        callbackData.Exception?.Throw();
+    }
+
+    /// <summary>
+    /// Visits all files and subdirectories of a directory and its subdirectories recursively.
+    /// </summary>
+    /// <param name="uri">The URI of the directory to visit.</param>
+    /// <param name="callback">A callback delegate that will be called with the URI of each file,
+    /// its size, whether it is a directory and <paramref name="callbackArg"/>, and returns whether
+    /// to continue visiting.</param>
+    /// <param name="callbackArg">An argument that will be passed to <paramref name="callback"/>.</param>
+    /// <typeparam name="T">The type of <paramref name="callbackArg"/>.</typeparam>
+    /// <remarks>
+    /// This operation is supported only on URIs to local file system, S3, Azure and GCS.
+    /// </remarks>
+    public void VisitChildrenRecursive<T>(string uri, Func<string, ulong, bool, T, bool> callback, T callbackArg)
+    {
+        ValueTuple<Func<string, ulong, bool, T, bool>, T> data = (callback, callbackArg);
+        var callbackData = new VisitRecursiveV2CallbackData()
+        {
+            Callback = static (uri, size, is_dir, arg) =>
+            {
+                var dataPtr = (ValueTuple<Func<string, ulong, bool, T, bool>, T>*)arg;
+                return dataPtr->Item1(uri, size, is_dir, dataPtr->Item2);
+            },
+            CallbackArgument = (IntPtr)(&data)
+        };
+
+        using var ctxHandle = ctx_.Handle.Acquire();
+        using var handle = handle_.Acquire();
+        using var ms_uri = new MarshaledString(uri);
+        // Taking a pointer to callbackData is safe; the callback will be invoked only
+        // during the call to tiledb_vfs_ls_recursive. Contrast this with tiledb_query_submit_async where we
+        // had to use a GCHandle because the callback might be invoked after we return from it.
+        // We also are not susceptible to GC holes; callbackData is in the stack and won't be moved around.
+        ctx_.handle_error(Methods.tiledb_vfs_ls_recursive_v2(ctxHandle, handle, ms_uri, &VisitRecursiveV2Callback, &callbackData));
         callbackData.Exception?.Throw();
     }
 
@@ -489,5 +546,19 @@ public unsafe sealed class VFS : IDisposable
         public ExceptionDispatchInfo? Exception;
 
         public readonly bool Invoke(string uri, ulong size) => Callback(uri, size, CallbackArgument);
+    }
+
+    private struct VisitRecursiveV2CallbackData
+    {
+        public Func<string, ulong, bool, IntPtr, bool> Callback;
+
+        public IntPtr CallbackArgument;
+
+        // If the callback threw an exception we will save it here and rethrow it once we leave native code.
+        // The reason we do this is that throwing exceptions in P/Invoke is not portable (works only on Windows
+        // and because the native library is compiled with MSVC).
+        public ExceptionDispatchInfo? Exception;
+
+        public readonly bool Invoke(string uri, ulong size, bool is_dir) => Callback(uri, size, is_dir, CallbackArgument);
     }
 }

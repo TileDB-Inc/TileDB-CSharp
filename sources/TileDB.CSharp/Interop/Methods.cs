@@ -1494,6 +1494,10 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("capi_return_t")]
+        public static extern int tiledb_ndrectangle_dump_str(tiledb_ctx_t* ctx, [NativeTypeName("tiledb_ndrectangle_t *")] tiledb_ndrectangle_handle_t* ndr, tiledb_string_t** @out);
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("capi_return_t")]
         public static extern int tiledb_current_domain_create(tiledb_ctx_t* ctx, [NativeTypeName("tiledb_current_domain_t **")] tiledb_current_domain_handle_t** current_domain);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -1515,6 +1519,10 @@ namespace TileDB.Interop
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("capi_return_t")]
         public static extern int tiledb_current_domain_get_type(tiledb_ctx_t* ctx, [NativeTypeName("tiledb_current_domain_t *")] tiledb_current_domain_handle_t* current_domain, tiledb_current_domain_type_t* type);
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("capi_return_t")]
+        public static extern int tiledb_current_domain_dump_str(tiledb_ctx_t* ctx, [NativeTypeName("tiledb_current_domain_t *")] tiledb_current_domain_handle_t* current_domain, tiledb_string_t** @out);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("capi_return_t")]
@@ -1646,7 +1654,12 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("capi_return_t")]
+        [Obsolete]
         public static extern int tiledb_vfs_ls_recursive(tiledb_ctx_t* ctx, tiledb_vfs_t* vfs, [NativeTypeName("const char *")] sbyte* path, [NativeTypeName("tiledb_ls_callback_t")] delegate* unmanaged[Cdecl]<sbyte*, nuint, ulong, void*, int> callback, void* data);
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("capi_return_t")]
+        public static extern int tiledb_vfs_ls_recursive_v2(tiledb_ctx_t* ctx, tiledb_vfs_t* vfs, [NativeTypeName("const char *")] sbyte* path, [NativeTypeName("tiledb_ls_callback_v2_t")] delegate* unmanaged[Cdecl]<sbyte*, nuint, ulong, byte, void*, int> callback, void* data);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void tiledb_dimension_label_free(tiledb_dimension_label_t** dim_label);
