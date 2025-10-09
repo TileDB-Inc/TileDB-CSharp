@@ -3,6 +3,8 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 
+#pragma warning disable TILEDB0017
+
 namespace TileDB.CSharp.Test;
 
 [TestClass]
@@ -157,7 +159,36 @@ public class VFSTest
     [TestMethod]
     public void TestVisitRecursive()
     {
-        using var dir = new TemporaryDirectory("vfs-visit");
+        using var dir = new TemporaryDirectory("vfs-visit-recursive");
+
+        using var vfs = new VFS();
+        vfs.CreateDir(Path.Combine(dir, "dir1"));
+        vfs.Touch(Path.Combine(dir, "dir1/file1"));
+        vfs.CreateDir(Path.Combine(dir, "dir2"));
+        vfs.Touch(Path.Combine(dir, "dir2/file2"));
+        vfs.CreateDir(Path.Combine(dir, "dir3"));
+        System.IO.File.WriteAllBytes(Path.Combine(dir, "dir3/file3"), "12345"u8.ToArray());
+
+        int i = 0;
+
+        vfs.VisitChildrenRecursive(dir, (uri, size, arg) =>
+        {
+            string path = new Uri(uri).LocalPath;
+            Assert.IsTrue(System.IO.File.Exists(path) || Directory.Exists(path));
+            Assert.AreEqual(path.EndsWith("file3") ? 5ul : 0ul, size);
+            Assert.AreEqual(555, arg);
+
+            i++;
+            return i != 2;
+        }, 555);
+
+        Assert.AreEqual(2, i);
+    }
+
+    [TestMethod]
+    public void TestVisitRecursiveV2()
+    {
+        using var dir = new TemporaryDirectory("vfs-visit-recursive-v2");
 
         using var vfs = new VFS();
         vfs.CreateDir(Path.Combine(dir, "dir1"));
@@ -187,7 +218,7 @@ public class VFSTest
     [TestMethod]
     public void TestVisitRecursivePropagatesExceptions()
     {
-        using var dir = new TemporaryDirectory("vfs-visit-exceptions");
+        using var dir = new TemporaryDirectory("vfs-visit-recursive-exceptions");
 
         const string ExceptionKey = "foo";
 
@@ -200,6 +231,38 @@ public class VFSTest
         try
         {
             vfs.VisitChildrenRecursive(dir, (_, _, _) =>
+            {
+                i++;
+                throw new Exception(ExceptionKey);
+            }, 0);
+        }
+        catch (Exception e)
+        {
+            Assert.AreEqual(1, i);
+            Assert.AreEqual(typeof(Exception), e.GetType());
+            Assert.AreEqual(ExceptionKey, e.Message);
+            return;
+        }
+
+        Assert.Fail("Exception was not propagated.");
+    }
+
+    [TestMethod]
+    public void TestVisitRecursiveV2PropagatesExceptions()
+    {
+        using var dir = new TemporaryDirectory("vfs-visit-recursive-v2-exceptions");
+
+        const string ExceptionKey = "foo";
+
+        using var vfs = new VFS();
+        vfs.CreateDir(Path.Combine(dir, "dir1"));
+        vfs.Touch(Path.Combine(dir, "dir1/file1"));
+
+        int i = 0;
+
+        try
+        {
+            vfs.VisitChildrenRecursive(dir, (_, _, _, _) =>
             {
                 i++;
                 throw new Exception(ExceptionKey);

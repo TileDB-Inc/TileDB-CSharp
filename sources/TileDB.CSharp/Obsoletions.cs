@@ -53,4 +53,7 @@ internal static class Obsoletions
 
     public const string FilestoreApiMessage = "File is obsolete and will be removed in a future version.";
     public const string FilestoreApiDiagId = "TILEDB0016";
+
+    public const string VisitChildrenRecursiveV1Message = "The original VFS.VisitChildrenRecursive overload is obsolete and will be removed in a future version. Use the overload with the callback that accepts a boolean instead.";
+    public const string VisitChildrenRecursiveV1DiagId = "TILEDB0017";
 }
