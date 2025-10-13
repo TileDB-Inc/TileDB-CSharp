@@ -50,4 +50,4 @@ jobs:
         shell: bash
         run: |
           cd pack
-          dotnet nuget push "*.nupkg" -s https://api.nuget.org/v3/index.json -k ${{ steps.nuget-login.outputs.NUGET_API_KEY || secrets.NUGET_KEY }}
+          dotnet nuget push "*.nupkg" -s ${{ vars.NUGET_FEED }} -k ${{ steps.nuget-login.outputs.NUGET_API_KEY || secrets.NUGET_KEY }}
