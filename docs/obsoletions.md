@@ -11,6 +11,7 @@ Following [the deprecation policy of TileDB Embedded][core-deprecation], obsolet
 |[`TILEDB0014`](#TILEDB0014) …[`TILEDB0014`](#TILEDB0014)|5.8.0|5.10.0|
 |[`TILEDB0015`](#TILEDB0015) …[`TILEDB0015`](#TILEDB0015)|5.13.0|5.15.0|
 |[`TILEDB0016`](#TILEDB0016) …[`TILEDB0016`](#TILEDB0016)|5.17.0|5.19.0|
+|[`TILEDB0017`](#TILEDB0017) …[`TILEDB0017`](#TILEDB0017)|5.19.0|5.21.0|
 
 ## `TILEDB0001` - Enum value names that start with `TILEDB_` were replaced with C#-friendly names.
 
@@ -377,5 +378,23 @@ The TileDB filestore APIs, exposed by the `TileDB.CSharp.File` class are obsolet
 ### Recommended action
 
 There is no direct replacement. You can manually store files in TileDB by representing them as one-dimensional dense arrays of bytes.
+
+## `TILEDB0017` - `VFS.VisitChildrenRecursive` original overload is obsolete.
+
+<a name="TILEDB0017"></a>
+
+The `VFS.VisitChildrenRecursive` method behaves inconsistently depending on the storage backend being used. When calling it with an object storage path (S3, Azure, GCS), only files were returned, but on a local file system path, both files and directories were returned.
+
+This was fixed in version 5.19.0. A new overload of `VisitChildrenRecursive` was introduced, which lists directories even in object storage, and its callback delegate includes a boolean parameter to distinguish between files and directories.
+
+For compatibility, the old overload's behavior was preserved, and it was deprecated and will be removed in a future version.
+
+### Version introduced
+
+5.19.0
+
+### Recommended action
+
+Use the overload with the callback that accepts a boolean.
 
 [core-deprecation]: https://github.com/TileDB-Inc/TileDB/blob/dev/doc/policy/api_changes.md
