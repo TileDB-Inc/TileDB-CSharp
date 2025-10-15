@@ -24,7 +24,7 @@ public class FragmentInfoTest
         _ctx.Dispose();
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(true, DisplayName = "Dense")]
     [DataRow(false, DisplayName = "Sparse")]
     public void TestFragmentCount(bool isDense)
@@ -42,7 +42,7 @@ public class FragmentInfoTest
         Assert.AreEqual(FragmentCount, info.FragmentCount);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(true, DisplayName = "Dense")]
     [DataRow(false, DisplayName = "Sparse")]
     public void TestArraySchemaName(bool isDense)
@@ -67,7 +67,7 @@ public class FragmentInfoTest
         Assert.AreEqual(FragmentCount, fragmentCount);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(true, DisplayName = "Dense")]
     [DataRow(false, DisplayName = "Sparse")]
     public void TestGetFragmentSize(bool isDense)
@@ -96,7 +96,7 @@ public class FragmentInfoTest
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(true, DisplayName = "Dense")]
     [DataRow(false, DisplayName = "Sparse")]
     public void TestIsDenseSparse(bool isDense)
@@ -121,7 +121,7 @@ public class FragmentInfoTest
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(true, DisplayName = "Dense")]
     [DataRow(false, DisplayName = "Sparse")]
     public void TestGetTimestampRange(bool isDense)
@@ -172,12 +172,12 @@ public class FragmentInfoTest
         Assert.AreEqual(("a", "bb"), info.GetMinimumBoundedRectangle<string>(0, 0, 0));
         Assert.AreEqual(("c", "ddd"), info.GetMinimumBoundedRectangle<string>(0, 1, "d"));
 
-        Assert.ThrowsException<ArgumentException>(() => info.GetMinimumBoundedRectangle<int>(0, 0, 0));
-        Assert.ThrowsException<ArgumentException>(() => info.GetMinimumBoundedRectangle<long>(0, 0, 0));
-        Assert.ThrowsException<NotSupportedException>(() => info.GetMinimumBoundedRectangle<Guid>(0, 0, 0));
-        Assert.ThrowsException<ArgumentException>(() => info.GetMinimumBoundedRectangle<int>(0, 1, "d"));
-        Assert.ThrowsException<ArgumentException>(() => info.GetMinimumBoundedRectangle<long>(0, 1, "d"));
-        Assert.ThrowsException<NotSupportedException>(() => info.GetMinimumBoundedRectangle<Guid>(0, 1, "d"));
+        Assert.ThrowsExactly<ArgumentException>(() => info.GetMinimumBoundedRectangle<int>(0, 0, 0));
+        Assert.ThrowsExactly<ArgumentException>(() => info.GetMinimumBoundedRectangle<long>(0, 0, 0));
+        Assert.ThrowsExactly<NotSupportedException>(() => info.GetMinimumBoundedRectangle<Guid>(0, 0, 0));
+        Assert.ThrowsExactly<ArgumentException>(() => info.GetMinimumBoundedRectangle<int>(0, 1, "d"));
+        Assert.ThrowsExactly<ArgumentException>(() => info.GetMinimumBoundedRectangle<long>(0, 1, "d"));
+        Assert.ThrowsExactly<NotSupportedException>(() => info.GetMinimumBoundedRectangle<Guid>(0, 1, "d"));
     }
 
     [TestMethod]
@@ -199,12 +199,12 @@ public class FragmentInfoTest
         Assert.AreEqual((1, 2), info.GetMinimumBoundedRectangle<long>(0, 0, 0));
         Assert.AreEqual((7, 8), info.GetMinimumBoundedRectangle<long>(1, 1, "d1"));
 
-        Assert.ThrowsException<ArgumentException>(() => info.GetMinimumBoundedRectangle<int>(0, 0, 0));
-        Assert.ThrowsException<ArgumentException>(() => info.GetMinimumBoundedRectangle<string>(0, 0, 0));
-        Assert.ThrowsException<NotSupportedException>(() => info.GetMinimumBoundedRectangle<Guid>(0, 0, 0));
-        Assert.ThrowsException<ArgumentException>(() => info.GetMinimumBoundedRectangle<int>(1, 1, "d1"));
-        Assert.ThrowsException<ArgumentException>(() => info.GetMinimumBoundedRectangle<string>(1, 1, "d1"));
-        Assert.ThrowsException<NotSupportedException>(() => info.GetMinimumBoundedRectangle<Guid>(1, 1, "d1"));
+        Assert.ThrowsExactly<ArgumentException>(() => info.GetMinimumBoundedRectangle<int>(0, 0, 0));
+        Assert.ThrowsExactly<ArgumentException>(() => info.GetMinimumBoundedRectangle<string>(0, 0, 0));
+        Assert.ThrowsExactly<NotSupportedException>(() => info.GetMinimumBoundedRectangle<Guid>(0, 0, 0));
+        Assert.ThrowsExactly<ArgumentException>(() => info.GetMinimumBoundedRectangle<int>(1, 1, "d1"));
+        Assert.ThrowsExactly<ArgumentException>(() => info.GetMinimumBoundedRectangle<string>(1, 1, "d1"));
+        Assert.ThrowsExactly<NotSupportedException>(() => info.GetMinimumBoundedRectangle<Guid>(1, 1, "d1"));
     }
 
     [TestMethod]
@@ -226,12 +226,12 @@ public class FragmentInfoTest
         Assert.AreEqual((1, 2), info.GetMinimumBoundedRectangle<int>(0, 0, 0));
         Assert.AreEqual((7, 8), info.GetMinimumBoundedRectangle<int>(1, 1, "d1"));
 
-        Assert.ThrowsException<ArgumentException>(() => info.GetMinimumBoundedRectangle<long>(0, 0, 0));
-        Assert.ThrowsException<ArgumentException>(() => info.GetMinimumBoundedRectangle<string>(0, 0, 0));
-        Assert.ThrowsException<NotSupportedException>(() => info.GetMinimumBoundedRectangle<Guid>(0, 0, 0));
-        Assert.ThrowsException<ArgumentException>(() => info.GetMinimumBoundedRectangle<long>(1, 1, "d1"));
-        Assert.ThrowsException<ArgumentException>(() => info.GetMinimumBoundedRectangle<string>(1, 1, "d1"));
-        Assert.ThrowsException<NotSupportedException>(() => info.GetMinimumBoundedRectangle<Guid>(1, 1, "d1"));
+        Assert.ThrowsExactly<ArgumentException>(() => info.GetMinimumBoundedRectangle<long>(0, 0, 0));
+        Assert.ThrowsExactly<ArgumentException>(() => info.GetMinimumBoundedRectangle<string>(0, 0, 0));
+        Assert.ThrowsExactly<NotSupportedException>(() => info.GetMinimumBoundedRectangle<Guid>(0, 0, 0));
+        Assert.ThrowsExactly<ArgumentException>(() => info.GetMinimumBoundedRectangle<long>(1, 1, "d1"));
+        Assert.ThrowsExactly<ArgumentException>(() => info.GetMinimumBoundedRectangle<string>(1, 1, "d1"));
+        Assert.ThrowsExactly<NotSupportedException>(() => info.GetMinimumBoundedRectangle<Guid>(1, 1, "d1"));
     }
 
     [TestMethod]
@@ -268,9 +268,9 @@ public class FragmentInfoTest
                     (int Start, int End, _) => (Start, End)
                 };
                 Assert.AreEqual(expectedNonEmptyDomain, actualNonEmptyDomain);
-                Assert.ThrowsException<ArgumentException>(() => info.GetNonEmptyDomain<long>(i, dim));
-                Assert.ThrowsException<ArgumentException>(() => info.GetNonEmptyDomain<string>(i, dim));
-                Assert.ThrowsException<NotSupportedException>(() => info.GetNonEmptyDomain<Guid>(i, dim));
+                Assert.ThrowsExactly<ArgumentException>(() => info.GetNonEmptyDomain<long>(i, dim));
+                Assert.ThrowsExactly<ArgumentException>(() => info.GetNonEmptyDomain<string>(i, dim));
+                Assert.ThrowsExactly<NotSupportedException>(() => info.GetNonEmptyDomain<Guid>(i, dim));
 
                 string name = d.Name();
                 expectedNonEmptyDomain = info.GetNonEmptyDomain<int>(i, name);
@@ -279,14 +279,14 @@ public class FragmentInfoTest
                     (int Start, int End, _) => (Start, End)
                 };
                 Assert.AreEqual(expectedNonEmptyDomain, actualNonEmptyDomain);
-                Assert.ThrowsException<ArgumentException>(() => info.GetNonEmptyDomain<long>(i, name));
-                Assert.ThrowsException<ArgumentException>(() => info.GetNonEmptyDomain<string>(i, name));
-                Assert.ThrowsException<NotSupportedException>(() => info.GetNonEmptyDomain<Guid>(i, name));
+                Assert.ThrowsExactly<ArgumentException>(() => info.GetNonEmptyDomain<long>(i, name));
+                Assert.ThrowsExactly<ArgumentException>(() => info.GetNonEmptyDomain<string>(i, name));
+                Assert.ThrowsExactly<NotSupportedException>(() => info.GetNonEmptyDomain<Guid>(i, name));
             }
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(true, DisplayName = "Dense")]
     [DataRow(false, DisplayName = "Sparse")]
     public void TestGetCellCount(bool isDense)
@@ -309,7 +309,7 @@ public class FragmentInfoTest
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(true, DisplayName = "Dense")]
     [DataRow(false, DisplayName = "Sparse")]
     public void TestGetFormatVersion(bool isDense)
@@ -336,7 +336,7 @@ public class FragmentInfoTest
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(true, DisplayName = "Dense")]
     [DataRow(false, DisplayName = "Sparse")]
     public void TestHasConsolidatedMetadata(bool isDense)
@@ -359,7 +359,7 @@ public class FragmentInfoTest
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(true, DisplayName = "Dense")]
     [DataRow(false, DisplayName = "Sparse")]
     public void TestHasUnconsolidatedMetadata(bool isDense)

@@ -46,7 +46,7 @@ public class EnumerationTest
         Assert.AreEqual(cellValNum, e.ValuesPerMember);
         CollectionAssert.AreEqual(expectedValues, values);
         CollectionAssert.AreEqual(new byte[] { 1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 4, 0, 0, 0 }, rawData);
-        Assert.AreEqual(0, rawOffsets.Length);
+        Assert.IsEmpty(rawOffsets);
 
         var dump = e.ToString();
         Assert.IsTrue(dump.Contains("test_fixed", StringComparison.Ordinal));
@@ -74,7 +74,7 @@ public class EnumerationTest
         CollectionAssert.AreEqual(new int[] { 3, 3, 3 }, values[2]);
         CollectionAssert.AreEqual(new int[] { 4, 4, 4, 4 }, values[3]);
         CollectionAssert.AreEqual(MemoryMarshal.AsBytes(expectedValues.AsSpan()).ToArray(), rawData);
-        Assert.AreEqual(4, rawOffsets.Length);
+        Assert.HasCount(4, rawOffsets);
     }
 
     [TestMethod]

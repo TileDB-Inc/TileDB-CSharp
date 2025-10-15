@@ -206,7 +206,7 @@ public sealed unsafe class Config : IDisposable, IEnumerable<KeyValuePair<string
 
         public bool MoveNext()
         {
-            if (!_iterator.Done())
+            if (_iterator.Done())
             {
                 return false;
             }

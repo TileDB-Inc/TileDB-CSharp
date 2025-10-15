@@ -90,7 +90,7 @@ public class DeletesTest
     [DataRow(LayoutType.GlobalOrder, "legacy", false)]
     [DataRow(LayoutType.GlobalOrder, "refactored", true)]
     [DataRow(LayoutType.GlobalOrder, "refactored", false)]
-    [DataTestMethod]
+    [TestMethod]
     public void MultipleCells(LayoutType layout, string queryReader, bool duplicates)
     {
         string arrayName = "deletes-multiple-cells";
@@ -115,7 +115,7 @@ public class DeletesTest
     [DataRow(LayoutType.GlobalOrder, "legacy", false)]
     [DataRow(LayoutType.GlobalOrder, "refactored", true)]
     [DataRow(LayoutType.GlobalOrder, "refactored", false)]
-    [DataTestMethod]
+    [TestMethod]
     public void SingleCell(LayoutType layout, string queryReader, bool duplicates)
     {
         string arrayName = "deletes-single-cell";
@@ -166,7 +166,7 @@ public class DeletesTest
     [DataRow(LayoutType.GlobalOrder, "legacy", false)]
     [DataRow(LayoutType.GlobalOrder, "refactored", true)]
     [DataRow(LayoutType.GlobalOrder, "refactored", false)]
-    [DataTestMethod]
+    [TestMethod]
     public void VaryingCells(LayoutType layout, string queryReader, bool duplicates)
     {
         string arrayName = "deletes-varying-cells";
@@ -234,7 +234,7 @@ public class DeletesTest
     [DataRow(LayoutType.GlobalOrder, "legacy", false)]
     [DataRow(LayoutType.GlobalOrder, "refactored", true)]
     [DataRow(LayoutType.GlobalOrder, "refactored", false)]
-    [DataTestMethod]
+    [TestMethod]
     public void MultipleFragments(LayoutType layout, string queryReader, bool duplicates)
     {
         string arrayName = "deletes-multiple-fragments";
@@ -258,7 +258,8 @@ public class DeletesTest
         int bufferSize = 16;
         var readBuffers = new Dictionary<string, System.Array>
             { { "rows", new int[bufferSize] }, { "cols", new int[bufferSize] }, { "a1", new int[bufferSize] } };
-        using (var readQuery = TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx)) {
+        using (var readQuery = TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx))
+        {
             array.Open(QueryType.Read);
             Assert.AreEqual(15UL, readQuery.ResultBufferElements()["a1"].Item1);
             Assert.AreEqual(15UL, readQuery.GetResultDataElements("a1"));
@@ -317,7 +318,7 @@ public class DeletesTest
     [DataRow(LayoutType.GlobalOrder, "legacy", false)]
     [DataRow(LayoutType.GlobalOrder, "refactored", true)]
     [DataRow(LayoutType.GlobalOrder, "refactored", false)]
-    [DataTestMethod]
+    [TestMethod]
     public void SchemaEvolution(LayoutType layout, string queryReader, bool duplicates)
     {
         string arrayName = "deletes-schema-evolution";
@@ -451,7 +452,7 @@ public class DeletesTest
         readBuffers = new()
         { { "rows", new int[bufferSize] }, { "cols", new int[bufferSize] },
             { "a1", new int[bufferSize] }, { "a2", new double[bufferSize] } };
-        TestUtil.ReadArray(array, layout, readBuffers, timestampRange: (0, deleteTime-1), ctx: ctx, keepOpen: false);
+        TestUtil.ReadArray(array, layout, readBuffers, timestampRange: (0, deleteTime - 1), ctx: ctx, keepOpen: false);
         Logger.LogMessage("\nArray set to open before delete");
         // We opened pre-delete so expectedData should not change
         TestUtil.CompareBuffers(expectedData, readBuffers, duplicates);
@@ -501,7 +502,7 @@ public class DeletesTest
         // Read remaining attribute before delete and evolution
         readBuffers = new()
             { { "rows", new int[bufferSize] }, { "cols", new int[bufferSize] }, { "a1", new int[bufferSize] } };
-        TestUtil.ReadArray(array, layout, readBuffers, timestampRange: (0, deleteTime-1), ctx: ctx, keepOpen: false);
+        TestUtil.ReadArray(array, layout, readBuffers, timestampRange: (0, deleteTime - 1), ctx: ctx, keepOpen: false);
         Assert.IsTrue(expectedData.Remove("a2"));
 
         if (duplicates)
@@ -624,7 +625,7 @@ public class DeletesTest
     [DataRow(LayoutType.GlobalOrder, "legacy", false)]
     [DataRow(LayoutType.GlobalOrder, "refactored", true)]
     [DataRow(LayoutType.GlobalOrder, "refactored", false)]
-    [DataTestMethod]
+    [TestMethod]
     public void SameFragment(LayoutType layout, string queryReader, bool duplicates)
     {
         string arrayName = "deletes-same-fragment";
@@ -648,7 +649,7 @@ public class DeletesTest
             { { "rows", new int[bufferSize] }, { "cols", new int[bufferSize] }, { "a1", new int[bufferSize] } };
         TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx, keepOpen: false);
 
-        var expectedData = new Dictionary<string, System.Array>();
+        Dictionary<string, System.Array> expectedData;
         if (duplicates)
         {
             expectedData = new()
@@ -719,7 +720,7 @@ public class DeletesTest
     [DataRow(LayoutType.GlobalOrder, "legacy", false)]
     [DataRow(LayoutType.GlobalOrder, "refactored", true)]
     [DataRow(LayoutType.GlobalOrder, "refactored", false)]
-    [DataTestMethod]
+    [TestMethod]
     public void SequenceTest(LayoutType layout, string queryReader, bool duplicates)
     {
         var arrayName = "deletes-sequence-test";
@@ -763,7 +764,7 @@ public class DeletesTest
             var writeTime = writeQuery.FragmentTimestampRange(0);
             nextOpen = writeTime.Item2 + 20;
             // Delete[4]
-            array.SetOpenTimestampEnd(writeTime.Item2+10);
+            array.SetOpenTimestampEnd(writeTime.Item2 + 10);
         }
 
         array.Open(QueryType.Delete);
@@ -786,7 +787,7 @@ public class DeletesTest
         }
 
         // Check for expected values
-        readBuffers = new() { {"cols", new int[6]}, {"a0", new int[6]} };
+        readBuffers = new() { { "cols", new int[6] }, { "a0", new int[6] } };
         TestUtil.ReadArray(array, layout, readBuffers, ctx: ctx, keepOpen: false);
         expectedData["a0"] = new[] { 1, 2, 3, 4, 5, 6 };
         expectedData["cols"] = new[] { 1, 2, 3, 4, 5, 6 };
@@ -805,7 +806,7 @@ public class DeletesTest
     [DataRow(LayoutType.GlobalOrder, "legacy", false)]
     [DataRow(LayoutType.GlobalOrder, "refactored", true)]
     [DataRow(LayoutType.GlobalOrder, "refactored", false)]
-    [DataTestMethod]
+    [TestMethod]
     public void TestStrings(LayoutType layout, string queryReader, bool duplicates)
     {
         var arrayName = "deletes-strings-test";
@@ -834,9 +835,9 @@ public class DeletesTest
         using var writeQuery = TestUtil.WriteArray(array, layout,
             buffers: new()
                 { {"cols", new[] {1, 2, 3}}, {"a1", Encoding.UTF8.GetBytes("onetwothree")} },
-            offsets: new Dictionary<string, ulong[]>() { {"a1", new ulong[] { 0, 3, 6 }} });
+            offsets: new Dictionary<string, ulong[]>() { { "a1", new ulong[] { 0, 3, 6 } } });
 
-        var readBuffers = new Dictionary<string, System.Array>() { {"cols", new int[6]}, { "a1", new byte[11] } };
+        var readBuffers = new Dictionary<string, System.Array>() { { "cols", new int[6] }, { "a1", new byte[11] } };
         var readOffsetBuffers = new Dictionary<string, ulong[]>() { { "a1", new ulong[3] } };
         using (var readQuery = TestUtil.ReadArray(array, layout, readBuffers, offsets: readOffsetBuffers))
         {
@@ -853,10 +854,10 @@ public class DeletesTest
                 int cellSize = i == offsetCount - 1
                     ? elementCount - (int)readOffsetBuffers["a1"][i]
                     : (int)readOffsetBuffers["a1"][i + 1] - (int)readOffsetBuffers["a1"][i];
-                a1Data.Add(new (Encoding.ASCII.GetChars((byte[])readBuffers["a1"], (int)readOffsetBuffers["a1"][i],
+                a1Data.Add(new(Encoding.ASCII.GetChars((byte[])readBuffers["a1"], (int)readOffsetBuffers["a1"][i],
                     cellSize)));
             }
-            CollectionAssert.AreEqual(new[] {"one", "two", "three"}, a1Data);
+            CollectionAssert.AreEqual(new[] { "one", "two", "three" }, a1Data);
         }
 
         array.Open(QueryType.Delete);
@@ -886,12 +887,12 @@ public class DeletesTest
                 int cellSize = i == offsetCount - 1
                     ? elementCount - (int)readOffsetBuffers["a1"][i]
                     : (int)readOffsetBuffers["a1"][i + 1] - (int)readOffsetBuffers["a1"][i];
-                a1Data.Add(new (Encoding.ASCII.GetChars((byte[])readBuffers["a1"], (int)readOffsetBuffers["a1"][i],
+                a1Data.Add(new(Encoding.ASCII.GetChars((byte[])readBuffers["a1"], (int)readOffsetBuffers["a1"][i],
                     cellSize)));
             }
 
             Logger.LogMessage(string.Join(", ", a1Data));
-            CollectionAssert.AreEqual(new[] {"two", "three"}, a1Data);
+            CollectionAssert.AreEqual(new[] { "two", "three" }, a1Data);
         }
     }
 }

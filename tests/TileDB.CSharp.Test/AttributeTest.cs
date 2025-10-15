@@ -69,7 +69,7 @@ public class AttributeTest
 
         attribute.SetNullable(true);
 
-        Assert.AreEqual(true, attribute.Nullable());
+        Assert.IsTrue(attribute.Nullable());
         Assert.AreEqual(DataType.Int32, attribute.Type());
 
         // Set and get compressor
@@ -97,7 +97,7 @@ public class AttributeTest
         attribute.SetFillValueNullable(12, true);
         var fill_value = attribute.FillValueNullable<int>();
         Assert.AreEqual(12, fill_value.Item1[0]);
-        Assert.AreEqual(true, fill_value.Item2);
+        Assert.IsTrue(fill_value.Item2);
     }
 
     [TestMethod]
@@ -128,7 +128,7 @@ public class AttributeTest
         bool fill_value = true;
         attribute.SetFillValue(fill_value);
         var value_size = attribute.FillValue<bool>();
-        Assert.AreEqual(true, value_size[0]);
+        Assert.IsTrue(value_size[0]);
     }
 
     [TestMethod]
@@ -155,7 +155,7 @@ public class AttributeTest
         readVarLengthAttributeArray();
     }
 
-    private void createVarLengthAttributeArray()
+    private static void createVarLengthAttributeArray()
     {
         var tmpArrayPath = TestUtil.MakeTestPath("varlength_attributes_array");
         if (Directory.Exists(tmpArrayPath))
@@ -197,7 +197,7 @@ public class AttributeTest
         Array.Create(context, tmpArrayPath, array_schema);
     }
 
-    private void writeVarLengthAttributeArray()
+    private static void writeVarLengthAttributeArray()
     {
         var tmpArrayPath = TestUtil.MakeTestPath("varlength_attributes_array");
         var context = Context.GetDefault();
@@ -235,7 +235,7 @@ public class AttributeTest
         array_write.Close();
     }
 
-    private void readVarLengthAttributeArray()
+    private static void readVarLengthAttributeArray()
     {
         var tmpArrayPath = TestUtil.MakeTestPath("varlength_attributes_array");
         var context = Context.GetDefault();

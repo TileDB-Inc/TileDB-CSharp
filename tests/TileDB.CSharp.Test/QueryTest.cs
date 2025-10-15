@@ -12,7 +12,7 @@ public class QueryTest
 
     [DataRow(LayoutType.GlobalOrder, ArrayType.Sparse)]
     [DataRow(LayoutType.GlobalOrder, ArrayType.Dense)]
-    [DataTestMethod]
+    [TestMethod]
     public void TestGlobalQuery(LayoutType layoutType, ArrayType arrayType)
     {
         string arrayPath = TestUtil.MakeTestPath(
@@ -51,13 +51,13 @@ public class QueryTest
         {
             using var subarray = new Subarray(array);
             subarray.AddRange("rows", 1, 4);
-            Assert.ThrowsException<ArgumentException>(() => subarray.AddRange<long>("rows", 1, 4));
+            Assert.ThrowsExactly<ArgumentException>(() => subarray.AddRange<long>("rows", 1, 4));
             Assert.AreEqual((1, 4), subarray.GetRange<int>("rows", 0));
-            Assert.ThrowsException<ArgumentException>(() => subarray.GetRange<long>("rows", 0));
+            Assert.ThrowsExactly<ArgumentException>(() => subarray.GetRange<long>("rows", 0));
             subarray.AddRange(1, 1, 2); // cols
-            Assert.ThrowsException<ArgumentException>(() => subarray.AddRange<long>(1, 1, 2));
+            Assert.ThrowsExactly<ArgumentException>(() => subarray.AddRange<long>(1, 1, 2));
             Assert.AreEqual((1, 2), subarray.GetRange<int>(1, 0));
-            Assert.ThrowsException<ArgumentException>(() => subarray.GetRange<long>(1, 0));
+            Assert.ThrowsExactly<ArgumentException>(() => subarray.GetRange<long>(1, 0));
             queryWrite.SetSubarray(subarray);
             queryWrite.SetDataReadOnlyBuffer<int>("a1", new[] { 1, 2, 3, 4, 5, 6, 7, 8 }.AsMemory());
         }
@@ -182,8 +182,8 @@ public class QueryTest
         using (var subarray = new Subarray(array))
         {
             subarray.SetSubarray<sbyte>(0, 1);
-            Assert.ThrowsException<ArgumentException>(() => subarray.SetSubarray(0, 1));
-            Assert.ThrowsException<ArgumentException>(() => subarray.SetSubarray(0));
+            Assert.ThrowsExactly<ArgumentException>(() => subarray.SetSubarray(0, 1));
+            Assert.ThrowsExactly<ArgumentException>(() => subarray.SetSubarray(0));
             query.SetSubarray(subarray);
         }
 
@@ -460,7 +460,7 @@ public class QueryTest
 
             query_write.SetDataBuffer("a1", a1_data_ptr, (ulong)a1_data.Length);
             query_write.SetValidityBuffer("a1", a1_validity);
-            Assert.ThrowsException<ArgumentException>(() => query_write.UnsafeSetDataReadOnlyBuffer("a1", ReadOnlyMemory<byte>.Empty));
+            Assert.ThrowsExactly<ArgumentException>(() => query_write.UnsafeSetDataReadOnlyBuffer("a1", ReadOnlyMemory<byte>.Empty));
 
             query_write.UnsafeSetDataBuffer("a2", (void*)a2_data_ptr, (ulong)a2_data.Length * sizeof(int));
             query_write.SetOffsetsBuffer("a2", a2_off_ptr, (ulong)a2_off.Length);
@@ -512,7 +512,7 @@ public class QueryTest
             query_read.SetValidityBuffer("a2", a2_validity_read);
 
             query_read.UnsafeSetDataBuffer("a3", a3_data_read.AsMemory());
-            Assert.ThrowsException<ArgumentException>(() => query_read.UnsafeSetDataBuffer("a3", default(MemoryHandle), 0));
+            Assert.ThrowsExactly<ArgumentException>(() => query_read.UnsafeSetDataBuffer("a3", default(MemoryHandle), 0));
             query_read.SetOffsetsBuffer("a3", a3_off_read);
             query_read.SetValidityBuffer("a3", a3_validity_read);
 
@@ -523,9 +523,9 @@ public class QueryTest
             Assert.AreEqual((ulong)a1_data_read.Length * sizeof(int), query_read.GetResultDataBytes("a1"));
             Assert.AreEqual((ulong)a2_data_read.Length * sizeof(int), query_read.GetResultDataBytes("a2"));
             Assert.AreEqual((ulong)a3_data_read.Length * sizeof(byte), query_read.GetResultDataBytes("a3"));
-            Assert.ThrowsException<InvalidOperationException>(() => query_read.GetResultDataElements("a1"));
-            Assert.ThrowsException<InvalidOperationException>(() => query_read.GetResultDataElements("a2"));
-            Assert.ThrowsException<InvalidOperationException>(() => query_read.GetResultDataElements("a3"));
+            Assert.ThrowsExactly<InvalidOperationException>(() => query_read.GetResultDataElements("a1"));
+            Assert.ThrowsExactly<InvalidOperationException>(() => query_read.GetResultDataElements("a2"));
+            Assert.ThrowsExactly<InvalidOperationException>(() => query_read.GetResultDataElements("a3"));
 
             Assert.AreEqual((ulong)a2_off_read.Length, query_read.GetResultOffsets("a2"));
             Assert.AreEqual((ulong)a3_off_read.Length, query_read.GetResultOffsets("a3"));
@@ -592,7 +592,7 @@ public class QueryTest
 
         query_write.Submit();
         var status = query_write.Status();
-        Assert.AreEqual(status, QueryStatus.Completed);
+        Assert.AreEqual(QueryStatus.Completed, status);
         query_write.FinalizeQuery();
         query_write.Dispose();
         array_write.Close();
@@ -615,7 +615,7 @@ public class QueryTest
 
         query_read.Submit();
         status = query_read.Status();
-        Assert.AreEqual(status, QueryStatus.Completed);
+        Assert.AreEqual(QueryStatus.Completed, status);
         CollectionAssert.AreEqual(a1_data, a1_data_read);
 
         query_read.FinalizeQuery();
@@ -635,7 +635,7 @@ public class QueryTest
 
         query_read.Submit();
         status = query_read.Status();
-        Assert.AreEqual(status, QueryStatus.Completed);
+        Assert.AreEqual(QueryStatus.Completed, status);
         CollectionAssert.AreEqual(a1_data, System.Array.ConvertAll(a1_data_read_bytes, b => b == 1));
 
         query_read.FinalizeQuery();
@@ -690,7 +690,7 @@ public class QueryTest
         // or setting the buffer fails.
         using (var q = new Query(array))
         {
-            Assert.ThrowsException<TileDBException>(() => q.UnsafeSetDataBuffer("foo", disposalCanary.Memory.Pin(), 1 * sizeof(int)));
+            Assert.ThrowsExactly<TileDBException>(() => q.UnsafeSetDataBuffer("foo", disposalCanary.Memory.Pin(), 1 * sizeof(int)));
             Assert.AreEqual(3, disposalCanary.UnpinCount);
         }
     }

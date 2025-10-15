@@ -36,7 +36,7 @@ public class ArrayTest
 
         array.Close();
 
-        var unixTimestamp = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+        var unixTimestamp = (int)DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalSeconds;
         array.SetOpenTimestampStart((ulong)(unixTimestamp / 1000000));
 
         array.Open(QueryType.Read);
@@ -88,7 +88,7 @@ public class ArrayTest
 
         array.Close();
 
-        var unixTimestamp = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+        var unixTimestamp = (int)DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalSeconds;
         array.SetOpenTimestampStart((ulong)(unixTimestamp / 1000000));
 
         array.Open(QueryType.Read);
@@ -106,8 +106,8 @@ public class ArrayTest
         (_, _, isEmpty) = array.NonEmptyDomain<short>(0);
         Assert.IsTrue(isEmpty);
 
-        Assert.ThrowsException<ArgumentException>(()=>array.NonEmptyDomain<short>("dim2"));
-        Assert.ThrowsException<ArgumentException>(()=>array.NonEmptyDomain<short>(1));
+        Assert.ThrowsExactly<ArgumentException>(()=>array.NonEmptyDomain<short>("dim2"));
+        Assert.ThrowsExactly<ArgumentException>(()=>array.NonEmptyDomain<short>(1));
 
         (_, _, isEmpty) = array.NonEmptyDomain<float>("dim2");
         Assert.IsTrue(isEmpty);
@@ -261,7 +261,7 @@ public class ArrayTest
 
         using (var schema = Array.LoadArraySchema(context, uri))
         {
-            Assert.IsTrue(schema.FormatVersion() >= 15u, "Array was not upgraded.");
+            Assert.IsGreaterThanOrEqualTo(15u, schema.FormatVersion(), "Array was not upgraded.");
         }
     }
 

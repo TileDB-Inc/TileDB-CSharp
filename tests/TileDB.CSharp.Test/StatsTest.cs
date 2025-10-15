@@ -32,7 +32,7 @@ public class StatsTest
         query.SetSubarray(subarray);
         query.SetDataBuffer("a1", new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 });
         query.Submit();
-        Assert.AreEqual(query.Status(), QueryStatus.Completed);
+        Assert.AreEqual(QueryStatus.Completed, query.Status());
 
         string? stats = null;
         stats = Stats.Get();

@@ -179,8 +179,8 @@ public class ArraySchemaTest
         array_schema.SetDomain(domain);
 
 
-        Assert.ThrowsException<TileDBException>(() => array_schema.SetCellOrder(LayoutType.Hilbert));
-        Assert.ThrowsException<TileDBException>(() => array_schema.SetTileOrder(LayoutType.Hilbert));
+        Assert.ThrowsExactly<TileDBException>(() => array_schema.SetCellOrder(LayoutType.Hilbert));
+        Assert.ThrowsExactly<TileDBException>(() => array_schema.SetTileOrder(LayoutType.Hilbert));
         array_schema.SetCapacity(2);
         array_schema.Check();
     }

@@ -22,7 +22,7 @@ public class ArrayMetadataTest
         clearArrayMetadata(tmpArrayPath);
     }
 
-    private void createArrayMetadataArray(string tmpArrayPath)
+    private static void createArrayMetadataArray(string tmpArrayPath)
     {
         var context = Context.GetDefault();
 
@@ -57,7 +57,7 @@ public class ArrayMetadataTest
         array.Create(array_schema);
     }
 
-    private void writeArrayMetadata(string tmpArrayPath)
+    private static void writeArrayMetadata(string tmpArrayPath)
     {
         var context = Context.GetDefault();
 
@@ -79,7 +79,7 @@ public class ArrayMetadataTest
         array.Close();
     }
 
-    private void readArrayMetadata(string tmpArrayPath)
+    private static void readArrayMetadata(string tmpArrayPath)
     {
         var context = Context.GetDefault();
 
@@ -113,12 +113,12 @@ public class ArrayMetadataTest
         Assert.AreEqual("key4",  arrayMetadata.key);
         Assert.AreEqual(4,  arrayMetadata.key.Length);
 
-        Assert.AreEqual(4,  arrayMetadata.data.Length);
+        Assert.HasCount(4, arrayMetadata.data);
 
         array.Close();
     }
 
-    private void clearArrayMetadata(string tmpArrayPath)
+    private static void clearArrayMetadata(string tmpArrayPath)
     {
         var context = Context.GetDefault();
 
