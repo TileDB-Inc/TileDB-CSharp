@@ -155,7 +155,7 @@ public class AttributeTest
         readVarLengthAttributeArray();
     }
 
-    private void createVarLengthAttributeArray()
+    private static void createVarLengthAttributeArray()
     {
         var tmpArrayPath = TestUtil.MakeTestPath("varlength_attributes_array");
         if (Directory.Exists(tmpArrayPath))
@@ -197,7 +197,7 @@ public class AttributeTest
         Array.Create(context, tmpArrayPath, array_schema);
     }
 
-    private void writeVarLengthAttributeArray()
+    private static void writeVarLengthAttributeArray()
     {
         var tmpArrayPath = TestUtil.MakeTestPath("varlength_attributes_array");
         var context = Context.GetDefault();
@@ -235,7 +235,7 @@ public class AttributeTest
         array_write.Close();
     }
 
-    private void readVarLengthAttributeArray()
+    private static void readVarLengthAttributeArray()
     {
         var tmpArrayPath = TestUtil.MakeTestPath("varlength_attributes_array");
         var context = Context.GetDefault();

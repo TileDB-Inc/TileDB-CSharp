@@ -136,9 +136,22 @@ public class IncompleteQueryTest
         CollectionAssert.AreEqual(entries, readEntries);
     }
 
-    private record struct Entry(int Row, int Column, int[] Data) : IEquatable<Entry>
+    private readonly record struct Entry(int Row, int Column, int[] Data) : IEquatable<Entry>
     {
         public bool Equals(Entry other) =>
             Row == other.Row && Column == other.Column && Data.AsSpan().SequenceEqual(other.Data);
+
+        public override int GetHashCode()
+        {
+            var hc = new HashCode();
+            hc.Add(Row);
+            hc.Add(Column);
+            hc.Add(Data.Length);
+            foreach (var entry in Data)
+            {
+                hc.Add(entry);
+            }
+            return hc.ToHashCode();
+        }
     }
 }

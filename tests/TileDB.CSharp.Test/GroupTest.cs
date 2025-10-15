@@ -20,11 +20,11 @@ public class GroupTest
 
         // Put metadata on a group that is not opened
         int v = 5;
-        Assert.ThrowsException<TileDBException>(() => group.PutMetadata("key", v));
+        Assert.ThrowsExactly<TileDBException>(() => group.PutMetadata("key", v));
 
         // Write metadata on a group opened in READ mode
         group.Open(QueryType.Read);
-        Assert.ThrowsException<TileDBException>(() => group.PutMetadata("key", v));
+        Assert.ThrowsExactly<TileDBException>(() => group.PutMetadata("key", v));
 
         // Close and reopen in WRITE mode
         group.Close();

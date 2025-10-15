@@ -22,7 +22,7 @@ public class ArrayMetadataTest
         clearArrayMetadata(tmpArrayPath);
     }
 
-    private void createArrayMetadataArray(string tmpArrayPath)
+    private static void createArrayMetadataArray(string tmpArrayPath)
     {
         var context = Context.GetDefault();
 
@@ -57,7 +57,7 @@ public class ArrayMetadataTest
         array.Create(array_schema);
     }
 
-    private void writeArrayMetadata(string tmpArrayPath)
+    private static void writeArrayMetadata(string tmpArrayPath)
     {
         var context = Context.GetDefault();
 
@@ -79,7 +79,7 @@ public class ArrayMetadataTest
         array.Close();
     }
 
-    private void readArrayMetadata(string tmpArrayPath)
+    private static void readArrayMetadata(string tmpArrayPath)
     {
         var context = Context.GetDefault();
 
@@ -118,7 +118,7 @@ public class ArrayMetadataTest
         array.Close();
     }
 
-    private void clearArrayMetadata(string tmpArrayPath)
+    private static void clearArrayMetadata(string tmpArrayPath)
     {
         var context = Context.GetDefault();
 

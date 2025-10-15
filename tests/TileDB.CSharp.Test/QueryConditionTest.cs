@@ -276,6 +276,6 @@ public class QueryConditionTest
         using var qc1 = QueryCondition.Create(context1, "a1", 5, QueryConditionOperatorType.GreaterThan);
         using var qc2 = QueryCondition.Create(context2, "a1", 8, QueryConditionOperatorType.LessThan);
 
-        Assert.ThrowsException<InvalidOperationException>(() => qc1 | qc2);
+        Assert.ThrowsExactly<InvalidOperationException>(() => qc1 | qc2);
     }
 }
