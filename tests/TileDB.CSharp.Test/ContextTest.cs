@@ -97,9 +97,9 @@ public class ContextTest
         Group.Create(ctx, groupUri);
         CreateArray(ctx, arrayUri2);
         
-        Assert.AreEqual(2, ctx.GetChildObjects(path, null).Count);
-        Assert.AreEqual(3, ctx.GetChildObjects(path, WalkOrderType.PreOrder).Count);
-        Assert.AreEqual(3, ctx.GetChildObjects(path, WalkOrderType.PostOrder).Count);
+        Assert.HasCount(2, ctx.GetChildObjects(path, null));
+        Assert.HasCount(3, ctx.GetChildObjects(path, WalkOrderType.PreOrder));
+        Assert.HasCount(3, ctx.GetChildObjects(path, WalkOrderType.PostOrder));
     }
 
     private static void CreateArray(Context ctx, string arrayUri)

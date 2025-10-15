@@ -113,7 +113,7 @@ public class ArrayMetadataTest
         Assert.AreEqual("key4",  arrayMetadata.key);
         Assert.AreEqual(4,  arrayMetadata.key.Length);
 
-        Assert.AreEqual(4,  arrayMetadata.data.Length);
+        Assert.HasCount(4, arrayMetadata.data);
 
         array.Close();
     }

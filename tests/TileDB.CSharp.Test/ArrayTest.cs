@@ -261,7 +261,7 @@ public class ArrayTest
 
         using (var schema = Array.LoadArraySchema(context, uri))
         {
-            Assert.IsTrue(schema.FormatVersion() >= 15u, "Array was not upgraded.");
+            Assert.IsGreaterThanOrEqualTo(15u, schema.FormatVersion(), "Array was not upgraded.");
         }
     }
 
