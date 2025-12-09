@@ -326,6 +326,19 @@ public sealed unsafe class Context : IDisposable
         return list;
     }
 
+    /// <summary>
+    /// Gets the REST protocol version for the given <c>tiledb://</c> URI.
+    /// </summary>
+    /// <param name="uri">The URI to check.</param>
+    public DataProtocol GetDataProtocol(string uri)
+    {
+        using var handle = _handle.Acquire();
+        using var ms_uri = new MarshaledString(uri);
+        tiledb_data_protocol_t result;
+        handle_error(Methods.tiledb_ctx_get_data_protocol(handle, ms_uri, &result));
+        return (DataProtocol)result;
+    }
+
     internal void handle_error(int rc)
     {
         var status = (Status)Methods.tiledb_status(rc);

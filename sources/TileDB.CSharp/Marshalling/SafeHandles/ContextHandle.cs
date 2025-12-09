@@ -17,8 +17,13 @@ internal unsafe sealed class ContextHandle : SafeHandle
         tiledb_ctx_t* context = null;
         try
         {
-            using var configHandleHolder = configHandle?.Acquire() ?? default;
-            ErrorHandling.ThrowOnError(Methods.tiledb_ctx_alloc(configHandleHolder, &context));
+            tiledb_error_t* p_tiledb_error;
+            int status;
+            using (var configHandleHolder = configHandle?.Acquire() ?? default)
+            {
+                status = Methods.tiledb_ctx_alloc_with_error(configHandleHolder, &context, &p_tiledb_error);
+            }
+            ErrorHandling.CheckLastError(&p_tiledb_error, status);
             successful = true;
         }
         finally
