@@ -23,7 +23,7 @@ jobs:
 
       - uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 8.0.4xx
+          dotnet-version: 10.x
 
       - name: Run the binding generation script
         run: dotnet msbuild ./scripts/generate-bindings/GenerateBindings.proj -p:Version=${{ inputs.version }} -p:VersionTag=${{ inputs.commit_id }} /restore
