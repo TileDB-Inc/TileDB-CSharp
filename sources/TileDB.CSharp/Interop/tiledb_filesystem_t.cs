@@ -9,5 +9,6 @@ namespace TileDB.Interop
         TILEDB_AZURE = 2,
         TILEDB_GCS = 3,
         TILEDB_MEMFS = 4,
+        TILEDB_TILEDBFS = 5,
     }
 }

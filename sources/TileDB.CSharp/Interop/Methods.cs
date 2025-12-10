@@ -103,6 +103,10 @@ namespace TileDB.Interop
         public static extern int tiledb_ctx_alloc(tiledb_config_t* config, tiledb_ctx_t** ctx);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("capi_return_t")]
+        public static extern int tiledb_ctx_alloc_with_error(tiledb_config_t* config, tiledb_ctx_t** ctx, tiledb_error_t** error);
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void tiledb_ctx_free(tiledb_ctx_t** ctx);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -128,6 +132,10 @@ namespace TileDB.Interop
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("capi_return_t")]
         public static extern int tiledb_ctx_set_tag(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* key, [NativeTypeName("const char *")] sbyte* value);
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("capi_return_t")]
+        public static extern int tiledb_ctx_get_data_protocol(tiledb_ctx_t* ctx, [NativeTypeName("const char *")] sbyte* uri, tiledb_data_protocol_t* data_protocol);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("capi_return_t")]
@@ -924,11 +932,6 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("capi_return_t")]
-        [Obsolete]
-        public static extern int tiledb_group_dump_str(tiledb_ctx_t* ctx, tiledb_group_t* group, [NativeTypeName("char **")] sbyte** dump_ascii, [NativeTypeName("const uint8_t")] byte recursive);
-
-        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        [return: NativeTypeName("capi_return_t")]
         public static extern int tiledb_group_dump_str_v2(tiledb_ctx_t* ctx, tiledb_group_t* group, tiledb_string_t** dump_ascii, [NativeTypeName("const uint8_t")] byte recursive);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -1562,11 +1565,46 @@ namespace TileDB.Interop
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("capi_return_t")]
-        public static extern int tiledb_ctx_alloc_with_error(tiledb_config_t* config, tiledb_ctx_t** ctx, tiledb_error_t** error);
+        public static extern int tiledb_fragment_info_get_total_cell_num(tiledb_ctx_t* ctx, tiledb_fragment_info_t* fragment_info, [NativeTypeName("uint64_t *")] ulong* count);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("capi_return_t")]
-        public static extern int tiledb_fragment_info_get_total_cell_num(tiledb_ctx_t* ctx, tiledb_fragment_info_t* fragment_info, [NativeTypeName("uint64_t *")] ulong* count);
+        public static extern int tiledb_profile_alloc([NativeTypeName("const char *")] sbyte* name, [NativeTypeName("const char *")] sbyte* dir, [NativeTypeName("tiledb_profile_t **")] tiledb_profile_handle_t** profile, tiledb_error_t** error);
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void tiledb_profile_free([NativeTypeName("tiledb_profile_t **")] tiledb_profile_handle_t** profile);
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("capi_return_t")]
+        public static extern int tiledb_profile_get_name([NativeTypeName("tiledb_profile_t *")] tiledb_profile_handle_t* profile, tiledb_string_t** name, tiledb_error_t** error);
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("capi_return_t")]
+        public static extern int tiledb_profile_get_dir([NativeTypeName("tiledb_profile_t *")] tiledb_profile_handle_t* profile, tiledb_string_t** dir, tiledb_error_t** error);
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("capi_return_t")]
+        public static extern int tiledb_profile_set_param([NativeTypeName("tiledb_profile_t *")] tiledb_profile_handle_t* profile, [NativeTypeName("const char *")] sbyte* param1, [NativeTypeName("const char *")] sbyte* value, tiledb_error_t** error);
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("capi_return_t")]
+        public static extern int tiledb_profile_get_param([NativeTypeName("tiledb_profile_t *")] tiledb_profile_handle_t* profile, [NativeTypeName("const char *")] sbyte* param1, tiledb_string_t** value, tiledb_error_t** error);
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("capi_return_t")]
+        public static extern int tiledb_profile_save([NativeTypeName("tiledb_profile_t *")] tiledb_profile_handle_t* profile, [NativeTypeName("uint8_t")] byte overwrite, tiledb_error_t** error);
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("capi_return_t")]
+        public static extern int tiledb_profile_load([NativeTypeName("tiledb_profile_t *")] tiledb_profile_handle_t* profile, tiledb_error_t** error);
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("capi_return_t")]
+        public static extern int tiledb_profile_remove([NativeTypeName("const char *")] sbyte* name, [NativeTypeName("const char *")] sbyte* dir, tiledb_error_t** error);
+
+        [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: NativeTypeName("capi_return_t")]
+        public static extern int tiledb_profile_dump_str([NativeTypeName("tiledb_profile_t *")] tiledb_profile_handle_t* profile, tiledb_string_t** @out, tiledb_error_t** error);
 
         [DllImport("tiledb", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: NativeTypeName("int32_t")]

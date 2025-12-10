@@ -164,7 +164,7 @@ public enum FileSystemType : uint
     /// </summary>
     S3 = tiledb_filesystem_t.TILEDB_S3,
     /// <summary>
-    /// Azure filesystem.
+    /// Azure file system.
     /// </summary>
     Azure = tiledb_filesystem_t.TILEDB_AZURE,
     /// <summary>
@@ -174,7 +174,11 @@ public enum FileSystemType : uint
     /// <summary>
     /// In-memory file system.
     /// </summary>
-    InMemory = tiledb_filesystem_t.TILEDB_MEMFS
+    InMemory = tiledb_filesystem_t.TILEDB_MEMFS,
+    /// <summary>
+    /// TileDB Filesystem file system.
+    /// </summary>
+    TileDBFilesystem = tiledb_filesystem_t.TILEDB_TILEDBFS,
 }
 
 /// <summary>
@@ -805,6 +809,22 @@ public enum QueryFieldOrigin : uint
     /// The field is an aggregate value, computed at the time the query is executed.
     /// </summary>
     Aggregate
+}
+
+/// <summary>
+/// Specifies the protocol version of a URI.
+/// </summary>
+/// <seealso cref="Context.GetDataProtocol"/>
+public enum DataProtocol : uint
+{
+    /// <summary>
+    /// REST API v2 (legacy)
+    /// </summary>
+    Version2 = tiledb_data_protocol_t.TILEDB_DATA_PROTOCOL_v2,
+    /// <summary>
+    /// REST API v3 (Tiledb 3.0+)
+    /// </summary>
+    Version3 = tiledb_data_protocol_t.TILEDB_DATA_PROTOCOL_v3,
 }
 
 public static class Constants
