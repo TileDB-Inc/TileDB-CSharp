@@ -17,7 +17,7 @@ jobs:
 
       - uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 8.0.4xx
+          dotnet-version: 10.x
 
       # Package validation runs as part of packing.
       - name: Dotnet pack for TileDB.CSharp
@@ -37,7 +37,7 @@ jobs:
 
       - uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 8.0.4xx
+          dotnet-version: 10.x
 
       # DotNet build
       - name: Dotnet build for TileDB.CSharp
