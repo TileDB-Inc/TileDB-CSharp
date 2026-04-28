@@ -34,10 +34,6 @@ jobs:
         with:
           repository: TileDB-Inc/TileDB
           ref: ${{ matrix.tag }}
-      # This must happen after checking out the repository, because Ninja gets installed
-      # in the repository's directory that gets removed before the checkout/
-      - name: Install Ninja
-        uses: seanmiddleditch/gha-setup-ninja@v6
       - name: Setup MSVC toolset (VS 2022)
         uses: TheMrMilchmann/setup-msvc-dev@v4
         if: matrix.os == 'windows-latest'
